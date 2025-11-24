@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { 
   Download, 
@@ -12,6 +11,8 @@ import {
   Sliders, 
   Check,
   Play,
+  Square,
+  Circle,
   Menu,
   X,
   User,
@@ -25,13 +26,23 @@ import {
   CreditCard,
   Shield,
   Activity,
-  GitCommit
+  GitCommit,
+  Folder,
+  MoreHorizontal,
+  Mic,
+  Settings
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 
 // --- Design System & Utilities ---
 
 const cn = (...classes: (string | undefined | null | false)[]) => classes.filter(Boolean).join(" ");
+
+// --- Constants ---
+const TRACK_HEIGHT = 72;
+const HEADER_WIDTH = 180; // Fixed width for track headers
+const RULER_HEIGHT = 32;
+const SNAP_GRID_PX = 20; // Snap every 20px
 
 // --- Components ---
 
@@ -195,9 +206,517 @@ const Navbar = ({ activePage, setPage }: any) => {
   );
 };
 
+const Waveform = ({ seed, colorClass }: { seed: number, colorClass: string }) => {
+  // Memoized points could be better for perf, but simple render for now
+  const points = [];
+  const steps = 40;
+  for(let i = 0; i <= steps; i++) {
+      const x = (i / steps) * 100;
+      const noise = (Math.sin(i * 0.5 * seed) + Math.cos(i * 1.8 * seed) * 0.8) * (Math.random() * 0.4 + 0.6);
+      const h = Math.abs(noise * 35);
+      points.push(`${x},${50 - h} ${x},${50 + h}`);
+  }
+  
+  return (
+    <div className={cn("w-full h-full opacity-70 px-0.5 flex items-center", colorClass)}>
+       <svg className="w-full h-4/5" preserveAspectRatio="none" viewBox="0 0 100 100">
+          <polyline 
+             points={points.join(" ")} 
+             fill="none" 
+             stroke="currentColor" 
+             strokeWidth="2" 
+             vectorEffect="non-scaling-stroke" 
+             strokeLinecap="round"
+             strokeLinejoin="round"
+          />
+       </svg>
+    </div>
+  );
+};
+
+const ClipComponent = ({ 
+  clip, 
+  trackIndex, 
+  timelineRef, 
+  onDragEnd, 
+  onSelect 
+}: any) => {
+  // We use trackIndex to calculate Y position via transform
+  // This is cleaner than CSS top for Framer Motion dragging
+  const yPos = trackIndex * TRACK_HEIGHT;
+
+  return (
+    <motion.div
+      drag
+      dragMomentum={false}
+      dragElastic={0}
+      dragConstraints={timelineRef}
+      onDragStart={() => onSelect(clip.id)}
+      onDragEnd={(e, info) => onDragEnd(clip.id, info)}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+        onSelect(clip.id);
+      }}
+      initial={false}
+      animate={{ 
+        x: clip.startX,
+        y: yPos,
+        scale: clip.selected ? 1.02 : 1,
+        zIndex: clip.selected ? 50 : 10
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      style={{
+        position: "absolute",
+        left: 0,
+        top: 0, // Always 0, we use translate Y
+        height: TRACK_HEIGHT - 4, // slight gap
+        width: clip.width,
+        marginTop: 2,
+        cursor: "grab",
+        touchAction: "none"
+      }}
+      whileDrag={{ cursor: "grabbing", zIndex: 100, scale: 1.05, opacity: 0.9 }}
+      className={cn(
+        "rounded-[4px] overflow-hidden flex flex-col select-none transition-colors border shadow-sm group",
+        clip.color,
+        clip.selected 
+          ? "ring-2 ring-white border-transparent brightness-110" 
+          : "border-black/20 brightness-95 hover:brightness-100"
+      )}
+    >
+        {/* Clip Handle Bar */}
+        <div className="h-4 bg-black/20 flex items-center justify-between px-1.5 shrink-0 backdrop-blur-sm">
+            <span className="text-[9px] font-bold text-white/90 truncate max-w-[80%] drop-shadow-md">{clip.name}</span>
+            <div className="flex gap-0.5">
+               <div className="w-1 h-1 rounded-full bg-white/40" />
+               <div className="w-1 h-1 rounded-full bg-white/40" />
+            </div>
+        </div>
+        
+        {/* Waveform */}
+        <div className="flex-1 w-full relative overflow-hidden bg-black/10">
+          <Waveform seed={clip.seed} colorClass={clip.text} />
+        </div>
+    </motion.div>
+  );
+};
+
+const MockTimeline = () => {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [time, setTime] = useState(0); 
+  const [bpm, setBpm] = useState("120.0");
+  
+  const playheadX = useMotionValue(0);
+
+  // File Browser State
+  const [files, setFiles] = useState([
+    { name: "vocals_main_take1.wav", size: "11 MB", selected: true },
+    { name: "drum_break_amen.wav", size: "15 MB", selected: false },
+    { name: "sub_bass_drop.wav", size: "17 MB", selected: false },
+    { name: "synth_pad_ethereal.wav", size: "13 MB", selected: false },
+    { name: "gtr_riff_clean.wav", size: "12 MB", selected: false },
+    { name: "fx_riser_white.wav", size: "17 MB", selected: false },
+  ]);
+
+  // Tracks State
+  const [tracks, setTracks] = useState([
+    { id: 1, name: "Vocals Main", color: "text-violet-400", bg: "bg-violet-500", mute: false, solo: false },
+    { id: 2, name: "Vocals Dbl", color: "text-violet-400", bg: "bg-violet-500", mute: false, solo: false },
+    { id: 3, name: "Drums", color: "text-cyan-400", bg: "bg-cyan-500", mute: false, solo: false },
+    { id: 4, name: "Bass", color: "text-pink-400", bg: "bg-pink-500", mute: false, solo: false },
+    { id: 5, name: "Guitars", color: "text-orange-400", bg: "bg-orange-500", mute: false, solo: false },
+    { id: 6, name: "Synth", color: "text-blue-400", bg: "bg-blue-500", mute: false, solo: false },
+  ]);
+
+  // Clips State
+  const [clips, setClips] = useState([
+    { id: 101, trackId: 1, startX: 0, width: 280, name: "vocals_main.wav", selected: true, color: "bg-violet-600", text: "text-violet-100", seed: 1 },
+    { id: 102, trackId: 3, startX: 0, width: 420, name: "drum_break.wav", selected: false, color: "bg-cyan-600", text: "text-cyan-100", seed: 2.3 },
+    { id: 103, trackId: 4, startX: 140, width: 300, name: "sub_bass.wav", selected: false, color: "bg-pink-600", text: "text-pink-100", seed: 3.5 },
+    { id: 104, trackId: 5, startX: 260, width: 180, name: "gtr_riff.wav", selected: false, color: "bg-orange-600", text: "text-orange-100", seed: 4.1 },
+  ]);
+
+  // --- Logic ---
+
+  const toggleTrack = (id: number, field: 'mute' | 'solo', isMulti: boolean = false) => {
+    setTracks(prev => {
+      // Logic for Exclusive Solo
+      if (field === 'solo') {
+        // If holding CMD/CTRL (isMulti), we toggle the target and leave others alone
+        if (isMulti) {
+          return prev.map(t => t.id === id ? { ...t, solo: !t.solo } : t);
+        }
+        // If basic click, we solo the target and unsolo EVERYTHING else
+        // If target was already soloed, we toggle it off (so no solo)
+        const targetTrack = prev.find(t => t.id === id);
+        const willBeSoloed = !targetTrack?.solo;
+        
+        return prev.map(t => ({
+          ...t,
+          solo: t.id === id ? willBeSoloed : false
+        }));
+      }
+      
+      // Mute is standard toggle
+      return prev.map(t => t.id === id ? { ...t, [field]: !t[field] } : t);
+    });
+  };
+  
+  const handleFileClick = (index: number) => {
+    setFiles(files.map((f, i) => ({ ...f, selected: i === index })));
+  };
+
+  const selectClip = (clipId: number) => {
+    setClips(clips.map(c => ({ ...c, selected: c.id === clipId })));
+  };
+
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    // Check if we clicked the timeline background directly
+    if (e.target === timelineRef.current || e.target === containerRef.current) {
+        setClips(clips.map(c => ({ ...c, selected: false })));
+    }
+  };
+
+  const handleBpmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (val === "" || /^[0-9]*\.?[0-9]*$/.test(val)) {
+      setBpm(val);
+    }
+  };
+
+  const handleBpmBlur = () => {
+    let num = parseFloat(bpm);
+    if (isNaN(num) || num < 10 || num > 999) {
+      num = 120.0;
+    }
+    setBpm(num.toFixed(1));
+  };
+
+  // --- Drag Logic ---
+  const handleDragEnd = (id: number, info: any) => {
+    if (!containerRef.current) return;
+
+    const clip = clips.find(c => c.id === id);
+    if (!clip) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    
+    // Y Calculation: Relative to the container top
+    const relativeY = info.point.y - containerRect.top;
+    let newTrackIndex = Math.floor(relativeY / TRACK_HEIGHT);
+    
+    // Clamp track index
+    if (newTrackIndex < 0) newTrackIndex = 0;
+    if (newTrackIndex >= tracks.length) newTrackIndex = tracks.length - 1;
+    const newTrackId = tracks[newTrackIndex].id;
+
+    // X Calculation: Relative to the container left
+    // We use the point x minus container left, then adjust for the grab offset
+    // Ideally, Framer Motion's visual X is what we want to snap.
+    // The `info.point.x` is the mouse position. The element top-left is what matters.
+    // However, figuring out the element offset is tricky without complex state.
+    // A simpler way with Framer: use the `x` value from the style or compute it.
+    // BUT, we can just use the delta.
+    
+    // Approach: clip.startX + delta
+    let newStartX = clip.startX + info.offset.x;
+    
+    // Snap
+    newStartX = Math.round(newStartX / SNAP_GRID_PX) * SNAP_GRID_PX;
+    if (newStartX < 0) newStartX = 0;
+
+    // Limit max width (arbitrary for demo)
+    const maxW = containerRect.width - clip.width;
+    if (newStartX > maxW) newStartX = maxW;
+
+    setClips(prev => prev.map(c => {
+      if (c.id === id) {
+        return { ...c, trackId: newTrackId, startX: newStartX };
+      }
+      return c;
+    }));
+  };
+
+  // Playhead Animation
+  useEffect(() => {
+    let animationFrameId: number;
+    let lastTimestamp: number;
+
+    const animate = (timestamp: number) => {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const delta = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+
+      if (isPlaying && containerRef.current) {
+        const width = containerRef.current.offsetWidth;
+        const pixelsPerSecond = 100; // Arbitrary speed
+        
+        const currentX = playheadX.get();
+        let newX = currentX + (pixelsPerSecond * delta);
+        
+        if (newX >= width) newX = 0;
+        
+        playheadX.set(newX);
+        setTime(newX / pixelsPerSecond);
+        
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    if (isPlaying) {
+      animationFrameId = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+  }, [isPlaying, playheadX]);
+
+  const formatTime = (t: number) => {
+    const m = Math.floor(t / 60).toString().padStart(2, '0');
+    const s = Math.floor(t % 60).toString().padStart(2, '0');
+    const ms = Math.floor((t % 1) * 100).toString().padStart(2, '0');
+    return `${m}:${s}.${ms}`;
+  };
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.98, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="mt-16 max-w-[1200px] mx-auto relative group z-20"
+    >
+      <div className="absolute -inset-2 bg-violet-600/10 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+      
+      <div className="relative rounded-xl border border-[#27272a] bg-[#09090b] shadow-2xl flex flex-col h-[600px] overflow-hidden">
+         
+         {/* TOP TOOLBAR */}
+         <div className="h-14 border-b border-[#27272a] bg-[#121214] flex items-center px-4 gap-6 shrink-0 z-30">
+            {/* Transport */}
+            <div className="flex items-center gap-1 bg-[#09090b] p-1 rounded-lg border border-[#27272a]">
+               <button 
+                onClick={() => setIsPlaying(!isPlaying)}
+                className={cn("w-8 h-8 flex items-center justify-center rounded transition-colors", isPlaying ? "text-green-400 bg-green-400/10" : "text-zinc-400 hover:text-white hover:bg-white/5")}
+               >
+                 <Play size={16} fill={isPlaying ? "currentColor" : "none"} />
+               </button>
+               <button 
+                onClick={() => { setIsPlaying(false); setTime(0); playheadX.set(0); }}
+                className="w-8 h-8 flex items-center justify-center rounded text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+               >
+                 <Square size={14} fill="currentColor" />
+               </button>
+               <button 
+                onClick={() => setIsRecording(!isRecording)}
+                className={cn("w-8 h-8 flex items-center justify-center rounded transition-colors relative", isRecording ? "text-red-500 bg-red-500/10" : "text-zinc-400 hover:text-white hover:bg-white/5")}
+               >
+                 <Circle size={14} className={cn(isRecording && "fill-red-500")} />
+               </button>
+            </div>
+
+            {/* Time Display */}
+            <div className="flex flex-col items-center justify-center w-32">
+               <span className="font-mono text-2xl text-green-500 font-medium tracking-tight leading-none">{formatTime(time)}</span>
+               <span className="text-[9px] text-zinc-600 font-bold uppercase tracking-wider mt-0.5">Timecode</span>
+            </div>
+
+            {/* BPM Display */}
+            <div className="flex flex-col items-center justify-center group relative">
+                <input 
+                  type="text"
+                  inputMode="decimal"
+                  value={bpm}
+                  onChange={handleBpmChange}
+                  onBlur={handleBpmBlur}
+                  onFocus={(e) => e.target.select()}
+                  className="bg-transparent text-zinc-200 font-bold text-xl w-20 text-center focus:outline-none focus:text-white focus:bg-[#27272a] rounded transition-colors leading-none py-0.5"
+                />
+                <span className="text-[9px] text-zinc-600 font-bold uppercase tracking-wider group-hover:text-zinc-500 transition-colors">BPM</span>
+            </div>
+
+            <div className="w-px h-8 bg-[#27272a] mx-2" />
+
+            {/* Tools */}
+            <div className="flex items-center gap-2">
+               <Button size="sm" variant="secondary" className="h-8 w-8 p-0" icon={Search} />
+               <Button size="sm" variant="secondary" className="h-8 w-8 p-0" icon={Settings} />
+            </div>
+
+            {/* Meter */}
+            <div className="ml-auto flex items-end gap-1 h-8 py-1">
+                {[1, 0.8, 0.4, 0.6, 0.9, 0.2].map((h, i) => (
+                    <div key={i} className="w-1.5 bg-zinc-800 rounded-sm h-full flex items-end overflow-hidden">
+                        <div 
+                          className={cn("w-full transition-all duration-75", i > 3 ? "bg-red-500" : "bg-green-500")} 
+                          style={{ height: isPlaying ? `${h * 100}%` : '5%' }} 
+                        />
+                    </div>
+                ))}
+            </div>
+         </div>
+
+         {/* MAIN CONTENT AREA */}
+         <div className="flex-1 flex overflow-hidden">
+            
+            {/* Sidebar: Browser */}
+            <div className="w-48 bg-[#0c0c0e] border-r border-[#27272a] flex flex-col text-xs shrink-0 z-20">
+               <div className="p-3 font-bold text-zinc-500 uppercase tracking-wider text-[10px]">Browser</div>
+               <div className="flex-1 overflow-y-auto space-y-0.5 p-2">
+                 <div className="px-2 py-1.5 text-zinc-400 flex items-center gap-2 font-medium mb-1">
+                   <Folder size={12} className="text-violet-500" /> Samples
+                 </div>
+                 {files.map((file, i) => (
+                   <div 
+                    key={i} 
+                    onClick={() => handleFileClick(i)}
+                    className={cn(
+                      "flex items-center gap-2 px-2 py-1.5 rounded cursor-pointer transition-colors truncate",
+                      file.selected ? "bg-violet-600/20 text-violet-200" : "text-zinc-500 hover:text-zinc-300 hover:bg-[#27272a]"
+                    )}
+                   >
+                     <FileText size={12} className="shrink-0 opacity-70" />
+                     <span className="truncate">{file.name}</span>
+                   </div>
+                 ))}
+               </div>
+            </div>
+
+            {/* Timeline Wrapper */}
+            <div className="flex-1 flex flex-col relative min-w-0 bg-[#09090b]">
+               
+               {/* Ruler Row */}
+               <div className="h-8 border-b border-[#27272a] bg-[#121214] flex shrink-0">
+                  {/* Ruler Header Offset */}
+                  <div className="shrink-0 border-r border-[#27272a] bg-[#18181b] flex items-center justify-center" style={{ width: HEADER_WIDTH }}>
+                     <Sliders size={12} className="text-zinc-600" />
+                  </div>
+                  {/* Ruler Ticks */}
+                  <div className="flex-1 relative overflow-hidden select-none">
+                     <div className="absolute inset-0 flex items-end">
+                       {[...Array(40)].map((_, i) => (
+                         <div key={i} className="flex-1 border-l border-[#27272a] h-full flex flex-col justify-end pl-1 pb-0.5 text-[9px] text-zinc-600 font-mono">
+                           <span className="opacity-50">{i + 1}</span>
+                           <div className="flex justify-between w-full h-1 mt-0.5 opacity-30">
+                              <div className="w-px h-full bg-zinc-500" />
+                              <div className="w-px h-full bg-zinc-800" />
+                              <div className="w-px h-full bg-zinc-800" />
+                              <div className="w-px h-full bg-zinc-800" />
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                  </div>
+               </div>
+
+               {/* Tracks & Clips Area */}
+               <div className="flex-1 relative overflow-y-auto overflow-x-hidden custom-scrollbar bg-[#0a0a0c]" onClick={handleBackgroundClick}>
+                  
+                  {/* Tracks Container */}
+                  <div className="relative min-h-full" ref={containerRef}>
+                      
+                      {/* Grid / Rows */}
+                      {tracks.map((track, i) => (
+                        <div key={track.id} className="flex border-b border-[#27272a] bg-[#0a0a0c] relative group" style={{ height: TRACK_HEIGHT }}>
+                           
+                           {/* Track Header */}
+                           <div className="shrink-0 border-r border-[#27272a] bg-[#121214] p-2 flex flex-col justify-between group-hover:bg-[#151518] transition-colors z-20 relative shadow-[2px_0_5px_rgba(0,0,0,0.2)]" style={{ width: HEADER_WIDTH }}>
+                              <div className="flex items-center gap-2 mb-1">
+                                 <div className={cn("w-1 h-8 rounded-sm", track.bg)} />
+                                 <div className="overflow-hidden">
+                                    <div className={cn("font-bold text-xs truncate", track.color)}>{track.name}</div>
+                                    <div className="text-[9px] text-zinc-600 flex gap-2">
+                                       <span>Vol: -0.2dB</span>
+                                    </div>
+                                 </div>
+                              </div>
+                              
+                              <div className="flex gap-1.5 mt-auto">
+                                 <button 
+                                   onClick={(e) => toggleTrack(track.id, 'mute')}
+                                   className={cn(
+                                     "flex-1 h-5 rounded flex items-center justify-center text-[9px] font-bold border transition-colors uppercase",
+                                     track.mute ? "bg-red-500/20 text-red-500 border-red-500/50" : "bg-[#09090b] text-zinc-600 border-[#27272a] hover:text-zinc-400"
+                                   )}
+                                 >M</button>
+                                 <button 
+                                   onClick={(e) => toggleTrack(track.id, 'solo', e.ctrlKey || e.metaKey)}
+                                   className={cn(
+                                     "flex-1 h-5 rounded flex items-center justify-center text-[9px] font-bold border transition-colors uppercase",
+                                     track.solo ? "bg-yellow-500/20 text-yellow-500 border-yellow-500/50" : "bg-[#09090b] text-zinc-600 border-[#27272a] hover:text-zinc-400"
+                                   )}
+                                   title="Click to Solo (Exclusive). Cmd+Click to add."
+                                 >S</button>
+                                 <div className="w-5 h-5 rounded bg-[#09090b] border border-[#27272a] flex items-center justify-center">
+                                    <div className="w-2 h-2 rounded-full bg-zinc-700" />
+                                 </div>
+                              </div>
+                           </div>
+
+                           {/* Lane Background */}
+                           <div className="flex-1 relative">
+                              {/* Grid lines */}
+                              <div className="absolute inset-0 flex pointer-events-none">
+                                {[...Array(20)].map((_, j) => (
+                                  <div key={j} className={cn("flex-1 border-r border-[#27272a]", j % 4 === 0 ? "border-opacity-40" : "border-opacity-10")} />
+                                ))}
+                              </div>
+                           </div>
+                        </div>
+                      ))}
+
+                      {/* CLIPS LAYER */}
+                      {/* This sits absolutely on top of the track rows, shifted right by HEADER_WIDTH */}
+                      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden" style={{ left: HEADER_WIDTH }}>
+                          {/* We make this container pointer-events-auto ONLY for its children (clips) generally, 
+                              but since we want drag, we usually put pointer-events-auto on the clip itself. 
+                              The container should pass through clicks to the background if empty.
+                          */}
+                          <div className="relative w-full h-full" ref={timelineRef}>
+                            {clips.map((clip) => {
+                              const trackIndex = tracks.findIndex(t => t.id === clip.trackId);
+                              if (trackIndex === -1) return null;
+                              return (
+                                <ClipComponent 
+                                  key={clip.id}
+                                  clip={clip}
+                                  trackIndex={trackIndex}
+                                  timelineRef={timelineRef}
+                                  onDragEnd={handleDragEnd}
+                                  onSelect={selectClip}
+                                />
+                              );
+                            })}
+                            
+                            {/* Playhead Line (Within the timeline area) */}
+                            <motion.div 
+                              className="absolute top-0 bottom-0 w-px bg-white z-50 pointer-events-none"
+                              style={{ x: playheadX }}
+                            >
+                               <div className="absolute -top-1 -translate-x-1/2 text-white">
+                                  <svg width="11" height="12" viewBox="0 0 11 12" fill="none">
+                                     <path d="M0.5 0.5H10.5V5.5L5.5 10.5L0.5 5.5V0.5Z" fill="#22c55e" stroke="#22c55e" />
+                                  </svg>
+                               </div>
+                               <div className="absolute inset-0 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+                            </motion.div>
+                          </div>
+                      </div>
+
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const Hero = ({ setPage }: any) => {
   return (
-    <section className="relative pt-40 pb-20 px-6 overflow-hidden">
+    <section className="relative pt-32 pb-20 px-6 overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-violet-600/10 blur-[120px] rounded-full pointer-events-none" />
       
@@ -248,54 +767,9 @@ const Hero = ({ setPage }: any) => {
         </motion.div>
       </div>
 
-      {/* Abstract DAW Visualization */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95, y: 40 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
-        className="mt-20 max-w-6xl mx-auto relative group"
-      >
-        <div className="absolute -inset-1 bg-gradient-to-b from-violet-500/20 to-transparent rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-1000" />
-        <div className="relative rounded-xl border border-[#27272a] bg-[#09090b] shadow-2xl overflow-hidden aspect-[16/9] flex flex-col">
-           {/* Mock Window Header */}
-           <div className="h-10 border-b border-[#27272a] bg-[#18181b] flex items-center px-4 gap-2">
-             <div className="flex gap-2">
-               <div className="w-3 h-3 rounded-full bg-red-500/20" />
-               <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-               <div className="w-3 h-3 rounded-full bg-green-500/20" />
-             </div>
-             <div className="ml-4 h-4 w-32 bg-[#27272a] rounded-sm" />
-           </div>
-           {/* Mock DAW UI */}
-           <div className="flex-1 flex">
-             {/* Sidebar */}
-             <div className="w-16 border-r border-[#27272a] bg-[#121215] flex flex-col items-center py-4 gap-6">
-                <div className="w-8 h-8 rounded bg-violet-500/20 text-violet-400 flex items-center justify-center"><Layers size={18} /></div>
-                <div className="w-8 h-8 rounded hover:bg-[#27272a] text-zinc-600 flex items-center justify-center transition-colors"><Disc size={18} /></div>
-                <div className="w-8 h-8 rounded hover:bg-[#27272a] text-zinc-600 flex items-center justify-center transition-colors"><Sliders size={18} /></div>
-             </div>
-             {/* Timeline */}
-             <div className="flex-1 bg-[#09090b] relative">
-               {[...Array(8)].map((_, i) => (
-                 <div key={i} className="h-16 border-b border-[#27272a] relative flex items-center px-2 group/track">
-                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-zinc-800 group-hover/track:bg-violet-500 transition-colors" />
-                   <div className="ml-32 h-10 rounded-md bg-[#18181b] border border-[#27272a] flex items-center overflow-hidden w-64" style={{ marginLeft: `${i * 60 + 20}px` }}>
-                     <div className="w-full h-full opacity-30 flex items-center gap-0.5">
-                        {[...Array(40)].map((_, j) => (
-                          <div key={j} className="w-1 bg-violet-400" style={{ height: `${Math.random() * 100}%` }} />
-                        ))}
-                     </div>
-                   </div>
-                 </div>
-               ))}
-               {/* Playhead */}
-               <div className="absolute top-0 bottom-0 left-1/3 w-px bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)] z-10">
-                 <div className="absolute -top-1 -left-1.5 text-red-500"><Play size={12} fill="currentColor" className="rotate-90" /></div>
-               </div>
-             </div>
-           </div>
-        </div>
-      </motion.div>
+      {/* Render the Detailed Mock Timeline */}
+      <MockTimeline />
+      
     </section>
   );
 };
