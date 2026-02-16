@@ -1,3 +1,4 @@
+import "./styles.css";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { 
@@ -135,7 +136,7 @@ const Navbar = ({ activePage, setPage }: any) => {
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg group-hover:shadow-violet-500/20 transition-all">
             <Music className="w-4 h-4 text-white" />
           </div>
-          <span className="text-xl font-bold tracking-tight text-white">Nomad</span>
+          <span className="text-xl font-bold tracking-tight text-white">Aestra</span>
         </div>
 
         {/* Desktop Nav */}
@@ -727,7 +728,7 @@ const Hero = ({ setPage }: any) => {
           transition={{ duration: 0.5 }}
           className="flex justify-center mb-8"
         >
-          <Badge variant="outline">Nomad v1.0.4 Stable is now live</Badge>
+          <Badge variant="outline">Aestra v1.0.4 Stable is now live</Badge>
         </motion.div>
 
         <motion.h1 
@@ -797,7 +798,7 @@ const Features = () => (
         <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Engineered for <span className="text-violet-500">Flow State</span></h2>
         <p className="text-xl text-zinc-400 max-w-2xl">
           We stripped away the clutter found in traditional DAWs. 
-          Nomad gives you exactly what you need to create, mix, and ship.
+          Aestra gives you exactly what you need to create, mix, and ship.
         </p>
       </div>
 
@@ -817,7 +818,7 @@ const Features = () => (
         <FeatureCard 
           icon={Layers} 
           title="Sandboxed Plugins" 
-          description="A single crashing VST will never take down your session again. Nomad isolates plugins so your work remains safe."
+          description="A single crashing VST will never take down your session again. Aestra isolates plugins so your work remains safe."
           delay={0.2}
         />
         <FeatureCard 
@@ -900,7 +901,7 @@ const Pricing = ({ setPage }: any) => {
         {/* Free Tier */}
         <Card className="p-8 border-zinc-800 flex flex-col relative">
           <div className="mb-8">
-            <h3 className="text-xl font-medium text-white mb-2">Nomad Evaluation</h3>
+            <h3 className="text-xl font-medium text-white mb-2">Aestra Evaluation</h3>
             <div className="text-4xl font-bold text-white mb-2">$0</div>
             <p className="text-zinc-400 text-sm">Infinite trial period. WinRAR style.</p>
           </div>
@@ -921,7 +922,7 @@ const Pricing = ({ setPage }: any) => {
           <div className="absolute inset-0 bg-violet-500/5 pointer-events-none" />
           
           <div className="mb-8 relative z-10">
-            <h3 className="text-xl font-medium text-white mb-2">Nomad Studio</h3>
+            <h3 className="text-xl font-medium text-white mb-2">Aestra Studio</h3>
             <div className="text-4xl font-bold text-white mb-2">$199</div>
             <p className="text-violet-300 text-sm">Perpetual license. Lifetime updates.</p>
           </div>
@@ -1066,12 +1067,12 @@ const Docs = ({ setPage }: any) => {
       {/* Content */}
       <div className="flex-1 md:ml-64 p-8 md:p-12 max-w-4xl">
         <div className="mb-4 text-sm text-violet-400 font-medium">Getting Started / Introduction</div>
-        <h1 className="text-4xl font-bold text-white mb-8">Welcome to Nomad</h1>
+        <h1 className="text-4xl font-bold text-white mb-8">Welcome to Aestra</h1>
         
         <div className="prose prose-invert prose-violet max-w-none">
           <p className="text-lg text-zinc-300 leading-relaxed mb-6">
-            Nomad is a digital audio workstation designed for speed, stability, and flow. 
-            Unlike other DAWs that try to be everything to everyone, Nomad focuses purely on 
+            Aestra is a digital audio workstation designed for speed, stability, and flow. 
+            Unlike other DAWs that try to be everything to everyone, Aestra focuses purely on 
             the music creation process.
           </p>
           
@@ -1081,7 +1082,7 @@ const Docs = ({ setPage }: any) => {
             </h4>
             <p className="text-sm text-zinc-300">
               Press <code className="bg-black/30 px-1.5 py-0.5 rounded text-white font-mono text-xs">Cmd + K</code> anywhere in the app to open the Command Palette. 
-              You can access every single feature of Nomad without lifting your hands from the keyboard.
+              You can access every single feature of Aestra without lifting your hands from the keyboard.
             </p>
           </Card>
 
@@ -1121,7 +1122,7 @@ const Dashboard = ({ setPage }: any) => {
       {/* Sidebar */}
       <div className="w-64 border-r border-[#27272a] bg-[#121214] hidden md:flex flex-col p-6">
         <div className="flex items-center gap-2 mb-12 text-white font-bold text-xl cursor-pointer" onClick={() => setPage("home")}>
-          <Music className="text-violet-500" /> Nomad
+          <Music className="text-violet-500" /> Aestra
         </div>
         <div className="space-y-1">
           <button onClick={() => setActiveTab("overview")} className={cn("w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-3", activeTab === "overview" ? "bg-violet-600/10 text-violet-400" : "text-zinc-400 hover:text-white")}>
@@ -1173,7 +1174,7 @@ const Dashboard = ({ setPage }: any) => {
               <Card className="p-6">
                 <h3 className="text-zinc-400 text-sm font-medium mb-2">Latest Build</h3>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="text-white font-medium">Nomad v1.0.4</div>
+                  <div className="text-white font-medium">Aestra v1.0.4</div>
                   <div className="text-xs text-zinc-500">Released 2 days ago</div>
                 </div>
                 <Button className="w-full" icon={Download}>Download Installer</Button>
@@ -1206,7 +1207,7 @@ const Dashboard = ({ setPage }: any) => {
                </div>
                <h3 className="text-white text-lg font-medium mb-2">Cloud Plugin Sync</h3>
                <p className="text-zinc-400 max-w-md mx-auto mb-6">
-                 Nomad will soon support syncing your VST favorites and presets across devices.
+                 Aestra will soon support syncing your VST favorites and presets across devices.
                </p>
                <Badge variant="outline">Coming in v1.1</Badge>
             </div>
@@ -1235,14 +1236,14 @@ const Footer = ({ setPage }: any) => (
       <div className="col-span-1 md:col-span-2">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-6 h-6 rounded bg-violet-600 flex items-center justify-center"><Music size={12} className="text-white" /></div>
-          <span className="text-lg font-bold text-white">Nomad</span>
+          <span className="text-lg font-bold text-white">Aestra</span>
         </div>
         <p className="text-zinc-500 text-sm max-w-sm mb-6">
           The DAW for people who actually live inside their music. 
           Built by obsessed engineers for obsessed producers.
         </p>
         <div className="text-zinc-600 text-xs">
-          © 2024 Nomad Audio Inc.
+          © 2024 Aestra Audio Inc.
         </div>
       </div>
       
