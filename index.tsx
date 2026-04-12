@@ -1114,29 +1114,30 @@ const FounderCountdown = () => {
   };
 
   const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
-    <div className="section-frame rounded-[18px] px-5 py-4 min-w-[92px]">
-      <div className="text-3xl md:text-5xl font-bold text-white font-mono tabular-nums">
+    <div className="section-frame rounded-[18px] px-3 sm:px-5 py-3 sm:py-4 min-w-[72px] sm:min-w-[92px] flex-1">
+      <div className="text-2xl sm:text-3xl md:text-5xl font-bold text-white font-mono tabular-nums">
         {String(value).padStart(2, "0")}
       </div>
-      <div className="text-[11px] text-[#8b94aa] uppercase tracking-[0.18em] mt-2">{label}</div>
+      <div className="text-[9px] sm:text-[11px] text-[#8b94aa] uppercase tracking-[0.18em] mt-1 sm:mt-2">{label}</div>
     </div>
   );
 
   return (
-    <section id="founder-section" className="py-28 px-6 relative overflow-hidden">
+    <section id="founder-section" className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,181,73,0.07),transparent_40%)] pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[28px] p-8 md:p-12">
+      <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[20px] sm:rounded-[28px] p-5 sm:p-8 md:p-12">
         <div className="max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex justify-start mb-8"
+            className="flex justify-start mb-4 sm:mb-8"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-sm font-medium">
+            <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs sm:text-sm font-medium">
               <span className="w-2 h-2 rounded-full bg-[#d9b549] animate-pulse" />
-              Founder Gold Card Window
+              <span className="hidden sm:inline">Founder Gold Card Window</span>
+              <span className="sm:hidden">Founder Gold</span>
             </span>
           </motion.div>
 
@@ -1145,10 +1146,13 @@ const FounderCountdown = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-4 editorial-title"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 editorial-title"
           >
-            The only part of the site
-            <br />
+            <span className="sm:hidden">The collectible part</span>
+            <span className="hidden sm:inline">
+              The only part of the site
+              <br />
+            </span>
             <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#d9b549,#f1d88b_55%,#b6a8ff)]">
               that should feel collectible.
             </span>
@@ -1159,7 +1163,7 @@ const FounderCountdown = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-lg text-[#a4abc0] mb-12 max-w-2xl"
+            className="text-base sm:text-lg text-[#a4abc0] mb-6 sm:mb-12 max-w-2xl"
           >
             Founder should feel less like a SaaS upgrade and more like a rare piece of studio identity.
             Lifetime access. Metal card. Your name archived inside the product.
@@ -1171,7 +1175,7 @@ const FounderCountdown = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="flex flex-wrap gap-4 mb-12"
+          className="flex flex-wrap gap-2 sm:gap-4 mb-8 sm:mb-12"
         >
           <CountdownUnit value={timeLeft.months} label="Months" />
           <CountdownUnit value={timeLeft.days} label="Days" />
@@ -1187,7 +1191,7 @@ const FounderCountdown = () => {
           transition={{ delay: 0.4 }}
         >
           {!submitted ? (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-xl">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-xl">
               <input
                 type="email"
                 value={email}
@@ -1199,7 +1203,7 @@ const FounderCountdown = () => {
               <button
                 type="submit"
                 disabled={submitting}
-                className="h-12 px-6 rounded-[14px] border border-[#d9b549]/40 bg-[linear-gradient(180deg,#d9b549,#a7802c)] text-white font-medium text-sm hover:brightness-105 transition-all shadow-[0_0_22px_rgba(217,181,73,0.22)] disabled:opacity-50"
+                className="h-12 px-6 rounded-[14px] border border-[#d9b549]/40 bg-[linear-gradient(180deg,#d9b549,#a7802c)] text-white font-medium text-sm hover:brightness-105 transition-all shadow-[0_0_22px_rgba(217,181,73,0.22)] disabled:opacity-50 whitespace-nowrap"
               >
                 {submitting ? "Joining..." : "Join Waitlist"}
               </button>
@@ -1233,35 +1237,36 @@ const Downloads = ({ setPage }: any) => {
   ];
 
   return (
-    <div className="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
-      <button onClick={() => setPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
+    <div className="pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-5xl mx-auto min-h-screen">
+      <button onClick={() => setPage("home")} className="text-[#98a1b7] hover:text-white mb-6 sm:mb-8 flex items-center text-sm">
         <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
       </button>
-      
-      <h1 className="text-4xl font-bold text-white mb-4">Downloads</h1>
-      <p className="text-[#9ca5bb] mb-12">Treat releases like builds from the control room, not app-store tiles.</p>
 
-      <div className="space-y-4">
+      <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Downloads</h1>
+      <p className="text-sm sm:text-base text-[#9ca5bb] mb-8 sm:mb-12">Treat releases like builds from the control room, not app-store tiles.</p>
+
+      <div className="space-y-3 sm:space-y-4">
         {builds.map((build, i) => (
-          <Card key={i} className="p-6 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-               <div className="w-11 h-11 rounded-[14px] bg-[#141a25] border border-[#384152] flex items-center justify-center text-[#61d5ff]">
-                 {build.os === "Windows" ? <LayoutTemplate size={20} /> : <Cpu size={20} />}
+          <Card key={i} className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+               <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-[14px] bg-[#141a25] border border-[#384152] flex items-center justify-center text-[#61d5ff] shrink-0">
+                 {build.os === "Windows" ? <LayoutTemplate size={18} /> : <Cpu size={18} />}
                </div>
-               <div>
-                 <h3 className="text-white font-medium">{build.os} <span className="text-[#8a94aa] text-sm">({build.arch})</span></h3>
+               <div className="min-w-0 flex-1">
+                 <h3 className="text-white font-medium text-sm sm:text-base">{build.os} <span className="text-[#8a94aa] text-xs sm:text-sm">({build.arch})</span></h3>
                  <div className="flex items-center gap-2 mt-1">
                    <span className="text-xs bg-[#151a24] text-[#cdd3e3] px-1.5 rounded">{build.ver}</span>
                    <span className="text-xs text-[#788197]">{build.date}</span>
                  </div>
                </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto sm:flex-nowrap flex-wrap">
               {build.type === "Beta" && <Badge variant="outline">Beta</Badge>}
               {build.type === "Open Source" && <Badge variant="outline">Source Available</Badge>}
-              <a href={build.url} target="_blank" rel="noopener noreferrer">
+              <a href={build.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
                 <Button size="sm" variant="secondary" icon={Download}>
-                  {build.type === "Open Source" ? "View Source" : "View CI Builds"}
+                  <span className="hidden sm:inline">{build.type === "Open Source" ? "View Source" : "View CI Builds"}</span>
+                  <span className="sm:hidden">{build.type === "Open Source" ? "Source" : "Builds"}</span>
                 </Button>
               </a>
             </div>
@@ -1269,12 +1274,12 @@ const Downloads = ({ setPage }: any) => {
         ))}
       </div>
 
-      <div className="mt-16 section-frame panel-glow p-8 rounded-[24px] text-center">
+      <div className="mt-8 sm:mt-16 section-frame panel-glow p-5 sm:p-8 rounded-[20px] sm:rounded-[24px] text-center">
         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs font-medium mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-[#d9b549] animate-pulse" />
           Limited to 500
         </span>
-        <h3 className="text-2xl font-bold text-white mb-2">Want the Gold Card?</h3>
+        <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Want the Gold Card?</h3>
         <p className="text-[#9ca5bb] text-sm mb-6 max-w-md mx-auto">
           Lifetime access. Physical metal card. Name in the app forever.
           Only 500 Founder cards will ever be minted.
@@ -1295,24 +1300,24 @@ const Downloads = ({ setPage }: any) => {
 
 const Pricing = ({ setPage }: any) => {
   return (
-    <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-white mb-4">Free forever. Support if you believe.</h1>
-        <p className="text-xl text-[#9ca5bb]">The full DAW is free. Always.</p>
+    <div className="pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-7xl mx-auto">
+      <div className="text-center mb-10 sm:mb-16">
+        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Free forever. Support if you believe.</h1>
+        <p className="text-base sm:text-xl text-[#9ca5bb]">The full DAW is free. Always.</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 max-w-4xl mx-auto">
         {/* Free Tier */}
-        <Card className="p-8 flex flex-col relative">
-          <div className="mb-8">
-            <h3 className="text-xl font-medium text-white mb-2">Aestra Core</h3>
-            <div className="text-4xl font-bold text-white mb-2">$0</div>
-            <p className="text-[#9ca5bb] text-sm">Free forever. Full DAW. No gates.</p>
+        <Card className="p-5 sm:p-8 flex flex-col relative">
+          <div className="mb-6 sm:mb-8">
+            <h3 className="text-lg sm:text-xl font-medium text-white mb-2">Aestra Core</h3>
+            <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$0</div>
+            <p className="text-[#9ca5bb] text-xs sm:text-sm">Free forever. Full DAW. No gates.</p>
           </div>
-          <ul className="space-y-4 mb-8 flex-1">
+          <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-1">
             {["Full DAW — unlimited tracks", "Pattern-based workflow", "Routing visualizer", "Audition mode", "Version control (Takes)", "Basic plugins included"].map((feat, i) => (
-              <li key={i} className="flex items-center text-[#d2d8e6] text-sm">
-                <Check className="w-4 h-4 text-[#61d5ff] mr-3" />
+              <li key={i} className="flex items-start text-[#d2d8e6] text-xs sm:text-sm">
+                <Check className="w-4 h-4 text-[#61d5ff] mr-3 mt-0.5 shrink-0" />
                 {feat}
               </li>
             ))}
@@ -1321,19 +1326,19 @@ const Pricing = ({ setPage }: any) => {
         </Card>
 
         {/* Paid Tier */}
-        <Card className="p-8 flex flex-col relative overflow-hidden">
+        <Card className="p-5 sm:p-8 flex flex-col relative overflow-hidden">
           <div className="absolute top-0 right-0 bg-[#8f82df] text-white text-xs font-bold px-3 py-1 rounded-bl-lg">RECOMMENDED</div>
           <div className="absolute inset-0 bg-[#8f82df]/5 pointer-events-none" />
-          
-          <div className="mb-8 relative z-10">
-            <h3 className="text-xl font-medium text-white mb-2">Aestra Supporter</h3>
-            <div className="text-4xl font-bold text-white mb-2">$5<span className="text-lg text-zinc-400">/mo</span></div>
-            <p className="text-[#c7bbff] text-sm">Support the craft. Get more.</p>
+
+          <div className="mb-6 sm:mb-8 relative z-10">
+            <h3 className="text-lg sm:text-xl font-medium text-white mb-2">Aestra Supporter</h3>
+            <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$5<span className="text-base sm:text-lg text-zinc-400">/mo</span></div>
+            <p className="text-[#c7bbff] text-xs sm:text-sm">Support the craft. Get more.</p>
           </div>
-          <ul className="space-y-4 mb-8 flex-1 relative z-10">
+          <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-1 relative z-10">
             {["Everything in Core", "Premium plugins (AestraRumble + more)", "Muse AI — predictive creative assistant", "Cloud storage for Takes", "Monthly sound packs", "Silver card identity"].map((feat, i) => (
-              <li key={i} className="flex items-center text-white text-sm">
-                <Check className="w-4 h-4 text-[#c7bbff] mr-3" />
+              <li key={i} className="flex items-start text-white text-xs sm:text-sm">
+                <Check className="w-4 h-4 text-[#c7bbff] mr-3 mt-0.5 shrink-0" />
                 {feat}
               </li>
             ))}
@@ -1455,37 +1460,37 @@ const Changelog = ({ setPage }: any) => {
   };
 
   return (
-    <div className="pt-32 pb-20 px-6 max-w-4xl mx-auto">
-      <div className="flex items-center justify-between mb-12">
-        <h1 className="text-4xl font-bold text-white">Changelog</h1>
-        <div className="flex items-center text-sm text-[#8891a7]">
-          <Activity className="w-4 h-4 mr-2" />
+    <div className="pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-4xl mx-auto">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8 sm:mb-12">
+        <h1 className="text-2xl sm:text-4xl font-bold text-white">Changelog</h1>
+        <div className="flex items-center text-xs sm:text-sm text-[#8891a7]">
+          <Activity className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
           <span className="w-2 h-2 bg-[#61d5ff] rounded-full mr-2 animate-pulse" />
           Phase 2 of 6 — Active Development
         </div>
       </div>
 
-      <div className="relative border-l border-[#31384a] ml-3 space-y-12">
+      <div className="relative border-l border-[#31384a] ml-3 space-y-8 sm:space-y-12">
         {versions.map((release, i) => (
-          <div key={i} className="relative pl-12">
+          <div key={i} className="relative pl-10 sm:pl-12">
             {/* Timeline Dot */}
             <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[#8f82df] ring-4 ring-[#09090b]" />
-            
-            <div className="flex flex-col md:flex-row md:items-baseline gap-4 mb-6">
-              <h2 className="text-2xl font-bold text-white">v{release.ver}</h2>
-              <div className="flex items-center gap-3">
-                 <span className="text-sm text-[#7f879b] font-mono">{release.date}</span>
-                 <Badge variant="outline" className="uppercase text-[10px] tracking-wider">{release.type}</Badge>
+
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">v{release.ver}</h2>
+              <div className="flex items-center gap-2 sm:gap-3">
+                 <span className="text-xs sm:text-sm text-[#7f879b] font-mono">{release.date}</span>
+                 <Badge variant="outline" className="uppercase text-[9px] sm:text-[10px] tracking-wider">{release.type}</Badge>
               </div>
             </div>
 
-            <ul className="space-y-4">
+            <ul className="space-y-3 sm:space-y-4">
               {release.changes.map((change, j) => (
-                <li key={j} className="flex items-start gap-3">
-                  <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase mt-0.5", getTypeColor(change.type))}>
+                <li key={j} className="flex items-start gap-2 sm:gap-3">
+                  <span className={cn("text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase mt-0.5 shrink-0", getTypeColor(change.type))}>
                     {change.type}
                   </span>
-                  <span className="text-[#cfd5e4] text-sm leading-relaxed">{change.text}</span>
+                  <span className="text-[#cfd5e4] text-xs sm:text-sm leading-relaxed">{change.text}</span>
                 </li>
               ))}
             </ul>
@@ -1730,25 +1735,25 @@ const Dashboard = ({ setPage }: any) => {
 // --- Footer ---
 
 const Footer = memo(({ setPage }: any) => (
-  <footer className="bg-[#090c12]/92 border-t border-[#2f3646] py-12 px-6">
-    <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
-      <div className="col-span-1 md:col-span-2">
-        <div className="flex items-center gap-2 mb-4">
-          <img src="/aestra_icon.svg" alt="Aestra" className="w-6 h-6" />
-          <span className="text-lg font-bold text-white">Aestra</span>
+  <footer className="bg-[#090c12]/92 border-t border-[#2f3646] py-8 sm:py-12 px-4 sm:px-6">
+    <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+      <div className="col-span-2 sm:col-span-2 md:col-span-2">
+        <div className="flex items-center gap-2 mb-3 sm:mb-4">
+          <img src="/aestra_icon.svg" alt="Aestra" className="w-5 h-5 sm:w-6 sm:h-6" />
+          <span className="text-base sm:text-lg font-bold text-white">Aestra</span>
         </div>
-        <p className="text-[#8b94aa] text-sm max-w-sm mb-6">
-          The DAW for people who actually live inside their music. 
+        <p className="text-[#8b94aa] text-xs sm:text-sm max-w-sm mb-4 sm:mb-6">
+          The DAW for people who actually live inside their music.
           Built by obsessed engineers for obsessed producers.
         </p>
-        <div className="text-[#6f778d] text-xs">
+        <div className="text-[#6f778d] text-[10px] sm:text-xs">
           © 2026 Dylan Makori / Aestra Studios
         </div>
       </div>
-      
+
       <div>
-        <h4 className="text-white font-medium mb-4">Product</h4>
-        <ul className="space-y-2 text-sm text-[#98a1b7]">
+        <h4 className="text-white font-medium mb-3 sm:mb-4 text-xs sm:text-sm">Product</h4>
+        <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-[#98a1b7]">
           <li><button onClick={() => setPage("features")} className="hover:text-[#61d5ff]">Features</button></li>
           <li><button onClick={() => setPage("pricing")} className="hover:text-[#61d5ff]">Pricing</button></li>
           <li><button onClick={() => setPage("changelog")} className="hover:text-[#61d5ff]">Changelog</button></li>
@@ -1757,7 +1762,7 @@ const Footer = memo(({ setPage }: any) => (
       </div>
 
       <div>
-        <h4 className="text-white font-medium mb-4">Resources</h4>
+        <h4 className="text-white font-medium mb-3 sm:mb-4 text-xs sm:text-sm">Resources</h4>
         <ul className="space-y-2 text-sm text-[#98a1b7]">
           <li><button onClick={() => setPage("docs")} className="hover:text-[#61d5ff]">Documentation</button></li>
           <li><button className="hover:text-[#61d5ff]">Community Forum</button></li>
