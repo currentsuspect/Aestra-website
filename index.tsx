@@ -1443,7 +1443,7 @@ const Footer = ({ setPage }: any) => (
     <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
       <div className="col-span-1 md:col-span-2">
         <div className="flex items-center gap-2 mb-4">
-          <div className="w-6 h-6 rounded bg-violet-600 flex items-center justify-center"><Music size={12} className="text-white" /></div>
+          <img src="/aestra_icon.svg" alt="Aestra" className="w-6 h-6" />
           <span className="text-lg font-bold text-white">Aestra</span>
         </div>
         <p className="text-zinc-500 text-sm max-w-sm mb-6">
