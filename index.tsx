@@ -1750,23 +1750,6 @@ const Dashboard = memo(({ setPage }: any) => {
 
 // --- Footer ---
 
-<<<<<<< HEAD
-const Footer = memo(({ setPage }: any) => (
-  <footer className="bg-[#090c12]/92 border-t border-[#2f3646] py-8 sm:py-12 px-4 sm:px-6">
-    <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-      <div className="col-span-2 sm:col-span-2 md:col-span-2">
-        <div className="flex items-center gap-2 mb-3 sm:mb-4">
-          <img src="/aestra_icon.svg" alt="Aestra" className="w-5 h-5 sm:w-6 sm:h-6" />
-          <span className="text-base sm:text-lg font-bold text-white">Aestra</span>
-||||||| parent of e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
-const Footer = ({ setPage }: any) => (
-  <footer className="bg-[#090c12]/92 border-t border-[#2f3646] py-12 px-6">
-    <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
-      <div className="col-span-1 md:col-span-2">
-        <div className="flex items-center gap-2 mb-4">
-          <img src="/aestra_icon.svg" alt="Aestra" className="w-6 h-6" />
-          <span className="text-lg font-bold text-white">Aestra</span>
-=======
 const Footer = memo(({ setPage }: any) => {
   const [easterEgg, setEasterEgg] = useState(false);
   const [clickCount, setClickCount] = useState(0);
@@ -1790,52 +1773,14 @@ const Footer = memo(({ setPage }: any) => {
           <span className="text-[#98a1b7]">Vercel</span>
           <span className="text-[#4a5060]">|</span>
           <span className="text-[#98a1b7]">Your Eyes</span>
->>>>>>> e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
         </div>
-<<<<<<< HEAD
-        <p className="text-[#8b94aa] text-xs sm:text-sm max-w-sm mb-4 sm:mb-6">
-          The DAW for people who actually live inside their music.
-          Built by obsessed engineers for obsessed producers.
-        </p>
-        <div className="text-[#6f778d] text-[10px] sm:text-xs">
-          © 2026 Dylan Makori / Aestra Studios
-||||||| parent of e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
-        <p className="text-[#8b94aa] text-sm max-w-sm mb-6">
-          The DAW for people who actually live inside their music. 
-          Built by obsessed engineers for obsessed producers.
-        </p>
-        <div className="text-[#6f778d] text-xs">
-          © 2026 Dylan Makori / Aestra Studios
-=======
         <div className="hidden sm:flex items-center gap-3">
           <span className="flex items-center gap-1">
             <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e]" />
             <span>All channels routed</span>
           </span>
->>>>>>> e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
         </div>
       </div>
-<<<<<<< HEAD
-
-      <div>
-        <h4 className="text-white font-medium mb-3 sm:mb-4 text-xs sm:text-sm">Product</h4>
-        <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-[#98a1b7]">
-          <li><button onClick={() => setPage("features")} className="hover:text-[#61d5ff]">Features</button></li>
-          <li><button onClick={() => setPage("pricing")} className="hover:text-[#61d5ff]">Pricing</button></li>
-          <li><button onClick={() => setPage("changelog")} className="hover:text-[#61d5ff]">Changelog</button></li>
-          <li><button onClick={() => setPage("download")} className="hover:text-[#61d5ff]">Download</button></li>
-        </ul>
-||||||| parent of e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
-      
-      <div>
-        <h4 className="text-white font-medium mb-4">Product</h4>
-        <ul className="space-y-2 text-sm text-[#98a1b7]">
-          <li><button onClick={() => setPage("features")} className="hover:text-[#61d5ff]">Features</button></li>
-          <li><button onClick={() => setPage("pricing")} className="hover:text-[#61d5ff]">Pricing</button></li>
-          <li><button onClick={() => setPage("changelog")} className="hover:text-[#61d5ff]">Changelog</button></li>
-          <li><button onClick={() => setPage("download")} className="hover:text-[#61d5ff]">Download</button></li>
-        </ul>
-=======
     </div>
 
     {/* Main Footer */}
@@ -1911,30 +1856,8 @@ const Footer = memo(({ setPage }: any) => {
             </ul>
           </nav>
         </div>
->>>>>>> e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
       </div>
 
-<<<<<<< HEAD
-      <div>
-        <h4 className="text-white font-medium mb-3 sm:mb-4 text-xs sm:text-sm">Resources</h4>
-        <ul className="space-y-2 text-sm text-[#98a1b7]">
-          <li><button onClick={() => setPage("docs")} className="hover:text-[#61d5ff]">Documentation</button></li>
-          <li><button className="hover:text-[#61d5ff]">Community Forum</button></li>
-          <li><a href="https://github.com/currentsuspect/Aestra" className="hover:text-[#61d5ff]">Source Code</a></li>
-          <li><button className="hover:text-[#61d5ff]">Support</button></li>
-              <li><button onClick={() => setPage("privacy")} className="hover:text-[#61d5ff]">Privacy</button></li>
-              <li><button onClick={() => setPage("terms")} className="hover:text-[#61d5ff]">Terms</button></li>
-        </ul>
-||||||| parent of e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
-      <div>
-        <h4 className="text-white font-medium mb-4">Resources</h4>
-        <ul className="space-y-2 text-sm text-[#98a1b7]">
-          <li><button onClick={() => setPage("docs")} className="hover:text-[#61d5ff]">Documentation</button></li>
-          <li><button className="hover:text-[#61d5ff]">Community Forum</button></li>
-          <li><a href="https://github.com/currentsuspect/Aestra" className="hover:text-[#61d5ff]">Source Code</a></li>
-          <li><button className="hover:text-[#61d5ff]">Support</button></li>
-        </ul>
-=======
       {/* Bottom bar — terminal style */}
       <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-[#1a1f2b] flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-4 text-[10px] font-mono text-[#5a6275]">
@@ -1952,174 +1875,9 @@ const Footer = memo(({ setPage }: any) => {
           <span className="hidden sm:inline">Made with late nights and questionable amounts of coffee</span>
           <span className="sm:hidden">Made with ☕</span>
         </div>
->>>>>>> e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
       </div>
     </div>
   </footer>
-<<<<<<< HEAD
-));
-
-
-const Privacy = ({ setPage }: any) => (
-  <div className="pt-32 pb-20 px-6 max-w-3xl mx-auto min-h-screen">
-    <button onClick={() => setPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
-      <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
-    </button>
-    <h1 className="text-4xl font-bold text-white mb-2">Privacy Policy</h1>
-    <p className="text-[#7f879b] text-sm mb-12">Last updated: April 12, 2026</p>
-
-    <div className="space-y-8 text-[#cfd5e4] text-sm leading-relaxed">
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">What We Collect</h2>
-        <ul className="space-y-2 list-disc list-inside text-[#9ca5bb]">
-          <li><strong className="text-[#cfd5e4]">Email address</strong> — when you join the Founder waitlist via our form.</li>
-          <li><strong className="text-[#cfd5e4]">Usage analytics</strong> — anonymous, aggregated data about how the website is used (page views, referrers). No personal identification.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">What We Don't Collect</h2>
-        <ul className="space-y-2 list-disc list-inside text-[#9ca5bb]">
-          <li>No cookies for tracking or advertising.</li>
-          <li>No sale of personal data to third parties. Ever.</li>
-          <li>No access to your music, projects, or files.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Waitlist Emails</h2>
-        <p className="text-[#9ca5bb]">
-          Emails collected via the Founder waitlist are stored by Formspree, our form processor.
-          We use these emails solely to notify you when Founder cards become available.
-          We will not send marketing emails, share your email, or add you to any list you didn't sign up for.
-          You can request removal at any time by emailing us.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Aestra Desktop App</h2>
-        <p className="text-[#9ca5bb]">
-          The Aestra desktop application does not collect or transmit any personal data.
-          All audio processing, project files, and settings are stored locally on your machine.
-          If you opt into telemetry for improving the product, it is anonymous and can be disabled at any time in settings.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Muse AI (Future)</h2>
-        <p className="text-[#9ca5bb]">
-          When Muse AI launches, all predictions run locally on your machine.
-          No audio, MIDI, or project data is sent to the cloud.
-          Optional anonymous telemetry for model improvement can be disabled without affecting Muse's functionality.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Your Rights</h2>
-        <p className="text-[#9ca5bb]">
-          You can request access to, correction of, or deletion of any personal data we hold about you.
-          Contact us at the email below.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Contact</h2>
-        <p className="text-[#9ca5bb]">
-          Questions about this policy? Open an issue on{" "}
-          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#61d5ff] hover:underline">GitHub</a>{" "}
-          or reach out through the community channels.
-        </p>
-      </section>
-    </div>
-  </div>
-);
-
-const Terms = ({ setPage }: any) => (
-  <div className="pt-32 pb-20 px-6 max-w-3xl mx-auto min-h-screen">
-    <button onClick={() => setPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
-      <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
-    </button>
-    <h1 className="text-4xl font-bold text-white mb-2">Terms of Service</h1>
-    <p className="text-[#7f879b] text-sm mb-12">Last updated: April 12, 2026</p>
-
-    <div className="space-y-8 text-[#cfd5e4] text-sm leading-relaxed">
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">The Short Version</h2>
-        <p className="text-[#9ca5bb]">
-          Aestra is free software. Use it to make music. Don't sue us if it crashes during a take.
-          We're building this in public, and it's in active development. Things will break. We'll fix them.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">License</h2>
-        <p className="text-[#9ca5bb]">
-          Aestra is licensed under the Aestra Studios Source-Available License (ASSAL) v1.1.
-          You may use, modify, and distribute Aestra for personal and educational purposes.
-          Commercial use requires a separate agreement.
-          See the full license in the{" "}
-          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#61d5ff] hover:underline">GitHub repository</a>.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Your Music Is Yours</h2>
-        <p className="text-[#9ca5bb]">
-          Anything you create with Aestra — beats, mixes, stems, projects — belongs entirely to you.
-          We have no claim on your creative output. We don't collect royalties, licensing fees, or attribution requirements.
-          Your music is yours. Period.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Supporter & Founder Tiers</h2>
-        <ul className="space-y-2 list-disc list-inside text-[#9ca5bb]">
-          <li><strong className="text-[#cfd5e4]">Supporter ($5/mo):</strong> Subscription can be cancelled anytime. Access to premium features continues until the end of the billing period.</li>
-          <li><strong className="text-[#cfd5e4]">Founder ($129 one-time):</strong> Lifetime access to Supporter features. Physical card shipping subject to availability. Founder tier is limited and will not be reopened after the window closes.</li>
-          <li><strong className="text-[#cfd5e4]">Refunds:</strong> Supporter subscriptions can be refunded within 7 days of first purchase. Founder purchases are non-refundable once the card is produced.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Beta Disclaimer</h2>
-        <p className="text-[#9ca5bb]">
-          Aestra is in active development. Features may change, break, or be removed.
-          We recommend saving your projects frequently and keeping backups.
-          We are not responsible for lost work, corrupted projects, or audio dropouts during the beta period.
-          This is software built by humans who care deeply about it — but it is still beta software.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Third-Party Plugins</h2>
-        <p className="text-[#9ca5bb]">
-          Aestra supports VST3 and CLAP plugins. We are not responsible for third-party plugin behavior,
-          stability, or licensing. Plugin crashes are sandboxed where possible, but we cannot guarantee
-          isolation for all plugin formats.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Changes to These Terms</h2>
-        <p className="text-[#9ca5bb]">
-          We may update these terms as Aestra evolves. Material changes will be announced on the website
-          and through community channels. Continued use after changes constitutes acceptance.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-lg font-semibold text-white mb-3">Contact</h2>
-        <p className="text-[#9ca5bb]">
-          Legal questions? Open an issue on{" "}
-          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#61d5ff] hover:underline">GitHub</a>.
-        </p>
-      </section>
-    </div>
-  </div>
-);
-||||||| parent of e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
-);
-=======
   );
 });
 
@@ -2281,7 +2039,6 @@ const Terms = memo(({ setPage }: any) => (
     </div>
   </div>
 ));
->>>>>>> e14ec93 (perf, seo, accessibility: comprehensive optimization pass)
 
 // --- Main App Entry ---
 
