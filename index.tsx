@@ -326,10 +326,10 @@ const MockTimeline = () => {
         <div className="border-b border-[#2b3040] bg-[#171922] px-4 py-3">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 rounded-2xl border border-[#34394b] bg-[#232737] px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+              <div className="flex items-center gap-2 rounded-[14px] border border-[#34394b] bg-[#232737] px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
                 <button
                   onClick={() => setIsPlaying((v) => !v)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
+                  className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
                 >
                   {isPlaying ? <Pause size={13} /> : <Play size={13} className="ml-0.5" />}
                 </button>
@@ -339,33 +339,33 @@ const MockTimeline = () => {
                     setTime(43.94);
                     playheadX.set(190);
                   }}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
+                  className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
                 >
                   <Square size={12} />
                 </button>
                 <button
                   onClick={() => setIsRecording((v) => !v)}
                   className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d]",
+                    "flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d]",
                     isRecording ? "text-[#ff668f]" : "text-[#d3d8e6]"
                   )}
                 >
                   <Circle size={12} fill={isRecording ? "currentColor" : "none"} />
                 </button>
-                <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]">
                   <MoreHorizontal size={13} />
                 </button>
-                <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]">
                   <Activity size={13} />
                 </button>
-                <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]">
                   <Mic size={13} />
                 </button>
               </div>
 
-              <div className="flex items-center gap-2 rounded-2xl border border-[#34394b] bg-[#232737] px-3 py-2 text-[11px] text-[#d6daea]">
-                <span className="rounded-lg border border-[#41465a] bg-[#2a2f3d] px-2 py-1">4/4</span>
-                <span className="rounded-lg border border-[#41465a] bg-[#2a2f3d] px-2 py-1">
+              <div className="flex items-center gap-2 rounded-[14px] border border-[#34394b] bg-[#232737] px-3 py-2 text-[11px] text-[#d6daea]">
+                <span className="rounded-[9px] border border-[#41465a] bg-[#2a2f3d] px-2 py-1">4/4</span>
+                <span className="rounded-[9px] border border-[#41465a] bg-[#2a2f3d] px-2 py-1">
                   <input
                     value={bpm}
                     onChange={(e) => /^[0-9]*\.?[0-9]*$/.test(e.target.value) && setBpm(e.target.value)}
@@ -373,7 +373,7 @@ const MockTimeline = () => {
                   />
                   <span className="ml-1 text-[#a7adc0]">BPM</span>
                 </span>
-                <span className="rounded-lg border border-[#41465a] bg-[#2a2f3d] px-2 py-1 font-mono text-[#9fa5ff]">
+                <span className="rounded-[9px] border border-[#41465a] bg-[#2a2f3d] px-2 py-1 font-mono text-[#d9dced]">
                   {fmt(time)}
                 </span>
               </div>
@@ -389,7 +389,7 @@ const MockTimeline = () => {
                       if (index === 3) setTimelineView("mixer");
                     }}
                     className={cn(
-                      "flex h-9 w-9 items-center justify-center rounded-xl border border-[#43485a] bg-[#2a2f3d]",
+                      "flex h-9 w-9 items-center justify-center rounded-[10px] border border-[#43485a] bg-[#2a2f3d]",
                       (index === 0 && timelineView === "arrangement") || (index === 3 && timelineView === "mixer")
                         ? "bg-[#6e7397] text-white"
                         : "text-[#9aa2b7]"
@@ -450,26 +450,26 @@ const MockTimeline = () => {
           <div className="flex h-[596px] bg-[#11131a]">
             <div className="w-[268px] border-r border-[#2d3342] bg-[#1b1e28] flex flex-col">
               <div className="p-2">
-                <div className="flex rounded-xl border border-[#454b5f] bg-[#232736] p-1 text-[11px]">
-                  <button className="flex-1 rounded-lg bg-[#7871b6] py-1 text-white">Files</button>
+                <div className="flex rounded-[12px] border border-[#454b5f] bg-[#232736] p-1 text-[10px]">
+                  <button className="flex-1 rounded-[8px] bg-[#7871b6] py-1 text-white">Files</button>
                   <button className="flex-1 py-1 text-[#9aa2b7]">Plugins</button>
                 </div>
               </div>
 
               <div className="px-3 pb-2">
                 <div className="mb-2 flex gap-2">
-                  <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#4d5368] bg-[#232737] text-[#8f95a8]">
+                  <button className="flex h-7 w-7 items-center justify-center rounded-[8px] border border-[#4d5368] bg-[#232737] text-[#8f95a8]">
                     <ChevronLeft size={12} />
                   </button>
-                  <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#4d5368] bg-[#232737] text-[#8f95a8]">
+                  <button className="flex h-7 w-7 items-center justify-center rounded-[8px] border border-[#4d5368] bg-[#232737] text-[#8f95a8]">
                     <Star size={12} />
                   </button>
                   <div className="ml-auto flex gap-2">
-                    <button className="rounded-lg border border-[#4d5368] bg-[#232737] px-3 py-1 text-[10px] text-[#cfd5e3]">Tags</button>
-                    <button className="rounded-lg border border-[#4d5368] bg-[#232737] px-3 py-1 text-[10px] text-[#cfd5e3]">Sort</button>
+                    <button className="rounded-[8px] border border-[#4d5368] bg-[#232737] px-3 py-1 text-[10px] text-[#cfd5e3]">Tags</button>
+                    <button className="rounded-[8px] border border-[#4d5368] bg-[#232737] px-3 py-1 text-[10px] text-[#cfd5e3]">Sort</button>
                   </div>
                 </div>
-                <div className="mb-3 inline-flex rounded-lg border border-[#4b5270] bg-[#2a2f40] px-3 py-1 text-[11px] text-[#9ea6ff]">
+                <div className="mb-3 inline-flex rounded-[8px] border border-[#4b5270] bg-[#2a2f40] px-3 py-1 text-[11px] text-[#9ea6ff]">
                   Aestra
                 </div>
                 <div className="flex items-center rounded-[12px] border border-[#4a5063] bg-[#232736] px-3 py-3 text-[11px] text-[#9da5b7]">
@@ -484,7 +484,7 @@ const MockTimeline = () => {
                     key={file.name}
                     onClick={() => setSelectedFile(index)}
                     className={cn(
-                      "mb-1 flex w-full items-center gap-3 rounded-[10px] border px-3 py-2.5 text-left transition-colors",
+                      "mb-1 flex w-full items-center gap-3 rounded-[8px] border px-3 py-2 text-left transition-colors",
                       selectedFile === index
                         ? "border-[#7f88bc] bg-[#6f77b9]/25 text-white shadow-[inset_0_0_0_1px_rgba(165,175,255,0.15)]"
                         : "border-transparent bg-transparent text-[#c1c6d4] hover:bg-[#232736]"
@@ -494,7 +494,16 @@ const MockTimeline = () => {
                       <FileText size={11} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-[11px]">{file.name}</div>
+                      <div className="truncate text-[11px] tracking-[-0.01em]">
+                        {file.name
+                          .replace(" - ", " - ")
+                          .replace("HOUSTONFORNICATION", "...TION")
+                          .replace("Flashout Freestyle", "...t Freestyle")
+                          .replace("Promoting Violence", "...ence")
+                          .replace("Yellow Lamb Truck", "...uck")
+                          .replace("Black Popstar", "...star")
+                          .replace("Purpose General", "...neral")}
+                      </div>
                     </div>
                     <div className="text-[10px] text-[#82889d]">{file.size}</div>
                   </button>
@@ -558,37 +567,44 @@ const MockTimeline = () => {
 
               <div ref={containerRef} className="relative flex-1 overflow-hidden bg-[#0f1016]">
                 <div className="absolute left-0 right-0 top-0 h-12 border-b border-[#474037] bg-[#13151c]">
-                  <div className="absolute left-[200px] right-6 top-4 h-6 rounded-md border border-[#6f6550]">
+                  <div className="absolute left-[200px] right-6 top-[5px] h-5 rounded-md border border-[#6f6550]">
                     <div className="absolute inset-y-0 left-0 right-0 border-b border-[#d1ab2d] bg-[linear-gradient(90deg,rgba(212,176,47,0.18),rgba(212,176,47,0.06))]" />
                     {rulerMarks.map((mark, index) => (
-                      <div key={mark} className="absolute top-0 bottom-0" style={{ left: `${index * 24 + 18}%` }}>
+                      <div key={mark} className="absolute top-0 bottom-0" style={{ left: `${index * 22 + 18}%` }}>
                         <div className="h-full border-l border-[#716e67]" />
-                        <span className="absolute bottom-[-18px] left-2 text-[10px] text-[#8f95a8]">{mark}</span>
+                        <span className="absolute bottom-[-16px] left-1 text-[10px] text-[#8f95a8]">{mark}</span>
                       </div>
                     ))}
-                    <span className="absolute left-[34%] top-[-10px] rounded-md border border-[#55596e] bg-[#282d3c] px-2 py-1 text-[9px] text-[#d7dcf0]">
+                    <span className="absolute left-[33%] top-[-9px] rounded-md border border-[#55596e] bg-[#282d3c] px-2 py-1 text-[9px] text-[#d7dcf0]">
                       Bar 35, Beat 2, Clips 1
                     </span>
+                  </div>
+                  <div className="absolute left-[204px] right-6 bottom-[5px] h-5 rounded-[6px] border border-[#626470] bg-[#101117]">
+                    <div className="absolute left-1 top-0 bottom-0 w-px bg-[#d9dadf]" />
+                    <div className="absolute left-[17%] top-0 bottom-0 w-px bg-[#5f6470]" />
+                    <div className="absolute left-[33%] top-0 bottom-0 w-px bg-[#5f6470]" />
+                    <div className="absolute left-[49%] top-0 bottom-0 w-px bg-[#5f6470]" />
+                    <div className="absolute left-[65%] top-0 bottom-0 w-px bg-[#5f6470]" />
                   </div>
                 </div>
 
                 <div className="absolute inset-x-0 bottom-8 top-12 overflow-hidden">
                   {tracks.map((track, index) => {
-                    const top = index * 42;
+                    const top = index * 43;
                     const isLeadTrack = index === 0;
                     return (
-                      <div key={track.id} className="absolute inset-x-0" style={{ top, height: 42 }}>
+                      <div key={track.id} className="absolute inset-x-0" style={{ top, height: 43 }}>
                         <div className="absolute left-0 top-0 h-full w-[200px] border-r border-[#393e4f] bg-[#222632]">
                           <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: track.color }} />
                           <div className="flex h-full items-center justify-between px-4">
-                            <span className="text-[11px]" style={{ color: track.color }}>
+                            <span className="text-[12px]" style={{ color: track.color }}>
                               {track.name}
                             </span>
                             <div className="flex gap-2">
                               {["M", "S", "R"].map((label) => (
                                 <button
                                   key={label}
-                                  className="flex h-6 w-6 items-center justify-center rounded-full border border-[#5a6072] bg-[#2c3140] text-[10px] text-[#afb5c6]"
+                                  className="flex h-6 w-6 items-center justify-center rounded-full border border-[#5a6072] bg-[#2c3140] text-[10px] text-[#afb5c6] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
                                 >
                                   {label}
                                 </button>
@@ -612,19 +628,19 @@ const MockTimeline = () => {
                           </div>
 
                           {isLeadTrack && (
-                            <div className="absolute left-1 top-[3px] right-2 h-[34px] rounded-[4px] border border-[#f7d548] bg-[linear-gradient(180deg,#ddb72d,#f0c63a)] shadow-[0_0_0_1px_rgba(255,245,160,0.15)]">
+                            <div className="absolute left-1 top-[4px] right-2 h-[32px] rounded-[3px] border border-[#f7d548] bg-[linear-gradient(180deg,#ddb72d,#f0c63a)] shadow-[0_0_0_1px_rgba(255,245,160,0.15)]">
                               <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,rgba(255,245,180,0.16)_0px,rgba(255,245,180,0.16)_2px,transparent_2px,transparent_10px)] opacity-80" />
-                              <div className="absolute inset-x-2 top-2 h-3">
+                              <div className="absolute inset-x-2 top-[11px] h-2">
                                 <svg className="h-full w-full" viewBox="0 0 500 20" preserveAspectRatio="none">
                                   <polyline
                                     points={Array.from({ length: 80 }, (_, i) => {
                                       const x = (i / 79) * 500;
-                                      const y = 10 + Math.sin(i * 0.5) * 4 + Math.cos(i * 0.13) * 2;
+                                      const y = 10 + Math.sin(i * 0.42) * 1.8 + Math.cos(i * 0.13) * 1.2;
                                       return `${x},${y}`;
                                     }).join(" ")}
                                     fill="none"
                                     stroke="#8b6810"
-                                    strokeWidth="2"
+                                    strokeWidth="1.6"
                                     vectorEffect="non-scaling-stroke"
                                   />
                                 </svg>
