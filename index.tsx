@@ -1511,9 +1511,9 @@ const Changelog = memo(({ setPage }: any) => {
       </div>
     </div>
   );
-};
+});
 
-const Docs = ({ setPage }: any) => {
+const Docs = memo(({ setPage }: any) => {
   return (
     <div className="pt-24 min-h-screen flex">
       {/* Sidebar */}
@@ -1626,11 +1626,11 @@ const Docs = ({ setPage }: any) => {
       </div>
     </div>
   );
-};
+});
 
 // --- Mock Dashboard Page ---
 
-const Dashboard = ({ setPage }: any) => {
+const Dashboard = memo(({ setPage }: any) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
@@ -1742,7 +1742,7 @@ const Dashboard = ({ setPage }: any) => {
       </div>
     </div>
   );
-};
+});
 
 // --- Footer ---
 
