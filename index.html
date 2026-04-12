@@ -27,17 +27,22 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/aestra_icon.svg">
   <link rel="apple-touch-icon" href="/aestra_icon.svg">
+  <link rel="preload" as="image" href="/aestra_icon.svg">
 
   <!-- Resource Hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://formspree.io">
 
-  <!-- Optimized Font Loading: display=swap + subset + only needed weights -->
+  <!-- Optimized Font Loading: display=swap + only needed weights -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   </noscript>
+
+  <!-- Security: Referrer Policy + Permissions Policy -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
 
   <!-- Inline Critical CSS -->
   <style>

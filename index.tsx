@@ -44,6 +44,18 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 
+// --- Loading fallback for lazy-loaded components ---
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-[60vh]">
+    <div className="flex items-center gap-3 text-[#9ca5bb]">
+      <div className="w-2 h-2 rounded-full bg-[#61d5ff] animate-bounce" style={{ animationDelay: "0ms" }} />
+      <div className="w-2 h-2 rounded-full bg-[#61d5ff] animate-bounce" style={{ animationDelay: "150ms" }} />
+      <div className="w-2 h-2 rounded-full bg-[#61d5ff] animate-bounce" style={{ animationDelay: "300ms" }} />
+      <span className="text-sm ml-2">Loading...</span>
+    </div>
+  </div>
+);
+
 // --- Design System & Utilities ---
 
 const cn = (...classes: (string | undefined | null | false)[]) => classes.filter(Boolean).join(" ");
@@ -2088,6 +2100,22 @@ const App = () => {
       case "login":
       case "account":
         return <Dashboard setPage={handleSetPage} />;
+      case "privacy":
+        return (
+          <>
+            <Navbar activePage="" setPage={handleSetPage} />
+            <Privacy setPage={handleSetPage} />
+            <Footer setPage={handleSetPage} />
+          </>
+        );
+      case "terms":
+        return (
+          <>
+            <Navbar activePage="" setPage={handleSetPage} />
+            <Terms setPage={handleSetPage} />
+            <Footer setPage={handleSetPage} />
+          </>
+        );
       default:
         return (
           <>
