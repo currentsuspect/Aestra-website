@@ -498,8 +498,8 @@ const MockTimeline = () => {
                 <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-600/20 to-indigo-600/20 border border-violet-500/20 flex items-center justify-center mx-auto mb-4">
                   <Play size={24} className="text-violet-400 ml-1" />
                 </div>
-                <div className="text-sm font-medium text-white mb-1">Rapsody - Black Popstar</div>
-                <div className="text-[10px] text-zinc-500 mb-4">Final listen · Spotify preset active</div>
+                <div className="text-sm font-medium text-white mb-1">[EUPHORIA] 12-25-2026 - INTRO</div>
+                <div className="text-[10px] text-zinc-500 mb-4">currentsuspect · Echoes and Euphoria · Spotify preset</div>
                 {/* Waveform */}
                 <div className="h-12 bg-[#121214] rounded-lg border border-[#27272a] mx-8 mb-4 flex items-center px-3">
                   <svg className="w-full h-8" viewBox="0 0 200 30" preserveAspectRatio="none">
@@ -535,7 +535,7 @@ const MockTimeline = () => {
             <div className="h-20 border-t border-[#27272a] bg-[#121214] px-4 py-2">
               <div className="text-[8px] text-zinc-500 mb-1.5">QUEUE</div>
               <div className="flex gap-2 overflow-x-auto">
-                {["Rapsody - Black Popstar", "Travis Scott - STARGATE", "Yeat - Purge Funeral", "Baby Keem - HONEST"].map((track, i) => (
+                {["[EUPHORIA] 12-25-2026 - INTRO", "Echoes - Interlude", "Euphoria pt. II", "Outro (Dec 25)"].map((track, i) => (
                   <div key={i} className={cn("shrink-0 px-3 py-1.5 rounded text-[9px] border", i === 0 ? "bg-violet-600/10 text-violet-300 border-violet-500/20" : "bg-[#18181b] text-zinc-400 border-[#27272a]")}>
                     {track}
                   </div>
