@@ -165,7 +165,7 @@ const Navbar = memo(({ activePage, setPage, topOffset = 0 }: any) => {
               onClick={() => setPage(link.id)}
               className={cn(
                 "rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                activePage === link.id ? "bg-[#8f82df] text-white" : "text-[#98a1b7] hover:text-white"
+                activePage === link.id ? "bg-[#8f82df] text-white" : "text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e]"
               )}
             >
               {link.name}
@@ -1812,20 +1812,20 @@ const App = () => {
       case "home":
         return (
           <>
-            {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
-            <Navbar activePage="home" setPage={setPage} topOffset={showBanner ? 40 : 0} />
-            <Hero setPage={setPage} />
+            {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
+            <Navbar activePage="home" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
+            <Hero setPage={handleSetPage} />
             <Features />
             <FounderCountdown />
-            <Footer setPage={setPage} />
+            <Footer setPage={handleSetPage} />
           </>
         );
       case "features":
         return (
            <>
-            <Navbar activePage="features" setPage={setPage} />
+            <Navbar activePage="features" setPage={handleSetPage} />
             <div className="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
-              <button onClick={() => setPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
+              <button onClick={() => handleSetPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
                 <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
               </button>
               <h1 className="text-4xl font-bold text-white mb-4">What Aestra actually does.</h1>
@@ -1858,50 +1858,50 @@ const App = () => {
                 ))}
               </div>
             </div>
-            <Footer setPage={setPage} />
+            <Footer setPage={handleSetPage} />
            </>
         );
       case "pricing":
         return (
           <>
-            {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
-            <Navbar activePage="pricing" setPage={setPage} topOffset={showBanner ? 40 : 0} />
-            <Pricing setPage={setPage} />
-            <Footer setPage={setPage} />
+            {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
+            <Navbar activePage="pricing" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
+            <Pricing setPage={handleSetPage} />
+            <Footer setPage={handleSetPage} />
           </>
         );
       case "changelog":
         return (
           <>
-            {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
-            <Navbar activePage="changelog" setPage={setPage} topOffset={showBanner ? 40 : 0} />
-            <Changelog setPage={setPage} />
-            <Footer setPage={setPage} />
+            {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
+            <Navbar activePage="changelog" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
+            <Changelog setPage={handleSetPage} />
+            <Footer setPage={handleSetPage} />
           </>
         );
       case "docs":
         return (
           <>
-            <Navbar activePage="docs" setPage={setPage} />
-            <Docs setPage={setPage} />
+            <Navbar activePage="docs" setPage={handleSetPage} />
+            <Docs setPage={handleSetPage} />
           </>
         );
       case "download":
         return (
           <>
-            {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
-            <Navbar activePage="download" setPage={setPage} topOffset={showBanner ? 40 : 0} />
-            <Downloads setPage={setPage} />
-            <Footer setPage={setPage} />
+            {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
+            <Navbar activePage="download" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
+            <Downloads setPage={handleSetPage} />
+            <Footer setPage={handleSetPage} />
           </>
         );
       case "login":
       case "account":
-        return <Dashboard setPage={setPage} />;
+        return <Dashboard setPage={handleSetPage} />;
       default:
         return (
           <>
-            <Navbar setPage={setPage} />
+            <Navbar setPage={handleSetPage} />
             <div className="pt-40 text-center text-white">Page not found</div>
           </>
         );
