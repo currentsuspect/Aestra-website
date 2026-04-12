@@ -1761,22 +1761,44 @@ const Footer = memo(({ setPage }: any) => {
 
   return (
   <footer className="relative border-t border-[#2f3646]" role="contentinfo" aria-label="Site footer">
-    {/* Signal Chain Bar — the footer is the master output */}
-    <div className="bg-[#0c0f16] border-b border-[#1a1f2b] px-4 sm:px-6 py-2">
-      <div className="max-w-7xl mx-auto flex items-center justify-between text-[9px] font-mono text-[#5a6275]">
-        <div className="flex items-center gap-2">
-          <span className="text-[#61d5ff]">Signal Path:</span>
-          <span className="text-[#98a1b7]">React</span>
-          <span className="text-[#4a5060]">|</span>
-          <span className="text-[#98a1b7]">Vite</span>
-          <span className="text-[#4a5060]">|</span>
-          <span className="text-[#98a1b7]">Vercel</span>
-          <span className="text-[#4a5060]">|</span>
-          <span className="text-[#98a1b7]">Your Eyes</span>
+    {/* Signal Chain — visual routing map */}
+    <div className="bg-[#0c0f16] border-b border-[#1a1f2b] px-4 sm:px-6 py-2.5">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-0">
+          {/* Signal path label */}
+          <span className="text-[8px] font-mono text-[#61d5ff] mr-2 shrink-0">Signal Path</span>
+          
+          {/* Nodes with connecting lines */}
+          {[
+            { name: "React", color: "#61dafb", bg: "rgba(97,218,251,0.1)", border: "rgba(97,218,251,0.25)" },
+            { name: "Vite", color: "#646cff", bg: "rgba(100,108,255,0.1)", border: "rgba(100,108,255,0.25)" },
+            { name: "Vercel", color: "#ffffff", bg: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.15)" },
+            { name: "Your Eyes", color: "#d9b549", bg: "rgba(217,181,73,0.1)", border: "rgba(217,181,73,0.25)" },
+          ].map((node, i, arr) => (
+            <div key={node.name} className="flex items-center">
+              {/* Connecting line */}
+              {i > 0 && (
+                <div className="flex items-center w-6 sm:w-8">
+                  <div className="h-px flex-1" style={{ background: `linear-gradient(90deg, ${arr[i-1].color}40, ${node.color}40)` }} />
+                  <div className="w-1 h-1 rounded-full mx-0.5" style={{ background: node.color, opacity: 0.5 }} />
+                  <div className="h-px flex-1" style={{ background: `${node.color}30` }} />
+                </div>
+              )}
+              {/* Node pill */}
+              <div
+                className="px-2 py-0.5 rounded-full text-[8px] font-mono font-medium border"
+                style={{ color: node.color, background: node.bg, borderColor: node.border }}
+              >
+                {node.name}
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="hidden sm:flex items-center gap-3">
-          <span className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e]" />
+
+        {/* Status indicator */}
+        <div className="hidden sm:flex items-center gap-3 text-[8px] font-mono text-[#5a6275]">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse" />
             <span>All channels routed</span>
           </span>
         </div>
