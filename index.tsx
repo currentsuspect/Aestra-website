@@ -157,14 +157,13 @@ const Navbar = ({ activePage, setPage }: any) => {
 
         {/* Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <button 
-            onClick={() => setPage("login")}
+          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer"
             className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
           >
-            Sign in
-          </button>
+            GitHub
+          </a>
           <Button size="sm" onClick={() => setPage("download")} icon={Download}>
-            Download v1.0.4
+            Download Beta
           </Button>
         </div>
 
@@ -197,8 +196,8 @@ const Navbar = ({ activePage, setPage }: any) => {
                 </button>
               ))}
               <hr className="border-[#27272a]" />
-              <button onClick={() => setPage("login")} className="text-left text-zinc-300">Sign in</button>
-              <Button className="w-full" onClick={() => setPage("download")}>Download Trial</Button>
+              <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-left text-zinc-300">GitHub</a>
+              <Button className="w-full" onClick={() => setPage("download")}>Download Free</Button>
             </div>
           </motion.div>
         )}
@@ -728,7 +727,7 @@ const Hero = ({ setPage }: any) => {
           transition={{ duration: 0.5 }}
           className="flex justify-center mb-8"
         >
-          <Badge variant="outline">Aestra v1.0.4 Stable is now live</Badge>
+          <Badge variant="outline">v1 Beta — December 2026</Badge>
         </motion.div>
 
         <motion.h1 
@@ -760,7 +759,7 @@ const Hero = ({ setPage }: any) => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Button size="lg" onClick={() => setPage("download")} icon={Download}>
-            Start Free Trial
+            Download Free
           </Button>
           <Button variant="secondary" size="lg" onClick={() => setPage("features")}>
             Explore Features <ChevronRight className="ml-2 w-4 h-4" />
@@ -805,38 +804,38 @@ const Features = () => (
       <div className="grid md:grid-cols-3 gap-8">
         <FeatureCard 
           icon={Cpu} 
-          title="Brutally Optimized" 
-          description="Runs flawlessly on everything from a high-end Mac Studio to a 5-year-old laptop. Zero latency engine written in Rust."
+          title="Brutally Optimized"
+          description="Built in C++17 with a 64-bit multi-threaded audio engine. Runs on a 5-year-old laptop. We optimize for the hardware you actually have, not the hardware you wish you had."
           delay={0}
         />
         <FeatureCard 
           icon={Zap} 
-          title="Instant Startup" 
-          description="Opens in under 800ms. No scanning for plugins on every launch. Get from desktop to recording in seconds."
+          title="Instant Startup"
+          description="No scanning plugins on every launch. No splash screens. Open Aestra and you're making music."
           delay={0.1}
         />
         <FeatureCard 
           icon={Layers} 
-          title="Sandboxed Plugins" 
-          description="A single crashing VST will never take down your session again. Aestra isolates plugins so your work remains safe."
+          title="Pattern-First Workflow" 
+          description="Built for hip-hop and electronic production. Patterns, clips, and arrangements designed around how beats are actually made."
           delay={0.2}
         />
         <FeatureCard 
           icon={Sliders} 
-          title="Unified Modulation" 
-          description="Drag-and-drop LFOs and Envelopes onto ANY parameter. Third-party plugins, mixer faders, internal effects—everything is modulatable."
+          title="Routing Visualizer" 
+          description="See your entire signal flow as an animated node graph. Color-coded connections, real-time signal indicators, and drag-to-route."
           delay={0.3}
         />
         <FeatureCard 
           icon={Terminal} 
-          title="Scriptable API" 
-          description="Build your own tools with Lua. The entire engine is exposed to developers who want to customize their workflow."
+          title="Audition Mode" 
+          description="Final-listen environment with DSP presets that simulate Spotify, Apple Music, AirPods, and car speakers. Hear how your mix translates."
           delay={0.4}
         />
         <FeatureCard 
           icon={Disc} 
-          title="Sampler Grade A" 
-          description="A world-class sampler built directly into the timeline. Time-stretch, pitch-shift, and slice with surgical precision."
+          title="Version Control" 
+          description="Git-inspired mix versioning with musical names. Create Takes, compare, and blend. Never lose a mix again."
           delay={0.5}
         />
       </div>
@@ -844,12 +843,195 @@ const Features = () => (
   </section>
 );
 
+const FounderCountdown = () => {
+  const targetDate = new Date("2026-12-12T00:00:00").getTime();
+  const [timeLeft, setTimeLeft] = useState({ months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [spotsLeft] = useState(500);
+
+  useEffect(() => {
+    const update = () => {
+      const now = Date.now();
+      const diff = Math.max(0, targetDate - now);
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const months = Math.floor(totalSeconds / (30.44 * 24 * 3600));
+      const remaining = totalSeconds - months * Math.floor(30.44 * 24 * 3600);
+      const days = Math.floor(remaining / (24 * 3600));
+      const hours = Math.floor((remaining % (24 * 3600)) / 3600);
+      const minutes = Math.floor((remaining % 3600) / 60);
+      const seconds = remaining % 60;
+
+      setTimeLeft({ months, days, hours, minutes, seconds });
+    };
+
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes("@")) return;
+
+    setSubmitting(true);
+    setError("");
+
+    try {
+      const res = await fetch("https://formspree.io/f/mnnpdpqn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: "founder-waitlist" }),
+      });
+
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setError("Something went wrong. Try again.");
+      }
+    } catch {
+      setError("Network error. Try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
+    <div className="flex flex-col items-center">
+      <div className="text-3xl md:text-5xl font-bold text-white font-mono tabular-nums">
+        {String(value).padStart(2, "0")}
+      </div>
+      <div className="text-xs text-zinc-500 uppercase tracking-wider mt-1">{label}</div>
+    </div>
+  );
+
+  return (
+    <section id="founder-section" className="py-32 px-6 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/8 blur-[150px] rounded-full pointer-events-none" />
+
+      <div className="max-w-3xl mx-auto text-center relative z-10">
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex justify-center mb-8"
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 text-sm font-medium">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            Limited to 500 — Founder Edition
+          </span>
+        </motion.div>
+
+        {/* Heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="text-4xl md:text-6xl font-bold text-white mb-4"
+        >
+          Claim Your{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+            Gold Card
+          </span>
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="text-lg text-zinc-400 mb-12 max-w-xl mx-auto"
+        >
+          Lifetime access. Physical metal card shipped to you. Name in the app forever.
+          Only 500 will ever exist.
+        </motion.p>
+
+        {/* Countdown */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="flex justify-center gap-6 md:gap-10 mb-16"
+        >
+          <CountdownUnit value={timeLeft.months} label="Months" />
+          <span className="text-2xl text-zinc-600 self-start mt-1">:</span>
+          <CountdownUnit value={timeLeft.days} label="Days" />
+          <span className="text-2xl text-zinc-600 self-start mt-1">:</span>
+          <CountdownUnit value={timeLeft.hours} label="Hours" />
+          <span className="text-2xl text-zinc-600 self-start mt-1">:</span>
+          <CountdownUnit value={timeLeft.minutes} label="Min" />
+          <span className="text-2xl text-zinc-600 self-start mt-1">:</span>
+          <CountdownUnit value={timeLeft.seconds} label="Sec" />
+        </motion.div>
+
+        {/* Email form */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        >
+          {!submitted ? (
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+                className="flex-1 h-12 px-4 rounded-lg bg-[#18181b] border border-[#27272a] text-white text-sm placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50"
+              />
+              <button
+                type="submit"
+                disabled={submitting}
+                className="h-12 px-6 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 text-white font-medium text-sm hover:from-amber-400 hover:to-orange-500 transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] disabled:opacity-50"
+              >
+                {submitting ? "Joining..." : "Join Waitlist"}
+              </button>
+            </form>
+          ) : (
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex items-center gap-2 text-amber-400">
+                <Check className="w-5 h-5" />
+                <span className="font-medium">You're on the list.</span>
+              </div>
+              <p className="text-zinc-500 text-sm">
+                We'll email you when Founder cards open. Watch the countdown.
+              </p>
+            </div>
+          )}
+          {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
+        </motion.div>
+
+        {/* Spots counter */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="text-zinc-600 text-xs mt-6"
+        >
+          {spotsLeft} Founder cards available — 0 claimed yet
+        </motion.p>
+      </div>
+    </section>
+  );
+};
+
 const Downloads = ({ setPage }: any) => {
   const builds = [
-    { os: "macOS", arch: "Apple Silicon", ver: "1.0.4", date: "Oct 24", type: "Stable" },
-    { os: "macOS", arch: "Intel", ver: "1.0.4", date: "Oct 24", type: "Stable" },
-    { os: "Windows", arch: "x64", ver: "1.0.4", date: "Oct 24", type: "Stable" },
-    { os: "Linux", arch: "Ubuntu/Debian", ver: "1.1.0-beta", date: "Today", type: "Beta" },
+    { os: "Source", arch: "GitHub", ver: "develop", date: "Latest", type: "Open Source", url: "https://github.com/currentsuspect/Aestra" },
+    { os: "Windows", arch: "x64", ver: "CI Build", date: "Live", type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
+    { os: "macOS", arch: "Apple Silicon", ver: "CI Build", date: "Live", type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
+    { os: "Linux", arch: "Ubuntu/Debian", ver: "CI Build", date: "Live", type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
   ];
 
   return (
@@ -859,7 +1041,7 @@ const Downloads = ({ setPage }: any) => {
       </button>
       
       <h1 className="text-4xl font-bold text-white mb-4">Downloads</h1>
-      <p className="text-zinc-400 mb-12">Select your platform. All builds include the full feature set.</p>
+      <p className="text-zinc-400 mb-12">Aestra is in active development. Download builds from CI, or clone the source directly.</p>
 
       <div className="space-y-4">
         {builds.map((build, i) => (
@@ -878,10 +1060,35 @@ const Downloads = ({ setPage }: any) => {
             </div>
             <div className="flex items-center gap-4">
               {build.type === "Beta" && <Badge variant="outline">Beta</Badge>}
-              <Button size="sm" variant="secondary" icon={Download}>Download</Button>
+              {build.type === "Open Source" && <Badge variant="outline">Source Available</Badge>}
+              <a href={build.url} target="_blank" rel="noopener noreferrer">
+                <Button size="sm" variant="secondary" icon={Download}>
+                  {build.type === "Open Source" ? "View Source" : "View CI Builds"}
+                </Button>
+              </a>
             </div>
           </Card>
         ))}
+      </div>
+
+      {/* Founder Waitlist CTA */}
+      <div className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-amber-600/10 to-orange-600/10 border border-amber-500/20 text-center">
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 text-xs font-medium mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+          Limited to 500
+        </span>
+        <h3 className="text-2xl font-bold text-white mb-2">Want the Gold Card?</h3>
+        <p className="text-zinc-400 text-sm mb-6 max-w-md mx-auto">
+          Lifetime access. Physical metal card. Name in the app forever.
+          Only 500 Founder cards will ever be minted.
+        </p>
+        <Button
+          variant="primary"
+          onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
+          className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 shadow-[0_0_20px_rgba(245,158,11,0.3)]"
+        >
+          Join the Waitlist
+        </Button>
       </div>
     </div>
   );
@@ -893,27 +1100,27 @@ const Pricing = ({ setPage }: any) => {
   return (
     <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
       <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-white mb-4">Simple, honest pricing</h1>
-        <p className="text-xl text-zinc-400">Own your tools. No subscriptions. No hidden fees.</p>
+        <h1 className="text-4xl font-bold text-white mb-4">Free forever. Support if you believe.</h1>
+        <p className="text-xl text-zinc-400">The full DAW is free. Always.</p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         {/* Free Tier */}
         <Card className="p-8 border-zinc-800 flex flex-col relative">
           <div className="mb-8">
-            <h3 className="text-xl font-medium text-white mb-2">Aestra Evaluation</h3>
+            <h3 className="text-xl font-medium text-white mb-2">Aestra Core</h3>
             <div className="text-4xl font-bold text-white mb-2">$0</div>
-            <p className="text-zinc-400 text-sm">Infinite trial period. WinRAR style.</p>
+            <p className="text-zinc-400 text-sm">Free forever. Full DAW. No gates.</p>
           </div>
           <ul className="space-y-4 mb-8 flex-1">
-            {["Full feature set", "Unlimited tracks", "All native plugins", "Save & Export enabled", "Nag screen on startup"].map((feat, i) => (
+            {["Full DAW — unlimited tracks", "Pattern-based workflow", "Routing visualizer", "Audition mode", "Version control (Takes)", "Basic plugins included"].map((feat, i) => (
               <li key={i} className="flex items-center text-zinc-300 text-sm">
                 <Check className="w-4 h-4 text-zinc-500 mr-3" />
                 {feat}
               </li>
             ))}
           </ul>
-          <Button variant="secondary" className="w-full" onClick={() => setPage("download")}>Download Trial</Button>
+          <Button variant="secondary" className="w-full" onClick={() => setPage("download")}>Download Free</Button>
         </Card>
 
         {/* Paid Tier */}
@@ -922,25 +1129,25 @@ const Pricing = ({ setPage }: any) => {
           <div className="absolute inset-0 bg-violet-500/5 pointer-events-none" />
           
           <div className="mb-8 relative z-10">
-            <h3 className="text-xl font-medium text-white mb-2">Aestra Studio</h3>
-            <div className="text-4xl font-bold text-white mb-2">$199</div>
-            <p className="text-violet-300 text-sm">Perpetual license. Lifetime updates.</p>
+            <h3 className="text-xl font-medium text-white mb-2">Aestra Supporter</h3>
+            <div className="text-4xl font-bold text-white mb-2">$5<span className="text-lg text-zinc-400">/mo</span></div>
+            <p className="text-violet-300 text-sm">Support the craft. Get more.</p>
           </div>
           <ul className="space-y-4 mb-8 flex-1 relative z-10">
-            {["Everything in Evaluation", "No startup nag screen", "Priority support", "Early access to Beta builds", "Support independent dev"].map((feat, i) => (
+            {["Everything in Core", "Premium plugins (AestraRumble + more)", "Muse AI — predictive creative assistant", "Cloud storage for Takes", "Monthly sound packs", "Silver card identity"].map((feat, i) => (
               <li key={i} className="flex items-center text-white text-sm">
                 <Check className="w-4 h-4 text-violet-400 mr-3" />
                 {feat}
               </li>
             ))}
           </ul>
-          <Button variant="primary" className="w-full relative z-10" onClick={() => setPage("account")}>Buy License</Button>
+          <Button variant="primary" className="w-full relative z-10" onClick={() => setPage("changelog")}>Coming Soon — Follow Progress</Button>
         </Card>
       </div>
       
       <div className="mt-16 text-center">
         <p className="text-zinc-500 text-sm">
-          Looking for educational or bulk pricing? <button className="text-violet-400 hover:underline">Contact us</button>.
+          Students get free Supporter access via Campus. <button className="text-violet-400 hover:underline">Contact us</button>.
         </p>
       </div>
     </div>
@@ -950,32 +1157,31 @@ const Pricing = ({ setPage }: any) => {
 const Changelog = ({ setPage }: any) => {
   const versions = [
     {
-      ver: "1.0.4",
-      date: "Oct 24, 2024",
-      type: "Stable",
+      ver: "Phase 2",
+      date: "March 29, 2026",
+      type: "In Progress",
       changes: [
         { type: "fix", text: "Fixed audio engine dropout on high buffer sizes (>2048 samples)." },
-        { type: "new", text: "Added 'Vintage Warmth' saturation module to the Mixer strip." },
-        { type: "perf", text: "Improved Piano Roll scrolling performance by 40% on 4K displays." }
+        { type: "fix", text: "Fixed Linux audio, transport, text rendering, and pattern browser issues." },
+        { type: "fix", text: "Fixed FLAC cover art crash and audition drop safety." },
+        { type: "fix", text: "Fixed timeline clip loading and UI refresh." },
+        { type: "fix", text: "Fixed mixer channels not showing — ChannelSlotMap now rebuilt on addChannel." },
+        { type: "fix", text: "Fixed timeline playback — AudioEngine setTransportPlaying now wired correctly." },
+        { type: "ci", text: "CI: Fixed Linux, macOS, and Windows build issues (include paths, linker, MSVC)." },
+        { type: "ci", text: "CI: Added AESTRA_HEADLESS mode for audio tests on headless CI runners." },
+        { type: "docs", text: "Docs: Comprehensive overhaul — eliminated nomad references, fixed stale content." },
+        { type: "fix", text: "Fixed UI contrast and readability; bitmap text renderer instead of SDF." }
       ]
     },
     {
-      ver: "1.0.3",
-      date: "Oct 10, 2024",
-      type: "Stable",
+      ver: "Phase 1",
+      date: "Jan 1, 2026",
+      type: "Complete",
       changes: [
-        { type: "new", text: "New Sampler interpolation modes (Sinc, Linear, Nearest)." },
-        { type: "fix", text: "VST3 scanning is now multi-threaded (3x faster startup)." },
-        { type: "change", text: "Moved 'Export' button to main toolbar for easier access." }
-      ]
-    },
-    {
-      ver: "1.0.0",
-      date: "Sep 15, 2024",
-      type: "Major",
-      changes: [
-        { type: "new", text: "Initial public release." },
-        { type: "new", text: "Complete Lua scripting API for custom tools." }
+        { type: "new", text: "Core audio engine: 64-bit multi-threaded, C++17." },
+        { type: "new", text: "Pattern-based production with clip launcher." },
+        { type: "new", text: "VST3 plugin hosting." },
+        { type: "new", text: "VST3 + CLAP plugin hosting." }
       ]
     }
   ];
@@ -985,6 +1191,8 @@ const Changelog = ({ setPage }: any) => {
       case "new": return "bg-green-500/10 text-green-400 border-green-500/20";
       case "fix": return "bg-red-500/10 text-red-400 border-red-500/20";
       case "perf": return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+      case "ci": return "bg-orange-500/10 text-orange-400 border-orange-500/20";
+      case "docs": return "bg-cyan-500/10 text-cyan-400 border-cyan-500/20";
       default: return "bg-zinc-800 text-zinc-400 border-zinc-700";
     }
   };
@@ -995,8 +1203,8 @@ const Changelog = ({ setPage }: any) => {
         <h1 className="text-4xl font-bold text-white">Changelog</h1>
         <div className="flex items-center text-sm text-zinc-500">
           <Activity className="w-4 h-4 mr-2" />
-          <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
-          All systems operational
+          <span className="w-2 h-2 bg-violet-500 rounded-full mr-2 animate-pulse" />
+          Phase 2 of 6 — Active Development
         </div>
       </div>
 
@@ -1057,7 +1265,7 @@ const Docs = ({ setPage }: any) => {
                 <li><button className="text-zinc-400 hover:text-white transition-colors">The Timeline</button></li>
                 <li><button className="text-zinc-400 hover:text-white transition-colors">Mixer Routing</button></li>
                 <li><button className="text-zinc-400 hover:text-white transition-colors">Automation Clips</button></li>
-                <li><button className="text-zinc-400 hover:text-white transition-colors">Plugin Sandboxing</button></li>
+                <li><button className="text-zinc-400 hover:text-white transition-colors">Recording & Export</button></li>
               </ul>
             </div>
           </div>
@@ -1093,7 +1301,7 @@ const Docs = ({ setPage }: any) => {
           </p>
           <ul className="space-y-2 list-disc list-inside text-zinc-400 mb-8">
             <li><strong className="text-white">Performance First:</strong> Every feature is benchmarked.</li>
-            <li><strong className="text-white">Crash Protection:</strong> Plugins run in separate processes.</li>
+            <li><strong className="text-white">Linux First:</strong> Built on Arch Linux, optimized for low-spec machines.</li>
             <li><strong className="text-white">Keyboard Centric:</strong> Mouse-free workflow is a first-class citizen.</li>
           </ul>
 
@@ -1163,7 +1371,7 @@ const Dashboard = ({ setPage }: any) => {
                 <h3 className="text-zinc-400 text-sm font-medium mb-2">Active License</h3>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="bg-green-500/10 text-green-400 px-2 py-1 rounded text-xs font-bold uppercase tracking-wider">Active</div>
-                  <span className="text-zinc-500 text-sm">Expires Dec 2025</span>
+                  <span className="text-zinc-500 text-sm">Beta</span>
                 </div>
                 <div className="bg-black/50 border border-dashed border-[#27272a] rounded p-3 font-mono text-zinc-300 text-sm flex justify-between items-center group cursor-pointer hover:border-violet-500/50 transition-colors">
                   <span>XXXX-XXXX-XXXX-8921</span>
@@ -1174,7 +1382,7 @@ const Dashboard = ({ setPage }: any) => {
               <Card className="p-6">
                 <h3 className="text-zinc-400 text-sm font-medium mb-2">Latest Build</h3>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="text-white font-medium">Aestra v1.0.4</div>
+                  <div className="text-white font-medium">Aestra Beta</div>
                   <div className="text-xs text-zinc-500">Released 2 days ago</div>
                 </div>
                 <Button className="w-full" icon={Download}>Download Installer</Button>
@@ -1189,10 +1397,10 @@ const Dashboard = ({ setPage }: any) => {
                         <div className="w-8 h-8 rounded bg-[#18181b] flex items-center justify-center text-zinc-500"><Cpu size={14} /></div>
                         <div>
                           <div className="text-sm text-zinc-200">macOS Installer (Apple Silicon)</div>
-                          <div className="text-xs text-zinc-500">v1.0.{4-i} • Downloaded via Web</div>
+                          <div className="text-xs text-zinc-500">v0.{9-i} • GitHub CI Build</div>
                         </div>
                       </div>
-                      <div className="text-xs text-zinc-500">Oct {25-i}, 2024</div>
+                      <div className="text-xs text-zinc-500">March {29-i}, 2026</div>
                     </div>
                   ))}
                 </div>
@@ -1205,9 +1413,9 @@ const Dashboard = ({ setPage }: any) => {
                <div className="w-16 h-16 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4">
                  <Zap className="text-zinc-500" />
                </div>
-               <h3 className="text-white text-lg font-medium mb-2">Cloud Plugin Sync</h3>
+               <h3 className="text-white text-lg font-medium mb-2">Muse AI</h3>
                <p className="text-zinc-400 max-w-md mx-auto mb-6">
-                 Aestra will soon support syncing your VST favorites and presets across devices.
+                 Predictive creative assistant — autocomplete for your music. Coming for Supporters.
                </p>
                <Badge variant="outline">Coming in v1.1</Badge>
             </div>
@@ -1243,7 +1451,7 @@ const Footer = ({ setPage }: any) => (
           Built by obsessed engineers for obsessed producers.
         </p>
         <div className="text-zinc-600 text-xs">
-          © 2024 Aestra Audio Inc.
+          © 2026 Dylan Makori / Aestra Studios
         </div>
       </div>
       
@@ -1262,7 +1470,7 @@ const Footer = ({ setPage }: any) => (
         <ul className="space-y-2 text-sm text-zinc-400">
           <li><button onClick={() => setPage("docs")} className="hover:text-violet-400">Documentation</button></li>
           <li><button className="hover:text-violet-400">Community Forum</button></li>
-          <li><button className="hover:text-violet-400">Developer SDK</button></li>
+          <li><a href="https://github.com/currentsuspect/Aestra" className="hover:text-violet-400">Source Code</a></li>
           <li><button className="hover:text-violet-400">Support</button></li>
         </ul>
       </div>
@@ -1272,8 +1480,27 @@ const Footer = ({ setPage }: any) => (
 
 // --- Main App Entry ---
 
+const FounderBanner = ({ setPage, onDismiss }: { setPage: (p: string) => void; onDismiss: () => void }) => (
+  <div className="bg-gradient-to-r from-amber-600/20 to-orange-600/20 border-b border-amber-500/20 relative z-50">
+    <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
+      <button
+        onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
+        className="flex items-center gap-2 text-sm text-amber-200 hover:text-white transition-colors"
+      >
+        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+        <span className="font-medium">Only 500 Founder Gold Cards exist.</span>
+        <span className="text-amber-400 underline underline-offset-2">Join the waitlist →</span>
+      </button>
+      <button onClick={onDismiss} className="text-amber-400/60 hover:text-white transition-colors">
+        <X className="w-4 h-4" />
+      </button>
+    </div>
+  </div>
+);
+
 const App = () => {
   const [page, setPage] = useState("home");
+  const [showBanner, setShowBanner] = useState(true);
 
   // Scroll to top on page change
   useEffect(() => {
@@ -1286,9 +1513,11 @@ const App = () => {
       case "home":
         return (
           <>
+            {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
             <Navbar activePage="home" setPage={setPage} />
             <Hero setPage={setPage} />
             <Features />
+            <FounderCountdown />
             <Footer setPage={setPage} />
           </>
         );
@@ -1298,7 +1527,7 @@ const App = () => {
             <Navbar activePage="features" setPage={setPage} />
             <div className="pt-32 pb-20 px-6 text-center">
               <h1 className="text-4xl font-bold text-white mb-4">Deep Dive</h1>
-              <p className="text-zinc-400">Feature details coming soon.</p>
+              <p className="text-zinc-400">Full feature breakdown below.</p>
               <Button className="mt-8" onClick={() => setPage("home")}>Back Home</Button>
             </div>
             <Footer setPage={setPage} />
@@ -1307,6 +1536,7 @@ const App = () => {
       case "pricing":
         return (
           <>
+            {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
             <Navbar activePage="pricing" setPage={setPage} />
             <Pricing setPage={setPage} />
             <Footer setPage={setPage} />
@@ -1315,6 +1545,7 @@ const App = () => {
       case "changelog":
         return (
           <>
+            {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
             <Navbar activePage="changelog" setPage={setPage} />
             <Changelog setPage={setPage} />
             <Footer setPage={setPage} />
@@ -1330,6 +1561,7 @@ const App = () => {
       case "download":
         return (
           <>
+            {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
             <Navbar activePage="download" setPage={setPage} />
             <Downloads setPage={setPage} />
             <Footer setPage={setPage} />
