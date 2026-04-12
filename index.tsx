@@ -29,6 +29,7 @@ import {
   LayoutTemplate,
   FileText,
   Search,
+  Scissors,
   BookOpen,
   LifeBuoy,
   CreditCard,
