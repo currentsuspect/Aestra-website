@@ -214,6 +214,7 @@ const MockTimeline = () => {
   const [time, setTime] = useState(0);
   const [bpm, setBpm] = useState("120.0");
   const playheadX = useMotionValue(0);
+  const [activeTab, setActiveTab] = useState<"arsenal" | "timeline" | "audition">("timeline");
 
   const TRACK_H = 68;
 
@@ -274,6 +275,40 @@ const MockTimeline = () => {
       <div className="absolute -inset-1 bg-gradient-to-r from-violet-600/20 via-indigo-600/20 to-violet-600/20 rounded-xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity" />
       <div className="relative bg-[#0f0f12] rounded-xl border border-[#27272a] overflow-hidden shadow-2xl">
 
+        {/* Menu Bar */}
+        <div className="h-7 bg-[#141418] border-b border-[#27272a] flex items-center px-3 justify-between select-none">
+          <div className="flex items-center gap-3">
+            <span className="text-[9px] text-zinc-500 hover:text-zinc-300 cursor-pointer">File</span>
+            <span className="text-[9px] text-zinc-500 hover:text-zinc-300 cursor-pointer">Edit</span>
+            <span className="text-[9px] text-zinc-500 hover:text-zinc-300 cursor-pointer">View</span>
+          </div>
+          <div className="flex items-center gap-0">
+            {(["arsenal", "timeline", "audition"] as const).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={cn(
+                  "px-4 py-1 text-[10px] font-medium capitalize transition-all relative",
+                  activeTab === tab
+                    ? "text-white"
+                    : "text-zinc-500 hover:text-zinc-300"
+                )}
+              >
+                {tab}
+                {activeTab === tab && (
+                  <motion.div
+                    layoutId="tab-underline"
+                    className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#4080f0] rounded-full"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-2">
+            <Upload size={10} className="text-zinc-500 hover:text-zinc-300 cursor-pointer" />
+          </div>
+        </div>
+
         {/* Title Bar */}
         <div className="h-9 bg-[#18181b] border-b border-[#27272a] flex items-center px-4 justify-between select-none">
           <div className="flex items-center gap-3">
@@ -295,7 +330,31 @@ const MockTimeline = () => {
           <div className="text-[9px] text-zinc-600 flex items-center gap-1"><Layers size={10}/><span>Snap</span></div>
         </div>
 
-        {/* Main Workspace */}
+        {/* === Tab Content === */}
+        {activeTab === "arsenal" && (
+          <div className="h-[420px] flex items-center justify-center bg-[#0a0a0e]">
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Disc size={20} className="text-violet-400" />
+                <span className="text-sm font-medium text-white">Arsenal</span>
+              </div>
+              <p className="text-[10px] text-zinc-500 max-w-xs">Pattern-based units. Synth engines, samplers, and drum machines arranged in a grid.</p>
+              <div className="mt-4 grid grid-cols-4 gap-1.5 max-w-xs mx-auto">
+                {["808 Sub", "Hi-Hats", "Clap", "Snare", "Keys", "Pads", "Vox", "FX"].map((name, i) => (
+                  <div key={i} className="bg-[#121214] border border-[#27272a] rounded px-2 py-1.5 text-center">
+                    <div className="text-[7px] text-zinc-500 mb-0.5">{["Synth", "Drums", "Drums", "Drums", "Synth", "Synth", "Audio", "Audio"][i]}</div>
+                    <div className="text-[9px] text-white font-medium">{name}</div>
+                    <div className="mt-1 h-1 rounded-full bg-[#1a1a1e] overflow-hidden">
+                      <div className="h-full rounded-full bg-violet-500/60" style={{ width: `${30 + i * 8}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "timeline" && (
         <div className="flex h-[420px]">
           {/* File Browser */}
           <div className="w-[170px] bg-[#121214] border-r border-[#27272a] flex flex-col shrink-0">
@@ -428,6 +487,63 @@ const MockTimeline = () => {
             </div>
           </div>
         </div>
+        )}
+
+        {activeTab === "audition" && (
+          <div className="h-[420px] bg-[#0a0a0e] flex flex-col">
+            {/* Audition Header */}
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center max-w-sm">
+                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-600/20 to-indigo-600/20 border border-violet-500/20 flex items-center justify-center mx-auto mb-4">
+                  <Play size={24} className="text-violet-400 ml-1" />
+                </div>
+                <div className="text-sm font-medium text-white mb-1">Rapsody - Black Popstar</div>
+                <div className="text-[10px] text-zinc-500 mb-4">Final listen · Spotify preset active</div>
+                {/* Waveform */}
+                <div className="h-12 bg-[#121214] rounded-lg border border-[#27272a] mx-8 mb-4 flex items-center px-3">
+                  <svg className="w-full h-8" viewBox="0 0 200 30" preserveAspectRatio="none">
+                    <polyline points={Array.from({length:100}, (_, i) => `${(i/99)*200},${15+Math.sin(i*0.15)*10*Math.cos(i*0.08+1)}`).join(" ")} fill="none" stroke="#8b5cf6" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+                  </svg>
+                </div>
+                {/* Progress */}
+                <div className="mx-8 mb-4">
+                  <div className="h-1 bg-[#27272a] rounded-full overflow-hidden">
+                    <div className="h-full w-1/3 bg-violet-500 rounded-full" />
+                  </div>
+                  <div className="flex justify-between text-[8px] text-zinc-500 mt-1">
+                    <span>1:24</span><span>3:42</span>
+                  </div>
+                </div>
+                {/* Transport */}
+                <div className="flex items-center justify-center gap-4 mb-4">
+                  <button className="text-zinc-500 hover:text-white text-[10px]">⏮</button>
+                  <button className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white text-sm shadow-[0_0_20px_rgba(139,92,246,0.3)]">▶</button>
+                  <button className="text-zinc-500 hover:text-white text-[10px]">⏭</button>
+                </div>
+                {/* DSP Presets */}
+                <div className="flex items-center justify-center gap-2">
+                  {["Studio", "Spotify", "AirPods", "Car"].map((preset, i) => (
+                    <button key={i} className={cn("px-2.5 py-1 rounded text-[8px] border", i === 1 ? "bg-violet-600/20 text-violet-300 border-violet-500/30" : "bg-[#121214] text-zinc-500 border-[#27272a] hover:border-zinc-600")}>
+                      {preset}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Queue */}
+            <div className="h-20 border-t border-[#27272a] bg-[#121214] px-4 py-2">
+              <div className="text-[8px] text-zinc-500 mb-1.5">QUEUE</div>
+              <div className="flex gap-2 overflow-x-auto">
+                {["Rapsody - Black Popstar", "Travis Scott - STARGATE", "Yeat - Purge Funeral", "Baby Keem - HONEST"].map((track, i) => (
+                  <div key={i} className={cn("shrink-0 px-3 py-1.5 rounded text-[9px] border", i === 0 ? "bg-violet-600/10 text-violet-300 border-violet-500/20" : "bg-[#18181b] text-zinc-400 border-[#27272a]")}>
+                    {track}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </motion.div>
   );
