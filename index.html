@@ -1,36 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- SEO Meta Tags -->
   <title>Aestra — Create Like Silence Is Watching</title>
+  <meta name="description" content="Aestra is a digital audio workstation built for speed, stability, and flow. Pattern-first workflow, routing visualizer, audition mode, and version control — free forever.">
+  <meta name="theme-color" content="#09090b">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Aestra — Create Like Silence Is Watching">
+  <meta property="og:description" content="A DAW built for speed, stability, and flow. Pattern-first workflow, routing visualizer, audition mode — free forever.">
+  <meta property="og:image" content="/aestra_icon.svg">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Aestra — Create Like Silence Is Watching">
+  <meta name="twitter:description" content="A DAW built for speed, stability, and flow. Free forever.">
+
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/aestra_icon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="apple-touch-icon" href="/aestra_icon.svg">
+
+  <!-- Resource Hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="dns-prefetch" href="https://formspree.io">
+
+  <!-- Optimized Font Loading: display=swap + subset + only needed weights -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </noscript>
+
+  <!-- Inline Critical CSS -->
   <style>
-    body { 
-      background-color: #09090b; 
-      color: white; 
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-    }
-    
-    ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-    ::-webkit-scrollbar-track {
-        background: #09090b;
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #27272a;
-        border-radius: 5px;
-        border: 2px solid #09090b;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: #3f3f46;
-    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4}
+    body{background-color:#09090b;color:white;font-family:'Inter',system-ui,sans-serif;margin:0;min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    #root{min-height:100vh}
+    ::-webkit-scrollbar{width:10px;height:10px}
+    ::-webkit-scrollbar-track{background:#09090b}
+    ::-webkit-scrollbar-thumb{background:#27272a;border-radius:5px;border:2px solid #09090b}
+    ::-webkit-scrollbar-thumb:hover{background:#3f3f46}
   </style>
 </head>
 <body>

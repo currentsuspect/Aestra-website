@@ -1,16 +1,16 @@
 import "./styles.css";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
-import { 
-  Download, 
+import {
+  Download,
   ChevronLeft,
-  ChevronRight, 
-  Layers, 
-  Zap, 
-  Music, 
-  Cpu, 
-  Disc, 
-  Sliders, 
+  ChevronRight,
+  Layers,
+  Zap,
+  Music,
+  Cpu,
+  Disc,
+  Sliders,
   Check,
   Pause,
   Play,
@@ -56,16 +56,16 @@ const SNAP_GRID_PX = 20; // Snap every 20px
 
 // --- Components ---
 
-const Button = ({ 
-  children, 
-  variant = "primary", 
-  size = "md", 
-  className, 
+const Button = memo(({
+  children,
+  variant = "primary",
+  size = "md",
+  className,
   icon: Icon,
-  ...props 
+  ...props
 }: any) => {
   const baseStyles = "inline-flex items-center justify-center rounded-[12px] font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#61d5ff]/35 disabled:opacity-50 disabled:cursor-not-allowed border";
-  
+
   const variants = {
     primary: "border-[#7f75cf] bg-[linear-gradient(180deg,#8f82df,#7164bf)] text-white shadow-[0_0_24px_rgba(143,130,223,0.28)] hover:brightness-110",
     secondary: "border-[#3a4152] bg-[#1a1f2b] text-[#e8ebf5] hover:border-[#61d5ff]/45 hover:text-white",
@@ -81,7 +81,7 @@ const Button = ({
   };
 
   return (
-    <motion.button 
+    <motion.button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       className={cn(baseStyles, variants[variant], sizes[size], className)}
@@ -91,45 +91,54 @@ const Button = ({
       {children}
     </motion.button>
   );
-};
+});
 
-const Badge = ({ children, variant = "default", className }: any) => {
-  const styles = variant === "outline" 
-    ? "border border-[#61d5ff]/30 text-[#bcefff] bg-[#61d5ff]/8" 
+const Badge = memo(({ children, variant = "default", className }: any) => {
+  const styles = variant === "outline"
+    ? "border border-[#61d5ff]/30 text-[#bcefff] bg-[#61d5ff]/8"
     : "bg-[#8f82df] text-white";
-    
+
   return (
     <span className={cn("inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium", styles, className)}>
       {variant === "outline" && <span className="w-1.5 h-1.5 rounded-full bg-violet-400 mr-2 animate-pulse" />}
       {children}
     </span>
   );
-};
+});
 
-const Card = ({ children, className }: any) => (
+const Card = memo(({ children, className }: any) => (
   <div className={cn("section-frame panel-glow rounded-[18px] overflow-hidden", className)}>
     {children}
   </div>
-);
+));
 
 // --- Sections ---
 
-const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
+const Navbar = memo(({ activePage, setPage, topOffset = 0 }: any) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { name: "Features", id: "features" },
     { name: "Docs", id: "docs" },
     { name: "Pricing", id: "pricing" },
     { name: "Changelog", id: "changelog" },
-  ];
+  ], []);
 
   return (
     <nav className={cn(
@@ -213,9 +222,9 @@ const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
       </AnimatePresence>
     </nav>
   );
-};
+});
 
-const MockTimeline = () => {
+const MockTimeline = memo(() => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
@@ -227,7 +236,7 @@ const MockTimeline = () => {
   const [selectedTrack, setSelectedTrack] = useState(0);
   const playheadX = useMotionValue(190);
 
-  const files = [
+  const files = useMemo(() => [
     { name: "Baby Keem - Ca$ino.flac", size: "28 MB" },
     { name: "Bktherula - CODE.flac", size: "19 MB" },
     { name: "Che - Promoting Violence.flac", size: "17 MB" },
@@ -240,9 +249,9 @@ const MockTimeline = () => {
     { name: "Travis Scott - NO BYSTANDERS.flac", size: "25 MB" },
     { name: "Travis Scott - SHYNE.flac", size: "21 MB" },
     { name: "Yeat - Purpose General.flac", size: "21 MB" },
-  ];
+  ], []);
 
-  const tracks = [
+  const tracks = useMemo(() => [
     { id: 1, name: "Track 1", color: "#d4b02f", meter: 72, db: "-8.0 dB" },
     { id: 2, name: "Track 2", color: "#47f3d1", meter: 4, db: "-60.0 dB" },
     { id: 3, name: "Track 3", color: "#f266d7", meter: 4, db: "-60.0 dB" },
@@ -253,7 +262,7 @@ const MockTimeline = () => {
     { id: 8, name: "Track 8", color: "#ba69ff", meter: 4, db: "-60.0 dB" },
     { id: 9, name: "Track 9", color: "#f0ea28", meter: 4, db: "-60.0 dB" },
     { id: 10, name: "Track 10", color: "#2af0b2", meter: 4, db: "-60.0 dB" },
-  ];
+  ], []);
 
   const visibleMixerTracks = tracks.slice(0, 6);
   const rulerMarks = [1, 17, 33, 49, 65];
@@ -852,7 +861,7 @@ const MockTimeline = () => {
       </div>
     </motion.div>
   );
-};
+});
 
 const Hero = ({ setPage }: any) => {
   return (
@@ -942,7 +951,7 @@ const Hero = ({ setPage }: any) => {
   );
 };
 
-const FeatureCard = ({ icon: Icon, title, description, delay }: any) => (
+const FeatureCard = memo(({ icon: Icon, title, description, delay }: any) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -956,9 +965,9 @@ const FeatureCard = ({ icon: Icon, title, description, delay }: any) => (
     <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
     <p className="text-[#9ca5bb] leading-relaxed">{description}</p>
   </motion.div>
-);
+));
 
-const Features = () => (
+const Features = memo(() => (
   <section className="py-28 px-6">
     <div className="max-w-7xl mx-auto">
       <div className="mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -1027,7 +1036,7 @@ const Features = () => (
       </div>
     </div>
   </section>
-);
+));
 
 const FounderCountdown = () => {
   const targetDate = new Date("2026-12-12T00:00:00").getTime();
@@ -1314,8 +1323,37 @@ const Pricing = ({ setPage }: any) => {
           <Button variant="primary" className="w-full relative z-10" onClick={() => setPage("changelog")}>Coming Soon — Follow Progress</Button>
         </Card>
       </div>
+
+      {/* Founder Tier */}
+      <div className="mt-12 max-w-2xl mx-auto">
+        <div className="section-frame panel-glow rounded-[18px] p-8 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(217,181,73,0.06),transparent)] pointer-events-none" />
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs font-medium mb-4 relative z-10">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d9b549] animate-pulse" />
+            Limited to 500 — never reproduced
+          </span>
+          <h3 className="text-2xl font-bold text-white mb-2 relative z-10">Aestra Founder</h3>
+          <div className="text-4xl font-bold text-white mb-2 relative z-10">$129<span className="text-lg text-[#9ca5bb]"> once</span></div>
+          <p className="text-[#c7bbff] text-sm mb-6 relative z-10">You believed first. This is your legacy.</p>
+          <ul className="space-y-3 mb-8 text-left max-w-sm mx-auto relative z-10">
+            {["Everything in Supporter, forever — no subscription", "Physical metal Founder card shipped to you", "Name in the app credits permanently", "Beta access to new platforms (mobile, tablet)", "Vote on feature priorities"].map((feat, i) => (
+              <li key={i} className="flex items-center text-[#d2d8e6] text-sm">
+                <Check className="w-4 h-4 text-[#d9b549] mr-3 shrink-0" />
+                {feat}
+              </li>
+            ))}
+          </ul>
+          <Button
+            variant="primary"
+            onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
+            className="relative z-10 bg-[linear-gradient(180deg,#d9b549,#a7802c)] border-[#d9b549]/40 hover:brightness-105 shadow-[0_0_20px_rgba(217,181,73,0.26)] w-full"
+          >
+            Join the Waitlist
+          </Button>
+        </div>
+      </div>
       
-      <div className="mt-16 text-center">
+      <div className="mt-12 text-center">
         <p className="text-[#7f879b] text-sm">
           Students get free Supporter access via Campus. <button className="text-[#61d5ff] hover:underline">Contact us</button>.
         </p>
@@ -1328,19 +1366,44 @@ const Changelog = ({ setPage }: any) => {
   const versions = [
     {
       ver: "Phase 2",
-      date: "March 29, 2026",
+      date: "March – April 2026",
       type: "In Progress",
       changes: [
+        { type: "new", text: "Recording pipeline: armed capture, take commit, monitoring modes, project-relative recordings." },
+        { type: "new", text: "Offline export: full-song render through live engine path with DC blocking, soft clipping, and TPDF dither." },
+        { type: "new", text: "Piano Roll: double-click pattern clips to open editor, unit routing, auto-save on note changes." },
+        { type: "new", text: "Arsenal panel: unit selection, removal, group labels (Synth/Drums/Audio), progress header." },
+        { type: "new", text: "Clip editing: Cut/Copy/Paste/Delete wired to Ctrl+X/C/V, split tool via S key, all through CommandHistory." },
+        { type: "new", text: "Routing: main output rerouting, audible sends, pre/post tap, sidechain-only sends." },
+        { type: "new", text: "Routing: send gain smoothing (LinearSmoothedParamD), cycle detection, unified constant-power pan law." },
+        { type: "new", text: "Device resilience: driver health monitor, hot-plug detection, WASAPI telemetry, SCHED_FIFO on Linux." },
+        { type: "new", text: "Audition Mode: DSP presets (Spotify, Apple Music, YouTube, SoundCloud, Car, AirPods), A/B toggle, queue playback." },
+        { type: "new", text: "Aestra Rumble: internal 808 synth plugin with verified state, render, and Arsenal integration tests." },
         { type: "fix", text: "Fixed audio engine dropout on high buffer sizes (>2048 samples)." },
         { type: "fix", text: "Fixed Linux audio, transport, text rendering, and pattern browser issues." },
         { type: "fix", text: "Fixed FLAC cover art crash and audition drop safety." },
         { type: "fix", text: "Fixed timeline clip loading and UI refresh." },
         { type: "fix", text: "Fixed mixer channels not showing — ChannelSlotMap now rebuilt on addChannel." },
         { type: "fix", text: "Fixed timeline playback — AudioEngine setTransportPlaying now wired correctly." },
+        { type: "fix", text: "Fixed clip split: patternId, name, and colorRGBA now copied to new clip half." },
+        { type: "fix", text: "Fixed Piano Roll dropdown hit-testing (local vs global bounds mismatch)." },
         { type: "ci", text: "CI: Fixed Linux, macOS, and Windows build issues (include paths, linker, MSVC)." },
         { type: "ci", text: "CI: Added AESTRA_HEADLESS mode for audio tests on headless CI runners." },
+        { type: "perf", text: "Low-memory build preset for 4GB RAM laptops — 2 parallel jobs, no LTO, -O2." },
         { type: "docs", text: "Docs: Comprehensive overhaul — eliminated nomad references, fixed stale content." },
-        { type: "fix", text: "Fixed UI contrast and readability; bitmap text renderer instead of SDF." }
+      ]
+    },
+    {
+      ver: "Phase 3",
+      date: "Jul – Sep 2026",
+      type: "Planned",
+      changes: [
+        { type: "new", text: "Group bus tracks and return/aux tracks for signal routing." },
+        { type: "new", text: "PDC (plugin delay compensation) through the full routing graph." },
+        { type: "new", text: "Solo/mute/cue semantics through groups, returns, sends, and sidechain paths." },
+        { type: "new", text: "Route-state serialization: save, reopen, render, and reopen on another machine." },
+        { type: "new", text: "Multitrack recording validation and device stress tests." },
+        { type: "new", text: "Version control (Takes): git-inspired branching with musical naming." },
       ]
     },
     {
@@ -1475,12 +1538,46 @@ const Docs = ({ setPage }: any) => {
             <li><strong className="text-white">Keyboard Centric:</strong> Mouse-free workflow is a first-class citizen.</li>
           </ul>
 
+          <h2 className="text-2xl font-bold text-white mt-12 mb-4">Building from Source</h2>
+          <p className="text-[#9ca5bb] mb-4 leading-relaxed">
+            Aestra is built with CMake. You need a C++17 compiler, CMake 3.22+, and the dependencies listed below.
+          </p>
+          <Card className="p-4 mb-6 bg-[#151a24] border border-[#30384a] font-mono text-sm">
+            <div className="text-[#9ca5bb] mb-2"># Clone and build</div>
+            <div className="text-white">git clone --recursive https://github.com/currentsuspect/Aestra</div>
+            <div className="text-white">cd Aestra</div>
+            <div className="text-white">cmake -S . -B build -DAestra_CORE_MODE=ON -DCMAKE_BUILD_TYPE=Release</div>
+            <div className="text-white">cmake --build build --parallel</div>
+          </Card>
+
+          <h3 className="text-xl font-bold text-white mt-8 mb-3">Dependencies</h3>
+          <ul className="space-y-2 text-sm text-[#cfd5e4] mb-8">
+            <li className="flex items-start gap-2"><span className="text-[#61d5ff]">›</span>SDL2 (Linux windowing, input)</li>
+            <li className="flex items-start gap-2"><span className="text-[#61d5ff]">›</span>RtAudio (cross-platform audio I/O)</li>
+            <li className="flex items-start gap-2"><span className="text-[#61d5ff]">›</span>FreeType (text rendering)</li>
+            <li className="flex items-start gap-2"><span className="text-[#61d5ff]">›</span>miniaudio (audio decoding: MP3, FLAC)</li>
+            <li className="flex items-start gap-2"><span className="text-[#61d5ff]">›</span>VST3 SDK + CLAP SDK (plugin hosting)</li>
+          </ul>
+
+          <h2 className="text-2xl font-bold text-white mt-12 mb-4">Low-Memory Build</h2>
+          <p className="text-[#9ca5bb] mb-4 leading-relaxed">
+            Building on a 4GB RAM machine? Use the lowmem preset — it disables LTO, vectorization, and limits parallel jobs.
+          </p>
+          <Card className="p-4 mb-6 bg-[#151a24] border border-[#30384a] font-mono text-sm">
+            <div className="text-white">cmake --preset lowmem && cmake --build --preset lowmem-release</div>
+          </Card>
+
+          <h2 className="text-2xl font-bold text-white mt-12 mb-4">Running Tests</h2>
+          <Card className="p-4 mb-8 bg-[#151a24] border border-[#30384a] font-mono text-sm">
+            <div className="text-white">ctest --test-dir build --output-on-failure</div>
+          </Card>
+
           <div className="flex gap-4 mt-12 pt-8 border-t border-[#2f3646]">
              <Button variant="secondary" className="w-full justify-between group">
                  <span className="text-[#98a1b7]">Previous: None</span>
              </Button>
              <Button variant="secondary" className="w-full justify-between group">
-                 <span className="text-white group-hover:text-[#61d5ff] transition-colors">Next: Installation</span>
+                 <span className="text-white group-hover:text-[#61d5ff] transition-colors">Next: The Timeline</span>
                  <ArrowRight className="w-4 h-4 text-[#98a1b7] group-hover:text-[#61d5ff]" />
              </Button>
           </div>
@@ -1608,7 +1705,7 @@ const Dashboard = ({ setPage }: any) => {
 
 // --- Footer ---
 
-const Footer = ({ setPage }: any) => (
+const Footer = memo(({ setPage }: any) => (
   <footer className="bg-[#090c12]/92 border-t border-[#2f3646] py-12 px-6">
     <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
       <div className="col-span-1 md:col-span-2">
@@ -1646,11 +1743,11 @@ const Footer = ({ setPage }: any) => (
       </div>
     </div>
   </footer>
-);
+));
 
 // --- Main App Entry ---
 
-const FounderBanner = ({ onDismiss }: { setPage: (p: string) => void; onDismiss: () => void }) => (
+const FounderBanner = memo(({ onDismiss }: { onDismiss: () => void }) => (
   <div className="fixed top-0 left-0 right-0 z-[60] bg-[linear-gradient(90deg,rgba(217,181,73,0.16),rgba(131,66,23,0.28))] border-b border-[#d9b549]/20">
     <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
       <a
@@ -1666,7 +1763,7 @@ const FounderBanner = ({ onDismiss }: { setPage: (p: string) => void; onDismiss:
       </button>
     </div>
   </div>
-);
+));
 
 const App = () => {
   const [page, setPage] = useState("home");
@@ -1674,15 +1771,14 @@ const App = () => {
 
   // Scroll to top on page change
   useEffect(() => {
-    // Check for hash in URL and scroll to element
     const hash = window.location.hash;
     if (hash) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
       }, 300);
-    } else {
-      window.scrollTo(0, 0);
+      return () => clearTimeout(timer);
     }
+    window.scrollTo(0, 0);
   }, [page]);
 
   // Handle hash clicks (anchor links within SPA)
@@ -1700,6 +1796,14 @@ const App = () => {
     };
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
+  }, []);
+
+  const handleSetPage = useCallback((newPage: string) => {
+    setPage(newPage);
+  }, []);
+
+  const handleDismissBanner = useCallback(() => {
+    setShowBanner(false);
   }, []);
 
   // Simple Router
@@ -1720,10 +1824,39 @@ const App = () => {
         return (
            <>
             <Navbar activePage="features" setPage={setPage} />
-            <div className="pt-32 pb-20 px-6 text-center">
-              <h1 className="text-4xl font-bold text-white mb-4">Deep Dive</h1>
-              <p className="text-zinc-400">Full feature breakdown below.</p>
-              <Button className="mt-8" onClick={() => setPage("home")}>Back Home</Button>
+            <div className="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
+              <button onClick={() => setPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
+                <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
+              </button>
+              <h1 className="text-4xl font-bold text-white mb-4">What Aestra actually does.</h1>
+              <p className="text-[#9ca5bb] mb-16 max-w-2xl">No feature bloat. No half-finished workflows. Six systems done right.</p>
+
+              <div className="space-y-16">
+                {[
+                  { title: "Brutally Optimized", tag: "ENGINE", desc: "C++17, 64-bit multi-threaded audio engine. Lock-free real-time processing. No garbage collection pauses. No runtime overhead. Built on Arch Linux and tested on a 5-year-old i5 laptop with 4GB RAM — because that\'s the machine the developer actually uses.", details: ["<10ms audio latency target", "Lock-free SPSC ring buffers for UI-to-audio commands", "No memory allocation in the audio callback", "SIMD-optimized DSP (SSE/AVX runtime dispatch)", "RtAudio cross-platform I/O with WASAPI/ALSA/PulseAudio"] },
+                  { title: "Instant Startup", tag: "PERFORMANCE", desc: "No scanning plugins on every launch. No splash screens. No loading bars. Open Aestra and you\'re making music. Plugin database is cached — first scan, instant after.", details: ["Plugin cache persists between sessions", "No startup audio device scan", "Lazy-load non-critical subsystems"] },
+                  { title: "Pattern-First Workflow", tag: "DESIGN", desc: "Built for hip-hop and electronic production where the beat is the unit of work, not the timeline. Patterns are first-class citizens — compose in the Arsenal, arrange on the Timeline, audition in the player.", details: ["Arsenal: pattern unit grid with synth/sampler/drum slots", "C|E|A mode switch: Clips, Editor, Automation on the same data", "Pattern clips on the timeline with double-click piano roll edit", "Loop-to-project: patterns become arrangements seamlessly"] },
+                  { title: "Routing Visualizer", tag: "VISUAL", desc: "See your entire signal flow as an animated node graph. Borrowed from Unreal Engine\'s Blueprint editor — because audio routing is data flow, and data flow deserves a visual language.", details: ["Color-coded connections by source track", "Thick solid = main output, thin solid = audible sends, dotted = sidechain", "Animated signal dots when audio is playing", "Drag-to-route: connect nodes to create sends", "Left-to-right signal flow hierarchy: sources → buses → master"] },
+                  { title: "Audition Mode", tag: "TRANSLATION", desc: "Final-listen environment with DSP presets that simulate how your mix sounds on Spotify, Apple Music, AirPods, and car speakers. Borrowed from Spotify\'s playback model — because you should hear what your听众 hears.", details: ["Spotify: -14 LUFS, -1dB true peak", "Apple Music: -16 LUFS, Sound Check simulation", "YouTube: Opus compression artifacts", "SoundCloud: 128kbps MP3 degradation", "Car Speakers: Harman curve, bass boost, treble roll-off", "AirPods Pro: Adaptive EQ simulation", "A/B wet/dry toggle for instant comparison", "Queue-based playback — listen like a listener, not a producer"] },
+                  { title: "Version Control", tag: "SAFETY", desc: "Git-inspired mix versioning with musical names instead of engineering ones. Create Takes, compare differences, and Blend changes. Borrowed from Git\'s branching model — because your mix deserves version control, not \"mix_v2_final_FINAL3.wav\".", details: ["Takes (branches) — diverge a mix at any point", "Snapshots (commits) — full project state at a point in time", "Blends (merges) — combine changes from two Takes", "Auto-snapshots before destructive operations", "Cloud sync planned for v1.2+"] },
+                ].map((feature, i) => (
+                  <div key={i} className="section-frame panel-glow rounded-[18px] p-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-[9px] font-bold text-[#61d5ff] bg-[#61d5ff]/10 border border-[#61d5ff]/20 px-2 py-0.5 rounded">{feature.tag}</span>
+                      <h2 className="text-2xl font-bold text-white">{feature.title}</h2>
+                    </div>
+                    <p className="text-[#9ca5bb] mb-6 leading-relaxed">{feature.desc}</p>
+                    <ul className="space-y-2">
+                      {feature.details.map((d, j) => (
+                        <li key={j} className="flex items-start gap-2 text-sm text-[#cfd5e4]">
+                          <span className="text-[#61d5ff] mt-0.5">›</span>
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
             <Footer setPage={setPage} />
            </>
