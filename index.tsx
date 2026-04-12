@@ -208,146 +208,224 @@ const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
 };
 
 const MockTimeline = () => {
-  const timelineRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(43.94);
   const [bpm, setBpm] = useState("120.0");
-  const playheadX = useMotionValue(0);
   const [activeTab, setActiveTab] = useState<"arsenal" | "timeline" | "audition">("timeline");
+  const [timelineView, setTimelineView] = useState<"arrangement" | "mixer">("arrangement");
+  const [selectedFile, setSelectedFile] = useState(8);
+  const [selectedTrack, setSelectedTrack] = useState(0);
+  const playheadX = useMotionValue(190);
 
-  const TRACK_H = 68;
+  const files = [
+    { name: "Baby Keem - Ca$ino.flac", size: "28 MB" },
+    { name: "Bktherula - CODE.flac", size: "19 MB" },
+    { name: "Che - Promoting Violence.flac", size: "17 MB" },
+    { name: "PlaqueBoyMax - Super Wrong.flac", size: "12 MB" },
+    { name: "PlaqueBoyMax - Yellow Lamb Truck.flac", size: "10 MB" },
+    { name: "Rapsody - Black Popstar.flac", size: "14 MB" },
+    { name: "SLAYR - Flashout Freestyle.flac", size: "23 MB" },
+    { name: "SoFaygo - MM3.flac", size: "19 MB" },
+    { name: "Travis Scott - HOUSTONFORNICATION.flac", size: "24 MB" },
+    { name: "Travis Scott - NO BYSTANDERS.flac", size: "25 MB" },
+    { name: "Travis Scott - SHYNE.flac", size: "21 MB" },
+    { name: "Yeat - Purpose General.flac", size: "21 MB" },
+  ];
 
-  const [files] = useState([
-    { name: "vocals_main_take1.wav", size: "11 MB", selected: true },
-    { name: "drum_break_amen.wav", size: "15 MB", selected: false },
-    { name: "sub_bass_drop.wav", size: "17 MB", selected: false },
-    { name: "synth_pad_ethereal.wav", size: "13 MB", selected: false },
-    { name: "gtr_riff_clean.wav", size: "12 MB", selected: false },
-    { name: "fx_riser_white.wav", size: "17 MB", selected: false },
-  ]);
+  const tracks = [
+    { id: 1, name: "Track 1", color: "#d4b02f", meter: 72, db: "-8.0 dB" },
+    { id: 2, name: "Track 2", color: "#47f3d1", meter: 4, db: "-60.0 dB" },
+    { id: 3, name: "Track 3", color: "#f266d7", meter: 4, db: "-60.0 dB" },
+    { id: 4, name: "Track 4", color: "#8cff38", meter: 4, db: "-60.0 dB" },
+    { id: 5, name: "Track 5", color: "#ff9c38", meter: 4, db: "-60.0 dB" },
+    { id: 6, name: "Track 6", color: "#6ac4ff", meter: 4, db: "-60.0 dB" },
+    { id: 7, name: "Track 7", color: "#ff3d83", meter: 4, db: "-60.0 dB" },
+    { id: 8, name: "Track 8", color: "#ba69ff", meter: 4, db: "-60.0 dB" },
+    { id: 9, name: "Track 9", color: "#f0ea28", meter: 4, db: "-60.0 dB" },
+    { id: 10, name: "Track 10", color: "#2af0b2", meter: 4, db: "-60.0 dB" },
+  ];
 
-  const [tracks] = useState([
-    { id: 1, name: "Track 1", hex: "#3B5BDB", route: "Snd T2", meter: 65, db: "-8.2" },
-    { id: 2, name: "Track 2", hex: "#0CA678", route: null, meter: 40, db: "-19.3" },
-    { id: 3, name: "Track 3", hex: "#AE3EC9", route: null, meter: 5, db: "-60.0" },
-    { id: 4, name: "Track 4", hex: "#37B24D", route: null, meter: 5, db: "-60.0" },
-    { id: 5, name: "Track 5", hex: "#E8590C", route: null, meter: 5, db: "-60.0" },
-    { id: 6, name: "Track 6", hex: "#1C7ED6", route: null, meter: 5, db: "-60.0" },
-  ]);
+  const visibleMixerTracks = tracks.slice(0, 6);
+  const rulerMarks = [1, 17, 33, 49, 65];
 
-  const [clips, setClips] = useState([
-    { id: 1, trackId: 1, x: 0, w: 260, name: "vocals_main.wav" },
-    { id: 2, trackId: 2, x: 0, w: 260, name: "vocals_dbl.wav" },
-    { id: 3, trackId: 3, x: 0, w: 400, name: "drum_break.wav" },
-    { id: 4, trackId: 4, x: 120, w: 280, name: "sub_bass.wav" },
-    { id: 5, trackId: 5, x: 240, w: 160, name: "gtr_riff.wav" },
-  ]);
-
-  const [selectedClip, setSelectedClip] = useState(1);
-  const [selectedFile, setSelectedFile] = useState(0);
-
-  // Playhead
   useEffect(() => {
-    let af: number; let last: number;
+    let af = 0;
+    let last = 0;
     const tick = (ts: number) => {
       if (!last) last = ts;
-      const dt = (ts - last) / 1000; last = ts;
-      if (isPlaying && containerRef.current) {
-        const w = containerRef.current.offsetWidth;
-        let x = playheadX.get() + 100 * dt;
-        if (x >= w) x = 0;
-        playheadX.set(x); setTime(x / 100);
+      const dt = (ts - last) / 1000;
+      last = ts;
+      if (containerRef.current && isPlaying) {
+        const maxX = containerRef.current.offsetWidth - 32;
+        const next = playheadX.get() + 94 * dt;
+        playheadX.set(next > maxX ? 190 : next);
+        setTime((prev) => (next > maxX ? 43.94 : prev + dt));
         af = requestAnimationFrame(tick);
       }
     };
     if (isPlaying) af = requestAnimationFrame(tick);
-    return () => { if (af) cancelAnimationFrame(af); };
+    return () => cancelAnimationFrame(af);
   }, [isPlaying, playheadX]);
 
   const fmt = (t: number) => {
-    const m = Math.floor(t / 60), s = Math.floor(t % 60), ms = Math.floor((t % 1) * 100);
-    return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}.${String(ms).padStart(2,"0")}`;
+    const m = Math.floor(t / 60);
+    const s = Math.floor(t % 60);
+    const ms = Math.floor((t % 1) * 100);
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}.${String(ms).padStart(2, "0")}`;
   };
 
-  return (
-    <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="mt-16 max-w-6xl mx-auto relative group">
-      <div className="absolute -inset-1 bg-gradient-to-r from-violet-600/20 via-indigo-600/20 to-violet-600/20 rounded-xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity" />
-      <div className="relative bg-[#0f0f12] rounded-xl border border-[#27272a] overflow-hidden shadow-2xl">
+  const selectedTrackData = tracks[selectedTrack];
 
-        {/* Menu Bar */}
-        <div className="h-7 bg-[#141418] border-b border-[#27272a] flex items-center px-3 justify-between select-none">
-          <div className="flex items-center gap-3">
-            <span className="text-[9px] text-zinc-500 hover:text-zinc-300 cursor-pointer">File</span>
-            <span className="text-[9px] text-zinc-500 hover:text-zinc-300 cursor-pointer">Edit</span>
-            <span className="text-[9px] text-zinc-500 hover:text-zinc-300 cursor-pointer">View</span>
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.4 }}
+      className="mt-16 max-w-[84rem] mx-auto relative"
+    >
+      <div className="absolute inset-x-14 -top-2 h-14 rounded-full bg-[#61d5ff]/10 blur-2xl" />
+      <div className="relative overflow-hidden rounded-[18px] border border-[#55d6ff] bg-[#101115] shadow-[0_24px_80px_rgba(0,0,0,0.42)]">
+        <div className="h-8 border-b border-[#2c3240] bg-[#14161d] px-4 flex items-center justify-between text-[10px] text-[#c7cad4]">
+          <div className="flex items-center gap-5">
+            <span className="text-[#f5f6fa]">File</span>
+            <span>Edit</span>
+            <span>View</span>
           </div>
-          <div className="flex items-center gap-0">
+          <div className="flex items-center gap-2 rounded-full border border-[#3a4050] bg-[#1d2130] p-1">
             {(["arsenal", "timeline", "audition"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={cn(
-                  "px-4 py-1 text-[10px] font-medium capitalize transition-all relative",
-                  activeTab === tab
-                    ? "text-white"
-                    : "text-zinc-500 hover:text-zinc-300"
+                  "rounded-full px-3 py-1 text-[10px] capitalize transition-colors",
+                  activeTab === tab ? "bg-[#8e80da] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]" : "text-[#a5abbd]"
                 )}
               >
                 {tab}
-                {activeTab === tab && (
-                  <motion.div
-                    layoutId="tab-underline"
-                    className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#4080f0] rounded-full"
-                  />
-                )}
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2">
-            <Upload size={10} className="text-zinc-500 hover:text-zinc-300 cursor-pointer" />
+          <div className="flex items-center gap-4 text-[#d7d9e4]">
+            <Upload size={11} />
+            <Minus size={11} />
+            <Square size={10} />
+            <X size={11} />
           </div>
         </div>
 
-        {/* Title Bar */}
-        <div className="h-9 bg-[#18181b] border-b border-[#27272a] flex items-center px-4 justify-between select-none">
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1.5"><div className="w-3 h-3 rounded-full bg-[#ff5f57]"/><div className="w-3 h-3 rounded-full bg-[#febc2e]"/><div className="w-3 h-3 rounded-full bg-[#28c840]"/></div>
-            <span className="text-[10px] text-zinc-500 font-mono">Aestra</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              <button onClick={() => setIsRecording(!isRecording)} className={cn("w-5 h-5 rounded flex items-center justify-center text-[10px]", isRecording ? "bg-red-500 text-white animate-pulse" : "text-zinc-500 hover:text-white")}>●</button>
-              <button onClick={() => { setIsPlaying(false); playheadX.set(0); setTime(0); }} className="w-5 h-5 rounded flex items-center justify-center text-[10px] text-zinc-500 hover:text-white">■</button>
-              <button onClick={() => setIsPlaying(!isPlaying)} className={cn("w-5 h-5 rounded flex items-center justify-center text-[10px]", isPlaying ? "text-blue-400" : "text-zinc-500 hover:text-white")}>{isPlaying ? "❚❚" : "▶"}</button>
-            </div>
-            <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-400">
-              <span>{fmt(time)}</span><span className="text-zinc-600">|</span>
-              <input value={bpm} onChange={e => /^[0-9]*\.?[0-9]*$/.test(e.target.value) && setBpm(e.target.value)} className="w-10 text-right bg-transparent text-zinc-300 outline-none" /><span className="text-zinc-500">BPM</span>
-              <span className="text-zinc-600">|</span><span>4/4</span>
-            </div>
-          </div>
-          <div className="text-[9px] text-zinc-600 flex items-center gap-1"><Layers size={10}/><span>Snap</span></div>
-        </div>
-
-        {/* === Tab Content === */}
-        {activeTab === "arsenal" && (
-          <div className="h-[420px] flex items-center justify-center bg-[#0a0a0e]">
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 mb-3">
-                <Disc size={20} className="text-violet-400" />
-                <span className="text-sm font-medium text-white">Arsenal</span>
+        <div className="border-b border-[#2b3040] bg-[#171922] px-4 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 rounded-2xl border border-[#34394b] bg-[#232737] px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+                <button
+                  onClick={() => setIsPlaying((v) => !v)}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
+                >
+                  {isPlaying ? <Pause size={13} /> : <Play size={13} className="ml-0.5" />}
+                </button>
+                <button
+                  onClick={() => {
+                    setIsPlaying(false);
+                    setTime(43.94);
+                    playheadX.set(190);
+                  }}
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
+                >
+                  <Square size={12} />
+                </button>
+                <button
+                  onClick={() => setIsRecording((v) => !v)}
+                  className={cn(
+                    "flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d]",
+                    isRecording ? "text-[#ff668f]" : "text-[#d3d8e6]"
+                  )}
+                >
+                  <Circle size={12} fill={isRecording ? "currentColor" : "none"} />
+                </button>
+                <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]">
+                  <MoreHorizontal size={13} />
+                </button>
               </div>
-              <p className="text-[10px] text-zinc-500 max-w-xs">Pattern-based units. Synth engines, samplers, and drum machines arranged in a grid.</p>
-              <div className="mt-4 grid grid-cols-4 gap-1.5 max-w-xs mx-auto">
-                {["808 Sub", "Hi-Hats", "Clap", "Snare", "Keys", "Pads", "Vox", "FX"].map((name, i) => (
-                  <div key={i} className="bg-[#121214] border border-[#27272a] rounded px-2 py-1.5 text-center">
-                    <div className="text-[7px] text-zinc-500 mb-0.5">{["Synth", "Drums", "Drums", "Drums", "Synth", "Synth", "Audio", "Audio"][i]}</div>
-                    <div className="text-[9px] text-white font-medium">{name}</div>
-                    <div className="mt-1 h-1 rounded-full bg-[#1a1a1e] overflow-hidden">
-                      <div className="h-full rounded-full bg-violet-500/60" style={{ width: `${30 + i * 8}%` }} />
+
+              <div className="flex items-center gap-2 rounded-2xl border border-[#34394b] bg-[#232737] px-3 py-2 text-[11px] text-[#d6daea]">
+                <span className="rounded-lg border border-[#41465a] bg-[#2a2f3d] px-2 py-1">4/4</span>
+                <span className="rounded-lg border border-[#41465a] bg-[#2a2f3d] px-2 py-1">
+                  <input
+                    value={bpm}
+                    onChange={(e) => /^[0-9]*\.?[0-9]*$/.test(e.target.value) && setBpm(e.target.value)}
+                    className="w-12 bg-transparent text-right outline-none"
+                  />
+                  <span className="ml-1 text-[#a7adc0]">BPM</span>
+                </span>
+                <span className="rounded-lg border border-[#41465a] bg-[#2a2f3d] px-2 py-1 font-mono text-[#9fa5ff]">
+                  {fmt(time)}
+                </span>
+              </div>
+            </div>
+
+            {activeTab === "timeline" && (
+              <div className="flex items-center gap-2 rounded-2xl border border-[#34394b] bg-[#232737] p-1">
+                <button
+                  onClick={() => setTimelineView("arrangement")}
+                  className={cn(
+                    "rounded-xl px-3 py-2 text-[10px] uppercase tracking-[0.18em]",
+                    timelineView === "arrangement" ? "bg-[#8c82da] text-white" : "text-[#a8aec1]"
+                  )}
+                >
+                  Timeline
+                </button>
+                <button
+                  onClick={() => setTimelineView("mixer")}
+                  className={cn(
+                    "rounded-xl px-3 py-2 text-[10px] uppercase tracking-[0.18em]",
+                    timelineView === "mixer" ? "bg-[#8c82da] text-white" : "text-[#a8aec1]"
+                  )}
+                >
+                  Mixer
+                </button>
+              </div>
+            )}
+
+            <div className="flex items-center gap-3">
+              <div className="h-11 w-40 rounded-md border border-[#3a4050] bg-[#1f2231] p-2">
+                <svg className="h-full w-full" viewBox="0 0 120 28" preserveAspectRatio="none">
+                  <polyline
+                    points="0,10 7,8 14,18 21,6 28,17 35,9 42,14 49,7 56,18 63,12 70,17 77,10 84,20 91,17 98,12 105,9 112,7 120,5"
+                    fill="none"
+                    stroke="#b08cff"
+                    strokeWidth="1.8"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
+              </div>
+              <div className="flex gap-1 rounded-md border border-[#3a4050] bg-[#1f2231] p-1">
+                <div className="h-10 w-6 rounded bg-gradient-to-b from-[#0f1118] to-[#bc89ff]" />
+                <div className="h-10 w-6 rounded bg-gradient-to-b from-[#0f1118] to-[#ce9eff]" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {activeTab === "arsenal" && (
+          <div className="h-[690px] bg-[#11131a] flex items-center justify-center">
+            <div className="w-[34rem] rounded-[18px] border border-[#3b4152] bg-[#1a1d27] p-8">
+              <div className="mb-4 flex items-center justify-center gap-2 text-[#e5e9f5]">
+                <Disc size={18} className="text-[#c59dff]" />
+                <span className="text-sm tracking-[0.22em] uppercase">Arsenal</span>
+              </div>
+              <p className="mx-auto mb-6 max-w-md text-center text-sm text-[#9ca3b5]">
+                Pattern engines and source modules live here. The live site demo keeps this subdued so the
+                arrangement and mixer are the visual priority.
+              </p>
+              <div className="grid grid-cols-4 gap-3">
+                {["808", "Hats", "Clap", "Snare", "Keys", "Pad", "Lead", "FX"].map((name, index) => (
+                  <div key={name} className="rounded-xl border border-[#33394a] bg-[#141720] p-3 text-center">
+                    <div className="mb-2 text-[10px] uppercase tracking-[0.18em] text-[#6ce8d5]">
+                      {index < 4 ? "Drum" : "Unit"}
                     </div>
+                    <div className="text-sm text-[#eceff8]">{name}</div>
                   </div>
                 ))}
               </div>
@@ -355,206 +433,380 @@ const MockTimeline = () => {
           </div>
         )}
 
-        {activeTab === "timeline" && (
-        <div className="flex h-[420px]">
-          {/* File Browser */}
-          <div className="w-[170px] bg-[#121214] border-r border-[#27272a] flex flex-col shrink-0">
-            <div className="flex border-b border-[#27272a]">
-              <button className="flex-1 py-1.5 text-[10px] font-medium text-white bg-[#1a1a2e]">Files</button>
-              <button className="flex-1 py-1.5 text-[10px] font-medium text-zinc-500">Plugins</button>
-            </div>
-            <div className="p-2">
-              <div className="flex items-center bg-[#18181b] rounded px-2 py-1 border border-[#27272a]">
-                <Search size={10} className="text-zinc-500 mr-1.5"/>
-                <input placeholder="Search files..." className="bg-transparent text-[10px] text-zinc-300 outline-none w-full placeholder-zinc-600"/>
-              </div>
-            </div>
-            <div className="flex-1 overflow-y-auto px-1">
-              {files.map((f, i) => (
-                <div key={i} onClick={() => setSelectedFile(i)} className={cn("flex items-center gap-2 px-2 py-1.5 rounded cursor-pointer mb-0.5", selectedFile === i ? "bg-[#2040a0]/30 text-white" : "text-zinc-400 hover:bg-white/5")}>
-                  <FileText size={10} className="shrink-0 text-zinc-500"/>
-                  <div className="min-w-0 flex-1"><div className="text-[10px] truncate">{f.name}</div><div className="text-[8px] text-zinc-600">{f.size}</div></div>
+        {activeTab === "timeline" && timelineView === "arrangement" && (
+          <div className="flex h-[690px] bg-[#11131a]">
+            <div className="w-[268px] border-r border-[#2d3342] bg-[#1b1e28] flex flex-col">
+              <div className="p-2">
+                <div className="flex rounded-xl border border-[#454b5f] bg-[#232736] p-1 text-[11px]">
+                  <button className="flex-1 rounded-lg bg-[#7871b6] py-1 text-white">Files</button>
+                  <button className="flex-1 py-1 text-[#9aa2b7]">Plugins</button>
                 </div>
-              ))}
-            </div>
-            <div className="h-14 border-t border-[#27272a] p-2 bg-[#09090b]">
-              <div className="text-[9px] text-zinc-400 mb-1 truncate">{files[selectedFile]?.name}</div>
-              <div className="h-6 bg-[#121214] rounded flex items-center px-1">
-                <svg className="w-full h-full" viewBox="0 0 100 20" preserveAspectRatio="none"><polyline points="0,10 5,7 10,13 15,4 20,16 25,6 30,14 35,9 40,17 45,5 50,13 55,10 60,16 65,7 70,12 75,5 80,15 85,8 90,11 95,9 100,10" fill="none" stroke="#4080f0" strokeWidth="1.2" vectorEffect="non-scaling-stroke"/></svg>
-                <div className="w-3 h-3 rounded-full bg-[#27272a] flex items-center justify-center ml-1 shrink-0"><Play size={6} className="text-white ml-px"/></div>
               </div>
-            </div>
-          </div>
 
-          {/* Timeline */}
-          <div className="flex-1 flex flex-col min-w-0">
-            <div className="h-2.5 flex border-b border-[#27272a]">
-              {tracks.map((t) => <div key={t.id} className="flex-1" style={{ background: t.hex, opacity: 0.7 }}/>)}
-            </div>
-            <div ref={containerRef} className="flex-1 relative bg-[#0a0a0e] overflow-hidden" onClick={() => setSelectedClip(0)}>
-              {tracks.map((t, i) => <div key={t.id} className="absolute left-0 right-0" style={{ top: i * TRACK_H, height: TRACK_H }}>
-                <div className="h-[3px]" style={{ background: t.hex }} />
-                <div className="flex-1" style={{ height: TRACK_H - 3, background: i % 2 === 0 ? "rgba(255,255,255,0.008)" : "transparent", borderBottom: "1px solid #15151a" }} />
-              </div>)}
-              <div className="absolute inset-0 flex pointer-events-none">{[...Array(20)].map((_, j) => <div key={j} className="flex-1" style={{ borderRight: `1px solid ${j % 4 === 0 ? "#1f1f28" : "#131316"}` }}/>)}</div>
-              <div className="absolute inset-0 z-10 pointer-events-none">
-                <div className="relative w-full h-full" ref={timelineRef}>
-                  {clips.map(clip => {
-                    const ti = tracks.findIndex(t => t.id === clip.trackId);
-                    if (ti === -1) return null;
-                    return (
-                      <motion.div key={clip.id} drag dragMomentum={false} dragElastic={0} dragConstraints={timelineRef}
-                        onPointerDown={e => { e.stopPropagation(); setSelectedClip(clip.id); }}
-                        animate={{ x: clip.x, y: ti * TRACK_H + 2, zIndex: selectedClip === clip.id ? 50 : 10 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className={cn("absolute overflow-hidden cursor-grab", selectedClip === clip.id ? "ring-1 ring-white/40" : "")}
-                        style={{ height: TRACK_H - 4, width: clip.w, left: 0, top: 0, touchAction: "none", background: "#22273a", border: "1px solid #2a2f42" }}
-                        whileDrag={{ cursor: "grabbing", zIndex: 100, scale: 1.01 }}
-                      >
-                        <span className="absolute top-1 left-1.5 text-[7px] font-medium text-white/80 truncate z-10 max-w-[80%]">{clip.name}</span>
-                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
-                          <defs><clipPath id={`wf-${clip.id}`}><rect x="0" y="0" width="100" height="40"/></clipPath></defs>
-                          <g clipPath={`url(#wf-${clip.id})`}>
-                            {Array.from({length: 50}, (_, i) => {
-                              const x = (i / 49) * 100;
-                              const amp = 12 + Math.sin(i * 0.6 + clip.id * 2) * 8 * Math.cos(i * 0.25 + clip.id);
-                              return <rect key={i} x={x - 0.8} y={20 - amp} width={1.6} height={amp * 2} fill="#a8c8ff" opacity={0.35} />;
-                            })}
-                          </g>
-                        </svg>
-                      </motion.div>
-                    );
-                  })}
-                  <motion.div className="absolute top-0 bottom-0 w-px bg-white z-50 pointer-events-none" style={{ x: playheadX }}>
-                    <div className="absolute -top-0.5 -translate-x-1/2"><svg width="9" height="7" viewBox="0 0 9 7"><path d="M0 0H9V3.5L4.5 7L0 3.5Z" fill="#22c55e"/></svg></div>
-                    <div className="absolute inset-0 bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.4)]" style={{ width: 1 }}/>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-            <div className="h-5 bg-[#121214] border-t border-[#27272a] flex items-center px-3"><span className="text-[8px] font-bold text-zinc-500 tracking-wider">MIXER</span></div>
-            <div className="h-[130px] bg-[#0f0f12] border-t border-[#27272a] flex">
-              {tracks.map(t => (
-                <div key={t.id} className="flex-1 border-r border-[#1a1a1e] flex flex-col items-center py-1.5 px-1">
-                  <div className="text-[7px] font-medium text-white truncate w-full text-center mb-0.5">{t.name}</div>
-                  {t.route && <div className="text-[6px] text-zinc-500 mb-0.5">{t.route}</div>}
-                  <div className="flex gap-0.5 mb-1.5">
-                    <div className="w-3.5 h-2.5 rounded-[2px] text-[6px] font-bold border border-[#27272a] text-zinc-500 flex items-center justify-center">M</div>
-                    <div className="w-3.5 h-2.5 rounded-[2px] text-[6px] font-bold border border-[#27272a] text-zinc-500 flex items-center justify-center">S</div>
-                    <div className="w-3.5 h-2.5 rounded-[2px] text-[6px] font-bold border border-[#27272a] text-zinc-500 flex items-center justify-center">R</div>
+              <div className="px-3 pb-2">
+                <div className="mb-2 flex gap-2">
+                  <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#4d5368] bg-[#232737] text-[#8f95a8]">
+                    <ChevronLeft size={12} />
+                  </button>
+                  <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#4d5368] bg-[#232737] text-[#8f95a8]">
+                    <Star size={12} />
+                  </button>
+                  <div className="ml-auto flex gap-2">
+                    <button className="rounded-lg border border-[#4d5368] bg-[#232737] px-3 py-1 text-[10px] text-[#cfd5e3]">Tags</button>
+                    <button className="rounded-lg border border-[#4d5368] bg-[#232737] px-3 py-1 text-[10px] text-[#cfd5e3]">Sort</button>
                   </div>
-                  <div className="flex gap-1 flex-1 w-full justify-center">
-                    <div className="text-[6px] text-zinc-500 font-mono self-end mb-px">{t.db}</div>
-                    <div className="w-1.5 h-full bg-[#1a1a1e] rounded-sm relative overflow-hidden">
-                      <div className="absolute bottom-0 left-0 right-0 rounded-sm" style={{ height: `\${t.meter}%`, background: t.meter > 30 ? `linear-gradient(to top, \${t.hex}, \${t.hex}aa)` : "#3f3f46" }}/>
-                    </div>
-                    <div className="w-2.5 h-full bg-[#1a1a1e] rounded-sm relative flex flex-col justify-end items-center">
-                      <div className="w-2 h-3 bg-white rounded-sm shadow-sm" style={{ marginBottom: "35%" }}/>
-                    </div>
-                  </div>
-                  <div className="text-[6px] text-zinc-500 font-mono mt-px">0.0</div>
-                  <div className="text-[6px] text-zinc-600">{t.id}</div>
                 </div>
-              ))}
-              <div className="w-[50px] bg-[#121214] border-l border-[#27272a] flex flex-col items-center py-1.5 px-1">
-                <div className="text-[7px] font-bold text-white mb-0.5">MASTER</div>
-                <div className="flex gap-0.5 mb-1.5">
-                  <div className="w-3.5 h-2.5 rounded-[2px] text-[6px] font-bold border border-[#27272a] text-zinc-500 flex items-center justify-center">M</div>
-                  <div className="w-3.5 h-2.5 rounded-[2px] text-[6px] font-bold border border-[#27272a] text-zinc-500 flex items-center justify-center">S</div>
+                <div className="mb-3 inline-flex rounded-lg border border-[#4b5270] bg-[#2a2f40] px-3 py-1 text-[11px] text-[#9ea6ff]">
+                  Aestra
                 </div>
-                <div className="flex gap-1 flex-1 w-full justify-center">
-                  <div className="text-[6px] text-zinc-500 font-mono self-end mb-px">-6.0</div>
-                  <div className="w-2 h-full bg-[#1a1a1e] rounded-sm relative overflow-hidden"><div className="absolute bottom-0 left-0 right-0 rounded-sm" style={{ height: "75%", background: "linear-gradient(to top, #f0c030, #f08030)" }}/></div>
-                  <div className="w-2.5 h-full bg-[#1a1a1e] rounded-sm relative flex flex-col justify-end items-center"><div className="w-2 h-3 bg-white rounded-sm shadow-sm" style={{ marginBottom: "25%" }}/></div>
+                <div className="flex items-center rounded-[12px] border border-[#4a5063] bg-[#232736] px-3 py-3 text-[11px] text-[#9da5b7]">
+                  <Search size={13} className="mr-2 text-[#737b91]" />
+                  <span>Search files...</span>
                 </div>
-                <div className="text-[6px] text-zinc-500 font-mono mt-px">0.0</div>
               </div>
-            </div>
-          </div>
 
-          {/* Inspector */}
-          <div className="w-[200px] bg-[#121214] border-l border-[#27272a] flex flex-col shrink-0">
-            <div className="flex border-b border-[#27272a]">
-              <button className="flex-1 py-1.5 text-[9px] font-medium text-zinc-500">Inserts</button>
-              <button className="flex-1 py-1.5 text-[9px] font-medium text-white bg-[#1a1a2e]">Sends</button>
-              <button className="flex-1 py-1.5 text-[9px] font-medium text-zinc-500">I/O</button>
-            </div>
-            <div className="flex-1 overflow-y-auto p-2.5 space-y-3">
-              <div><div className="text-[8px] text-zinc-500 mb-0.5">TRACK</div><div className="text-[10px] text-white font-medium">Track 1</div><div className="text-[8px] text-zinc-500">1 send active</div></div>
-              <div><div className="text-[9px] text-white font-medium mb-1">Main Output</div><div className="text-[7px] text-zinc-500 mb-1.5">Choose where the main audible path goes.</div><div className="flex items-center justify-between bg-[#18181b] rounded px-2 py-1.5 border border-[#27272a]"><span className="text-[9px] text-white">Master</span><ChevronRight size={10} className="text-zinc-500"/></div></div>
-              <div><div className="text-[9px] text-white font-medium mb-1">Route Map</div><div className="bg-[#09090b] rounded p-2 border border-[#1a1a1e]"><div className="flex items-center justify-between mb-1"><span className="text-[8px] text-white">Track 1</span><div className="flex-1 mx-2 border-t border-dashed border-zinc-700"/><span className="text-[8px] text-white">Master</span></div><div className="text-[7px] text-zinc-500">Out Master</div><div className="text-[7px] text-violet-400">S1 → Track 2</div></div></div>
-              <div>
-                <div className="flex items-center justify-between mb-1"><span className="text-[9px] text-white font-medium">Send 1</span><span className="text-[8px] text-zinc-400">0.0 dB</span></div>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <div className="w-7 h-7 rounded-full bg-[#1a1a1e] border border-[#27272a] relative"><div className="absolute top-0.5 left-1/2 -translate-x-1/2 w-0.5 h-1.5 bg-[#4080f0] rounded-full"/></div>
-                  <div className="flex-1"><div className="text-[7px] text-zinc-500 mb-0.5">Destination</div><div className="bg-[#18181b] rounded px-2 py-1 border border-[#27272a] text-[9px] text-white">Track 2</div></div>
-                </div>
-                <div className="flex gap-1.5 mb-1.5">
-                  <div className="flex-1"><div className="text-[7px] text-zinc-500 mb-0.5">Tap</div><div className="flex gap-1"><button className="flex-1 py-0.5 rounded text-[7px] bg-[#1a1a1e] text-zinc-500 border border-[#27272a]">Pre</button><button className="flex-1 py-0.5 rounded text-[7px] bg-[#4080f0]/20 text-[#4080f0] border border-[#4080f0]/30">Post</button></div></div>
-                  <div className="flex-1"><div className="text-[7px] text-zinc-500 mb-0.5">Type</div><div className="flex gap-1"><button className="flex-1 py-0.5 rounded text-[7px] bg-[#4080f0]/20 text-[#4080f0] border border-[#4080f0]/30">Audio</button><button className="flex-1 py-0.5 rounded text-[7px] bg-[#1a1a1e] text-zinc-500 border border-[#27272a]">SC</button></div></div>
-                </div>
-                <button className="w-full py-1 rounded text-[8px] text-zinc-400 bg-[#1a1a1e] border border-[#27272a] hover:border-zinc-600 transition-colors">+ Add Send</button>
+              <div className="flex-1 overflow-y-auto px-3 pb-2">
+                {files.map((file, index) => (
+                  <button
+                    key={file.name}
+                    onClick={() => setSelectedFile(index)}
+                    className={cn(
+                      "mb-1 flex w-full items-center gap-3 rounded-[10px] border px-3 py-3 text-left transition-colors",
+                      selectedFile === index
+                        ? "border-[#7f88bc] bg-[#6f77b9]/25 text-white shadow-[inset_0_0_0_1px_rgba(165,175,255,0.15)]"
+                        : "border-transparent bg-transparent text-[#c1c6d4] hover:bg-[#232736]"
+                    )}
+                  >
+                    <div className="flex h-5 w-5 items-center justify-center rounded bg-[#2b3040] text-[#8b92a6]">
+                      <FileText size={11} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-[11px]">{file.name}</div>
+                    </div>
+                    <div className="text-[10px] text-[#82889d]">{file.size}</div>
+                  </button>
+                ))}
               </div>
-            </div>
-          </div>
-        </div>
-        )}
 
-        {activeTab === "audition" && (
-          <div className="h-[420px] bg-[#0a0a0e] flex flex-col">
-            {/* Audition Header */}
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center max-w-sm">
-                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-600/20 to-indigo-600/20 border border-violet-500/20 flex items-center justify-center mx-auto mb-4">
-                  <Play size={24} className="text-violet-400 ml-1" />
-                </div>
-                <div className="text-sm font-medium text-white mb-1">[EUPHORIA] 12-25-2026 - INTRO</div>
-                <div className="text-[10px] text-zinc-500 mb-4">currentsuspect · Echoes and Euphoria · Spotify preset</div>
-                {/* Waveform */}
-                <div className="h-12 bg-[#121214] rounded-lg border border-[#27272a] mx-8 mb-4 flex items-center px-3">
-                  <svg className="w-full h-8" viewBox="0 0 200 30" preserveAspectRatio="none">
-                    <polyline points={Array.from({length:100}, (_, i) => `${(i/99)*200},${15+Math.sin(i*0.15)*10*Math.cos(i*0.08+1)}`).join(" ")} fill="none" stroke="#8b5cf6" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+              <div className="border-t border-[#2d3342] bg-[#202430]">
+                <div className="px-3 pt-2 text-[11px] text-[#c9cfdd]">{files[selectedFile].name}</div>
+                <div className="px-3 pb-3 text-[10px] text-[#8b92a5]">{files[selectedFile].size} FLAC</div>
+                <div className="mx-3 mb-3 rounded-[10px] border border-[#5b6485] bg-[#7f88c9]/70 px-2 py-2">
+                  <svg className="h-12 w-full" viewBox="0 0 220 50" preserveAspectRatio="none">
+                    <polyline
+                      points="0,25 10,10 20,32 30,14 40,38 50,11 60,34 70,19 80,41 90,16 100,29 110,20 120,35 130,18 140,28 150,13 160,37 170,21 180,33 190,26 200,31 210,22 220,24"
+                      fill="none"
+                      stroke="#232541"
+                      strokeWidth="2"
+                      vectorEffect="non-scaling-stroke"
+                    />
                   </svg>
                 </div>
-                {/* Progress */}
-                <div className="mx-8 mb-4">
-                  <div className="h-1 bg-[#27272a] rounded-full overflow-hidden">
-                    <div className="h-full w-1/3 bg-violet-500 rounded-full" />
-                  </div>
-                  <div className="flex justify-between text-[8px] text-zinc-500 mt-1">
-                    <span>1:24</span><span>3:42</span>
-                  </div>
+              </div>
+            </div>
+
+            <div className="flex min-w-0 flex-1 flex-col">
+              <div className="border-b border-[#2d3342] bg-[#151821] px-4 py-2">
+                <div className="mb-2 flex items-center gap-2 text-[#d6dbea]">
+                  {[Menu, Plus, MousePointer, Scissors, Pencil, ChevronRight].map((Icon, index) => (
+                    <button
+                      key={index}
+                      className={cn(
+                        "flex h-8 w-8 items-center justify-center rounded-full border border-[#474d60] bg-[#242838]",
+                        index === 2 && "text-[#8da2ff]"
+                      )}
+                    >
+                      <Icon size={14} />
+                    </button>
+                  ))}
                 </div>
-                {/* Transport */}
-                <div className="flex items-center justify-center gap-4 mb-4">
-                  <button className="text-zinc-500 hover:text-white text-[10px]">⏮</button>
-                  <button className="w-10 h-10 rounded-full bg-violet-600 flex items-center justify-center text-white text-sm shadow-[0_0_20px_rgba(139,92,246,0.3)]">▶</button>
-                  <button className="text-zinc-500 hover:text-white text-[10px]">⏭</button>
-                </div>
-                {/* DSP Presets */}
-                <div className="flex items-center justify-center gap-2">
-                  {["Studio", "Spotify", "AirPods", "Car"].map((preset, i) => (
-                    <button key={i} className={cn("px-2.5 py-1 rounded text-[8px] border", i === 1 ? "bg-violet-600/20 text-violet-300 border-violet-500/30" : "bg-[#121214] text-zinc-500 border-[#27272a] hover:border-zinc-600")}>
-                      {preset}
+                <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em]">
+                  {["C", "E", "A"].map((mode, index) => (
+                    <button
+                      key={mode}
+                      className={cn(
+                        "rounded-md border px-2 py-1",
+                        index === 0
+                          ? "border-[#636b8c] bg-[#31374a] text-[#cfd6ff]"
+                          : "border-[#3a4052] bg-[#171a24] text-[#8f96ab]"
+                      )}
+                    >
+                      {mode}
                     </button>
                   ))}
                 </div>
               </div>
-            </div>
-            {/* Queue */}
-            <div className="h-20 border-t border-[#27272a] bg-[#121214] px-4 py-2">
-              <div className="text-[8px] text-zinc-500 mb-1.5">QUEUE</div>
-              <div className="flex gap-2 overflow-x-auto">
-                {["[EUPHORIA] 12-25-2026 - INTRO", "Echoes - Interlude", "Euphoria pt. II", "Outro (Dec 25)"].map((track, i) => (
-                  <div key={i} className={cn("shrink-0 px-3 py-1.5 rounded text-[9px] border", i === 0 ? "bg-violet-600/10 text-violet-300 border-violet-500/20" : "bg-[#18181b] text-zinc-400 border-[#27272a]")}>
-                    {track}
+
+              <div ref={containerRef} className="relative flex-1 overflow-hidden bg-[#0f1016]">
+                <div className="absolute left-0 right-0 top-0 h-14 border-b border-[#474037] bg-[#13151c]">
+                  <div className="absolute left-[200px] right-6 top-4 h-6 rounded-md border border-[#6f6550]">
+                    <div className="absolute inset-y-0 left-0 right-0 border-b border-[#d1ab2d] bg-[linear-gradient(90deg,rgba(212,176,47,0.18),rgba(212,176,47,0.06))]" />
+                    {rulerMarks.map((mark, index) => (
+                      <div key={mark} className="absolute top-0 bottom-0" style={{ left: `${index * 24 + 18}%` }}>
+                        <div className="h-full border-l border-[#716e67]" />
+                        <span className="absolute bottom-[-18px] left-2 text-[10px] text-[#8f95a8]">{mark}</span>
+                      </div>
+                    ))}
+                    <span className="absolute left-[34%] top-[-10px] rounded-md border border-[#55596e] bg-[#282d3c] px-2 py-1 text-[9px] text-[#d7dcf0]">
+                      Bar 35, Beat 2, Clips 1
+                    </span>
                   </div>
-                ))}
+                </div>
+
+                <div className="absolute inset-x-0 bottom-0 top-14 overflow-hidden">
+                  {tracks.map((track, index) => {
+                    const top = index * 52;
+                    const isLeadTrack = index === 0;
+                    return (
+                      <div key={track.id} className="absolute inset-x-0" style={{ top, height: 52 }}>
+                        <div className="absolute left-0 top-0 h-full w-[200px] border-r border-[#393e4f] bg-[#222632]">
+                          <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: track.color }} />
+                          <div className="flex h-full items-center justify-between px-4">
+                            <span className="text-[11px]" style={{ color: track.color }}>
+                              {track.name}
+                            </span>
+                            <div className="flex gap-2">
+                              {["M", "S", "R"].map((label) => (
+                                <button
+                                  key={label}
+                                  className="flex h-6 w-6 items-center justify-center rounded-full border border-[#5a6072] bg-[#2c3140] text-[10px] text-[#afb5c6]"
+                                >
+                                  {label}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="absolute bottom-0 left-[200px] right-0 top-0 border-b border-[#353a45] bg-[#111218]">
+                          <div className="absolute inset-0">
+                            {Array.from({ length: 64 }).map((_, gridIndex) => (
+                              <div
+                                key={gridIndex}
+                                className="absolute top-0 bottom-0 border-r"
+                                style={{
+                                  left: `${(gridIndex / 64) * 100}%`,
+                                  borderColor: gridIndex % 4 === 0 ? "#5d615f" : "#343842",
+                                }}
+                              />
+                            ))}
+                          </div>
+
+                          {isLeadTrack && (
+                            <div className="absolute left-1 top-4 right-2 h-9 rounded-[4px] border border-[#f7d548] bg-[linear-gradient(180deg,#ddb72d,#f0c63a)] shadow-[0_0_0_1px_rgba(255,245,160,0.15)]">
+                              <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,rgba(255,245,180,0.16)_0px,rgba(255,245,180,0.16)_2px,transparent_2px,transparent_10px)] opacity-80" />
+                              <div className="absolute inset-x-2 top-3 h-3">
+                                <svg className="h-full w-full" viewBox="0 0 500 20" preserveAspectRatio="none">
+                                  <polyline
+                                    points={Array.from({ length: 80 }, (_, i) => {
+                                      const x = (i / 79) * 500;
+                                      const y = 10 + Math.sin(i * 0.5) * 4 + Math.cos(i * 0.13) * 2;
+                                      return `${x},${y}`;
+                                    }).join(" ")}
+                                    fill="none"
+                                    stroke="#8b6810"
+                                    strokeWidth="2"
+                                    vectorEffect="non-scaling-stroke"
+                                  />
+                                </svg>
+                              </div>
+                              <span className="absolute left-3 top-1 text-[10px] text-[#fff3b3]">
+                                Travis Scott - HOUSTONFORNICATION.flac
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  <motion.div className="absolute bottom-0 top-0 z-20 w-px bg-[#7a7cff]" style={{ x: playheadX }}>
+                    <div className="absolute -top-14 h-14 w-px bg-[#7a7cff]" />
+                    <div className="absolute bottom-0 top-0 w-px bg-[#6e73ff] shadow-[0_0_12px_rgba(122,124,255,0.8)]" />
+                  </motion.div>
+                </div>
               </div>
             </div>
           </div>
         )}
 
+        {activeTab === "timeline" && timelineView === "mixer" && (
+          <div className="h-[690px] bg-[#13151c] p-0">
+            <div className="flex h-full flex-col">
+              <div className="border-b border-[#2d3342] bg-[#232632] px-4 py-2 text-[11px] text-[#b7bece]">
+                <span className="tracking-[0.18em] uppercase">Mixer</span>
+              </div>
+              <div className="flex min-h-0 flex-1">
+                <div className="flex-1 px-3 py-4">
+                  <div className="mb-3 flex h-6 items-center rounded-[10px] border border-[#55606c] bg-[#1f2432] px-1">
+                    {tracks.map((track) => (
+                      <div key={track.id} className="mx-[1px] h-4 flex-1 rounded-sm" style={{ backgroundColor: track.color, opacity: 0.92 }} />
+                    ))}
+                  </div>
+
+                  <div className="flex h-[540px] gap-2">
+                    {visibleMixerTracks.map((track, index) => (
+                      <button
+                        key={track.id}
+                        onClick={() => setSelectedTrack(index)}
+                        className={cn(
+                          "relative flex w-[108px] flex-col rounded-[12px] border bg-[#181b24] px-3 py-2 text-left",
+                          selectedTrack === index ? "border-[#737eb6] bg-[#23293a]" : "border-[#333949]"
+                        )}
+                      >
+                        <div className="absolute left-0 right-0 top-0 h-1 rounded-t-[12px]" style={{ backgroundColor: track.color }} />
+                        <div className="mt-2 text-center text-[11px] text-[#d8dceb]">{track.name}</div>
+                        <div className="mt-3 flex justify-center gap-2">
+                          {["M", "S", "R"].map((label) => (
+                            <div key={label} className="flex h-5 w-5 items-center justify-center rounded-full border border-[#50566a] bg-[#262b38] text-[9px] text-[#b8bece]">
+                              {label}
+                            </div>
+                          ))}
+                        </div>
+                        <div className="mt-4 rounded-[10px] border border-[#454c5d] bg-[#252a38] px-2 py-2 text-center text-[10px] text-[#8e95aa]">
+                          Add Insert
+                        </div>
+                        <div className="mt-auto flex items-end justify-center gap-3 pt-6">
+                          <div className="pb-48 text-[10px] text-[#b9bfd0]">{track.db}</div>
+                          <div className="relative h-[220px] w-5 rounded-sm bg-[#d8c76f]/15">
+                            <div
+                              className="absolute bottom-0 left-0 right-0 rounded-sm bg-[linear-gradient(180deg,#f0c95a,#97edc4)]"
+                              style={{ height: `${track.meter}%` }}
+                            />
+                          </div>
+                          <div className="relative h-[220px] w-6 rounded-[10px] bg-[#202431]">
+                            <div className="absolute left-1 right-1 h-3 rounded bg-[#b5bcff] shadow-[0_0_8px_rgba(181,188,255,0.45)]" style={{ bottom: `${index === 0 ? 66 : 0}%` }} />
+                          </div>
+                        </div>
+                        <div className="mt-3 text-center text-[10px] text-[#b7bdd0]">0.0</div>
+                        <div className="mt-2 text-center text-[10px] text-[#858ba1]">{track.id}</div>
+                      </button>
+                    ))}
+
+                    <div className="w-[230px] rounded-[14px] border border-[#4a5363] bg-[#1d212d] p-3">
+                      <div className="mb-3 flex rounded-full border border-[#4c5568] bg-[#242938] p-1 text-[10px]">
+                        {["Inserts", "Sends", "I/O"].map((tab) => (
+                          <button
+                            key={tab}
+                            className={cn(
+                              "flex-1 rounded-full py-2",
+                              tab === "Sends" ? "bg-[#319cb8]/25 text-[#c9f8ff] shadow-[inset_0_0_0_1px_rgba(97,213,255,0.35)]" : "text-[#9aa2b7]"
+                            )}
+                          >
+                            {tab}
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="mb-3 rounded-[14px] border border-[#4a5363] bg-[#171b25] p-3">
+                        <div className="mb-1 text-[10px] uppercase tracking-[0.18em] text-[#97a0b6]">Track</div>
+                        <div className="text-sm text-[#edf1fa]">{selectedTrackData.name}</div>
+                        <div className="mt-1 text-[11px] text-[#9da5ba]">Track {selectedTrackData.id}</div>
+                        <div className="mt-2 flex gap-1 text-[9px] text-[#8f96a9]">
+                          {["Inserts", "Sends", "Fader", "Outs A"].map((chip) => (
+                            <span key={chip} className="rounded-full border border-[#42485a] bg-[#232837] px-2 py-1">
+                              {chip}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mb-3 rounded-[14px] border border-[#4a5363] bg-[#171b25] p-3">
+                        <div className="mb-2 text-[10px] uppercase tracking-[0.18em] text-[#97a0b6]">Send Status</div>
+                        <div className="text-[11px] text-[#edf1fa]">No sends configured</div>
+                        <div className="mt-1 text-[10px] text-[#8189a1]">Audio sends for this track.</div>
+                      </div>
+
+                      <div className="mb-3 rounded-[14px] border border-[#4a5363] bg-[#171b25] p-3">
+                        <div className="mb-2 text-sm text-[#edf1fa]">Main Output</div>
+                        <div className="mb-3 text-[10px] text-[#8189a1]">
+                          Choose where the main audible path goes. Master or subgroup destination.
+                        </div>
+                        <div className="flex items-center justify-between rounded-xl border border-[#57607a] bg-[#2b3040] px-3 py-2 text-[12px] text-[#f0f3fb]">
+                          <span>Master</span>
+                          <ChevronRight size={12} className="text-[#a8b0c4]" />
+                        </div>
+                      </div>
+
+                      <div className="rounded-[14px] border border-[#4a5363] bg-[#171b25] p-3">
+                        <div className="mb-2 flex items-center justify-between">
+                          <div className="text-sm text-[#edf1fa]">Route Map</div>
+                          <div className="rounded-full border border-[#3d4355] px-2 py-1 text-[9px] text-[#9ea6b8]">Master off</div>
+                        </div>
+                        <div className="rounded-[12px] border border-[#3f4657] bg-[#1e2330] p-3">
+                          <div className="flex items-center gap-3">
+                            <div className="rounded-full border border-[#485066] bg-[#252a38] px-3 py-1 text-[10px] text-[#bfc6d9]">
+                              Track 1
+                            </div>
+                            <div className="h-px flex-1 bg-[#596074]" />
+                            <div className="rounded-full border border-[#485066] bg-[#252a38] px-3 py-1 text-[10px] text-[#bfc6d9]">
+                              Out: Master
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button className="mt-4 w-full rounded-[14px] border border-[#6d7388] bg-[#232837] py-3 text-[12px] text-[#d8dceb]">
+                        Add Send
+                      </button>
+                    </div>
+
+                    <div className="w-[148px] rounded-[14px] border border-[#4f5870] bg-[#191d28] p-3">
+                      <div className="rounded-[10px] border border-[#7b72c9] bg-[#232739] px-3 py-2 text-center text-[11px] text-[#f0f3ff]">
+                        MASTER
+                        <div className="mt-1 text-[10px] text-[#9da5ba]">Output</div>
+                      </div>
+                      <button className="mt-3 w-full rounded-[10px] border border-[#4d5569] bg-[#262b38] py-2 text-[11px] text-[#99a2b7]">
+                        Add Insert
+                      </button>
+                      <div className="mt-8 flex items-end justify-center gap-4">
+                        <div className="pb-52 text-[10px] text-[#b8becf]">-8.0 dB</div>
+                        <div className="relative h-[240px] w-7 rounded-sm bg-[#d9c468]/20">
+                          <div className="absolute bottom-0 left-0 right-0 h-[82%] rounded-sm bg-[linear-gradient(180deg,#f0cb58,#89e3c6)]" />
+                        </div>
+                        <div className="relative h-[240px] w-7 rounded-[10px] bg-[#202431]">
+                          <div className="absolute left-1 right-1 bottom-[68%] h-3 rounded bg-[#b5bcff] shadow-[0_0_8px_rgba(181,188,255,0.45)]" />
+                        </div>
+                      </div>
+                      <div className="mt-3 text-center text-[10px] text-[#b7bdd0]">0.0</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "audition" && (
+          <div className="h-[690px] bg-[#12141a] flex flex-col">
+            <div className="flex-1 flex items-center justify-center">
+              <div className="w-[30rem] rounded-[18px] border border-[#384050] bg-[#1b1f2a] p-8 text-center">
+                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#5c6690] bg-[#262b3a]">
+                  <Play size={22} className="ml-1 text-[#cb9dff]" />
+                </div>
+                <div className="mb-2 text-lg text-[#eff3fb]">Audition</div>
+                <p className="mb-5 text-sm text-[#9aa2b6]">
+                  Translation listening stays intentionally simpler than the arrangement and mixer views.
+                </p>
+                <div className="rounded-[14px] border border-[#40485d] bg-[#12151d] p-4">
+                  <svg className="h-14 w-full" viewBox="0 0 300 50" preserveAspectRatio="none">
+                    <polyline
+                      points={Array.from({ length: 100 }, (_, i) => {
+                        const x = (i / 99) * 300;
+                        const y = 25 + Math.sin(i * 0.14) * 10 * Math.cos(i * 0.08 + 1);
+                        return `${x},${y}`;
+                      }).join(" ")}
+                      fill="none"
+                      stroke="#b790ff"
+                      strokeWidth="2"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </motion.div>
   );
