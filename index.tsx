@@ -1483,14 +1483,14 @@ const Footer = ({ setPage }: any) => (
 const FounderBanner = ({ setPage, onDismiss }: { setPage: (p: string) => void; onDismiss: () => void }) => (
   <div className="bg-gradient-to-r from-amber-600/20 to-orange-600/20 border-b border-amber-500/20 relative z-50">
     <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
-      <button
-        onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
+      <a
+        href="#founder-section"
         className="flex items-center gap-2 text-sm text-amber-200 hover:text-white transition-colors"
       >
         <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
         <span className="font-medium">Only 500 Founder Gold Cards exist.</span>
         <span className="text-amber-400 underline underline-offset-2">Join the waitlist →</span>
-      </button>
+      </a>
       <button onClick={onDismiss} className="text-amber-400/60 hover:text-white transition-colors">
         <X className="w-4 h-4" />
       </button>
@@ -1504,8 +1504,33 @@ const App = () => {
 
   // Scroll to top on page change
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Check for hash in URL and scroll to element
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    } else {
+      window.scrollTo(0, 0);
+    }
   }, [page]);
+
+  // Handle hash clicks (anchor links within SPA)
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest("a[href^='#']");
+      if (target) {
+        e.preventDefault();
+        const hash = target.getAttribute("href");
+        if (hash) {
+          document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", hash);
+        }
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
 
   // Simple Router
   const renderPage = () => {
