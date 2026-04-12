@@ -105,7 +105,7 @@ const Card = ({ children, className }: any) => (
 
 // --- Sections ---
 
-const Navbar = ({ activePage, setPage }: any) => {
+const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -124,9 +124,9 @@ const Navbar = ({ activePage, setPage }: any) => {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+      "fixed left-0 right-0 z-50 transition-all duration-300 border-b",
       isScrolled ? "bg-[#09090b]/80 backdrop-blur-md border-[#27272a] py-3" : "bg-transparent border-transparent py-5"
-    )}>
+    )} style={{ top: topOffset }}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <div 
@@ -1480,8 +1480,8 @@ const Footer = ({ setPage }: any) => (
 
 // --- Main App Entry ---
 
-const FounderBanner = ({ setPage, onDismiss }: { setPage: (p: string) => void; onDismiss: () => void }) => (
-  <div className="bg-gradient-to-r from-amber-600/20 to-orange-600/20 border-b border-amber-500/20 relative z-50">
+const FounderBanner = ({ onDismiss }: { setPage: (p: string) => void; onDismiss: () => void }) => (
+  <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-amber-600/20 to-orange-600/20 border-b border-amber-500/20">
     <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
       <a
         href="#founder-section"
@@ -1539,7 +1539,7 @@ const App = () => {
         return (
           <>
             {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
-            <Navbar activePage="home" setPage={setPage} />
+            <Navbar activePage="home" setPage={setPage} topOffset={showBanner ? 40 : 0} />
             <Hero setPage={setPage} />
             <Features />
             <FounderCountdown />
@@ -1562,7 +1562,7 @@ const App = () => {
         return (
           <>
             {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
-            <Navbar activePage="pricing" setPage={setPage} />
+            <Navbar activePage="pricing" setPage={setPage} topOffset={showBanner ? 40 : 0} />
             <Pricing setPage={setPage} />
             <Footer setPage={setPage} />
           </>
@@ -1571,7 +1571,7 @@ const App = () => {
         return (
           <>
             {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
-            <Navbar activePage="changelog" setPage={setPage} />
+            <Navbar activePage="changelog" setPage={setPage} topOffset={showBanner ? 40 : 0} />
             <Changelog setPage={setPage} />
             <Footer setPage={setPage} />
           </>
@@ -1587,7 +1587,7 @@ const App = () => {
         return (
           <>
             {showBanner && <FounderBanner setPage={setPage} onDismiss={() => setShowBanner(false)} />}
-            <Navbar activePage="download" setPage={setPage} />
+            <Navbar activePage="download" setPage={setPage} topOffset={showBanner ? 40 : 0} />
             <Downloads setPage={setPage} />
             <Footer setPage={setPage} />
           </>
