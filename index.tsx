@@ -133,8 +133,8 @@ const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
           onClick={() => setPage("home")} 
           className="flex items-center gap-2 cursor-pointer group"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg group-hover:shadow-violet-500/20 transition-all">
-            <Music className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-lg group-hover:shadow-violet-500/20 transition-all">
+            <img src="/aestra_icon.svg" alt="Aestra" className="w-8 h-8" />
           </div>
           <span className="text-xl font-bold tracking-tight text-white">Aestra</span>
         </div>
