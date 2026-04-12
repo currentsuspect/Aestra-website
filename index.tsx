@@ -998,7 +998,7 @@ const FeatureCard = memo(({ icon: Icon, title, description, delay }: any) => (
 ));
 
 const Features = memo(() => (
-  <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6">
+  <section className="content-defer py-16 sm:py-20 lg:py-28 px-4 sm:px-6">
     <div className="max-w-7xl mx-auto">
       <div className="mb-10 sm:mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
@@ -1135,7 +1135,7 @@ const FounderCountdown = () => {
   );
 
   return (
-    <section id="founder-section" className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6 relative overflow-hidden">
+    <section id="founder-section" className="content-defer py-16 sm:py-20 lg:py-28 px-4 sm:px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,181,73,0.07),transparent_40%)] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[20px] sm:rounded-[28px] p-5 sm:p-8 md:p-12">
@@ -1403,8 +1403,8 @@ const Pricing = ({ setPage }: any) => {
   );
 };
 
-const Changelog = ({ setPage }: any) => {
-  const versions = [
+const Changelog = memo(({ setPage }: any) => {
+  const versions = useMemo(() => [
     {
       ver: "Phase 2",
       date: "March – April 2026",
@@ -1458,9 +1458,9 @@ const Changelog = ({ setPage }: any) => {
         { type: "new", text: "VST3 + CLAP plugin hosting." }
       ]
     }
-  ];
+  ], []);
 
-  const getTypeColor = (type: string) => {
+  const getTypeColor = useCallback((type: string) => {
     switch(type) {
       case "new": return "bg-green-500/10 text-green-400 border-green-500/20";
       case "fix": return "bg-red-500/10 text-red-400 border-red-500/20";
@@ -1469,10 +1469,10 @@ const Changelog = ({ setPage }: any) => {
       case "docs": return "bg-cyan-500/10 text-cyan-400 border-cyan-500/20";
       default: return "bg-zinc-800 text-zinc-400 border-zinc-700";
     }
-  };
+  }, []);
 
   return (
-    <div className="pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-4xl mx-auto">
+    <div className="content-defer pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-4xl mx-auto">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8 sm:mb-12">
         <h1 className="text-2xl sm:text-4xl font-bold text-white">Changelog</h1>
         <div className="flex items-center text-xs sm:text-sm text-[#8891a7]">
@@ -1807,7 +1807,7 @@ const Privacy = ({ setPage }: any) => (
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold text-white mb-3">What We Don\'t Collect</h2>
+        <h2 className="text-lg font-semibold text-white mb-3">What We Don't Collect</h2>
         <ul className="space-y-2 list-disc list-inside text-[#9ca5bb]">
           <li>No cookies for tracking or advertising.</li>
           <li>No sale of personal data to third parties. Ever.</li>
@@ -1820,7 +1820,7 @@ const Privacy = ({ setPage }: any) => (
         <p className="text-[#9ca5bb]">
           Emails collected via the Founder waitlist are stored by Formspree, our form processor.
           We use these emails solely to notify you when Founder cards become available.
-          We will not send marketing emails, share your email, or add you to any list you didn\'t sign up for.
+          We will not send marketing emails, share your email, or add you to any list you didn't sign up for.
           You can request removal at any time by emailing us.
         </p>
       </section>
@@ -1839,7 +1839,7 @@ const Privacy = ({ setPage }: any) => (
         <p className="text-[#9ca5bb]">
           When Muse AI launches, all predictions run locally on your machine.
           No audio, MIDI, or project data is sent to the cloud.
-          Optional anonymous telemetry for model improvement can be disabled without affecting Muse\'s functionality.
+          Optional anonymous telemetry for model improvement can be disabled without affecting Muse's functionality.
         </p>
       </section>
 
@@ -1875,8 +1875,8 @@ const Terms = ({ setPage }: any) => (
       <section>
         <h2 className="text-lg font-semibold text-white mb-3">The Short Version</h2>
         <p className="text-[#9ca5bb]">
-          Aestra is free software. Use it to make music. Don\'t sue us if it crashes during a take.
-          We\'re building this in public, and it\'s in active development. Things will break. We\'ll fix them.
+          Aestra is free software. Use it to make music. Don't sue us if it crashes during a take.
+          We're building this in public, and it's in active development. Things will break. We'll fix them.
         </p>
       </section>
 
@@ -1895,7 +1895,7 @@ const Terms = ({ setPage }: any) => (
         <h2 className="text-lg font-semibold text-white mb-3">Your Music Is Yours</h2>
         <p className="text-[#9ca5bb]">
           Anything you create with Aestra — beats, mixes, stems, projects — belongs entirely to you.
-          We have no claim on your creative output. We don\'t collect royalties, licensing fees, or attribution requirements.
+          We have no claim on your creative output. We don't collect royalties, licensing fees, or attribution requirements.
           Your music is yours. Period.
         </p>
       </section>
@@ -2035,12 +2035,12 @@ const App = () => {
 
               <div className="space-y-16">
                 {[
-                  { title: "Brutally Optimized", tag: "ENGINE", desc: "C++17, 64-bit multi-threaded audio engine. Lock-free real-time processing. No garbage collection pauses. No runtime overhead. Built on Arch Linux and tested on a 5-year-old i5 laptop with 4GB RAM — because that\'s the machine the developer actually uses.", details: ["<10ms audio latency target", "Lock-free SPSC ring buffers for UI-to-audio commands", "No memory allocation in the audio callback", "SIMD-optimized DSP (SSE/AVX runtime dispatch)", "RtAudio cross-platform I/O with WASAPI/ALSA/PulseAudio"] },
-                  { title: "Instant Startup", tag: "PERFORMANCE", desc: "No scanning plugins on every launch. No splash screens. No loading bars. Open Aestra and you\'re making music. Plugin database is cached — first scan, instant after.", details: ["Plugin cache persists between sessions", "No startup audio device scan", "Lazy-load non-critical subsystems"] },
+                  { title: "Brutally Optimized", tag: "ENGINE", desc: "C++17, 64-bit multi-threaded audio engine. Lock-free real-time processing. No garbage collection pauses. No runtime overhead. Built on Arch Linux and tested on a 5-year-old i5 laptop with 4GB RAM — because that's the machine the developer actually uses.", details: ["<10ms audio latency target", "Lock-free SPSC ring buffers for UI-to-audio commands", "No memory allocation in the audio callback", "SIMD-optimized DSP (SSE/AVX runtime dispatch)", "RtAudio cross-platform I/O with WASAPI/ALSA/PulseAudio"] },
+                  { title: "Instant Startup", tag: "PERFORMANCE", desc: "No scanning plugins on every launch. No splash screens. No loading bars. Open Aestra and you're making music. Plugin database is cached — first scan, instant after.", details: ["Plugin cache persists between sessions", "No startup audio device scan", "Lazy-load non-critical subsystems"] },
                   { title: "Pattern-First Workflow", tag: "DESIGN", desc: "Built for hip-hop and electronic production where the beat is the unit of work, not the timeline. Patterns are first-class citizens — compose in the Arsenal, arrange on the Timeline, audition in the player.", details: ["Arsenal: pattern unit grid with synth/sampler/drum slots", "C|E|A mode switch: Clips, Editor, Automation on the same data", "Pattern clips on the timeline with double-click piano roll edit", "Loop-to-project: patterns become arrangements seamlessly"] },
-                  { title: "Routing Visualizer", tag: "VISUAL", desc: "See your entire signal flow as an animated node graph. Borrowed from Unreal Engine\'s Blueprint editor — because audio routing is data flow, and data flow deserves a visual language.", details: ["Color-coded connections by source track", "Thick solid = main output, thin solid = audible sends, dotted = sidechain", "Animated signal dots when audio is playing", "Drag-to-route: connect nodes to create sends", "Left-to-right signal flow hierarchy: sources → buses → master"] },
-                  { title: "Audition Mode", tag: "TRANSLATION", desc: "Final-listen environment with DSP presets that simulate how your mix sounds on Spotify, Apple Music, AirPods, and car speakers. Borrowed from Spotify\'s playback model — because you should hear what your听众 hears.", details: ["Spotify: -14 LUFS, -1dB true peak", "Apple Music: -16 LUFS, Sound Check simulation", "YouTube: Opus compression artifacts", "SoundCloud: 128kbps MP3 degradation", "Car Speakers: Harman curve, bass boost, treble roll-off", "AirPods Pro: Adaptive EQ simulation", "A/B wet/dry toggle for instant comparison", "Queue-based playback — listen like a listener, not a producer"] },
-                  { title: "Version Control", tag: "SAFETY", desc: "Git-inspired mix versioning with musical names instead of engineering ones. Create Takes, compare differences, and Blend changes. Borrowed from Git\'s branching model — because your mix deserves version control, not \"mix_v2_final_FINAL3.wav\".", details: ["Takes (branches) — diverge a mix at any point", "Snapshots (commits) — full project state at a point in time", "Blends (merges) — combine changes from two Takes", "Auto-snapshots before destructive operations", "Cloud sync planned for v1.2+"] },
+                  { title: "Routing Visualizer", tag: "VISUAL", desc: "See your entire signal flow as an animated node graph. Borrowed from Unreal Engine's Blueprint editor — because audio routing is data flow, and data flow deserves a visual language.", details: ["Color-coded connections by source track", "Thick solid = main output, thin solid = audible sends, dotted = sidechain", "Animated signal dots when audio is playing", "Drag-to-route: connect nodes to create sends", "Left-to-right signal flow hierarchy: sources → buses → master"] },
+                  { title: "Audition Mode", tag: "TRANSLATION", desc: "Final-listen environment with DSP presets that simulate how your mix sounds on Spotify, Apple Music, AirPods, and car speakers. Borrowed from Spotify's playback model — because you should hear what your听众 hears.", details: ["Spotify: -14 LUFS, -1dB true peak", "Apple Music: -16 LUFS, Sound Check simulation", "YouTube: Opus compression artifacts", "SoundCloud: 128kbps MP3 degradation", "Car Speakers: Harman curve, bass boost, treble roll-off", "AirPods Pro: Adaptive EQ simulation", "A/B wet/dry toggle for instant comparison", "Queue-based playback — listen like a listener, not a producer"] },
+                  { title: "Version Control", tag: "SAFETY", desc: "Git-inspired mix versioning with musical names instead of engineering ones. Create Takes, compare differences, and Blend changes. Borrowed from Git's branching model — because your mix deserves version control, not \"mix_v2_final_FINAL3.wav\".", details: ["Takes (branches) — diverge a mix at any point", "Snapshots (commits) — full project state at a point in time", "Blends (merges) — combine changes from two Takes", "Auto-snapshots before destructive operations", "Cloud sync planned for v1.2+"] },
                 ].map((feature, i) => (
                   <div key={i} className="section-frame panel-glow rounded-[18px] p-8">
                     <div className="flex items-center gap-3 mb-4">
