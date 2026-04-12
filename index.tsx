@@ -64,19 +64,19 @@ const Button = ({
   icon: Icon,
   ...props 
 }: any) => {
-  const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-violet-500/50 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center rounded-[12px] font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#61d5ff]/35 disabled:opacity-50 disabled:cursor-not-allowed border";
   
   const variants = {
-    primary: "bg-violet-600 text-white hover:bg-violet-500 shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_30px_rgba(139,92,246,0.5)] border border-violet-500",
-    secondary: "bg-white/5 text-zinc-100 hover:bg-white/10 border border-white/10 backdrop-blur-sm",
-    ghost: "text-zinc-400 hover:text-white hover:bg-white/5",
-    outline: "border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-white"
+    primary: "border-[#7f75cf] bg-[linear-gradient(180deg,#8f82df,#7164bf)] text-white shadow-[0_0_24px_rgba(143,130,223,0.28)] hover:brightness-110",
+    secondary: "border-[#3a4152] bg-[#1a1f2b] text-[#e8ebf5] hover:border-[#61d5ff]/45 hover:text-white",
+    ghost: "border-transparent text-[#98a1b7] hover:text-white hover:bg-white/5",
+    outline: "border-[#4f5668] bg-[#131722] text-[#cfd5e4] hover:border-[#61d5ff]/45 hover:text-white"
   };
 
   const sizes = {
-    sm: "h-8 px-3 text-xs",
-    md: "h-10 px-5 text-sm",
-    lg: "h-12 px-8 text-base",
+    sm: "h-9 px-3 text-xs",
+    md: "h-11 px-5 text-sm",
+    lg: "h-12 px-7 text-sm",
     icon: "h-10 w-10 p-0"
   };
 
@@ -95,8 +95,8 @@ const Button = ({
 
 const Badge = ({ children, variant = "default", className }: any) => {
   const styles = variant === "outline" 
-    ? "border border-violet-500/30 text-violet-300 bg-violet-500/10" 
-    : "bg-violet-600 text-white";
+    ? "border border-[#61d5ff]/30 text-[#bcefff] bg-[#61d5ff]/8" 
+    : "bg-[#8f82df] text-white";
     
   return (
     <span className={cn("inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium", styles, className)}>
@@ -107,7 +107,7 @@ const Badge = ({ children, variant = "default", className }: any) => {
 };
 
 const Card = ({ children, className }: any) => (
-  <div className={cn("bg-[#18181b] border border-[#27272a] rounded-xl overflow-hidden", className)}>
+  <div className={cn("section-frame panel-glow rounded-[18px] overflow-hidden", className)}>
     {children}
   </div>
 );
@@ -134,7 +134,7 @@ const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
   return (
     <nav className={cn(
       "fixed left-0 right-0 z-50 transition-all duration-300 border-b",
-      isScrolled ? "bg-[#09090b]/80 backdrop-blur-md border-[#27272a] py-3" : "bg-transparent border-transparent py-5"
+      isScrolled ? "bg-[#0e121a]/86 backdrop-blur-xl border-[#2f3544] py-3" : "bg-transparent border-transparent py-5"
     )} style={{ top: topOffset }}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
@@ -142,21 +142,21 @@ const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
           onClick={() => setPage("home")} 
           className="flex items-center gap-2 cursor-pointer group"
         >
-          <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shadow-lg group-hover:shadow-violet-500/20 transition-all">
+          <div className="w-9 h-9 rounded-[12px] overflow-hidden flex items-center justify-center bg-[#151a24] border border-[#364051] group-hover:border-[#61d5ff]/45 transition-all">
             <img src="/aestra_icon.svg" alt="Aestra" className="w-8 h-8" />
           </div>
           <span className="text-xl font-bold tracking-tight text-white">Aestra</span>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-2 rounded-full border border-[#30384a] bg-[#171b26]/90 px-3 py-2">
           {navLinks.map((link) => (
             <button 
               key={link.id}
               onClick={() => setPage(link.id)}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-violet-400",
-                activePage === link.id ? "text-white" : "text-zinc-400"
+                "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                activePage === link.id ? "bg-[#8f82df] text-white" : "text-[#98a1b7] hover:text-white"
               )}
             >
               {link.name}
@@ -167,7 +167,7 @@ const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
         {/* Actions */}
         <div className="hidden md:flex items-center gap-4">
           <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer"
-            className="text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+            className="text-sm font-medium text-[#98a1b7] hover:text-white transition-colors"
           >
             GitHub
           </a>
@@ -192,7 +192,7 @@ const Navbar = ({ activePage, setPage, topOffset = 0 }: any) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#18181b] border-b border-[#27272a] overflow-hidden"
+            className="md:hidden bg-[#141924] border-b border-[#27272a] overflow-hidden"
           >
             <div className="flex flex-col p-6 space-y-4">
               {navLinks.map((link) => (
@@ -856,58 +856,86 @@ const MockTimeline = () => {
 
 const Hero = ({ setPage }: any) => {
   return (
-    <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-violet-600/10 blur-[120px] rounded-full pointer-events-none" />
+    <section className="relative pt-32 pb-24 px-6 overflow-hidden">
+      <div className="absolute inset-x-0 top-8 h-[560px] bg-[radial-gradient(circle_at_top,rgba(97,213,255,0.09),transparent_44%)] pointer-events-none" />
       
-      <div className="max-w-5xl mx-auto text-center relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex justify-center mb-8"
+          className="flex justify-start mb-8"
         >
           <Badge variant="outline">v1 Beta — December 2026</Badge>
         </motion.div>
 
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-tight"
-        >
-          The DAW for those who <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-400">
-            live inside the audio.
-          </span>
-        </motion.h1>
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <div>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="editorial-title text-5xl md:text-7xl font-bold text-white mb-6"
+            >
+              A studio interface
+              <br />
+              <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">
+                disguised as a landing page.
+              </span>
+            </motion.h1>
 
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          Brutally optimized for speed and flow state. <br className="hidden md:block" />
-          No bloat. Instant startup. Pure signal.
-        </motion.p>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-lg text-[#a4abc0] max-w-2xl mb-10 leading-relaxed"
+            >
+              Aestra should feel like it already belongs on your second monitor before you download it.
+              The site now borrows the same panel logic, cyan edges, lavender controls, and late-night control-room atmosphere as the DAW itself.
+            </motion.p>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Button size="lg" onClick={() => setPage("download")} icon={Download}>
-            Download Free
-          </Button>
-          <Button variant="secondary" size="lg" onClick={() => setPage("features")}>
-            Explore Features <ChevronRight className="ml-2 w-4 h-4" />
-          </Button>
-        </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-start gap-4"
+            >
+              <Button size="lg" onClick={() => setPage("download")} icon={Download}>
+                Download Beta
+              </Button>
+              <Button variant="secondary" size="lg" onClick={() => setPage("features")}>
+                Open Signal Flow <ChevronRight className="ml-2 w-4 h-4" />
+              </Button>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.22 }}
+            className="section-frame panel-glow rounded-[24px] p-5"
+          >
+            <div className="mb-4 flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-[#93cfe3]">
+              <span>Session Status</span>
+              <span className="text-[#d9b549]">Founder Window Open</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                ["Startup", "Instant"],
+                ["Routing", "Visual"],
+                ["Pattern Flow", "Native"],
+                ["Translation", "Audition"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-[16px] border border-[#353d4d] bg-[#161b26] p-4">
+                  <div className="text-[11px] uppercase tracking-[0.18em] text-[#8690a8]">{label}</div>
+                  <div className="mt-2 text-xl text-white">{value}</div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Render the Detailed Mock Timeline */}
       <MockTimeline />
       
     </section>
@@ -920,25 +948,30 @@ const FeatureCard = ({ icon: Icon, title, description, delay }: any) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay, duration: 0.5 }}
-    className="p-6 rounded-2xl bg-[#121214] border border-[#27272a] hover:border-violet-500/50 transition-colors group"
+    className="section-frame panel-glow p-6 rounded-[20px] transition-colors group"
   >
-    <div className="w-12 h-12 rounded-lg bg-violet-900/10 text-violet-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+    <div className="w-12 h-12 rounded-[14px] bg-[#141a25] text-[#61d5ff] border border-[#354152] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
       <Icon size={24} />
     </div>
     <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
-    <p className="text-zinc-400 leading-relaxed">{description}</p>
+    <p className="text-[#9ca5bb] leading-relaxed">{description}</p>
   </motion.div>
 );
 
 const Features = () => (
-  <section className="py-32 px-6 bg-[#09090b]">
+  <section className="py-28 px-6">
     <div className="max-w-7xl mx-auto">
-      <div className="mb-20">
-        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Engineered for <span className="text-violet-500">Flow State</span></h2>
-        <p className="text-xl text-zinc-400 max-w-2xl">
-          We stripped away the clutter found in traditional DAWs. 
-          Aestra gives you exactly what you need to create, mix, and ship.
-        </p>
+      <div className="mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Every section now behaves like a module in the DAW.</h2>
+          <p className="text-lg text-[#9ca5bb] max-w-3xl">
+            The marketing site is no longer a detached brand layer. It uses the same visual grammar as the product:
+            stacked dark surfaces, surgical accents, and dense information blocks that feel like instruments instead of cards.
+          </p>
+        </div>
+        <div className="section-frame panel-glow rounded-[18px] px-5 py-4 text-sm text-[#cfd5e4]">
+          Colorway: <span className="text-[#61d5ff]">cyan edges</span> · <span className="text-[#b6a8ff]">lavender controls</span> · <span className="text-[#d9b549]">amber status</span>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-3 gap-8">
@@ -978,6 +1011,19 @@ const Features = () => (
           description="Git-inspired mix versioning with musical names. Create Takes, compare, and blend. Never lose a mix again."
           delay={0.5}
         />
+      </div>
+
+      <div className="mt-10 grid gap-4 md:grid-cols-3">
+        {[
+          ["System", "Panels inherit DAW chrome instead of flat marketing sections."],
+          ["Texture", "Subtle grid, glows, and hard-edged panel nesting replace generic gradients."],
+          ["Mood", "Everything now sits in the same late-night control-room atmosphere as the app."],
+        ].map(([label, copy]) => (
+          <div key={label} className="rounded-[18px] border border-[#30384a] bg-[#121722]/88 px-5 py-4">
+            <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-[#d9b549]">{label}</div>
+            <p className="text-sm text-[#98a1b7]">{copy}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -1041,78 +1087,72 @@ const FounderCountdown = () => {
   };
 
   const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
-    <div className="flex flex-col items-center">
+    <div className="section-frame rounded-[18px] px-5 py-4 min-w-[92px]">
       <div className="text-3xl md:text-5xl font-bold text-white font-mono tabular-nums">
         {String(value).padStart(2, "0")}
       </div>
-      <div className="text-xs text-zinc-500 uppercase tracking-wider mt-1">{label}</div>
+      <div className="text-[11px] text-[#8b94aa] uppercase tracking-[0.18em] mt-2">{label}</div>
     </div>
   );
 
   return (
-    <section id="founder-section" className="py-32 px-6 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/8 blur-[150px] rounded-full pointer-events-none" />
+    <section id="founder-section" className="py-28 px-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,181,73,0.07),transparent_40%)] pointer-events-none" />
 
-      <div className="max-w-3xl mx-auto text-center relative z-10">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex justify-center mb-8"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 text-sm font-medium">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            Limited to 500 — Founder Edition
-          </span>
-        </motion.div>
+      <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[28px] p-8 md:p-12">
+        <div className="max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex justify-start mb-8"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-sm font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#d9b549] animate-pulse" />
+              Founder Gold Card Window
+            </span>
+          </motion.div>
 
-        {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-4xl md:text-6xl font-bold text-white mb-4"
-        >
-          Claim Your{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
-            Gold Card
-          </span>
-        </motion.h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-6xl font-bold text-white mb-4 editorial-title"
+          >
+            The only part of the site
+            <br />
+            <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#d9b549,#f1d88b_55%,#b6a8ff)]">
+              that should feel collectible.
+            </span>
+          </motion.h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-lg text-zinc-400 mb-12 max-w-xl mx-auto"
-        >
-          Lifetime access. Physical metal card shipped to you. Name in the app forever.
-          Only 500 will ever exist.
-        </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-[#a4abc0] mb-12 max-w-2xl"
+          >
+            Founder should feel less like a SaaS upgrade and more like a rare piece of studio identity.
+            Lifetime access. Metal card. Your name archived inside the product.
+          </motion.p>
+        </div>
 
-        {/* Countdown */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="flex justify-center gap-6 md:gap-10 mb-16"
+          className="flex flex-wrap gap-4 mb-12"
         >
           <CountdownUnit value={timeLeft.months} label="Months" />
-          <span className="text-2xl text-zinc-600 self-start mt-1">:</span>
           <CountdownUnit value={timeLeft.days} label="Days" />
-          <span className="text-2xl text-zinc-600 self-start mt-1">:</span>
           <CountdownUnit value={timeLeft.hours} label="Hours" />
-          <span className="text-2xl text-zinc-600 self-start mt-1">:</span>
-          <CountdownUnit value={timeLeft.minutes} label="Min" />
-          <span className="text-2xl text-zinc-600 self-start mt-1">:</span>
-          <CountdownUnit value={timeLeft.seconds} label="Sec" />
+          <CountdownUnit value={timeLeft.minutes} label="Minutes" />
+          <CountdownUnit value={timeLeft.seconds} label="Seconds" />
         </motion.div>
 
-        {/* Email form */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1120,30 +1160,30 @@ const FounderCountdown = () => {
           transition={{ delay: 0.4 }}
         >
           {!submitted ? (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-xl">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
+                placeholder="you@studio.mail"
                 required
-                className="flex-1 h-12 px-4 rounded-lg bg-[#18181b] border border-[#27272a] text-white text-sm placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50"
+                className="flex-1 h-12 px-4 rounded-[14px] bg-[#141924] border border-[#343c4d] text-white text-sm placeholder-[#6f778d] focus:outline-none focus:ring-2 focus:ring-[#d9b549]/35 focus:border-[#d9b549]/45"
               />
               <button
                 type="submit"
                 disabled={submitting}
-                className="h-12 px-6 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 text-white font-medium text-sm hover:from-amber-400 hover:to-orange-500 transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] disabled:opacity-50"
+                className="h-12 px-6 rounded-[14px] border border-[#d9b549]/40 bg-[linear-gradient(180deg,#d9b549,#a7802c)] text-white font-medium text-sm hover:brightness-105 transition-all shadow-[0_0_22px_rgba(217,181,73,0.22)] disabled:opacity-50"
               >
                 {submitting ? "Joining..." : "Join Waitlist"}
               </button>
             </form>
           ) : (
-            <div className="flex flex-col items-center gap-3">
-              <div className="flex items-center gap-2 text-amber-400">
+            <div className="flex flex-col items-start gap-3">
+              <div className="flex items-center gap-2 text-[#d9b549]">
                 <Check className="w-5 h-5" />
                 <span className="font-medium">You're on the list.</span>
               </div>
-              <p className="text-zinc-500 text-sm">
+              <p className="text-[#8b94aa] text-sm">
                 We'll email you when Founder cards open. Watch the countdown.
               </p>
             </div>
@@ -1151,16 +1191,7 @@ const FounderCountdown = () => {
           {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
         </motion.div>
 
-        {/* Spots counter */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="text-zinc-600 text-xs mt-6"
-        >
-          {spotsLeft} Founder cards available — 0 claimed yet
-        </motion.p>
+        <p className="text-[#7e869b] text-xs mt-6">{spotsLeft} Founder cards available — 0 claimed yet</p>
       </div>
     </section>
   );
@@ -1175,26 +1206,26 @@ const Downloads = ({ setPage }: any) => {
   ];
 
   return (
-    <div className="pt-32 pb-20 px-6 max-w-4xl mx-auto min-h-screen">
-      <button onClick={() => setPage("home")} className="text-zinc-400 hover:text-white mb-8 flex items-center text-sm">
+    <div className="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
+      <button onClick={() => setPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
         <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
       </button>
       
       <h1 className="text-4xl font-bold text-white mb-4">Downloads</h1>
-      <p className="text-zinc-400 mb-12">Aestra is in active development. Download builds from CI, or clone the source directly.</p>
+      <p className="text-[#9ca5bb] mb-12">Treat releases like builds from the control room, not app-store tiles.</p>
 
       <div className="space-y-4">
         {builds.map((build, i) => (
-          <Card key={i} className="p-6 flex items-center justify-between hover:border-violet-500/30 transition-colors">
+          <Card key={i} className="p-6 flex items-center justify-between">
             <div className="flex items-center gap-4">
-               <div className="w-10 h-10 rounded bg-zinc-800 flex items-center justify-center text-zinc-400">
+               <div className="w-11 h-11 rounded-[14px] bg-[#141a25] border border-[#384152] flex items-center justify-center text-[#61d5ff]">
                  {build.os === "Windows" ? <LayoutTemplate size={20} /> : <Cpu size={20} />}
                </div>
                <div>
-                 <h3 className="text-white font-medium">{build.os} <span className="text-zinc-500 text-sm">({build.arch})</span></h3>
+                 <h3 className="text-white font-medium">{build.os} <span className="text-[#8a94aa] text-sm">({build.arch})</span></h3>
                  <div className="flex items-center gap-2 mt-1">
-                   <span className="text-xs bg-zinc-800 text-zinc-300 px-1.5 rounded">{build.ver}</span>
-                   <span className="text-xs text-zinc-500">{build.date}</span>
+                   <span className="text-xs bg-[#151a24] text-[#cdd3e3] px-1.5 rounded">{build.ver}</span>
+                   <span className="text-xs text-[#788197]">{build.date}</span>
                  </div>
                </div>
             </div>
@@ -1211,21 +1242,20 @@ const Downloads = ({ setPage }: any) => {
         ))}
       </div>
 
-      {/* Founder Waitlist CTA */}
-      <div className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-amber-600/10 to-orange-600/10 border border-amber-500/20 text-center">
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 text-xs font-medium mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+      <div className="mt-16 section-frame panel-glow p-8 rounded-[24px] text-center">
+        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs font-medium mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#d9b549] animate-pulse" />
           Limited to 500
         </span>
         <h3 className="text-2xl font-bold text-white mb-2">Want the Gold Card?</h3>
-        <p className="text-zinc-400 text-sm mb-6 max-w-md mx-auto">
+        <p className="text-[#9ca5bb] text-sm mb-6 max-w-md mx-auto">
           Lifetime access. Physical metal card. Name in the app forever.
           Only 500 Founder cards will ever be minted.
         </p>
         <Button
           variant="primary"
           onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
-          className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 shadow-[0_0_20px_rgba(245,158,11,0.3)]"
+          className="bg-[linear-gradient(180deg,#d9b549,#a7802c)] border-[#d9b549]/40 hover:brightness-105 shadow-[0_0_20px_rgba(217,181,73,0.26)]"
         >
           Join the Waitlist
         </Button>
@@ -1241,21 +1271,21 @@ const Pricing = ({ setPage }: any) => {
     <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
       <div className="text-center mb-16">
         <h1 className="text-4xl font-bold text-white mb-4">Free forever. Support if you believe.</h1>
-        <p className="text-xl text-zinc-400">The full DAW is free. Always.</p>
+        <p className="text-xl text-[#9ca5bb]">The full DAW is free. Always.</p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         {/* Free Tier */}
-        <Card className="p-8 border-zinc-800 flex flex-col relative">
+        <Card className="p-8 flex flex-col relative">
           <div className="mb-8">
             <h3 className="text-xl font-medium text-white mb-2">Aestra Core</h3>
             <div className="text-4xl font-bold text-white mb-2">$0</div>
-            <p className="text-zinc-400 text-sm">Free forever. Full DAW. No gates.</p>
+            <p className="text-[#9ca5bb] text-sm">Free forever. Full DAW. No gates.</p>
           </div>
           <ul className="space-y-4 mb-8 flex-1">
             {["Full DAW — unlimited tracks", "Pattern-based workflow", "Routing visualizer", "Audition mode", "Version control (Takes)", "Basic plugins included"].map((feat, i) => (
-              <li key={i} className="flex items-center text-zinc-300 text-sm">
-                <Check className="w-4 h-4 text-zinc-500 mr-3" />
+              <li key={i} className="flex items-center text-[#d2d8e6] text-sm">
+                <Check className="w-4 h-4 text-[#61d5ff] mr-3" />
                 {feat}
               </li>
             ))}
@@ -1264,19 +1294,19 @@ const Pricing = ({ setPage }: any) => {
         </Card>
 
         {/* Paid Tier */}
-        <Card className="p-8 border-violet-500/50 bg-[#121214] flex flex-col relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-violet-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg">RECOMMENDED</div>
-          <div className="absolute inset-0 bg-violet-500/5 pointer-events-none" />
+        <Card className="p-8 flex flex-col relative overflow-hidden">
+          <div className="absolute top-0 right-0 bg-[#8f82df] text-white text-xs font-bold px-3 py-1 rounded-bl-lg">RECOMMENDED</div>
+          <div className="absolute inset-0 bg-[#8f82df]/5 pointer-events-none" />
           
           <div className="mb-8 relative z-10">
             <h3 className="text-xl font-medium text-white mb-2">Aestra Supporter</h3>
             <div className="text-4xl font-bold text-white mb-2">$5<span className="text-lg text-zinc-400">/mo</span></div>
-            <p className="text-violet-300 text-sm">Support the craft. Get more.</p>
+            <p className="text-[#c7bbff] text-sm">Support the craft. Get more.</p>
           </div>
           <ul className="space-y-4 mb-8 flex-1 relative z-10">
             {["Everything in Core", "Premium plugins (AestraRumble + more)", "Muse AI — predictive creative assistant", "Cloud storage for Takes", "Monthly sound packs", "Silver card identity"].map((feat, i) => (
               <li key={i} className="flex items-center text-white text-sm">
-                <Check className="w-4 h-4 text-violet-400 mr-3" />
+                <Check className="w-4 h-4 text-[#c7bbff] mr-3" />
                 {feat}
               </li>
             ))}
@@ -1286,8 +1316,8 @@ const Pricing = ({ setPage }: any) => {
       </div>
       
       <div className="mt-16 text-center">
-        <p className="text-zinc-500 text-sm">
-          Students get free Supporter access via Campus. <button className="text-violet-400 hover:underline">Contact us</button>.
+        <p className="text-[#7f879b] text-sm">
+          Students get free Supporter access via Campus. <button className="text-[#61d5ff] hover:underline">Contact us</button>.
         </p>
       </div>
     </div>
@@ -1341,23 +1371,23 @@ const Changelog = ({ setPage }: any) => {
     <div className="pt-32 pb-20 px-6 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-12">
         <h1 className="text-4xl font-bold text-white">Changelog</h1>
-        <div className="flex items-center text-sm text-zinc-500">
+        <div className="flex items-center text-sm text-[#8891a7]">
           <Activity className="w-4 h-4 mr-2" />
-          <span className="w-2 h-2 bg-violet-500 rounded-full mr-2 animate-pulse" />
+          <span className="w-2 h-2 bg-[#61d5ff] rounded-full mr-2 animate-pulse" />
           Phase 2 of 6 — Active Development
         </div>
       </div>
 
-      <div className="relative border-l border-zinc-800 ml-3 space-y-12">
+      <div className="relative border-l border-[#31384a] ml-3 space-y-12">
         {versions.map((release, i) => (
           <div key={i} className="relative pl-12">
             {/* Timeline Dot */}
-            <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-violet-600 ring-4 ring-[#09090b]" />
+            <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[#8f82df] ring-4 ring-[#09090b]" />
             
             <div className="flex flex-col md:flex-row md:items-baseline gap-4 mb-6">
               <h2 className="text-2xl font-bold text-white">v{release.ver}</h2>
               <div className="flex items-center gap-3">
-                 <span className="text-sm text-zinc-500 font-mono">{release.date}</span>
+                 <span className="text-sm text-[#7f879b] font-mono">{release.date}</span>
                  <Badge variant="outline" className="uppercase text-[10px] tracking-wider">{release.type}</Badge>
               </div>
             </div>
@@ -1368,7 +1398,7 @@ const Changelog = ({ setPage }: any) => {
                   <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase mt-0.5", getTypeColor(change.type))}>
                     {change.type}
                   </span>
-                  <span className="text-zinc-300 text-sm leading-relaxed">{change.text}</span>
+                  <span className="text-[#cfd5e4] text-sm leading-relaxed">{change.text}</span>
                 </li>
               ))}
             </ul>
@@ -1383,29 +1413,29 @@ const Docs = ({ setPage }: any) => {
   return (
     <div className="pt-24 min-h-screen flex">
       {/* Sidebar */}
-      <div className="w-64 fixed left-0 top-24 bottom-0 border-r border-[#27272a] bg-[#09090b] hidden md:block overflow-y-auto">
+      <div className="w-64 fixed left-0 top-24 bottom-0 border-r border-[#2d3444] bg-[#0e121a] hidden md:block overflow-y-auto">
         <div className="p-6">
           <div className="relative mb-6">
              <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-500" />
-             <input type="text" placeholder="Search manual..." className="w-full bg-[#18181b] border border-[#27272a] rounded-lg py-2 pl-9 pr-4 text-sm text-white focus:ring-2 focus:ring-violet-500/50 focus:outline-none" />
+             <input type="text" placeholder="Search manual..." className="w-full bg-[#151a24] border border-[#30384a] rounded-[12px] py-2 pl-9 pr-4 text-sm text-white focus:ring-2 focus:ring-[#61d5ff]/40 focus:outline-none" />
           </div>
           
           <div className="space-y-6">
             <div>
-              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Getting Started</h4>
+              <h4 className="text-xs font-bold text-[#79839b] uppercase tracking-wider mb-3">Getting Started</h4>
               <ul className="space-y-2 text-sm">
-                <li><button className="text-violet-400 font-medium">Introduction</button></li>
-                <li><button className="text-zinc-400 hover:text-white transition-colors">Installation</button></li>
-                <li><button className="text-zinc-400 hover:text-white transition-colors">Audio Setup</button></li>
+                <li><button className="text-[#61d5ff] font-medium">Introduction</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Installation</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Audio Setup</button></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Core Concepts</h4>
+              <h4 className="text-xs font-bold text-[#79839b] uppercase tracking-wider mb-3">Core Concepts</h4>
               <ul className="space-y-2 text-sm">
-                <li><button className="text-zinc-400 hover:text-white transition-colors">The Timeline</button></li>
-                <li><button className="text-zinc-400 hover:text-white transition-colors">Mixer Routing</button></li>
-                <li><button className="text-zinc-400 hover:text-white transition-colors">Automation Clips</button></li>
-                <li><button className="text-zinc-400 hover:text-white transition-colors">Recording & Export</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white transition-colors">The Timeline</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Mixer Routing</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Automation Clips</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Recording & Export</button></li>
               </ul>
             </div>
           </div>
@@ -1414,44 +1444,44 @@ const Docs = ({ setPage }: any) => {
 
       {/* Content */}
       <div className="flex-1 md:ml-64 p-8 md:p-12 max-w-4xl">
-        <div className="mb-4 text-sm text-violet-400 font-medium">Getting Started / Introduction</div>
+        <div className="mb-4 text-sm text-[#61d5ff] font-medium">Getting Started / Introduction</div>
         <h1 className="text-4xl font-bold text-white mb-8">Welcome to Aestra</h1>
         
         <div className="prose prose-invert prose-violet max-w-none">
-          <p className="text-lg text-zinc-300 leading-relaxed mb-6">
+            <p className="text-lg text-[#d4dae8] leading-relaxed mb-6">
             Aestra is a digital audio workstation designed for speed, stability, and flow. 
             Unlike other DAWs that try to be everything to everyone, Aestra focuses purely on 
             the music creation process.
           </p>
           
-          <Card className="p-6 mb-8 bg-violet-900/10 border-violet-500/20">
-            <h4 className="flex items-center text-violet-300 font-bold mb-2">
+          <Card className="p-6 mb-8 bg-[#61d5ff]/5">
+            <h4 className="flex items-center text-[#61d5ff] font-bold mb-2">
               <Zap className="w-4 h-4 mr-2" /> Quick Tip
             </h4>
-            <p className="text-sm text-zinc-300">
+            <p className="text-sm text-[#d2d8e6]">
               Press <code className="bg-black/30 px-1.5 py-0.5 rounded text-white font-mono text-xs">Cmd + K</code> anywhere in the app to open the Command Palette. 
               You can access every single feature of Aestra without lifting your hands from the keyboard.
             </p>
           </Card>
 
           <h2 className="text-2xl font-bold text-white mt-12 mb-4">Philosophy</h2>
-          <p className="text-zinc-400 mb-4 leading-relaxed">
+          <p className="text-[#9ca5bb] mb-4 leading-relaxed">
             We believe that your tools should be invisible. When you are in the creative zone, 
             you shouldn't be fighting with windows, waiting for plugins to scan, or dealing with crashes.
           </p>
-          <ul className="space-y-2 list-disc list-inside text-zinc-400 mb-8">
+          <ul className="space-y-2 list-disc list-inside text-[#9ca5bb] mb-8">
             <li><strong className="text-white">Performance First:</strong> Every feature is benchmarked.</li>
             <li><strong className="text-white">Linux First:</strong> Built on Arch Linux, optimized for low-spec machines.</li>
             <li><strong className="text-white">Keyboard Centric:</strong> Mouse-free workflow is a first-class citizen.</li>
           </ul>
 
-          <div className="flex gap-4 mt-12 pt-8 border-t border-[#27272a]">
+          <div className="flex gap-4 mt-12 pt-8 border-t border-[#2f3646]">
              <Button variant="secondary" className="w-full justify-between group">
-               <span className="text-zinc-400">Previous: None</span>
+                 <span className="text-[#98a1b7]">Previous: None</span>
              </Button>
              <Button variant="secondary" className="w-full justify-between group">
-               <span className="text-white group-hover:text-violet-400 transition-colors">Next: Installation</span>
-               <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-violet-400" />
+                 <span className="text-white group-hover:text-[#61d5ff] transition-colors">Next: Installation</span>
+                 <ArrowRight className="w-4 h-4 text-[#98a1b7] group-hover:text-[#61d5ff]" />
              </Button>
           </div>
         </div>
@@ -1466,29 +1496,29 @@ const Dashboard = ({ setPage }: any) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
-    <div className="min-h-screen bg-[#09090b] flex">
+    <div className="min-h-screen bg-transparent flex">
       {/* Sidebar */}
-      <div className="w-64 border-r border-[#27272a] bg-[#121214] hidden md:flex flex-col p-6">
+      <div className="w-64 border-r border-[#30384a] bg-[#111620] hidden md:flex flex-col p-6">
         <div className="flex items-center gap-2 mb-12 text-white font-bold text-xl cursor-pointer" onClick={() => setPage("home")}>
-          <Music className="text-violet-500" /> Aestra
+          <Music className="text-[#61d5ff]" /> Aestra
         </div>
         <div className="space-y-1">
-          <button onClick={() => setActiveTab("overview")} className={cn("w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-3", activeTab === "overview" ? "bg-violet-600/10 text-violet-400" : "text-zinc-400 hover:text-white")}>
+          <button onClick={() => setActiveTab("overview")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "overview" ? "bg-[#8f82df]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
             <LayoutTemplate size={16} /> Overview
           </button>
-          <button onClick={() => setActiveTab("licenses")} className={cn("w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-3", activeTab === "licenses" ? "bg-violet-600/10 text-violet-400" : "text-zinc-400 hover:text-white")}>
+          <button onClick={() => setActiveTab("licenses")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "licenses" ? "bg-[#8f82df]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
             <Shield size={16} /> Licenses
           </button>
-          <button onClick={() => setActiveTab("plugins")} className={cn("w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-3", activeTab === "plugins" ? "bg-violet-600/10 text-violet-400" : "text-zinc-400 hover:text-white")}>
+          <button onClick={() => setActiveTab("plugins")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "plugins" ? "bg-[#8f82df]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
             <Zap size={16} /> My Plugins
           </button>
-          <button onClick={() => setActiveTab("support")} className={cn("w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-3", activeTab === "support" ? "bg-violet-600/10 text-violet-400" : "text-zinc-400 hover:text-white")}>
+          <button onClick={() => setActiveTab("support")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "support" ? "bg-[#8f82df]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
             <LifeBuoy size={16} /> Support
           </button>
         </div>
         <div className="mt-auto">
-          <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#18181b] border border-[#27272a]">
-            <div className="w-8 h-8 rounded-full bg-violet-500 flex items-center justify-center text-white text-xs font-bold">JD</div>
+          <div className="flex items-center gap-3 px-4 py-3 rounded-[14px] bg-[#141a25] border border-[#30384a]">
+            <div className="w-8 h-8 rounded-full bg-[#8f82df] flex items-center justify-center text-white text-xs font-bold">JD</div>
             <div className="text-xs">
               <div className="text-white">John Doe</div>
               <div className="text-zinc-500">Pro Plan</div>
@@ -1579,39 +1609,39 @@ const Dashboard = ({ setPage }: any) => {
 // --- Footer ---
 
 const Footer = ({ setPage }: any) => (
-  <footer className="bg-[#050507] border-t border-[#27272a] py-12 px-6">
+  <footer className="bg-[#090c12]/92 border-t border-[#2f3646] py-12 px-6">
     <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
       <div className="col-span-1 md:col-span-2">
         <div className="flex items-center gap-2 mb-4">
           <img src="/aestra_icon.svg" alt="Aestra" className="w-6 h-6" />
           <span className="text-lg font-bold text-white">Aestra</span>
         </div>
-        <p className="text-zinc-500 text-sm max-w-sm mb-6">
+        <p className="text-[#8b94aa] text-sm max-w-sm mb-6">
           The DAW for people who actually live inside their music. 
           Built by obsessed engineers for obsessed producers.
         </p>
-        <div className="text-zinc-600 text-xs">
+        <div className="text-[#6f778d] text-xs">
           © 2026 Dylan Makori / Aestra Studios
         </div>
       </div>
       
       <div>
         <h4 className="text-white font-medium mb-4">Product</h4>
-        <ul className="space-y-2 text-sm text-zinc-400">
-          <li><button onClick={() => setPage("features")} className="hover:text-violet-400">Features</button></li>
-          <li><button onClick={() => setPage("pricing")} className="hover:text-violet-400">Pricing</button></li>
-          <li><button onClick={() => setPage("changelog")} className="hover:text-violet-400">Changelog</button></li>
-          <li><button onClick={() => setPage("download")} className="hover:text-violet-400">Download</button></li>
+        <ul className="space-y-2 text-sm text-[#98a1b7]">
+          <li><button onClick={() => setPage("features")} className="hover:text-[#61d5ff]">Features</button></li>
+          <li><button onClick={() => setPage("pricing")} className="hover:text-[#61d5ff]">Pricing</button></li>
+          <li><button onClick={() => setPage("changelog")} className="hover:text-[#61d5ff]">Changelog</button></li>
+          <li><button onClick={() => setPage("download")} className="hover:text-[#61d5ff]">Download</button></li>
         </ul>
       </div>
 
       <div>
         <h4 className="text-white font-medium mb-4">Resources</h4>
-        <ul className="space-y-2 text-sm text-zinc-400">
-          <li><button onClick={() => setPage("docs")} className="hover:text-violet-400">Documentation</button></li>
-          <li><button className="hover:text-violet-400">Community Forum</button></li>
-          <li><a href="https://github.com/currentsuspect/Aestra" className="hover:text-violet-400">Source Code</a></li>
-          <li><button className="hover:text-violet-400">Support</button></li>
+        <ul className="space-y-2 text-sm text-[#98a1b7]">
+          <li><button onClick={() => setPage("docs")} className="hover:text-[#61d5ff]">Documentation</button></li>
+          <li><button className="hover:text-[#61d5ff]">Community Forum</button></li>
+          <li><a href="https://github.com/currentsuspect/Aestra" className="hover:text-[#61d5ff]">Source Code</a></li>
+          <li><button className="hover:text-[#61d5ff]">Support</button></li>
         </ul>
       </div>
     </div>
@@ -1621,17 +1651,17 @@ const Footer = ({ setPage }: any) => (
 // --- Main App Entry ---
 
 const FounderBanner = ({ onDismiss }: { setPage: (p: string) => void; onDismiss: () => void }) => (
-  <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-amber-600/20 to-orange-600/20 border-b border-amber-500/20">
+  <div className="fixed top-0 left-0 right-0 z-[60] bg-[linear-gradient(90deg,rgba(217,181,73,0.16),rgba(131,66,23,0.28))] border-b border-[#d9b549]/20">
     <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
       <a
         href="#founder-section"
-        className="flex items-center gap-2 text-sm text-amber-200 hover:text-white transition-colors"
+        className="flex items-center gap-2 text-sm text-[#f2db8d] hover:text-white transition-colors"
       >
         <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
         <span className="font-medium">Only 500 Founder Gold Cards exist.</span>
-        <span className="text-amber-400 underline underline-offset-2">Join the waitlist →</span>
+        <span className="text-[#d9b549] underline underline-offset-2">Join the waitlist →</span>
       </a>
-      <button onClick={onDismiss} className="text-amber-400/60 hover:text-white transition-colors">
+      <button onClick={onDismiss} className="text-[#d9b549]/60 hover:text-white transition-colors">
         <X className="w-4 h-4" />
       </button>
     </div>
@@ -1746,7 +1776,7 @@ const App = () => {
   };
 
   return (
-    <div className="bg-[#09090b] min-h-screen text-zinc-100 font-sans selection:bg-violet-500/30">
+    <div className="site-shell min-h-screen text-zinc-100 font-sans selection:bg-[#8f82df]/30">
       <AnimatePresence mode="wait">
         <motion.div
           key={page}
