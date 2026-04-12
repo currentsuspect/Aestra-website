@@ -392,7 +392,10 @@ const MockTimeline = () => {
               {tracks.map((t) => <div key={t.id} className="flex-1" style={{ background: t.hex, opacity: 0.7 }}/>)}
             </div>
             <div ref={containerRef} className="flex-1 relative bg-[#0a0a0e] overflow-hidden" onClick={() => setSelectedClip(0)}>
-              {tracks.map((t, i) => <div key={t.id} className="absolute left-0 right-0 border-b border-[#15151a]" style={{ top: i * TRACK_H, height: TRACK_H, background: i % 2 === 0 ? "rgba(255,255,255,0.008)" : "transparent" }}/>)}
+              {tracks.map((t, i) => <div key={t.id} className="absolute left-0 right-0" style={{ top: i * TRACK_H, height: TRACK_H }}>
+                <div className="h-[3px]" style={{ background: t.hex }} />
+                <div className="flex-1" style={{ height: TRACK_H - 3, background: i % 2 === 0 ? "rgba(255,255,255,0.008)" : "transparent", borderBottom: "1px solid #15151a" }} />
+              </div>)}
               <div className="absolute inset-0 flex pointer-events-none">{[...Array(20)].map((_, j) => <div key={j} className="flex-1" style={{ borderRight: `1px solid ${j % 4 === 0 ? "#1f1f28" : "#131316"}` }}/>)}</div>
               <div className="absolute inset-0 z-10 pointer-events-none">
                 <div className="relative w-full h-full" ref={timelineRef}>
@@ -404,14 +407,21 @@ const MockTimeline = () => {
                         onPointerDown={e => { e.stopPropagation(); setSelectedClip(clip.id); }}
                         animate={{ x: clip.x, y: ti * TRACK_H + 2, zIndex: selectedClip === clip.id ? 50 : 10 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className={cn("absolute rounded-[3px] overflow-hidden flex flex-col cursor-grab", selectedClip === clip.id ? "ring-1 ring-white/50" : "")}
-                        style={{ height: TRACK_H - 4, width: clip.w, left: 0, top: 0, touchAction: "none", background: `linear-gradient(135deg, \${tracks[ti].hex}18, \${tracks[ti].hex}33)`, borderLeft: `2px solid \${tracks[ti].hex}` }}
-                        whileDrag={{ cursor: "grabbing", zIndex: 100, scale: 1.02 }}
+                        className={cn("absolute overflow-hidden cursor-grab", selectedClip === clip.id ? "ring-1 ring-white/40" : "")}
+                        style={{ height: TRACK_H - 4, width: clip.w, left: 0, top: 0, touchAction: "none", background: "#22273a", border: "1px solid #2a2f42" }}
+                        whileDrag={{ cursor: "grabbing", zIndex: 100, scale: 1.01 }}
                       >
-                        <div className="h-3 bg-black/30 flex items-center px-1.5 shrink-0"><span className="text-[7px] font-medium text-white/60 truncate">{clip.name}</span></div>
-                        <div className="flex-1 flex items-center px-1">
-                          <svg className="w-full h-3/5" viewBox="0 0 100 20" preserveAspectRatio="none"><polyline points={Array.from({length:50},(_, i) => `\${(i/49)*100},\${10+Math.sin(i*0.8+clip.id)*7*Math.cos(i*0.3)}`).join(" ")} fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" vectorEffect="non-scaling-stroke"/></svg>
-                        </div>
+                        <span className="absolute top-1 left-1.5 text-[7px] font-medium text-white/80 truncate z-10 max-w-[80%]">{clip.name}</span>
+                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 40" preserveAspectRatio="none">
+                          <defs><clipPath id={`wf-${clip.id}`}><rect x="0" y="0" width="100" height="40"/></clipPath></defs>
+                          <g clipPath={`url(#wf-${clip.id})`}>
+                            {Array.from({length: 50}, (_, i) => {
+                              const x = (i / 49) * 100;
+                              const amp = 12 + Math.sin(i * 0.6 + clip.id * 2) * 8 * Math.cos(i * 0.25 + clip.id);
+                              return <rect key={i} x={x - 0.8} y={20 - amp} width={1.6} height={amp * 2} fill="#a8c8ff" opacity={0.35} />;
+                            })}
+                          </g>
+                        </svg>
                       </motion.div>
                     );
                   })}
