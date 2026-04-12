@@ -31,7 +31,8 @@ import {
   Folder,
   MoreHorizontal,
   Mic,
-  Settings
+  Settings,
+  Upload
 } from "lucide-react";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 
