@@ -300,15 +300,31 @@ const MockTimeline = memo(() => {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.4 }}
-      className="mt-16 max-w-[84rem] mx-auto relative"
+      className="mt-8 sm:mt-12 lg:mt-16 max-w-7xl mx-auto relative px-0 sm:px-2"
     >
-      <div className="absolute inset-x-14 -top-2 h-14 rounded-full bg-[#61d5ff]/10 blur-2xl" />
-      <div className="relative overflow-hidden rounded-[18px] border border-[#55d6ff] bg-[#101115] shadow-[0_24px_80px_rgba(0,0,0,0.42)]">
-        <div className="h-8 border-b border-[#2c3240] bg-[#14161d] px-4 flex items-center justify-between text-[10px] text-[#c7cad4]">
-          <div className="flex items-center gap-5">
+      {/* Mobile placeholder - simplified */}
+      <div className="md:hidden rounded-[18px] border border-[#55d6ff]/40 bg-[#101115] p-4 sm:p-6 text-center">
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <Disc size={16} className="text-[#b6a8ff]" />
+          <span className="text-xs uppercase tracking-[0.2em] text-[#93cfe3]">DAW Preview</span>
+        </div>
+        <p className="text-sm text-[#8b94aa] mb-4">Interactive timeline editor — available on tablet and desktop.</p>
+        <div className="flex justify-center gap-3 text-[#61d5ff]/60 text-xs">
+          <span className="flex items-center gap-1"><Cpu size={12} /> Multi-track</span>
+          <span className="flex items-center gap-1"><Sliders size={12} /> Mixer</span>
+          <span className="flex items-center gap-1"><Zap size={12} /> Patterns</span>
+        </div>
+      </div>
+
+      {/* Full editor on md+ screens */}
+      <div className="hidden md:block">
+        <div className="absolute inset-x-4 lg:inset-x-14 -top-2 h-14 rounded-full bg-[#61d5ff]/10 blur-2xl pointer-events-none" />
+        <div className="relative overflow-hidden rounded-[12px] lg:rounded-[18px] border border-[#55d6ff] bg-[#101115] shadow-[0_24px_80px_rgba(0,0,0,0.42)]">
+        <div className="h-8 border-b border-[#2c3240] bg-[#14161d] px-2 sm:px-4 flex items-center justify-between text-[10px] text-[#c7cad4]">
+          <div className="flex items-center gap-3 sm:gap-5">
             <span className="text-[#f5f6fa]">File</span>
-            <span>Edit</span>
-            <span>View</span>
+            <span className="hidden sm:inline">Edit</span>
+            <span className="hidden sm:inline">View</span>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-[#3a4050] bg-[#1d2130] p-1">
             {(["arsenal", "timeline", "audition"] as const).map((tab) => (
@@ -431,8 +447,8 @@ const MockTimeline = memo(() => {
         </div>
 
         {activeTab === "arsenal" && (
-          <div className="h-[690px] bg-[#11131a] flex items-center justify-center">
-            <div className="w-[34rem] rounded-[18px] border border-[#3b4152] bg-[#1a1d27] p-8">
+          <div className="h-[400px] md:h-[690px] bg-[#11131a] flex items-center justify-center">
+            <div className="w-[90%] sm:w-[34rem] rounded-[18px] border border-[#3b4152] bg-[#1a1d27] p-4 sm:p-8">
               <div className="mb-4 flex items-center justify-center gap-2 text-[#e5e9f5]">
                 <Disc size={18} className="text-[#c59dff]" />
                 <span className="text-sm tracking-[0.22em] uppercase">Arsenal</span>
@@ -456,8 +472,8 @@ const MockTimeline = memo(() => {
         )}
 
         {activeTab === "timeline" && timelineView === "arrangement" && (
-          <div className="flex h-[596px] bg-[#11131a]">
-            <div className="w-[268px] border-r border-[#2d3342] bg-[#1b1e28] flex flex-col">
+          <div className="flex h-[400px] md:h-[596px] bg-[#11131a]">
+            <div className="w-[200px] md:w-[268px] border-r border-[#2d3342] bg-[#1b1e28] flex flex-col">
               <div className="p-2">
                 <div className="flex rounded-[12px] border border-[#454b5f] bg-[#232736] p-1 text-[10px]">
                   <button className="flex-1 rounded-[8px] bg-[#7871b6] py-1 text-white">Files</button>
@@ -682,13 +698,13 @@ const MockTimeline = memo(() => {
         )}
 
         {activeTab === "timeline" && timelineView === "mixer" && (
-          <div className="h-[690px] bg-[#13151c] p-0">
+          <div className="h-[400px] md:h-[690px] bg-[#13151c] p-0">
             <div className="flex h-full flex-col">
-              <div className="border-b border-[#2d3342] bg-[#232632] px-4 py-2 text-[11px] text-[#b7bece]">
+              <div className="border-b border-[#2d3342] bg-[#232632] px-3 md:px-4 py-2 text-[11px] text-[#b7bece]">
                 <span className="tracking-[0.18em] uppercase">Mixer</span>
               </div>
-              <div className="flex min-h-0 flex-1">
-                <div className="flex-1 px-3 py-4">
+              <div className="flex min-h-0 flex-1 overflow-x-auto">
+                <div className="flex-1 px-2 md:px-3 py-3 md:py-4 min-w-[600px]">
                   <div className="mb-3 flex h-6 items-center rounded-[10px] border border-[#55606c] bg-[#1f2432] px-1">
                     {tracks.map((track) => (
                       <div key={track.id} className="mx-[1px] h-4 flex-1 rounded-sm" style={{ backgroundColor: track.color, opacity: 0.92 }} />
@@ -829,9 +845,9 @@ const MockTimeline = memo(() => {
         )}
 
         {activeTab === "audition" && (
-          <div className="h-[690px] bg-[#12141a] flex flex-col">
-            <div className="flex-1 flex items-center justify-center">
-              <div className="w-[30rem] rounded-[18px] border border-[#384050] bg-[#1b1f2a] p-8 text-center">
+          <div className="h-[400px] md:h-[690px] bg-[#12141a] flex flex-col">
+            <div className="flex-1 flex items-center justify-center px-4">
+              <div className="w-full sm:w-[30rem] rounded-[18px] border border-[#384050] bg-[#1b1f2a] p-6 sm:p-8 text-center">
                 <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-[#5c6690] bg-[#262b3a]">
                   <Play size={22} className="ml-1 text-[#cb9dff]" />
                 </div>
@@ -859,32 +875,33 @@ const MockTimeline = memo(() => {
           </div>
         )}
       </div>
+      </div>
     </motion.div>
   );
 });
 
 const Hero = ({ setPage }: any) => {
   return (
-    <section className="relative pt-32 pb-24 px-6 overflow-hidden">
-      <div className="absolute inset-x-0 top-8 h-[560px] bg-[radial-gradient(circle_at_top,rgba(97,213,255,0.09),transparent_44%)] pointer-events-none" />
-      
+    <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6 overflow-hidden">
+      <div className="absolute inset-x-0 top-8 h-64 sm:h-80 lg:h-[560px] bg-[radial-gradient(circle_at_top,rgba(97,213,255,0.09),transparent_44%)] pointer-events-none" />
+
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex justify-start mb-8"
+          className="flex justify-start mb-4 sm:mb-8"
         >
           <Badge variant="outline">v1 Beta — December 2026</Badge>
         </motion.div>
 
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
           <div>
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="editorial-title text-5xl md:text-7xl font-bold text-white mb-6"
+              className="editorial-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6"
             >
               A studio interface
               <br />
@@ -893,26 +910,26 @@ const Hero = ({ setPage }: any) => {
               </span>
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg text-[#a4abc0] max-w-2xl mb-10 leading-relaxed"
+              className="text-base sm:text-lg text-[#a4abc0] max-w-2xl mb-6 sm:mb-10 leading-relaxed"
             >
               Aestra should feel like it already belongs on your second monitor before you download it.
               The site now borrows the same panel logic, cyan edges, lavender controls, and late-night control-room atmosphere as the DAW itself.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-start gap-4"
+              className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4"
             >
-              <Button size="lg" onClick={() => setPage("download")} icon={Download}>
+              <Button size="lg" onClick={() => setPage("download")} icon={Download} className="w-full sm:w-auto">
                 Download Beta
               </Button>
-              <Button variant="secondary" size="lg" onClick={() => setPage("features")}>
+              <Button variant="secondary" size="lg" onClick={() => { const daw = document.querySelector("[data-daw-mockup]"); if (daw) daw.scrollIntoView({ behavior: "smooth" }); else setPage("features"); }} className="w-full sm:w-auto">
                 Open Signal Flow <ChevronRight className="ml-2 w-4 h-4" />
               </Button>
             </motion.div>
@@ -922,22 +939,23 @@ const Hero = ({ setPage }: any) => {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.22 }}
-            className="section-frame panel-glow rounded-[24px] p-5"
+            className="section-frame panel-glow rounded-[24px] p-4 sm:p-5"
           >
             <div className="mb-4 flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-[#93cfe3]">
               <span>Session Status</span>
-              <span className="text-[#d9b549]">Founder Window Open</span>
+              <span className="text-[#d9b549] hidden sm:inline">Founder Window Open</span>
+              <span className="text-[#d9b549] sm:hidden">Open</span>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3">
               {[
                 ["Startup", "Instant"],
                 ["Routing", "Visual"],
                 ["Pattern Flow", "Native"],
                 ["Translation", "Audition"],
               ].map(([label, value]) => (
-                <div key={label} className="rounded-[16px] border border-[#353d4d] bg-[#161b26] p-4">
-                  <div className="text-[11px] uppercase tracking-[0.18em] text-[#8690a8]">{label}</div>
-                  <div className="mt-2 text-xl text-white">{value}</div>
+                <div key={label} className="rounded-[16px] border border-[#353d4d] bg-[#161b26] p-3 sm:p-4">
+                  <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-[#8690a8]">{label}</div>
+                  <div className="mt-1 sm:mt-2 text-base sm:text-xl text-white">{value}</div>
                 </div>
               ))}
             </div>
@@ -968,22 +986,22 @@ const FeatureCard = memo(({ icon: Icon, title, description, delay }: any) => (
 ));
 
 const Features = memo(() => (
-  <section className="py-28 px-6">
+  <section className="py-16 sm:py-20 lg:py-28 px-4 sm:px-6">
     <div className="max-w-7xl mx-auto">
-      <div className="mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div className="mb-10 sm:mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Every section now behaves like a module in the DAW.</h2>
-          <p className="text-lg text-[#9ca5bb] max-w-3xl">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">Every section now behaves like a module in the DAW.</h2>
+          <p className="text-base sm:text-lg text-[#9ca5bb] max-w-3xl">
             The marketing site is no longer a detached brand layer. It uses the same visual grammar as the product:
             stacked dark surfaces, surgical accents, and dense information blocks that feel like instruments instead of cards.
           </p>
         </div>
-        <div className="section-frame panel-glow rounded-[18px] px-5 py-4 text-sm text-[#cfd5e4]">
+        <div className="section-frame panel-glow rounded-[18px] px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm text-[#cfd5e4] whitespace-nowrap">
           Colorway: <span className="text-[#61d5ff]">cyan edges</span> · <span className="text-[#b6a8ff]">lavender controls</span> · <span className="text-[#d9b549]">amber status</span>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
         <FeatureCard 
           icon={Cpu} 
           title="Brutally Optimized"
@@ -1022,15 +1040,15 @@ const Features = memo(() => (
         />
       </div>
 
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
+      <div className="mt-6 sm:mt-10 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {[
           ["System", "Panels inherit DAW chrome instead of flat marketing sections."],
           ["Texture", "Subtle grid, glows, and hard-edged panel nesting replace generic gradients."],
           ["Mood", "Everything now sits in the same late-night control-room atmosphere as the app."],
         ].map(([label, copy]) => (
-          <div key={label} className="rounded-[18px] border border-[#30384a] bg-[#121722]/88 px-5 py-4">
-            <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-[#d9b549]">{label}</div>
-            <p className="text-sm text-[#98a1b7]">{copy}</p>
+          <div key={label} className="rounded-[18px] border border-[#30384a] bg-[#121722]/88 px-4 sm:px-5 py-3 sm:py-4">
+            <div className="mb-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#d9b549]">{label}</div>
+            <p className="text-xs sm:text-sm text-[#98a1b7]">{copy}</p>
           </div>
         ))}
       </div>
@@ -1354,9 +1372,15 @@ const Pricing = ({ setPage }: any) => {
       </div>
       
       <div className="mt-12 text-center">
-        <p className="text-[#7f879b] text-sm">
+        <p className="text-[#7f879b] text-sm mb-4">
           Students get free Supporter access via Campus. <button className="text-[#61d5ff] hover:underline">Contact us</button>.
         </p>
+        <button
+          onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
+          className="text-[#d9b549] hover:text-[#f6de8d] text-sm underline underline-offset-4 transition-colors"
+        >
+          See Founder countdown →
+        </button>
       </div>
     </div>
   );
@@ -1487,18 +1511,18 @@ const Docs = ({ setPage }: any) => {
             <div>
               <h4 className="text-xs font-bold text-[#79839b] uppercase tracking-wider mb-3">Getting Started</h4>
               <ul className="space-y-2 text-sm">
-                <li><button className="text-[#61d5ff] font-medium">Introduction</button></li>
-                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Installation</button></li>
-                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Audio Setup</button></li>
+                <li><button className="text-[#61d5ff] font-medium bg-[#61d5ff]/10 rounded-full px-3 py-1">Introduction</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e] rounded-full px-3 py-1 transition-colors">Installation</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e] rounded-full px-3 py-1 transition-colors">Audio Setup</button></li>
               </ul>
             </div>
             <div>
               <h4 className="text-xs font-bold text-[#79839b] uppercase tracking-wider mb-3">Core Concepts</h4>
               <ul className="space-y-2 text-sm">
-                <li><button className="text-[#98a1b7] hover:text-white transition-colors">The Timeline</button></li>
-                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Mixer Routing</button></li>
-                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Automation Clips</button></li>
-                <li><button className="text-[#98a1b7] hover:text-white transition-colors">Recording & Export</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e] rounded-full px-3 py-1 transition-colors">The Timeline</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e] rounded-full px-3 py-1 transition-colors">Mixer Routing</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e] rounded-full px-3 py-1 transition-colors">Automation Clips</button></li>
+                <li><button className="text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e] rounded-full px-3 py-1 transition-colors">Recording & Export</button></li>
               </ul>
             </div>
           </div>
@@ -1902,7 +1926,11 @@ const App = () => {
         return (
           <>
             <Navbar setPage={handleSetPage} />
-            <div className="pt-40 text-center text-white">Page not found</div>
+            <div className="pt-40 text-center">
+              <h1 className="text-6xl font-bold text-white mb-4">404</h1>
+              <p className="text-[#9ca5bb] mb-8">This signal path doesn{"'"}t exist.</p>
+              <Button onClick={() => setPage("home")}>Return to Studio</Button>
+            </div>
           </>
         );
     }
