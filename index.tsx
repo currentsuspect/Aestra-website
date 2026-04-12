@@ -219,11 +219,11 @@ const MockTimeline = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [time, setTime] = useState(43.94);
+  const [time, setTime] = useState(0);
   const [bpm, setBpm] = useState("120.0");
   const [activeTab, setActiveTab] = useState<"arsenal" | "timeline" | "audition">("timeline");
   const [timelineView, setTimelineView] = useState<"arrangement" | "mixer">("arrangement");
-  const [selectedFile, setSelectedFile] = useState(8);
+  const [selectedFile, setSelectedFile] = useState(6);
   const [selectedTrack, setSelectedTrack] = useState(0);
   const playheadX = useMotionValue(190);
 
@@ -269,7 +269,7 @@ const MockTimeline = () => {
         const maxX = containerRef.current.offsetWidth - 32;
         const next = playheadX.get() + 94 * dt;
         playheadX.set(next > maxX ? 190 : next);
-        setTime((prev) => (next > maxX ? 43.94 : prev + dt));
+        setTime((prev) => (next > maxX ? 0 : prev + dt));
         af = requestAnimationFrame(tick);
       }
     };
@@ -355,6 +355,12 @@ const MockTimeline = () => {
                 <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]">
                   <MoreHorizontal size={13} />
                 </button>
+                <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]">
+                  <Activity size={13} />
+                </button>
+                <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]">
+                  <Mic size={13} />
+                </button>
               </div>
 
               <div className="flex items-center gap-2 rounded-2xl border border-[#34394b] bg-[#232737] px-3 py-2 text-[11px] text-[#d6daea]">
@@ -374,25 +380,24 @@ const MockTimeline = () => {
             </div>
 
             {activeTab === "timeline" && (
-              <div className="flex items-center gap-2 rounded-2xl border border-[#34394b] bg-[#232737] p-1">
-                <button
-                  onClick={() => setTimelineView("arrangement")}
-                  className={cn(
-                    "rounded-xl px-3 py-2 text-[10px] uppercase tracking-[0.18em]",
-                    timelineView === "arrangement" ? "bg-[#8c82da] text-white" : "text-[#a8aec1]"
-                  )}
-                >
-                  Timeline
-                </button>
-                <button
-                  onClick={() => setTimelineView("mixer")}
-                  className={cn(
-                    "rounded-xl px-3 py-2 text-[10px] uppercase tracking-[0.18em]",
-                    timelineView === "mixer" ? "bg-[#8c82da] text-white" : "text-[#a8aec1]"
-                  )}
-                >
-                  Mixer
-                </button>
+              <div className="flex items-center gap-2 rounded-2xl border border-[#34394b] bg-[#232737] p-1 text-[#a5abc0]">
+                {[LayoutTemplate, Folder, CreditCard, Settings].map((Icon, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      if (index === 0) setTimelineView("arrangement");
+                      if (index === 3) setTimelineView("mixer");
+                    }}
+                    className={cn(
+                      "flex h-9 w-9 items-center justify-center rounded-xl border border-[#43485a] bg-[#2a2f3d]",
+                      (index === 0 && timelineView === "arrangement") || (index === 3 && timelineView === "mixer")
+                        ? "bg-[#6e7397] text-white"
+                        : "text-[#9aa2b7]"
+                    )}
+                  >
+                    <Icon size={14} />
+                  </button>
+                ))}
               </div>
             )}
 
@@ -442,7 +447,7 @@ const MockTimeline = () => {
         )}
 
         {activeTab === "timeline" && timelineView === "arrangement" && (
-          <div className="flex h-[690px] bg-[#11131a]">
+          <div className="flex h-[596px] bg-[#11131a]">
             <div className="w-[268px] border-r border-[#2d3342] bg-[#1b1e28] flex flex-col">
               <div className="p-2">
                 <div className="flex rounded-xl border border-[#454b5f] bg-[#232736] p-1 text-[11px]">
@@ -479,7 +484,7 @@ const MockTimeline = () => {
                     key={file.name}
                     onClick={() => setSelectedFile(index)}
                     className={cn(
-                      "mb-1 flex w-full items-center gap-3 rounded-[10px] border px-3 py-3 text-left transition-colors",
+                      "mb-1 flex w-full items-center gap-3 rounded-[10px] border px-3 py-2.5 text-left transition-colors",
                       selectedFile === index
                         ? "border-[#7f88bc] bg-[#6f77b9]/25 text-white shadow-[inset_0_0_0_1px_rgba(165,175,255,0.15)]"
                         : "border-transparent bg-transparent text-[#c1c6d4] hover:bg-[#232736]"
@@ -528,7 +533,8 @@ const MockTimeline = () => {
                     </button>
                   ))}
                 </div>
-                <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em]">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em]">
                   {["C", "E", "A"].map((mode, index) => (
                     <button
                       key={mode}
@@ -542,11 +548,16 @@ const MockTimeline = () => {
                       {mode}
                     </button>
                   ))}
+                  </div>
+                  <div className="text-[11px] text-[#8e95a7]">
+                    {files[selectedFile].name.replace(".flac", "").slice(0, 20)}...
+                    <span className="ml-2 text-[#6f7689]">174.3s</span>
+                  </div>
                 </div>
               </div>
 
               <div ref={containerRef} className="relative flex-1 overflow-hidden bg-[#0f1016]">
-                <div className="absolute left-0 right-0 top-0 h-14 border-b border-[#474037] bg-[#13151c]">
+                <div className="absolute left-0 right-0 top-0 h-12 border-b border-[#474037] bg-[#13151c]">
                   <div className="absolute left-[200px] right-6 top-4 h-6 rounded-md border border-[#6f6550]">
                     <div className="absolute inset-y-0 left-0 right-0 border-b border-[#d1ab2d] bg-[linear-gradient(90deg,rgba(212,176,47,0.18),rgba(212,176,47,0.06))]" />
                     {rulerMarks.map((mark, index) => (
@@ -561,12 +572,12 @@ const MockTimeline = () => {
                   </div>
                 </div>
 
-                <div className="absolute inset-x-0 bottom-0 top-14 overflow-hidden">
+                <div className="absolute inset-x-0 bottom-8 top-12 overflow-hidden">
                   {tracks.map((track, index) => {
-                    const top = index * 52;
+                    const top = index * 42;
                     const isLeadTrack = index === 0;
                     return (
-                      <div key={track.id} className="absolute inset-x-0" style={{ top, height: 52 }}>
+                      <div key={track.id} className="absolute inset-x-0" style={{ top, height: 42 }}>
                         <div className="absolute left-0 top-0 h-full w-[200px] border-r border-[#393e4f] bg-[#222632]">
                           <div className="absolute left-0 top-0 h-full w-1" style={{ backgroundColor: track.color }} />
                           <div className="flex h-full items-center justify-between px-4">
@@ -586,24 +597,24 @@ const MockTimeline = () => {
                           </div>
                         </div>
 
-                        <div className="absolute bottom-0 left-[200px] right-0 top-0 border-b border-[#353a45] bg-[#111218]">
+                        <div className="absolute bottom-0 left-[200px] right-0 top-0 border-b border-[#4c515d] bg-[#111218]">
                           <div className="absolute inset-0">
-                            {Array.from({ length: 64 }).map((_, gridIndex) => (
+                            {Array.from({ length: 72 }).map((_, gridIndex) => (
                               <div
                                 key={gridIndex}
                                 className="absolute top-0 bottom-0 border-r"
                                 style={{
-                                  left: `${(gridIndex / 64) * 100}%`,
-                                  borderColor: gridIndex % 4 === 0 ? "#5d615f" : "#343842",
+                                  left: `${(gridIndex / 72) * 100}%`,
+                                  borderColor: gridIndex % 4 === 0 ? "#767679" : "#45484f",
                                 }}
                               />
                             ))}
                           </div>
 
                           {isLeadTrack && (
-                            <div className="absolute left-1 top-4 right-2 h-9 rounded-[4px] border border-[#f7d548] bg-[linear-gradient(180deg,#ddb72d,#f0c63a)] shadow-[0_0_0_1px_rgba(255,245,160,0.15)]">
+                            <div className="absolute left-1 top-[3px] right-2 h-[34px] rounded-[4px] border border-[#f7d548] bg-[linear-gradient(180deg,#ddb72d,#f0c63a)] shadow-[0_0_0_1px_rgba(255,245,160,0.15)]">
                               <div className="absolute inset-0 bg-[repeating-linear-gradient(90deg,rgba(255,245,180,0.16)_0px,rgba(255,245,180,0.16)_2px,transparent_2px,transparent_10px)] opacity-80" />
-                              <div className="absolute inset-x-2 top-3 h-3">
+                              <div className="absolute inset-x-2 top-2 h-3">
                                 <svg className="h-full w-full" viewBox="0 0 500 20" preserveAspectRatio="none">
                                   <polyline
                                     points={Array.from({ length: 80 }, (_, i) => {
@@ -619,7 +630,7 @@ const MockTimeline = () => {
                                 </svg>
                               </div>
                               <span className="absolute left-3 top-1 text-[10px] text-[#fff3b3]">
-                                Travis Scott - HOUSTONFORNICATION.flac
+                                SLAYR - Flashout Freestyle.flac
                               </span>
                             </div>
                           )}
@@ -629,9 +640,16 @@ const MockTimeline = () => {
                   })}
 
                   <motion.div className="absolute bottom-0 top-0 z-20 w-px bg-[#7a7cff]" style={{ x: playheadX }}>
-                    <div className="absolute -top-14 h-14 w-px bg-[#7a7cff]" />
+                    <div className="absolute -top-12 h-12 w-px bg-[#7a7cff]" />
                     <div className="absolute bottom-0 top-0 w-px bg-[#6e73ff] shadow-[0_0_12px_rgba(122,124,255,0.8)]" />
                   </motion.div>
+                </div>
+
+                <div className="absolute bottom-0 left-0 right-0 h-8 border-t border-[#2d3342] bg-[#171922] px-4 flex items-center">
+                  <div className="ml-2 flex rounded-full border border-[#4b5266] bg-[#222735] p-1 text-[10px]">
+                    <button className="rounded-full bg-[#7871b6] px-4 py-1 text-white">Clips</button>
+                    <button className="px-4 py-1 text-[#98a0b6]">Patterns</button>
+                  </div>
                 </div>
               </div>
             </div>
