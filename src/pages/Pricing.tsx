@@ -44,19 +44,29 @@ const CardVisual = ({ tier, label, num, accent }: { tier: string; label: string;
           <div className="card-back-content" style={{ color: tier === "founder" ? "#3a2800" : "#fff" }}>
             {tier === "core" && (
               <>
-                <div className="card-back-icon">∞</div>
+                <svg className="card-back-svg" viewBox="0 0 40 24" fill="none">
+                  <path d="M4 12C4 7 8 4 12 4C16 4 18 7 20 10C22 7 24 4 28 4C32 4 36 7 36 12C36 17 28 22 20 22C12 22 4 17 4 12Z" stroke="currentColor" strokeWidth="1.2" opacity="0.6"/>
+                  <circle cx="20" cy="12" r="3" stroke="currentColor" strokeWidth="1" opacity="0.8"/>
+                  <circle cx="20" cy="12" r="1" fill="currentColor" opacity="0.5"/>
+                </svg>
                 <div className="card-back-text">No limits.<br/>No catch.<br/>No compromise.</div>
               </>
             )}
             {tier === "supporter" && (
               <>
-                <div className="card-back-icon">⚡</div>
+                <svg className="card-back-svg" viewBox="0 0 32 32" fill="none">
+                  <path d="M18 4L8 18H16L14 28L24 14H16L18 4Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" opacity="0.8"/>
+                  <circle cx="16" cy="16" r="12" stroke="currentColor" strokeWidth="0.8" opacity="0.3" strokeDasharray="2 3"/>
+                </svg>
                 <div className="card-back-text">Your sound.<br/>Your AI.<br/>Your plugins.</div>
               </>
             )}
             {tier === "founder" && (
               <>
-                <div className="card-back-icon">👑</div>
+                <svg className="card-back-svg" viewBox="0 0 36 28" fill="none">
+                  <path d="M4 24L8 10L14 16L18 4L22 16L28 10L32 24H4Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" opacity="0.7" fill="currentColor" fillOpacity="0.08"/>
+                  <line x1="4" y1="24" x2="32" y2="24" stroke="currentColor" strokeWidth="1" opacity="0.5"/>
+                </svg>
                 <div className="card-back-text">Your name.<br/>Every copy.<br/>Forever.</div>
               </>
             )}

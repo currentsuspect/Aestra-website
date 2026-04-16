@@ -101,12 +101,17 @@
   letter-spacing: 0.08em;
 }
 .card-back-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   z-index: 1;
 }
-.card-back-icon {
-  font-size: 22px;
-  margin-bottom: 4px;
+.card-back-svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 6px;
 }
 .card-back-text {
   font-size: 8px;
@@ -118,7 +123,7 @@
 
 @media (max-width: 600px) {
   .card-visual-wrap { width: 100px; height: 64px; }
-  .card-back-icon { font-size: 18px; }
+  .card-back-svg { width: 26px; height: 26px; }
   .card-back-text { font-size: 7px; }
 }
 
@@ -160,6 +165,8 @@
   border-radius: 18px;
   padding: 32px;
   transition: border-color 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 .tier-core:hover { border-color: #2a2f42; }
 .tier-supporter { border-color: #1e1a2e; }
@@ -209,6 +216,7 @@
 .feature-list {
   list-style: none;
   margin-bottom: 32px;
+  flex: 1;
 }
 .feature-list li {
   font-size: 13px;
