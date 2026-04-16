@@ -16,6 +16,7 @@ const Docs = lazy(() => import("./pages/Docs").then(m => ({ default: m.Docs })))
 const Dashboard = lazy(() => import("./pages/Dashboard").then(m => ({ default: m.Dashboard })));
 const Privacy = lazy(() => import("./pages/Privacy").then(m => ({ default: m.Privacy })));
 const Terms = lazy(() => import("./pages/Terms").then(m => ({ default: m.Terms })));
+const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.NotFound })));
 
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
@@ -209,16 +210,7 @@ export const App = () => {
           </>
         );
       default:
-        return (
-          <>
-            <Navbar setPage={handleSetPage} />
-            <div className="pt-40 text-center">
-              <h1 className="text-6xl font-bold text-white mb-4">404</h1>
-              <p className="text-[#9ca5bb] mb-8">This signal path doesn{"'"}t exist.</p>
-              <Button onClick={() => setPage("home")}>Return to Studio</Button>
-            </div>
-          </>
-        );
+        return <LazyPage><NotFound setPage={handleSetPage} /></LazyPage>;
     }
   };
 
