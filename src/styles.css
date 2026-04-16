@@ -585,6 +585,106 @@
   .founder-bottom { flex-direction: column; }
   .founder-price { text-align: center; }
 }
+
+/* ── Comparison Table ────────────────────────────────────────────── */
+.compare-table {
+  border: 1px solid #13161e;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.compare-header {
+  display: grid;
+  grid-template-columns: 1fr 120px 120px 120px;
+  background: #0e1018;
+  border-bottom: 1px solid #13161e;
+}
+.compare-feature-header {
+  padding: 16px 20px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3a4060;
+  font-weight: 500;
+}
+.compare-tier-header {
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #98a1b7;
+}
+.compare-tier-core { color: #6b7280; }
+.compare-tier-sup { color: #7c6fe0; }
+.compare-tier-found { color: #e8a230; }
+.compare-price {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
+.compare-category {
+  padding: 12px 20px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #3a4060;
+  background: #0c0e14;
+  border-top: 1px solid #13161e;
+  border-bottom: 1px solid #0f1118;
+}
+
+.compare-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 120px 120px;
+  border-bottom: 1px solid #0f1118;
+  transition: background 0.15s;
+}
+.compare-row:hover {
+  background: #0f111810;
+}
+.compare-row:last-child {
+  border-bottom: none;
+}
+
+.compare-feature {
+  padding: 10px 20px;
+  font-size: 13px;
+  color: #98a1b7;
+}
+
+.compare-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+}
+
+.compare-check {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4caf6e;
+}
+.compare-check-sup { color: #9a8ff0; }
+.compare-check-found { color: #e8a230; }
+
+.compare-dash {
+  font-size: 14px;
+  color: #1e2230;
+}
+
+@media (max-width: 600px) {
+  .compare-header,
+  .compare-row {
+    grid-template-columns: 1fr 60px 60px 60px;
+  }
+  .compare-feature { padding: 8px 12px; font-size: 12px; }
+  .compare-feature-header { padding: 12px; }
+  .compare-tier-header { padding: 12px 8px; font-size: 11px; }
+  .compare-cell { padding: 8px; }
+}
 .flip-card {
   perspective: 1000px;
   cursor: pointer;

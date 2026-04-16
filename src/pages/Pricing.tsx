@@ -219,6 +219,103 @@ export const Pricing = ({ setPage }: any) => {
           <div className="founder-fine">Shipped when beta launches — December 2026. Waitlist locks your slot number.</div>
         </div>
       </div>
+
+      {/* Comparison Table */}
+      <div className="founder-section" style={{ maxWidth: "900px" }}>
+        <div className="tier-divider" style={{ maxWidth: "100%", padding: "0", marginBottom: "48px" }}>
+          <div className="div-line" />
+          <div className="div-label">What you get at each level</div>
+          <div className="div-line" />
+        </div>
+
+        <div className="compare-table">
+          <div className="compare-header">
+            <div className="compare-feature-header">Feature</div>
+            <div className="compare-tier-header compare-tier-core">Core<span className="compare-price">$0</span></div>
+            <div className="compare-tier-header compare-tier-sup">Supporter<span className="compare-price">$5/mo</span></div>
+            <div className="compare-tier-header compare-tier-found">Founder<span className="compare-price">$129</span></div>
+          </div>
+
+          <div className="compare-category">Engine</div>
+          {[
+            ["C++17 audio engine", true, true, true],
+            ["Unlimited tracks & patterns", true, true, true],
+            ["VST3 & CLAP plugin hosting", true, true, true],
+            ["Routing visualizer", true, true, true],
+            ["Audition mode (all platforms)", true, true, true],
+            ["Offline export & rendering", true, true, true],
+          ].map(([feat, core, sup, found], i) => (
+            <div key={i} className="compare-row">
+              <div className="compare-feature">{feat}</div>
+              <div className="compare-cell compare-tier-core">{core && <span className="compare-check">✓</span>}</div>
+              <div className="compare-cell compare-tier-sup">{sup && <span className="compare-check compare-check-sup">✓</span>}</div>
+              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
+            </div>
+          ))}
+
+          <div className="compare-category">Workflow</div>
+          {[
+            ["Pattern-first (Arsenal)", true, true, true],
+            ["Piano Roll editor", true, true, true],
+            ["Version control (Takes)", true, true, true],
+            ["Multi-track recording", true, true, true],
+            ["Mixer with sends & buses", true, true, true],
+          ].map(([feat, core, sup, found], i) => (
+            <div key={i} className="compare-row">
+              <div className="compare-feature">{feat}</div>
+              <div className="compare-cell compare-tier-core">{core && <span className="compare-check">✓</span>}</div>
+              <div className="compare-cell compare-tier-sup">{sup && <span className="compare-check compare-check-sup">✓</span>}</div>
+              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
+            </div>
+          ))}
+
+          <div className="compare-category">Plugins & Sound</div>
+          {[
+            ["Built-in plugin suite", true, true, true],
+            ["AestraRumble (808 synth)", false, true, true],
+            ["Premium plugins (monthly drops)", false, true, true],
+            ["Monthly sound packs", false, true, true],
+          ].map(([feat, core, sup, found], i) => (
+            <div key={i} className="compare-row">
+              <div className="compare-feature">{feat}</div>
+              <div className="compare-cell compare-tier-core">{core ? <span className="compare-check">✓</span> : <span className="compare-dash">—</span>}</div>
+              <div className="compare-cell compare-tier-sup">{sup && <span className="compare-check compare-check-sup">✓</span>}</div>
+              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
+            </div>
+          ))}
+
+          <div className="compare-category">AI & Cloud</div>
+          {[
+            ["Muse AI (runs locally)", false, true, true],
+            ["Cloud storage for Takes", false, true, true],
+            ["Cross-device sync (future)", false, true, true],
+          ].map(([feat, core, sup, found], i) => (
+            <div key={i} className="compare-row">
+              <div className="compare-feature">{feat}</div>
+              <div className="compare-cell compare-tier-core">{core ? <span className="compare-check">✓</span> : <span className="compare-dash">—</span>}</div>
+              <div className="compare-cell compare-tier-sup">{sup && <span className="compare-check compare-check-sup">✓</span>}</div>
+              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
+            </div>
+          ))}
+
+          <div className="compare-category">Identity & Access</div>
+          {[
+            ["Silver card identity", false, true, true],
+            ["Physical metal Founder card", false, false, true],
+            ["Name in app credits (permanent)", false, false, true],
+            ["Beta access — mobile & tablet", false, false, true],
+            ["Vote on feature priorities", false, false, true],
+            ["Lifetime access — no subscription", false, false, true],
+          ].map(([feat, core, sup, found], i) => (
+            <div key={i} className="compare-row">
+              <div className="compare-feature">{feat}</div>
+              <div className="compare-cell compare-tier-core">{core ? <span className="compare-check">✓</span> : <span className="compare-dash">—</span>}</div>
+              <div className="compare-cell compare-tier-sup">{sup ? <span className="compare-check compare-check-sup">✓</span> : <span className="compare-dash">—</span>}</div>
+              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
