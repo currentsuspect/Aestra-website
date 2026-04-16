@@ -97,7 +97,7 @@ export const App = () => {
         return (
           <>
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-            <Navbar activePage="home" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
+            <Navbar activePage="home" setPage={handleSetPage} topOffset={showBanner ? 44 : 0} />
             <Hero setPage={handleSetPage} />
             <Features />
             <FounderCountdown />
@@ -160,7 +160,7 @@ export const App = () => {
         return (
           <>
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-            <Navbar activePage="pricing" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
+            <Navbar activePage="pricing" setPage={handleSetPage} topOffset={showBanner ? 44 : 0} />
             <LazyPage><Pricing setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
@@ -169,7 +169,7 @@ export const App = () => {
         return (
           <>
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-            <Navbar activePage="changelog" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
+            <Navbar activePage="changelog" setPage={handleSetPage} topOffset={showBanner ? 44 : 0} />
             <LazyPage><Changelog setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
@@ -185,7 +185,7 @@ export const App = () => {
         return (
           <>
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-            <Navbar activePage="download" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
+            <Navbar activePage="download" setPage={handleSetPage} topOffset={showBanner ? 44 : 0} />
             <LazyPage><Downloads setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>

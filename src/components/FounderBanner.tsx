@@ -4,7 +4,7 @@ import { cn } from "../lib";
 
 export const FounderBanner = memo(({ onDismiss }: { onDismiss: () => void }) => (
   <div className="fixed top-0 left-0 right-0 z-[60] bg-[linear-gradient(90deg,rgba(217,181,73,0.16),rgba(131,66,23,0.28))] border-b border-[#d9b549]/20">
-    <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
       <a
         href="#founder-section"
         className="flex items-center gap-2 text-sm text-[#f2db8d] hover:text-white transition-colors"
