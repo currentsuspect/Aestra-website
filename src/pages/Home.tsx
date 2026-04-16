@@ -28,7 +28,7 @@ const Hero = ({ setPage }: any) => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="editorial-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6"
             >
-              Make beats.<br />
+              Make music.<br />
               <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">
                 Not excuses.
               </span>
