@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from "react";
+import React, { useState, useEffect, useCallback, memo, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
@@ -8,13 +8,25 @@ import { Footer } from "./components/Footer";
 import { FounderBanner } from "./components/FounderBanner";
 
 import { Hero, Features, FounderCountdown } from "./pages/Home";
-import { Downloads } from "./pages/Downloads";
-import { Pricing } from "./pages/Pricing";
-import { Changelog } from "./pages/Changelog";
-import { Docs } from "./pages/Docs";
-import { Dashboard } from "./pages/Dashboard";
-import { Privacy } from "./pages/Privacy";
-import { Terms } from "./pages/Terms";
+
+// Lazy load non-critical pages
+const Downloads = lazy(() => import("./pages/Downloads").then(m => ({ default: m.Downloads })));
+const Pricing = lazy(() => import("./pages/Pricing").then(m => ({ default: m.Pricing })));
+const Changelog = lazy(() => import("./pages/Changelog").then(m => ({ default: m.Changelog })));
+const Docs = lazy(() => import("./pages/Docs").then(m => ({ default: m.Docs })));
+const Dashboard = lazy(() => import("./pages/Dashboard").then(m => ({ default: m.Dashboard })));
+const Privacy = lazy(() => import("./pages/Privacy").then(m => ({ default: m.Privacy })));
+const Terms = lazy(() => import("./pages/Terms").then(m => ({ default: m.Terms })));
+
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-[60vh]">
+    <div className="w-2 h-2 rounded-full bg-[#61d5ff] animate-bounce" />
+  </div>
+);
+
+const LazyPage = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<PageLoader />}>{children}</Suspense>
+);
 
 export const App = () => {
   // Read initial page from URL
@@ -149,7 +161,7 @@ export const App = () => {
           <>
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
             <Navbar activePage="pricing" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
-            <Pricing setPage={handleSetPage} />
+            <LazyPage><Pricing setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
         );
@@ -158,7 +170,7 @@ export const App = () => {
           <>
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
             <Navbar activePage="changelog" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
-            <Changelog setPage={handleSetPage} />
+            <LazyPage><Changelog setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
         );
@@ -166,7 +178,7 @@ export const App = () => {
         return (
           <>
             <Navbar activePage="docs" setPage={handleSetPage} />
-            <Docs setPage={handleSetPage} />
+            <LazyPage><Docs setPage={handleSetPage} /></LazyPage>
           </>
         );
       case "download":
@@ -174,18 +186,18 @@ export const App = () => {
           <>
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
             <Navbar activePage="download" setPage={handleSetPage} topOffset={showBanner ? 40 : 0} />
-            <Downloads setPage={handleSetPage} />
+            <LazyPage><Downloads setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
         );
       case "login":
       case "account":
-        return <Dashboard setPage={handleSetPage} />;
+        return <LazyPage><Dashboard setPage={handleSetPage} /></LazyPage>;
       case "privacy":
         return (
           <>
             <Navbar activePage="" setPage={handleSetPage} />
-            <Privacy setPage={handleSetPage} />
+            <LazyPage><Privacy setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
         );
@@ -193,7 +205,7 @@ export const App = () => {
         return (
           <>
             <Navbar activePage="" setPage={handleSetPage} />
-            <Terms setPage={handleSetPage} />
+            <LazyPage><Terms setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
         );
