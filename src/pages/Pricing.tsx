@@ -9,7 +9,6 @@ const CheckIcon = () => (
   </svg>
 );
 
-/* ── Flip Card Visual ───────────────────────────────────────────── */
 const CardVisual = ({ tier, label, num, accent }: { tier: string; label: string; num?: string; accent: string }) => {
   const [flipped, setFlipped] = useState(false);
 
@@ -25,7 +24,6 @@ const CardVisual = ({ tier, label, num, accent }: { tier: string; label: string;
   return (
     <div className="card-visual-wrap" onClick={(e) => { e.stopPropagation(); setFlipped(!flipped); }}>
       <div className={cn("card-visual-inner", flipped && "flipped")}>
-        {/* Front */}
         <div className="card-visual-face card-visual-front" style={{ background: gradients[tier] }}>
           <div className="card-visual-shine" />
           <div className="card-visual-logo">
@@ -38,7 +36,6 @@ const CardVisual = ({ tier, label, num, accent }: { tier: string; label: string;
           <div className="card-visual-label" style={{ color: textColor }}>{label}</div>
           {num && <div className="card-visual-num" style={{ color: textColor }}>{num}</div>}
         </div>
-        {/* Back */}
         <div className="card-visual-face card-visual-back" style={{ background: gradients[tier] }}>
           <div className="card-visual-shine" />
           <div className="card-back-content" style={{ color: tier === "founder" ? "#3a2800" : "#fff" }}>
@@ -77,7 +74,6 @@ const CardVisual = ({ tier, label, num, accent }: { tier: string; label: string;
   );
 };
 
-/* ── Animated Counter ───────────────────────────────────────────── */
 const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?: number }) => {
   const [count, setCount] = useState(0);
   const [fillWidth, setFillWidth] = useState(0);
@@ -104,16 +100,15 @@ const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?
   );
 };
 
-/* ── Main Pricing Page ──────────────────────────────────────────── */
 export const Pricing = ({ setPage }: any) => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
       <section className="text-center pt-18 sm:pt-24 pb-12 px-6">
         <h1 className="pricing-hero-title">
-          Pay for what<br/>you <em>actually use.</em>
+          Aestra is free to use.<br/><em>Fully.</em>
         </h1>
-        <p className="pricing-hero-sub">The full DAW is free. Always. Supporting Aestra just means going deeper.</p>
+        <p className="pricing-hero-sub">No export lock. No time limits. No artificial walls. Supporter keeps the project alive and unlocks the extras.</p>
       </section>
 
       {/* Core + Supporter */}
@@ -124,7 +119,7 @@ export const Pricing = ({ setPage }: any) => {
             <div className="tier-card-info">
               <div className="tier-label tier-label-default">Core</div>
               <div className="tier-price">$0 <span className="free-label">forever</span></div>
-              <div className="tier-tagline">Full DAW. No time limits.<br/>No "export to unlock."</div>
+              <div className="tier-tagline">Full DAW. No time limits.<br/>No export lock.</div>
             </div>
             <CardVisual tier="core" label="Core" accent="grey" />
           </div>
@@ -140,12 +135,13 @@ export const Pricing = ({ setPage }: any) => {
         </div>
 
         {/* Supporter */}
-        <div className="tier-card tier-supporter">
+        <div className="tier-card tier-supporter tier-supporter-highlight">
+          <div className="supporter-badge-top">Best way to support Aestra</div>
           <div className="tier-card-header">
             <div className="tier-card-info">
               <div className="tier-label tier-label-purple">Supporter</div>
               <div className="tier-price">$5 <sub>/mo</sub></div>
-              <div className="tier-tagline">Back the build.<br/>Get the extras.</div>
+              <div className="tier-tagline">Back Aestra.<br/>Fund the future.</div>
             </div>
             <CardVisual tier="supporter" label="Supporter" accent="blue" />
           </div>
@@ -158,6 +154,13 @@ export const Pricing = ({ setPage }: any) => {
             ))}
           </ul>
           <button className="tier-btn btn-supporter" onClick={() => setPage("changelog")}>Coming Soon — Follow Progress</button>
+          <div className="supporter-proof">
+            <span>No lock-in on your projects</span>
+            <span>·</span>
+            <span>Funds core development</span>
+            <span>·</span>
+            <span>Cancel anytime</span>
+          </div>
         </div>
       </div>
 

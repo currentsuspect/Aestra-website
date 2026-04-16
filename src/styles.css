@@ -172,6 +172,38 @@
 .tier-supporter { border-color: #1e1a2e; }
 .tier-supporter:hover { border-color: #3b3560; }
 
+.tier-supporter-highlight {
+  border-color: #1e3a5f;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.06);
+}
+.tier-supporter-highlight:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.12);
+}
+
+.supporter-badge-top {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #60a5fa;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #1e2a40;
+}
+
+.supporter-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 10px;
+  color: #3a4a6a;
+  flex-wrap: wrap;
+}
+.supporter-proof span { white-space: nowrap; }
+
 .tier-label {
   font-size: 10px;
   letter-spacing: 0.14em;
@@ -208,7 +240,7 @@
 
 .tier-tagline {
   font-size: 13px;
-  color: #3a4060;
+  color: #5a6480;
   margin-bottom: 28px;
   line-height: 1.6;
 }
@@ -220,7 +252,7 @@
 }
 .feature-list li {
   font-size: 13px;
-  color: #7a8099;
+  color: #98a1b7;
   padding: 7px 0;
   border-bottom: 1px solid #13161e;
   display: flex;
@@ -270,7 +302,7 @@
 .tiers-note {
   text-align: center;
   font-size: 12px;
-  color: #2a2f42;
+  color: #3a4060;
   padding: 0 24px 48px;
   max-width: 800px;
   margin: 0 auto;
