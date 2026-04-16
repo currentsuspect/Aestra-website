@@ -66,6 +66,7 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: any) => {
         <div className="hidden md:flex items-center gap-4">
           <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer"
             className="text-sm font-medium text-[#98a1b7] hover:text-white transition-colors"
+            aria-label="GitHub repository (opens in new tab)"
           >
             GitHub
           </a>
@@ -76,7 +77,7 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: any) => {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-zinc-400 hover:text-white"
+          className="md:hidden text-[#98a1b7] hover:text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
@@ -94,16 +95,16 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: any) => {
         >
           <div className="flex flex-col p-6 space-y-4">
             {navLinks.map((link) => (
-              <button 
+              <button
                 key={link.id}
                 onClick={() => { setPage(link.id); setMobileOpen(false); }}
-                className="text-left text-zinc-300 hover:text-violet-400"
+                className="text-left text-[#d2d8e6] hover:text-[#b6a8ff] py-2.5 px-2 rounded-lg hover:bg-white/5 transition-colors min-h-[44px] flex items-center"
               >
                 {link.name}
               </button>
             ))}
             <hr className="border-[#27272a]" />
-            <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-left text-zinc-300">GitHub</a>
+            <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-left text-[#d2d8e6] hover:text-[#61d5ff] py-2.5 px-2 rounded-lg hover:bg-white/5 transition-colors min-h-[44px] flex items-center" aria-label="GitHub (opens in new tab)">GitHub</a>
             <Button className="w-full" onClick={() => setPage("download")}>Download Free</Button>
           </div>
         </div>

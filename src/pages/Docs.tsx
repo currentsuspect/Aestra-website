@@ -11,7 +11,7 @@ export const Docs = memo(({ setPage }: any) => {
         <div className="p-6">
           <div className="relative mb-6">
              <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-500" />
-             <input type="text" placeholder="Search manual..." className="w-full bg-[#151a24] border border-[#30384a] rounded-[12px] py-2 pl-9 pr-4 text-sm text-white focus:ring-2 focus:ring-[#61d5ff]/40 focus:outline-none" />
+             <input type="text" placeholder="Search manual..." aria-label="Search documentation" className="w-full bg-[#151a24] border border-[#30384a] rounded-[12px] py-2 pl-9 pr-4 text-sm text-white focus:ring-2 focus:ring-[#61d5ff]/40 focus:outline-none" />
           </div>
           
           <div className="space-y-6">
@@ -37,9 +37,9 @@ export const Docs = memo(({ setPage }: any) => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 md:ml-64 p-8 md:p-12 max-w-4xl">
+      <div className="flex-1 md:ml-64 p-4 sm:p-8 md:p-12 max-w-4xl">
         <div className="mb-4 text-sm text-[#61d5ff] font-medium">Getting Started / Introduction</div>
-        <h1 className="text-4xl font-bold text-white mb-8">Welcome to Aestra</h1>
+        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-6 sm:mb-8">Welcome to Aestra</h1>
         
         <div className="prose prose-invert prose-violet max-w-none">
             <p className="text-lg text-[#d4dae8] leading-relaxed mb-6">
@@ -58,21 +58,21 @@ export const Docs = memo(({ setPage }: any) => {
           </Card>
 
           <h2 className="text-2xl font-bold text-white mt-12 mb-4">Philosophy</h2>
-          <p className="text-[#9ca5bb] mb-4 leading-relaxed">
+          <p className="text-[#98a1b7] mb-4 leading-relaxed">
             Your tools should be invisible. When you're in the zone, you shouldn't be fighting windows, waiting for scans, or dealing with crashes.
           </p>
-          <ul className="space-y-2 list-disc list-inside text-[#9ca5bb] mb-8">
+          <ul className="space-y-2 list-disc list-inside text-[#98a1b7] mb-8">
             <li><strong className="text-white">Performance First:</strong> Every feature is benchmarked.</li>
             <li><strong className="text-white">Linux First:</strong> Built on Arch Linux, optimized for low-spec machines.</li>
             <li><strong className="text-white">Keyboard Centric:</strong> Mouse-free workflow is a first-class citizen.</li>
           </ul>
 
           <h2 className="text-2xl font-bold text-white mt-12 mb-4">Building from Source</h2>
-          <p className="text-[#9ca5bb] mb-4 leading-relaxed">
+          <p className="text-[#98a1b7] mb-4 leading-relaxed">
             Aestra is built with CMake. You need a C++17 compiler, CMake 3.22+, and the dependencies listed below.
           </p>
           <Card className="p-4 mb-6 bg-[#151a24] border border-[#30384a] font-mono text-sm">
-            <div className="text-[#9ca5bb] mb-2"># Clone and build</div>
+            <div className="text-[#98a1b7] mb-2"># Clone and build</div>
             <div className="text-white">git clone --recursive https://github.com/currentsuspect/Aestra</div>
             <div className="text-white">cd Aestra</div>
             <div className="text-white">cmake -S . -B build -DAestra_CORE_MODE=ON -DCMAKE_BUILD_TYPE=Release</div>
@@ -89,7 +89,7 @@ export const Docs = memo(({ setPage }: any) => {
           </ul>
 
           <h2 className="text-2xl font-bold text-white mt-12 mb-4">Low-Memory Build</h2>
-          <p className="text-[#9ca5bb] mb-4 leading-relaxed">
+          <p className="text-[#98a1b7] mb-4 leading-relaxed">
             Building on a 4GB RAM machine? Use the lowmem preset — it disables LTO, vectorization, and limits parallel jobs.
           </p>
           <Card className="p-4 mb-6 bg-[#151a24] border border-[#30384a] font-mono text-sm">

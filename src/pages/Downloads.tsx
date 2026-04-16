@@ -18,7 +18,7 @@ export const Downloads = ({ setPage }: any) => {
       </button>
 
       <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Downloads</h1>
-      <p className="text-sm sm:text-base text-[#9ca5bb] mb-8 sm:mb-12">Pre-release builds. Expect sharp edges.</p>
+      <p className="text-sm sm:text-base text-[#98a1b7] mb-8 sm:mb-12">Pre-release builds. Expect sharp edges.</p>
 
       <div className="space-y-3 sm:space-y-4">
         {builds.map((build, i) => {
@@ -47,13 +47,13 @@ export const Downloads = ({ setPage }: any) => {
         })}
       </div>
 
-      <div className="mt-8 sm:mt-16 bg-[#131620] border border-[#1e2230] p-6 sm:p-8 rounded-[16px] sm:rounded-[20px] text-center">
+      <div className="mt-8 sm:mt-16 bg-[#131620] border border-[#394050] p-6 sm:p-8 rounded-[16px] text-center">
         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs font-medium mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-[#d9b549] animate-pulse" />
           Limited to 500
         </span>
         <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Some things don't get a second run.</h3>
-        <p className="text-[#9ca5bb] text-sm mb-6 max-w-md mx-auto">
+        <p className="text-[#98a1b7] text-sm mb-6 max-w-md mx-auto">
           Not a subscription. Not a tier. A piece of history — your name in the product, a metal card in your hand, and lifetime access from day one.
         </p>
         <Button

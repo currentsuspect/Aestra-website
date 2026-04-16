@@ -39,7 +39,7 @@ export const Dashboard = memo(({ setPage }: any) => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 p-8 md:p-12 overflow-y-auto">
+      <div className="flex-1 p-4 sm:p-8 md:p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-2xl font-bold text-white capitalize">{activeTab}</h1>
@@ -106,7 +106,7 @@ export const Dashboard = memo(({ setPage }: any) => {
              <div className="space-y-6">
                <Card className="p-6">
                  <h3 className="text-white font-medium mb-4">Open a Ticket</h3>
-                 <textarea className="w-full h-32 bg-black/50 border border-[#27272a] rounded-lg p-4 text-zinc-300 focus:outline-none focus:border-violet-500 mb-4" placeholder="Describe your issue..." />
+                 <textarea className="w-full h-32 bg-black/50 border border-[#27272a] rounded-lg p-4 text-zinc-300 focus:outline-none focus:border-violet-500 mb-4" placeholder="Describe your issue..." aria-label="Support ticket description" />
                  <Button>Submit Request</Button>
                </Card>
              </div>

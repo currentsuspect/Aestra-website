@@ -5,7 +5,7 @@ import { cn, useInView } from "../lib";
 // --- Loading fallback ---
 export const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="flex items-center gap-3 text-[#9ca5bb]">
+    <div className="flex items-center gap-3 text-[#98a1b7]">
       <div className="w-2 h-2 rounded-full bg-[#61d5ff] animate-bounce" style={{ animationDelay: "0ms" }} />
       <div className="w-2 h-2 rounded-full bg-[#61d5ff] animate-bounce" style={{ animationDelay: "150ms" }} />
       <div className="w-2 h-2 rounded-full bg-[#61d5ff] animate-bounce" style={{ animationDelay: "300ms" }} />
@@ -34,7 +34,7 @@ export const Button = memo(({
   };
 
   const sizes = {
-    sm: "h-9 px-3 text-xs",
+    sm: "h-9 sm:h-9 px-3 text-xs min-h-[44px] sm:min-h-[36px]",
     md: "h-11 px-5 text-sm",
     lg: "h-12 px-7 text-sm",
     icon: "h-10 w-10 p-0"
@@ -69,7 +69,7 @@ export const Badge = memo(({ children, variant = "default", className }: any) =>
 
 // --- Card ---
 export const Card = memo(({ children, className }: any) => (
-  <div className={cn("section-frame panel-glow rounded-[18px] overflow-hidden", className)}>
+  <div className={cn("section-frame panel-glow rounded-[16px] overflow-hidden", className)}>
     {children}
   </div>
 ));
@@ -110,14 +110,14 @@ export const FeatureCard = memo(({ label, title, description, visual, color = "b
     <FadeIn delay={delay}>
       <div
         className={cn(
-          "bg-[#131620] border rounded-[16px] p-6 transition-all duration-200 hover:-translate-y-0.5 group relative overflow-hidden",
+          "bg-[#131620] border rounded-[16px] p-5 sm:p-6 transition-all duration-200 hover:-translate-y-0.5 group relative overflow-hidden",
           c.border
         )}
       >
         <div className={cn("text-[10px] tracking-[0.12em] uppercase font-medium mb-4", c.label)}>{label}</div>
         <div className="h-16 mb-5">{visual}</div>
         <h3 className="text-base font-semibold text-white mb-2">{title}</h3>
-        <p className="text-[13px] text-[#7a8099] leading-relaxed">{description}</p>
+        <p className="text-[13px] text-[#98a1b7] leading-relaxed">{description}</p>
       </div>
     </FadeIn>
   );

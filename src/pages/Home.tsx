@@ -69,7 +69,7 @@ const Features = memo(() => (
       <div className="mb-10 sm:mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">Built different. Literally.</h2>
-          <p className="text-base sm:text-lg text-[#9ca5bb] max-w-3xl">
+            <p className="text-base sm:text-lg text-[#a4abc0] max-w-3xl">
             We built the engine, the interface, every pixel — so the only thing you feel is the music.
           </p>
         </div>
@@ -77,7 +77,7 @@ const Features = memo(() => (
 
       </div>
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         <FeatureCard 
           label="Performance"
           color="teal"
@@ -283,7 +283,7 @@ const FounderCountdown = () => {
     <section id="founder-section" className="content-defer py-16 sm:py-20 lg:py-28 px-4 sm:px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,181,73,0.07),transparent_40%)] pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[20px] sm:rounded-[28px] p-5 sm:p-8 md:p-12">
+      <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[16px] sm:rounded-[20px] p-5 sm:p-8 md:p-12">
         <div className="max-w-3xl">
           <FadeIn
             className="flex justify-start mb-4 sm:mb-8"
@@ -350,6 +350,7 @@ const FounderCountdown = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@studio.mail"
                 required
+                aria-label="Email address for waitlist"
                 className="flex-1 h-12 px-4 rounded-[14px] bg-[#141924] border border-[#343c4d] text-white text-sm placeholder-[#6f778d] focus:outline-none focus:ring-2 focus:ring-[#d9b549]/35 focus:border-[#d9b549]/45"
               />
               <button

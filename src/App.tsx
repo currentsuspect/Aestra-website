@@ -108,12 +108,12 @@ export const App = () => {
         return (
            <>
             <Navbar activePage="features" setPage={handleSetPage} />
-            <div className="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
-              <button onClick={() => handleSetPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
+            <div className="pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-5xl mx-auto min-h-screen">
+              <button onClick={() => handleSetPage("home")} className="text-[#98a1b7] hover:text-white mb-6 sm:mb-8 flex items-center text-sm">
                 <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
               </button>
-              <h1 className="text-4xl font-bold text-white mb-4">What Aestra does.</h1>
-              <p className="text-[#9ca5bb] mb-16 max-w-2xl">Six systems. No filler. Every one built to work.</p>
+              <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4">What Aestra does.</h1>
+              <p className="text-[#98a1b7] mb-16 max-w-2xl">Six systems. No filler. Every one built to work.</p>
 
               <div className="space-y-16">
                 {[
@@ -134,12 +134,12 @@ export const App = () => {
                   };
                   const tc = tagColors[feature.tagColor] || tagColors.blue;
                   return (
-                  <div key={i} className="section-frame panel-glow rounded-[18px] p-8">
+                  <div key={i} className="section-frame panel-glow rounded-[16px] p-5 sm:p-8">
                     <div className="flex items-center gap-3 mb-4">
                       <span className={`text-[9px] font-bold ${tc.text} ${tc.bg} border ${tc.border} px-2 py-0.5 rounded`}>{feature.tag}</span>
                       <h2 className="text-2xl font-bold text-white">{feature.title}</h2>
                     </div>
-                    <p className="text-[#9ca5bb] mb-6 leading-relaxed">{feature.desc}</p>
+                    <p className="text-[#98a1b7] mb-6 leading-relaxed">{feature.desc}</p>
                     <ul className="space-y-2">
                       {feature.details.map((d, j) => (
                         <li key={j} className="flex items-start gap-2 text-sm text-[#cfd5e4]">

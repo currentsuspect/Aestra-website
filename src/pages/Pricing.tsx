@@ -8,16 +8,16 @@ export const Pricing = ({ setPage }: any) => {
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-7xl mx-auto">
       <div className="text-center mb-10 sm:mb-16">
         <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Free forever. Support if you believe.</h1>
-        <p className="text-base sm:text-xl text-[#9ca5bb]">The full DAW is free. Always.</p>
+        <p className="text-base sm:text-xl text-[#98a1b7]">The full DAW is free. Always.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 max-w-4xl mx-auto">
         {/* Free Tier */}
         <Card className="p-5 sm:p-8 flex flex-col relative">
           <div className="mb-6 sm:mb-8">
             <h3 className="text-lg sm:text-xl font-medium text-white mb-2">Aestra Core</h3>
             <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$0</div>
-            <p className="text-[#9ca5bb] text-xs sm:text-sm">Free forever. Full DAW. No gates.</p>
+            <p className="text-[#98a1b7] text-xs sm:text-sm">Free forever. Full DAW. No gates.</p>
           </div>
           <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-1">
             {["Full DAW — unlimited tracks", "Pattern-based workflow", "Routing visualizer", "Audition mode", "Version control (Takes)", "Basic plugins included"].map((feat, i) => (
@@ -61,7 +61,7 @@ export const Pricing = ({ setPage }: any) => {
             Limited to 500 — never reproduced
           </span>
           <h3 className="text-2xl font-bold text-white mb-2 relative z-10">Aestra Founder</h3>
-          <div className="text-4xl font-bold text-white mb-2 relative z-10">$129<span className="text-lg text-[#9ca5bb]"> once</span></div>
+          <div className="text-4xl font-bold text-white mb-2 relative z-10">$129<span className="text-lg text-[#98a1b7]"> once</span></div>
           <p className="text-[#c7bbff] text-sm mb-6 relative z-10">You believed first. This is your legacy.</p>
           <ul className="space-y-3 mb-8 text-left max-w-sm mx-auto relative z-10">
             {["Everything in Supporter, forever — no subscription", "Physical metal Founder card shipped to you", "Name in the app credits permanently", "Beta access to new platforms (mobile, tablet)", "Vote on feature priorities"].map((feat, i) => (

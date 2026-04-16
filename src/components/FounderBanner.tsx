@@ -13,7 +13,7 @@ export const FounderBanner = memo(({ onDismiss }: { onDismiss: () => void }) => 
         <span className="font-medium">Only 500 were made.</span>
         <span className="text-[#d9b549] underline underline-offset-2">Claim yours →</span>
       </a>
-      <button onClick={onDismiss} className="text-[#d9b549]/60 hover:text-white transition-colors">
+      <button onClick={onDismiss} className="text-[#d9b549]/60 hover:text-white transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Dismiss banner">
         <X className="w-4 h-4" />
       </button>
     </div>
