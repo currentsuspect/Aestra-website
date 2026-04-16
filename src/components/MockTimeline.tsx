@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
-import { motion, useMotionValue } from "framer-motion";
 import { Play, Pause, Plus, Minus, Square, Circle, Scissors, Mic, ChevronLeft, ChevronRight, Disc, Sliders, Music, Layers, Folder, Settings, Activity, FileText, Search, MoreHorizontal, LayoutTemplate, Cpu, Upload, Zap, Star, X, CreditCard, Menu, MousePointer, Pencil } from "lucide-react";
 import { cn, TRACK_HEIGHT, HEADER_WIDTH, RULER_HEIGHT, SNAP_GRID_PX } from "../lib";
 
@@ -13,7 +12,8 @@ export const MockTimeline = memo(() => {
   const [timelineView, setTimelineView] = useState<"arrangement" | "mixer">("arrangement");
   const [selectedFile, setSelectedFile] = useState(6);
   const [selectedTrack, setSelectedTrack] = useState(0);
-  const playheadX = useMotionValue(190);
+  const playheadRef = useRef<HTMLDivElement>(null);
+  const playheadPos = useRef(190);
 
   const files = useMemo(() => [
     { name: "Baby Keem - Ca$ino.flac", size: "28 MB" },
@@ -55,15 +55,18 @@ export const MockTimeline = memo(() => {
       last = ts;
       if (containerRef.current && isPlaying) {
         const maxX = containerRef.current.offsetWidth - 32;
-        const next = playheadX.get() + 94 * dt;
-        playheadX.set(next > maxX ? 190 : next);
+        const next = playheadPos.current + 94 * dt;
+        playheadPos.current = next > maxX ? 190 : next;
+        if (playheadRef.current) {
+          playheadRef.current.style.transform = `translateX(${playheadPos.current}px)`;
+        }
         setTime((prev) => (next > maxX ? 0 : prev + dt));
         af = requestAnimationFrame(tick);
       }
     };
     if (isPlaying) af = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(af);
-  }, [isPlaying, playheadX]);
+  }, [isPlaying]);
 
   const fmt = (t: number) => {
     const m = Math.floor(t / 60);
@@ -75,10 +78,7 @@ export const MockTimeline = memo(() => {
   const selectedTrackData = tracks[selectedTrack];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.4 }}
+    <div
       className="mt-8 sm:mt-12 lg:mt-16 max-w-7xl mx-auto relative px-0 sm:px-2"
     >
       {/* Mobile placeholder - simplified */}
@@ -141,7 +141,8 @@ export const MockTimeline = memo(() => {
                   onClick={() => {
                     setIsPlaying(false);
                     setTime(43.94);
-                    playheadX.set(190);
+                    playheadPos.current = 190;
+                    if (playheadRef.current) playheadRef.current.style.transform = 'translateX(190px)';
                   }}
                   className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
                 >
@@ -459,10 +460,10 @@ export const MockTimeline = memo(() => {
                     );
                   })}
 
-                  <motion.div className="absolute bottom-0 top-0 z-20 w-px bg-[#7a7cff]" style={{ x: playheadX }}>
+                  <div ref={playheadRef} className="absolute bottom-0 top-0 z-20 w-px bg-[#7a7cff]" style={{ transform: 'translateX(190px)' }}>
                     <div className="absolute -top-12 h-12 w-px bg-[#7a7cff]" />
                     <div className="absolute bottom-0 top-0 w-px bg-[#6e73ff] shadow-[0_0_12px_rgba(122,124,255,0.8)]" />
-                  </motion.div>
+                  </div>
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 h-8 border-t border-[#2d3342] bg-[#171922] px-4 flex items-center">
@@ -655,6 +656,6 @@ export const MockTimeline = memo(() => {
         )}
       </div>
       </div>
-    </motion.div>
+    </div>
   );
 });

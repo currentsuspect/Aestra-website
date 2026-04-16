@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
-import { motion } from "framer-motion";
 import { ChevronRight, Activity } from "lucide-react";
 import { cn } from "../lib";
 import { Button, Badge } from "../components/ui";

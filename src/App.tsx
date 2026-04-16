@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, memo, lazy, Suspense } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "./components/ui";
@@ -225,20 +224,9 @@ export const App = () => {
 
   return (
     <div className="site-shell min-h-screen text-zinc-100 font-sans selection:bg-[#8f82df]/30" role="document">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={page}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          role="main"
-          id="main-content"
-          aria-label="Main content"
-        >
-          {renderPage()}
-        </motion.div>
-      </AnimatePresence>
+      <div className="page-enter" role="main" id="main-content" aria-label="Main content">
+        {renderPage()}
+      </div>
     </div>
   );
 };

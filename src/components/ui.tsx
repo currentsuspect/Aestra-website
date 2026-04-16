@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
-import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
-import { cn } from "../lib";
+import { cn, useInView } from "../lib";
 
 // --- Loading fallback ---
 export const LoadingFallback = () => (
@@ -42,15 +41,13 @@ export const Button = memo(({
   };
 
   return (
-    <motion.button
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+    <button
       className={cn(baseStyles, variants[variant], sizes[size], className)}
       {...props}
     >
       {Icon && <Icon className={cn("w-4 h-4", children ? "mr-2" : "")} />}
       {children}
-    </motion.button>
+    </button>
   );
 });
 
@@ -80,6 +77,23 @@ export const Card = memo(({ children, className }: any) => (
 // --- Sections ---
 
 
+// --- FadeIn (replaces motion.div) ---
+export const FadeIn = memo(({ children, className, delay = 0, once = true }: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  once?: boolean;
+}) => {
+  const { ref, inView } = useInView();
+  const delayClass = delay > 0 ? `fade-in-delay-${Math.round(delay * 10)}` : "";
+  return (
+    <div ref={ref} className={cn("fade-in", inView && "visible", delayClass, className)}>
+      {children}
+    </div>
+  );
+});
+
+
 // --- FeatureCard ---
 const colorStyles: Record<string, { label: string; border: string; hoverBg: string }> = {
   teal:   { label: "text-[#1db4a6]", border: "border-transparent hover:border-[#1db4a6]" },
@@ -93,21 +107,19 @@ const colorStyles: Record<string, { label: string; border: string; hoverBg: stri
 export const FeatureCard = memo(({ label, title, description, visual, color = "blue", delay }: any) => {
   const c = colorStyles[color] || colorStyles.blue;
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.5 }}
-      className={cn(
-        "bg-[#131620] border rounded-[16px] p-6 transition-all duration-200 hover:-translate-y-0.5 group relative overflow-hidden",
-        c.border
-      )}
-    >
-      <div className={cn("text-[10px] tracking-[0.12em] uppercase font-medium mb-4", c.label)}>{label}</div>
-      <div className="h-16 mb-5">{visual}</div>
-      <h3 className="text-base font-semibold text-white mb-2">{title}</h3>
-      <p className="text-[13px] text-[#7a8099] leading-relaxed">{description}</p>
-    </motion.div>
+    <FadeIn delay={delay}>
+      <div
+        className={cn(
+          "bg-[#131620] border rounded-[16px] p-6 transition-all duration-200 hover:-translate-y-0.5 group relative overflow-hidden",
+          c.border
+        )}
+      >
+        <div className={cn("text-[10px] tracking-[0.12em] uppercase font-medium mb-4", c.label)}>{label}</div>
+        <div className="h-16 mb-5">{visual}</div>
+        <h3 className="text-base font-semibold text-white mb-2">{title}</h3>
+        <p className="text-[13px] text-[#7a8099] leading-relaxed">{description}</p>
+      </div>
+    </FadeIn>
   );
 });
 

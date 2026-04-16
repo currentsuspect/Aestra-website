@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Download, Menu, X } from "lucide-react";
 import { cn } from "../lib";
 import { Button, Badge } from "./ui";
@@ -87,33 +86,28 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: any) => {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#141924] border-b border-[#27272a] overflow-hidden"
-            role="dialog"
-            aria-label="Mobile navigation"
-          >
-            <div className="flex flex-col p-6 space-y-4">
-              {navLinks.map((link) => (
-                <button 
-                  key={link.id}
-                  onClick={() => { setPage(link.id); setMobileOpen(false); }}
-                  className="text-left text-zinc-300 hover:text-violet-400"
-                >
-                  {link.name}
-                </button>
-              ))}
-              <hr className="border-[#27272a]" />
-              <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-left text-zinc-300">GitHub</a>
-              <Button className="w-full" onClick={() => setPage("download")}>Download Free</Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {mobileOpen && (
+        <div
+          className="md:hidden bg-[#141924] border-b border-[#27272a] overflow-hidden"
+          role="dialog"
+          aria-label="Mobile navigation"
+        >
+          <div className="flex flex-col p-6 space-y-4">
+            {navLinks.map((link) => (
+              <button 
+                key={link.id}
+                onClick={() => { setPage(link.id); setMobileOpen(false); }}
+                className="text-left text-zinc-300 hover:text-violet-400"
+              >
+                {link.name}
+              </button>
+            ))}
+            <hr className="border-[#27272a]" />
+            <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-left text-zinc-300">GitHub</a>
+            <Button className="w-full" onClick={() => setPage("download")}>Download Free</Button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 });

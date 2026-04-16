@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+/* ── Animations (replaces framer-motion) ─────────────────────────── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-in-delay-1 { transition-delay: 0.1s; }
+.fade-in-delay-2 { transition-delay: 0.2s; }
+.fade-in-delay-3 { transition-delay: 0.3s; }
+.fade-in-delay-4 { transition-delay: 0.4s; }
+.fade-in-delay-5 { transition-delay: 0.5s; }
+
+.page-enter { animation: pageIn 0.2s ease forwards; }
+@keyframes pageIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 :root {
   --aestra-bg: #0d0f14;
   --aestra-bg-soft: #141821;

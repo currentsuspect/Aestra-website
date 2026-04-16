@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Download, ChevronRight, Check } from "lucide-react";
 import { cn } from "../lib";
-import { Button, Badge, FeatureCard } from "../components/ui";
+import { Button, Badge, FeatureCard, FadeIn } from "../components/ui";
 import { MockTimeline } from "../components/MockTimeline";
 
 const Hero = ({ setPage }: any) => {
@@ -11,42 +10,39 @@ const Hero = ({ setPage }: any) => {
       <div className="absolute inset-x-0 top-8 h-64 sm:h-80 lg:h-[560px] bg-[radial-gradient(circle_at_top,rgba(97,213,255,0.09),transparent_44%)] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        <FadeIn
           className="flex justify-start mb-4 sm:mb-8"
         >
           <Badge variant="outline">v1 Beta — December 2026</Badge>
-        </motion.div>
+        </FadeIn>
 
         <div className="grid gap-8 sm:gap-10">
           <div>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="editorial-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6"
+            <FadeIn
+              delay={0.1}
             >
-              Make music.<br />
-              <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">
-                Not excuses.
-              </span>
-            </motion.h1>
+              <h1
+                className="editorial-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6"
+              >
+                Make music.<br />
+                <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">
+                  Not excuses.
+                </span>
+              </h1>
+            </FadeIn>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-base sm:text-lg text-[#a4abc0] max-w-2xl mb-6 sm:mb-10 leading-relaxed"
+            <FadeIn
+              delay={0.2}
             >
-              You shouldn't need a high-end PC to make good music. Aestra opens instantly, runs on whatever you've got, and gets out of your way. No plugin scanning. No load times. Just make the beat.
-            </motion.p>
+              <p
+                className="text-base sm:text-lg text-[#a4abc0] max-w-2xl mb-6 sm:mb-10 leading-relaxed"
+              >
+                You shouldn't need a high-end PC to make good music. Aestra opens instantly, runs on whatever you've got, and gets out of your way. No plugin scanning. No load times. Just make the beat.
+              </p>
+            </FadeIn>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+            <FadeIn
+              delay={0.3}
               className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4"
             >
               <Button size="lg" onClick={() => setPage("download")} icon={Download} className="w-full sm:w-auto">
@@ -55,7 +51,7 @@ const Hero = ({ setPage }: any) => {
               <Button variant="secondary" size="lg" onClick={() => { const daw = document.querySelector("[data-daw-mockup]"); if (daw) daw.scrollIntoView({ behavior: "smooth" }); else setPage("features"); }} className="w-full sm:w-auto">
                 Open Signal Flow <ChevronRight className="ml-2 w-4 h-4" />
               </Button>
-            </motion.div>
+            </FadeIn>
           </div>
         </div>
       </div>
@@ -289,10 +285,7 @@ const FounderCountdown = () => {
 
       <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[20px] sm:rounded-[28px] p-5 sm:p-8 md:p-12">
         <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+          <FadeIn
             className="flex justify-start mb-4 sm:mb-8"
           >
             <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs sm:text-sm font-medium">
@@ -300,41 +293,38 @@ const FounderCountdown = () => {
               <span className="hidden sm:inline">Founder Gold Card Window</span>
               <span className="sm:hidden">Founder Gold</span>
             </span>
-          </motion.div>
+          </FadeIn>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 editorial-title"
+          <FadeIn
+            delay={0.1}
           >
-            <span className="sm:hidden">No second runs</span>
-            <span className="hidden sm:inline">
-              Some things
-              <br />
-            </span>
-            <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#d9b549,#f1d88b_55%,#b6a8ff)]">
-              don't get a second run.
-            </span>
-          </motion.h2>
+            <h2
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 editorial-title"
+            >
+              <span className="sm:hidden">No second runs</span>
+              <span className="hidden sm:inline">
+                Some things
+                <br />
+              </span>
+              <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#d9b549,#f1d88b_55%,#b6a8ff)]">
+                don't get a second run.
+              </span>
+            </h2>
+          </FadeIn>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-base sm:text-lg text-[#a4abc0] mb-6 sm:mb-12 max-w-2xl"
+          <FadeIn
+            delay={0.2}
           >
-            Not a subscription. Not a tier. A piece of history — your name in the product, a metal card in your hand, and lifetime access from day one.
-          </motion.p>
+            <p
+              className="text-base sm:text-lg text-[#a4abc0] mb-6 sm:mb-12 max-w-2xl"
+            >
+              Not a subscription. Not a tier. A piece of history — your name in the product, a metal card in your hand, and lifetime access from day one.
+            </p>
+          </FadeIn>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
+        <FadeIn
+          delay={0.3}
           className="mb-8 sm:mb-12"
         >
           <div className="flex items-center justify-between mb-3">
@@ -347,13 +337,10 @@ const FounderCountdown = () => {
               style={{ width: `${((500 - spotsLeft) / 500) * 100}%` }}
             />
           </div>
-        </motion.div>
+        </FadeIn>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
+        <FadeIn
+          delay={0.4}
         >
           {!submitted ? (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-xl">
@@ -385,7 +372,7 @@ const FounderCountdown = () => {
             </div>
           )}
           {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
-        </motion.div>
+        </FadeIn>
 
 
 

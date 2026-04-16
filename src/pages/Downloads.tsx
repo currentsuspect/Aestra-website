@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
-import { motion } from "framer-motion";
 import { ArrowRight, Monitor, Apple, Terminal, Globe } from "lucide-react";
 import { cn } from "../lib";
 import { Button, Card, Badge } from "../components/ui";
