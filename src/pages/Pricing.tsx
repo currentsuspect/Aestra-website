@@ -191,7 +191,7 @@ export const Pricing = ({ setPage }: any) => {
                 Limited to 500 — never reproduced
               </div>
               <h2 className="founder-title">You believed<br/><em>first.</em></h2>
-              <p className="founder-subline">Not a tier. A record. Your name ships inside every copy of Aestra, permanently. The card is physical proof.</p>
+              <p className="founder-subline">Not a tier. A record. Your name ships inside every copy of Aestra, permanently. The card is your proof of being first.</p>
             </div>
             <CardVisual tier="founder" label="Founder" num="#0001" accent="gold" />
           </div>
@@ -199,7 +199,7 @@ export const Pricing = ({ setPage }: any) => {
           <AnimatedCounter target={31} total={500} />
 
           <div className="founder-features">
-            {["Everything in Supporter, forever", "100GB Aestra Cloud for life", "Physical metal card shipped to you", "Name in app credits, permanent", "Beta access — mobile & tablet", "Vote on feature priorities", "No subscription. Ever."].map((feat, i) => (
+            {["Everything in Supporter, forever", "100GB Aestra Cloud for life", "Exclusive Founder card — your number forever", "Name in app credits, permanent", "Beta access — mobile & tablet", "Vote on feature priorities", "No subscription. Ever."].map((feat, i) => (
               <div key={i} className="f-chip">
                 <div className="f-chip-dot" />
                 {feat}
@@ -216,7 +216,7 @@ export const Pricing = ({ setPage }: any) => {
               Join the Waitlist →
             </button>
           </div>
-          <div className="founder-fine">Shipped when beta launches — December 2026. Waitlist locks your slot number.</div>
+          <div className="founder-fine">Founder access activates when beta launches — December 2026. Waitlist locks your slot number.</div>
         </div>
       </div>
 
@@ -303,7 +303,7 @@ export const Pricing = ({ setPage }: any) => {
             ["Silver card identity", false, true, true],
             ["100GB Aestra Cloud", false, true, true],
             ["Extra storage add-ons", false, true, true],
-            ["Physical metal Founder card", false, false, true],
+            ["Exclusive Founder card (digital)", false, false, true],
             ["Name in app credits (permanent)", false, false, true],
             ["Beta access — mobile & tablet", false, false, true],
             ["Vote on feature priorities", false, false, true],
