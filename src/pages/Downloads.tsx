@@ -54,7 +54,7 @@ export const Downloads = ({ setPage }: any) => {
         </span>
         <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Some things don't get a second run.</h3>
         <p className="text-[#98a1b7] text-sm mb-6 max-w-md mx-auto">
-          Not a subscription. Not a tier. A piece of history — your name in the product, a metal card in your hand, and lifetime access from day one.
+          Not a subscription. Not a tier. A piece of history — your name in the product, your Founder number forever, and lifetime access from day one.
         </p>
         <Button
           variant="primary"

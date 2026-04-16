@@ -318,7 +318,7 @@ const FounderCountdown = () => {
             <p
               className="text-base sm:text-lg text-[#a4abc0] mb-6 sm:mb-12 max-w-2xl"
             >
-              Not a subscription. Not a tier. A piece of history — your name in the product, a metal card in your hand, and lifetime access from day one.
+              Not a subscription. Not a tier. A piece of history — your name in the product, your Founder number forever, and lifetime access from day one.
             </p>
           </FadeIn>
         </div>
