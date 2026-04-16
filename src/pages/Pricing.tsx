@@ -115,6 +115,7 @@ export const Pricing = ({ setPage }: any) => {
       <div className="tiers-grid">
         {/* Core */}
         <div className="tier-card tier-core">
+          <div className="supporter-badge-top supporter-badge-hidden">.</div>
           <div className="tier-card-header">
             <div className="tier-card-info">
               <div className="tier-label tier-label-default">Core</div>
@@ -132,6 +133,13 @@ export const Pricing = ({ setPage }: any) => {
             ))}
           </ul>
           <button className="tier-btn btn-free" onClick={() => setPage("download")}>Download Free</button>
+          <div className="supporter-proof supporter-proof-hidden">
+            <span>No lock-in on your projects</span>
+            <span>·</span>
+            <span>Funds core development</span>
+            <span>·</span>
+            <span>Cancel anytime</span>
+          </div>
         </div>
 
         {/* Supporter */}

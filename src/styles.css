@@ -191,6 +191,10 @@
   padding-bottom: 16px;
   border-bottom: 1px solid #1e2a40;
 }
+.supporter-badge-hidden {
+  visibility: hidden;
+  border-bottom-color: transparent;
+}
 
 .supporter-proof {
   display: flex;
@@ -203,6 +207,9 @@
   flex-wrap: wrap;
 }
 .supporter-proof span { white-space: nowrap; }
+.supporter-proof-hidden {
+  visibility: hidden;
+}
 
 .tier-label {
   font-size: 10px;
