@@ -9,21 +9,65 @@ const CheckIcon = () => (
   </svg>
 );
 
-const MetalCard = () => (
-  <div className="metal-card">
-    <div className="metal-shine" />
-    <div className="metal-card-logo">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-        <path d="M3 8L8 3L13 8L8 13Z" stroke="#3a2800" strokeWidth="1.5" fill="none" strokeLinejoin="round" opacity="0.6"/>
-        <circle cx="8" cy="8" r="2" fill="#3a2800" opacity="0.6"/>
-      </svg>
-      <span className="metal-card-brand">AESTRA</span>
-    </div>
-    <div className="metal-card-name">Founder</div>
-    <div className="metal-card-num">#0001</div>
-  </div>
-);
+/* ── Flip Card Visual ───────────────────────────────────────────── */
+const CardVisual = ({ tier, label, num, accent }: { tier: string; label: string; num?: string; accent: string }) => {
+  const [flipped, setFlipped] = useState(false);
 
+  const gradients: Record<string, string> = {
+    core: "linear-gradient(135deg, #3a3f55 0%, #6b7280 30%, #4a5068 60%, #8a9098 100%)",
+    supporter: "linear-gradient(135deg, #1e3a6e 0%, #3b82f6 30%, #2563eb 60%, #60a5fa 100%)",
+    founder: "linear-gradient(135deg, #c8a84b 0%, #f5d980 30%, #a87c20 60%, #e8c060 100%)",
+  };
+
+  const logoStroke = tier === "founder" ? "#3a2800" : tier === "supporter" ? "#1a2a50" : "#1a1e2a";
+  const textColor = tier === "founder" ? "#3a2800" : tier === "supporter" ? "#c8d8ff" : "#c0c4d0";
+
+  return (
+    <div className="card-visual-wrap" onClick={(e) => { e.stopPropagation(); setFlipped(!flipped); }}>
+      <div className={cn("card-visual-inner", flipped && "flipped")}>
+        {/* Front */}
+        <div className="card-visual-face card-visual-front" style={{ background: gradients[tier] }}>
+          <div className="card-visual-shine" />
+          <div className="card-visual-logo">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8L8 3L13 8L8 13Z" stroke={logoStroke} strokeWidth="1.5" fill="none" strokeLinejoin="round" opacity="0.7"/>
+              <circle cx="8" cy="8" r="2" fill={logoStroke} opacity="0.7"/>
+            </svg>
+            <span style={{ fontSize: "9px", fontWeight: 700, color: logoStroke, opacity: 0.7, letterSpacing: "0.05em" }}>AESTRA</span>
+          </div>
+          <div className="card-visual-label" style={{ color: textColor }}>{label}</div>
+          {num && <div className="card-visual-num" style={{ color: textColor }}>{num}</div>}
+        </div>
+        {/* Back */}
+        <div className="card-visual-face card-visual-back" style={{ background: gradients[tier] }}>
+          <div className="card-visual-shine" />
+          <div className="card-back-content" style={{ color: tier === "founder" ? "#3a2800" : "#fff" }}>
+            {tier === "core" && (
+              <>
+                <div className="card-back-icon">∞</div>
+                <div className="card-back-text">No limits.<br/>No catch.<br/>No compromise.</div>
+              </>
+            )}
+            {tier === "supporter" && (
+              <>
+                <div className="card-back-icon">⚡</div>
+                <div className="card-back-text">Your sound.<br/>Your AI.<br/>Your plugins.</div>
+              </>
+            )}
+            {tier === "founder" && (
+              <>
+                <div className="card-back-icon">👑</div>
+                <div className="card-back-text">Your name.<br/>Every copy.<br/>Forever.</div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ── Animated Counter ───────────────────────────────────────────── */
 const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?: number }) => {
   const [count, setCount] = useState(0);
   const [fillWidth, setFillWidth] = useState(0);
@@ -37,9 +81,7 @@ const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?
         setCount(c);
         if (c >= target) clearInterval(interval);
       }, 40);
-      return () => clearInterval(interval);
     }, 600);
-    return () => clearTimeout(timeout);
   }, [target, total]);
 
   return (
@@ -52,6 +94,7 @@ const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?
   );
 };
 
+/* ── Main Pricing Page ──────────────────────────────────────────── */
 export const Pricing = ({ setPage }: any) => {
   return (
     <div className="min-h-screen">
@@ -67,9 +110,14 @@ export const Pricing = ({ setPage }: any) => {
       <div className="tiers-grid">
         {/* Core */}
         <div className="tier-card tier-core">
-          <div className="tier-label tier-label-default">Core</div>
-          <div className="tier-price">$0 <span className="free-label">forever</span></div>
-          <div className="tier-tagline">Full DAW. No time limits.<br/>No "export to unlock."</div>
+          <div className="tier-card-header">
+            <div className="tier-card-info">
+              <div className="tier-label tier-label-default">Core</div>
+              <div className="tier-price">$0 <span className="free-label">forever</span></div>
+              <div className="tier-tagline">Full DAW. No time limits.<br/>No "export to unlock."</div>
+            </div>
+            <CardVisual tier="core" label="Core" accent="grey" />
+          </div>
           <ul className="feature-list">
             {["Unlimited tracks & patterns", "Pattern-based workflow", "Routing visualizer", "Audition mode", "Version control (Takes)", "Built-in plugin suite"].map((feat, i) => (
               <li key={i}>
@@ -83,9 +131,14 @@ export const Pricing = ({ setPage }: any) => {
 
         {/* Supporter */}
         <div className="tier-card tier-supporter">
-          <div className="tier-label tier-label-purple">Supporter</div>
-          <div className="tier-price">$5 <sub>/mo</sub></div>
-          <div className="tier-tagline">Back the build.<br/>Get the extras.</div>
+          <div className="tier-card-header">
+            <div className="tier-card-info">
+              <div className="tier-label tier-label-purple">Supporter</div>
+              <div className="tier-price">$5 <sub>/mo</sub></div>
+              <div className="tier-tagline">Back the build.<br/>Get the extras.</div>
+            </div>
+            <CardVisual tier="supporter" label="Supporter" accent="blue" />
+          </div>
           <ul className="feature-list">
             {["Everything in Core", "Muse — AI assistant, runs on your machine", "Premium plugins (Rumble, more dropping monthly)", "Cloud storage for Takes", "Monthly sound packs"].map((feat, i) => (
               <li key={i}>
@@ -119,7 +172,7 @@ export const Pricing = ({ setPage }: any) => {
               <h2 className="founder-title">You believed<br/><em>first.</em></h2>
               <p className="founder-subline">Not a tier. A record. Your name ships inside every copy of Aestra, permanently. The card is physical proof.</p>
             </div>
-            <MetalCard />
+            <CardVisual tier="founder" label="Founder" num="#0001" accent="gold" />
           </div>
 
           <AnimatedCounter target={31} total={500} />

@@ -22,7 +22,107 @@
   to { opacity: 1; }
 }
 
-/* ── Pricing Page ────────────────────────────────────────────────── */
+/* ── Card Visual (flippable) ─────────────────────────────────────── */
+.tier-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.tier-card-info { flex: 1; }
+
+.card-visual-wrap {
+  width: 120px;
+  height: 76px;
+  flex-shrink: 0;
+  perspective: 600px;
+  cursor: pointer;
+}
+.card-visual-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.card-visual-inner.flipped {
+  transform: rotateY(180deg);
+}
+.card-visual-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.card-visual-back {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-visual-shine {
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 60%;
+  height: 160%;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+  transform: rotate(15deg);
+  animation: shine 4s ease-in-out infinite;
+}
+.card-visual-logo {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.card-visual-label {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.card-visual-num {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  opacity: 0.5;
+  letter-spacing: 0.08em;
+}
+.card-back-content {
+  text-align: center;
+  z-index: 1;
+}
+.card-back-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+.card-back-text {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .card-visual-wrap { width: 100px; height: 64px; }
+  .card-back-icon { font-size: 18px; }
+  .card-back-text { font-size: 7px; }
+}
+
+/* ── 404 Page ────────────────────────────────────────────────────── */
 .pricing-hero-title {
   font-size: clamp(36px, 6vw, 56px);
   font-weight: 700;
