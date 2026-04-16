@@ -22,7 +22,422 @@
   to { opacity: 1; }
 }
 
-/* ── Flip Card ───────────────────────────────────────────────────── */
+/* ── Pricing Page ────────────────────────────────────────────────── */
+.pricing-hero-title {
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+  color: #f0f0f0;
+}
+.pricing-hero-title em {
+  font-style: normal;
+  color: #e8a230;
+}
+.pricing-hero-sub {
+  font-size: 16px;
+  color: #4e5570;
+  max-width: 420px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.tiers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px 16px;
+}
+@media (max-width: 600px) {
+  .tiers-grid { grid-template-columns: 1fr; }
+}
+
+.tier-card {
+  background: #0f1118;
+  border: 1px solid #1a1e2a;
+  border-radius: 18px;
+  padding: 32px;
+  transition: border-color 0.2s;
+}
+.tier-core:hover { border-color: #2a2f42; }
+.tier-supporter { border-color: #1e1a2e; }
+.tier-supporter:hover { border-color: #3b3560; }
+
+.tier-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.tier-label-default { color: #3a3f55; }
+.tier-label-purple { color: #7c6fe0; }
+
+.tier-price {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 4px;
+  color: #f0f0f0;
+}
+.tier-price sub {
+  font-size: 16px;
+  font-weight: 400;
+  color: #4e5570;
+  letter-spacing: 0;
+  vertical-align: baseline;
+  margin-left: 2px;
+}
+.free-label {
+  font-size: 16px;
+  font-weight: 400;
+  color: #4caf6e;
+  margin-left: 8px;
+  letter-spacing: 0;
+}
+
+.tier-tagline {
+  font-size: 13px;
+  color: #3a4060;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.feature-list {
+  list-style: none;
+  margin-bottom: 32px;
+}
+.feature-list li {
+  font-size: 13px;
+  color: #7a8099;
+  padding: 7px 0;
+  border-bottom: 1px solid #13161e;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+.feature-list li:last-child { border-bottom: none; }
+
+.check {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.check-free { background: #4caf6e18; }
+.check-free svg { color: #4caf6e; }
+.check-sup { background: #7c6fe018; }
+.check-sup svg { color: #9a8ff0; }
+
+.tier-btn {
+  width: 100%;
+  border-radius: 11px;
+  padding: 13px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-free {
+  background: transparent;
+  border: 1px solid #1e2230;
+  color: #5a6080;
+}
+.btn-free:hover { border-color: #3a3f55; color: #b0b8d0; }
+.btn-supporter {
+  background: #7c6fe0;
+  border: none;
+  color: #fff;
+}
+.btn-supporter:hover { background: #9a8ff0; }
+
+.tiers-note {
+  text-align: center;
+  font-size: 12px;
+  color: #2a2f42;
+  padding: 0 24px 48px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tier-divider {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.div-line { flex: 1; height: 1px; background: #13161e; }
+.div-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2a2f42;
+  white-space: nowrap;
+}
+
+/* Founder Section */
+.founder-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.founder-card {
+  border-radius: 20px;
+  border: 1px solid #2a2410;
+  background: #0e0c08;
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.founder-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 20%, #e8a23008 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, #b8741808 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.founder-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.founder-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #e8a23012;
+  border: 1px solid #e8a23030;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e8a230;
+  margin-bottom: 20px;
+}
+.founder-badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e8a230;
+  animation: goldpulse 2s ease-in-out infinite;
+}
+@keyframes goldpulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.founder-title {
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  color: #f0e8d0;
+}
+.founder-title em {
+  font-style: normal;
+  color: #e8a230;
+}
+
+.founder-subline {
+  font-size: 14px;
+  color: #5a5040;
+  line-height: 1.6;
+  max-width: 360px;
+}
+
+/* Metal Card */
+.metal-card {
+  width: 160px;
+  height: 100px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #c8a84b 0%, #f5d980 30%, #a87c20 60%, #e8c060 100%);
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 8px 32px #e8a23020, 0 2px 8px #00000060;
+  overflow: hidden;
+}
+.metal-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%, rgba(0,0,0,0.15) 100%);
+}
+.metal-card-logo {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.metal-card-logo svg { opacity: 0.85; }
+.metal-card-brand {
+  font-size: 10px;
+  font-weight: 700;
+  color: #3a2800;
+  opacity: 0.65;
+  letter-spacing: 0.05em;
+}
+.metal-card-name {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #3a2800;
+  opacity: 0.7;
+}
+.metal-card-num {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #3a2800;
+  opacity: 0.5;
+  letter-spacing: 0.08em;
+}
+.metal-shine {
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 60%;
+  height: 160%;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
+  transform: rotate(15deg);
+  animation: shine 4s ease-in-out infinite;
+}
+@keyframes shine {
+  0%, 100% { left: -30%; }
+  50% { left: 100%; }
+}
+
+/* Counter */
+.founder-counter {
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.counter-track {
+  flex: 1;
+  height: 3px;
+  background: #1e1a12;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.counter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #b87820, #e8a230);
+  border-radius: 3px;
+  transition: width 1.5s ease;
+}
+.counter-text {
+  font-size: 12px;
+  color: #5a5040;
+  white-space: nowrap;
+}
+.counter-text b { color: #e8a230; font-weight: 600; }
+
+/* Feature Chips */
+.founder-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+.f-chip {
+  background: #15120a;
+  border: 1px solid #2a2210;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: #6a6040;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.f-chip:hover { border-color: #e8a23030; color: #c09030; }
+.f-chip-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #e8a23060;
+  flex-shrink: 0;
+}
+
+.founder-bottom {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.founder-price {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  color: #f0e8d0;
+}
+.founder-price span {
+  font-size: 16px;
+  font-weight: 400;
+  color: #5a5040;
+  letter-spacing: 0;
+  margin-left: 4px;
+}
+.btn-founder {
+  flex: 1;
+  min-width: 180px;
+  background: linear-gradient(135deg, #b87820, #e8a230);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2a1800;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn-founder:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-founder:active { transform: translateY(0); }
+.founder-fine {
+  font-size: 11px;
+  color: #2a2210;
+  text-align: center;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .founder-card { padding: 28px; }
+  .founder-top { flex-direction: column-reverse; }
+  .metal-card { width: 100%; height: 130px; }
+  .founder-bottom { flex-direction: column; }
+  .founder-price { text-align: center; }
+}
 .flip-card {
   perspective: 1000px;
   cursor: pointer;
