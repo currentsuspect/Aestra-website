@@ -154,7 +154,7 @@ export const Pricing = ({ setPage }: any) => {
             <CardVisual tier="supporter" label="Supporter" accent="blue" />
           </div>
           <ul className="feature-list">
-            {["Everything in Core", "Muse — AI assistant, runs on your machine", "Premium plugins (Rumble, more dropping monthly)", "Cloud storage for Takes", "Monthly sound packs"].map((feat, i) => (
+            {["Everything in Core", "Muse — AI assistant, runs on your machine", "Premium plugins (Rumble, more dropping monthly)", "100GB Aestra Cloud included", "Monthly sound packs"].map((feat, i) => (
               <li key={i}>
                 <span className="check check-sup"><CheckIcon /></span>
                 {feat}
@@ -199,7 +199,7 @@ export const Pricing = ({ setPage }: any) => {
           <AnimatedCounter target={31} total={500} />
 
           <div className="founder-features">
-            {["Everything in Supporter, forever", "Physical metal card shipped to you", "Name in app credits, permanent", "Beta access — mobile & tablet", "Vote on feature priorities", "No subscription. Ever."].map((feat, i) => (
+            {["Everything in Supporter, forever", "100GB Aestra Cloud for life", "Physical metal card shipped to you", "Name in app credits, permanent", "Beta access — mobile & tablet", "Vote on feature priorities", "No subscription. Ever."].map((feat, i) => (
               <div key={i} className="f-chip">
                 <div className="f-chip-dot" />
                 {feat}
@@ -298,9 +298,11 @@ export const Pricing = ({ setPage }: any) => {
             </div>
           ))}
 
-          <div className="compare-category">Identity & Access</div>
+          <div className="compare-category">Cloud & Identity</div>
           {[
             ["Silver card identity", false, true, true],
+            ["100GB Aestra Cloud", false, true, true],
+            ["Extra storage add-ons", false, true, true],
             ["Physical metal Founder card", false, false, true],
             ["Name in app credits (permanent)", false, false, true],
             ["Beta access — mobile & tablet", false, false, true],
