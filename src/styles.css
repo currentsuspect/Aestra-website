@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  --aestra-bg: #0d0f14;
+  --aestra-bg-soft: #141821;
+  --aestra-panel: #1a1f2a;
+  --aestra-panel-2: #222838;
+  --aestra-border: #394050;
+  --aestra-text: #eef2fa;
+  --aestra-muted: #98a1b7;
+  --aestra-purple: #8f82df;
+  --aestra-purple-bright: #b6a8ff;
+  --aestra-cyan: #61d5ff;
+  --aestra-amber: #d9b549;
+}
+
+body {
+  background:
+    radial-gradient(circle at top center, rgba(97, 213, 255, 0.08), transparent 28%),
+    radial-gradient(circle at 20% 20%, rgba(143, 130, 223, 0.12), transparent 24%),
+    linear-gradient(180deg, #0d1017 0%, #0a0c12 46%, #090b10 100%);
+  color: var(--aestra-text);
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #0b0d12;
+}
+::-webkit-scrollbar-thumb {
+    background: #343a49;
+    border-radius: 5px;
+    border: 2px solid #0b0d12;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #4c5468;
+}
+
+.site-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: clip;
+}
+
+.site-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 84px 84px;
+  mask-image: radial-gradient(circle at center, black 28%, transparent 92%);
+  opacity: 0.28;
+}
+
+.site-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(97, 213, 255, 0.08), transparent 18%),
+    radial-gradient(circle at 85% 12%, rgba(143, 130, 223, 0.08), transparent 22%),
+    radial-gradient(circle at 50% 80%, rgba(217, 181, 73, 0.05), transparent 20%);
+}
+
+.section-frame {
+  border: 1px solid rgba(97, 213, 255, 0.12);
+  background: linear-gradient(180deg, rgba(20, 24, 33, 0.9), rgba(14, 17, 24, 0.94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.panel-glow {
+  position: relative;
+}
+
+.panel-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(97, 213, 255, 0.35), rgba(143, 130, 223, 0.22), rgba(217, 181, 73, 0.18));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.editorial-title {
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}

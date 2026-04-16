@@ -919,10 +919,9 @@ const Hero = ({ setPage }: any) => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="editorial-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6"
             >
-              A studio interface
-              <br />
+              Make beats.<br />
               <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">
-                disguised as a landing page.
+                Not excuses.
               </span>
             </motion.h1>
 
@@ -932,8 +931,7 @@ const Hero = ({ setPage }: any) => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-base sm:text-lg text-[#a4abc0] max-w-2xl mb-6 sm:mb-10 leading-relaxed"
             >
-              Aestra should feel like it already belongs on your second monitor before you download it.
-              The site now borrows the same panel logic, cyan edges, lavender controls, and late-night control-room atmosphere as the DAW itself.
+              A pattern-first DAW built for hip-hop and electronic production. C++17, instant startup, runs on anything. No plugin scanning, no bloat — just your sound.
             </motion.p>
 
             <motion.div
@@ -1006,15 +1004,13 @@ const Features = memo(() => (
     <div className="max-w-7xl mx-auto">
       <div className="mb-10 sm:mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">Every section now behaves like a module in the DAW.</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">Built different. Literally.</h2>
           <p className="text-base sm:text-lg text-[#9ca5bb] max-w-3xl">
-            The marketing site is no longer a detached brand layer. It uses the same visual grammar as the product:
-            stacked dark surfaces, surgical accents, and dense information blocks that feel like instruments instead of cards.
+            C++17, custom OpenGL UI, 64-bit audio engine. Everything optimized for the hardware you actually have.
           </p>
         </div>
-        <div className="section-frame panel-glow rounded-[18px] px-4 sm:px-5 py-3 sm:py-4 text-xs sm:text-sm text-[#cfd5e4] whitespace-nowrap">
-          Colorway: <span className="text-[#61d5ff]">cyan edges</span> · <span className="text-[#b6a8ff]">lavender controls</span> · <span className="text-[#d9b549]">amber status</span>
-        </div>
+
+
       </div>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
@@ -1056,18 +1052,7 @@ const Features = memo(() => (
         />
       </div>
 
-      <div className="mt-6 sm:mt-10 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          ["System", "Panels inherit DAW chrome instead of flat marketing sections."],
-          ["Texture", "Subtle grid, glows, and hard-edged panel nesting replace generic gradients."],
-          ["Mood", "Everything now sits in the same late-night control-room atmosphere as the app."],
-        ].map(([label, copy]) => (
-          <div key={label} className="rounded-[18px] border border-[#30384a] bg-[#121722]/88 px-4 sm:px-5 py-3 sm:py-4">
-            <div className="mb-2 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#d9b549]">{label}</div>
-            <p className="text-xs sm:text-sm text-[#98a1b7]">{copy}</p>
-          </div>
-        ))}
-      </div>
+
     </div>
   </section>
 ));
