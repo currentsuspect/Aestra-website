@@ -193,7 +193,7 @@ const Navbar = memo(({ activePage, setPage, topOffset = 0 }: any) => {
             GitHub
           </a>
           <Button size="sm" onClick={() => setPage("download")} icon={Download}>
-            Download Beta
+            View Dev Builds
           </Button>
         </div>
 
@@ -931,7 +931,7 @@ const Hero = ({ setPage }: any) => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-base sm:text-lg text-[#a4abc0] max-w-2xl mb-6 sm:mb-10 leading-relaxed"
             >
-              A pattern-first DAW built for hip-hop and electronic production. C++17, instant startup, runs on anything. No plugin scanning, no bloat — just your sound.
+              A pattern-first DAW being built for hip-hop and electronic production. C++17, instant startup, lean by default. No plugin scanning theater, no bloat, no feature gates.
             </motion.p>
 
             <motion.div
@@ -941,7 +941,7 @@ const Hero = ({ setPage }: any) => {
               className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4"
             >
               <Button size="lg" onClick={() => setPage("download")} icon={Download} className="w-full sm:w-auto">
-                Download Beta
+                View Dev Builds
               </Button>
               <Button variant="secondary" size="lg" onClick={() => { const daw = document.querySelector("[data-daw-mockup]"); if (daw) daw.scrollIntoView({ behavior: "smooth" }); else setPage("features"); }} className="w-full sm:w-auto">
                 Open Signal Flow <ChevronRight className="ml-2 w-4 h-4" />
@@ -957,8 +957,8 @@ const Hero = ({ setPage }: any) => {
           >
             <div className="mb-4 flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-[#93cfe3]">
               <span>Session Status</span>
-              <span className="text-[#d9b549] hidden sm:inline">Founder Window Open</span>
-              <span className="text-[#d9b549] sm:hidden">Open</span>
+              <span className="text-[#d9b549] hidden sm:inline">Beta Target: Dec 2026</span>
+              <span className="text-[#d9b549] sm:hidden">Dec 2026</span>
             </div>
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               {[
@@ -1062,7 +1062,6 @@ const FounderCountdown = () => {
   const [timeLeft, setTimeLeft] = useState({ months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [spotsLeft] = useState(500);
 
   useEffect(() => {
     const update = () => {
@@ -1137,8 +1136,8 @@ const FounderCountdown = () => {
           >
             <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs sm:text-sm font-medium">
               <span className="w-2 h-2 rounded-full bg-[#d9b549] animate-pulse" />
-              <span className="hidden sm:inline">Founder Gold Card Window</span>
-              <span className="sm:hidden">Founder Gold</span>
+              <span className="hidden sm:inline">Prelaunch Roadmap</span>
+              <span className="sm:hidden">Prelaunch</span>
             </span>
           </motion.div>
 
@@ -1149,13 +1148,13 @@ const FounderCountdown = () => {
             transition={{ delay: 0.1 }}
             className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 editorial-title"
           >
-            <span className="sm:hidden">The collectible part</span>
+            <span className="sm:hidden">Beta first.</span>
             <span className="hidden sm:inline">
-              The only part of the site
+              The DAW ships first.
               <br />
             </span>
             <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#d9b549,#f1d88b_55%,#b6a8ff)]">
-              that should feel collectible.
+              Founder comes after Beta.
             </span>
           </motion.h2>
 
@@ -1166,8 +1165,8 @@ const FounderCountdown = () => {
             transition={{ delay: 0.2 }}
             className="text-base sm:text-lg text-[#a4abc0] mb-6 sm:mb-12 max-w-2xl"
           >
-            Founder should feel less like a SaaS upgrade and more like a rare piece of studio identity.
-            Lifetime access. Metal card. Your name archived inside the product.
+            Aestra v1 Beta is targeted for December 2026 and stays free. Founder is planned for v1.0 in 2027:
+            a limited physical card, lifetime Supporter access, and a piece of studio identity for the people who backed it early.
           </motion.p>
         </div>
 
@@ -1206,7 +1205,7 @@ const FounderCountdown = () => {
                 disabled={submitting}
                 className="h-12 px-6 rounded-[14px] border border-[#d9b549]/40 bg-[linear-gradient(180deg,#d9b549,#a7802c)] text-white font-medium text-sm hover:brightness-105 transition-all shadow-[0_0_22px_rgba(217,181,73,0.22)] disabled:opacity-50 whitespace-nowrap"
               >
-                {submitting ? "Joining..." : "Join Waitlist"}
+                {submitting ? "Joining..." : "Join Founder Waitlist"}
               </button>
             </form>
           ) : (
@@ -1216,14 +1215,14 @@ const FounderCountdown = () => {
                 <span className="font-medium">You're on the list.</span>
               </div>
               <p className="text-[#8b94aa] text-sm">
-                We'll email you when Founder cards open. Watch the countdown.
+                We'll email you when Beta lands and the Founder launch window is ready.
               </p>
             </div>
           )}
           {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
         </motion.div>
 
-        <p className="text-[#7e869b] text-xs mt-6">{spotsLeft} Founder cards available — 0 claimed yet</p>
+        <p className="text-[#7e869b] text-xs mt-6">Founder is planned for v1.0. Beta users get first access before the public window.</p>
       </div>
     </section>
   );
@@ -1231,10 +1230,9 @@ const FounderCountdown = () => {
 
 const Downloads = ({ setPage }: any) => {
   const builds = [
-    { os: "Source", arch: "GitHub", ver: "develop", date: "Latest", type: "Open Source", url: "https://github.com/currentsuspect/Aestra" },
-    { os: "Windows", arch: "x64", ver: "CI Build", date: "Live", type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
-    { os: "macOS", arch: "Apple Silicon", ver: "CI Build", date: "Live", type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
-    { os: "Linux", arch: "Ubuntu/Debian", ver: "CI Build", date: "Live", type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
+    { os: "Source", arch: "GitHub", ver: "develop", date: "Latest", type: "Source", url: "https://github.com/currentsuspect/Aestra" },
+    { os: "Windows", arch: "x64", ver: "CI Preview", date: "Rolling", type: "Dev Build", url: "https://github.com/currentsuspect/Aestra/actions" },
+    { os: "Linux", arch: "Contributor-Owned", ver: "CI Preview", date: "Experimental", type: "Dev Build", url: "https://github.com/currentsuspect/Aestra/actions" },
   ];
 
   return (
@@ -1243,8 +1241,8 @@ const Downloads = ({ setPage }: any) => {
         <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
       </button>
 
-      <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Downloads</h1>
-      <p className="text-sm sm:text-base text-[#9ca5bb] mb-8 sm:mb-12">Treat releases like builds from the control room, not app-store tiles.</p>
+      <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Builds</h1>
+      <p className="text-sm sm:text-base text-[#9ca5bb] mb-8 sm:mb-12">Public Beta is targeted for December 2026. Until then, treat these as source snapshots and rolling dev builds from the control room.</p>
 
       <div className="space-y-3 sm:space-y-4">
         {builds.map((build, i) => (
@@ -1262,12 +1260,12 @@ const Downloads = ({ setPage }: any) => {
                </div>
             </div>
             <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto sm:flex-nowrap flex-wrap">
-              {build.type === "Beta" && <Badge variant="outline">Beta</Badge>}
-              {build.type === "Open Source" && <Badge variant="outline">Source Available</Badge>}
+              {build.type === "Dev Build" && <Badge variant="outline">Dev Build</Badge>}
+              {build.type === "Source" && <Badge variant="outline">Source Available</Badge>}
               <a href={build.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
                 <Button size="sm" variant="secondary" icon={Download}>
-                  <span className="hidden sm:inline">{build.type === "Open Source" ? "View Source" : "View CI Builds"}</span>
-                  <span className="sm:hidden">{build.type === "Open Source" ? "Source" : "Builds"}</span>
+                  <span className="hidden sm:inline">{build.type === "Source" ? "View Source" : "View CI Builds"}</span>
+                  <span className="sm:hidden">{build.type === "Source" ? "Source" : "Builds"}</span>
                 </Button>
               </a>
             </div>
@@ -1278,19 +1276,18 @@ const Downloads = ({ setPage }: any) => {
       <div className="mt-8 sm:mt-16 section-frame panel-glow p-5 sm:p-8 rounded-[20px] sm:rounded-[24px] text-center">
         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs font-medium mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-[#d9b549] animate-pulse" />
-          Limited to 500
+          Planned for v1.0
         </span>
-        <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Want the Gold Card?</h3>
+        <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Founder is a prelaunch list right now.</h3>
         <p className="text-[#9ca5bb] text-sm mb-6 max-w-md mx-auto">
-          Lifetime access. Physical metal card. Name in the app forever.
-          Only 500 Founder cards will ever be minted.
+          The card system launches after Beta. If you want the gold-card tier when v1.0 lands, join the list now and we will notify you before the public window opens.
         </p>
         <Button
           variant="primary"
           onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
           className="bg-[linear-gradient(180deg,#d9b549,#a7802c)] border-[#d9b549]/40 hover:brightness-105 shadow-[0_0_20px_rgba(217,181,73,0.26)]"
         >
-          Join the Waitlist
+          Join Founder Waitlist
         </Button>
       </div>
     </div>
@@ -1303,8 +1300,8 @@ const Pricing = ({ setPage }: any) => {
   return (
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-7xl mx-auto">
       <div className="text-center mb-10 sm:mb-16">
-        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Free forever. Support if you believe.</h1>
-        <p className="text-base sm:text-xl text-[#9ca5bb]">The full DAW is free. Always.</p>
+        <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Core stays free. Monetization starts after Beta.</h1>
+        <p className="text-base sm:text-xl text-[#9ca5bb]">Aestra v1 Beta is free in December 2026. Supporter, Founder, and Campus start after the DAW is stable enough to earn them.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8 max-w-4xl mx-auto">
@@ -1313,38 +1310,38 @@ const Pricing = ({ setPage }: any) => {
           <div className="mb-6 sm:mb-8">
             <h3 className="text-lg sm:text-xl font-medium text-white mb-2">Aestra Core</h3>
             <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$0</div>
-            <p className="text-[#9ca5bb] text-xs sm:text-sm">Free forever. Full DAW. No gates.</p>
+            <p className="text-[#9ca5bb] text-xs sm:text-sm">Free forever. Full DAW. No feature gates.</p>
           </div>
           <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-1">
-            {["Full DAW — unlimited tracks", "Pattern-based workflow", "Routing visualizer", "Audition mode", "Version control (Takes)", "Basic plugins included"].map((feat, i) => (
+            {["Full DAW for writing, arranging, and mixing", "Pattern-based workflow", "Routing visualizer", "Audition mode", "Takes versioning", "Stable built-in instruments and effects"].map((feat, i) => (
               <li key={i} className="flex items-start text-[#d2d8e6] text-xs sm:text-sm">
                 <Check className="w-4 h-4 text-[#61d5ff] mr-3 mt-0.5 shrink-0" />
                 {feat}
               </li>
             ))}
           </ul>
-          <Button variant="secondary" className="w-full" onClick={() => setPage("download")}>Download Free</Button>
+          <Button variant="secondary" className="w-full" onClick={() => setPage("download")}>View Dev Builds</Button>
         </Card>
 
         {/* Paid Tier */}
         <Card className="p-5 sm:p-8 flex flex-col relative overflow-hidden">
-          <div className="absolute top-0 right-0 bg-[#8f82df] text-white text-xs font-bold px-3 py-1 rounded-bl-lg">RECOMMENDED</div>
+          <div className="absolute top-0 right-0 bg-[#8f82df] text-white text-xs font-bold px-3 py-1 rounded-bl-lg">v1.0+</div>
           <div className="absolute inset-0 bg-[#8f82df]/5 pointer-events-none" />
 
           <div className="mb-6 sm:mb-8 relative z-10">
             <h3 className="text-lg sm:text-xl font-medium text-white mb-2">Aestra Supporter</h3>
             <div className="text-3xl sm:text-4xl font-bold text-white mb-2">$5<span className="text-base sm:text-lg text-zinc-400">/mo</span></div>
-            <p className="text-[#c7bbff] text-xs sm:text-sm">Support the craft. Get more.</p>
+            <p className="text-[#c7bbff] text-xs sm:text-sm">Planned for v1.0. Support the craft once Core is proven.</p>
           </div>
           <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-1 relative z-10">
-            {["Everything in Core", "Premium plugins (AestraRumble + more)", "Muse AI — predictive creative assistant", "Cloud storage for Takes", "Monthly sound packs", "Silver card identity"].map((feat, i) => (
+            {["Everything in Core", "Premium plugins beginning in v1.0", "Muse AI planned for v1.1", "Cloud Takes planned for v1.2+", "Monthly sound packs", "Silver card identity"].map((feat, i) => (
               <li key={i} className="flex items-start text-white text-xs sm:text-sm">
                 <Check className="w-4 h-4 text-[#c7bbff] mr-3 mt-0.5 shrink-0" />
                 {feat}
               </li>
             ))}
           </ul>
-          <Button variant="primary" className="w-full relative z-10" onClick={() => setPage("changelog")}>Coming Soon — Follow Progress</Button>
+          <Button variant="primary" className="w-full relative z-10" onClick={() => setPage("changelog")}>Track Roadmap Progress</Button>
         </Card>
       </div>
 
@@ -1354,13 +1351,13 @@ const Pricing = ({ setPage }: any) => {
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(217,181,73,0.06),transparent)] pointer-events-none" />
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs font-medium mb-4 relative z-10">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d9b549] animate-pulse" />
-            Limited to 500 — never reproduced
+            Planned for v1.0 launch
           </span>
           <h3 className="text-2xl font-bold text-white mb-2 relative z-10">Aestra Founder</h3>
           <div className="text-4xl font-bold text-white mb-2 relative z-10">$129<span className="text-lg text-[#9ca5bb]"> once</span></div>
-          <p className="text-[#c7bbff] text-sm mb-6 relative z-10">You believed first. This is your legacy.</p>
+          <p className="text-[#c7bbff] text-sm mb-6 relative z-10">Prelaunch only. Beta users get first access before the public Founder window.</p>
           <ul className="space-y-3 mb-8 text-left max-w-sm mx-auto relative z-10">
-            {["Everything in Supporter, forever — no subscription", "Physical metal Founder card shipped to you", "Name in the app credits permanently", "Beta access to new platforms (mobile, tablet)", "Vote on feature priorities"].map((feat, i) => (
+            {["Everything in Supporter, forever — no subscription", "Physical metal Founder card", "Name in the app credits permanently", "First access to future platform betas", "Founder-only community access"].map((feat, i) => (
               <li key={i} className="flex items-center text-[#d2d8e6] text-sm">
                 <Check className="w-4 h-4 text-[#d9b549] mr-3 shrink-0" />
                 {feat}
@@ -1372,20 +1369,20 @@ const Pricing = ({ setPage }: any) => {
             onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
             className="relative z-10 bg-[linear-gradient(180deg,#d9b549,#a7802c)] border-[#d9b549]/40 hover:brightness-105 shadow-[0_0_20px_rgba(217,181,73,0.26)] w-full"
           >
-            Join the Waitlist
+            Join Founder Waitlist
           </Button>
         </div>
       </div>
       
       <div className="mt-12 text-center">
         <p className="text-[#7f879b] text-sm mb-4">
-          Students get free Supporter access via Campus. <button className="text-[#61d5ff] hover:underline">Contact us</button>.
+          Campus is planned after Beta for verified students. <button className="text-[#61d5ff] hover:underline">Contact us</button>.
         </p>
         <button
           onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
           className="text-[#d9b549] hover:text-[#f6de8d] text-sm underline underline-offset-4 transition-colors"
         >
-          See Founder countdown →
+          See Beta countdown →
         </button>
       </div>
     </div>
@@ -1679,10 +1676,10 @@ const Dashboard = memo(({ setPage }: any) => {
               <Card className="p-6">
                 <h3 className="text-zinc-400 text-sm font-medium mb-2">Latest Build</h3>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="text-white font-medium">Aestra Beta</div>
+                  <div className="text-white font-medium">Aestra Dev Build</div>
                   <div className="text-xs text-zinc-500">Released 2 days ago</div>
                 </div>
-                <Button className="w-full" icon={Download}>Download Installer</Button>
+                <Button className="w-full" icon={Download}>Open Build Feed</Button>
               </Card>
 
                <div className="md:col-span-2 mt-4">
@@ -1693,8 +1690,8 @@ const Dashboard = memo(({ setPage }: any) => {
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded bg-[#18181b] flex items-center justify-center text-zinc-500"><Cpu size={14} /></div>
                         <div>
-                          <div className="text-sm text-zinc-200">macOS Installer (Apple Silicon)</div>
-                          <div className="text-xs text-zinc-500">v0.{9-i} • GitHub CI Build</div>
+                          <div className="text-sm text-zinc-200">{i === 1 ? "Windows x64 CI Build" : i === 2 ? "Linux Experimental CI Build" : "Source Snapshot"}</div>
+                          <div className="text-xs text-zinc-500">v0.{9-i} • Rolling preview</div>
                         </div>
                       </div>
                       <div className="text-xs text-zinc-500">March {29-i}, 2026</div>
@@ -1901,7 +1898,7 @@ const Privacy = memo(({ setPage }: any) => (
       <section>
         <h2 className="text-lg font-semibold text-white mb-3">What We Collect</h2>
         <ul className="space-y-2 list-disc list-inside text-[#9ca5bb]">
-          <li><strong className="text-[#cfd5e4]">Email address</strong> — when you join the Founder waitlist via our form.</li>
+          <li><strong className="text-[#cfd5e4]">Email address</strong> — when you join the Founder prelaunch waitlist via our form.</li>
           <li><strong className="text-[#cfd5e4]">Usage analytics</strong> — anonymous, aggregated data about how the website is used (page views, referrers). No personal identification.</li>
         </ul>
       </section>
@@ -1919,7 +1916,7 @@ const Privacy = memo(({ setPage }: any) => (
         <h2 className="text-lg font-semibold text-white mb-3">Waitlist Emails</h2>
         <p className="text-[#9ca5bb]">
           Emails collected via the Founder waitlist are stored by Formspree, our form processor.
-          We use these emails solely to notify you when Founder cards become available.
+          We use these emails solely to notify you about Beta updates and when Founder cards become available.
           We will not send marketing emails, share your email, or add you to any list you didn't sign up for.
           You can request removal at any time by emailing us.
         </p>
@@ -2003,9 +2000,9 @@ const Terms = memo(({ setPage }: any) => (
       <section>
         <h2 className="text-lg font-semibold text-white mb-3">Supporter & Founder Tiers</h2>
         <ul className="space-y-2 list-disc list-inside text-[#9ca5bb]">
-          <li><strong className="text-[#cfd5e4]">Supporter ($5/mo):</strong> Subscription can be cancelled anytime. Access to premium features continues until the end of the billing period.</li>
-          <li><strong className="text-[#cfd5e4]">Founder ($129 one-time):</strong> Lifetime access to Supporter features. Physical card shipping subject to availability. Founder tier is limited and will not be reopened after the window closes.</li>
-          <li><strong className="text-[#cfd5e4]">Refunds:</strong> Supporter subscriptions can be refunded within 7 days of first purchase. Founder purchases are non-refundable once the card is produced.</li>
+          <li><strong className="text-[#cfd5e4]">Supporter ($5/mo):</strong> Planned for v1.0 after Beta. Subscription terms will be published when the tier launches.</li>
+          <li><strong className="text-[#cfd5e4]">Founder ($129 one-time):</strong> Planned for the v1.0 launch window. Founder includes lifetime Supporter access and a physical card, subject to final availability and shipping terms.</li>
+          <li><strong className="text-[#cfd5e4]">Refunds:</strong> Refund terms for paid tiers will be published before monetization begins.</li>
         </ul>
       </section>
 
@@ -2057,8 +2054,8 @@ const FounderBanner = memo(({ onDismiss }: { onDismiss: () => void }) => (
         className="flex items-center gap-2 text-sm text-[#f2db8d] hover:text-white transition-colors"
       >
         <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-        <span className="font-medium">Only 500 Founder Gold Cards exist.</span>
-        <span className="text-[#d9b549] underline underline-offset-2">Join the waitlist →</span>
+        <span className="font-medium">Beta is targeted for December 2026. Founder is a prelaunch waitlist.</span>
+        <span className="text-[#d9b549] underline underline-offset-2">See roadmap →</span>
       </a>
       <button onClick={onDismiss} className="text-[#d9b549]/60 hover:text-white transition-colors">
         <X className="w-4 h-4" />
@@ -2130,17 +2127,17 @@ const App = () => {
               <button onClick={() => handleSetPage("home")} className="text-[#98a1b7] hover:text-white mb-8 flex items-center text-sm">
                 <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
               </button>
-              <h1 className="text-4xl font-bold text-white mb-4">What Aestra actually does.</h1>
-              <p className="text-[#9ca5bb] mb-16 max-w-2xl">No feature bloat. No half-finished workflows. Six systems done right.</p>
+              <h1 className="text-4xl font-bold text-white mb-4">Core systems. Clear roadmap.</h1>
+              <p className="text-[#9ca5bb] mb-16 max-w-2xl">Aestra is still pre-Beta. These are the systems defining the product, with the roadmap status kept explicit instead of flattened into present tense.</p>
 
               <div className="space-y-16">
                 {[
-                  { title: "Brutally Optimized", tag: "ENGINE", desc: "C++17, 64-bit multi-threaded audio engine. Lock-free real-time processing. No garbage collection pauses. No runtime overhead. Built on Arch Linux and tested on a 5-year-old i5 laptop with 4GB RAM — because that's the machine the developer actually uses.", details: ["<10ms audio latency target", "Lock-free SPSC ring buffers for UI-to-audio commands", "No memory allocation in the audio callback", "SIMD-optimized DSP (SSE/AVX runtime dispatch)", "RtAudio cross-platform I/O with WASAPI/ALSA/PulseAudio"] },
-                  { title: "Instant Startup", tag: "PERFORMANCE", desc: "No scanning plugins on every launch. No splash screens. No loading bars. Open Aestra and you're making music. Plugin database is cached — first scan, instant after.", details: ["Plugin cache persists between sessions", "No startup audio device scan", "Lazy-load non-critical subsystems"] },
-                  { title: "Pattern-First Workflow", tag: "DESIGN", desc: "Built for hip-hop and electronic production where the beat is the unit of work, not the timeline. Patterns are first-class citizens — compose in the Arsenal, arrange on the Timeline, audition in the player.", details: ["Arsenal: pattern unit grid with synth/sampler/drum slots", "C|E|A mode switch: Clips, Editor, Automation on the same data", "Pattern clips on the timeline with double-click piano roll edit", "Loop-to-project: patterns become arrangements seamlessly"] },
-                  { title: "Routing Visualizer", tag: "VISUAL", desc: "See your entire signal flow as an animated node graph. Borrowed from Unreal Engine's Blueprint editor — because audio routing is data flow, and data flow deserves a visual language.", details: ["Color-coded connections by source track", "Thick solid = main output, thin solid = audible sends, dotted = sidechain", "Animated signal dots when audio is playing", "Drag-to-route: connect nodes to create sends", "Left-to-right signal flow hierarchy: sources → buses → master"] },
-                  { title: "Audition Mode", tag: "TRANSLATION", desc: "Final-listen environment with DSP presets that simulate how your mix sounds on Spotify, Apple Music, AirPods, and car speakers. Borrowed from Spotify's playback model — because you should hear what your听众 hears.", details: ["Spotify: -14 LUFS, -1dB true peak", "Apple Music: -16 LUFS, Sound Check simulation", "YouTube: Opus compression artifacts", "SoundCloud: 128kbps MP3 degradation", "Car Speakers: Harman curve, bass boost, treble roll-off", "AirPods Pro: Adaptive EQ simulation", "A/B wet/dry toggle for instant comparison", "Queue-based playback — listen like a listener, not a producer"] },
-                  { title: "Version Control", tag: "SAFETY", desc: "Git-inspired mix versioning with musical names instead of engineering ones. Create Takes, compare differences, and Blend changes. Borrowed from Git's branching model — because your mix deserves version control, not \"mix_v2_final_FINAL3.wav\".", details: ["Takes (branches) — diverge a mix at any point", "Snapshots (commits) — full project state at a point in time", "Blends (merges) — combine changes from two Takes", "Auto-snapshots before destructive operations", "Cloud sync planned for v1.2+"] },
+                  { title: "Brutally Optimized", tag: "ENGINE", desc: "C++17, 64-bit multi-threaded audio engine with the boring fundamentals taken seriously first: startup time, deterministic behavior, and no runtime garbage collection pauses.", details: ["<10ms audio latency target", "Lock-free SPSC ring buffers for UI-to-audio commands", "No memory allocation in the audio callback", "SIMD-optimized DSP (SSE/AVX runtime dispatch)", "Windows is the primary supported Beta target"] },
+                  { title: "Instant Startup", tag: "PERFORMANCE", desc: "No scanning plugins on every launch. No loading screen ritual. Open Aestra and get to work. The cache exists so startup feels immediate, not ceremonial.", details: ["Plugin cache persists between sessions", "No startup audio-device theater", "Lazy-load non-critical subsystems", "Third-party plugin scope stays subordinate to Beta stability"] },
+                  { title: "Pattern-First Workflow", tag: "DESIGN", desc: "Built for hip-hop and electronic production where the beat is the unit of work, not the timeline. Compose in the Arsenal, arrange on the Timeline, and stay inside one language the whole way through.", details: ["Arsenal: pattern unit grid with synth, sampler, and drum slots", "C|E|A switch: Clips, Editor, Automation on the same data", "Pattern clips on the timeline with direct edit flow", "Loop-to-project keeps sketching and arranging connected"] },
+                  { title: "Routing Visualizer", tag: "BETA TARGET", desc: "See signal flow as a living graph instead of a stack of hidden menus. Routing should be understood at a glance, then edited directly.", details: ["Color-coded connections by source track", "Thick solid = main output, thin solid = audible sends, dotted = sidechain", "Animated signal dots when audio is playing", "Drag-to-route interactions", "Left-to-right hierarchy: sources -> buses -> master"] },
+                  { title: "Audition Mode", tag: "BETA TARGET", desc: "A final-listen environment for hearing what the audience hears after platform normalization, codec loss, earbuds, car speakers, and everything else between your studio and reality.", details: ["Streaming and device presets for reference listening", "LUFS and true-peak aware listening modes", "A/B wet-dry toggle for instant comparison", "Queue-style playback", "Built for translation, not cosmetic mastering"] },
+                  { title: "Takes", tag: "BETA TARGET", desc: "Versioning for music without engineering jargon in your face. Branch a direction, snapshot the state, compare options, and stop naming files mix_v2_final_FINAL3.wav.", details: ["Takes — diverge a mix at any point", "Snapshots — preserve full project state", "Blends — combine work from two takes", "Auto-snapshots before destructive operations", "Cloud sync is planned for v1.2+"] },
                 ].map((feature, i) => (
                   <div key={i} className="section-frame panel-glow rounded-[18px] p-8">
                     <div className="flex items-center gap-3 mb-4">
