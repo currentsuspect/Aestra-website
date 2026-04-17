@@ -5,7 +5,7 @@ import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { FounderBanner } from "./components/FounderBanner";
 
-import { Hero, FounderCountdown } from "./pages/Home";
+import { Hero, Features, FounderCountdown } from "./pages/Home";
 
 const Downloads = lazy(() => import("./pages/Downloads").then(m => ({ default: m.Downloads })));
 const Pricing = lazy(() => import("./pages/Pricing").then(m => ({ default: m.Pricing })));
