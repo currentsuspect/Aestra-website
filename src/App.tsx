@@ -98,14 +98,14 @@ export const App = () => {
 
     const sections = [
       {
-        title: "Brutally Optimized",
+        title: "Realtime by Default",
         tag: "ENGINE",
         tagColor: "teal",
-        desc: "Runs on whatever you’ve got. We wrote the engine so it stays lean under pressure — no borrowed framework bloat, no mystery lag.",
+        desc: "The core engine is built in-house to stay fast under load. Sessions stay responsive even when projects get dense.",
         points: [
-          ["Under 10ms audio latency", "Tight enough for live performance without the mush."],
-          ["No memory spikes during playback", "The engine stays flat when the beat gets busy."],
-          ["Works on a 5-year-old laptop", "Built for the hardware most producers actually own."],
+          ["Consistent low-latency playback", "Responsive timing that stays usable while recording and arranging."],
+          ["Stable memory behavior", "No sudden spikes when tracks stack up or automation gets heavy."],
+          ["Runs well on mid-range machines", "Optimized for real-world laptops, not only top-end rigs."],
         ],
         visual: (
           <div className="vis-engine w-full max-w-[320px]">
@@ -125,14 +125,14 @@ export const App = () => {
         ),
       },
       {
-        title: "Instant Startup",
+        title: "Instant Launch",
         tag: "STARTUP",
         tagColor: "amber",
-        desc: "Open Aestra and you’re making music. No scanning. No splash screens. The startup sequence is brutally short on purpose.",
+        desc: "Boot time is treated as part of the creative flow. Aestra opens directly into work, without ritual waiting screens.",
         points: [
-          ["Under 2 seconds from cold start", "Faster than unlocking your phone."],
-          ["No plugin scanning on launch", "We cache the plugin database instead of making you wait."],
-          ["Last session reopens instantly", "Pick up exactly where you left off."],
+          ["Fast cold start", "Open a project and begin writing without breaking momentum."],
+          ["Cached plugin indexing", "Plugins are resolved ahead of time instead of at launch."],
+          ["Session recovery on open", "Jump back into the same context you closed."],
         ],
         visual: (
           <div className="vis-terminal w-full max-w-[340px]">
@@ -157,14 +157,14 @@ export const App = () => {
         ),
       },
       {
-        title: "Pattern-First Workflow",
+        title: "Pattern-Centric Workflow",
         tag: "WORKFLOW",
         tagColor: "purple",
-        desc: "Built around how beats are actually made — not how software thinks you should make them. Patterns are first-class citizens, not an afterthought.",
+        desc: "Ideas start as loops and evolve into arrangements. The workflow is designed around that path from the beginning.",
         points: [
-          ["Patterns are first-class objects", "Reuse, remix, branch them without turning the project into spaghetti."],
-          ["Loop-first, arrange when ready", "Build in loop mode, move to arrangement when the beat is locked."],
-          ["Full piano roll, per pattern", "Each pattern carries its own note data and edit state."],
+          ["Independent pattern objects", "Duplicate, mutate, and reuse patterns without losing structure."],
+          ["Loop-first composition", "Sketch quickly in pattern view, then expand into arrangement."],
+          ["Dedicated piano roll per pattern", "Each pattern keeps its own note and edit context."],
         ],
         visual: (
           <div className="vis-pattern w-full max-w-[340px]">
@@ -196,14 +196,14 @@ export const App = () => {
         ),
       },
       {
-        title: "Routing Visualizer",
+        title: "Visual Signal Routing",
         tag: "MIXING",
         tagColor: "blue",
-        desc: "See exactly where your sound goes. Color-coded signal paths, live — so you can hear and see your mix at the same time.",
+        desc: "Routing is visible as a live graph, so you can spot gain and bus issues before they become mix problems.",
         points: [
-          ["Live animated signal path", "Watch audio flow from source to master in real time."],
-          ["Color-coded by channel type", "Sources, sends, buses, and master all read differently."],
-          ["Drag to rewire anything", "Reroute visually, no menu diving."],
+          ["Realtime path feedback", "Follow signal movement from sources to master while audio plays."],
+          ["Channel-type color grouping", "Instruments, buses, and outputs remain easy to parse at a glance."],
+          ["Direct graph rewiring", "Adjust routing from the visual map instead of nested menus."],
         ],
         visual: (
           <div className="vis-routing w-full max-w-[340px]">
@@ -235,14 +235,14 @@ export const App = () => {
         ),
       },
       {
-        title: "Audition Mode",
+        title: "Translation Preview",
         tag: "MONITORING",
         tagColor: "green",
-        desc: "Hear your mix the way listeners will — before you ever export. DSP presets simulate Spotify, Apple Music, AirPods, car speakers, and more.",
+        desc: "Preview your mix through common listening profiles before exporting, so decisions hold up outside the studio.",
         points: [
-          ["Phone speaker, AirPods, car audio", "One click to switch your reference point."],
-          ["Spotify & Apple Music profiles", "Hear how loudness normalization affects the master."],
-          ["No guessing, no re-exporting", "Fix translation issues while you're still in the session."],
+          ["Device profile switching", "Check phone, earbuds, laptop, and car perspectives in one place."],
+          ["Streaming normalization preview", "Hear platform loudness behavior before publish."],
+          ["Fix translation early", "Adjust balance now instead of chasing issues after export."],
         ],
         visual: (
           <div className="vis-audition w-full max-w-[320px]">
@@ -268,14 +268,14 @@ export const App = () => {
         ),
       },
       {
-        title: "Version Control",
+        title: "Mix History",
         tag: "HISTORY",
         tagColor: "coral",
-        desc: "Save mix versions with musical names. Come back, compare, blend the best parts. Never lose a good take again.",
+        desc: "Snapshot and branch your work with readable names, then compare versions to keep what actually improves the track.",
         points: [
-          ["Named snapshots, not numbered files", "'bounce_rough' instead of project_FINAL_3.aes."],
-          ["Branch into experiments", "Try a new direction without touching your working mix."],
-          ["Compare and blend takes", "Pull the drums from one, the mix from another."],
+          ["Named project snapshots", "Save meaningful checkpoints instead of file-name chaos."],
+          ["Branch for experiments", "Try alternate ideas without risking the main version."],
+          ["Version comparison workflow", "A/B revisions and merge the strongest decisions."],
         ],
         visual: (
           <div className="vis-version w-full max-w-[320px]">
@@ -300,11 +300,11 @@ export const App = () => {
         <Navbar activePage="features" setPage={handleSetPage} />
         <main id="main-content" className="pt-24 sm:pt-32 pb-16 sm:pb-20 min-h-screen">
           <div className="page-hero px-4 sm:px-8 max-w-[700px]">
-            <div className="page-hero-tag">What's inside</div>
+            <div className="page-hero-tag">Feature Tour</div>
             <h1>
-              Built for the way<br />producers <em>actually work.</em>
+              Powerful enough for<br />release work, <em>fast enough for ideas.</em>
             </h1>
-            <p>Six things that separate Aestra from every other DAW you've closed out of frustration.</p>
+            <p>Six core systems that keep sessions quick, clear, and reliable from first loop to final bounce.</p>
           </div>
 
           <div className="mt-4 border-t border-[#13161e]">
@@ -322,15 +322,39 @@ export const App = () => {
                     <p className="lead">{feature.desc}</p>
                     <div className="proof-points">
                       {feature.points.map(([strong, body], i) => {
-                        const iconMap: Record<string, JSX.Element> = {
-                          "Brutally Optimized": <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M14 2L16.2 10.1L24 10.8L18.2 15.7L20 24L14 19.7L8 24L9.8 15.7L4 10.8L11.8 10.1L14 2Z" stroke="currentColor" strokeWidth="1.3" /></svg>,
-                          "Instant Startup": <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M6 14h16M14 6v16" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
-                          "Pattern-First Workflow": <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="5" y="5" width="18" height="18" rx="4" stroke="currentColor" strokeWidth="1.3"/><path d="M5 14h18M14 5v18" stroke="currentColor" strokeWidth="1.1"/></svg>,
-                          "Routing Visualizer": <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="7" cy="7" r="2" stroke="currentColor" strokeWidth="1.2"/><circle cx="21" cy="7" r="2" stroke="currentColor" strokeWidth="1.2"/><circle cx="14" cy="21" r="2" stroke="currentColor" strokeWidth="1.2"/><path d="M8.6 8.3L13 18M19.4 8.3L15 18M9 7h10" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/></svg>,
-                          "Audition Mode": <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M4 15h5l6 6V7l-6 6H4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/><path d="M19 9c1.7 1.4 2.5 3 2.5 5s-.8 3.6-2.5 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-                          "Version Control": <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M7 6v16M7 6c4 0 5 3 5 5s1 5 5 5h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/><circle cx="7" cy="6" r="1.5" fill="currentColor"/><circle cx="12" cy="11" r="1.5" fill="currentColor"/><circle cx="17" cy="16" r="1.5" fill="currentColor"/></svg>,
+                        const iconMap: Record<string, JSX.Element[]> = {
+                          ENGINE: [
+                            <svg key="engine-latency" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M5 19c3-5 5-10 9-10s6 5 9 10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><circle cx="14" cy="14" r="2.2" stroke="currentColor" strokeWidth="1.3"/></svg>,
+                            <svg key="engine-memory" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="5" y="7" width="18" height="14" rx="3" stroke="currentColor" strokeWidth="1.3"/><path d="M10 11h8M10 15h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+                            <svg key="engine-device" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="7" y="7" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.3"/><path d="M4 20h20" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+                          ],
+                          STARTUP: [
+                            <svg key="startup-speed" viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="8" stroke="currentColor" strokeWidth="1.3"/><path d="M14 10v5l3 2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+                            <svg key="startup-plugin" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M9 9h10v10H9z" stroke="currentColor" strokeWidth="1.2"/><path d="M6 13h3M19 13h3M14 6v3M14 19v3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+                            <svg key="startup-recover" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M14 6v8l5 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/><circle cx="14" cy="14" r="8" stroke="currentColor" strokeWidth="1.3"/></svg>,
+                          ],
+                          WORKFLOW: [
+                            <svg key="workflow-pattern" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="6" y="6" width="16" height="16" rx="3" stroke="currentColor" strokeWidth="1.3"/><path d="M6 14h16M14 6v16" stroke="currentColor" strokeWidth="1.1"/></svg>,
+                            <svg key="workflow-loop" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M8 11l-3 3 3 3M20 17l3-3-3-3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/><path d="M6 14h16" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+                            <svg key="workflow-roll" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="5" y="7" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.3"/><path d="M10 7v14M14 7v14M18 7v14" stroke="currentColor" strokeWidth="1.1"/></svg>,
+                          ],
+                          MIXING: [
+                            <svg key="mixing-flow" viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="7" cy="8" r="2" stroke="currentColor" strokeWidth="1.2"/><circle cx="21" cy="20" r="2" stroke="currentColor" strokeWidth="1.2"/><path d="M9 9.5l10 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+                            <svg key="mixing-color" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M14 5c5 0 8 4 8 8a3 3 0 01-3 3h-2.5a2 2 0 00-2 2V20a3 3 0 01-3 3c-4 0-7-3-7-7 0-6 5-11 9.5-11z" stroke="currentColor" strokeWidth="1.2"/><circle cx="10" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/><circle cx="18" cy="12" r="1" fill="currentColor"/></svg>,
+                            <svg key="mixing-rewire" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M7 7h6v6H7zM15 15h6v6h-6z" stroke="currentColor" strokeWidth="1.2"/><path d="M13 10h2v2M15 13v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+                          ],
+                          MONITORING: [
+                            <svg key="monitor-device" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="4" y="8" width="8" height="12" rx="2" stroke="currentColor" strokeWidth="1.2"/><rect x="15" y="10" width="9" height="8" rx="2" stroke="currentColor" strokeWidth="1.2"/></svg>,
+                            <svg key="monitor-stream" viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="8" stroke="currentColor" strokeWidth="1.2"/><path d="M10 14h8M10 17h6M10 11h5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+                            <svg key="monitor-check" viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="9" stroke="currentColor" strokeWidth="1.2"/><path d="M9 14l3 3 7-7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+                          ],
+                          HISTORY: [
+                            <svg key="history-snap" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M8 7h12v14H8z" stroke="currentColor" strokeWidth="1.2"/><path d="M11 11h6M11 15h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+                            <svg key="history-branch" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M9 7v14M9 14h6a4 4 0 004-4V7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="19" cy="7" r="1.6" fill="currentColor"/><circle cx="9" cy="21" r="1.6" fill="currentColor"/></svg>,
+                            <svg key="history-compare" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M6 8h7v12H6zM15 8h7v12h-7z" stroke="currentColor" strokeWidth="1.2"/><path d="M13 14h2" stroke="currentColor" strokeWidth="1.2"/></svg>,
+                          ],
                         };
-                        const icon = iconMap[feature.title] || <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="1.2"/></svg>;
+                        const icon = iconMap[feature.tag]?.[i] || <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="1.2"/></svg>;
                         return (
                           <div key={i} className="proof-point">
                             <div className="proof-icon" style={{ color: tc.dot, background: `${tc.dot}15` }}>{icon}</div>
