@@ -140,7 +140,7 @@ export const App = () => {
               <div className="t-dot" style={{ background: "#ff5f57" }} />
               <div className="t-dot" style={{ background: "#ffbd2e" }} />
               <div className="t-dot" style={{ background: "#28ca42" }} />
-              <span style={{ fontSize: 11, color: "#2a2f42", marginLeft: 8, fontFamily: "DM Mono, monospace" }}>aestra — launch</span>
+              <span style={{ fontSize: 11, color: "#2a2f42", marginLeft: 8, fontFamily: "Geist Mono, monospace" }}>aestra — launch</span>
             </div>
             <div className="terminal-body">
               <div className="t-line skip">› scanning VST folders...</div>
@@ -190,7 +190,7 @@ export const App = () => {
               </button>
               <div className="pattern-pos">1.1.0</div>
               <div style={{ flex: 1 }} />
-              <div style={{ fontSize: 11, color: "#3a4060", fontFamily: "DM Mono, monospace" }}>16 steps</div>
+              <div style={{ fontSize: 11, color: "#3a4060", fontFamily: "Geist Mono, monospace" }}>16 steps</div>
             </div>
           </div>
         ),
@@ -217,19 +217,19 @@ export const App = () => {
               <circle r="3" fill="#4a9eff" opacity="0.6"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s" path="M 60 100 L 160 100" /></circle>
               <circle r="4" fill="#4a9eff" opacity="0.9"><animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s" path="M 200 100 L 260 100" /></circle>
               <rect x="20" y="46" width="40" height="28" rx="7" fill="#4a9eff15" stroke="#4a9eff40" strokeWidth="1"/>
-              <text x="40" y="64" textAnchor="middle" fontSize="9" fill="#4a9eff" fontFamily="DM Mono, monospace">KICK</text>
+              <text x="40" y="64" textAnchor="middle" fontSize="9" fill="#4a9eff" fontFamily="Geist Mono, monospace">KICK</text>
               <rect x="20" y="86" width="40" height="28" rx="7" fill="#8b7de815" stroke="#8b7de840" strokeWidth="1"/>
-              <text x="40" y="104" textAnchor="middle" fontSize="9" fill="#8b7de8" fontFamily="DM Mono, monospace">808</text>
+              <text x="40" y="104" textAnchor="middle" fontSize="9" fill="#8b7de8" fontFamily="Geist Mono, monospace">808</text>
               <rect x="20" y="126" width="40" height="28" rx="7" fill="#1db4a615" stroke="#1db4a640" strokeWidth="1"/>
-              <text x="40" y="144" textAnchor="middle" fontSize="9" fill="#1db4a6" fontFamily="DM Mono, monospace">SYNTH</text>
+              <text x="40" y="144" textAnchor="middle" fontSize="9" fill="#1db4a6" fontFamily="Geist Mono, monospace">SYNTH</text>
               <rect x="140" y="80" width="60" height="40" rx="8" fill="#4a9eff10" stroke="#4a9eff60" strokeWidth="1.5"/>
-              <text x="170" y="97" textAnchor="middle" fontSize="9" fill="#4a9effaa" fontFamily="DM Mono, monospace">FX BUS</text>
-              <text x="170" y="110" textAnchor="middle" fontSize="8" fill="#4a9eff60" fontFamily="DM Mono, monospace">EQ + VERB</text>
+              <text x="170" y="97" textAnchor="middle" fontSize="9" fill="#4a9effaa" fontFamily="Geist Mono, monospace">FX BUS</text>
+              <text x="170" y="110" textAnchor="middle" fontSize="8" fill="#4a9eff60" fontFamily="Geist Mono, monospace">EQ + VERB</text>
               <rect x="240" y="78" width="60" height="44" rx="8" fill="#4a9eff20" stroke="#4a9eff" strokeWidth="1.5"/>
-              <text x="270" y="97" textAnchor="middle" fontSize="9" fill="#4a9eff" fontFamily="DM Mono, monospace">MASTER</text>
-              <text x="270" y="111" textAnchor="middle" fontSize="8" fill="#4a9effaa" fontFamily="DM Mono, monospace">−3.2 dB</text>
+              <text x="270" y="97" textAnchor="middle" fontSize="9" fill="#4a9eff" fontFamily="Geist Mono, monospace">MASTER</text>
+              <text x="270" y="111" textAnchor="middle" fontSize="8" fill="#4a9effaa" fontFamily="Geist Mono, monospace">−3.2 dB</text>
               <circle cx="290" cy="168" r="4" fill="#4caf6e"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
-              <text x="300" y="172" fontSize="9" fill="#4caf6e60" fontFamily="DM Mono, monospace">LIVE</text>
+              <text x="300" y="172" fontSize="9" fill="#4caf6e60" fontFamily="Geist Mono, monospace">LIVE</text>
             </svg>
           </div>
         ),

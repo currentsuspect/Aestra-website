@@ -311,7 +311,7 @@
 .pattern-pos,
 .row-label,
 .meter-label {
-  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 .pattern-name {
   font-size: 11px;
@@ -1456,7 +1456,15 @@ body {
     linear-gradient(180deg, #0d1017 0%, #0a0c12 46%, #090b10 100%);
   color: var(--aestra-text);
   margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.font-sans {
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.font-mono {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 ::-webkit-scrollbar {
