@@ -302,9 +302,9 @@ export const App = () => {
           <div className="page-hero px-4 sm:px-8 max-w-[700px]">
             <div className="page-hero-tag">Feature Tour</div>
             <h1>
-              Powerful enough for<br />release work, <em>fast enough for ideas.</em>
+              Built for the way<br />producers actually work.
             </h1>
-            <p>Six core systems that keep sessions quick, clear, and reliable from first loop to final bounce.</p>
+            <p>Six things that separate Aestra from every other DAW you've closed out of frustration.</p>
           </div>
 
           <div className="mt-4 border-t border-[#13161e]">
