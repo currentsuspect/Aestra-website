@@ -432,10 +432,15 @@
   height: 16px;
   min-width: 16px;
   border-radius: 999px;
-  background: #4caf6e;
+  background: transparent;
+  border: 1px solid #2a2f42;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.device-check.active {
+  background: #4caf6e;
+  border-color: #4caf6e;
 }
 
 /* History visual */

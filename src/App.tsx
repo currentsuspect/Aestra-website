@@ -246,10 +246,11 @@ export const App = () => {
         ],
         visual: (
           <div className="vis-audition w-full max-w-[320px]">
-            {[["Laptop Speaker", "Most unforgiving reference", true, "#4caf6e15", "#4caf6e"], ["AirPods Pro", "Consumer earbuds + spatial", false, "#3a4060", "#7a8099"], ["Car Audio", "Midrange-heavy simulation", false, "#3a4060", "#7a8099"], ["Spotify Loudness", "−14 LUFS normalization preview", false, "#1db4a615", "#1db4a6"]].map((d, idx) => {
-              const [name, sub, active, bg, stroke] = d as [string, string, boolean, string, string];
+            {[["Laptop Speaker", "Most unforgiving reference", "#4caf6e15", "#4caf6e"], ["AirPods Pro", "Consumer earbuds + spatial", "#3a4060", "#7a8099"], ["Car Audio", "Midrange-heavy simulation", "#3a4060", "#7a8099"], ["Spotify Loudness", "−14 LUFS normalization preview", "#1db4a615", "#1db4a6"]].map((d, idx) => {
+              const [name, sub, bg, stroke] = d as [string, string, string, string];
+              const isActive = auditionDevice === idx;
               return (
-                <div key={name} className={`audition-device ${active || auditionDevice === idx ? "active" : ""}`} onClick={() => setAuditionDevice(idx)}>
+                <div key={name} className={`audition-device ${isActive ? "active" : ""}`} onClick={() => setAuditionDevice(idx)}>
                   <div className="device-icon" style={{ background: bg }}>
                     {idx === 0 && <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="2" stroke={stroke} strokeWidth="1.2"/><circle cx="8" cy="8" r="2" stroke={stroke} strokeWidth="1.2"/></svg>}
                     {idx === 1 && <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5" cy="8" r="3" stroke={stroke} strokeWidth="1.2"/><circle cx="11" cy="8" r="3" stroke={stroke} strokeWidth="1.2"/><path d="M8 5v6" stroke={stroke} strokeWidth="1.2"/></svg>}
@@ -260,7 +261,7 @@ export const App = () => {
                     <div className="device-name">{name}</div>
                     <div className="device-sub">{sub}</div>
                   </div>
-                  <div className="device-check">{active || auditionDevice === idx ? <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round"/></svg> : null}</div>
+                  <div className={`device-check ${isActive ? "active" : ""}`}>{isActive ? <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round"/></svg> : null}</div>
                 </div>
               );
             })}
