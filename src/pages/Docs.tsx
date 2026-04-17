@@ -98,15 +98,16 @@ export const Docs = memo(({ setPage }: any) => {
       ]
     },
     {
-      id: "construction-records",
-      group: "Build",
-      title: "Construction Records",
-      eyebrow: "Data + Takes",
-      summary: "A living record of what happened in the session — takes, comp passes, database state, and recording notes all in one place.",
-      calloutTitle: "Why it matters",
-      callout: "If the session changed, the record should show it. Database state, recording state, and take history stay visible instead of hidden.",
+      id: "changes-for-me",
+      group: "Updates",
+      title: "What Changed for Me?",
+      eyebrow: "Workflow Impact",
+      summary: "Version notes translated into user-impact language by workflow, so every update answers: what got better for me?",
+      calloutTitle: "Reading order",
+      callout: "Filter by your workflow first, then scan the latest version notes.",
       links: [
-        { label: "Recording architecture notes", href: "https://github.com/currentsuspect/Aestra/blob/main/docs/technical/roadmap.md" }
+        { label: "Changelog page", href: "/changelog" },
+        { label: "Repo changelog", href: "https://github.com/currentsuspect/Aestra/blob/main/CHANGELOG.md" }
       ]
     },
     {
@@ -802,83 +803,6 @@ export const Docs = memo(({ setPage }: any) => {
               </div>
               <div className="mt-4 rounded-[10px] border border-[#2f3648] bg-[#0f131d] p-3 text-sm text-[#c9d1e3]">
                 Current chain: {Object.entries(routingToggles).filter(([, active]) => active).map(([node]) => node.toUpperCase()).join(" → ") || "BYPASS"}
-              </div>
-            </Card>
-          </div>
-        );
-
-      case "construction-records":
-        return (
-          <div className="grid lg:grid-cols-2 gap-6">
-            <Card className="section-frame p-5 sm:p-6">
-              <div className="flex items-center gap-2 mb-3 text-[#8b7de8] text-[10px] uppercase tracking-[0.14em] font-semibold">
-                <span className="w-2 h-2 rounded-full bg-[#8b7de8]" />
-                Database
-              </div>
-              <h3 className="text-xl text-white font-bold mb-2">Session state is visible, not buried.</h3>
-              <p className="text-sm text-[#9aa5bd] mb-5">
-                The record should tell you what exists in the session: track state, take metadata, comp history, and the current database shape.
-              </p>
-              <div className="space-y-3">
-                {[
-                  ["Record index", "Tracks what was created, edited, or frozen."],
-                  ["Take database", "Every take has a label, timestamp, and route back to the source."],
-                  ["Session notes", "Any change worth remembering gets stored with the record."],
-                ].map(([title, desc]) => (
-                  <div key={title} className="rounded-[12px] border border-[#2f3648] bg-[#0f131d] p-4">
-                    <div className="text-sm text-white font-semibold mb-1">{title}</div>
-                    <div className="text-sm text-[#9aa5bd]">{desc}</div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-            <Card className="section-frame p-5 sm:p-6">
-              <div className="flex items-center gap-2 mb-3 text-[#e8a230] text-[10px] uppercase tracking-[0.14em] font-semibold">
-                <span className="w-2 h-2 rounded-full bg-[#e8a230]" />
-                Recording
-              </div>
-              <h3 className="text-xl text-white font-bold mb-2">The record updates as you record.</h3>
-              <p className="text-sm text-[#9aa5bd] mb-5">
-                Recording isn’t just audio capture — it’s a chain of state changes. When takes happen, the database should reflect it immediately.
-              </p>
-              <div className="rounded-[14px] border border-[#2f3648] bg-[#0f131d] p-4 mb-4">
-                <svg viewBox="0 0 520 180" width="100%" className="h-auto">
-                  <rect x="18" y="18" width="92" height="28" rx="8" fill="#151b28" stroke="#8b7de8" />
-                  <text x="64" y="36" textAnchor="middle" fontSize="11" fill="#cfc8f8">Database</text>
-                  <rect x="146" y="18" width="92" height="28" rx="8" fill="#151b28" stroke="#e8a230" />
-                  <text x="192" y="36" textAnchor="middle" fontSize="11" fill="#ffe0a0">Recording</text>
-                  <rect x="274" y="18" width="92" height="28" rx="8" fill="#151b28" stroke="#4caf6e" />
-                  <text x="320" y="36" textAnchor="middle" fontSize="11" fill="#b7f0c8">Takes</text>
-                  <rect x="402" y="18" width="92" height="28" rx="8" fill="#151b28" stroke="#4a9eff" />
-                  <text x="448" y="36" textAnchor="middle" fontSize="11" fill="#abd5ff">History</text>
-                  <line x1="110" y1="32" x2="146" y2="32" stroke="#3a4358" strokeWidth="2" />
-                  <line x1="238" y1="32" x2="274" y2="32" stroke="#3a4358" strokeWidth="2" />
-                  <line x1="366" y1="32" x2="402" y2="32" stroke="#3a4358" strokeWidth="2" />
-
-                  <rect x="36" y="86" width="120" height="36" rx="10" fill="#8b7de815" stroke="#8b7de840" />
-                  <text x="96" y="108" textAnchor="middle" fontSize="11" fill="#cfc8f8">DB sync</text>
-                  <rect x="180" y="86" width="120" height="36" rx="10" fill="#e8a23015" stroke="#e8a23040" />
-                  <text x="240" y="108" textAnchor="middle" fontSize="11" fill="#ffe0a0">Record armed</text>
-                  <rect x="324" y="86" width="160" height="36" rx="10" fill="#4caf6e15" stroke="#4caf6e40" />
-                  <text x="404" y="108" textAnchor="middle" fontSize="11" fill="#b7f0c8">Take saved to record</text>
-
-                  <circle cx="96" cy="145" r="5" fill="#8b7de8" />
-                  <circle cx="240" cy="145" r="5" fill="#e8a230" />
-                  <circle cx="404" cy="145" r="5" fill="#4caf6e" />
-                  <line x1="96" y1="145" x2="240" y2="145" stroke="#3a4358" strokeWidth="2" />
-                  <line x1="240" y1="145" x2="404" y2="145" stroke="#3a4358" strokeWidth="2" />
-                </svg>
-              </div>
-              <div className="space-y-2">
-                <div className="rounded-[10px] border border-[#2f3648] bg-[#0f131d] px-3 py-2 flex items-center justify-between text-sm">
-                  <span className="text-[#d4dae8]">Current take recorded</span>
-                  <span className="text-[#4caf6e]">Live</span>
-                </div>
-                <div className="rounded-[10px] border border-[#2f3648] bg-[#0f131d] px-3 py-2 flex items-center justify-between text-sm">
-                  <span className="text-[#d4dae8]">Database updated</span>
-                  <span className="text-[#8b7de8]">Synced</span>
-                </div>
               </div>
             </Card>
           </div>
