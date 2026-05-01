@@ -8,15 +8,15 @@ Aestra is a native DAW built around producer workflow, stability, speed, and cre
 
 ## Primary Pages
 
-- [Homepage](https://aestra.cc/) — Overview, features, plugins, pricing tiers, and download links.
-- [Features](https://aestra.cc/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
-- [Pricing](https://aestra.cc/pricing) — Core (free), Supporter ($5/mo), Founder Gold Card ($129 one-time).
-- [Download](https://aestra.cc/download) — Download Aestra for Windows, macOS, and Linux.
-- [Documentation](https://aestra.cc/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
-- [Changelog](https://aestra.cc/changelog) — Release history and development progress.
-- [About](https://aestra.cc/about) — About Aestra Studios, founder, brand, and key terminology.
-- [Privacy](https://aestra.cc/privacy) — Privacy policy.
-- [Terms](https://aestra.cc/terms) — Terms of service and license (ASSAL v1.1).
+- [Homepage](https://aestra.studio/) — Overview, features, plugins, pricing tiers, and download links.
+- [Features](https://aestra.studio/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
+- [Pricing](https://aestra.studio/pricing) — Core (free), Supporter ($5/mo), Founder Gold Card ($129 one-time).
+- [Download](https://aestra.studio/download) — Download Aestra for Windows, macOS, and Linux.
+- [Documentation](https://aestra.studio/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
+- [Changelog](https://aestra.studio/changelog) — Release history and development progress.
+- [About](https://aestra.studio/about) — About Aestra Studios, founder, brand, and key terminology.
+- [Privacy](https://aestra.studio/privacy) — Privacy policy.
+- [Terms](https://aestra.studio/terms) — Terms of service and license (ASSAL v1.1).
 
 ## Product Positioning
 
@@ -53,4 +53,4 @@ Aestra is currently in active development. A v1 Beta is targeted for December 20
 ## Contact
 
 - GitHub: https://github.com/currentsuspect/Aestra
-- Website: https://aestra.cc/
+- Website: https://aestra.studio/

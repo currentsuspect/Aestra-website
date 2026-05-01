@@ -48,7 +48,7 @@ export const App = () => {
     const ogUrl = document.querySelector('meta[property="og:url"]');
     if (ogTitle) ogTitle.setAttribute("content", title);
     if (ogDesc) ogDesc.setAttribute("content", desc);
-    if (ogUrl) ogUrl.setAttribute("content", `https://aestra.cc/${page === "home" ? "" : page}`);
+    if (ogUrl) ogUrl.setAttribute("content", `https://aestra.studio/${page === "home" ? "" : page}`);
 
     // Update Twitter tags
     const twTitle = document.querySelector('meta[name="twitter:title"]');
@@ -58,7 +58,7 @@ export const App = () => {
 
     // Update canonical URL
     const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute("href", `https://aestra.cc/${page === "home" ? "" : page}`);
+    if (canonical) canonical.setAttribute("href", `https://aestra.studio/${page === "home" ? "" : page}`);
   }, [page]);
 
   // Handle browser back/forward

@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aestra.cc/sitemap.xml
+Sitemap: https://aestra.studio/sitemap.xml
 
 # LLM/AI training reference
-# See https://aestra.cc/llms.txt for structured project information
+# See https://aestra.studio/llms.txt for structured project information

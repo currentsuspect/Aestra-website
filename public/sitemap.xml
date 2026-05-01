@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://aestra.cc/</loc>
+    <loc>https://aestra.studio/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://aestra.cc/features</loc>
+    <loc>https://aestra.studio/features</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aestra.cc/pricing</loc>
+    <loc>https://aestra.studio/pricing</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://aestra.cc/changelog</loc>
+    <loc>https://aestra.studio/changelog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://aestra.cc/docs</loc>
+    <loc>https://aestra.studio/docs</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://aestra.cc/download</loc>
+    <loc>https://aestra.studio/download</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aestra.cc/about</loc>
+    <loc>https://aestra.studio/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://aestra.cc/privacy</loc>
+    <loc>https://aestra.studio/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://aestra.cc/terms</loc>
+    <loc>https://aestra.studio/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
