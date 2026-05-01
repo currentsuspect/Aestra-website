@@ -99,11 +99,11 @@ export const Changelog = memo(({ setPage }: any) => {
   const getStatusBadge = useCallback((status: Release["status"]) => {
     switch (status) {
       case "active":
-        return "bg-[#61d5ff]/15 text-[#61d5ff] border-[#61d5ff]/30";
+        return "bg-[#00e5cc]/15 text-[#00e5cc] border-[#00e5cc]/30";
       case "landed":
-        return "bg-[#8f82df]/15 text-[#b6abff] border-[#8f82df]/35";
+        return "bg-[#7c3aed]/15 text-[#b6abff] border-[#7c3aed]/35";
       case "released":
-        return "bg-[#4caf6e]/15 text-[#79d996] border-[#4caf6e]/30";
+        return "bg-[#3dbb6e]/15 text-[#79d996] border-[#3dbb6e]/30";
       default:
         return "bg-zinc-800 text-zinc-300 border-zinc-700";
     }
@@ -140,7 +140,7 @@ export const Changelog = memo(({ setPage }: any) => {
         </div>
         <div className="flex items-center text-xs sm:text-sm text-[#8891a7]">
           <Activity className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-          <span className="w-2 h-2 bg-[#61d5ff] rounded-full mr-2 animate-pulse" />
+          <span className="w-2 h-2 bg-[#00e5cc] rounded-full mr-2 animate-pulse" />
           Unreleased line actively moving
         </div>
       </div>
@@ -153,7 +153,7 @@ export const Changelog = memo(({ setPage }: any) => {
             className={cn(
               "rounded-full px-3 py-1.5 text-xs border transition-colors",
               activeType === filter.value
-                ? "border-[#61d5ff] bg-[#61d5ff]/15 text-[#61d5ff]"
+                ? "border-[#00e5cc] bg-[#00e5cc]/15 text-[#00e5cc]"
                 : "border-[#2f3648] text-[#98a1b7] hover:text-white"
             )}
           >
@@ -165,7 +165,7 @@ export const Changelog = memo(({ setPage }: any) => {
       <div className="relative border-l border-[#31384a] ml-3 space-y-8 sm:space-y-10">
         {visibleReleases.map((release, i) => (
           <div key={`${release.ver}-${release.date}-${i}`} className="relative pl-10 sm:pl-12">
-            <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[#8f82df] ring-4 ring-[#09090b]" />
+            <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-[#7c3aed] ring-4 ring-[#09090b]" />
 
             <div className="mb-3 sm:mb-4">
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
@@ -198,7 +198,7 @@ export const Changelog = memo(({ setPage }: any) => {
           href="https://github.com/currentsuspect/Aestra/blob/main/CHANGELOG.md"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center rounded-[10px] border border-[#2f3648] px-4 py-2 text-sm text-[#9aa5bd] hover:text-white hover:border-[#61d5ff]/35 transition-colors"
+          className="inline-flex items-center rounded-[10px] border border-[#2f3648] px-4 py-2 text-sm text-[#9aa5bd] hover:text-white hover:border-[#00e5cc]/35 transition-colors"
         >
           Open canonical CHANGELOG.md
         </a>

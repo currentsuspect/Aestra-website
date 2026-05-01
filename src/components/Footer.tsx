@@ -17,12 +17,12 @@ export const Footer = memo(({ setPage }: PageProps) => {
       <div className="bg-[#0c0f16] border-b border-[#1a1f2b] px-4 sm:px-6 py-2.5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-0">
-            <span className="text-[8px] font-mono text-[#61d5ff] mr-2 shrink-0">Signal Path</span>
+            <span className="text-[8px] font-mono text-[#00e5cc] mr-2 shrink-0">Signal Path</span>
             {[
               { name: "React", color: "#61dafb", bg: "rgba(97,218,251,0.1)", border: "rgba(97,218,251,0.25)" },
               { name: "Vite", color: "#646cff", bg: "rgba(100,108,255,0.1)", border: "rgba(100,108,255,0.25)" },
               { name: "Vercel", color: "#ffffff", bg: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.15)" },
-              { name: "Your Eyes", color: "#d9b549", bg: "rgba(217,181,73,0.1)", border: "rgba(217,181,73,0.25)" },
+              { name: "Your Eyes", color: "#e8a838", bg: "rgba(232,168,56,0.1)", border: "rgba(232,168,56,0.25)" },
             ].map((node, i, arr) => (
               <div key={node.name} className="flex items-center">
                 {i > 0 && (
@@ -67,7 +67,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
             ) : (
               <div className="text-[#8b94aa] text-xs sm:text-sm max-w-sm mb-4 sm:mb-6">
                 <p className="mb-2">You found the secret. Here{"'"}s what nobody tells you:</p>
-                <p className="text-[#d9b549] italic">
+                <p className="text-[#e8a838] italic">
                   "The best DAW is the one that disappears while you{"'"}re using it."
                 </p>
                 <p className="mt-2 text-[#6f778d] text-[10px]">
@@ -85,7 +85,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
                     return `${x},${y}`;
                   }).join(' ')}
                   fill="none"
-                  stroke="#8f82df"
+                  stroke="#7c3aed"
                   strokeWidth="0.8"
                   vectorEffect="non-scaling-stroke"
                 />
@@ -102,10 +102,10 @@ export const Footer = memo(({ setPage }: PageProps) => {
             <h4 className="text-white font-medium mb-3 sm:mb-4 text-xs sm:text-sm">Product</h4>
             <nav aria-label="Product links">
               <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-[#98a1b7] list-none">
-                <li><button onClick={() => setPage("features")} className="hover:text-[#61d5ff]">Features</button></li>
-                <li><button onClick={() => setPage("pricing")} className="hover:text-[#61d5ff]">Pricing</button></li>
-                <li><button onClick={() => setPage("changelog")} className="hover:text-[#61d5ff]">Changelog</button></li>
-                <li><button onClick={() => setPage("download")} className="hover:text-[#61d5ff]">Download</button></li>
+                <li><button onClick={() => setPage("features")} className="hover:text-[#00e5cc]">Features</button></li>
+                <li><button onClick={() => setPage("pricing")} className="hover:text-[#00e5cc]">Pricing</button></li>
+                <li><button onClick={() => setPage("changelog")} className="hover:text-[#00e5cc]">Changelog</button></li>
+                <li><button onClick={() => setPage("download")} className="hover:text-[#00e5cc]">Download</button></li>
               </ul>
             </nav>
           </div>
@@ -115,11 +115,11 @@ export const Footer = memo(({ setPage }: PageProps) => {
             <h4 className="text-white font-medium mb-3 sm:mb-4 text-xs sm:text-sm">Resources</h4>
             <nav aria-label="Resources links">
               <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-[#98a1b7] list-none">
-                <li><button onClick={() => setPage("docs")} className="hover:text-[#61d5ff]">Documentation</button></li>
-                <li><button onClick={() => setPage("about")} className="hover:text-[#61d5ff]">About</button></li>
-                <li><a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="hover:text-[#61d5ff]">Source Code</a></li>
-                <li><button onClick={() => setPage("privacy")} className="hover:text-[#61d5ff]">Privacy</button></li>
-                <li><button onClick={() => setPage("terms")} className="hover:text-[#61d5ff]">Terms</button></li>
+                <li><button onClick={() => setPage("docs")} className="hover:text-[#00e5cc]">Documentation</button></li>
+                <li><button onClick={() => setPage("about")} className="hover:text-[#00e5cc]">About</button></li>
+                <li><a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="hover:text-[#00e5cc]">Source Code</a></li>
+                <li><button onClick={() => setPage("privacy")} className="hover:text-[#00e5cc]">Privacy</button></li>
+                <li><button onClick={() => setPage("terms")} className="hover:text-[#00e5cc]">Terms</button></li>
               </ul>
             </nav>
           </div>
@@ -132,7 +132,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
             <span className="text-[#2a2f3e]">·</span>
             <span>ASSAL v1.1</span>
             <span className="text-[#2a2f3e]">·</span>
-            <span className="text-[#61d5ff]">Linux-first</span>
+            <span className="text-[#00e5cc]">Linux-first</span>
           </div>
           <div className="flex items-center gap-3 text-[10px] text-[#5a6275]">
             <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="hover:text-[#98a1b7] transition-colors">

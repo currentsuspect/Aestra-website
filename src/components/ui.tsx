@@ -28,7 +28,7 @@ export const Button = memo(({
   const baseStyles = "inline-flex items-center justify-center rounded-[12px] font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#61d5ff]/35 disabled:opacity-50 disabled:cursor-not-allowed border";
 
   const variants = {
-    primary: "border-[#7f75cf] bg-[linear-gradient(180deg,#8f82df,#7164bf)] text-white shadow-[0_0_24px_rgba(143,130,223,0.28)] hover:brightness-110",
+    primary: "border-[#6d28d9] bg-[linear-gradient(180deg,#7c3aed,#6d28d9)] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] hover:brightness-110",
     secondary: "border-[#3a4152] bg-[#1a1f2b] text-[#e8ebf5] hover:border-[#61d5ff]/45 hover:text-white",
     ghost: "border-transparent text-[#98a1b7] hover:text-white hover:bg-white/5",
     outline: "border-[#4f5668] bg-[#131722] text-[#cfd5e4] hover:border-[#61d5ff]/45 hover:text-white"
@@ -56,12 +56,12 @@ export const Button = memo(({
 // --- Badge ---
 export const Badge = memo(({ children, variant = "default", className }: BadgeProps) => {
   const styles = variant === "outline"
-    ? "border border-[#61d5ff]/30 text-[#bcefff] bg-[#61d5ff]/8"
-    : "bg-[#8f82df] text-white";
+    ? "border border-[#00e5cc]/30 text-[#bcefff] bg-[#00e5cc]/8"
+    : "bg-[#7c3aed] text-white";
 
   return (
     <span className={cn("inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium", styles, className)}>
-      {variant === "outline" && <span className="w-1.5 h-1.5 rounded-full bg-violet-400 mr-2 animate-pulse" />}
+      {variant === "outline" && <span className="w-1.5 h-1.5 rounded-full bg-[#7c3aed] mr-2 animate-pulse" />}
       {children}
     </span>
   );
@@ -90,12 +90,12 @@ export const FadeIn = memo(({ children, className, delay = 0 }: FadeInProps) => 
 
 // --- FeatureCard ---
 const colorStyles: Record<string, { label: string; border: string }> = {
-  teal:   { label: "text-[#1db4a6]", border: "border-transparent hover:border-[#1db4a6]" },
-  amber:  { label: "text-[#e8a230]", border: "border-transparent hover:border-[#e8a230]" },
-  purple: { label: "text-[#8b7de8]", border: "border-transparent hover:border-[#8b7de8]" },
-  blue:   { label: "text-[#4a9eff]", border: "border-transparent hover:border-[#4a9eff]" },
-  green:  { label: "text-[#4caf6e]", border: "border-transparent hover:border-[#4caf6e]" },
-  coral:  { label: "text-[#e06a4e]", border: "border-transparent hover:border-[#e06a4e]" },
+  teal:   { label: "text-[#00e5cc]", border: "border-transparent hover:border-[#00e5cc]" },
+  amber:  { label: "text-[#e8a838]", border: "border-transparent hover:border-[#e8a838]" },
+  purple: { label: "text-[#7c3aed]", border: "border-transparent hover:border-[#7c3aed]" },
+  blue:   { label: "text-[#9257ff]", border: "border-transparent hover:border-[#9257ff]" },
+  green:  { label: "text-[#3dbb6e]", border: "border-transparent hover:border-[#3dbb6e]" },
+  coral:  { label: "text-[#e85454]", border: "border-transparent hover:border-[#e85454]" },
 };
 
 export const FeatureCard = memo(({ label, title, description, visual, color = "blue", delay }: FeatureCardProps) => {

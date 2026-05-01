@@ -9,7 +9,7 @@ import type { PageProps } from "../types";
 const Hero = ({ setPage }: PageProps) => {
   return (
     <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6 overflow-hidden">
-      <div className="absolute inset-x-0 top-8 h-64 sm:h-80 lg:h-[560px] bg-[radial-gradient(circle_at_top,rgba(97,213,255,0.09),transparent_44%)] pointer-events-none" />
+      <div className="absolute inset-x-0 top-8 h-64 sm:h-80 lg:h-[560px] bg-[radial-gradient(circle_at_top,rgba(0,229,204,0.07),transparent_44%)] pointer-events-none" />
 
       {/* Prism accent lines */}
       <div className="absolute top-32 left-8 w-48 prism-line hidden lg:block" style={{ transform: "rotate(-12deg)" }} />
@@ -21,7 +21,7 @@ const Hero = ({ setPage }: PageProps) => {
             <FadeIn delay={0.1}>
               <h1 className="editorial-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6">
                 A native DAW for<br />
-                <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">
+                <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#00e5cc,#9257ff_48%,#e8a838)]">
                   producers who want flow.
                 </span>
               </h1>
@@ -75,9 +75,9 @@ const WhySection = memo(() => (
               ["Creative interruptions", "Pattern-first workflow keeps you in the loop, not in menus."],
             ].map(([problem, solution], i) => (
               <div key={i} className="glass-panel rounded-xl p-4 sm:p-5 flex gap-4">
-                <div className="w-1 rounded-full bg-[#8f82df] flex-shrink-0" />
+                <div className="w-1 rounded-full bg-[#7c3aed] flex-shrink-0" />
                 <div>
-                  <div className="text-[#e06a4e] text-xs font-mono uppercase tracking-wider mb-1">Problem</div>
+                  <div className="text-[#e85454] text-xs font-mono uppercase tracking-wider mb-1">Problem</div>
                   <div className="text-white text-sm font-medium mb-2">{problem}</div>
                   <div className="text-[#7a82a0] text-xs leading-relaxed">{solution}</div>
                 </div>
@@ -114,7 +114,7 @@ const Features = memo(() => (
             <div className="flex items-end gap-1 h-full">
               {[72, 55, 83, 60, 45, 70, 50, 65].map((h, i) => (
                 <div key={i} className="flex-1 bg-[#1e2230] rounded-[3px] relative overflow-hidden h-full">
-                  <div className="absolute bottom-0 left-0 right-0 rounded-[3px] bg-[#1db4a6aa] transition-all duration-300 group-hover:h-[20%]" style={{ height: `${h}%` }} />
+                  <div className="absolute bottom-0 left-0 right-0 rounded-[3px] bg-[#00e5ccaa] transition-all duration-300 group-hover:h-[20%]" style={{ height: `${h}%` }} />
                 </div>
               ))}
             </div>
@@ -130,12 +130,12 @@ const Features = memo(() => (
             <div className="flex flex-col justify-center h-full gap-2">
               <div className="flex items-center justify-between text-[11px] text-[#4a5068]">
                 <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#4a5068] group-hover:bg-[#4caf6e] transition-colors" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#4a5068] group-hover:bg-[#3dbb6e] transition-colors" />
                   Aestra
                 </span>
               </div>
               <div className="h-1 bg-[#1e2230] rounded-full overflow-hidden">
-                <div className="h-full bg-[#e8a230] rounded-full w-0 group-hover:w-full transition-[width] duration-[80ms]" />
+                <div className="h-full bg-[#e8a838] rounded-full w-0 group-hover:w-full transition-[width] duration-[80ms]" />
               </div>
               <div className="flex justify-between text-[10px] text-[#4a5068]">
                 <span>No plugins scanned</span>
@@ -157,7 +157,7 @@ const Features = memo(() => (
                 0,1,0,0,1,0,1,1,
                 1,0,1,0,0,1,0,0
               ].map((on, i) => (
-                <div key={i} className={`rounded-[3px] transition-all duration-150 ${on ? 'bg-[#8b7de8]' : 'bg-[#1e2230]'} group-hover:${on ? 'bg-[#a99ef5]' : 'opacity-60'}`} />
+                <div key={i} className={`rounded-[3px] transition-all duration-150 ${on ? 'bg-[#7c3aed]' : 'bg-[#1e2230]'} group-hover:${on ? 'bg-[#9257ff]' : 'opacity-60'}`} />
               ))}
             </div>
           }
@@ -170,21 +170,21 @@ const Features = memo(() => (
           description="See exactly where your sound goes — color-coded, live, as you mix."
           visual={
             <svg className="w-full h-full" viewBox="0 0 220 64">
-              <circle cx="20" cy="32" r="8" fill="#4a9eff22" stroke="#4a9eff" strokeWidth="1.5"/>
-              <text x="20" y="36" textAnchor="middle" fontSize="8" fill="#4a9eff">IN</text>
-              <line x1="28" y1="32" x2="70" y2="20" stroke="#4a9eff44" strokeWidth="1"/>
-              <line x1="28" y1="32" x2="70" y2="44" stroke="#4a9eff44" strokeWidth="1"/>
-              <rect x="70" y="12" width="36" height="16" rx="4" fill="#4a9eff15" stroke="#4a9eff66" strokeWidth="1"/>
-              <text x="88" y="23" textAnchor="middle" fontSize="7" fill="#4a9effaa">EQ</text>
-              <rect x="70" y="36" width="36" height="16" rx="4" fill="#4a9eff15" stroke="#4a9eff66" strokeWidth="1"/>
-              <text x="88" y="47" textAnchor="middle" fontSize="7" fill="#4a9effaa">VERB</text>
-              <line x1="106" y1="20" x2="148" y2="32" stroke="#4a9eff44" strokeWidth="1"/>
-              <line x1="106" y1="44" x2="148" y2="32" stroke="#4a9eff44" strokeWidth="1"/>
-              <rect x="148" y="24" width="44" height="16" rx="4" fill="#4a9eff22" stroke="#4a9eff" strokeWidth="1.5"/>
-              <text x="170" y="35" textAnchor="middle" fontSize="7" fill="#4a9eff">MASTER</text>
-              <circle cx="200" cy="32" r="6" fill="#4a9eff33" stroke="#4a9eff" strokeWidth="1"/>
-              <line x1="192" y1="32" x2="194" y2="32" stroke="#4a9eff" strokeWidth="1.5"/>
-              <circle cx="14" cy="32" r="2" fill="#4a9eff">
+              <circle cx="20" cy="32" r="8" fill="#9257ff22" stroke="#9257ff" strokeWidth="1.5"/>
+              <text x="20" y="36" textAnchor="middle" fontSize="8" fill="#9257ff">IN</text>
+              <line x1="28" y1="32" x2="70" y2="20" stroke="#9257ff44" strokeWidth="1"/>
+              <line x1="28" y1="32" x2="70" y2="44" stroke="#9257ff44" strokeWidth="1"/>
+              <rect x="70" y="12" width="36" height="16" rx="4" fill="#9257ff15" stroke="#9257ff66" strokeWidth="1"/>
+              <text x="88" y="23" textAnchor="middle" fontSize="7" fill="#9257ffaa">EQ</text>
+              <rect x="70" y="36" width="36" height="16" rx="4" fill="#9257ff15" stroke="#9257ff66" strokeWidth="1"/>
+              <text x="88" y="47" textAnchor="middle" fontSize="7" fill="#9257ffaa">VERB</text>
+              <line x1="106" y1="20" x2="148" y2="32" stroke="#9257ff44" strokeWidth="1"/>
+              <line x1="106" y1="44" x2="148" y2="32" stroke="#9257ff44" strokeWidth="1"/>
+              <rect x="148" y="24" width="44" height="16" rx="4" fill="#9257ff22" stroke="#9257ff" strokeWidth="1.5"/>
+              <text x="170" y="35" textAnchor="middle" fontSize="7" fill="#9257ff">MASTER</text>
+              <circle cx="200" cy="32" r="6" fill="#9257ff33" stroke="#9257ff" strokeWidth="1"/>
+              <line x1="192" y1="32" x2="194" y2="32" stroke="#9257ff" strokeWidth="1.5"/>
+              <circle cx="14" cy="32" r="2" fill="#9257ff">
                 <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
               </circle>
             </svg>
@@ -199,7 +199,7 @@ const Features = memo(() => (
           visual={
             <div className="flex flex-wrap gap-1.5 content-center h-full">
               {["Spotify", "Apple Music", "AirPods", "Car speakers", "Phone speaker", "Earbuds"].map((p) => (
-                <span key={p} className="bg-[#1e2230] border border-[#2a2f42] rounded-full px-2.5 py-1 text-[11px] text-[#5a6080] group-hover:text-[#4caf6e] group-hover:border-[#4caf6e40] group-hover:bg-[#4caf6e10] transition-all">
+                <span key={p} className="bg-[#1e2230] border border-[#2a2f42] rounded-full px-2.5 py-1 text-[11px] text-[#5a6080] group-hover:text-[#3dbb6e] group-hover:border-[#3dbb6e40] group-hover:bg-[#3dbb6e10] transition-all">
                   {p}
                 </span>
               ))}
@@ -214,20 +214,20 @@ const Features = memo(() => (
           description="Save mix versions with musical names. Come back, compare, blend the best takes."
           visual={
             <svg className="w-full h-full" viewBox="0 0 220 64">
-              <line x1="20" y1="32" x2="200" y2="32" stroke="#e06a4e33" strokeWidth="1.5"/>
-              <circle cx="20" cy="32" r="5" fill="#1e2230" stroke="#e06a4e" strokeWidth="1.5"/>
-              <circle cx="60" cy="32" r="5" fill="#1e2230" stroke="#e06a4e66" strokeWidth="1.5"/>
-              <line x1="60" y1="32" x2="90" y2="16" stroke="#e06a4e44" strokeWidth="1"/>
-              <circle cx="90" cy="16" r="4" fill="#1e2230" stroke="#e06a4e55" strokeWidth="1"/>
-              <circle cx="120" cy="16" r="4" fill="#1e2230" stroke="#e06a4e55" strokeWidth="1"/>
-              <line x1="90" y1="16" x2="120" y2="16" stroke="#e06a4e33" strokeWidth="1"/>
-              <line x1="120" y1="16" x2="150" y2="32" stroke="#e06a4e44" strokeWidth="1"/>
-              <circle cx="150" cy="32" r="5" fill="#1e2230" stroke="#e06a4e66" strokeWidth="1.5"/>
-              <circle cx="190" cy="32" r="6" fill="#e06a4e22" stroke="#e06a4e" strokeWidth="1.5"/>
-              <text x="34" y="26" fontSize="7" fill="#e06a4e66">rough mix</text>
-              <text x="155" y="26" fontSize="7" fill="#e06a4e66">final</text>
-              <text x="80" y="11" fontSize="7" fill="#e06a4e66">vox take</text>
-              <text x="182" y="36" fontSize="7" fill="#e06a4eaa">v3</text>
+              <line x1="20" y1="32" x2="200" y2="32" stroke="#e8545433" strokeWidth="1.5"/>
+              <circle cx="20" cy="32" r="5" fill="#1e2230" stroke="#e85454" strokeWidth="1.5"/>
+              <circle cx="60" cy="32" r="5" fill="#1e2230" stroke="#e8545466" strokeWidth="1.5"/>
+              <line x1="60" y1="32" x2="90" y2="16" stroke="#e8545444" strokeWidth="1"/>
+              <circle cx="90" cy="16" r="4" fill="#1e2230" stroke="#e8545455" strokeWidth="1"/>
+              <circle cx="120" cy="16" r="4" fill="#1e2230" stroke="#e8545455" strokeWidth="1"/>
+              <line x1="90" y1="16" x2="120" y2="16" stroke="#e8545433" strokeWidth="1"/>
+              <line x1="120" y1="16" x2="150" y2="32" stroke="#e8545444" strokeWidth="1"/>
+              <circle cx="150" cy="32" r="5" fill="#1e2230" stroke="#e8545466" strokeWidth="1.5"/>
+              <circle cx="190" cy="32" r="6" fill="#e8545422" stroke="#e85454" strokeWidth="1.5"/>
+              <text x="34" y="26" fontSize="7" fill="#e8545466">rough mix</text>
+              <text x="155" y="26" fontSize="7" fill="#e8545466">final</text>
+              <text x="80" y="11" fontSize="7" fill="#e8545466">vox take</text>
+              <text x="182" y="36" fontSize="7" fill="#e85454aa">v3</text>
             </svg>
           }
           delay={0.5}
@@ -254,55 +254,55 @@ const Plugins = memo(() => (
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         <FadeIn delay={0}>
-          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#8f82df]/30 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-[#8f82df]/15 border border-[#8f82df]/25 flex items-center justify-center mb-5">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#8f82df" strokeWidth="1.5" strokeLinecap="round">
+          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#7c3aed]/30 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#7c3aed]/15 border border-[#7c3aed]/25 flex items-center justify-center mb-5">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#7c3aed" strokeWidth="1.5" strokeLinecap="round">
                 <path d="M12 3v18M3 12h18M7 7l10 10M17 7L7 17" />
               </svg>
             </div>
-            <div className="text-[10px] uppercase tracking-[0.14em] text-[#8f82df] font-medium mb-2">Reverb</div>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-[#7c3aed] font-medium mb-2">Reverb</div>
             <h3 className="text-lg font-semibold text-white mb-2">Aestra Verb</h3>
             <p className="text-[13px] text-[#7a82a0] leading-relaxed">
               Algorithmic reverb with plate, hall, and room modes. Low CPU, high character. Built for the Aestra engine.
             </p>
             <div className="mt-4 flex items-center gap-2">
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4caf6e]/10 text-[#4caf6e] border border-[#4caf6e]/20">Available</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#3dbb6e]/10 text-[#3dbb6e] border border-[#3dbb6e]/20">Available</span>
             </div>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#4a9eff]/30 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-[#4a9eff]/15 border border-[#4a9eff]/25 flex items-center justify-center mb-5">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4a9eff" strokeWidth="1.5" strokeLinecap="round">
+          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#9257ff]/30 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#9257ff]/15 border border-[#9257ff]/25 flex items-center justify-center mb-5">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9257ff" strokeWidth="1.5" strokeLinecap="round">
                 <path d="M4 20h16M4 20V10M8 20v-6M12 20V8M16 20v-4M20 20V6" />
               </svg>
             </div>
-            <div className="text-[10px] uppercase tracking-[0.14em] text-[#4a9eff] font-medium mb-2">Equalizer</div>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-[#9257ff] font-medium mb-2">Equalizer</div>
             <h3 className="text-lg font-semibold text-white mb-2">Aestra EQ</h3>
             <p className="text-[13px] text-[#7a82a0] leading-relaxed">
               Parametric EQ with spectrum analyzer. Clean curves, transparent sound. The kind of EQ you reach for first.
             </p>
             <div className="mt-4 flex items-center gap-2">
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4caf6e]/10 text-[#4caf6e] border border-[#4caf6e]/20">Available</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#3dbb6e]/10 text-[#3dbb6e] border border-[#3dbb6e]/20">Available</span>
             </div>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#d9b549]/30 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-[#d9b549]/15 border border-[#d9b549]/25 flex items-center justify-center mb-5">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#d9b549" strokeWidth="1.5" strokeLinecap="round">
+          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#e8a838]/30 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#e8a838]/15 border border-[#e8a838]/25 flex items-center justify-center mb-5">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#e8a838" strokeWidth="1.5" strokeLinecap="round">
                 <path d="M4 14h4v6H4zM10 10h4v10h-4zM16 6h4v14h-4z" />
               </svg>
             </div>
-            <div className="text-[10px] uppercase tracking-[0.14em] text-[#d9b549] font-medium mb-2">Compressor</div>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-[#e8a838] font-medium mb-2">Compressor</div>
             <h3 className="text-lg font-semibold text-white mb-2">Aestra Comp</h3>
             <p className="text-[13px] text-[#7a82a0] leading-relaxed">
               Bus and channel compression with visual gain reduction metering. Clean dynamics control.
             </p>
             <div className="mt-4 flex items-center gap-2">
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#d9b549]/10 text-[#d9b549] border border-[#d9b549]/20">In Progress</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#e8a838]/10 text-[#e8a838] border border-[#e8a838]/20">In Progress</span>
             </div>
           </div>
         </FadeIn>
@@ -321,7 +321,7 @@ const FreeCore = memo(({ setPage }: PageProps) => (
           <span className="eyebrow mb-4 block">Open Access</span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white editorial-title mb-4 sm:mb-6">
             Free core.<br />
-            <span className="text-[#8f82df]">Pay what you want to go further.</span>
+            <span className="text-[#7c3aed]">Pay what you want to go further.</span>
           </h2>
           <p className="text-[#7a82a0] text-sm sm:text-base leading-relaxed mb-6">
             The full DAW is free. No feature gates. No export limits. Supporter tiers fund development without locking access behind high prices.
@@ -339,9 +339,9 @@ const FreeCore = memo(({ setPage }: PageProps) => (
         <FadeIn delay={0.15}>
           <div className="space-y-3">
             {[
-              { tier: "Core", price: "$0", desc: "Full DAW. Forever free.", accent: "#4caf6e" },
-              { tier: "Supporter", price: "$5/mo", desc: "Priority builds + supporter badge.", accent: "#8f82df" },
-              { tier: "Founder", price: "$129", desc: "One-time. Lifetime access. Your name in the product.", accent: "#d9b549" },
+              { tier: "Core", price: "$0", desc: "Full DAW. Forever free.", accent: "#3dbb6e" },
+              { tier: "Supporter", price: "$5/mo", desc: "Priority builds + supporter badge.", accent: "#7c3aed" },
+              { tier: "Founder", price: "$129", desc: "One-time. Lifetime access. Your name in the product.", accent: "#e8a838" },
             ].map(({ tier, price, desc, accent }) => (
               <div key={tier} className="glass-panel rounded-xl p-5 flex items-center gap-5">
                 <div className="w-1 rounded-full flex-shrink-0" style={{ background: accent }} />
@@ -368,7 +368,7 @@ const ClosingCTA = memo(({ setPage }: PageProps) => (
         <span className="eyebrow mb-4 block">Get Started</span>
         <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white editorial-title mb-4 sm:mb-6">
           Make music,<br />
-          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">not excuses.</span>
+          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#00e5cc,#9257ff_48%,#e8a838)]">not excuses.</span>
         </h2>
         <p className="text-[#7a82a0] text-sm sm:text-base max-w-md mx-auto mb-8 sm:mb-10">
           Download Aestra and start making music today. Free core, no strings attached.
@@ -455,13 +455,13 @@ const FounderCountdown = () => {
 
   return (
     <section id="founder-section" className="content-defer py-16 sm:py-20 lg:py-28 px-4 sm:px-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(217,181,73,0.07),transparent_40%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(232,168,56,0.06),transparent_40%)] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[16px] sm:rounded-[20px] p-5 sm:p-8 md:p-12">
         <div className="max-w-3xl">
           <FadeIn className="flex justify-start mb-4 sm:mb-8">
-            <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs sm:text-sm font-medium">
-              <span className="w-2 h-2 rounded-full bg-[#d9b549] animate-pulse" />
+            <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-[#e8a838]/30 bg-[#e8a838]/10 text-[#f6de8d] text-xs sm:text-sm font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#e8a838] animate-pulse" />
               <span className="hidden sm:inline">Founder Gold Card Window</span>
               <span className="sm:hidden">Founder Gold</span>
             </span>
@@ -474,7 +474,7 @@ const FounderCountdown = () => {
                 Some things
                 <br />
               </span>
-              <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#d9b549,#f1d88b_55%,#b6a8ff)]">
+              <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#e8a838,#f1d88b_55%,#9257ff)]">
                 don&apos;t get a second run.
               </span>
             </h2>
@@ -489,12 +489,12 @@ const FounderCountdown = () => {
 
         <FadeIn delay={0.3} className="mb-8 sm:mb-12">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm sm:text-base text-[#d9b549] font-mono font-bold">{500 - spotsLeft} / 500 claimed</span>
+            <span className="text-sm sm:text-base text-[#e8a838] font-mono font-bold">{500 - spotsLeft} / 500 claimed</span>
             <span className="text-xs text-[#8b94aa]">{spotsLeft} spots left</span>
           </div>
           <div className="w-full h-3 sm:h-4 rounded-full bg-[#1a1f2e] border border-[#343c4d] overflow-hidden">
             <div
-              className="h-full rounded-full bg-[linear-gradient(90deg,#d9b549,#f1d88b)] transition-all duration-500"
+              className="h-full rounded-full bg-[linear-gradient(90deg,#e8a838,#f1d88b)] transition-all duration-500"
               style={{ width: `${((500 - spotsLeft) / 500) * 100}%` }}
             />
           </div>
@@ -510,19 +510,19 @@ const FounderCountdown = () => {
                 placeholder="you@studio.mail"
                 required
                 aria-label="Email address for waitlist"
-                className="flex-1 h-12 px-4 rounded-[14px] bg-[#141924] border border-[#343c4d] text-white text-sm placeholder-[#6f778d] focus:outline-none focus:ring-2 focus:ring-[#d9b549]/35 focus:border-[#d9b549]/45"
+                className="flex-1 h-12 px-4 rounded-[14px] bg-[#141924] border border-[#343c4d] text-white text-sm placeholder-[#6f778d] focus:outline-none focus:ring-2 focus:ring-[#e8a838]/35 focus:border-[#e8a838]/45"
               />
               <button
                 type="submit"
                 disabled={submitting}
-                className="h-12 px-6 rounded-[14px] border border-[#d9b549]/40 bg-[linear-gradient(180deg,#d9b549,#a7802c)] text-white font-medium text-sm hover:brightness-105 transition-all shadow-[0_0_22px_rgba(217,181,73,0.22)] disabled:opacity-50 whitespace-nowrap"
+                className="h-12 px-6 rounded-[14px] border border-[#e8a838]/40 bg-[linear-gradient(180deg,#e8a838,#a7802c)] text-white font-medium text-sm hover:brightness-105 transition-all shadow-[0_0_22px_rgba(232,168,56,0.22)] disabled:opacity-50 whitespace-nowrap"
               >
                 {submitting ? "Joining..." : "Join Waitlist"}
               </button>
             </form>
           ) : (
             <div className="flex flex-col items-start gap-3">
-              <div className="flex items-center gap-2 text-[#d9b549]">
+              <div className="flex items-center gap-2 text-[#e8a838]">
                 <Check className="w-5 h-5" />
                 <span className="font-medium">You&apos;re on the list.</span>
               </div>

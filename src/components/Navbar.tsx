@@ -59,7 +59,7 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
           tabIndex={0}
           onKeyDown={(e) => e.key === "Enter" && setPage("home")}
         >
-          <div className="w-9 h-9 rounded-[12px] overflow-hidden flex items-center justify-center bg-[#151a24] border border-[#364051] group-hover:border-[#61d5ff]/45 transition-all">
+          <div className="w-9 h-9 rounded-[12px] overflow-hidden flex items-center justify-center bg-[#151a24] border border-[#2a2a36] group-hover:border-[#00e5cc]/45 transition-all">
             <img src="/logo.png" alt="" className="w-8 h-8" />
           </div>
           <span className="text-xl font-bold tracking-tight text-white">Aestra</span>
@@ -74,7 +74,7 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
               className={cn(
                 "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                 activePage === link.id
-                  ? "bg-[#8f82df] text-white"
+                  ? "bg-[#7c3aed] text-white"
                   : "text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e]"
               )}
             >
@@ -127,8 +127,8 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
               className={cn(
                 "text-left py-2.5 px-2 rounded-lg transition-colors min-h-[44px] flex items-center",
                 activePage === link.id
-                  ? "text-[#b6a8ff] bg-white/5"
-                  : "text-[#d2d8e6] hover:text-[#b6a8ff] hover:bg-white/5"
+                  ? "text-[#9257ff] bg-white/5"
+                  : "text-[#d2d8e6] hover:text-[#9257ff] hover:bg-white/5"
               )}
             >
               {link.name}
@@ -139,7 +139,7 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
             href="https://github.com/currentsuspect/Aestra"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-left text-[#d2d8e6] hover:text-[#61d5ff] py-2.5 px-2 rounded-lg hover:bg-white/5 transition-colors min-h-[44px] flex items-center"
+            className="text-left text-[#d2d8e6] hover:text-[#00e5cc] py-2.5 px-2 rounded-lg hover:bg-white/5 transition-colors min-h-[44px] flex items-center"
             aria-label="GitHub (opens in new tab)"
           >
             GitHub

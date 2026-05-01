@@ -524,10 +524,10 @@ export const Docs = memo(({ setPage }: any) => {
                   }}
                   className={cn(
                     "section-frame w-full rounded-[14px] p-4 text-left transition-colors",
-                    recipe.id === selectedRecipe ? "border-[#61d5ff]/40 bg-[#61d5ff]/10" : "hover:border-[#61d5ff]/25"
+                    recipe.id === selectedRecipe ? "border-[#00e5cc]/40 bg-[#00e5cc]/10" : "hover:border-[#00e5cc]/25"
                   )}
                 >
-                  <div className="text-xs uppercase tracking-wider text-[#61d5ff] mb-1">Recipe</div>
+                  <div className="text-xs uppercase tracking-wider text-[#00e5cc] mb-1">Recipe</div>
                   <div className="text-white font-semibold">{recipe.title}</div>
                   <div className="text-xs text-[#8d97af] mt-1">{recipe.preset}</div>
                 </button>
@@ -546,7 +546,7 @@ export const Docs = memo(({ setPage }: any) => {
                 </button>
                 <button
                   onClick={() => setRecipeMode("after")}
-                  className={cn("px-3 py-2 text-xs", recipeMode === "after" ? "bg-[#4caf6e] text-white" : "bg-transparent text-[#8d97af]")}
+                  className={cn("px-3 py-2 text-xs", recipeMode === "after" ? "bg-[#3dbb6e] text-white" : "bg-transparent text-[#8d97af]")}
                 >
                   After
                 </button>
@@ -562,10 +562,10 @@ export const Docs = memo(({ setPage }: any) => {
                     onClick={() => toggleRecipeStep(selectedRecipeData.id, index, selectedRecipeData.steps.length)}
                     className={cn(
                       "w-full rounded-[10px] border px-3 py-3 text-left flex items-start gap-3",
-                      recipeStepChecks[index] ? "border-[#4caf6e]/60 bg-[#4caf6e]/10" : "border-[#2f3648] bg-[#0f131d]"
+                      recipeStepChecks[index] ? "border-[#3dbb6e]/60 bg-[#3dbb6e]/10" : "border-[#2f3648] bg-[#0f131d]"
                     )}
                   >
-                    <span className={cn("mt-0.5 inline-flex w-4 h-4 rounded-full border items-center justify-center text-[10px]", recipeStepChecks[index] ? "border-[#4caf6e] text-[#4caf6e]" : "border-[#475069] text-[#79839b]")}>
+                    <span className={cn("mt-0.5 inline-flex w-4 h-4 rounded-full border items-center justify-center text-[10px]", recipeStepChecks[index] ? "border-[#3dbb6e] text-[#3dbb6e]" : "border-[#475069] text-[#79839b]")}>
                       {recipeStepChecks[index] ? "✓" : index + 1}
                     </span>
                     <span className="text-sm text-[#d4dae8]">{step}</span>
@@ -586,7 +586,7 @@ export const Docs = memo(({ setPage }: any) => {
                   onClick={() => setSelectedFlowNode(node.id)}
                   className={cn(
                     "rounded-full px-3 py-1.5 text-xs border",
-                    selectedFlowNode === node.id ? "border-[#61d5ff] bg-[#61d5ff]/15 text-[#61d5ff]" : "border-[#2f3648] text-[#8d97af] hover:text-white"
+                    selectedFlowNode === node.id ? "border-[#00e5cc] bg-[#00e5cc]/15 text-[#00e5cc]" : "border-[#2f3648] text-[#8d97af] hover:text-white"
                   )}
                 >
                   {node.name}
@@ -614,12 +614,12 @@ export const Docs = memo(({ setPage }: any) => {
 
             <div className="flex gap-2 mb-4">
               <button onClick={() => setFlowMode("before")} className={cn("rounded-lg px-3 py-2 text-xs border", flowMode === "before" ? "border-[#7c6fe0] bg-[#7c6fe0]/15 text-[#b8aef9]" : "border-[#2f3648] text-[#8d97af]")}>Before</button>
-              <button onClick={() => setFlowMode("after")} className={cn("rounded-lg px-3 py-2 text-xs border", flowMode === "after" ? "border-[#4caf6e] bg-[#4caf6e]/15 text-[#7ad999]" : "border-[#2f3648] text-[#8d97af]")}>After</button>
+              <button onClick={() => setFlowMode("after")} className={cn("rounded-lg px-3 py-2 text-xs border", flowMode === "after" ? "border-[#3dbb6e] bg-[#3dbb6e]/15 text-[#7ad999]" : "border-[#2f3648] text-[#8d97af]")}>After</button>
             </div>
 
             <h3 className="text-lg font-bold text-white">{selectedFlowData.name}</h3>
             <p className="text-sm text-[#9aa5bd] mt-2">{flowMode === "before" ? selectedFlowData.before : selectedFlowData.after}</p>
-            <p className="text-xs text-[#61d5ff] mt-3">Tip: {selectedFlowData.tip}</p>
+            <p className="text-xs text-[#00e5cc] mt-3">Tip: {selectedFlowData.tip}</p>
           </Card>
         );
 
@@ -633,7 +633,7 @@ export const Docs = memo(({ setPage }: any) => {
                   onClick={() => setSelectedPersona(track.id)}
                   className={cn(
                     "section-frame w-full rounded-[12px] px-4 py-3 text-left",
-                    selectedPersona === track.id ? "border-[#61d5ff]/45 bg-[#61d5ff]/10" : "hover:border-[#61d5ff]/25"
+                    selectedPersona === track.id ? "border-[#00e5cc]/45 bg-[#00e5cc]/10" : "hover:border-[#00e5cc]/25"
                   )}
                 >
                   <div className="text-white font-semibold">{track.label}</div>
@@ -654,7 +654,7 @@ export const Docs = memo(({ setPage }: any) => {
                       key={index}
                       className={cn(
                         "rounded-[10px] border px-3 py-3 text-sm",
-                        done ? "border-[#4caf6e]/55 bg-[#4caf6e]/10 text-[#d9f5e2]" : "border-[#2f3648] bg-[#0f131d] text-[#9aa5bd]"
+                        done ? "border-[#3dbb6e]/55 bg-[#3dbb6e]/10 text-[#d9f5e2]" : "border-[#2f3648] bg-[#0f131d] text-[#9aa5bd]"
                       )}
                     >
                       <span className="mr-2 text-xs">{done ? "✓" : `${index + 1}.`}</span>
@@ -699,7 +699,7 @@ export const Docs = memo(({ setPage }: any) => {
                   onClick={() => setSelectedSymptom(item.id)}
                   className={cn(
                     "rounded-full px-3 py-1.5 text-xs border",
-                    selectedSymptom === item.id ? "border-[#61d5ff] bg-[#61d5ff]/15 text-[#61d5ff]" : "border-[#2f3648] text-[#8d97af]"
+                    selectedSymptom === item.id ? "border-[#00e5cc] bg-[#00e5cc]/15 text-[#00e5cc]" : "border-[#2f3648] text-[#8d97af]"
                   )}
                 >
                   {item.symptom}
@@ -710,7 +710,7 @@ export const Docs = memo(({ setPage }: any) => {
             <h3 className="text-lg text-white font-bold">{selectedSymptomData.symptom}</h3>
             <div className="grid md:grid-cols-2 gap-4 mt-4">
               <div className="rounded-[12px] border border-[#2f3648] bg-[#0f131d] p-4">
-                <div className="text-xs uppercase tracking-wider text-[#61d5ff] mb-2">Immediate fixes</div>
+                <div className="text-xs uppercase tracking-wider text-[#00e5cc] mb-2">Immediate fixes</div>
                 <ul className="space-y-2 text-sm text-[#c9d1e3]">
                   {selectedSymptomData.immediate.map((line, index) => (
                     <li key={index}>• {line}</li>
@@ -718,7 +718,7 @@ export const Docs = memo(({ setPage }: any) => {
                 </ul>
               </div>
               <div className="rounded-[12px] border border-[#2f3648] bg-[#0f131d] p-4">
-                <div className="text-xs uppercase tracking-wider text-[#e8a230] mb-2">Deep fixes</div>
+                <div className="text-xs uppercase tracking-wider text-[#e8a838] mb-2">Deep fixes</div>
                 <ul className="space-y-2 text-sm text-[#c9d1e3]">
                   {selectedSymptomData.deep.map((line, index) => (
                     <li key={index}>• {line}</li>
@@ -749,7 +749,7 @@ export const Docs = memo(({ setPage }: any) => {
               ].map(([label, key]) => (
                 <div key={label + key} className="rounded-[10px] border border-[#2f3648] bg-[#0f131d] px-3 py-3 flex items-center justify-between">
                   <span className="text-sm text-[#c9d1e3]">{label}</span>
-                  <span className="text-xs text-[#61d5ff] font-mono">{key}</span>
+                  <span className="text-xs text-[#00e5cc] font-mono">{key}</span>
                 </div>
               ))}
             </div>
@@ -773,7 +773,7 @@ export const Docs = memo(({ setPage }: any) => {
                           onClick={() => togglePatternCell(row, idx)}
                           className={cn(
                             "h-5 rounded-[4px] border",
-                            value ? "bg-[#8b7de8] border-[#a79af5]" : "bg-[#111725] border-[#2d3446]"
+                            value ? "bg-[#7c3aed] border-[#a79af5]" : "bg-[#111725] border-[#2d3446]"
                           )}
                         />
                       ))}
@@ -793,11 +793,11 @@ export const Docs = memo(({ setPage }: any) => {
                     onClick={() => setRoutingToggles((prev) => ({ ...prev, [node]: !active }))}
                     className={cn(
                       "w-full rounded-[10px] border px-3 py-3 text-left flex items-center justify-between",
-                      active ? "border-[#61d5ff]/50 bg-[#61d5ff]/10" : "border-[#2f3648] bg-[#0f131d]"
+                      active ? "border-[#00e5cc]/50 bg-[#00e5cc]/10" : "border-[#2f3648] bg-[#0f131d]"
                     )}
                   >
                     <span className="text-sm text-[#d4dae8] uppercase">{node}</span>
-                    <span className={cn("text-xs", active ? "text-[#61d5ff]" : "text-[#79839b]")}>{active ? "ON" : "OFF"}</span>
+                    <span className={cn("text-xs", active ? "text-[#00e5cc]" : "text-[#79839b]")}>{active ? "ON" : "OFF"}</span>
                   </button>
                 ))}
               </div>
@@ -818,7 +818,7 @@ export const Docs = memo(({ setPage }: any) => {
                   onClick={() => setSelectedWorkflowImpact(item.id)}
                   className={cn(
                     "rounded-full px-3 py-1.5 text-xs border",
-                    selectedWorkflowImpact === item.id ? "border-[#61d5ff] bg-[#61d5ff]/15 text-[#61d5ff]" : "border-[#2f3648] text-[#8d97af]"
+                    selectedWorkflowImpact === item.id ? "border-[#00e5cc] bg-[#00e5cc]/15 text-[#00e5cc]" : "border-[#2f3648] text-[#8d97af]"
                   )}
                 >
                   {item.label}
@@ -828,7 +828,7 @@ export const Docs = memo(({ setPage }: any) => {
             <div className="space-y-3">
               {selectedImpactData.notes.map((note, index) => (
                 <div key={index} className="rounded-[12px] border border-[#2f3648] bg-[#0f131d] p-4">
-                  <div className="text-xs text-[#61d5ff] uppercase tracking-wider">{note.version}</div>
+                  <div className="text-xs text-[#00e5cc] uppercase tracking-wider">{note.version}</div>
                   <div className="text-sm text-white mt-1">{note.change}</div>
                   <div className="text-sm text-[#9aa5bd] mt-2">Impact: {note.impact}</div>
                 </div>
@@ -848,7 +848,7 @@ export const Docs = memo(({ setPage }: any) => {
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <h3 className="text-lg text-white font-bold">{item.title}</h3>
-                    <p className="text-xs text-[#61d5ff] mt-1">{item.genre}</p>
+                    <p className="text-xs text-[#00e5cc] mt-1">{item.genre}</p>
                   </div>
                   <Button
                     variant="secondary"
@@ -893,7 +893,7 @@ export const Docs = memo(({ setPage }: any) => {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search docs segments..."
               aria-label="Search documentation"
-              className="w-full bg-[#151a24] border border-[#30384a] rounded-[12px] py-2 pl-9 pr-4 text-sm text-white focus:ring-2 focus:ring-[#61d5ff]/40 focus:outline-none"
+              className="w-full bg-[#151a24] border border-[#30384a] rounded-[12px] py-2 pl-9 pr-4 text-sm text-white focus:ring-2 focus:ring-[#00e5cc]/40 focus:outline-none"
             />
           </div>
 
@@ -909,7 +909,7 @@ export const Docs = memo(({ setPage }: any) => {
                         className={cn(
                           "w-full text-left rounded-[14px] px-3 py-2 transition-colors",
                           activeSection === section.id
-                            ? "text-[#61d5ff] font-medium bg-[#61d5ff]/10 border border-[#61d5ff]/15"
+                            ? "text-[#00e5cc] font-medium bg-[#00e5cc]/10 border border-[#00e5cc]/15"
                             : "text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e]"
                         )}
                       >
@@ -932,12 +932,12 @@ export const Docs = memo(({ setPage }: any) => {
       </div>
 
       <div className="flex-1 md:ml-64 p-4 sm:p-8 md:p-12 max-w-5xl">
-        <div className="mb-4 text-sm text-[#61d5ff] font-medium">{currentSection.group} / {currentSection.eyebrow}</div>
+        <div className="mb-4 text-sm text-[#00e5cc] font-medium">{currentSection.group} / {currentSection.eyebrow}</div>
         <h1 className="text-2xl sm:text-4xl font-bold text-white mb-5">{currentSection.title}</h1>
         <p className="text-lg text-[#d4dae8] leading-relaxed mb-7 max-w-3xl">{currentSection.summary}</p>
 
-        <Card className="p-5 mb-7 bg-[#61d5ff]/5 section-frame">
-          <h4 className="flex items-center text-[#61d5ff] font-bold mb-2">
+        <Card className="p-5 mb-7 bg-[#00e5cc]/5 section-frame">
+          <h4 className="flex items-center text-[#00e5cc] font-bold mb-2">
             <BookOpen className="w-4 h-4 mr-2" /> {currentSection.calloutTitle ?? "Quick context"}
           </h4>
           <p className="text-sm text-[#d2d8e6]">
@@ -957,10 +957,10 @@ export const Docs = memo(({ setPage }: any) => {
                   href={link.href}
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="section-frame rounded-[16px] px-4 py-4 flex items-center justify-between text-sm hover:border-[#61d5ff]/30 transition-colors"
+                  className="section-frame rounded-[16px] px-4 py-4 flex items-center justify-between text-sm hover:border-[#00e5cc]/30 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <FileText className="w-4 h-4 text-[#61d5ff]" />
+                    <FileText className="w-4 h-4 text-[#00e5cc]" />
                     <span className="text-[#d4dae8]">{link.label}</span>
                   </div>
                   <ArrowRight className="w-4 h-4 text-[#7d879d]" />
@@ -985,8 +985,8 @@ export const Docs = memo(({ setPage }: any) => {
             disabled={!nextSection}
             onClick={() => nextSection && setActiveSection(nextSection.id)}
           >
-            <span className="text-white group-hover:text-[#61d5ff] transition-colors">Next: {nextSection ? nextSection.title : "None"}</span>
-            <ArrowRight className="w-4 h-4 text-[#98a1b7] group-hover:text-[#61d5ff]" />
+            <span className="text-white group-hover:text-[#00e5cc] transition-colors">Next: {nextSection ? nextSection.title : "None"}</span>
+            <ArrowRight className="w-4 h-4 text-[#98a1b7] group-hover:text-[#00e5cc]" />
           </Button>
         </div>
       </div>
@@ -1000,7 +1000,7 @@ export const Docs = memo(({ setPage }: any) => {
                 value={paletteQuery}
                 onChange={(e) => setPaletteQuery(e.target.value)}
                 placeholder="Type a command… (e.g. patch, troubleshooting, changelog)"
-                className="w-full bg-[#111726] border border-[#30384a] rounded-[10px] py-2.5 px-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#61d5ff]/40"
+                className="w-full bg-[#111726] border border-[#30384a] rounded-[10px] py-2.5 px-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#00e5cc]/40"
               />
             </div>
             <div className="max-h-[50vh] overflow-y-auto p-2">

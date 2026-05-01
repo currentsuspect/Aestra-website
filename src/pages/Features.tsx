@@ -4,17 +4,17 @@ import { Footer } from "../components/Footer";
 import type { PageProps } from "../types";
 
 const tagColors: Record<string, { text: string; bg: string; border: string; dot: string }> = {
-  teal: { text: "text-[#1db4a6]", bg: "bg-[#1db4a6]/10", border: "border-[#1db4a6]/20", dot: "#1db4a6" },
-  amber: { text: "text-[#e8a230]", bg: "bg-[#e8a230]/10", border: "border-[#e8a230]/20", dot: "#e8a230" },
-  purple: { text: "text-[#8b7de8]", bg: "bg-[#8b7de8]/10", border: "border-[#8b7de8]/20", dot: "#8b7de8" },
-  blue: { text: "text-[#4a9eff]", bg: "bg-[#4a9eff]/10", border: "border-[#4a9eff]/20", dot: "#4a9eff" },
-  green: { text: "text-[#4caf6e]", bg: "bg-[#4caf6e]/10", border: "border-[#4caf6e]/20", dot: "#4caf6e" },
-  coral: { text: "text-[#e06a4e]", bg: "bg-[#e06a4e]/10", border: "border-[#e06a4e]/20", dot: "#e06a4e" },
+  teal: { text: "text-[#00e5cc]", bg: "bg-[#00e5cc]/10", border: "border-[#00e5cc]/20", dot: "#00e5cc" },
+  amber: { text: "text-[#e8a838]", bg: "bg-[#e8a838]/10", border: "border-[#e8a838]/20", dot: "#e8a838" },
+  purple: { text: "text-[#7c3aed]", bg: "bg-[#7c3aed]/10", border: "border-[#7c3aed]/20", dot: "#7c3aed" },
+  blue: { text: "text-[#9257ff]", bg: "bg-[#9257ff]/10", border: "border-[#9257ff]/20", dot: "#9257ff" },
+  green: { text: "text-[#3dbb6e]", bg: "bg-[#3dbb6e]/10", border: "border-[#3dbb6e]/20", dot: "#3dbb6e" },
+  coral: { text: "text-[#e85454]", bg: "bg-[#e85454]/10", border: "border-[#e85454]/20", dot: "#e85454" },
 };
 
 const EngineVisual = memo(() => (
   <div className="vis-engine w-full max-w-[320px]">
-    {[["CPU", 18, "#1db4a6", "18%"], ["RAM", 22, "#1db4a690", "340mb"], ["Latency", 8, "#1db4a660", "8ms"], ["Dropouts", 0, "#4caf6e", "0"]].map(([label, width, color, value]) => (
+    {[["CPU", 18, "#00e5cc", "18%"], ["RAM", 22, "#00e5cc90", "340mb"], ["Latency", 8, "#00e5cc60", "8ms"], ["Dropouts", 0, "#3dbb6e", "0"]].map(([label, width, color, value]) => (
       <div className="meter-row" key={String(label)}>
         <div className="meter-label">{label}</div>
         <div className="meter-track"><div className="meter-fill" style={{ width: `${width}%`, background: color as string }} /></div>
@@ -22,8 +22,8 @@ const EngineVisual = memo(() => (
       </div>
     ))}
     <div className="vis-readout">
-      <div className="readout-item"><div className="readout-val" style={{ color: "#1db4a6" }}>8ms</div><div className="readout-label">Latency</div></div>
-      <div className="readout-item"><div className="readout-val" style={{ color: "#4caf6e" }}>0</div><div className="readout-label">Dropouts</div></div>
+      <div className="readout-item"><div className="readout-val" style={{ color: "#00e5cc" }}>8ms</div><div className="readout-label">Latency</div></div>
+      <div className="readout-item"><div className="readout-val" style={{ color: "#3dbb6e" }}>0</div><div className="readout-label">Dropouts</div></div>
       <div className="readout-item"><div className="readout-val" style={{ color: "#f0f0f0" }}>18%</div><div className="readout-label">CPU</div></div>
     </div>
   </div>
@@ -88,28 +88,28 @@ const PatternVisual = memo(() => {
 const RoutingVisual = memo(() => (
   <div className="vis-routing w-full max-w-[340px]">
     <svg viewBox="0 0 320 200" width="100%" style={{ maxWidth: 320 }}>
-      <path d="M 60 60 C 120 60 100 100 160 100" stroke="#4a9eff22" strokeWidth="2" fill="none"/>
-      <path d="M 60 140 C 120 140 100 100 160 100" stroke="#4a9eff22" strokeWidth="2" fill="none"/>
-      <path d="M 60 100 L 160 100" stroke="#4a9eff33" strokeWidth="2" fill="none"/>
-      <path d="M 200 100 L 260 100" stroke="#4a9eff44" strokeWidth="2.5" fill="none"/>
-      <circle r="3" fill="#4a9eff" opacity="0.8"><animateMotion dur="2s" repeatCount="indefinite" path="M 60 60 C 120 60 100 100 160 100" /></circle>
-      <circle r="3" fill="#4a9eff" opacity="0.5"><animateMotion dur="2.4s" repeatCount="indefinite" begin="0.8s" path="M 60 140 C 120 140 100 100 160 100" /></circle>
-      <circle r="3" fill="#4a9eff" opacity="0.6"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s" path="M 60 100 L 160 100" /></circle>
-      <circle r="4" fill="#4a9eff" opacity="0.9"><animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s" path="M 200 100 L 260 100" /></circle>
-      <rect x="20" y="46" width="40" height="28" rx="7" fill="#4a9eff15" stroke="#4a9eff40" strokeWidth="1"/>
-      <text x="40" y="64" textAnchor="middle" fontSize="9" fill="#4a9eff" fontFamily="Geist Mono, monospace">KICK</text>
-      <rect x="20" y="86" width="40" height="28" rx="7" fill="#8b7de815" stroke="#8b7de840" strokeWidth="1"/>
-      <text x="40" y="104" textAnchor="middle" fontSize="9" fill="#8b7de8" fontFamily="Geist Mono, monospace">808</text>
-      <rect x="20" y="126" width="40" height="28" rx="7" fill="#1db4a615" stroke="#1db4a640" strokeWidth="1"/>
-      <text x="40" y="144" textAnchor="middle" fontSize="9" fill="#1db4a6" fontFamily="Geist Mono, monospace">SYNTH</text>
-      <rect x="140" y="80" width="60" height="40" rx="8" fill="#4a9eff10" stroke="#4a9eff60" strokeWidth="1.5"/>
-      <text x="170" y="97" textAnchor="middle" fontSize="9" fill="#4a9effaa" fontFamily="Geist Mono, monospace">FX BUS</text>
-      <text x="170" y="110" textAnchor="middle" fontSize="8" fill="#4a9eff60" fontFamily="Geist Mono, monospace">EQ + VERB</text>
-      <rect x="240" y="78" width="60" height="44" rx="8" fill="#4a9eff20" stroke="#4a9eff" strokeWidth="1.5"/>
-      <text x="270" y="97" textAnchor="middle" fontSize="9" fill="#4a9eff" fontFamily="Geist Mono, monospace">MASTER</text>
-      <text x="270" y="111" textAnchor="middle" fontSize="8" fill="#4a9effaa" fontFamily="Geist Mono, monospace">−3.2 dB</text>
-      <circle cx="290" cy="168" r="4" fill="#4caf6e"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
-      <text x="300" y="172" fontSize="9" fill="#4caf6e60" fontFamily="Geist Mono, monospace">LIVE</text>
+      <path d="M 60 60 C 120 60 100 100 160 100" stroke="#9257ff22" strokeWidth="2" fill="none"/>
+      <path d="M 60 140 C 120 140 100 100 160 100" stroke="#9257ff22" strokeWidth="2" fill="none"/>
+      <path d="M 60 100 L 160 100" stroke="#9257ff33" strokeWidth="2" fill="none"/>
+      <path d="M 200 100 L 260 100" stroke="#9257ff44" strokeWidth="2.5" fill="none"/>
+      <circle r="3" fill="#9257ff" opacity="0.8"><animateMotion dur="2s" repeatCount="indefinite" path="M 60 60 C 120 60 100 100 160 100" /></circle>
+      <circle r="3" fill="#9257ff" opacity="0.5"><animateMotion dur="2.4s" repeatCount="indefinite" begin="0.8s" path="M 60 140 C 120 140 100 100 160 100" /></circle>
+      <circle r="3" fill="#9257ff" opacity="0.6"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s" path="M 60 100 L 160 100" /></circle>
+      <circle r="4" fill="#9257ff" opacity="0.9"><animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s" path="M 200 100 L 260 100" /></circle>
+      <rect x="20" y="46" width="40" height="28" rx="7" fill="#9257ff15" stroke="#9257ff40" strokeWidth="1"/>
+      <text x="40" y="64" textAnchor="middle" fontSize="9" fill="#9257ff" fontFamily="Geist Mono, monospace">KICK</text>
+      <rect x="20" y="86" width="40" height="28" rx="7" fill="#7c3aed15" stroke="#7c3aed40" strokeWidth="1"/>
+      <text x="40" y="104" textAnchor="middle" fontSize="9" fill="#7c3aed" fontFamily="Geist Mono, monospace">808</text>
+      <rect x="20" y="126" width="40" height="28" rx="7" fill="#00e5cc15" stroke="#00e5cc40" strokeWidth="1"/>
+      <text x="40" y="144" textAnchor="middle" fontSize="9" fill="#00e5cc" fontFamily="Geist Mono, monospace">SYNTH</text>
+      <rect x="140" y="80" width="60" height="40" rx="8" fill="#9257ff10" stroke="#9257ff60" strokeWidth="1.5"/>
+      <text x="170" y="97" textAnchor="middle" fontSize="9" fill="#9257ffaa" fontFamily="Geist Mono, monospace">FX BUS</text>
+      <text x="170" y="110" textAnchor="middle" fontSize="8" fill="#9257ff60" fontFamily="Geist Mono, monospace">EQ + VERB</text>
+      <rect x="240" y="78" width="60" height="44" rx="8" fill="#9257ff20" stroke="#9257ff" strokeWidth="1.5"/>
+      <text x="270" y="97" textAnchor="middle" fontSize="9" fill="#9257ff" fontFamily="Geist Mono, monospace">MASTER</text>
+      <text x="270" y="111" textAnchor="middle" fontSize="8" fill="#9257ffaa" fontFamily="Geist Mono, monospace">−3.2 dB</text>
+      <circle cx="290" cy="168" r="4" fill="#3dbb6e"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
+      <text x="300" y="172" fontSize="9" fill="#3dbb6e60" fontFamily="Geist Mono, monospace">LIVE</text>
     </svg>
   </div>
 ));
@@ -117,10 +117,10 @@ const RoutingVisual = memo(() => (
 const AuditionVisual = memo(() => {
   const [active, setActive] = useState(0);
   const devices: [string, string, string, string][] = [
-    ["Laptop Speaker", "Most unforgiving reference", "#4caf6e15", "#4caf6e"],
+    ["Laptop Speaker", "Most unforgiving reference", "#3dbb6e15", "#3dbb6e"],
     ["AirPods Pro", "Consumer earbuds + spatial", "#3a4060", "#7a8099"],
     ["Car Audio", "Midrange-heavy simulation", "#3a4060", "#7a8099"],
-    ["Spotify Loudness", "−14 LUFS normalization preview", "#1db4a615", "#1db4a6"],
+    ["Spotify Loudness", "−14 LUFS normalization preview", "#00e5cc15", "#00e5cc"],
   ];
   return (
     <div className="vis-audition w-full max-w-[320px]">
@@ -147,7 +147,7 @@ const AuditionVisual = memo(() => {
 
 const VersionVisual = memo(() => (
   <div className="vis-version w-full max-w-[320px]">
-    {[["rough_bounce", "3 days ago · starting point", "#3a4060", ""], ["with_808_rewrite", "yesterday · branched from rough", "#e8a230", "saved"], ["final_mix_v3", "2 hours ago · current", "#e06a4e", "active"], ["alt_intro_idea", "1 hour ago · experiment", "#4caf6e", "branch"]].map(([name, meta, dot, tag]) => (
+    {[["rough_bounce", "3 days ago · starting point", "#3a4060", ""], ["with_808_rewrite", "yesterday · branched from rough", "#e8a838", "saved"], ["final_mix_v3", "2 hours ago · current", "#e85454", "active"], ["alt_intro_idea", "1 hour ago · experiment", "#3dbb6e", "branch"]].map(([name, meta, dot, tag]) => (
       <div key={String(name)} className={`branch-item ${tag === "active" ? "current" : ""}`}>
         <div className="branch-dot" style={{ background: dot as string }} />
         <div className="branch-info">
@@ -312,7 +312,7 @@ export const Features = ({ setPage }: PageProps) => {
         <div className="page-hero px-4 sm:px-8 max-w-[700px]">
           <div className="page-hero-tag">Feature Tour</div>
           <h1>
-            Built for the way<br />producers <span className="text-[#8b7de8]">actually work.</span>
+            Built for the way<br />producers <span className="text-[#7c3aed]">actually work.</span>
           </h1>
           <p>Six things that separate Aestra from every other DAW you've closed out of frustration.</p>
         </div>

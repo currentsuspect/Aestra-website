@@ -20,7 +20,7 @@ const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.N
 
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="w-2 h-2 rounded-full bg-[#61d5ff] animate-bounce" />
+    <div className="w-2 h-2 rounded-full bg-[#00e5cc] animate-bounce" />
   </div>
 );
 
@@ -173,7 +173,7 @@ export const App = () => {
   };
 
   return (
-    <div className="site-shell min-h-screen text-zinc-100 font-sans selection:bg-[#8f82df]/30" role="document">
+    <div className="site-shell min-h-screen text-zinc-100 font-sans selection:bg-[#7c3aed]/30" role="document">
       <div className="page-enter" role="main" id="main-content" aria-label="Main content">
         {renderPage()}
       </div>

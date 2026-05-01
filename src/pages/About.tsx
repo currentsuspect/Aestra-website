@@ -12,7 +12,7 @@ export const About = ({ setPage }: PageProps) => (
         <div className="page-hero-tag">About</div>
         <h1>
           Building the DAW<br />
-          <span className="text-[#8b7de8]">producers deserve.</span>
+          <span className="text-[#7c3aed]">producers deserve.</span>
         </h1>
         <p>
           Aestra is an accessible, premium native digital audio workstation for producers.
@@ -50,7 +50,7 @@ export const About = ({ setPage }: PageProps) => (
                 href="https://github.com/currentsuspect/Aestra"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#61d5ff] hover:underline"
+                className="text-[#00e5cc] hover:underline"
               >
                 currentsuspect/Aestra
               </a>
@@ -81,7 +81,7 @@ export const About = ({ setPage }: PageProps) => (
                 ["Audition", "Translation listening and monitoring mode."],
               ].map(([term, desc]) => (
                 <div key={term} className="flex gap-3">
-                  <span className="text-[#8f82df] font-mono text-xs whitespace-nowrap">{term}</span>
+                  <span className="text-[#7c3aed] font-mono text-xs whitespace-nowrap">{term}</span>
                   <span className="text-[#7a82a0]">{desc}</span>
                 </div>
               ))}

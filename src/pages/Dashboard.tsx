@@ -11,25 +11,25 @@ export const Dashboard = memo(({ setPage }: any) => {
       {/* Sidebar */}
       <div className="w-64 border-r border-[#30384a] bg-[#111620] hidden md:flex flex-col p-6">
         <div className="flex items-center gap-2 mb-12 text-white font-bold text-xl cursor-pointer" onClick={() => setPage("home")}>
-          <Music className="text-[#61d5ff]" /> Aestra
+          <Music className="text-[#00e5cc]" /> Aestra
         </div>
         <div className="space-y-1">
-          <button onClick={() => setActiveTab("overview")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "overview" ? "bg-[#8f82df]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
+          <button onClick={() => setActiveTab("overview")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "overview" ? "bg-[#7c3aed]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
             <LayoutTemplate size={16} /> Overview
           </button>
-          <button onClick={() => setActiveTab("licenses")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "licenses" ? "bg-[#8f82df]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
+          <button onClick={() => setActiveTab("licenses")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "licenses" ? "bg-[#7c3aed]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
             <Shield size={16} /> Licenses
           </button>
-          <button onClick={() => setActiveTab("plugins")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "plugins" ? "bg-[#8f82df]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
+          <button onClick={() => setActiveTab("plugins")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "plugins" ? "bg-[#7c3aed]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
             <Zap size={16} /> My Plugins
           </button>
-          <button onClick={() => setActiveTab("support")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "support" ? "bg-[#8f82df]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
+          <button onClick={() => setActiveTab("support")} className={cn("w-full text-left px-4 py-2 rounded-[12px] text-sm font-medium transition-colors flex items-center gap-3", activeTab === "support" ? "bg-[#7c3aed]/14 text-[#c7bbff]" : "text-[#98a1b7] hover:text-white")}>
             <LifeBuoy size={16} /> Support
           </button>
         </div>
         <div className="mt-auto">
           <div className="flex items-center gap-3 px-4 py-3 rounded-[14px] bg-[#141a25] border border-[#30384a]">
-            <div className="w-8 h-8 rounded-full bg-[#8f82df] flex items-center justify-center text-white text-xs font-bold">JD</div>
+            <div className="w-8 h-8 rounded-full bg-[#7c3aed] flex items-center justify-center text-white text-xs font-bold">JD</div>
             <div className="text-xs">
               <div className="text-white">John Doe</div>
               <div className="text-zinc-500">Pro Plan</div>

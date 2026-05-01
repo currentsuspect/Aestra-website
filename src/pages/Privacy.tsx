@@ -68,7 +68,7 @@ export const Privacy = memo(({ setPage }: any) => (
         <h2 className="text-lg font-semibold text-white mb-3">Contact</h2>
         <p className="text-[#98a1b7]">
           Questions about this policy? Open an issue on{" "}
-          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#61d5ff] hover:underline">GitHub</a>{" "}
+          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#00e5cc] hover:underline">GitHub</a>{" "}
           or reach out through the community channels.
         </p>
       </section>

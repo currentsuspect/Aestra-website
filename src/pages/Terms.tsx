@@ -26,7 +26,7 @@ export const Terms = memo(({ setPage }: any) => (
           You may use, modify, and distribute Aestra for personal and educational purposes.
           Commercial use requires a separate agreement.
           See the full license in the{" "}
-          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#61d5ff] hover:underline">GitHub repository</a>.
+          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#00e5cc] hover:underline">GitHub repository</a>.
         </p>
       </section>
 
@@ -79,7 +79,7 @@ export const Terms = memo(({ setPage }: any) => (
         <h2 className="text-lg font-semibold text-white mb-3">Contact</h2>
         <p className="text-[#98a1b7]">
           Legal questions? Open an issue on{" "}
-          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#61d5ff] hover:underline">GitHub</a>.
+          <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-[#00e5cc] hover:underline">GitHub</a>.
         </p>
       </section>
     </div>
