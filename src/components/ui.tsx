@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import type { LucideIcon } from "lucide-react";
 import { cn, useInView } from "../lib";
+import type { ButtonProps, BadgeProps, CardProps, FeatureCardProps, FadeInProps } from "../types";
 
 // --- Loading fallback ---
 export const LoadingFallback = () => (
@@ -23,7 +24,7 @@ export const Button = memo(({
   className,
   icon: Icon,
   ...props
-}: any) => {
+}: ButtonProps) => {
   const baseStyles = "inline-flex items-center justify-center rounded-[12px] font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#61d5ff]/35 disabled:opacity-50 disabled:cursor-not-allowed border";
 
   const variants = {
@@ -53,7 +54,7 @@ export const Button = memo(({
 
 
 // --- Badge ---
-export const Badge = memo(({ children, variant = "default", className }: any) => {
+export const Badge = memo(({ children, variant = "default", className }: BadgeProps) => {
   const styles = variant === "outline"
     ? "border border-[#61d5ff]/30 text-[#bcefff] bg-[#61d5ff]/8"
     : "bg-[#8f82df] text-white";
@@ -68,22 +69,15 @@ export const Badge = memo(({ children, variant = "default", className }: any) =>
 
 
 // --- Card ---
-export const Card = memo(({ children, className }: any) => (
+export const Card = memo(({ children, className }: CardProps) => (
   <div className={cn("section-frame panel-glow rounded-[16px] overflow-hidden", className)}>
     {children}
   </div>
 ));
 
-// --- Sections ---
 
-
-// --- FadeIn (replaces motion.div) ---
-export const FadeIn = memo(({ children, className, delay = 0, once = true }: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  once?: boolean;
-}) => {
+// --- FadeIn (shared IntersectionObserver) ---
+export const FadeIn = memo(({ children, className, delay = 0 }: FadeInProps) => {
   const { ref, inView } = useInView();
   const delayClass = delay > 0 ? `fade-in-delay-${Math.round(delay * 10)}` : "";
   return (
@@ -95,7 +89,7 @@ export const FadeIn = memo(({ children, className, delay = 0, once = true }: {
 
 
 // --- FeatureCard ---
-const colorStyles: Record<string, { label: string; border: string; hoverBg: string }> = {
+const colorStyles: Record<string, { label: string; border: string }> = {
   teal:   { label: "text-[#1db4a6]", border: "border-transparent hover:border-[#1db4a6]" },
   amber:  { label: "text-[#e8a230]", border: "border-transparent hover:border-[#e8a230]" },
   purple: { label: "text-[#8b7de8]", border: "border-transparent hover:border-[#8b7de8]" },
@@ -104,7 +98,7 @@ const colorStyles: Record<string, { label: string; border: string; hoverBg: stri
   coral:  { label: "text-[#e06a4e]", border: "border-transparent hover:border-[#e06a4e]" },
 };
 
-export const FeatureCard = memo(({ label, title, description, visual, color = "blue", delay }: any) => {
+export const FeatureCard = memo(({ label, title, description, visual, color = "blue", delay }: FeatureCardProps) => {
   const c = colorStyles[color] || colorStyles.blue;
   return (
     <FadeIn delay={delay}>
@@ -122,4 +116,3 @@ export const FeatureCard = memo(({ label, title, description, visual, color = "b
     </FadeIn>
   );
 });
-

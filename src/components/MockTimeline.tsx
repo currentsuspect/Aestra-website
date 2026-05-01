@@ -49,6 +49,7 @@ export const MockTimeline = memo(() => {
   useEffect(() => {
     let af = 0;
     let last = 0;
+    let lastTimeUpdate = 0;
     const tick = (ts: number) => {
       if (!last) last = ts;
       const dt = (ts - last) / 1000;
@@ -60,7 +61,11 @@ export const MockTimeline = memo(() => {
         if (playheadRef.current) {
           playheadRef.current.style.transform = `translateX(${playheadPos.current}px)`;
         }
-        setTime((prev) => (next > maxX ? 0 : prev + dt));
+        // Throttle React state update to ~10fps instead of 60fps
+        if (ts - lastTimeUpdate > 100) {
+          lastTimeUpdate = ts;
+          setTime((prev) => (next > maxX ? 0 : prev + dt));
+        }
         af = requestAnimationFrame(tick);
       }
     };

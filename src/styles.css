@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+/* ── Global Polish ──────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*:focus-visible {
+  outline: 2px solid #61d5ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: rgba(143, 130, 223, 0.35);
+  color: #fff;
+}
+
 /* ── Animations (replaces framer-motion) ─────────────────────────── */
 .fade-in {
   opacity: 0;
@@ -1540,4 +1558,84 @@ body {
 .editorial-title {
   letter-spacing: -0.045em;
   line-height: 0.92;
+}
+
+/* ── Comparison Table Scroll ─────────────────────────────────────── */
+.compare-table-wrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2f42 transparent;
+}
+.compare-table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.compare-table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.compare-table-wrapper::-webkit-scrollbar-thumb {
+  background: #2a2f42;
+  border-radius: 3px;
+}
+
+/* ── Feature Block Hover Polish ──────────────────────────────────── */
+.feature-block {
+  position: relative;
+}
+.feature-block::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 30% 50%, rgba(143, 130, 223, 0.03), transparent 70%);
+}
+.feature-block:hover::before {
+  opacity: 1;
+}
+
+/* ── Proof Point Hover ───────────────────────────────────────────── */
+.proof-point {
+  transition: border-color 0.2s, transform 0.2s, background 0.2s;
+}
+.proof-point:hover {
+  transform: translateX(4px);
+  background: #121420;
+}
+
+/* ── Card Visual Hover ───────────────────────────────────────────── */
+.card-visual-wrap:hover .card-visual-inner {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+/* ── Tier Card Hover Polish ──────────────────────────────────────── */
+.tier-card {
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.tier-card:hover {
+  transform: translateY(-2px);
+}
+
+/* ── Founder Card Glow ───────────────────────────────────────────── */
+.founder-card {
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.founder-card:hover {
+  box-shadow: 0 0 40px rgba(217, 181, 73, 0.08);
+}
+
+/* ── Button Press Effect ─────────────────────────────────────────── */
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ── Smooth Image Loading ────────────────────────────────────────── */
+img {
+  transition: opacity 0.3s ease;
+}
+img[loading="lazy"] {
+  opacity: 0;
+}
+img[loading="lazy"].loaded,
+img:not([loading="lazy"]) {
+  opacity: 1;
 }

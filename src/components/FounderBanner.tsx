@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
+import React, { memo } from "react";
 import { X } from "lucide-react";
-import { cn } from "../lib";
 
-export const FounderBanner = memo(({ onDismiss }: { onDismiss: () => void }) => (
+interface FounderBannerProps {
+  onDismiss: () => void;
+}
+
+export const FounderBanner = memo(({ onDismiss }: FounderBannerProps) => (
   <div className="fixed top-0 left-0 right-0 z-[60] bg-[linear-gradient(90deg,rgba(217,181,73,0.16),rgba(131,66,23,0.28))] border-b border-[#d9b549]/20">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
       <a
@@ -13,7 +16,11 @@ export const FounderBanner = memo(({ onDismiss }: { onDismiss: () => void }) => 
         <span className="font-medium">Only 500 were made.</span>
         <span className="text-[#d9b549] underline underline-offset-2">Claim yours →</span>
       </a>
-      <button onClick={onDismiss} className="text-[#d9b549]/60 hover:text-white transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Dismiss banner">
+      <button
+        onClick={onDismiss}
+        className="text-[#d9b549]/60 hover:text-white transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
+        aria-label="Dismiss banner"
+      >
         <X className="w-4 h-4" />
       </button>
     </div>

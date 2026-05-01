@@ -228,7 +228,8 @@ export const Pricing = ({ setPage }: any) => {
           <div className="div-line" />
         </div>
 
-        <div className="compare-table">
+        <div className="compare-table-wrapper overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="compare-table" style={{ minWidth: "600px" }}>
           <div className="compare-header">
             <div className="compare-feature-header">Feature</div>
             <div className="compare-tier-header compare-tier-core">Core<span className="compare-price">$0</span></div>
@@ -316,6 +317,7 @@ export const Pricing = ({ setPage }: any) => {
               <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </div>

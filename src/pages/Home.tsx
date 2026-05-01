@@ -3,8 +3,9 @@ import { Download, ChevronRight, Check } from "lucide-react";
 import { cn } from "../lib";
 import { Button, Badge, FeatureCard, FadeIn } from "../components/ui";
 import { MockTimeline } from "../components/MockTimeline";
+import type { PageProps } from "../types";
 
-const Hero = ({ setPage }: any) => {
+const Hero = ({ setPage }: PageProps) => {
   return (
     <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6 overflow-hidden">
       <div className="absolute inset-x-0 top-8 h-64 sm:h-80 lg:h-[560px] bg-[radial-gradient(circle_at_top,rgba(97,213,255,0.09),transparent_44%)] pointer-events-none" />
