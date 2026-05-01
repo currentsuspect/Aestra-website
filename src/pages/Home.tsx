@@ -16,10 +16,6 @@ const Hero = ({ setPage }: PageProps) => {
       <div className="absolute top-48 right-12 w-32 prism-line hidden lg:block" style={{ transform: "rotate(8deg)" }} />
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <FadeIn className="flex justify-start mb-4 sm:mb-8">
-          <span className="eyebrow">Aestra DAW</span>
-        </FadeIn>
-
         <div className="grid gap-8 sm:gap-10">
           <div>
             <FadeIn delay={0.1}>
