@@ -1,0 +1,56 @@
+# Aestra
+
+> Aestra is an accessible, premium native digital audio workstation (DAW) built for producers who want flow, not friction.
+
+## What is Aestra?
+
+Aestra is a native DAW built around producer workflow, stability, speed, and creative focus. It is developed by Aestra Studios. The core product is free, with optional Supporter and Founder tiers that fund development without locking access behind high prices.
+
+## Primary Pages
+
+- [Homepage](https://aestra.cc/) — Overview, features, plugins, pricing tiers, and download links.
+- [Features](https://aestra.cc/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
+- [Pricing](https://aestra.cc/pricing) — Core (free), Supporter ($5/mo), Founder Gold Card ($129 one-time).
+- [Download](https://aestra.cc/download) — Download Aestra for Windows, macOS, and Linux.
+- [Documentation](https://aestra.cc/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
+- [Changelog](https://aestra.cc/changelog) — Release history and development progress.
+- [About](https://aestra.cc/about) — About Aestra Studios, founder, brand, and key terminology.
+- [Privacy](https://aestra.cc/privacy) — Privacy policy.
+- [Terms](https://aestra.cc/terms) — Terms of service and license (ASSAL v1.1).
+
+## Product Positioning
+
+Aestra is positioned as a native DAW for producers who value:
+- Speed and stability over feature bloat
+- Pattern-first workflow over traditional linear arrangement
+- Visual signal routing over hidden menu trees
+- Free core access over locked feature tiers
+- Native performance over plugin dependency
+
+## Key Terminology
+
+- **Aestra DAW** — The core digital audio workstation application.
+- **Aestra Studios** — The studio building Aestra.
+- **Aestra Verb** — Built-in algorithmic reverb plugin (plate, hall, room modes).
+- **Aestra EQ** — Built-in parametric equalizer with spectrum analyzer.
+- **Arsenal** — Pattern engine and source module rack.
+- **Timeline** — Arrangement and editing view.
+- **Audition** — Translation listening and monitoring mode.
+
+## Technical Details
+
+- Built with native C++17 engine
+- VST3 and CLAP plugin support
+- Runs on Windows, macOS, and Linux
+- Pattern-first workflow with dedicated piano roll per pattern
+- Visual signal routing graph
+- Version control for mix sessions
+
+## Status
+
+Aestra is currently in active development. A v1 Beta is targeted for December 2026. The software is not yet released for general availability.
+
+## Contact
+
+- GitHub: https://github.com/currentsuspect/Aestra
+- Website: https://aestra.cc/

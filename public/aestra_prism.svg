@@ -1,0 +1,47 @@
+<svg width="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <title>Aestra Prism</title>
+  <defs>
+    <linearGradient id="prism-face" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a2840"/>
+      <stop offset="50%" stop-color="#1a1830"/>
+      <stop offset="100%" stop-color="#12101e"/>
+    </linearGradient>
+    <linearGradient id="prism-edge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a4070"/>
+      <stop offset="100%" stop-color="#2a2450"/>
+    </linearGradient>
+    <linearGradient id="beam-in" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff20"/>
+      <stop offset="100%" stop-color="#ffffff90"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Prism body -->
+  <polygon points="100,28 168,152 32,152" fill="url(#prism-face)" stroke="url(#prism-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+  <polygon points="100,28 168,152 32,152" fill="none" stroke="#8f82df30" stroke-width="0.5"/>
+
+  <!-- Internal refraction lines -->
+  <line x1="66" y1="90" x2="134" y2="90" stroke="#8f82df18" stroke-width="0.5"/>
+  <line x1="50" y1="121" x2="150" y2="121" stroke="#8f82df12" stroke-width="0.5"/>
+
+  <!-- Input beam (white) -->
+  <line x1="10" y1="100" x2="66" y2="100" stroke="url(#beam-in)" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Refracted spectrum beams -->
+  <line x1="134" y1="100" x2="170" y2="72" stroke="#ff4a6e" stroke-width="2" stroke-linecap="round" filter="url(#glow)" opacity="0.9"/>
+  <line x1="134" y1="100" x2="178" y2="82" stroke="#ff8a4a" stroke-width="2" stroke-linecap="round" filter="url(#glow)" opacity="0.85"/>
+  <line x1="134" y1="100" x2="186" y2="94" stroke="#ffd04a" stroke-width="2" stroke-linecap="round" filter="url(#glow)" opacity="0.8"/>
+  <line x1="134" y1="100" x2="190" y2="106" stroke="#4aff8a" stroke-width="2" stroke-linecap="round" filter="url(#glow)" opacity="0.8"/>
+  <line x1="134" y1="100" x2="184" y2="118" stroke="#4a9eff" stroke-width="2" stroke-linecap="round" filter="url(#glow)" opacity="0.85"/>
+  <line x1="134" y1="100" x2="174" y2="130" stroke="#8f82df" stroke-width="2" stroke-linecap="round" filter="url(#glow)" opacity="0.9"/>
+
+  <!-- Beam entry point dot -->
+  <circle cx="66" cy="100" r="3" fill="#ffffff" opacity="0.6"/>
+</svg>

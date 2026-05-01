@@ -2,11 +2,11 @@ import React, { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { FounderBanner } from "./components/FounderBanner";
-import { Hero, Features as HomeFeatures, FounderCountdown } from "./pages/Home";
+import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA } from "./pages/Home";
 import { Features } from "./pages/Features";
 import { resolvePage } from "./lib";
 import type { PageProps } from "./types";
-import { PAGE_TITLES } from "./types";
+import { PAGE_TITLES, PAGE_DESCRIPTIONS } from "./types";
 
 const Downloads = lazy(() => import("./pages/Downloads").then(m => ({ default: m.Downloads })));
 const Pricing = lazy(() => import("./pages/Pricing").then(m => ({ default: m.Pricing })));
@@ -15,6 +15,7 @@ const Docs = lazy(() => import("./pages/Docs").then(m => ({ default: m.Docs })))
 const Dashboard = lazy(() => import("./pages/Dashboard").then(m => ({ default: m.Dashboard })));
 const Privacy = lazy(() => import("./pages/Privacy").then(m => ({ default: m.Privacy })));
 const Terms = lazy(() => import("./pages/Terms").then(m => ({ default: m.Terms })));
+const About = lazy(() => import("./pages/About").then(m => ({ default: m.About })));
 const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.NotFound })));
 
 const PageLoader = () => (
@@ -31,9 +32,33 @@ export const App = () => {
   const [page, setPage] = useState(() => resolvePage(window.location.pathname));
   const [showBanner, setShowBanner] = useState(true);
 
-  // Update document title on navigation
+  // Update document title and SEO meta on navigation
   useEffect(() => {
-    document.title = PAGE_TITLES[page] || PAGE_TITLES["404"];
+    const title = PAGE_TITLES[page] || PAGE_TITLES["404"];
+    const desc = PAGE_DESCRIPTIONS[page] || PAGE_DESCRIPTIONS["home"];
+    document.title = title;
+
+    // Update meta description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", desc);
+
+    // Update OG tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogTitle) ogTitle.setAttribute("content", title);
+    if (ogDesc) ogDesc.setAttribute("content", desc);
+    if (ogUrl) ogUrl.setAttribute("content", `https://aestra.cc/${page === "home" ? "" : page}`);
+
+    // Update Twitter tags
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twTitle) twTitle.setAttribute("content", title);
+    if (twDesc) twDesc.setAttribute("content", desc);
+
+    // Update canonical URL
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute("href", `https://aestra.cc/${page === "home" ? "" : page}`);
   }, [page]);
 
   // Handle browser back/forward
@@ -97,8 +122,12 @@ export const App = () => {
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
             <Navbar activePage="home" setPage={handleSetPage} topOffset={showBanner ? 68 : 0} />
             <Hero setPage={handleSetPage} />
+            <WhySection />
             <div id="features"><HomeFeatures /></div>
+            <Plugins />
+            <FreeCore setPage={handleSetPage} />
             <FounderCountdown />
+            <ClosingCTA setPage={handleSetPage} />
             <Footer setPage={handleSetPage} />
           </>
         );
@@ -136,6 +165,8 @@ export const App = () => {
             <Footer setPage={handleSetPage} />
           </>
         );
+      case "about":
+        return withBanner(<LazyPage><About setPage={handleSetPage} /></LazyPage>, "");
       default:
         return <LazyPage><NotFound setPage={handleSetPage} /></LazyPage>;
     }

@@ -1,56 +1,48 @@
 import React, { useState, useEffect, useMemo, memo } from "react";
-import { Download, ChevronRight, Check } from "lucide-react";
+import { Download, ChevronRight, Check, Zap, Layout, Shield, Music, Eye, GitBranch } from "lucide-react";
 import { cn } from "../lib";
 import { Button, Badge, FeatureCard, FadeIn } from "../components/ui";
 import { MockTimeline } from "../components/MockTimeline";
 import type { PageProps } from "../types";
 
+/* ── Hero ───────────────────────────────────────────────────────── */
 const Hero = ({ setPage }: PageProps) => {
   return (
     <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-24 px-4 sm:px-6 overflow-hidden">
       <div className="absolute inset-x-0 top-8 h-64 sm:h-80 lg:h-[560px] bg-[radial-gradient(circle_at_top,rgba(97,213,255,0.09),transparent_44%)] pointer-events-none" />
 
+      {/* Prism accent lines */}
+      <div className="absolute top-32 left-8 w-48 prism-line hidden lg:block" style={{ transform: "rotate(-12deg)" }} />
+      <div className="absolute top-48 right-12 w-32 prism-line hidden lg:block" style={{ transform: "rotate(8deg)" }} />
+
       <div className="max-w-6xl mx-auto relative z-10">
-        <FadeIn
-          className="flex justify-start mb-4 sm:mb-8"
-        >
-          <Badge variant="outline">v1 Beta — December 2026</Badge>
+        <FadeIn className="flex justify-start mb-4 sm:mb-8">
+          <span className="eyebrow">Aestra DAW</span>
         </FadeIn>
 
         <div className="grid gap-8 sm:gap-10">
           <div>
-            <FadeIn
-              delay={0.1}
-            >
-              <h1
-                className="editorial-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6"
-              >
-                Make music.<br />
+            <FadeIn delay={0.1}>
+              <h1 className="editorial-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6">
+                A native DAW for<br />
                 <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">
-                  Not excuses.
+                  producers who want flow.
                 </span>
               </h1>
             </FadeIn>
 
-            <FadeIn
-              delay={0.2}
-            >
-              <p
-                className="text-base sm:text-lg text-[#a4abc0] max-w-2xl mb-6 sm:mb-10 leading-relaxed"
-              >
-                You shouldn't need a high-end PC to make good music. Aestra opens instantly, runs on whatever you've got, and gets out of your way. No plugin scanning. No load times. Just make the beat.
+            <FadeIn delay={0.2}>
+              <p className="text-base sm:text-lg text-[#a4abc0] max-w-2xl mb-6 sm:mb-10 leading-relaxed">
+                Aestra is an accessible, premium digital audio workstation built around speed, stability, and producer-first workflow. Make music, not excuses.
               </p>
             </FadeIn>
 
-            <FadeIn
-              delay={0.3}
-              className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4"
-            >
+            <FadeIn delay={0.3} className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4">
               <Button size="lg" onClick={() => setPage("download")} icon={Download} className="w-full sm:w-auto">
                 Download Beta
               </Button>
-              <Button variant="secondary" size="lg" onClick={() => { const daw = document.querySelector("[data-daw-mockup]"); if (daw) daw.scrollIntoView({ behavior: "smooth" }); else setPage("features"); }} className="w-full sm:w-auto">
-                Open Signal Flow <ChevronRight className="ml-2 w-4 h-4" />
+              <Button variant="secondary" size="lg" onClick={() => setPage("features")} className="w-full sm:w-auto">
+                Explore Features <ChevronRight className="ml-2 w-4 h-4" />
               </Button>
             </FadeIn>
           </div>
@@ -58,28 +50,66 @@ const Hero = ({ setPage }: PageProps) => {
       </div>
 
       <MockTimeline />
-      
     </section>
   );
 };
 
+/* ── Why Aestra Exists ──────────────────────────────────────────── */
+const WhySection = memo(() => (
+  <section className="content-defer py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
+    <div className="max-w-5xl mx-auto">
+      <div className="section-divider mb-12 sm:mb-16" />
+      <div className="grid md:grid-cols-2 gap-10 sm:gap-16 items-start">
+        <FadeIn>
+          <span className="eyebrow mb-4 block">Why Aestra</span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white editorial-title mb-4 sm:mb-6">
+            Existing DAWs are powerful.<br />
+            <span className="text-[#a4abc0]">Producers still fight them.</span>
+          </h2>
+          <p className="text-[#7a82a0] text-sm sm:text-base leading-relaxed max-w-md">
+            Crashes mid-session. Routing confusion. Slow export and debug cycles. Creative interruptions that kill momentum. Aestra&apos;s goal is to make music creation feel direct, reliable, and personal.
+          </p>
+        </FadeIn>
+        <FadeIn delay={0.15}>
+          <div className="space-y-3">
+            {[
+              ["Crashes and plugin conflicts", "Aestra runs a native engine with stable sessions from the start."],
+              ["Slow startup and scanning", "Open Aestra and you're making music. No scanning, no splash screen."],
+              ["Opaque routing and export paths", "Visual signal routing shows exactly where your sound goes."],
+              ["Creative interruptions", "Pattern-first workflow keeps you in the loop, not in menus."],
+            ].map(([problem, solution], i) => (
+              <div key={i} className="glass-panel rounded-xl p-4 sm:p-5 flex gap-4">
+                <div className="w-1 rounded-full bg-[#8f82df] flex-shrink-0" />
+                <div>
+                  <div className="text-[#e06a4e] text-xs font-mono uppercase tracking-wider mb-1">Problem</div>
+                  <div className="text-white text-sm font-medium mb-2">{problem}</div>
+                  <div className="text-[#7a82a0] text-xs leading-relaxed">{solution}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+      </div>
+    </div>
+  </section>
+));
 
+/* ── Feature Pillars ────────────────────────────────────────────── */
 const Features = memo(() => (
   <section className="content-defer py-16 sm:py-20 lg:py-28 px-4 sm:px-6">
     <div className="max-w-7xl mx-auto">
       <div className="mb-10 sm:mb-16 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
+          <span className="eyebrow mb-3 block">Core Pillars</span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">Built different. Literally.</h2>
-            <p className="text-base sm:text-lg text-[#a4abc0] max-w-3xl">
+          <p className="text-base sm:text-lg text-[#a4abc0] max-w-3xl">
             We built the engine, the interface, every pixel — so the only thing you feel is the music.
           </p>
         </div>
-
-
       </div>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-        <FeatureCard 
+        <FeatureCard
           label="Performance"
           color="teal"
           title="Brutally Optimized"
@@ -95,7 +125,7 @@ const Features = memo(() => (
           }
           delay={0}
         />
-        <FeatureCard 
+        <FeatureCard
           label="Startup"
           color="amber"
           title="Instant Startup"
@@ -119,7 +149,7 @@ const Features = memo(() => (
           }
           delay={0.1}
         />
-        <FeatureCard 
+        <FeatureCard
           label="Workflow"
           color="purple"
           title="Pattern-First Workflow"
@@ -137,7 +167,7 @@ const Features = memo(() => (
           }
           delay={0.2}
         />
-        <FeatureCard 
+        <FeatureCard
           label="Signal Flow"
           color="blue"
           title="Routing Visualizer"
@@ -165,7 +195,7 @@ const Features = memo(() => (
           }
           delay={0.3}
         />
-        <FeatureCard 
+        <FeatureCard
           label="Monitoring"
           color="green"
           title="Audition Mode"
@@ -181,7 +211,7 @@ const Features = memo(() => (
           }
           delay={0.4}
         />
-        <FeatureCard 
+        <FeatureCard
           label="History"
           color="coral"
           title="Version Control"
@@ -207,13 +237,160 @@ const Features = memo(() => (
           delay={0.5}
         />
       </div>
-
-
     </div>
   </section>
 ));
 
+/* ── Plugin Highlights ──────────────────────────────────────────── */
+const Plugins = memo(() => (
+  <section className="content-defer py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
+    <div className="max-w-5xl mx-auto">
+      <div className="section-divider mb-12 sm:mb-16" />
+      <FadeIn>
+        <span className="eyebrow mb-4 block">Built-in Tools</span>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white editorial-title mb-3 sm:mb-4">
+          Creative tools that ship with the DAW.
+        </h2>
+        <p className="text-[#7a82a0] text-sm sm:text-base max-w-xl mb-10 sm:mb-14">
+          No hunting for third-party plugins to get started. Aestra ships with essential production tools built natively for the engine.
+        </p>
+      </FadeIn>
 
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+        <FadeIn delay={0}>
+          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#8f82df]/30 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#8f82df]/15 border border-[#8f82df]/25 flex items-center justify-center mb-5">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#8f82df" strokeWidth="1.5" strokeLinecap="round">
+                <path d="M12 3v18M3 12h18M7 7l10 10M17 7L7 17" />
+              </svg>
+            </div>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-[#8f82df] font-medium mb-2">Reverb</div>
+            <h3 className="text-lg font-semibold text-white mb-2">Aestra Verb</h3>
+            <p className="text-[13px] text-[#7a82a0] leading-relaxed">
+              Algorithmic reverb with plate, hall, and room modes. Low CPU, high character. Built for the Aestra engine.
+            </p>
+            <div className="mt-4 flex items-center gap-2">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4caf6e]/10 text-[#4caf6e] border border-[#4caf6e]/20">Available</span>
+            </div>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.1}>
+          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#4a9eff]/30 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#4a9eff]/15 border border-[#4a9eff]/25 flex items-center justify-center mb-5">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4a9eff" strokeWidth="1.5" strokeLinecap="round">
+                <path d="M4 20h16M4 20V10M8 20v-6M12 20V8M16 20v-4M20 20V6" />
+              </svg>
+            </div>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-[#4a9eff] font-medium mb-2">Equalizer</div>
+            <h3 className="text-lg font-semibold text-white mb-2">Aestra EQ</h3>
+            <p className="text-[13px] text-[#7a82a0] leading-relaxed">
+              Parametric EQ with spectrum analyzer. Clean curves, transparent sound. The kind of EQ you reach for first.
+            </p>
+            <div className="mt-4 flex items-center gap-2">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#4caf6e]/10 text-[#4caf6e] border border-[#4caf6e]/20">Available</span>
+            </div>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.2}>
+          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#d9b549]/30 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#d9b549]/15 border border-[#d9b549]/25 flex items-center justify-center mb-5">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#d9b549" strokeWidth="1.5" strokeLinecap="round">
+                <path d="M4 14h4v6H4zM10 10h4v10h-4zM16 6h4v14h-4z" />
+              </svg>
+            </div>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-[#d9b549] font-medium mb-2">Compressor</div>
+            <h3 className="text-lg font-semibold text-white mb-2">Aestra Comp</h3>
+            <p className="text-[13px] text-[#7a82a0] leading-relaxed">
+              Bus and channel compression with visual gain reduction metering. Clean dynamics control.
+            </p>
+            <div className="mt-4 flex items-center gap-2">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#d9b549]/10 text-[#d9b549] border border-[#d9b549]/20">In Progress</span>
+            </div>
+          </div>
+        </FadeIn>
+      </div>
+    </div>
+  </section>
+));
+
+/* ── Free Core / Supporter ──────────────────────────────────────── */
+const FreeCore = memo(({ setPage }: PageProps) => (
+  <section className="content-defer py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
+    <div className="max-w-5xl mx-auto">
+      <div className="section-divider mb-12 sm:mb-16" />
+      <div className="grid md:grid-cols-2 gap-10 sm:gap-16 items-center">
+        <FadeIn>
+          <span className="eyebrow mb-4 block">Open Access</span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white editorial-title mb-4 sm:mb-6">
+            Free core.<br />
+            <span className="text-[#8f82df]">Pay what you want to go further.</span>
+          </h2>
+          <p className="text-[#7a82a0] text-sm sm:text-base leading-relaxed mb-6">
+            The full DAW is free. No feature gates. No export limits. Supporter tiers fund development without locking access behind high prices.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button size="lg" onClick={() => setPage("download")} icon={Download} className="w-full sm:w-auto">
+              Download Free
+            </Button>
+            <Button variant="outline" size="lg" onClick={() => setPage("pricing")} className="w-full sm:w-auto">
+              View Pricing <ChevronRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.15}>
+          <div className="space-y-3">
+            {[
+              { tier: "Core", price: "$0", desc: "Full DAW. Forever free.", accent: "#4caf6e" },
+              { tier: "Supporter", price: "$5/mo", desc: "Priority builds + supporter badge.", accent: "#8f82df" },
+              { tier: "Founder", price: "$129", desc: "One-time. Lifetime access. Your name in the product.", accent: "#d9b549" },
+            ].map(({ tier, price, desc, accent }) => (
+              <div key={tier} className="glass-panel rounded-xl p-5 flex items-center gap-5">
+                <div className="w-1 rounded-full flex-shrink-0" style={{ background: accent }} />
+                <div className="flex-1">
+                  <div className="text-white text-sm font-semibold">{tier}</div>
+                  <div className="text-[#7a82a0] text-xs">{desc}</div>
+                </div>
+                <div className="text-lg font-bold text-white font-mono">{price}</div>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+      </div>
+    </div>
+  </section>
+));
+
+/* ── Closing CTA ────────────────────────────────────────────────── */
+const ClosingCTA = memo(({ setPage }: PageProps) => (
+  <section className="content-defer py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
+    <div className="max-w-3xl mx-auto text-center">
+      <div className="section-divider mb-12 sm:mb-16" />
+      <FadeIn>
+        <span className="eyebrow mb-4 block">Get Started</span>
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white editorial-title mb-4 sm:mb-6">
+          Make music,<br />
+          <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#61d5ff,#b6a8ff_48%,#d9b549)]">not excuses.</span>
+        </h2>
+        <p className="text-[#7a82a0] text-sm sm:text-base max-w-md mx-auto mb-8 sm:mb-10">
+          Download Aestra and start making music today. Free core, no strings attached.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <Button size="lg" onClick={() => setPage("download")} icon={Download} className="w-full sm:w-auto">
+            Download Beta
+          </Button>
+          <Button variant="secondary" size="lg" onClick={() => setPage("features")} className="w-full sm:w-auto">
+            Explore Features <ChevronRight className="ml-2 w-4 h-4" />
+          </Button>
+        </div>
+      </FadeIn>
+    </div>
+  </section>
+));
+
+/* ── Founder Countdown (kept from original) ─────────────────────── */
 const FounderCountdown = () => {
   const targetDate = new Date("2026-12-25T00:00:00").getTime();
   const [timeLeft, setTimeLeft] = useState({ months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -286,9 +463,7 @@ const FounderCountdown = () => {
 
       <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[16px] sm:rounded-[20px] p-5 sm:p-8 md:p-12">
         <div className="max-w-3xl">
-          <FadeIn
-            className="flex justify-start mb-4 sm:mb-8"
-          >
+          <FadeIn className="flex justify-start mb-4 sm:mb-8">
             <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-[#d9b549]/30 bg-[#d9b549]/10 text-[#f6de8d] text-xs sm:text-sm font-medium">
               <span className="w-2 h-2 rounded-full bg-[#d9b549] animate-pulse" />
               <span className="hidden sm:inline">Founder Gold Card Window</span>
@@ -296,38 +471,27 @@ const FounderCountdown = () => {
             </span>
           </FadeIn>
 
-          <FadeIn
-            delay={0.1}
-          >
-            <h2
-              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 editorial-title"
-            >
+          <FadeIn delay={0.1}>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 editorial-title">
               <span className="sm:hidden">No second runs</span>
               <span className="hidden sm:inline">
                 Some things
                 <br />
               </span>
               <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#d9b549,#f1d88b_55%,#b6a8ff)]">
-                don't get a second run.
+                don&apos;t get a second run.
               </span>
             </h2>
           </FadeIn>
 
-          <FadeIn
-            delay={0.2}
-          >
-            <p
-              className="text-base sm:text-lg text-[#a4abc0] mb-6 sm:mb-12 max-w-2xl"
-            >
+          <FadeIn delay={0.2}>
+            <p className="text-base sm:text-lg text-[#a4abc0] mb-6 sm:mb-12 max-w-2xl">
               Not a subscription. Not a tier. A piece of history — your name in the product, your Founder number forever, and lifetime access from day one.
             </p>
           </FadeIn>
         </div>
 
-        <FadeIn
-          delay={0.3}
-          className="mb-8 sm:mb-12"
-        >
+        <FadeIn delay={0.3} className="mb-8 sm:mb-12">
           <div className="flex items-center justify-between mb-3">
             <span className="text-sm sm:text-base text-[#d9b549] font-mono font-bold">{500 - spotsLeft} / 500 claimed</span>
             <span className="text-xs text-[#8b94aa]">{spotsLeft} spots left</span>
@@ -340,9 +504,7 @@ const FounderCountdown = () => {
           </div>
         </FadeIn>
 
-        <FadeIn
-          delay={0.4}
-        >
+        <FadeIn delay={0.4}>
           {!submitted ? (
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-xl">
               <input
@@ -366,22 +528,18 @@ const FounderCountdown = () => {
             <div className="flex flex-col items-start gap-3">
               <div className="flex items-center gap-2 text-[#d9b549]">
                 <Check className="w-5 h-5" />
-                <span className="font-medium">You're on the list.</span>
+                <span className="font-medium">You&apos;re on the list.</span>
               </div>
               <p className="text-[#8b94aa] text-sm">
-                We'll email you when Founder cards open. Watch the countdown.
+                We&apos;ll email you when Founder cards open. Watch the countdown.
               </p>
             </div>
           )}
           {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
         </FadeIn>
-
-
-
       </div>
     </section>
   );
 };
 
-
-export { Hero, Features, FounderCountdown };
+export { Hero, Features, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA };

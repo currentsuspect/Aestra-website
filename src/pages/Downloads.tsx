@@ -17,8 +17,15 @@ export const Downloads = ({ setPage }: any) => {
         <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
       </button>
 
-      <h1 className="text-2xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Downloads</h1>
-      <p className="text-sm sm:text-base text-[#98a1b7] mb-8 sm:mb-12">Pre-release builds. Expect sharp edges.</p>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8 sm:mb-12">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 shrink-0">
+          <img src="/aestra_prism.svg" alt="Aestra prism logo" className="w-full h-full" />
+        </div>
+        <div>
+          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-3">Downloads</h1>
+          <p className="text-sm sm:text-base text-[#98a1b7]">Pre-release builds. Expect sharp edges.</p>
+        </div>
+      </div>
 
       <div className="space-y-3 sm:space-y-4">
         {builds.map((build, i) => {

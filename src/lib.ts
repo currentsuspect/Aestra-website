@@ -58,6 +58,6 @@ export function useInView(options?: IntersectionObserverInit) {
 export function resolvePage(path: string): string {
   const clean = path.replace(/^\//, "").replace(/\/$/, "");
   if (!clean) return "home";
-  const VALID = ["features", "pricing", "changelog", "docs", "download", "login", "account", "privacy", "terms"];
+  const VALID = ["features", "pricing", "changelog", "docs", "download", "login", "account", "privacy", "terms", "about"];
   return VALID.includes(clean) ? clean : "404";
 }
