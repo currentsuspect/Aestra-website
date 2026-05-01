@@ -139,6 +139,7 @@ export const MockTimeline = memo(() => {
                 <button
                   onClick={() => setIsPlaying((v) => !v)}
                   className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
+                  aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? <Pause size={13} /> : <Play size={13} className="ml-0.5" />}
                 </button>
@@ -150,6 +151,7 @@ export const MockTimeline = memo(() => {
                     if (playheadRef.current) playheadRef.current.style.transform = 'translateX(190px)';
                   }}
                   className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]"
+                  aria-label="Stop"
                 >
                   <Square size={12} />
                 </button>
@@ -159,16 +161,17 @@ export const MockTimeline = memo(() => {
                     "flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d]",
                     isRecording ? "text-[#ff668f]" : "text-[#d3d8e6]"
                   )}
+                  aria-label={isRecording ? "Stop recording" : "Start recording"}
                 >
                   <Circle size={12} fill={isRecording ? "currentColor" : "none"} />
                 </button>
-                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#d3d8e6]" aria-label="More options">
                   <MoreHorizontal size={13} />
                 </button>
-                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]" aria-label="Activity monitor">
                   <Activity size={13} />
                 </button>
-                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-[9px] border border-[#3d4254] bg-[#2a2f3d] text-[#8e94aa]" aria-label="Microphone input">
                   <Mic size={13} />
                 </button>
               </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
+import React, { useState, useEffect, useMemo, memo } from "react";
 import { Download, ChevronRight, Check } from "lucide-react";
 import { cn } from "../lib";
 import { Button, Badge, FeatureCard, FadeIn } from "../components/ui";
