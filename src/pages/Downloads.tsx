@@ -19,7 +19,7 @@ export const Downloads = ({ setPage }: any) => {
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8 sm:mb-12">
         <div className="w-20 h-20 sm:w-24 sm:h-24 shrink-0">
-          <img src="/aestra_prism.svg" alt="Aestra prism logo" className="w-full h-full" />
+          <img src="/logo.png" alt="Aestra logo" className="w-full h-full" />
         </div>
         <div>
           <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-3">Downloads</h1>

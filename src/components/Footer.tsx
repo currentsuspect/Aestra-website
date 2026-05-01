@@ -56,7 +56,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
           {/* Brand */}
           <div className="col-span-2 sm:col-span-2 md:col-span-2">
             <div className="flex items-center gap-2 mb-3 sm:mb-4 cursor-pointer select-none" onClick={handleLogoClick}>
-              <img src="/aestra_prism.svg" alt="" width="20" height="20" className="w-5 h-5 sm:w-6 sm:h-6" />
+              <img src="/logo.png" alt="" width="20" height="20" className="w-5 h-5 sm:w-6 sm:h-6" />
               <span className="text-base sm:text-lg font-bold text-white">Aestra</span>
             </div>
             {!easterEgg ? (

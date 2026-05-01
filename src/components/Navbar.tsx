@@ -60,7 +60,7 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
           onKeyDown={(e) => e.key === "Enter" && setPage("home")}
         >
           <div className="w-9 h-9 rounded-[12px] overflow-hidden flex items-center justify-center bg-[#151a24] border border-[#364051] group-hover:border-[#61d5ff]/45 transition-all">
-            <img src="/aestra_prism.svg" alt="" className="w-8 h-8" />
+            <img src="/logo.png" alt="" className="w-8 h-8" />
           </div>
           <span className="text-xl font-bold tracking-tight text-white">Aestra</span>
         </div>
