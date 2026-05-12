@@ -14,7 +14,7 @@ export const Terms = memo(({ setPage }: any) => (
       <section>
         <h2 className="text-lg font-semibold text-white mb-3">The Short Version</h2>
         <p className="text-[#98a1b7]">
-          Aestra is free software. Use it to make music. Don't sue us if it crashes during a take.
+          Aestra is free to use for personal and educational purposes. Use it to make music. Don't sue us if it crashes during a take.
           We're building this in public, and it's in active development. Things will break. We'll fix them.
         </p>
       </section>

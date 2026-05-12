@@ -42,7 +42,7 @@ export const Downloads = ({ setPage }: any) => {
               </div>
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 {build.type === "Beta" && <Badge variant="outline">Beta</Badge>}
-                {build.type === "Source" && <Badge variant="outline">Open Source</Badge>}
+                {build.type === "Source" && <Badge variant="outline">Source Available</Badge>}
                 <a href={build.url} target="_blank" rel="noopener noreferrer" className="shrink-0 ml-auto sm:ml-0">
                   <Button size="sm" variant="secondary">
                     {build.type === "Source" ? "View Source" : "Get Build"}
