@@ -33,7 +33,7 @@ export const Downloads = ({ setPage }: any) => {
           return (
             <Card key={i} className="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4 w-full sm:w-auto">
-                <div className="w-11 h-11 rounded-[14px] bg-[#141a25] border border-[#2a2a36] flex items-center justify-center text-[#00e5cc] shrink-0">
+                <div className="w-11 h-11 rounded-[8px] bg-[#141a25] border border-[#2a2a36] flex items-center justify-center text-[#00e5cc] shrink-0">
                   <Icon size={20} />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -54,7 +54,7 @@ export const Downloads = ({ setPage }: any) => {
         })}
       </div>
 
-      <div className="mt-8 sm:mt-16 bg-[#131620] border border-[#394050] p-6 sm:p-8 rounded-[16px] text-center">
+      <div className="mt-8 sm:mt-16 section-frame panel-glow p-6 sm:p-8 rounded-[8px] text-center">
         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#e8a838]/30 bg-[#e8a838]/10 text-[#f6de8d] text-xs font-medium mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-[#e8a838] animate-pulse" />
           Limited to 500

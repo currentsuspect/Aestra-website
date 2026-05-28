@@ -74,7 +74,7 @@ const WhySection = memo(() => (
               ["Opaque routing and export paths", "Visual signal routing shows exactly where your sound goes."],
               ["Creative interruptions", "Pattern-first workflow keeps you in the loop, not in menus."],
             ].map(([problem, solution], i) => (
-              <div key={i} className="glass-panel rounded-xl p-4 sm:p-5 flex gap-4">
+              <div key={i} className="glass-panel rounded-[8px] p-4 sm:p-5 flex gap-4">
                 <div className="w-1 rounded-full bg-[#7c3aed] flex-shrink-0" />
                 <div>
                   <div className="text-[#e85454] text-xs font-mono uppercase tracking-wider mb-1">Problem</div>
@@ -254,8 +254,8 @@ const Plugins = memo(() => (
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         <FadeIn delay={0}>
-          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#7c3aed]/30 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-[#7c3aed]/15 border border-[#7c3aed]/25 flex items-center justify-center mb-5">
+          <div className="glass-panel rounded-[8px] p-6 sm:p-8 h-full group hover:border-[#7c3aed]/30 transition-colors">
+            <div className="w-10 h-10 rounded-[8px] bg-[#7c3aed]/15 border border-[#7c3aed]/25 flex items-center justify-center mb-5">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#7c3aed" strokeWidth="1.5" strokeLinecap="round">
                 <path d="M12 3v18M3 12h18M7 7l10 10M17 7L7 17" />
               </svg>
@@ -272,8 +272,8 @@ const Plugins = memo(() => (
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#9257ff]/30 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-[#9257ff]/15 border border-[#9257ff]/25 flex items-center justify-center mb-5">
+          <div className="glass-panel rounded-[8px] p-6 sm:p-8 h-full group hover:border-[#9257ff]/30 transition-colors">
+            <div className="w-10 h-10 rounded-[8px] bg-[#9257ff]/15 border border-[#9257ff]/25 flex items-center justify-center mb-5">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9257ff" strokeWidth="1.5" strokeLinecap="round">
                 <path d="M4 20h16M4 20V10M8 20v-6M12 20V8M16 20v-4M20 20V6" />
               </svg>
@@ -290,8 +290,8 @@ const Plugins = memo(() => (
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <div className="glass-panel rounded-2xl p-6 sm:p-8 h-full group hover:border-[#e8a838]/30 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-[#e8a838]/15 border border-[#e8a838]/25 flex items-center justify-center mb-5">
+          <div className="glass-panel rounded-[8px] p-6 sm:p-8 h-full group hover:border-[#e8a838]/30 transition-colors">
+            <div className="w-10 h-10 rounded-[8px] bg-[#e8a838]/15 border border-[#e8a838]/25 flex items-center justify-center mb-5">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#e8a838" strokeWidth="1.5" strokeLinecap="round">
                 <path d="M4 14h4v6H4zM10 10h4v10h-4zM16 6h4v14h-4z" />
               </svg>
@@ -343,7 +343,7 @@ const FreeCore = memo(({ setPage }: PageProps) => (
               { tier: "Supporter", price: "$5/mo", desc: "Priority builds + supporter badge.", accent: "#7c3aed" },
               { tier: "Founder", price: "$129", desc: "One-time. Lifetime access. Your name in the product.", accent: "#e8a838" },
             ].map(({ tier, price, desc, accent }) => (
-              <div key={tier} className="glass-panel rounded-xl p-5 flex items-center gap-5">
+              <div key={tier} className="glass-panel rounded-[8px] p-5 flex items-center gap-5">
                 <div className="w-1 rounded-full flex-shrink-0" style={{ background: accent }} />
                 <div className="flex-1">
                   <div className="text-white text-sm font-semibold">{tier}</div>
@@ -445,7 +445,7 @@ const FounderCountdown = () => {
   };
 
   const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
-    <div className="section-frame rounded-[18px] px-3 sm:px-5 py-3 sm:py-4 min-w-[72px] sm:min-w-[92px] flex-1">
+    <div className="section-frame rounded-[8px] px-3 sm:px-5 py-3 sm:py-4 min-w-[72px] sm:min-w-[92px] flex-1">
       <div className="text-2xl sm:text-3xl md:text-5xl font-bold text-white font-mono tabular-nums">
         {String(value).padStart(2, "0")}
       </div>
@@ -457,7 +457,7 @@ const FounderCountdown = () => {
     <section id="founder-section" className="content-defer py-16 sm:py-20 lg:py-28 px-4 sm:px-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(232,168,56,0.06),transparent_40%)] pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[16px] sm:rounded-[20px] p-5 sm:p-8 md:p-12">
+      <div className="max-w-5xl mx-auto relative z-10 section-frame panel-glow rounded-[8px] p-5 sm:p-8 md:p-12">
         <div className="max-w-3xl">
           <FadeIn className="flex justify-start mb-4 sm:mb-8">
             <span className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-[#e8a838]/30 bg-[#e8a838]/10 text-[#f6de8d] text-xs sm:text-sm font-medium">
@@ -510,12 +510,12 @@ const FounderCountdown = () => {
                 placeholder="you@studio.mail"
                 required
                 aria-label="Email address for waitlist"
-                className="flex-1 h-12 px-4 rounded-[14px] bg-[#141924] border border-[#343c4d] text-white text-sm placeholder-[#6f778d] focus:outline-none focus:ring-2 focus:ring-[#e8a838]/35 focus:border-[#e8a838]/45"
+                className="flex-1 h-12 px-4 rounded-[8px] bg-[#141924] border border-[#343c4d] text-white text-sm placeholder-[#6f778d] focus:outline-none focus:ring-2 focus:ring-[#e8a838]/35 focus:border-[#e8a838]/45"
               />
               <button
                 type="submit"
                 disabled={submitting}
-                className="h-12 px-6 rounded-[14px] border border-[#e8a838]/40 bg-[linear-gradient(180deg,#e8a838,#a7802c)] text-white font-medium text-sm hover:brightness-105 transition-all shadow-[0_0_22px_rgba(232,168,56,0.22)] disabled:opacity-50 whitespace-nowrap"
+                className="h-12 px-6 rounded-[8px] border border-[#e8a838]/40 bg-[linear-gradient(180deg,#e8a838,#a7802c)] text-white font-medium text-sm hover:brightness-105 transition-all shadow-[0_0_22px_rgba(232,168,56,0.22)] disabled:opacity-50 whitespace-nowrap"
               >
                 {submitting ? "Joining..." : "Join Waitlist"}
               </button>

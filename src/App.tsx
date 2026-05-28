@@ -28,6 +28,8 @@ const LazyPage = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<PageLoader />}>{children}</Suspense>
 );
 
+const BANNER_HEIGHT = 52;
+
 export const App = () => {
   const [page, setPage] = useState(() => resolvePage(window.location.pathname));
   const [showBanner, setShowBanner] = useState(true);
@@ -108,7 +110,7 @@ export const App = () => {
   const withBanner = (content: React.ReactNode, navPage: string) => (
     <>
       {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-      <Navbar activePage={navPage} setPage={handleSetPage} topOffset={showBanner ? 68 : 0} />
+      <Navbar activePage={navPage} setPage={handleSetPage} topOffset={showBanner ? BANNER_HEIGHT : 0} />
       {content}
       <Footer setPage={handleSetPage} />
     </>
@@ -120,7 +122,7 @@ export const App = () => {
         return (
           <>
             {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-            <Navbar activePage="home" setPage={handleSetPage} topOffset={showBanner ? 68 : 0} />
+            <Navbar activePage="home" setPage={handleSetPage} topOffset={showBanner ? BANNER_HEIGHT : 0} />
             <Hero setPage={handleSetPage} />
             <WhySection />
             <div id="features"><HomeFeatures /></div>
@@ -132,7 +134,12 @@ export const App = () => {
           </>
         );
       case "features":
-        return <Features setPage={handleSetPage} />;
+        return (
+          <>
+            {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
+            <Features setPage={handleSetPage} topOffset={showBanner ? BANNER_HEIGHT : 0} />
+          </>
+        );
       case "pricing":
         return withBanner(<LazyPage><Pricing setPage={handleSetPage} /></LazyPage>, "pricing");
       case "changelog":

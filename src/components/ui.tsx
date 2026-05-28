@@ -25,11 +25,11 @@ export const Button = memo(({
   icon: Icon,
   ...props
 }: ButtonProps) => {
-  const baseStyles = "inline-flex items-center justify-center rounded-[12px] font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#61d5ff]/35 disabled:opacity-50 disabled:cursor-not-allowed border";
+  const baseStyles = "inline-flex items-center justify-center rounded-[8px] font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#61d5ff]/35 disabled:opacity-50 disabled:cursor-not-allowed border";
 
   const variants = {
     primary: "border-[#6d28d9] bg-[linear-gradient(180deg,#7c3aed,#6d28d9)] text-white shadow-[0_0_24px_rgba(124,58,237,0.28)] hover:brightness-110",
-    secondary: "border-[#3a4152] bg-[#1a1f2b] text-[#e8ebf5] hover:border-[#61d5ff]/45 hover:text-white",
+    secondary: "border-[#30384a] bg-[#151a24] text-[#e8ebf5] hover:border-[#61d5ff]/45 hover:text-white hover:bg-[#1a2030]",
     ghost: "border-transparent text-[#98a1b7] hover:text-white hover:bg-white/5",
     outline: "border-[#4f5668] bg-[#131722] text-[#cfd5e4] hover:border-[#61d5ff]/45 hover:text-white"
   };
@@ -70,7 +70,7 @@ export const Badge = memo(({ children, variant = "default", className }: BadgePr
 
 // --- Card ---
 export const Card = memo(({ children, className }: CardProps) => (
-  <div className={cn("section-frame panel-glow rounded-[16px] overflow-hidden", className)}>
+  <div className={cn("section-frame panel-glow rounded-[8px] overflow-hidden", className)}>
     {children}
   </div>
 ));
@@ -104,7 +104,7 @@ export const FeatureCard = memo(({ label, title, description, visual, color = "b
     <FadeIn delay={delay}>
       <div
         className={cn(
-          "bg-[#131620] border rounded-[16px] p-5 sm:p-6 transition-all duration-200 hover:-translate-y-0.5 group relative overflow-hidden",
+          "bg-[#121720] border rounded-[8px] p-5 sm:p-6 transition-all duration-200 hover:-translate-y-0.5 group relative overflow-hidden",
           c.border
         )}
       >

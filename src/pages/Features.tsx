@@ -304,10 +304,10 @@ const FeatureBlock = memo(({ feature, index }: { feature: typeof sections[0]; in
   );
 });
 
-export const Features = ({ setPage }: PageProps) => {
+export const Features = ({ setPage, topOffset = 0 }: PageProps) => {
   return (
     <>
-      <Navbar activePage="features" setPage={setPage} />
+      <Navbar activePage="features" setPage={setPage} topOffset={topOffset} />
       <main className="pt-24 sm:pt-32 pb-16 sm:pb-20 min-h-screen">
         <div className="page-hero px-4 sm:px-8 max-w-[700px]">
           <div className="page-hero-tag">Feature Tour</div>
