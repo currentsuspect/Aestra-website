@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+  <msapplication>
+    <tile>
+      <square70x70logo src="/favicon-128.png"/>
+      <square150x150logo src="/favicon-192.png"/>
+      <wide310x150logo src="/favicon-310x150.png"/>
+      <square310x310logo src="/favicon-310.png"/>
+      <TileColor>#09090b</TileColor>
+      <TileImage src="/favicon-192.png"/>
+    </tile>
+    <notification>
+      <polling-uri src="https://aestra.studio/feed.xml"/>
+      <polling-uri2 src="https://aestra.studio/rss.xml"/>
+      <frequency>30</frequency>
+      <cycle>1</cycle>
+    </notification>
+  </msapplication>
+</browserconfig>

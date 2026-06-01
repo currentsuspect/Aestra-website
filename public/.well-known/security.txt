@@ -1,0 +1,45 @@
+# Aestra security policy
+
+## Reporting a vulnerability
+
+If you discover a security vulnerability in Aestra (the DAW, the website, or any of our services), please report it privately.
+
+- **Email:** security@aestra.studio
+- **GitHub Security Advisories:** https://github.com/currentsuspect/Aestra/security/advisories/new
+- **Response time:** within 72 hours
+
+## Scope
+
+In scope:
+- aestra.studio and all subdomains
+- The Aestra DAW (download, updates, plugin suite)
+- The Aestra account system (when available)
+
+Out of scope:
+- Third-party plugins hosted by the user
+- Third-party websites that link to us
+- Social engineering attacks against our team
+
+## Bug bounty
+
+We do not currently run a paid bug bounty. We will, however:
+- Credit you in the release notes (with permission)
+- Ship you a Founder Gold Card (with permission)
+- Be very grateful
+
+## Coordinated disclosure
+
+We follow coordinated disclosure. Please do not publicly disclose a vulnerability until we have shipped a fix or 90 days have passed, whichever comes first.
+
+## PGP key
+
+Available on request. A signed public key will be published at https://aestra.studio/.well-known/pgp-key.asc when available.
+
+## Acknowledgments
+
+We thank the following researchers for responsible disclosures (in chronological order):
+- None yet — that's you?
+
+## Status
+
+Last updated: 2026-04-11

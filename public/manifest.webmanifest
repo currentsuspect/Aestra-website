@@ -1,0 +1,110 @@
+{
+  "name": "Aestra — Native DAW for producers",
+  "short_name": "Aestra",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "description": "A native C++ digital audio workstation for producers. Free core, no feature gates, cross-platform.",
+  "long_name": "Aestra — Make music, not excuses.",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["music", "productivity", "utilities", "creativity", "entertainment"],
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Aestra DAW interface — full timeline view"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Aestra website on mobile"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/favicon-48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Download",
+      "url": "/download",
+      "description": "Get Aestra for Windows, macOS, or Linux",
+      "icons": [{ "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Features",
+      "url": "/features",
+      "description": "Explore Aestra's core features",
+      "icons": [{ "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Pricing",
+      "url": "/pricing",
+      "description": "Plans: Core, Supporter, Founder",
+      "icons": [{ "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Docs",
+      "url": "/docs",
+      "description": "Read the documentation",
+      "icons": [{ "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "prefer_related_applications": false,
+  "protocol_handlers": [
+    {
+      "protocol": "aestra",
+      "url": "/open?project=%s"
+    }
+  ]
+}
