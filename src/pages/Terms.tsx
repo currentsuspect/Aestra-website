@@ -1,7 +1,8 @@
 import React, { memo } from "react";
 import { ArrowRight } from "lucide-react";
+import type { PageProps } from "../types";
 
-export const Terms = memo(({ setPage }: any) => (
+export const Terms = memo(({ setPage }: PageProps) => (
   <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 px-5 sm:px-6 min-h-screen">
     <div className="max-w-2xl mx-auto">
       <button

@@ -96,7 +96,6 @@
   <meta name="twitter:app:name:googleplay" content="Aestra">
 
   <!-- ===== Apple / iOS ===== -->
-  <meta name="apple-itunes-app" content="app-id=000000000">
   <link rel="mask-icon" href="/logo-bimi.svg" color="#7c3aed">
 
   <!-- ===== Favicon / App Icons ===== -->
@@ -122,9 +121,9 @@
   <meta name="msapplication-config" content="/browserconfig.xml">
   <meta name="msapplication-tooltip" content="Aestra — Native DAW for producers">
   <meta name="msapplication-starturl" content="/">
-  <meta name="msapplication-task" content="name=Pricing;action-uri=/pricing;icon-uri=/favicon.png">
-  <meta name="msapplication-task" content="name=Download;action-uri=/download;icon-uri=/favicon.png">
-  <meta name="msapplication-task" content="name=Features;action-uri=/features;icon-uri=/favicon.png">
+  <meta name="msapplication-task" content="name=Pricing;action-uri=/pricing;icon-uri=/favicon-32.png">
+  <meta name="msapplication-task" content="name=Download;action-uri=/download;icon-uri=/favicon-32.png">
+  <meta name="msapplication-task" content="name=Features;action-uri=/features;icon-uri=/favicon-32.png">
 
   <!-- ===== Resource Hints ===== -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -133,13 +132,10 @@
   <link rel="dns-prefetch" href="https://github.com">
   <link rel="dns-prefetch" href="https://api.github.com">
   <link rel="preconnect" href="https://github.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  </noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- ===== Security ===== -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://formspree.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://formspree.io https://api.github.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://formspree.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://formspree.io https://api.github.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -270,14 +266,7 @@
           }
         ],
         "author": { "@id": "https://aestra.studio/#founder" },
-        "publisher": { "@id": "https://aestra.studio/#organization" },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.8",
-          "ratingCount": "127",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
+        "publisher": { "@id": "https://aestra.studio/#organization" }
       },
       {
         "@type": "ItemList",
@@ -377,24 +366,13 @@
             }
           }
         ]
-      },
-      {
-        "@type": "VideoObject",
-        "@id": "https://aestra.studio/#demo",
-        "name": "Aestra DAW — interactive demo",
-        "description": "Walkthrough of the Aestra DAW interface: native engine, pattern workflow, visual routing, and audition mode.",
-        "thumbnailUrl": "https://aestra.studio/og-image.png",
-        "uploadDate": "2026-04-11",
-        "duration": "PT2M30S",
-        "contentUrl": "https://aestra.studio/",
-        "embedUrl": "https://aestra.studio/"
       }
     ]
   }
   </script>
 
   <!-- Skip Navigation Link for Accessibility -->
-  <a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:0;background:#fff;color:#000;padding:8px;z-index:9999;text-decoration:none;" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 </head>
 <body>
   <div id="root"></div>

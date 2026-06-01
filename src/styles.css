@@ -107,33 +107,29 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover { background: #3a3a42; }
 
+/* ── Skip link ─────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 8px 16px;
+  z-index: 9999;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+  border: 1px solid var(--color-border);
+  border-top: none;
+}
+.skip-link:focus {
+  top: 0;
+}
+
 /* ── Site shell ───────────────────────────────────────────────── */
 .site-shell {
   position: relative;
   min-height: 100vh;
   overflow-x: clip;
-}
-
-/* ── Surfaces (cards, panels) ─────────────────────────────────── */
-.surface {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-}
-.surface-raised {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
-}
-.surface-raised:hover {
-  border-color: var(--color-border-2);
-  background: var(--color-surface-2);
-}
-
-.divider {
-  height: 1px;
-  background: var(--color-border);
 }
 
 /* ── Eyebrow / kicker (lowercase, restrained) ─────────────────── */
@@ -161,13 +157,6 @@ body {
   color: var(--color-text);
 }
 
-/* ── Section frame (subtle, no glow) ─────────────────────────── */
-.section-frame {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-}
-
 /* ── Subtle progress ──────────────────────────────────────────── */
 .progress-track {
   height: 4px;
@@ -182,69 +171,11 @@ body {
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Clean list (no bullets) ──────────────────────────────────── */
-.clean-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* ── Layout primitives (single source of truth) ──────────────── */
-
-/* Page-level padding: clears fixed navbar and matches footer breath. */
-.page-pad {
-  padding-top: clamp(7rem, 12vw, 10rem);
-  padding-bottom: clamp(5rem, 9vw, 8rem);
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-}
-@media (min-width: 640px) {
-  .page-pad { padding-left: 1.5rem; padding-right: 1.5rem; }
-}
-
-/* Standard content widths. Use these instead of inline max-w-{n}xl. */
-.container-narrow  { max-width: 42rem;  margin-inline: auto; width: 100%; }
-.container-text    { max-width: 48rem;  margin-inline: auto; width: 100%; }
-.container-default { max-width: 56rem;  margin-inline: auto; width: 100%; }
-.container-wide    { max-width: 72rem;  margin-inline: auto; width: 100%; }
-
-/* Standard hero h1. */
-.h1-hero {
-  font-size: clamp(2.25rem, 5vw + 0.5rem, 3.75rem);
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  color: var(--color-text);
-}
-@media (min-width: 768px) {
-  .h1-hero { font-size: clamp(3rem, 4vw + 1rem, 4.5rem); }
-}
-
-/* Section vertical rhythm. */
-.section-pad {
-  padding-top: clamp(3.5rem, 7vw, 6rem);
-  padding-bottom: clamp(3.5rem, 7vw, 6rem);
-}
-
-/* Touch-friendly interactive minimum (40-44px). */
+/* ── Touch-friendly interactive minimum (40-44px) ─────────────── */
 .tap-target {
   min-height: 40px;
   min-width: 40px;
 }
 @media (min-width: 768px) {
   .tap-target { min-height: 36px; min-width: 36px; }
-}
-
-/* Horizontal scroll for content that can't wrap on mobile. */
-.scroll-x {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-}
-.scroll-x::-webkit-scrollbar { height: 6px; }
-
-/* Safe area insets for notched devices. */
-.safe-pad-x {
-  padding-left:  max(1.25rem, env(safe-area-inset-left));
-  padding-right: max(1.25rem, env(safe-area-inset-right));
 }

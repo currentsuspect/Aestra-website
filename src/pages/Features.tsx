@@ -1,4 +1,5 @@
 import React, { useState, memo } from "react";
+import { Check } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { FadeIn } from "../components/ui";
@@ -213,12 +214,6 @@ const tagColors: Record<string, { dot: string; text: string; ring: string }> = {
   green:  { dot: "bg-emerald-400",text: "text-emerald-400",ring: "ring-emerald-500/20"},
   coral:  { dot: "bg-rose-400",   text: "text-rose-400",   ring: "ring-rose-500/20"   },
 };
-
-const Check = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 16 16" fill="none">
-    <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
 
 const sections = [
   {

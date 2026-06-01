@@ -2,8 +2,9 @@ import React, { memo, useState, useEffect } from "react";
 import { User, Shield, Zap, LifeBuoy, Music, Download, Copy, Check, Menu, X } from "lucide-react";
 import { cn } from "../lib";
 import { Button, Badge, Card } from "../components/ui";
+import type { PageProps } from "../types";
 
-export const Dashboard = memo(({ setPage }: any) => {
+export const Dashboard = memo(({ setPage }: PageProps) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [copied, setCopied] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);

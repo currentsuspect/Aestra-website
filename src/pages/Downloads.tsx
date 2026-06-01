@@ -1,8 +1,9 @@
 import React from "react";
 import { ArrowRight, Monitor, Apple, Terminal, Globe } from "lucide-react";
 import { Button, Badge } from "../components/ui";
+import type { PageProps } from "../types";
 
-export const Downloads = ({ setPage }: any) => {
+export const Downloads = ({ setPage }: PageProps) => {
   const builds = [
     { os: "Windows",     arch: "x64",                 icon: Monitor, type: "Beta"   },
     { os: "macOS",       arch: "Apple Silicon",       icon: Apple,   type: "Beta"   },

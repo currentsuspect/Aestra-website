@@ -498,12 +498,16 @@ const ScrollHint = () => {
 };
 
 /* ── Founder Countdown ───────────────────────────────────────── */
+const FOUNDER_TOTAL = 500;
+const FOUNDER_CLAIMED = 31;
+const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID || "xnjlaqqr";
+
 const FounderCountdown = () => {
   const targetDate = new Date("2026-12-25T00:00:00").getTime();
   const [timeLeft, setTimeLeft] = useState({ months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [spotsLeft] = useState(500);
+  const spotsLeft = FOUNDER_TOTAL - FOUNDER_CLAIMED;
 
   useEffect(() => {
     const update = () => {
@@ -537,7 +541,7 @@ const FounderCountdown = () => {
     setError("");
 
     try {
-      const res = await fetch("https://formspree.io/f/xnjlaqqr", {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, source: "founder-waitlist" }),
@@ -586,12 +590,12 @@ const FounderCountdown = () => {
                 <div className="mb-8">
                   <div className="flex items-center justify-between mb-3 text-sm">
                     <span className="text-zinc-300">
-                      <span className="text-amber-300 font-mono font-semibold">{500 - spotsLeft}</span> / 500 claimed
+                      <span className="text-amber-300 font-mono font-semibold">{FOUNDER_CLAIMED}</span> / {FOUNDER_TOTAL} claimed
                     </span>
                     <span className="text-zinc-500 text-[13px]">{spotsLeft} spots left</span>
                   </div>
                   <div className="progress-track">
-                    <div className="progress-fill" style={{ width: `${((500 - spotsLeft) / 500) * 100}%` }} />
+                    <div className="progress-fill" style={{ width: `${(FOUNDER_CLAIMED / FOUNDER_TOTAL) * 100}%` }} />
                   </div>
                 </div>
 

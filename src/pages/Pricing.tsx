@@ -1,6 +1,7 @@
 import React, { useState, useEffect, memo } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
+import type { PageProps } from "../types";
 
 const CheckIcon = ({ accent = "emerald" }: { accent?: "emerald" | "violet" | "amber" }) => {
   const ring =
@@ -57,15 +58,20 @@ const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?
   const [fillWidth, setFillWidth] = useState(0);
 
   useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
     const timeout = setTimeout(() => {
       setFillWidth((target / total) * 100);
       let c = 0;
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         c = Math.min(target, c + 1);
         setCount(c);
         if (c >= target) clearInterval(interval);
       }, 40);
     }, 200);
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
   }, [target, total]);
 
   return (
@@ -141,7 +147,7 @@ const Cell = ({ on, accent }: { on: boolean; accent: "emerald" | "violet" | "amb
   return <Check className={`w-4 h-4 ${color}`} />;
 };
 
-export const Pricing = ({ setPage }: any) => {
+export const Pricing = ({ setPage }: PageProps) => {
   return (
     <div className="min-h-screen">
       {/* Hero */}

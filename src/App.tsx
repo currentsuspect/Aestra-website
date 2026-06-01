@@ -227,10 +227,10 @@ export const App = () => {
   };
 
   return (
-    <div className="site-shell min-h-screen text-zinc-100 font-sans selection:bg-[#7c3aed]/30" role="document">
-      <div className="page-enter" role="main" id="main-content" aria-label="Main content">
+    <div className="site-shell min-h-screen text-zinc-100 font-sans selection:bg-[#7c3aed]/30">
+      <main className="page-enter" id="main-content">
         {renderPage()}
-      </div>
+      </main>
     </div>
   );
 };

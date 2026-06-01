@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, FileText, Search, Menu, X, ChevronDown } from "lu
 
 import { cn } from "../lib";
 import { Button, Card } from "../components/ui";
+import type { PageProps } from "../types";
 
 type DocsSection = {
   id: string;
@@ -22,7 +23,7 @@ type PaletteAction = {
   run: () => void;
 };
 
-export const Docs = memo(({ setPage }: any) => {
+export const Docs = memo(({ setPage }: PageProps) => {
   const docsSections = useMemo<DocsSection[]>(() => [
     {
       id: "patch-recipes",

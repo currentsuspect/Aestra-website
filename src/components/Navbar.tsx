@@ -58,7 +58,7 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
         >
           <img
             src="/logo.png"
-            alt=""
+            alt="Aestra logo"
             className="w-7 h-7 rounded-md"
           />
           <span className="text-[15px] font-semibold text-zinc-50 tracking-tight">Aestra</span>

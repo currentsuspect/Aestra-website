@@ -10,7 +10,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
           {/* Brand */}
           <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <img src="/logo.png" alt="" width="28" height="28" className="w-7 h-7 rounded-md" />
+              <img src="/logo.png" alt="Aestra logo" width="28" height="28" className="w-7 h-7 rounded-md" />
               <span className="text-[15px] font-semibold text-zinc-50 tracking-tight">Aestra</span>
             </div>
             <p className="text-sm text-zinc-400 max-w-sm leading-relaxed mb-6">

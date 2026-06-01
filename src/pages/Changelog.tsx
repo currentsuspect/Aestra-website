@@ -3,6 +3,7 @@ import { Activity, CalendarDays, ArrowRight } from "lucide-react";
 
 import { cn } from "../lib";
 import { Badge, Button } from "../components/ui";
+import type { PageProps } from "../types";
 
 type ChangeType = "new" | "fix" | "security" | "ci" | "perf" | "docs";
 
@@ -34,7 +35,7 @@ const statusColors: Record<Release["status"], string> = {
   released: "bg-zinc-800 text-zinc-300 border-zinc-700",
 };
 
-export const Changelog = memo(({ setPage }: any) => {
+export const Changelog = memo(({ setPage }: PageProps) => {
   const releases = useMemo<Release[]>(() => [
     {
       ver: "Unreleased",
