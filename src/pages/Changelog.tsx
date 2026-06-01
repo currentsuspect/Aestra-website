@@ -121,7 +121,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
             <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-3">
               What shipped, what's coming.
             </h1>
-            <div className="flex items-center gap-2 text-[13px] text-zinc-500">
+            <div className="flex items-center gap-2 text-[13px] text-zinc-400">
               <CalendarDays className="w-3.5 h-3.5" />
               <span>Source synced from Aestra history through Apr 11, 2026</span>
             </div>
@@ -162,7 +162,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
                     {release.status}
                   </span>
                 </div>
-                <div className="text-[13px] text-zinc-500 font-mono">{release.date}</div>
+                <div className="text-[13px] text-zinc-400 font-mono">{release.date}</div>
                 <p className="text-zinc-300 text-[15px] mt-3 leading-relaxed">{release.summary}</p>
               </div>
 

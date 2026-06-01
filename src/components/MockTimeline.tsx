@@ -165,7 +165,7 @@ const TBtn = memo(({ active, error: isError, onClick, children, title, className
       "w-7 h-7 text-[13px]",
       active && !isError && "bg-zinc-800 text-zinc-100",
       isError && "bg-rose-500/15 text-rose-400",
-      !active && !isError && "text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/60",
+      !active && !isError && "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60",
       className,
     )}
   >
@@ -179,7 +179,7 @@ const MSR = memo(({ label, active, color, onClick }: { label: string; active: bo
     onClick={onClick}
     className={cn(
       "flex items-center justify-center rounded text-[9px] font-semibold w-[18px] h-[16px] transition-colors border",
-      active ? "" : "border-zinc-800 text-zinc-500 hover:text-zinc-300"
+      active ? "" : "border-zinc-800 text-zinc-400 hover:text-zinc-300"
     )}
     style={active ? { background: `${color}1f`, borderColor: `${color}55`, color } : undefined}
   >
@@ -194,7 +194,7 @@ const ToolBtn = memo(({ active, onClick, children, title }: { active: boolean; o
     title={title}
     className={cn(
       "w-7 h-7 flex items-center justify-center rounded transition-colors",
-      active ? "bg-[rgba(124,58,237,0.18)] text-violet-300" : "text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/60"
+      active ? "bg-[rgba(124,58,237,0.18)] text-violet-300" : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60"
     )}
   >
     {children}
@@ -371,7 +371,7 @@ export const MockTimeline = memo(() => {
           <Icon.Timeline />
           <span className="text-xs">Aestra preview</span>
         </div>
-        <p className="text-sm text-zinc-500">Interactive editor — open on tablet or desktop for the full experience.</p>
+        <p className="text-sm text-zinc-400">Interactive editor — open on tablet or desktop for the full experience.</p>
       </div>
 
       {/* Full DAW preview */}
@@ -380,7 +380,7 @@ export const MockTimeline = memo(() => {
           {/* ── Title Bar (File menu | Tabs | Account + Window) ── */}
           <div className="h-10 border-b border-zinc-800 bg-zinc-900/60 px-3 flex items-center justify-between">
             {/* Left: File menu */}
-            <div className="flex items-center gap-3 text-[11px] text-zinc-500 min-w-[200px]">
+            <div className="flex items-center gap-3 text-[11px] text-zinc-400 min-w-[200px]">
               <button className="hover:text-zinc-200 transition-colors">File</button>
               <button className="hover:text-zinc-200 transition-colors">Edit</button>
               <button className="hover:text-zinc-200 transition-colors">View</button>
@@ -402,7 +402,7 @@ export const MockTimeline = memo(() => {
                     "flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] transition-colors",
                     activeView === tab.id
                       ? "bg-violet-500/25 text-violet-200 border border-violet-500/35"
-                      : "text-zinc-500 hover:text-zinc-200 border border-transparent"
+                      : "text-zinc-400 hover:text-zinc-200 border border-transparent"
                   )}
                 >
                   <tab.icon />
@@ -413,16 +413,16 @@ export const MockTimeline = memo(() => {
 
             {/* Right: Account + Core + window controls */}
             <div className="flex items-center gap-2 text-[10px] min-w-[200px] justify-end">
-              <span className="text-zinc-500">Signed out</span>
+              <span className="text-zinc-400">Signed out</span>
               <span className="px-1.5 py-0.5 rounded bg-violet-500/20 border border-violet-500/30 text-violet-300 font-medium">Core</span>
               <div className="flex items-center gap-0.5 ml-2">
-                <button title="Minimize" className="w-6 h-6 rounded text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
+                <button title="Minimize" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
                   <Icon.Minimize />
                 </button>
-                <button title="Maximize" className="w-6 h-6 rounded text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
+                <button title="Maximize" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
                   <Icon.Maximize />
                 </button>
-                <button title="Close" className="w-6 h-6 rounded text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
+                <button title="Close" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
                   <Icon.Close />
                 </button>
               </div>
@@ -474,20 +474,20 @@ export const MockTimeline = memo(() => {
                     onClick={() => setMetronomeOn(v => !v)}
                     className={cn(
                       "w-7 h-7 rounded flex items-center justify-center text-[12px] font-mono transition-colors",
-                      metronomeOn ? "bg-violet-500/20 text-violet-300" : "text-zinc-500 hover:bg-[rgba(255,255,255,0.06)]"
+                      metronomeOn ? "bg-violet-500/20 text-violet-300" : "text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
                     )}
                     title="Metronome"
                   >
                     ♩
                   </button>
                   <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-500 hover:bg-[rgba(255,255,255,0.06)]"
+                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
                     title="Loop region"
                   >
                     <span className="text-[12px]">⌛</span>
                   </button>
                   <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-500 hover:bg-[rgba(255,255,255,0.06)]"
+                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
                     title="Accent"
                   >
                     <span className="text-[12px]">●</span>
@@ -496,7 +496,7 @@ export const MockTimeline = memo(() => {
                   <span className="text-[10px] text-zinc-400 font-mono tabular-nums px-1.5">4 / 4</span>
                   <div className="w-px h-4 bg-[#2a2a36] mx-1" />
                   <div className="flex flex-col items-center justify-center h-7 w-[64px] rounded border border-[#2a2a36] bg-[#0a0a0e] px-1">
-                    <span className="text-[7px] text-zinc-600 font-mono uppercase tracking-wider leading-none">BPM</span>
+                    <span className="text-[7px] text-zinc-500 font-mono uppercase tracking-wider leading-none">BPM</span>
                     <input
                       type="number"
                       value={bpm}
@@ -518,7 +518,7 @@ export const MockTimeline = memo(() => {
                 {/* View icons (4 small icons matching native DAW) */}
                 <div className="flex items-center gap-0.5 rounded-md border border-[#2a2a36] bg-[#0a0a0e] p-0.5">
                   <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-500 hover:text-zinc-300 hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:text-zinc-300 hover:bg-[rgba(255,255,255,0.04)] transition-colors"
                     title="Tree"
                   >
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2">
@@ -533,7 +533,7 @@ export const MockTimeline = memo(() => {
                       "w-7 h-7 rounded flex items-center justify-center transition-colors",
                       activeView === "arsenal"
                         ? "bg-[rgba(124,58,237,0.20)] text-white"
-                        : "text-zinc-500 hover:text-zinc-300 hover:bg-[rgba(255,255,255,0.04)]"
+                        : "text-zinc-400 hover:text-zinc-300 hover:bg-[rgba(255,255,255,0.04)]"
                     )}
                     title="Arsenal"
                   >
@@ -550,7 +550,7 @@ export const MockTimeline = memo(() => {
                       "w-7 h-7 rounded flex items-center justify-center transition-colors",
                       activeView === "timeline"
                         ? "bg-[rgba(124,58,237,0.20)] text-white"
-                        : "text-zinc-500 hover:text-zinc-300 hover:bg-[rgba(255,255,255,0.04)]"
+                        : "text-zinc-400 hover:text-zinc-300 hover:bg-[rgba(255,255,255,0.04)]"
                     )}
                     title="Timeline"
                   >
@@ -568,7 +568,7 @@ export const MockTimeline = memo(() => {
                       "w-7 h-7 rounded flex items-center justify-center transition-colors",
                       activeView === "audition"
                         ? "bg-[rgba(124,58,237,0.20)] text-white"
-                        : "text-zinc-500 hover:text-zinc-300 hover:bg-[rgba(255,255,255,0.04)]"
+                        : "text-zinc-400 hover:text-zinc-300 hover:bg-[rgba(255,255,255,0.04)]"
                     )}
                     title="List"
                   >
@@ -582,7 +582,7 @@ export const MockTimeline = memo(() => {
 
                 {/* Master fader */}
                 <div className="flex items-center gap-1.5 pl-2 ml-1 border-l border-[#2a2a36] h-6">
-                  <span className="text-[9px] text-zinc-500 font-mono uppercase tracking-wider">M</span>
+                  <span className="text-[9px] text-zinc-400 font-mono uppercase tracking-wider">M</span>
                   <div className="w-16 h-1.5 rounded-full bg-[#1e1e28] relative overflow-hidden">
                     <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500" style={{ width: "72%" }} />
                     <div className="absolute top-1/2 -translate-y-1/2 w-2 h-3 rounded-sm bg-white shadow" style={{ left: "calc(72% - 4px)" }} />
@@ -607,10 +607,10 @@ export const MockTimeline = memo(() => {
                 <div className="w-[220px] lg:w-[260px] border-r border-[#1e1e28] bg-[#0f0f14] flex flex-col shrink-0">
                 {/* Search */}
                 <div className="p-2">
-                  <label className="flex items-center gap-2 rounded-md border border-[#2a2a36] bg-[#0d0d12] px-2.5 py-1.5 text-[11px] text-zinc-500 focus-within:border-[#3a3a46] transition-colors">
+                  <label className="flex items-center gap-2 rounded-md border border-[#2a2a36] bg-[#0d0d12] px-2.5 py-1.5 text-[11px] text-zinc-400 focus-within:border-[#3a3a46] transition-colors">
                     <Icon.Search />
                     <span>Search library...</span>
-                    <span className="ml-auto text-[9px] text-zinc-600 font-mono">⌘K</span>
+                    <span className="ml-auto text-[9px] text-zinc-500 font-mono">⌘K</span>
                   </label>
                 </div>
 
@@ -620,7 +620,7 @@ export const MockTimeline = memo(() => {
                   <div className="w-[88px] lg:w-[100px] border-r border-[rgba(30,30,40,0.36)] bg-[rgba(9,10,12,0.5)] overflow-y-auto">
                     {NAV_TREE.map(section => (
                       <div key={section.section}>
-                        <div className="px-2 pt-3 pb-1 text-[8px] uppercase tracking-[0.14em] text-zinc-600">{section.section}</div>
+                        <div className="px-2 pt-3 pb-1 text-[8px] uppercase tracking-[0.14em] text-zinc-500">{section.section}</div>
                         {section.items.map(item => {
                           const expanded = expandedFolders.has(item.name);
                           return (
@@ -631,7 +631,7 @@ export const MockTimeline = memo(() => {
                                 "w-full flex items-center gap-1.5 px-2 py-1.5 text-[10px] text-left transition-colors",
                                 selectedNav === item.name
                                   ? "bg-[rgba(124,58,237,0.10)] text-white"
-                                  : "text-zinc-500 hover:bg-[rgba(255,255,255,0.035)]"
+                                  : "text-zinc-400 hover:bg-[rgba(255,255,255,0.035)]"
                               )}
                             >
                               {item.type === "folder" ? (
@@ -649,13 +649,13 @@ export const MockTimeline = memo(() => {
 
                   {/* File list */}
                   <div className="flex-1 flex flex-col min-w-0">
-                    <div className="px-2.5 py-1.5 border-b border-[rgba(30,30,40,0.36)] flex items-center gap-1 text-[9px] text-zinc-500">
+                    <div className="px-2.5 py-1.5 border-b border-[rgba(30,30,40,0.36)] flex items-center gap-1 text-[9px] text-zinc-400">
                       <span>Aestra</span>
                       <Icon.ChevronRight />
                       <span className="text-zinc-300">Current Project</span>
                       <span className="ml-auto"><Icon.ChevronRight /></span>
                     </div>
-                    <div className="px-2.5 py-1 border-b border-[rgba(30,30,40,0.24)] text-[8px] uppercase tracking-[0.14em] text-zinc-600">Name</div>
+                    <div className="px-2.5 py-1 border-b border-[rgba(30,30,40,0.24)] text-[8px] uppercase tracking-[0.14em] text-zinc-500">Name</div>
                     <div className="flex-1 overflow-y-auto">
                       {/* Show folder children when expanded */}
                       {selectedNav === "Current Project" && (
@@ -719,7 +719,7 @@ export const MockTimeline = memo(() => {
                                 >
                                   <Icon.Audio />
                                   <span className="truncate flex-1">{file.name}</span>
-                                  <span className="text-[8px] text-zinc-600 flex-shrink-0">{file.size}</span>
+                                  <span className="text-[8px] text-zinc-500 flex-shrink-0">{file.size}</span>
                                 </button>
                               ))}
                             </div>
@@ -739,7 +739,7 @@ export const MockTimeline = memo(() => {
                         >
                           <Icon.Audio />
                           <span className="truncate flex-1">{file.name}</span>
-                          <span className="text-[8px] text-zinc-600 flex-shrink-0">{file.size}</span>
+                          <span className="text-[8px] text-zinc-500 flex-shrink-0">{file.size}</span>
                         </button>
                       ))}
                     </div>
@@ -757,7 +757,7 @@ export const MockTimeline = memo(() => {
                         </button>
                         <div className="min-w-0 flex-1">
                           <div className="text-[10px] text-zinc-200 truncate leading-tight">{FILES[selectedFile].name}</div>
-                          <div className="text-[8px] text-zinc-500 mt-0.5 font-mono">85 BPM · 0:00 / 0:00</div>
+                          <div className="text-[8px] text-zinc-400 mt-0.5 font-mono">85 BPM · 0:00 / 0:00</div>
                         </div>
                       </div>
                       <div className="mt-1.5 rounded-md border border-[rgba(124,58,237,0.25)] bg-[rgba(124,58,237,0.06)] p-1.5">
@@ -822,7 +822,7 @@ export const MockTimeline = memo(() => {
                         )} style={{ background: i % 4 === 0 ? C.gridBar : C.gridBeat }} />
                         <span className={cn(
                           "absolute bottom-0.5 left-1 text-[9px] font-mono tabular-nums",
-                          i % 4 === 0 ? "text-zinc-400" : "text-zinc-600"
+                          i % 4 === 0 ? "text-zinc-400" : "text-zinc-500"
                         )}>{i + 1}</span>
                       </div>
                     ))}
@@ -864,7 +864,7 @@ export const MockTimeline = memo(() => {
                               <MSR label="S" active={track.soloed} color={C.success} onClick={() => toggleSolo(track.id)} />
                               <MSR label="R" active={track.recording} color={C.error} onClick={() => toggleRecord(track.id)} />
                               <button
-                                className="w-[18px] h-[16px] rounded flex items-center justify-center text-zinc-500 hover:text-zinc-300 transition-colors"
+                                className="w-[18px] h-[16px] rounded flex items-center justify-center text-zinc-400 hover:text-zinc-300 transition-colors"
                                 title="Automation curve"
                               >
                                 <Icon.Curve />
@@ -936,7 +936,7 @@ export const MockTimeline = memo(() => {
           {/* ── Mixer View ───────────────────────────────────── */}
           {activeView === "mixer" && (
             <div className="h-[440px] lg:h-[560px] bg-[#0d0d12] flex flex-col">
-              <div className="border-b border-[#1e1e28] bg-[#16161e] px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-zinc-500">
+              <div className="border-b border-[#1e1e28] bg-[#16161e] px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-zinc-400">
                 Mixer
               </div>
               <div className="flex-1 flex overflow-x-auto p-3 gap-1.5">
@@ -952,14 +952,14 @@ export const MockTimeline = memo(() => {
                     <div className="h-1 rounded-t-[8px]" style={{ background: track.color }} />
                     <div className="px-2 py-1.5 text-center">
                       <div className="text-[10px] text-white truncate">{track.name}</div>
-                      <div className="text-[8px] text-zinc-500">Out: Master</div>
+                      <div className="text-[8px] text-zinc-400">Out: Master</div>
                     </div>
                     <div className="flex justify-center gap-1 px-2 py-1">
                       <MSR label="M" active={track.muted} color={C.warning} onClick={() => toggleMute(track.id)} />
                       <MSR label="S" active={track.soloed} color={C.success} onClick={() => toggleSolo(track.id)} />
                       <MSR label="R" active={track.recording} color={C.error} onClick={() => toggleRecord(track.id)} />
                     </div>
-                    <div className="mx-2 mb-1.5 rounded-md border border-[#2a2a36] bg-[#0d0d12] py-1 text-center text-[8px] text-zinc-500">
+                    <div className="mx-2 mb-1.5 rounded-md border border-[#2a2a36] bg-[#0d0d12] py-1 text-center text-[8px] text-zinc-400">
                       + Insert
                     </div>
                     <div className="flex justify-center py-1">
@@ -967,9 +967,9 @@ export const MockTimeline = memo(() => {
                         <div className="absolute top-0.5 left-1/2 w-px h-2 -translate-x-1/2 rounded-full" style={{ background: C.primary }} />
                       </div>
                     </div>
-                    <div className="text-center text-[7px] text-zinc-500">0.0</div>
+                    <div className="text-center text-[7px] text-zinc-400">0.0</div>
                     <div className="flex-1 flex items-end justify-center gap-2 px-2 pb-2 pt-3">
-                      <div className="text-[8px] text-zinc-500 self-end pb-1">{track.db}</div>
+                      <div className="text-[8px] text-zinc-400 self-end pb-1">{track.db}</div>
                       <div className="relative w-4 h-[140px] rounded-sm overflow-hidden" style={{ background: "rgba(32,36,49,0.60)" }}>
                         <div className="absolute bottom-0 left-0 right-0 rounded-sm transition-all duration-100" style={{
                           height: `${track.meter}%`,
@@ -991,7 +991,7 @@ export const MockTimeline = memo(() => {
                         </div>
                       </div>
                     </div>
-                    <div className="border-t border-[rgba(30,30,40,0.36)] py-1 text-center text-[8px] text-zinc-500">
+                    <div className="border-t border-[rgba(30,30,40,0.36)] py-1 text-center text-[8px] text-zinc-400">
                       {track.id}
                     </div>
                   </div>
@@ -1002,13 +1002,13 @@ export const MockTimeline = memo(() => {
                   <div className="h-1 rounded-t-[8px]" style={{ background: C.primary }} />
                   <div className="px-2 py-1.5 text-center">
                     <div className="text-[11px] font-semibold text-white">MASTER</div>
-                    <div className="text-[8px] text-zinc-500">Output</div>
+                    <div className="text-[8px] text-zinc-400">Output</div>
                   </div>
-                  <div className="mx-2 mb-1.5 rounded-md border border-[#2a2a36] bg-[#0d0d12] py-1 text-center text-[8px] text-zinc-500">
+                  <div className="mx-2 mb-1.5 rounded-md border border-[#2a2a36] bg-[#0d0d12] py-1 text-center text-[8px] text-zinc-400">
                     + Insert
                   </div>
                   <div className="flex-1 flex items-end justify-center gap-2 px-2 pb-2 pt-3">
-                    <div className="text-[8px] text-zinc-500 self-end pb-1">-8.0 dB</div>
+                    <div className="text-[8px] text-zinc-400 self-end pb-1">-8.0 dB</div>
                     <div className="relative w-5 h-[160px] rounded-sm overflow-hidden" style={{ background: "rgba(32,36,49,0.60)" }}>
                       <div className="absolute bottom-0 left-0 right-0 rounded-sm" style={{
                         height: "82%",
@@ -1024,7 +1024,7 @@ export const MockTimeline = memo(() => {
                       </div>
                     </div>
                   </div>
-                  <div className="border-t border-[rgba(30,30,40,0.36)] py-1 text-center text-[8px] text-zinc-500">M</div>
+                  <div className="border-t border-[rgba(30,30,40,0.36)] py-1 text-center text-[8px] text-zinc-400">M</div>
                 </div>
               </div>
             </div>
@@ -1038,7 +1038,7 @@ export const MockTimeline = memo(() => {
                   <Icon.Arsenal />
                   <span className="text-sm tracking-[0.22em] uppercase">Arsenal</span>
                 </div>
-                <p className="mx-auto mb-5 max-w-sm text-center text-[12px] text-zinc-500">
+                <p className="mx-auto mb-5 max-w-sm text-center text-[12px] text-zinc-400">
                   Pattern engines and source modules live here.
                 </p>
                 <div className="grid grid-cols-4 gap-2">
@@ -1062,7 +1062,7 @@ export const MockTimeline = memo(() => {
                     <Icon.PianoRoll />
                   </div>
                   <div className="mb-1.5 text-sm text-white">Audition</div>
-                  <p className="mb-4 text-[11px] text-zinc-500">
+                  <p className="mb-4 text-[11px] text-zinc-400">
                     Translation listening — preview your mix through common listening profiles.
                   </p>
                   <div className="rounded-lg border border-[#2a2a36] bg-[#0d0d12] p-3">
@@ -1075,7 +1075,7 @@ export const MockTimeline = memo(() => {
                   </div>
                   <div className="mt-3 flex flex-wrap justify-center gap-1.5">
                     {["Studio", "Spotify", "Apple Music", "AirPods", "Car", "Phone"].map(p => (
-                      <span key={p} className="rounded-full border border-[#2a2a36] bg-[#0d0d12] px-2.5 py-0.5 text-[9px] text-zinc-500">
+                      <span key={p} className="rounded-full border border-[#2a2a36] bg-[#0d0d12] px-2.5 py-0.5 text-[9px] text-zinc-400">
                         {p}
                       </span>
                     ))}

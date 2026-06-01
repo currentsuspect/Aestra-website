@@ -61,7 +61,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
           <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-300 text-xs font-semibold shrink-0">JD</div>
           <div className="text-xs min-w-0">
             <div className="text-zinc-100 truncate">John Doe</div>
-            <div className="text-zinc-500 truncate">Pro plan</div>
+            <div className="text-zinc-400 truncate">Pro plan</div>
           </div>
         </div>
       </div>
@@ -123,25 +123,25 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
           {activeTab === "overview" && (
             <div className="space-y-4">
               <Card className="p-6 border-zinc-800/80">
-                <h3 className="text-[12px] uppercase tracking-wider text-zinc-500 font-medium mb-3">Active license</h3>
+                <h3 className="text-[12px] uppercase tracking-wider text-zinc-400 font-medium mb-3">Active license</h3>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="border-emerald-500/20 bg-emerald-500/5 text-emerald-300">Active</Badge>
-                  <span className="text-zinc-500 text-sm">Beta</span>
+                  <span className="text-zinc-400 text-sm">Beta</span>
                 </div>
                 <button
                   onClick={handleCopy}
                   className="w-full bg-zinc-950 border border-zinc-800 rounded-md p-3 font-mono text-zinc-200 text-sm flex items-center justify-between hover:border-zinc-700 transition-colors"
                 >
                   <span>XXXX-XXXX-XXXX-8921</span>
-                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-zinc-500" />}
+                  {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-zinc-400" />}
                 </button>
               </Card>
 
               <Card className="p-6 border-zinc-800/80">
-                <h3 className="text-[12px] uppercase tracking-wider text-zinc-500 font-medium mb-3">Latest build</h3>
+                <h3 className="text-[12px] uppercase tracking-wider text-zinc-400 font-medium mb-3">Latest build</h3>
                 <div className="flex items-center justify-between mb-4">
                   <div className="text-zinc-50 font-medium">Aestra Beta</div>
-                  <div className="text-xs text-zinc-500">Released 2 days ago</div>
+                  <div className="text-xs text-zinc-400">Released 2 days ago</div>
                 </div>
                 <Button className="w-full" icon={Download}>Download installer</Button>
               </Card>
@@ -156,15 +156,15 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
                   ].map(([name, ver, date], i) => (
                     <div key={i} className="flex items-center justify-between p-4 border-b border-zinc-800/80 last:border-b-0 hover:bg-zinc-900/30 transition-colors">
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-8 h-8 rounded-md bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500">
+                        <div className="w-8 h-8 rounded-md bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400">
                           <Download className="w-3.5 h-3.5" />
                         </div>
                         <div className="min-w-0">
                           <div className="text-sm text-zinc-200 truncate">{name}</div>
-                          <div className="text-xs text-zinc-500 font-mono">{ver}</div>
+                          <div className="text-xs text-zinc-400 font-mono">{ver}</div>
                         </div>
                       </div>
-                      <div className="text-xs text-zinc-500 shrink-0">{date}</div>
+                      <div className="text-xs text-zinc-400 shrink-0">{date}</div>
                     </div>
                   ))}
                 </div>
@@ -175,7 +175,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
           {activeTab === "plugins" && (
             <div className="text-center py-20">
               <div className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-5 h-5 text-zinc-500" />
+                <Zap className="w-5 h-5 text-zinc-400" />
               </div>
               <h3 className="text-zinc-50 text-lg font-semibold tracking-tight mb-2">Muse AI</h3>
               <p className="text-zinc-400 max-w-md mx-auto mb-6 leading-relaxed">
@@ -201,7 +201,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
 
           {activeTab === "licenses" && (
             <Card className="p-6 border-zinc-800/80">
-              <h3 className="text-[12px] uppercase tracking-wider text-zinc-500 font-medium mb-4">Your licenses</h3>
+              <h3 className="text-[12px] uppercase tracking-wider text-zinc-400 font-medium mb-4">Your licenses</h3>
               <div className="divide-y divide-zinc-800/80">
                 {[
                   ["Aestra Beta", "Active", "Free core"],
@@ -211,7 +211,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
                   <div key={name} className="flex items-center justify-between py-3">
                     <div>
                       <div className="text-zinc-50 text-sm font-medium">{name}</div>
-                      <div className="text-xs text-zinc-500">{plan}</div>
+                      <div className="text-xs text-zinc-400">{plan}</div>
                     </div>
                     <Badge variant="outline">{status}</Badge>
                   </div>

@@ -6,7 +6,7 @@ import type { ButtonProps, BadgeProps, CardProps, FeatureCardProps, FadeInProps 
 /* ── Loading fallback ─────────────────────────────────────────── */
 export const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="flex items-center gap-2 text-sm text-zinc-500">
+    <div className="flex items-center gap-2 text-sm text-zinc-400">
       <span className="inline-block w-1.5 h-1.5 rounded-full bg-zinc-700 animate-pulse" />
       <span className="inline-block w-1.5 h-1.5 rounded-full bg-zinc-700 animate-pulse [animation-delay:120ms]" />
       <span className="inline-block w-1.5 h-1.5 rounded-full bg-zinc-700 animate-pulse [animation-delay:240ms]" />

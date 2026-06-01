@@ -53,7 +53,7 @@ const Hero = ({ setPage }: PageProps) => {
             </FadeIn>
 
             <FadeIn delay={0.2}>
-              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-zinc-500">
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-zinc-400">
                 <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> Windows · macOS · Linux</span>
                 <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> VST3 &amp; CLAP</span>
                 <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> Source available</span>
@@ -80,7 +80,7 @@ const Hero = ({ setPage }: PageProps) => {
                             </span>
                           )}
                         </div>
-                        <div className="text-[12px] text-zinc-500 leading-snug">{f.desc}</div>
+                        <div className="text-[12px] text-zinc-400 leading-snug">{f.desc}</div>
                       </div>
                     </div>
                   );
@@ -177,14 +177,14 @@ const Features = memo(() => (
           description="Open Aestra and you're in the session. No plugin scanning, no splash screen, no waiting."
           visual={
             <div className="flex flex-col justify-center h-full gap-2">
-              <div className="flex items-center justify-between text-[11px] text-zinc-500">
+              <div className="flex items-center justify-between text-[11px] text-zinc-400">
                 <span>Cold start</span>
                 <span className="font-mono text-amber-400">1.4s</span>
               </div>
               <div className="h-1.5 bg-zinc-900 rounded-full overflow-hidden">
                 <div className="h-full bg-amber-400 rounded-full" style={{ width: "92%" }} />
               </div>
-              <div className="flex justify-between text-[10px] text-zinc-500">
+              <div className="flex justify-between text-[10px] text-zinc-400">
                 <span>vs. 12s typical</span>
                 <span>no plugin scan</span>
               </div>
@@ -332,7 +332,7 @@ const Plugins = memo(() => (
                 <div className={`w-10 h-10 rounded-lg ${dotBg} border flex items-center justify-center mb-5`}>
                   <Icon className="w-5 h-5" />
                 </div>
-                <div className="text-[12px] text-zinc-500 mb-1.5">{p.kind}</div>
+                <div className="text-[12px] text-zinc-400 mb-1.5">{p.kind}</div>
                 <h3 className="text-[17px] font-semibold text-zinc-50 tracking-tight mb-2">{p.name}</h3>
                 <p className="text-[14px] text-zinc-400 leading-relaxed mb-5">{p.desc}</p>
                 <span className={`inline-flex items-center gap-1.5 text-[12px] ${
@@ -392,7 +392,7 @@ const FreeCore = memo(({ setPage }: PageProps) => (
                 }`} />
                 <div className="flex-1 min-w-0">
                   <div className="text-zinc-50 font-medium">{tier}</div>
-                  <div className="text-zinc-500 text-sm">{desc}</div>
+                  <div className="text-zinc-400 text-sm">{desc}</div>
                 </div>
                 <div className="text-[15px] font-mono text-zinc-50">{price}</div>
               </div>
@@ -460,7 +460,7 @@ const ScrollHint = () => {
         width="20"
         height="34"
         viewBox="0 0 20 34"
-        className="text-zinc-500"
+        className="text-zinc-400"
         fill="none"
       >
         <rect
@@ -490,7 +490,7 @@ const ScrollHint = () => {
           />
         </circle>
       </svg>
-      <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-zinc-500">
+      <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-zinc-400">
         Scroll
       </span>
     </div>
@@ -564,7 +564,7 @@ const FounderCountdown = () => {
       <div className="text-2xl sm:text-[28px] font-semibold text-zinc-50 font-mono tabular-nums tracking-tight leading-none">
         {String(value).padStart(2, "0")}
       </div>
-      <div className="text-[10px] sm:text-[11px] text-zinc-500 uppercase tracking-wider">{label}</div>
+      <div className="text-[10px] sm:text-[11px] text-zinc-400 uppercase tracking-wider">{label}</div>
     </div>
   );
 
@@ -592,7 +592,7 @@ const FounderCountdown = () => {
                     <span className="text-zinc-300">
                       <span className="text-amber-300 font-mono font-semibold">{FOUNDER_CLAIMED}</span> / {FOUNDER_TOTAL} claimed
                     </span>
-                    <span className="text-zinc-500 text-[13px]">{spotsLeft} spots left</span>
+                    <span className="text-zinc-400 text-[13px]">{spotsLeft} spots left</span>
                   </div>
                   <div className="progress-track">
                     <div className="progress-fill" style={{ width: `${(FOUNDER_CLAIMED / FOUNDER_TOTAL) * 100}%` }} />
@@ -636,7 +636,7 @@ const FounderCountdown = () => {
                   <CountdownUnit value={timeLeft.minutes} label="Min" />
                   <CountdownUnit value={timeLeft.seconds} label="Sec" last />
                 </div>
-                <p className="text-zinc-500 text-[12px] mt-4 leading-relaxed">
+                <p className="text-zinc-400 text-[12px] mt-4 leading-relaxed">
                   Founder access activates when beta launches in December 2026.
                   Waitlist locks your slot number.
                 </p>

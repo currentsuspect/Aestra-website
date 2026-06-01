@@ -51,7 +51,7 @@ export const Downloads = ({ setPage }: PageProps) => {
                   </div>
                   <div className="min-w-0">
                     <div className="text-zinc-50 text-[15px] font-medium">{build.os}</div>
-                    <div className="text-zinc-500 text-[13px]">{build.arch}</div>
+                    <div className="text-zinc-400 text-[13px]">{build.arch}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
@@ -65,7 +65,7 @@ export const Downloads = ({ setPage }: PageProps) => {
           })}
         </div>
 
-        <div className="mt-12 text-[13px] text-zinc-500 leading-relaxed max-w-2xl">
+        <div className="mt-12 text-[13px] text-zinc-400 leading-relaxed max-w-2xl">
           Builds are produced automatically from CI. If a build fails or the artifact
           is missing, check the GitHub Actions page for the latest successful run.
         </div>

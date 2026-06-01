@@ -13,7 +13,7 @@ export const Privacy = memo(({ setPage }: PageProps) => (
       </button>
       <p className="kicker mb-4">Privacy</p>
       <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-3">Privacy policy</h1>
-      <p className="text-zinc-500 text-sm mb-12">Last updated: April 12, 2026</p>
+      <p className="text-zinc-400 text-sm mb-12">Last updated: April 12, 2026</p>
 
       <div className="space-y-10 text-zinc-300 text-[15px] leading-relaxed">
         <section>

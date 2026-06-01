@@ -14,10 +14,10 @@ const SocialLink = ({ href, icon: Icon, label, handle }: { href: string; icon: R
       <Icon className="w-4 h-4" />
     </span>
     <div className="min-w-0 flex-1">
-      <div className="text-[11px] uppercase tracking-wider text-zinc-500">{label}</div>
+      <div className="text-[11px] uppercase tracking-wider text-zinc-400">{label}</div>
       <div className="text-sm text-zinc-100 truncate">{handle}</div>
     </div>
-    <ArrowUpRight className="w-4 h-4 text-zinc-600 group-hover:text-zinc-300 transition-colors shrink-0" />
+    <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-300 transition-colors shrink-0" />
   </a>
 );
 
@@ -76,7 +76,7 @@ export const About = ({ setPage }: PageProps) => (
       <FadeIn delay={0.15}>
         <div className="grid md:grid-cols-[180px_1fr] gap-6 md:gap-12 mb-16 sm:mb-20">
           <div>
-            <div className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 sticky top-28">The story</div>
+            <div className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 sticky top-28">The story</div>
           </div>
           <div className="space-y-6 text-zinc-300 text-[16px] sm:text-[17px] leading-relaxed max-w-2xl">
             <p>
@@ -108,7 +108,7 @@ export const About = ({ setPage }: PageProps) => (
       <FadeIn delay={0.25}>
         <div className="pt-10 border-t border-zinc-800/80">
           <div className="flex flex-wrap items-center justify-between gap-y-3 mb-6">
-            <div className="text-zinc-500 text-[13px]">
+            <div className="text-zinc-400 text-[13px]">
               Built by Dylan Makori · Aestra Studios
             </div>
             <Button variant="ghost" size="sm" onClick={() => setPage("home")}>
@@ -116,7 +116,7 @@ export const About = ({ setPage }: PageProps) => (
             </Button>
           </div>
 
-          <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 mb-3">Find us</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 mb-3">Find us</p>
           <div className="grid sm:grid-cols-2 gap-3">
             <SocialLink
               href="https://x.com/aestrastudios"

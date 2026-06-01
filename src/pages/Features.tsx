@@ -15,7 +15,7 @@ const EngineVisual = memo(() => (
         ["Dropouts",  0, "bg-emerald-500",  "0"],
       ].map(([label, w, c, v]) => (
         <div key={String(label)} className="flex items-center gap-3">
-          <div className="w-14 text-[11px] text-zinc-500 uppercase tracking-wider shrink-0">{label}</div>
+          <div className="w-14 text-[11px] text-zinc-400 uppercase tracking-wider shrink-0">{label}</div>
           <div className="flex-1 h-1.5 bg-zinc-900 rounded-full overflow-hidden">
             <div className={`h-full rounded-full ${c}`} style={{ width: `${w}%` }} />
           </div>
@@ -31,7 +31,7 @@ const EngineVisual = memo(() => (
       ].map((s) => (
         <div key={s.l} className="text-center py-4">
           <div className={`text-xl font-semibold tracking-tight ${s.c}`}>{s.v}</div>
-          <div className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">{s.l}</div>
+          <div className="text-[10px] text-zinc-400 uppercase tracking-wider mt-1">{s.l}</div>
         </div>
       ))}
     </div>
@@ -44,12 +44,12 @@ const TerminalVisual = memo(() => (
       <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
       <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
       <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-      <span className="ml-2 text-[11px] text-zinc-500 font-mono">aestra — launch</span>
+      <span className="ml-2 text-[11px] text-zinc-400 font-mono">aestra — launch</span>
     </div>
     <div className="p-4 font-mono text-[12px] leading-relaxed space-y-1">
-      <div className="text-zinc-600 line-through">› scanning VST folders…</div>
-      <div className="text-zinc-600 line-through">› loading splash screen…</div>
-      <div className="text-zinc-600 line-through">› negotiating audio device…</div>
+      <div className="text-zinc-500 line-through">› scanning VST folders…</div>
+      <div className="text-zinc-500 line-through">› loading splash screen…</div>
+      <div className="text-zinc-500 line-through">› negotiating audio device…</div>
       <div className="h-2" />
       <div className="text-emerald-400">✓ audio engine ready</div>
       <div className="text-emerald-400">✓ last session restored</div>
@@ -58,7 +58,7 @@ const TerminalVisual = memo(() => (
     </div>
     <div className="px-4 py-3 border-t border-zinc-800/80 flex items-baseline gap-2">
       <span className="text-xl font-semibold text-amber-400 font-mono tracking-tight">1.4s</span>
-      <span className="text-[11px] text-zinc-500">from launch to beat</span>
+      <span className="text-[11px] text-zinc-400">from launch to beat</span>
     </div>
   </div>
 ));
@@ -68,7 +68,7 @@ const PatternVisual = memo(() => {
   return (
     <div className="w-full max-w-md">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[11px] text-zinc-500 font-mono">PATTERN_03 — main loop</span>
+        <span className="text-[11px] text-zinc-400 font-mono">PATTERN_03 — main loop</span>
         <span className="text-[11px] text-violet-400 font-mono">140 BPM</span>
       </div>
       <div className="space-y-1.5">
@@ -79,7 +79,7 @@ const PatternVisual = memo(() => {
           ["808",   [1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0], "bg-zinc-50"],
         ].map(([label, pattern, color]) => (
           <div key={String(label)} className="flex items-center gap-2">
-            <div className="w-10 text-[9px] tracking-wider text-zinc-500 font-mono uppercase">{label}</div>
+            <div className="w-10 text-[9px] tracking-wider text-zinc-400 font-mono uppercase">{label}</div>
             <div className="grid grid-cols-16 gap-1 flex-1">
               {(pattern as number[]).map((on, i) => (
                 <div
@@ -103,8 +103,8 @@ const PatternVisual = memo(() => {
             <svg width="9" height="9" viewBox="0 0 10 12" fill="currentColor"><path d="M1 1l8 5-8 5V1z"/></svg>
           )}
         </button>
-        <span className="text-[10px] text-zinc-500 font-mono">1.1.0</span>
-        <span className="ml-auto text-[10px] text-zinc-500 font-mono">16 steps</span>
+        <span className="text-[10px] text-zinc-400 font-mono">1.1.0</span>
+        <span className="ml-auto text-[10px] text-zinc-400 font-mono">16 steps</span>
       </div>
     </div>
   );
@@ -170,7 +170,7 @@ const AuditionVisual = memo(() => {
           <div className={`h-2 w-2 rounded-full ${active === idx ? "bg-emerald-400" : "bg-zinc-700"}`} />
           <div className="flex-1 min-w-0">
             <div className="text-zinc-50 text-sm font-medium truncate">{d.name}</div>
-            <div className="text-zinc-500 text-xs truncate">{d.sub}</div>
+            <div className="text-zinc-400 text-xs truncate">{d.sub}</div>
           </div>
           {active === idx && <Check className="w-3.5 h-3.5 text-emerald-400" />}
         </button>
@@ -196,7 +196,7 @@ const VersionVisual = memo(() => (
         <span className={`h-1.5 w-1.5 rounded-full ${b.dot}`} />
         <div className="flex-1 min-w-0">
           <div className={`text-sm font-medium ${b.active ? "text-zinc-50" : "text-zinc-300"}`}>{b.name}</div>
-          <div className="text-[11px] text-zinc-500">{b.meta}</div>
+          <div className="text-[11px] text-zinc-400">{b.meta}</div>
         </div>
       </div>
     ))}

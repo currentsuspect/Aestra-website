@@ -5,7 +5,7 @@ import { Button } from "../components/ui";
 export const NotFound = memo(({ setPage }: { setPage: (p: string) => void }) => (
   <div className="min-h-[80vh] flex items-center justify-center px-5 sm:px-6 py-24">
     <div className="max-w-md w-full text-center">
-      <p className="text-[13px] font-mono text-zinc-500 uppercase tracking-wider mb-6">404</p>
+      <p className="text-[13px] font-mono text-zinc-400 uppercase tracking-wider mb-6">404</p>
       <h1 className="display text-5xl sm:text-6xl text-zinc-50 mb-4">
         Page not found
       </h1>

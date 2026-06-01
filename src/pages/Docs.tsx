@@ -532,9 +532,9 @@ export const Docs = memo(({ setPage }: PageProps) => {
                       : "border-zinc-800/80 bg-zinc-950 hover:border-zinc-700"
                   )}
                 >
-                  <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-1">Recipe</div>
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-1">Recipe</div>
                   <div className="text-zinc-50 font-medium text-sm">{recipe.title}</div>
-                  <div className="text-xs text-zinc-500 mt-1">{recipe.preset}</div>
+                  <div className="text-xs text-zinc-400 mt-1">{recipe.preset}</div>
                 </button>
               ))}
             </div>
@@ -545,13 +545,13 @@ export const Docs = memo(({ setPage }: PageProps) => {
               <div className="mt-5 inline-flex rounded-md border border-zinc-800 overflow-hidden">
                 <button
                   onClick={() => setRecipeMode("before")}
-                  className={cn("px-3 py-1.5 text-xs", recipeMode === "before" ? "bg-zinc-800 text-zinc-100" : "bg-transparent text-zinc-500")}
+                  className={cn("px-3 py-1.5 text-xs", recipeMode === "before" ? "bg-zinc-800 text-zinc-100" : "bg-transparent text-zinc-400")}
                 >
                   Before
                 </button>
                 <button
                   onClick={() => setRecipeMode("after")}
-                  className={cn("px-3 py-1.5 text-xs border-l border-zinc-800", recipeMode === "after" ? "bg-zinc-800 text-zinc-100" : "bg-transparent text-zinc-500")}
+                  className={cn("px-3 py-1.5 text-xs border-l border-zinc-800", recipeMode === "after" ? "bg-zinc-800 text-zinc-100" : "bg-transparent text-zinc-400")}
                 >
                   After
                 </button>
@@ -572,7 +572,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                         : "border-zinc-800/80 bg-zinc-950 hover:border-zinc-700"
                     )}
                   >
-                    <span className={cn("mt-0.5 inline-flex w-4 h-4 rounded-full border items-center justify-center text-[10px] shrink-0", recipeStepChecks[index] ? "border-emerald-400 text-emerald-400" : "border-zinc-700 text-zinc-500")}>
+                    <span className={cn("mt-0.5 inline-flex w-4 h-4 rounded-full border items-center justify-center text-[10px] shrink-0", recipeStepChecks[index] ? "border-emerald-400 text-emerald-400" : "border-zinc-700 text-zinc-400")}>
                       {recipeStepChecks[index] ? "✓" : index + 1}
                     </span>
                     <span className="text-sm text-zinc-300 leading-relaxed">{step}</span>
@@ -624,11 +624,11 @@ export const Docs = memo(({ setPage }: PageProps) => {
             <div className="flex gap-2 mb-4">
               <button
                 onClick={() => setFlowMode("before")}
-                className={cn("rounded-md px-3 py-1.5 text-xs border", flowMode === "before" ? "border-zinc-600 bg-zinc-800 text-zinc-100" : "border-zinc-800 text-zinc-500")}
+                className={cn("rounded-md px-3 py-1.5 text-xs border", flowMode === "before" ? "border-zinc-600 bg-zinc-800 text-zinc-100" : "border-zinc-800 text-zinc-400")}
               >Before</button>
               <button
                 onClick={() => setFlowMode("after")}
-                className={cn("rounded-md px-3 py-1.5 text-xs border", flowMode === "after" ? "border-zinc-600 bg-zinc-800 text-zinc-100" : "border-zinc-800 text-zinc-500")}
+                className={cn("rounded-md px-3 py-1.5 text-xs border", flowMode === "after" ? "border-zinc-600 bg-zinc-800 text-zinc-100" : "border-zinc-800 text-zinc-400")}
               >After</button>
             </div>
 
@@ -654,7 +654,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   )}
                 >
                   <div className="text-zinc-50 font-medium text-sm">{track.label}</div>
-                  <div className="text-xs text-zinc-500 mt-1 leading-relaxed">{track.summary}</div>
+                  <div className="text-xs text-zinc-400 mt-1 leading-relaxed">{track.summary}</div>
                 </button>
               ))}
             </div>
@@ -733,7 +733,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
             <h3 className="text-lg text-zinc-50 font-semibold tracking-tight">{selectedSymptomData.symptom}</h3>
             <div className="grid md:grid-cols-2 gap-4 mt-5">
               <div className="rounded-lg border border-zinc-800/80 bg-zinc-950 p-4">
-                <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-3">Immediate fixes</div>
+                <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-3">Immediate fixes</div>
                 <ul className="space-y-2 text-sm text-zinc-300 leading-relaxed">
                   {selectedSymptomData.immediate.map((line, index) => (
                     <li key={index}>• {line}</li>
@@ -741,7 +741,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 </ul>
               </div>
               <div className="rounded-lg border border-zinc-800/80 bg-zinc-950 p-4">
-                <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-3">Deep fixes</div>
+                <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-3">Deep fixes</div>
                 <ul className="space-y-2 text-sm text-zinc-300 leading-relaxed">
                   {selectedSymptomData.deep.map((line, index) => (
                     <li key={index}>• {line}</li>
@@ -772,7 +772,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
               ].map(([label, key]) => (
                 <div key={label + key} className="rounded-md border border-zinc-800/80 bg-zinc-950 px-3 py-3 flex items-center justify-between text-sm">
                   <span className="text-zinc-300">{label}</span>
-                  <span className="text-xs text-zinc-500 font-mono">{key}</span>
+                  <span className="text-xs text-zinc-400 font-mono">{key}</span>
                 </div>
               ))}
             </div>
@@ -788,7 +788,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
               <div className="mt-4 space-y-2.5">
                 {Object.entries(patternRows).map(([row, values]) => (
                   <div key={row} className="grid grid-cols-[56px_1fr] gap-3 items-center">
-                    <div className="text-xs text-zinc-500 uppercase font-mono">{row}</div>
+                    <div className="text-xs text-zinc-400 uppercase font-mono">{row}</div>
                     <div className="grid grid-cols-16 gap-1">
                       {values.map((value, idx) => (
                         <button
@@ -820,7 +820,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                     )}
                   >
                     <span className="text-sm text-zinc-200 uppercase font-mono">{node}</span>
-                    <span className={cn("text-xs font-medium", active ? "text-violet-300" : "text-zinc-500")}>{active ? "ON" : "OFF"}</span>
+                    <span className={cn("text-xs font-medium", active ? "text-violet-300" : "text-zinc-400")}>{active ? "ON" : "OFF"}</span>
                   </button>
                 ))}
               </div>
@@ -853,7 +853,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
             <div className="space-y-3">
               {selectedImpactData.notes.map((note, index) => (
                 <div key={index} className="rounded-lg border border-zinc-800/80 bg-zinc-950 p-4">
-                  <div className="text-xs text-zinc-500 font-mono uppercase tracking-wider">{note.version}</div>
+                  <div className="text-xs text-zinc-400 font-mono uppercase tracking-wider">{note.version}</div>
                   <div className="text-sm text-zinc-50 mt-1.5">{note.change}</div>
                   <div className="text-sm text-zinc-400 mt-2 leading-relaxed">Impact: {note.impact}</div>
                 </div>
@@ -873,7 +873,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <h3 className="text-lg text-zinc-50 font-semibold tracking-tight">{item.title}</h3>
-                    <p className="text-xs text-zinc-500 mt-1 font-mono">{item.genre}</p>
+                    <p className="text-xs text-zinc-400 mt-1 font-mono">{item.genre}</p>
                   </div>
                   <Button
                     variant="secondary"
@@ -889,11 +889,11 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 </div>
                 <div className="mt-4 grid md:grid-cols-2 gap-3">
                   <div className="rounded-md border border-zinc-800/80 bg-zinc-950 p-3">
-                    <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-1.5">Chain used</div>
+                    <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5">Chain used</div>
                     <div className="text-sm text-zinc-300 leading-relaxed">{item.chain}</div>
                   </div>
                   <div className="rounded-md border border-zinc-800/80 bg-zinc-950 p-3">
-                    <div className="text-[11px] uppercase tracking-wider text-zinc-500 mb-1.5">Key takeaway</div>
+                    <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5">Key takeaway</div>
                     <div className="text-sm text-zinc-300 leading-relaxed">{item.takeaway}</div>
                   </div>
                 </div>
@@ -912,7 +912,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
       <aside className="w-64 fixed left-0 top-32 sm:top-40 bottom-0 border-r border-zinc-800/80 bg-[#0a0a0b] hidden md:block overflow-y-auto">
         <div className="p-6">
           <div className="relative mb-6">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-500" />
+            <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-400" />
             <input
               type="text"
               value={search}
@@ -926,7 +926,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
           <div className="space-y-7">
             {Object.entries(groupedSections).map(([group, sections]) => (
               <div key={group}>
-                <h4 className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider mb-3">{group}</h4>
+                <h4 className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider mb-3">{group}</h4>
                 <ul className="space-y-1">
                   {sections.map((section) => (
                     <li key={section.id}>
@@ -940,7 +940,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                         )}
                       >
                         <div className="text-sm">{section.title}</div>
-                        <div className="text-[11px] text-zinc-600 mt-0.5">{section.eyebrow}</div>
+                        <div className="text-[11px] text-zinc-400 mt-0.5">{section.eyebrow}</div>
                       </button>
                     </li>
                   ))}
@@ -967,17 +967,17 @@ export const Docs = memo(({ setPage }: PageProps) => {
             aria-haspopup="listbox"
           >
             <div className="min-w-0">
-              <div className="text-[10px] uppercase tracking-wider text-zinc-500">{currentSection.group}</div>
+              <div className="text-[10px] uppercase tracking-wider text-zinc-400">{currentSection.group}</div>
               <div className="text-sm text-zinc-100 truncate mt-0.5">{currentSection.title}</div>
             </div>
-            <ChevronDown className={cn("w-4 h-4 text-zinc-500 shrink-0 transition-transform", mobileNavOpen && "rotate-180")} />
+            <ChevronDown className={cn("w-4 h-4 text-zinc-400 shrink-0 transition-transform", mobileNavOpen && "rotate-180")} />
           </button>
           {mobileNavOpen && (
             <>
               <div className="fixed inset-0 z-30" onClick={() => setMobileNavOpen(false)} aria-hidden="true" />
               <div className="absolute left-0 right-0 top-full mt-2 z-40 max-h-[70vh] overflow-y-auto rounded-lg border border-zinc-800 bg-zinc-950 shadow-2xl p-2">
                 <div className="relative mb-2">
-                  <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-500" />
+                  <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-400" />
                   <input
                     type="text"
                     value={search}
@@ -989,7 +989,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 </div>
                 {Object.entries(groupedSections).map(([group, sections]) => (
                   <div key={group} className="mb-2">
-                    <div className="text-[10px] uppercase tracking-wider text-zinc-500 px-3 py-1.5">{group}</div>
+                    <div className="text-[10px] uppercase tracking-wider text-zinc-400 px-3 py-1.5">{group}</div>
                     {sections.map((section) => (
                       <button
                         key={section.id}
@@ -1003,7 +1003,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                       >
                         <div className="min-w-0">
                           <div className="text-sm truncate">{section.title}</div>
-                          <div className="text-[11px] text-zinc-500 mt-0.5 truncate">{section.eyebrow}</div>
+                          <div className="text-[11px] text-zinc-400 mt-0.5 truncate">{section.eyebrow}</div>
                         </div>
                       </button>
                     ))}
@@ -1019,7 +1019,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
           )}
         </div>
 
-        <div className="text-[12px] text-zinc-500 font-mono uppercase tracking-wider mb-3 hidden md:block">
+        <div className="text-[12px] text-zinc-400 font-mono uppercase tracking-wider mb-3 hidden md:block">
           {currentSection.group} / {currentSection.eyebrow}
         </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-zinc-50 mb-4 tracking-tight">{currentSection.title}</h1>
@@ -1027,7 +1027,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
 
         <Card className="p-5 mb-7 border-zinc-800/80">
           <h4 className="flex items-center text-zinc-50 font-medium mb-2 text-sm">
-            <BookOpen className="w-4 h-4 mr-2 text-zinc-500" /> {currentSection.calloutTitle ?? "Quick context"}
+            <BookOpen className="w-4 h-4 mr-2 text-zinc-400" /> {currentSection.calloutTitle ?? "Quick context"}
           </h4>
           <p className="text-sm text-zinc-300 leading-relaxed">
             {currentSection.callout ?? "Use this segment as a practical guide, then jump to source docs when needed."}
@@ -1049,10 +1049,10 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   className="rounded-lg border border-zinc-800/80 bg-zinc-950 px-4 py-3 flex items-center justify-between text-sm hover:border-zinc-700 transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <FileText className="w-4 h-4 text-zinc-500 shrink-0" />
+                    <FileText className="w-4 h-4 text-zinc-400 shrink-0" />
                     <span className="text-zinc-300 truncate">{link.label}</span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
+                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
                 </a>
               ))}
             </div>
@@ -1067,7 +1067,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
             disabled={!previousSection}
             onClick={() => previousSection && setActiveSection(previousSection.id)}
           >
-            <span className="text-zinc-500 truncate">Previous: {previousSection ? previousSection.title : "None"}</span>
+            <span className="text-zinc-400 truncate">Previous: {previousSection ? previousSection.title : "None"}</span>
           </Button>
           <Button
             variant="secondary"
@@ -1077,7 +1077,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
             onClick={() => nextSection && setActiveSection(nextSection.id)}
           >
             <span className="text-zinc-100 truncate">Next: {nextSection ? nextSection.title : "None"}</span>
-            <ArrowRight className="w-4 h-4 text-zinc-500" />
+            <ArrowRight className="w-4 h-4 text-zinc-400" />
           </Button>
         </div>
       </div>
@@ -1105,14 +1105,14 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   className="w-full text-left rounded-md px-3 py-2.5 hover:bg-zinc-900 transition-colors"
                 >
                   <div className="text-sm text-zinc-100">{action.label}</div>
-                  <div className="text-xs text-zinc-500 mt-0.5">{action.hint}</div>
+                  <div className="text-xs text-zinc-400 mt-0.5">{action.hint}</div>
                 </button>
               ))}
               {filteredPaletteActions.length === 0 && (
-                <div className="px-3 py-6 text-sm text-zinc-500 text-center">No command matched.</div>
+                <div className="px-3 py-6 text-sm text-zinc-400 text-center">No command matched.</div>
               )}
             </div>
-            <div className="px-4 py-2.5 border-t border-zinc-800 text-xs text-zinc-500 flex justify-between">
+            <div className="px-4 py-2.5 border-t border-zinc-800 text-xs text-zinc-400 flex justify-between">
               <span>/ or Ctrl/Cmd + K to open</span>
               <span>Esc to close</span>
             </div>
