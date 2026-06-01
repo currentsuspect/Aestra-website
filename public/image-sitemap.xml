@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://aestra.studio/</loc>
+    <lastmod>2026-04-11</lastmod>
+    <image:image>
+      <image:loc>https://aestra.studio/og-image.png</image:loc>
+      <image:title>Aestra — Make music, not excuses.</image:title>
+      <image:caption>Native C++ DAW for producers. Free core, no feature gates, cross-platform.</image:caption>
+      <image:license>https://aestra.studio/terms</image:license>
+    </image:image>
+    <image:image>
+      <image:loc>https://aestra.studio/logo.png</image:loc>
+      <image:title>Aestra logo</image:title>
+      <image:caption>Aestra brand mark — purple gradient waveform on dark background</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://aestra.studio/aestra_prism.svg</image:loc>
+      <image:title>Aestra prism</image:title>
+      <image:caption>Brand prism — used in marketing and documentation</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://aestra.studio/features</loc>
+    <lastmod>2026-04-11</lastmod>
+    <image:image>
+      <image:loc>https://aestra.studio/og-image.png</image:loc>
+      <image:title>Aestra features overview</image:title>
+      <image:caption>Screenshots of the Aestra DAW interface and core features</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://aestra.studio/about</loc>
+    <lastmod>2026-04-11</lastmod>
+    <image:image>
+      <image:loc>https://aestra.studio/og-image.png</image:loc>
+      <image:title>Aestra Studios</image:title>
+      <image:caption>About the studio behind Aestra</image:caption>
+    </image:image>
+  </url>
+</urlset>

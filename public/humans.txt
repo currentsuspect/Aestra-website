@@ -1,0 +1,37 @@
+/* AESTRA HUMANS.TXT */
+/* Last updated: 2026-04-11 */
+
+AESTRA STUDIOS
+==============
+
+Creator and lead developer:
+- Dylan Makori — @currentsuspect on GitHub
+  A solo founder building Aestra end-to-end. Engineer, producer, designer.
+
+Contributors:
+- See https://github.com/currentsuspect/Aestra/graphs/contributors
+
+Special thanks:
+- The open-source audio community (JUCE, CLAP, VST SDKs)
+- Beta testers in the Aestra Discord
+- Producers who shared feedback during private testing
+
+Software & standards:
+- Aestra engine: C++17, custom architecture
+- Plugin hosting: VST3 (Steinberg), CLAP (u-he)
+- Audio I/O: CoreAudio, WASAPI, ASIO, ALSA, PulseAudio, JACK
+- Built-in plugins: written in C++ against CLAP and VST3
+- Web: React, Vite, Tailwind CSS, TypeScript
+
+Design & brand:
+- Brand identity: Aestra Studios
+- Logo & prism: Aestra Studios
+- Type system: Geist & Geist Mono (Vercel, MIT license)
+- Icons: lucide-react (ISC license)
+
+Asset attributions:
+- favicon.svg, og-image.svg, aestra_prism.svg: © Aestra Studios
+- All brand marks and audio engine code: © Aestra Studios
+- ASSAL v1.1 license covers all source-available components
+
+The humans behind Aestra are: humans who make music, not excuses.

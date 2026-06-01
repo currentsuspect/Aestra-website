@@ -62,6 +62,21 @@ export const VALID_PAGES: PageId[] = [
   "download", "login", "account", "privacy", "terms", "about",
 ];
 
+export const PAGE_PATHS: Record<string, string> = {
+  home: "/",
+  features: "/features",
+  pricing: "/pricing",
+  changelog: "/changelog",
+  docs: "/docs",
+  download: "/download",
+  login: "/login",
+  account: "/account",
+  privacy: "/privacy",
+  terms: "/terms",
+  about: "/about",
+  "404": "/404",
+};
+
 export const PAGE_TITLES: Record<string, string> = {
   home: "Aestra — Make music, not excuses.",
   features: "Features — Aestra",
@@ -90,4 +105,79 @@ export const PAGE_DESCRIPTIONS: Record<string, string> = {
   terms: "Aestra terms of service: ASSAL v1.1 license, your music is yours, Supporter and Founder tier details.",
   about: "About Aestra Studios: building a native DAW for producers who want flow, not friction.",
   "404": "Page not found — Aestra",
+};
+
+export const PAGE_KEYWORDS: Record<string, string> = {
+  home: "DAW, digital audio workstation, free DAW, music production software, native DAW, producer workflow, VST3, CLAP, beat making, mixing, recording, Aestra",
+  features: "DAW features, native audio engine, pattern workflow, signal routing, audition mode, version control, music production tools",
+  pricing: "DAW pricing, free DAW, music software subscription, lifetime license, founder edition, supporter tier",
+  changelog: "DAW changelog, release notes, Aestra updates, music software updates, version history",
+  docs: "Aestra documentation, signal flow, patch recipes, command palette, troubleshooting, getting started",
+  download: "download Aestra, free DAW download, Windows DAW, macOS DAW, Linux DAW, native audio workstation",
+  login: "Aestra login, sign in, Aestra account",
+  account: "Aestra account, manage subscription, license keys, plugins",
+  privacy: "Aestra privacy policy, data handling, no telemetry, transparent practices",
+  terms: "Aestra terms of service, ASSAL license, source available, your music is yours",
+  about: "about Aestra Studios, Dylan Makori, founder, mission, Aestra team",
+  "404": "page not found, 404, Aestra",
+};
+
+export const PAGE_OG_TYPES: Record<string, string> = {
+  home: "website",
+  features: "website",
+  pricing: "product",
+  changelog: "article",
+  docs: "article",
+  download: "website",
+  login: "website",
+  account: "website",
+  privacy: "article",
+  terms: "article",
+  about: "profile",
+  "404": "website",
+};
+
+export const PAGE_OG_IMAGES: Record<string, string> = {
+  home: "/og-image.svg",
+  features: "/og-image.svg",
+  pricing: "/og-image.svg",
+  changelog: "/og-image.svg",
+  docs: "/og-image.svg",
+  download: "/og-image.svg",
+  login: "/og-image.svg",
+  account: "/og-image.svg",
+  privacy: "/og-image.svg",
+  terms: "/og-image.svg",
+  about: "/og-image.svg",
+  "404": "/og-image.svg",
+};
+
+export const PAGE_ROBOTS: Record<string, string> = {
+  home: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  features: "index, follow, max-snippet:-1, max-image-preview:large",
+  pricing: "index, follow, max-snippet:-1",
+  changelog: "index, follow, max-snippet:-1, max-image-preview:large",
+  docs: "index, follow, max-snippet:-1",
+  download: "index, follow",
+  login: "noindex, nofollow",
+  account: "noindex, nofollow",
+  privacy: "index, follow, max-snippet:-1",
+  terms: "index, follow, max-snippet:-1",
+  about: "index, follow",
+  "404": "noindex, nofollow",
+};
+
+export const PAGE_SECTION_TITLES: Record<string, string> = {
+  home: "Home",
+  features: "Features",
+  pricing: "Pricing",
+  changelog: "Changelog",
+  docs: "Documentation",
+  download: "Download",
+  login: "Login",
+  account: "Account",
+  privacy: "Privacy Policy",
+  terms: "Terms of Service",
+  about: "About",
+  "404": "Not Found",
 };

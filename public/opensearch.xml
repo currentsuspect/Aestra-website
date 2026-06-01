@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Aestra</ShortName>
+  <Description>Search Aestra documentation, changelog, and features.</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Url type="text/html" template="https://aestra.studio/docs?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://aestra.studio/opensearch.xml"/>
+  <Image height="64" width="64" type="image/svg+xml">https://aestra.studio/favicon.svg</Image>
+  <Developer>Aestra Studios</Developer>
+  <Contact>support@aestra.studio</Contact>
+  <Attribution>Search results from Aestra Studios</Attribution>
+  <SyndicationRight>open</SyndicationRight>
+  <AdultContent>false</AdultContent>
+  <Language>en-US</Language>
+  <OutputEncoding>UTF-8</OutputEncoding>
+</OpenSearchDescription>

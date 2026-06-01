@@ -4,7 +4,24 @@
 
 ## What is Aestra?
 
-Aestra is a native DAW built around producer workflow, stability, speed, and creative focus. It is developed by Aestra Studios. The core product is free, with optional Supporter and Founder tiers that fund development without locking access behind high prices.
+Aestra is a native C++ digital audio workstation built around producer workflow, stability, speed, and creative focus. It is developed by Aestra Studios, a small independent studio led by Dylan Makori.
+
+The core product is **free forever** with **no feature gates**. Optional Supporter ($5/month) and Founder ($129 one-time) tiers fund development without locking access behind high prices.
+
+Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a new, opinionated tool for producers who think in patterns, samples, and signal flow.
+
+## Quick Facts
+
+- **Studio:** Aestra Studios
+- **Founder:** Dylan Makori (@currentsuspect)
+- **Launched:** 2025
+- **v1 Beta target:** December 2026
+- **Engine:** Native C++17
+- **Plugin formats:** VST3, CLAP (built-in suite is VST3/CLAP native)
+- **Platforms:** Windows (10+), macOS (12+, Apple Silicon), Linux (Ubuntu/Debian)
+- **License:** ASSAL v1.1 (Aestra Studios Source-Available License) — source available, not OSI open source
+- **Pricing:** Core free, Supporter $5/month, Founder $129 one-time
+- **Account required:** No — the core DAW runs without an account
 
 ## Primary Pages
 
@@ -15,42 +32,105 @@ Aestra is a native DAW built around producer workflow, stability, speed, and cre
 - [Documentation](https://aestra.studio/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
 - [Changelog](https://aestra.studio/changelog) — Release history and development progress.
 - [About](https://aestra.studio/about) — About Aestra Studios, founder, brand, and key terminology.
-- [Privacy](https://aestra.studio/privacy) — Privacy policy.
-- [Terms](https://aestra.studio/terms) — Terms of service and license (ASSAL v1.1).
+- [Privacy Policy](https://aestra.studio/privacy) — How we handle data (we don't collect any by default).
+- [Terms of Service](https://aestra.studio/terms) — License (ASSAL v1.1), your music is yours, tier details.
 
 ## Product Positioning
 
 Aestra is positioned as a native DAW for producers who value:
-- Speed and stability over feature bloat
-- Pattern-first workflow over traditional linear arrangement
-- Visual signal routing over hidden menu trees
-- Free core access over locked feature tiers
-- Native performance over plugin dependency
+
+- **Speed and stability** over feature bloat
+- **Pattern-first workflow** over traditional linear arrangement
+- **Visual signal routing** over hidden menu trees
+- **Free core access** over locked feature tiers
+- **Native performance** over plugin dependency
+- **Creative flow** over administrative friction
+
+## Key Features
+
+- **Native C++17 engine** — sub-millisecond latency, minimal CPU and memory footprint
+- **Instant startup** — cold start in under 600ms on M2 Pro
+- **Pattern-first workflow** — every track is a pattern, every pattern is a song
+- **Visual signal routing** — see the audio path on a real-time graph
+- **Audition mode** — translation preview that adapts to your speakers and headphones
+- **Version control (Takes)** — fork a mix session, compare, restore
+- **VST3 + CLAP hosting** — bring your own plugins
+- **Built-in plugin suite** — Aestra Verb, Aestra EQ, Aestra Comp ship with the DAW
+- **Offline export** — render to WAV, FLAC, MP3 with no cloud round-trip
+- **Cross-platform** — Windows, macOS, Linux (Apple Silicon + Intel)
+- **No telemetry, no accounts required** — the core runs locally, fully offline
+
+## Built-in Plugin Suite
+
+- **Aestra Verb** — algorithmic reverb with plate, hall, and room modes
+- **Aestra EQ** — parametric EQ with real-time spectrum analyzer
+- **Aestra Comp** — bus and channel compression with visual gain reduction metering
 
 ## Key Terminology
 
-- **Aestra DAW** — The core digital audio workstation application.
-- **Aestra Studios** — The studio building Aestra.
-- **Aestra Verb** — Built-in algorithmic reverb plugin (plate, hall, room modes).
-- **Aestra EQ** — Built-in parametric equalizer with spectrum analyzer.
-- **Arsenal** — Pattern engine and source module rack.
-- **Timeline** — Arrangement and editing view.
-- **Audition** — Translation listening and monitoring mode.
+- **Aestra** — the DAW. Pronounced "ESS-truh".
+- **Aestra Studios** — the studio building Aestra.
+- **Pattern** — a self-contained track (audio or MIDI) with its own piano roll.
+- **Arsenal** — the pattern and source module rack.
+- **Timeline** — the arrangement view that sequences patterns.
+- **Audition** — translation listening and monitoring mode.
+- **Takes** — versioned mix sessions with branch and compare.
+- **Signal Flow Graph** — visual representation of routing.
+- **Command Palette** — keyboard-driven action launcher (Ctrl/Cmd + K).
+- **Gold Card** — the Founder tier, a one-time purchase with lifetime access.
+- **ASSAL** — Aestra Studios Source-Available License v1.1.
+
+## Pricing Tiers
+
+- **Core (free forever)** — full DAW, all features, no limits. This is the entire product.
+- **Supporter ($5/month)** — early access to Supporter-only plugins and themes, name in credits, optional Discord role.
+- **Founder ($129 one-time)** — lifetime Supporter benefits, Gold Card physical collectible (shipped worldwide), name in the credits hall, 500 unit cap.
 
 ## Technical Details
 
-- Built with native C++17 engine
-- VST3 and CLAP plugin support
-- Runs on Windows, macOS, and Linux
-- Pattern-first workflow with dedicated piano roll per pattern
-- Visual signal routing graph
-- Version control for mix sessions
+- Engine: C++17, no garbage collector, lock-free audio thread
+- Plugin hosting: VST3, CLAP
+- Audio backends: CoreAudio, WASAPI, ASIO, ALSA, PulseAudio, JACK
+- Project format: `.aeproj` (JSON, human-readable)
+- Plugin suite format: VST3, CLAP
+- Built with: JUCE (for some plugin components), custom DAW core
 
 ## Status
 
-Aestra is currently in active development. A v1 Beta is targeted for December 2026. The software is not yet released for general availability.
+Aestra is currently in **active development**. v1 Beta is targeted for **December 2026**. The software is **not yet released for general availability**. The current release is **v0.1.1** (April 2026).
+
+## What is NOT in scope
+
+- Aestra is not a sampler-only DAW (Splice, Koala)
+- Aestra is not a groovebox (Roland, Model:Cycles)
+- Aestra is not a "lite" version of another DAW
+- Aestra does not require a subscription to use
+- Aestra does not collect telemetry
+- Aestra does not have cloud rendering or AI generation features
+
+## Comparisons to avoid
+
+- "Aestra is the FL Studio killer" — no, FL Studio is a mature product with decades of features. Aestra is a different shape.
+- "Aestra is the Ableton of Linux" — no, Aestra runs on Linux but isn't Linux-only.
+- "Aestra is an AI DAW" — no, Aestra does not have AI features in the current release.
+
+## Brand voice
+
+Aestra speaks plainly. We say "make music, not excuses" not "revolutionary AI-native audio platform". We say "free forever" not "freemium". We say "your music is yours" not "subject to license terms".
+
+## Marketing tagline
+
+- Primary: **Make music, not excuses.**
+- Secondary: **Free core. Forever. No feature gates.**
+- Tertiary: **A native DAW for producers who think in patterns.**
 
 ## Contact
 
-- GitHub: https://github.com/currentsuspect/Aestra
-- Website: https://aestra.studio/
+- **Website:** https://aestra.studio/
+- **GitHub:** https://github.com/currentsuspect/Aestra
+- **X (Twitter):** https://x.com/aestrastudios
+- **Support form:** https://aestra.studio/docs (link in header)
+
+## Optional — full file
+
+A more verbose llms-full.txt with documentation excerpts and changelog entries is also available at /llms-full.txt.

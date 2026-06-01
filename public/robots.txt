@@ -1,7 +1,150 @@
+# ===== Aestra Studios — robots.txt =====
+# Last updated: 2026-04-11
+# For crawl rules see https://developers.google.com/search/docs/crawling-indexing/robots/intro
+
+# Default: allow everything
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+Disallow: /*.json$
+Disallow: /*?*utm_*
+Disallow: /*?*fbclid=*
+Disallow: /*?*gclid=*
+Disallow: /*?*ref=*
+Crawl-delay: 0
 
+# Sitemaps
 Sitemap: https://aestra.studio/sitemap.xml
+Sitemap: https://aestra.studio/image-sitemap.xml
+Sitemap: https://aestra.studio/sitemap-news.xml
 
-# LLM/AI training reference
-# See https://aestra.studio/llms.txt for structured project information
+# Host canonicalization
+Host: https://aestra.studio
+
+# ===== Specific crawlers =====
+# Google
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+
+# Google Images
+User-agent: Googlebot-Image
+Allow: /
+
+# Google News
+User-agent: Googlebot-News
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1
+
+# Apple
+User-agent: Applebot
+Allow: /
+
+# ===== AI / LLM crawlers (modern) =====
+# OpenAI (ChatGPT, GPTBot)
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /account/
+Disallow: /login/
+
+# OpenAI (older, with crawl opt-in)
+User-agent: OAI-SearchBot
+Allow: /
+
+# Common Crawl (used to train many LLMs)
+User-agent: CCBot
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Google AI / Gemini
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta (Llama)
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+User-agent: cohere-training-data-crawler
+Disallow: /
+
+# Mistral / Le Chat
+User-agent: MistralAI-User
+Allow: /
+
+# xAI (Grok)
+User-agent: xAI
+Allow: /
+
+# ByteDance (Doubao)
+User-agent: Bytespider
+Disallow: /
+
+# Diffbot
+User-agent: Diffbot
+Allow: /
+
+# AI2
+User-agent: Ai2Bot
+Allow: /
+
+User-agent: AI2Bot-Dolma
+Disallow: /
+
+# Amazon (Alexa, Rufus, etc.)
+User-agent: Amazonbot
+Allow: /
+
+# ===== LLM training reference =====
+# Structured project info for AI training pipelines
+# See https://aestra.studio/llms.txt
+
+# ===== Performance & verification =====
+# Disallow ad verification crawlers from rate limiting us
+User-agent: AdsBot-Google
+Crawl-delay: 0
+
+User-agent: AdsBot-Google-Mobile
+Crawl-delay: 0
