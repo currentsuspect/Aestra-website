@@ -1,22 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+<svg width="100%" viewBox="0 0 680 680" role="img" xmlns="http://www.w3.org/2000/svg" style="">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(251, 251, 254);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Aestra favicon — transparent crystal prism</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(251, 251, 254);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">A faceted bipyramid crystal gem with glass-like transparency, no background</desc>
+
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#a78bfa"/>
-      <stop offset="100%" stop-color="#7c3aed"/>
+    <linearGradient id="f-tl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#c8b8ff" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="f-tr" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e0d4ff" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="#9970ee" stop-opacity="0.12"/>
+    </linearGradient>
+    <linearGradient id="f-tc" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="#b89cff" stop-opacity="0.28"/>
+    </linearGradient>
+    <linearGradient id="f-bl" x1="0%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" stop-color="#a888ee" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#6633bb" stop-opacity="0.42"/>
+    </linearGradient>
+    <linearGradient id="f-br" x1="100%" y1="0%" x2="40%" y2="100%">
+      <stop offset="0%" stop-color="#8860cc" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#4422aa" stop-opacity="0.38"/>
+    </linearGradient>
+    <linearGradient id="f-bc" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#c0a4ff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#220066" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="waist-l" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d0c0ff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="waist-r" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#9070cc" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="edge-top" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#c0a8ff" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="edge-bot" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#b090f0" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#7744cc" stop-opacity="0.15"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="#09090b"/>
-  <rect x="2" y="2" width="60" height="60" rx="12" fill="url(#g)" opacity="0.12"/>
-  <g transform="translate(32 32)" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M -16 8 L -8 -2 L 0 6 L 8 -8 L 16 2"/>
-    <circle cx="0" cy="6" r="2" fill="url(#g)" stroke="none"/>
-    <circle cx="-8" cy="-2" r="2" fill="url(#g)" stroke="none"/>
-    <circle cx="8" cy="-8" r="2" fill="url(#g)" stroke="none"/>
-  </g>
-  <g transform="translate(32 48)" fill="url(#g)">
-    <circle cx="-12" cy="0" r="2.4"/>
-    <circle cx="-4" cy="0" r="2.4"/>
-    <circle cx="4" cy="0" r="2.4"/>
-    <circle cx="12" cy="0" r="2.4"/>
-  </g>
+
+  <polygon points="340,80 224,338 340,346" fill="url(#f-tl)" stroke="#d0c0ff" stroke-width="0.5" stroke-opacity="0.5" style="stroke:rgb(208, 192, 255);color:rgb(251, 251, 254);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <polygon points="340,80 456,338 340,346" fill="url(#f-tr)" stroke="#b8a4f0" stroke-width="0.5" stroke-opacity="0.4" style="stroke:rgb(184, 164, 240);color:rgb(251, 251, 254);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <polygon points="340,80 268,352 340,346 412,352" fill="url(#f-tc)" stroke="#ffffff" stroke-width="0.8" stroke-opacity="0.6" style="stroke:rgb(255, 255, 255);color:rgb(251, 251, 254);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <polygon points="340,80 224,338 268,352" fill="url(#waist-l)" stroke="#c0b0f0" stroke-width="0.4" stroke-opacity="0.4" style="stroke:rgb(192, 176, 240);color:rgb(251, 251, 254);stroke-width:0.4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <polygon points="340,80 456,338 412,352" fill="url(#waist-r)" stroke="#a090d8" stroke-width="0.4" stroke-opacity="0.35" style="stroke:rgb(160, 144, 216);color:rgb(251, 251, 254);stroke-width:0.4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <polygon points="340,600 224,338 340,346" fill="url(#f-bl)" stroke="#9070cc" stroke-width="0.5" stroke-opacity="0.45" style="stroke:rgb(144, 112, 204);color:rgb(251, 251, 254);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <polygon points="340,600 456,338 340,346" fill="url(#f-br)" stroke="#7050aa" stroke-width="0.5" stroke-opacity="0.4" style="stroke:rgb(112, 80, 170);color:rgb(251, 251, 254);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <polygon points="340,600 268,352 340,346 412,352" fill="url(#f-bc)" stroke="#c0a0ff" stroke-width="0.6" stroke-opacity="0.35" style="stroke:rgb(192, 160, 255);color:rgb(251, 251, 254);stroke-width:0.6px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <polygon points="340,600 224,338 268,352" fill="#8855cc" fill-opacity="0.10" stroke="#9066bb" stroke-width="0.4" stroke-opacity="0.35" style="fill:rgb(136, 85, 204);stroke:rgb(144, 102, 187);color:rgb(251, 251, 254);stroke-width:0.4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <polygon points="340,600 456,338 412,352" fill="#6633aa" fill-opacity="0.08" stroke="#7055aa" stroke-width="0.4" stroke-opacity="0.3" style="fill:rgb(102, 51, 170);stroke:rgb(112, 85, 170);color:rgb(251, 251, 254);stroke-width:0.4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <line x1="340" y1="80" x2="224" y2="338" stroke="url(#edge-top)" stroke-width="1.4" stroke-linecap="round" style="fill:rgb(0, 0, 0);color:rgb(251, 251, 254);stroke-width:1.4px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="340" y1="80" x2="456" y2="338" stroke="url(#edge-top)" stroke-width="1.2" stroke-linecap="round" style="fill:rgb(0, 0, 0);color:rgb(251, 251, 254);stroke-width:1.2px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="224" y1="338" x2="340" y2="600" stroke="url(#edge-bot)" stroke-width="1.1" stroke-linecap="round" style="fill:rgb(0, 0, 0);color:rgb(251, 251, 254);stroke-width:1.1px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="456" y1="338" x2="340" y2="600" stroke="url(#edge-bot)" stroke-width="1.0" stroke-linecap="round" style="fill:rgb(0, 0, 0);color:rgb(251, 251, 254);stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="340" y1="80" x2="340" y2="346" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.85" style="fill:rgb(0, 0, 0);stroke:rgb(255, 255, 255);color:rgb(251, 251, 254);stroke-width:1.6px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="340" y1="346" x2="340" y2="600" stroke="#b090ee" stroke-width="1.1" stroke-linecap="round" stroke-opacity="0.55" style="fill:rgb(0, 0, 0);stroke:rgb(176, 144, 238);color:rgb(251, 251, 254);stroke-width:1.1px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="224" y1="338" x2="268" y2="352" stroke="#c8b8ff" stroke-width="0.8" stroke-opacity="0.55" style="fill:rgb(0, 0, 0);stroke:rgb(200, 184, 255);color:rgb(251, 251, 254);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <line x1="456" y1="338" x2="412" y2="352" stroke="#a890e0" stroke-width="0.8" stroke-opacity="0.5" style="fill:rgb(0, 0, 0);stroke:rgb(168, 144, 224);color:rgb(251, 251, 254);stroke-width:0.8px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <circle cx="340" cy="80" r="2.5" fill="#ffffff" fill-opacity="0.95" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(251, 251, 254);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="340" cy="600" r="2" fill="#c0a0f0" fill-opacity="0.6" style="fill:rgb(192, 160, 240);stroke:none;color:rgb(251, 251, 254);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="340" cy="346" r="3" fill="#ffffff" fill-opacity="0.25" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(251, 251, 254);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;SF Pro Text&quot;, &quot;SF Pro Display&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
 </svg>
