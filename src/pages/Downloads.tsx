@@ -1,75 +1,73 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, memo, lazy, Suspense } from "react";
+import React from "react";
 import { ArrowRight, Monitor, Apple, Terminal, Globe } from "lucide-react";
-import { cn } from "../lib";
-import { Button, Card, Badge } from "../components/ui";
+import { Button, Badge } from "../components/ui";
 
 export const Downloads = ({ setPage }: any) => {
   const builds = [
-    { os: "Windows", arch: "x64", icon: Monitor, type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
-    { os: "macOS", arch: "Apple Silicon", icon: Apple, type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
-    { os: "Linux", arch: "Ubuntu / Debian", icon: Terminal, type: "Beta", url: "https://github.com/currentsuspect/Aestra/actions" },
-    { os: "Source", arch: "GitHub", icon: Globe, type: "Source", url: "https://github.com/currentsuspect/Aestra" },
+    { os: "Windows",     arch: "x64",                 icon: Monitor, type: "Beta"   },
+    { os: "macOS",       arch: "Apple Silicon",       icon: Apple,   type: "Beta"   },
+    { os: "Linux",       arch: "Ubuntu / Debian",     icon: Terminal, type: "Beta"  },
+    { os: "Source",      arch: "GitHub",              icon: Globe,   type: "Source" },
   ];
 
   return (
-    <div className="pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 max-w-5xl mx-auto min-h-screen">
-      <button onClick={() => setPage("home")} className="text-[#98a1b7] hover:text-white mb-6 sm:mb-8 flex items-center text-sm">
-        <ArrowRight className="rotate-180 mr-2 w-4 h-4" /> Back to Home
-      </button>
-
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8 sm:mb-12">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 shrink-0">
-          <img src="/logo.png" alt="Aestra logo" className="w-full h-full" />
-        </div>
-        <div>
-          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-3">Downloads</h1>
-          <p className="text-sm sm:text-base text-[#98a1b7]">Pre-release builds. Expect sharp edges.</p>
-        </div>
-      </div>
-
-      <div className="space-y-3 sm:space-y-4">
-        {builds.map((build, i) => {
-          const Icon = build.icon;
-          return (
-            <Card key={i} className="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-4 w-full sm:w-auto">
-                <div className="w-11 h-11 rounded-[8px] bg-[#141a25] border border-[#2a2a36] flex items-center justify-center text-[#00e5cc] shrink-0">
-                  <Icon size={20} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-white font-medium text-sm sm:text-base">{build.os} <span className="text-[#8a94aa] text-xs sm:text-sm">({build.arch})</span></h3>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                {build.type === "Beta" && <Badge variant="outline">Beta</Badge>}
-                {build.type === "Source" && <Badge variant="outline">Source Available</Badge>}
-                <a href={build.url} target="_blank" rel="noopener noreferrer" className="shrink-0 ml-auto sm:ml-0">
-                  <Button size="sm" variant="secondary">
-                    {build.type === "Source" ? "View Source" : "Get Build"}
-                  </Button>
-                </a>
-              </div>
-            </Card>
-          );
-        })}
-      </div>
-
-      <div className="mt-8 sm:mt-16 section-frame panel-glow p-6 sm:p-8 rounded-[8px] text-center">
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#e8a838]/30 bg-[#e8a838]/10 text-[#f6de8d] text-xs font-medium mb-4">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#e8a838] animate-pulse" />
-          Limited to 500
-        </span>
-        <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Some things don't get a second run.</h3>
-        <p className="text-[#98a1b7] text-sm mb-6 max-w-md mx-auto">
-          Not a subscription. Not a tier. A piece of history — your name in the product, your Founder number forever, and lifetime access from day one.
-        </p>
-        <Button
-          variant="primary"
-          onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
-          className="bg-[linear-gradient(180deg,#e8a838,#a7802c)] border-[#e8a838]/40 hover:brightness-105 shadow-[0_0_20px_rgba(232,168,56,0.26)]"
+    <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 px-5 sm:px-6 min-h-screen">
+      <div className="max-w-4xl mx-auto">
+        <button
+          onClick={() => setPage("home")}
+          className="text-zinc-400 hover:text-zinc-100 mb-10 flex items-center text-sm transition-colors"
         >
-          Claim Yours
-        </Button>
+          <ArrowRight className="rotate-180 w-4 h-4 mr-1.5" /> Back to home
+        </button>
+
+        <div className="mb-12">
+          <p className="kicker mb-4">Downloads</p>
+          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-4">
+            Get Aestra.
+          </h1>
+          <p className="text-zinc-400 text-base sm:text-lg max-w-xl leading-relaxed">
+            Pre-release builds. Expect sharp edges.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950 overflow-hidden">
+          {builds.map((build, i) => {
+            const Icon = build.icon;
+            const url = build.type === "Source"
+              ? "https://github.com/currentsuspect/Aestra"
+              : "https://github.com/currentsuspect/Aestra/actions";
+            return (
+              <a
+                key={i}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between gap-4 p-5 sm:p-6 border-b border-zinc-800/80 last:border-b-0 hover:bg-zinc-900/40 transition-colors"
+              >
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 shrink-0">
+                    <Icon size={18} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-zinc-50 text-[15px] font-medium">{build.os}</div>
+                    <div className="text-zinc-500 text-[13px]">{build.arch}</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <Badge variant="outline">{build.type === "Source" ? "Source" : "Beta"}</Badge>
+                  <Button size="sm" variant="secondary">
+                    {build.type === "Source" ? "View source" : "Get build"} <ArrowRight className="w-3.5 h-3.5" />
+                  </Button>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+
+        <div className="mt-12 text-[13px] text-zinc-500 leading-relaxed max-w-2xl">
+          Builds are produced automatically from CI. If a build fails or the artifact
+          is missing, check the GitHub Actions page for the latest successful run.
+        </div>
       </div>
     </div>
   );

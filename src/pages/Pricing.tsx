@@ -1,78 +1,56 @@
 import React, { useState, useEffect, memo } from "react";
-import { Check } from "lucide-react";
-import { cn } from "../lib";
-import { Button } from "../components/ui";
+import { Check, ArrowRight } from "lucide-react";
+import { Button, FadeIn } from "../components/ui";
 
-const CheckIcon = () => (
-  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-    <path d="M2 5l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const CardVisual = ({ tier, label, num, accent }: { tier: string; label: string; num?: string; accent: string }) => {
-  const [flipped, setFlipped] = useState(false);
-
-  const gradients: Record<string, string> = {
-    core: "linear-gradient(135deg, #3a3f55 0%, #6b7280 30%, #4a5068 60%, #8a9098 100%)",
-    supporter: "linear-gradient(135deg, #1e3a6e 0%, #3b82f6 30%, #2563eb 60%, #60a5fa 100%)",
-    founder: "linear-gradient(135deg, #c8a84b 0%, #f5d980 30%, #a87c20 60%, #e8c060 100%)",
-  };
-
-  const logoStroke = tier === "founder" ? "#3a2800" : tier === "supporter" ? "#1a2a50" : "#1a1e2a";
-  const textColor = tier === "founder" ? "#3a2800" : tier === "supporter" ? "#c8d8ff" : "#c0c4d0";
-
+const CheckIcon = ({ accent = "emerald" }: { accent?: "emerald" | "violet" | "amber" }) => {
+  const ring =
+    accent === "emerald" ? "bg-emerald-500/15 text-emerald-400" :
+    accent === "violet"  ? "bg-violet-500/15 text-violet-400"  :
+                           "bg-amber-500/15 text-amber-400";
   return (
-    <div className="card-visual-wrap" onClick={(e) => { e.stopPropagation(); setFlipped(!flipped); }}>
-      <div className={cn("card-visual-inner", flipped && "flipped")}>
-        <div className="card-visual-face card-visual-front" style={{ background: gradients[tier] }}>
-          <div className="card-visual-shine" />
-          <div className="card-visual-logo">
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8L8 3L13 8L8 13Z" stroke={logoStroke} strokeWidth="1.5" fill="none" strokeLinejoin="round" opacity="0.7"/>
-              <circle cx="8" cy="8" r="2" fill={logoStroke} opacity="0.7"/>
-            </svg>
-            <span style={{ fontSize: "9px", fontWeight: 700, color: logoStroke, opacity: 0.7, letterSpacing: "0.05em" }}>AESTRA</span>
-          </div>
-          <div className="card-visual-label" style={{ color: textColor }}>{label}</div>
-          {num && <div className="card-visual-num" style={{ color: textColor }}>{num}</div>}
-        </div>
-        <div className="card-visual-face card-visual-back" style={{ background: gradients[tier] }}>
-          <div className="card-visual-shine" />
-          <div className="card-back-content" style={{ color: tier === "founder" ? "#3a2800" : "#fff" }}>
-            {tier === "core" && (
-              <>
-                <svg className="card-back-svg" viewBox="0 0 40 24" fill="none">
-                  <path d="M4 12C4 7 8 4 12 4C16 4 18 7 20 10C22 7 24 4 28 4C32 4 36 7 36 12C36 17 28 22 20 22C12 22 4 17 4 12Z" stroke="currentColor" strokeWidth="1.2" opacity="0.6"/>
-                  <circle cx="20" cy="12" r="3" stroke="currentColor" strokeWidth="1" opacity="0.8"/>
-                  <circle cx="20" cy="12" r="1" fill="currentColor" opacity="0.5"/>
-                </svg>
-                <div className="card-back-text">No limits.<br/>No catch.<br/>No compromise.</div>
-              </>
-            )}
-            {tier === "supporter" && (
-              <>
-                <svg className="card-back-svg" viewBox="0 0 32 32" fill="none">
-                  <path d="M18 4L8 18H16L14 28L24 14H16L18 4Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" opacity="0.8"/>
-                  <circle cx="16" cy="16" r="12" stroke="currentColor" strokeWidth="0.8" opacity="0.3" strokeDasharray="2 3"/>
-                </svg>
-                <div className="card-back-text">Your sound.<br/>Your AI.<br/>Your plugins.</div>
-              </>
-            )}
-            {tier === "founder" && (
-              <>
-                <svg className="card-back-svg" viewBox="0 0 36 28" fill="none">
-                  <path d="M4 24L8 10L14 16L18 4L22 16L28 10L32 24H4Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" opacity="0.7" fill="currentColor" fillOpacity="0.08"/>
-                  <line x1="4" y1="24" x2="32" y2="24" stroke="currentColor" strokeWidth="1" opacity="0.5"/>
-                </svg>
-                <div className="card-back-text">Your name.<br/>Every copy.<br/>Forever.</div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+    <span className={`mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full shrink-0 ${ring}`}>
+      <Check className="w-2.5 h-2.5" />
+    </span>
   );
 };
+
+const tiers = [
+  {
+    name: "Core",
+    price: "$0",
+    sub: "forever",
+    tagline: "The full DAW. No time limits, no export lock.",
+    cta: "Download free",
+    ctaVariant: "secondary" as const,
+    accent: "emerald" as const,
+    features: [
+      "Unlimited tracks & patterns",
+      "Pattern-based workflow",
+      "Routing visualizer",
+      "Audition mode",
+      "Version control (Takes)",
+      "Built-in plugin suite",
+    ],
+  },
+  {
+    name: "Supporter",
+    price: "$5",
+    sub: "/ month",
+    tagline: "Back Aestra. Fund the future.",
+    cta: "Coming soon",
+    ctaVariant: "primary" as const,
+    accent: "violet" as const,
+    highlighted: true,
+    badge: "Best way to support Aestra",
+    features: [
+      "Everything in Core",
+      "Muse — local AI assistant",
+      "Premium plugins & monthly drops",
+      "100GB Aestra Cloud included",
+      "Monthly sound packs",
+    ],
+  },
+];
 
 const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?: number }) => {
   const [count, setCount] = useState(0);
@@ -87,237 +65,297 @@ const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?
         setCount(c);
         if (c >= target) clearInterval(interval);
       }, 40);
-    }, 600);
+    }, 200);
   }, [target, total]);
 
   return (
-    <div className="founder-counter">
-      <div className="counter-track">
-        <div className="counter-fill" style={{ width: `${fillWidth}%` }} />
+    <div className="flex items-center gap-4">
+      <div className="progress-track flex-1">
+        <div className="progress-fill" style={{ width: `${fillWidth}%` }} />
       </div>
-      <div className="counter-text"><b>{count}</b> / {total} claimed</div>
+      <div className="text-[13px] text-zinc-400 whitespace-nowrap">
+        <span className="text-amber-300 font-mono font-semibold">{count}</span> / {total} claimed
+      </div>
     </div>
   );
+};
+
+const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][] }[] = [
+  {
+    label: "Engine",
+    rows: [
+      ["C++17 audio engine",               true, true, true],
+      ["Unlimited tracks & patterns",      true, true, true],
+      ["VST3 & CLAP plugin hosting",       true, true, true],
+      ["Routing visualizer",               true, true, true],
+      ["Audition mode (all platforms)",    true, true, true],
+      ["Offline export & rendering",       true, true, true],
+    ],
+  },
+  {
+    label: "Workflow",
+    rows: [
+      ["Pattern-first (Arsenal)",          true, true, true],
+      ["Piano Roll editor",                true, true, true],
+      ["Version control (Takes)",          true, true, true],
+      ["Multi-track recording",            true, true, true],
+      ["Mixer with sends & buses",         true, true, true],
+    ],
+  },
+  {
+    label: "Plugins & sound",
+    rows: [
+      ["Built-in plugin suite",            true, true, true],
+      ["AestraRumble (808 synth)",         false, true, true],
+      ["Premium plugins (monthly drops)",  false, true, true],
+      ["Monthly sound packs",              false, true, true],
+    ],
+  },
+  {
+    label: "AI & cloud",
+    rows: [
+      ["Muse AI (runs locally)",           false, true, true],
+      ["Cloud storage for Takes",          false, true, true],
+      ["Cross-device sync (future)",       false, true, true],
+    ],
+  },
+  {
+    label: "Identity & lifetime",
+    rows: [
+      ["100GB Aestra Cloud",               false, true, true],
+      ["Exclusive Founder card (digital)", false, false, true],
+      ["Name in app credits (permanent)",  false, false, true],
+      ["Beta access — mobile & tablet",    false, false, true],
+      ["Vote on feature priorities",       false, false, true],
+      ["Lifetime access — no subscription",false, false, true],
+    ],
+  },
+];
+
+const Cell = ({ on, accent }: { on: boolean; accent: "emerald" | "violet" | "amber" }) => {
+  if (!on) return <span className="text-zinc-700">—</span>;
+  const color =
+    accent === "emerald" ? "text-emerald-400" :
+    accent === "violet"  ? "text-violet-400"  :
+                           "text-amber-400";
+  return <Check className={`w-4 h-4 ${color}`} />;
 };
 
 export const Pricing = ({ setPage }: any) => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="text-center pt-18 sm:pt-24 pb-12 px-6">
-        <h1 className="pricing-hero-title">
-          Aestra is free to use.<br/><em>Fully.</em>
-        </h1>
-        <p className="pricing-hero-sub">No export lock. No time limits. No artificial walls. Supporter keeps the project alive and unlocks the extras.</p>
+      <section className="text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
+        <div className="max-w-3xl mx-auto">
+          <p className="kicker mb-4">Pricing</p>
+          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-5">
+            Aestra is free to use.<br />
+            <span className="text-zinc-400">Fully.</span>
+          </h1>
+          <p className="text-zinc-400 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+            No export lock. No time limits. No artificial walls.
+            Supporter keeps the project alive and unlocks the extras.
+          </p>
+        </div>
       </section>
 
-      {/* Core + Supporter */}
-      <div className="tiers-grid">
-        {/* Core */}
-        <div className="tier-card tier-core">
-          <div className="supporter-badge-top supporter-badge-hidden">.</div>
-          <div className="tier-card-header">
-            <div className="tier-card-info">
-              <div className="tier-label tier-label-default">Core</div>
-              <div className="tier-price">$0 <span className="free-label">forever</span></div>
-              <div className="tier-tagline">Full DAW. No time limits.<br/>No export lock.</div>
-            </div>
-            <CardVisual tier="core" label="Core" accent="grey" />
-          </div>
-          <ul className="feature-list">
-            {["Unlimited tracks & patterns", "Pattern-based workflow", "Routing visualizer", "Audition mode", "Version control (Takes)", "Built-in plugin suite"].map((feat, i) => (
-              <li key={i}>
-                <span className="check check-free"><CheckIcon /></span>
-                {feat}
-              </li>
-            ))}
-          </ul>
-          <button className="tier-btn btn-free" onClick={() => setPage("download")}>Download Free</button>
-          <div className="supporter-proof supporter-proof-hidden">
-            <span>No lock-in on your projects</span>
-            <span>·</span>
-            <span>Funds core development</span>
-            <span>·</span>
-            <span>Cancel anytime</span>
-          </div>
-        </div>
+      {/* Tier cards */}
+      <div className="px-5 sm:px-6 pb-8">
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-4">
+          {tiers.map((t, i) => (
+            <FadeIn key={t.name} delay={i * 0.05}>
+              <div
+                className={`rounded-2xl p-7 sm:p-8 h-full flex flex-col ${
+                  t.highlighted
+                    ? "border border-violet-500/30 bg-zinc-950"
+                    : "border border-zinc-800/80 bg-zinc-950"
+                }`}
+              >
+                {t.badge && (
+                  <div className="text-center text-[12px] font-medium text-violet-300 mb-5 pb-5 border-b border-zinc-800/80">
+                    {t.badge}
+                  </div>
+                )}
+                <div className="mb-6">
+                  <div className="text-[12px] uppercase tracking-wider text-zinc-500 mb-3">{t.name}</div>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-5xl font-semibold tracking-tight text-zinc-50">{t.price}</span>
+                    {t.sub && <span className="text-zinc-500 text-base">{t.sub}</span>}
+                  </div>
+                  <p className="text-zinc-400 text-sm leading-relaxed">{t.tagline}</p>
+                </div>
 
-        {/* Supporter */}
-        <div className="tier-card tier-supporter tier-supporter-highlight">
-          <div className="supporter-badge-top">Best way to support Aestra</div>
-          <div className="tier-card-header">
-            <div className="tier-card-info">
-              <div className="tier-label tier-label-purple">Supporter</div>
-              <div className="tier-price">$5 <sub>/mo</sub></div>
-              <div className="tier-tagline">Back Aestra.<br/>Fund the future.</div>
-            </div>
-            <CardVisual tier="supporter" label="Supporter" accent="blue" />
-          </div>
-          <ul className="feature-list">
-            {["Everything in Core", "Muse — AI assistant, runs on your machine", "Premium plugins (Rumble, more dropping monthly)", "100GB Aestra Cloud included", "Monthly sound packs"].map((feat, i) => (
-              <li key={i}>
-                <span className="check check-sup"><CheckIcon /></span>
-                {feat}
-              </li>
-            ))}
-          </ul>
-          <button className="tier-btn btn-supporter" onClick={() => setPage("changelog")}>Coming Soon — Follow Progress</button>
-          <div className="supporter-proof">
-            <span>No lock-in on your projects</span>
-            <span>·</span>
-            <span>Funds core development</span>
-            <span>·</span>
-            <span>Cancel anytime</span>
-          </div>
-        </div>
-      </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {t.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-[14px] text-zinc-200">
+                      <CheckIcon accent={t.accent} />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
 
-      <p className="tiers-note">No card required for Core. Cancel Supporter anytime. Founder is a one-time purchase, never restocked.</p>
-
-      {/* Divider */}
-      <div className="tier-divider">
-        <div className="div-line" />
-        <div className="div-label">Founder — 500 exist, ever</div>
-        <div className="div-line" />
-      </div>
-
-      {/* Founder */}
-      <div className="founder-section">
-        <div className="founder-card">
-          <div className="founder-top">
-            <div className="founder-left">
-              <div className="founder-badge">
-                <div className="founder-badge-dot" />
-                Limited to 500 — never reproduced
+                <Button
+                  variant={t.ctaVariant}
+                  size="md"
+                  className="w-full"
+                  onClick={() => setPage(t.name === "Core" ? "download" : "changelog")}
+                >
+                  {t.cta}
+                </Button>
               </div>
-              <h2 className="founder-title">You believed<br/><em>first.</em></h2>
-              <p className="founder-subline">Not a tier. A record. Your name ships inside every copy of Aestra, permanently. The card is your proof of being first.</p>
-            </div>
-            <CardVisual tier="founder" label="Founder" num="#0001" accent="gold" />
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+
+      <div className="px-5 sm:px-6 pb-20">
+        <p className="text-center text-[13px] text-zinc-500 max-w-2xl mx-auto">
+          No card required for Core. Cancel Supporter anytime. Founder is a one-time purchase, never restocked.
+        </p>
+      </div>
+
+      {/* Founder section */}
+      <div className="px-5 sm:px-6 pb-20">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="flex-1 h-px bg-zinc-800/80" />
+            <span className="text-[12px] text-zinc-500 tracking-wider">Founder · 500 exist, ever</span>
+            <div className="flex-1 h-px bg-zinc-800/80" />
           </div>
 
-          <AnimatedCounter target={31} total={500} />
+          <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.03] p-7 sm:p-10">
+            <div className="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-14 items-start mb-10">
+              <div>
+                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[12px] mb-5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                  Limited to 500 — never reproduced
+                </span>
+                <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-4">
+                  You believed <span className="text-amber-300">first.</span>
+                </h2>
+                <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-lg">
+                  Not a tier. A record. Your name ships inside every copy of Aestra, permanently.
+                  The card is your proof of being first.
+                </p>
+              </div>
+              <div className="text-right">
+                <div className="text-5xl font-semibold text-zinc-50 tracking-tight">$129</div>
+                <div className="text-zinc-500 text-sm mt-1">one-time</div>
+              </div>
+            </div>
 
-          <div className="founder-features">
-            {["Everything in Supporter, forever", "100GB Aestra Cloud for life", "Exclusive Founder card — your number forever", "Name in app credits, permanent", "Beta access — mobile & tablet", "Vote on feature priorities", "No subscription. Ever."].map((feat, i) => (
-              <div key={i} className="f-chip">
-                <div className="f-chip-dot" />
-                {feat}
+            <div className="mb-8">
+              <AnimatedCounter target={31} total={500} />
+            </div>
+
+            <div className="flex flex-wrap gap-2 mb-10">
+              {[
+                "Everything in Supporter, forever",
+                "100GB Aestra Cloud for life",
+                "Exclusive Founder card — your number forever",
+                "Name in app credits, permanent",
+                "Beta access — mobile & tablet",
+                "Vote on feature priorities",
+                "No subscription. Ever.",
+              ].map((f) => (
+                <span key={f} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-zinc-950 border border-zinc-800/80 text-zinc-300 text-[13px]">
+                  <Check className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                  {f}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <Button
+                size="lg"
+                onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
+                className="bg-amber-400 text-zinc-950 hover:bg-amber-300"
+              >
+                Join the waitlist <ArrowRight className="w-4 h-4" />
+              </Button>
+              <p className="text-zinc-500 text-[13px] max-w-sm">
+                Founder access activates when beta launches in December 2026. Waitlist locks your slot number.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Comparison table */}
+      <div className="px-5 sm:px-6 pb-32">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="flex-1 h-px bg-zinc-800/80" />
+            <span className="text-[12px] text-zinc-500 tracking-wider">What you get at each level</span>
+            <div className="flex-1 h-px bg-zinc-800/80" />
+          </div>
+
+          {/* Mobile: stacked cards per group */}
+          <div className="md:hidden space-y-6">
+            {compareGroups.map((group) => (
+              <div key={group.label} className="rounded-2xl border border-zinc-800/80 bg-zinc-950 overflow-hidden">
+                <div className="px-4 py-2.5 bg-zinc-900/50 border-b border-zinc-800/80 text-[11px] uppercase tracking-wider text-zinc-500 font-medium">
+                  {group.label}
+                </div>
+                <ul>
+                  {group.rows.map(([feat, core, sup, found], i) => (
+                    <li key={i} className="px-4 py-3 border-b border-zinc-800/80 last:border-b-0">
+                      <div className="text-[13.5px] text-zinc-200 mb-2.5">{feat}</div>
+                      <div className="grid grid-cols-3 gap-2 text-[11px] text-zinc-500">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-zinc-600">Core</span>
+                          <Cell on={core} accent="emerald" />
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-zinc-600">Supporter</span>
+                          <Cell on={sup} accent="violet" />
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-zinc-600">Founder</span>
+                          <Cell on={found} accent="amber" />
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
 
-          <div className="founder-bottom">
-            <div className="founder-price">$129 <span>once</span></div>
-            <button
-              className="btn-founder"
-              onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
-            >
-              Join the Waitlist →
-            </button>
+          {/* Desktop: full grid */}
+          <div className="hidden md:block rounded-2xl border border-zinc-800/80 overflow-hidden">
+            <div className="grid grid-cols-[1fr_140px_160px_160px] bg-zinc-900/50 border-b border-zinc-800/80">
+              <div className="p-5 text-[11px] uppercase tracking-wider text-zinc-500">Feature</div>
+              <div className="p-5 text-center">
+                <div className="text-zinc-200 text-sm font-medium">Core</div>
+                <div className="text-zinc-500 text-[11px] font-mono mt-0.5">$0</div>
+              </div>
+              <div className="p-5 text-center">
+                <div className="text-violet-300 text-sm font-medium">Supporter</div>
+                <div className="text-zinc-500 text-[11px] font-mono mt-0.5">$5/mo</div>
+              </div>
+              <div className="p-5 text-center">
+                <div className="text-amber-300 text-sm font-medium">Founder</div>
+                <div className="text-zinc-500 text-[11px] font-mono mt-0.5">$129</div>
+              </div>
+            </div>
+
+            {compareGroups.map((group) => (
+              <div key={group.label}>
+                <div className="px-5 py-2.5 bg-zinc-900/30 border-y border-zinc-800/80 text-[11px] uppercase tracking-wider text-zinc-500 font-medium">
+                  {group.label}
+                </div>
+                {group.rows.map(([feat, core, sup, found], i) => (
+                  <div key={i} className="grid grid-cols-[1fr_140px_160px_160px] border-b border-zinc-800/80 last:border-b-0 hover:bg-zinc-900/30 transition-colors">
+                    <div className="p-4 text-[13.5px] text-zinc-200">{feat}</div>
+                    <div className="p-4 flex items-center justify-center"><Cell on={core} accent="emerald" /></div>
+                    <div className="p-4 flex items-center justify-center"><Cell on={sup} accent="violet" /></div>
+                    <div className="p-4 flex items-center justify-center"><Cell on={found} accent="amber" /></div>
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
-          <div className="founder-fine">Founder access activates when beta launches — December 2026. Waitlist locks your slot number.</div>
-        </div>
-      </div>
-
-      {/* Comparison Table */}
-      <div className="founder-section" style={{ maxWidth: "900px" }}>
-        <div className="tier-divider" style={{ maxWidth: "100%", padding: "0", marginBottom: "48px" }}>
-          <div className="div-line" />
-          <div className="div-label">What you get at each level</div>
-          <div className="div-line" />
-        </div>
-
-        <div className="compare-table-wrapper overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-          <div className="compare-table" style={{ minWidth: "600px" }}>
-          <div className="compare-header">
-            <div className="compare-feature-header">Feature</div>
-            <div className="compare-tier-header compare-tier-core">Core<span className="compare-price">$0</span></div>
-            <div className="compare-tier-header compare-tier-sup">Supporter<span className="compare-price">$5/mo</span></div>
-            <div className="compare-tier-header compare-tier-found">Founder<span className="compare-price">$129</span></div>
-          </div>
-
-          <div className="compare-category">Engine</div>
-          {[
-            ["C++17 audio engine", true, true, true],
-            ["Unlimited tracks & patterns", true, true, true],
-            ["VST3 & CLAP plugin hosting", true, true, true],
-            ["Routing visualizer", true, true, true],
-            ["Audition mode (all platforms)", true, true, true],
-            ["Offline export & rendering", true, true, true],
-          ].map(([feat, core, sup, found], i) => (
-            <div key={i} className="compare-row">
-              <div className="compare-feature">{feat}</div>
-              <div className="compare-cell compare-tier-core">{core && <span className="compare-check">✓</span>}</div>
-              <div className="compare-cell compare-tier-sup">{sup && <span className="compare-check compare-check-sup">✓</span>}</div>
-              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
-            </div>
-          ))}
-
-          <div className="compare-category">Workflow</div>
-          {[
-            ["Pattern-first (Arsenal)", true, true, true],
-            ["Piano Roll editor", true, true, true],
-            ["Version control (Takes)", true, true, true],
-            ["Multi-track recording", true, true, true],
-            ["Mixer with sends & buses", true, true, true],
-          ].map(([feat, core, sup, found], i) => (
-            <div key={i} className="compare-row">
-              <div className="compare-feature">{feat}</div>
-              <div className="compare-cell compare-tier-core">{core && <span className="compare-check">✓</span>}</div>
-              <div className="compare-cell compare-tier-sup">{sup && <span className="compare-check compare-check-sup">✓</span>}</div>
-              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
-            </div>
-          ))}
-
-          <div className="compare-category">Plugins & Sound</div>
-          {[
-            ["Built-in plugin suite", true, true, true],
-            ["AestraRumble (808 synth)", false, true, true],
-            ["Premium plugins (monthly drops)", false, true, true],
-            ["Monthly sound packs", false, true, true],
-          ].map(([feat, core, sup, found], i) => (
-            <div key={i} className="compare-row">
-              <div className="compare-feature">{feat}</div>
-              <div className="compare-cell compare-tier-core">{core ? <span className="compare-check">✓</span> : <span className="compare-dash">—</span>}</div>
-              <div className="compare-cell compare-tier-sup">{sup && <span className="compare-check compare-check-sup">✓</span>}</div>
-              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
-            </div>
-          ))}
-
-          <div className="compare-category">AI & Cloud</div>
-          {[
-            ["Muse AI (runs locally)", false, true, true],
-            ["Cloud storage for Takes", false, true, true],
-            ["Cross-device sync (future)", false, true, true],
-          ].map(([feat, core, sup, found], i) => (
-            <div key={i} className="compare-row">
-              <div className="compare-feature">{feat}</div>
-              <div className="compare-cell compare-tier-core">{core ? <span className="compare-check">✓</span> : <span className="compare-dash">—</span>}</div>
-              <div className="compare-cell compare-tier-sup">{sup && <span className="compare-check compare-check-sup">✓</span>}</div>
-              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
-            </div>
-          ))}
-
-          <div className="compare-category">Cloud & Identity</div>
-          {[
-            ["Silver card identity", false, true, true],
-            ["100GB Aestra Cloud", false, true, true],
-            ["Extra storage add-ons", false, true, true],
-            ["Exclusive Founder card (digital)", false, false, true],
-            ["Name in app credits (permanent)", false, false, true],
-            ["Beta access — mobile & tablet", false, false, true],
-            ["Vote on feature priorities", false, false, true],
-            ["Lifetime access — no subscription", false, false, true],
-          ].map(([feat, core, sup, found], i) => (
-            <div key={i} className="compare-row">
-              <div className="compare-feature">{feat}</div>
-              <div className="compare-cell compare-tier-core">{core ? <span className="compare-check">✓</span> : <span className="compare-dash">—</span>}</div>
-              <div className="compare-cell compare-tier-sup">{sup ? <span className="compare-check compare-check-sup">✓</span> : <span className="compare-dash">—</span>}</div>
-              <div className="compare-cell compare-tier-found">{found && <span className="compare-check compare-check-found">✓</span>}</div>
-            </div>
-          ))}
-        </div>
         </div>
       </div>
     </div>

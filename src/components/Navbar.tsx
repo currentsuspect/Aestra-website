@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, memo } from "react";
-import { Download, Menu, X } from "lucide-react";
+import { Download, Menu, X, Github, Twitter } from "lucide-react";
 import { cn } from "../lib";
 import { Button } from "./ui";
 import type { NavbarProps } from "../types";
@@ -13,7 +13,7 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 20);
+          setIsScrolled(window.scrollY > 12);
           ticking = false;
         });
         ticking = true;
@@ -23,7 +23,6 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on resize
   useEffect(() => {
     const mql = window.matchMedia("(min-width: 768px)");
     const handler = (e: MediaQueryListEvent) => { if (e.matches) setMobileOpen(false); };
@@ -41,41 +40,41 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
   return (
     <nav
       className={cn(
-        "fixed left-0 right-0 z-50 transition-all duration-300 border-b",
+        "fixed left-0 right-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-200",
         isScrolled
-          ? "bg-[#0e121a]/86 backdrop-blur-xl border-[#2f3544] py-3"
-          : "bg-transparent border-transparent py-5"
+          ? "bg-[#0a0a0b]/80 backdrop-blur-md border-b border-zinc-800/80"
+          : "border-b border-transparent"
       )}
       style={{ top: topOffset }}
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-6">
         {/* Logo */}
-        <div
+        <button
           onClick={() => setPage("home")}
-          className="flex items-center gap-2 cursor-pointer group"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === "Enter" && setPage("home")}
+          className="flex items-center gap-2.5 group"
+          aria-label="Aestra — home"
         >
-          <div className="w-9 h-9 rounded-[8px] overflow-hidden flex items-center justify-center bg-[#151a24] border border-[#2a2a36] group-hover:border-[#00e5cc]/45 transition-all">
-            <img src="/logo.png" alt="" className="w-8 h-8" />
-          </div>
-          <span className="text-xl font-bold tracking-tight text-white">Aestra</span>
-        </div>
+          <img
+            src="/logo.png"
+            alt=""
+            className="w-7 h-7 rounded-md"
+          />
+          <span className="text-[15px] font-semibold text-zinc-50 tracking-tight">Aestra</span>
+        </button>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-2 rounded-full border border-[#30384a] bg-[#171b26]/90 px-3 py-2">
+        <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => setPage(link.id)}
               className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                "px-3 h-8 text-sm rounded-md transition-colors",
                 activePage === link.id
-                  ? "bg-[#7c3aed] text-white"
-                  : "text-[#98a1b7] hover:text-white hover:bg-[#2a2f3e]"
+                  ? "text-zinc-50 bg-zinc-900"
+                  : "text-zinc-400 hover:text-zinc-100"
               )}
             >
               {link.name}
@@ -84,69 +83,89 @@ export const Navbar = memo(({ activePage, setPage, topOffset = 0 }: NavbarProps)
         </div>
 
         {/* Actions */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-1">
+          <a
+            href="https://x.com/aestrastudios"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="h-8 w-8 inline-flex items-center justify-center rounded-md text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-colors"
+            aria-label="X (Twitter) (opens in new tab)"
+          >
+            <Twitter className="w-4 h-4" />
+          </a>
           <a
             href="https://github.com/currentsuspect/Aestra"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-medium text-[#98a1b7] hover:text-white transition-colors"
+            className="h-8 w-8 inline-flex items-center justify-center rounded-md text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900 transition-colors"
             aria-label="GitHub repository (opens in new tab)"
           >
-            GitHub
+            <Github className="w-4 h-4" />
           </a>
+          <div className="w-px h-5 bg-zinc-800 mx-1" />
           <Button size="sm" onClick={() => setPage("download")} icon={Download}>
-            Download Beta
+            Download
           </Button>
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-[#98a1b7] hover:text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          className="md:hidden text-zinc-400 hover:text-zinc-100 p-2 -mr-2 min-w-[40px] min-h-[40px] flex items-center justify-center"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <X /> : <Menu />}
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden bg-[#141924] border-b border-[#27272a] overflow-hidden transition-all duration-300",
-          mobileOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0 border-b-0"
+          "md:hidden bg-[#0a0a0b] border-b border-zinc-800 overflow-hidden transition-[max-height,opacity] duration-200",
+          mobileOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-0 border-b-0"
         )}
         role="dialog"
         aria-label="Mobile navigation"
       >
-        <div className="flex flex-col p-6 space-y-4">
+        <div className="px-5 py-3 space-y-1">
           {navLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => { setPage(link.id); setMobileOpen(false); }}
               className={cn(
-                "text-left py-2.5 px-2 rounded-lg transition-colors min-h-[44px] flex items-center",
+                "w-full text-left px-3 py-2.5 rounded-md text-sm transition-colors min-h-[40px] flex items-center",
                 activePage === link.id
-                  ? "text-[#9257ff] bg-white/5"
-                  : "text-[#d2d8e6] hover:text-[#9257ff] hover:bg-white/5"
+                  ? "text-zinc-50 bg-zinc-900"
+                  : "text-zinc-300 hover:text-zinc-50 hover:bg-zinc-900/60"
               )}
             >
               {link.name}
             </button>
           ))}
-          <hr className="border-[#27272a]" />
-          <a
-            href="https://github.com/currentsuspect/Aestra"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-left text-[#d2d8e6] hover:text-[#00e5cc] py-2.5 px-2 rounded-lg hover:bg-white/5 transition-colors min-h-[44px] flex items-center"
-            aria-label="GitHub (opens in new tab)"
-          >
-            GitHub
-          </a>
-          <Button className="w-full" onClick={() => { setPage("download"); setMobileOpen(false); }}>
-            Download Free
-          </Button>
+          <div className="grid grid-cols-2 gap-2 pt-3">
+            <a
+              href="https://x.com/aestrastudios"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-10 inline-flex items-center justify-center gap-2 rounded-md border border-zinc-800 text-sm text-zinc-300 hover:text-zinc-50 hover:bg-zinc-900"
+              aria-label="X (Twitter) (opens in new tab)"
+            >
+              <Twitter className="w-4 h-4" /> X
+            </a>
+            <a
+              href="https://github.com/currentsuspect/Aestra"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-10 inline-flex items-center justify-center gap-2 rounded-md border border-zinc-800 text-sm text-zinc-300 hover:text-zinc-50 hover:bg-zinc-900"
+              aria-label="GitHub (opens in new tab)"
+            >
+              <Github className="w-4 h-4" /> GitHub
+            </a>
+            <Button size="md" onClick={() => { setPage("download"); setMobileOpen(false); }} icon={Download} className="col-span-2">
+              Download
+            </Button>
+          </div>
         </div>
       </div>
     </nav>

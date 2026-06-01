@@ -1,12 +1,21 @@
 import React, { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
-import { FounderBanner } from "./components/FounderBanner";
 import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA } from "./pages/Home";
 import { Features } from "./pages/Features";
 import { resolvePage } from "./lib";
 import type { PageProps } from "./types";
-import { PAGE_TITLES, PAGE_DESCRIPTIONS } from "./types";
+import {
+  PAGE_TITLES,
+  PAGE_DESCRIPTIONS,
+  PAGE_KEYWORDS,
+  PAGE_PATHS,
+  PAGE_OG_TYPES,
+  PAGE_OG_IMAGES,
+  PAGE_ROBOTS,
+  PAGE_SECTION_TITLES,
+} from "./types";
+import { buildPageStructuredData, updateMetaTag } from "./seo";
 
 const Downloads = lazy(() => import("./pages/Downloads").then(m => ({ default: m.Downloads })));
 const Pricing = lazy(() => import("./pages/Pricing").then(m => ({ default: m.Pricing })));
@@ -28,39 +37,82 @@ const LazyPage = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<PageLoader />}>{children}</Suspense>
 );
 
-const BANNER_HEIGHT = 52;
-
 export const App = () => {
   const [page, setPage] = useState(() => resolvePage(window.location.pathname));
-  const [showBanner, setShowBanner] = useState(true);
 
-  // Update document title and SEO meta on navigation
+  // Update document title, SEO meta, and per-page structured data on navigation
   useEffect(() => {
-    const title = PAGE_TITLES[page] || PAGE_TITLES["404"];
-    const desc = PAGE_DESCRIPTIONS[page] || PAGE_DESCRIPTIONS["home"];
+    const pageId = (page in PAGE_TITLES ? page : "404") as keyof typeof PAGE_TITLES;
+    const title = PAGE_TITLES[pageId] || PAGE_TITLES["404"];
+    const desc = PAGE_DESCRIPTIONS[pageId] || PAGE_DESCRIPTIONS["home"];
+    const keywords = PAGE_KEYWORDS[pageId] || PAGE_KEYWORDS["home"];
+    const path = PAGE_PATHS[pageId] || "/";
+    const url = `https://aestra.studio${path === "/" ? "/" : path}`;
+    const ogType = PAGE_OG_TYPES[pageId] || "website";
+    const ogImage = PAGE_OG_IMAGES[pageId] || "/og-image.svg";
+    const ogImageAbs = `https://aestra.studio${ogImage}`;
+    const robots = PAGE_ROBOTS[pageId] || "index, follow";
+    const sectionTitle = PAGE_SECTION_TITLES[pageId] || "Home";
+
     document.title = title;
+    document.documentElement.lang = "en";
 
-    // Update meta description
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", desc);
+    updateMetaTag("description", desc, true);
+    updateMetaTag("keywords", keywords, true);
+    updateMetaTag("robots", robots, true);
+    updateMetaTag("author", "Aestra Studios", true);
 
-    // Update OG tags
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDesc = document.querySelector('meta[property="og:description"]');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogTitle) ogTitle.setAttribute("content", title);
-    if (ogDesc) ogDesc.setAttribute("content", desc);
-    if (ogUrl) ogUrl.setAttribute("content", `https://aestra.studio/${page === "home" ? "" : page}`);
+    const setOg = (property: string, content: string) => {
+      let el = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute("property", property);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    };
 
-    // Update Twitter tags
-    const twTitle = document.querySelector('meta[name="twitter:title"]');
-    const twDesc = document.querySelector('meta[name="twitter:description"]');
-    if (twTitle) twTitle.setAttribute("content", title);
-    if (twDesc) twDesc.setAttribute("content", desc);
+    setOg("og:title", title);
+    setOg("og:description", desc);
+    setOg("og:url", url);
+    setOg("og:type", ogType);
+    setOg("og:image", ogImageAbs);
+    setOg("og:image:secure_url", ogImageAbs);
+    setOg("og:site_name", "Aestra");
 
-    // Update canonical URL
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute("href", `https://aestra.studio/${page === "home" ? "" : page}`);
+    const setTwitter = (name: string, content: string) => {
+      let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null;
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute("name", name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    };
+
+    setTwitter("twitter:title", title);
+    setTwitter("twitter:description", desc);
+    setTwitter("twitter:image", ogImageAbs);
+    setTwitter("twitter:card", ogType === "article" ? "summary_large_image" : "summary_large_image");
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", url);
+
+    // Inject per-page BreadcrumbList JSON-LD
+    const pageStructuredData = buildPageStructuredData(pageId, sectionTitle, url);
+    let ldScript = document.getElementById("page-structured-data") as HTMLScriptElement | null;
+    if (!ldScript) {
+      ldScript = document.createElement("script");
+      ldScript.type = "application/ld+json";
+      ldScript.id = "page-structured-data";
+      document.head.appendChild(ldScript);
+    }
+    ldScript.textContent = JSON.stringify(pageStructuredData);
   }, [page]);
 
   // Handle browser back/forward
@@ -105,12 +157,9 @@ export const App = () => {
     window.history.pushState(null, "", path);
   }, []);
 
-  const handleDismissBanner = useCallback(() => setShowBanner(false), []);
-
-  const withBanner = (content: React.ReactNode, navPage: string) => (
+  const withShell = (content: React.ReactNode, navPage: string) => (
     <>
-      {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-      <Navbar activePage={navPage} setPage={handleSetPage} topOffset={showBanner ? BANNER_HEIGHT : 0} />
+      <Navbar activePage={navPage} setPage={handleSetPage} />
       {content}
       <Footer setPage={handleSetPage} />
     </>
@@ -121,8 +170,7 @@ export const App = () => {
       case "home":
         return (
           <>
-            {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-            <Navbar activePage="home" setPage={handleSetPage} topOffset={showBanner ? BANNER_HEIGHT : 0} />
+            <Navbar activePage="home" setPage={handleSetPage} />
             <Hero setPage={handleSetPage} />
             <WhySection />
             <div id="features"><HomeFeatures /></div>
@@ -136,14 +184,13 @@ export const App = () => {
       case "features":
         return (
           <>
-            {showBanner && <FounderBanner onDismiss={handleDismissBanner} />}
-            <Features setPage={handleSetPage} topOffset={showBanner ? BANNER_HEIGHT : 0} />
+            <Features setPage={handleSetPage} />
           </>
         );
       case "pricing":
-        return withBanner(<LazyPage><Pricing setPage={handleSetPage} /></LazyPage>, "pricing");
+        return withShell(<LazyPage><Pricing setPage={handleSetPage} /></LazyPage>, "pricing");
       case "changelog":
-        return withBanner(<LazyPage><Changelog setPage={handleSetPage} /></LazyPage>, "changelog");
+        return withShell(<LazyPage><Changelog setPage={handleSetPage} /></LazyPage>, "changelog");
       case "docs":
         return (
           <>
@@ -152,7 +199,7 @@ export const App = () => {
           </>
         );
       case "download":
-        return withBanner(<LazyPage><Downloads setPage={handleSetPage} /></LazyPage>, "download");
+        return withShell(<LazyPage><Downloads setPage={handleSetPage} /></LazyPage>, "download");
       case "login":
       case "account":
         return <LazyPage><Dashboard setPage={handleSetPage} /></LazyPage>;
@@ -173,7 +220,7 @@ export const App = () => {
           </>
         );
       case "about":
-        return withBanner(<LazyPage><About setPage={handleSetPage} /></LazyPage>, "");
+        return withShell(<LazyPage><About setPage={handleSetPage} /></LazyPage>, "");
       default:
         return <LazyPage><NotFound setPage={handleSetPage} /></LazyPage>;
     }

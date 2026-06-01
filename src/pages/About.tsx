@@ -1,89 +1,138 @@
 import React, { memo } from "react";
-import { FadeIn } from "../components/ui";
+import { Github, Twitter, ArrowUpRight, Code2, Music, Mic } from "lucide-react";
+import { FadeIn, Button } from "../components/ui";
 import type { PageProps } from "../types";
 
+const SocialLink = ({ href, icon: Icon, label, handle }: { href: string; icon: React.ComponentType<{ className?: string }>; label: string; handle: string }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group flex items-center gap-3 p-4 rounded-xl border border-zinc-800/80 bg-zinc-950 hover:border-zinc-700 transition-colors"
+  >
+    <span className="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 group-hover:text-zinc-50 transition-colors shrink-0">
+      <Icon className="w-4 h-4" />
+    </span>
+    <div className="min-w-0 flex-1">
+      <div className="text-[11px] uppercase tracking-wider text-zinc-500">{label}</div>
+      <div className="text-sm text-zinc-100 truncate">{handle}</div>
+    </div>
+    <ArrowUpRight className="w-4 h-4 text-zinc-600 group-hover:text-zinc-300 transition-colors shrink-0" />
+  </a>
+);
+
+const Fact = ({ icon: Icon, title, body }: { icon: React.ComponentType<{ className?: string }>; title: string; body: string }) => (
+  <div className="flex items-start gap-3 p-4 rounded-xl border border-zinc-800/80 bg-zinc-950">
+    <span className="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 shrink-0">
+      <Icon className="w-4 h-4" />
+    </span>
+    <div className="min-w-0">
+      <div className="text-sm text-zinc-100 font-medium">{title}</div>
+      <div className="text-[13px] text-zinc-400 mt-0.5 leading-relaxed">{body}</div>
+    </div>
+  </div>
+);
+
 export const About = ({ setPage }: PageProps) => (
-    <main className="pt-24 sm:pt-32 pb-16 sm:pb-20 min-h-screen">
-      <div className="page-hero px-4 sm:px-8 max-w-[700px]">
-        <div className="page-hero-tag">About</div>
-        <h1>
-          Building the DAW<br />
-          <span className="text-[#7c3aed]">producers deserve.</span>
-        </h1>
-        <p>
-          Aestra is an accessible, premium native digital audio workstation for producers.
+  <main className="pt-32 sm:pt-40 pb-24 sm:pb-32 min-h-screen px-5 sm:px-6">
+    <div className="max-w-5xl mx-auto">
+      {/* Hero — wider so the headline doesn't feel lost on desktop */}
+      <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-start mb-16 sm:mb-20">
+        <div>
+          <FadeIn>
+            <p className="kicker mb-5">About</p>
+            <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-8">
+              Building the DAW<br />
+              <span className="text-zinc-400">producers deserve.</span>
+            </h1>
+          </FadeIn>
+
+          <FadeIn delay={0.05}>
+            <p className="text-2xl sm:text-3xl text-zinc-100 leading-snug tracking-tight mb-8 max-w-xl">
+              Music production should feel effortless.
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.1}>
+            <p className="text-zinc-400 text-[16px] sm:text-[17px] leading-relaxed max-w-xl">
+              Too often, producers spend more time fighting crashes, digging through
+              menus, fixing routing mistakes, and recovering lost work than actually
+              making music. Aestra exists to change that.
+            </p>
+          </FadeIn>
+        </div>
+
+        {/* Sidebar — gives the page visual weight on wide screens */}
+        <FadeIn delay={0.15} className="lg:pt-16">
+          <div className="space-y-3">
+            <Fact icon={Code2} title="Native C++ engine" body="No JVM, no Electron, no plugin scan. Built for speed from the first commit." />
+            <Fact icon={Music} title="Pattern-first" body="Ideas start as loops. Sketches become tracks. The workflow matches the work." />
+            <Fact icon={Mic} title="Built by one" body="Designed, engineered, and shipped solo — by a producer who needed it." />
+          </div>
+        </FadeIn>
+      </div>
+
+      {/* Story */}
+      <FadeIn delay={0.15}>
+        <div className="grid md:grid-cols-[180px_1fr] gap-6 md:gap-12 mb-16 sm:mb-20">
+          <div>
+            <div className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 sticky top-28">The story</div>
+          </div>
+          <div className="space-y-6 text-zinc-300 text-[16px] sm:text-[17px] leading-relaxed max-w-2xl">
+            <p>
+              Built natively from the ground up, Aestra focuses on speed, stability,
+              and creative flow. Every decision is guided by a simple idea: technology
+              should support creativity, not interrupt it.
+            </p>
+            <p>
+              Whether you're sketching an idea, building a beat, recording a vocal, or
+              finishing a release, Aestra aims to stay out of the way and let the work
+              happen.
+            </p>
+            <p className="text-zinc-200">
+              Because making music is hard enough already.
+            </p>
+          </div>
+        </div>
+      </FadeIn>
+
+      {/* Closing line */}
+      <FadeIn delay={0.2}>
+        <p className="display text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-16 sm:mb-20 max-w-2xl">
+          Make music,<br />
+          <span className="text-zinc-400">not excuses.</span>
         </p>
-      </div>
+      </FadeIn>
 
-      <div className="max-w-3xl px-4 sm:px-8 mt-12 space-y-8">
-        <FadeIn>
-          <section className="glass-panel rounded-[8px] p-6 sm:p-8">
-            <h2 className="text-lg font-semibold text-white mb-3">Short Description</h2>
-            <p className="text-[#a4abc0] text-sm leading-relaxed">
-              Aestra is an accessible, premium native DAW for producers. Built around speed, stability, and creative focus.
-            </p>
-          </section>
-        </FadeIn>
-
-        <FadeIn delay={0.1}>
-          <section className="glass-panel rounded-[8px] p-6 sm:p-8">
-            <h2 className="text-lg font-semibold text-white mb-3">Long Description</h2>
-            <p className="text-[#a4abc0] text-sm leading-relaxed">
-              Aestra is being built by Aestra Studios to reduce friction in music production through native performance, stable sessions, clear workflows, and built-in creative tools. The goal is to make music creation feel direct, reliable, and personal — without the crashes, routing confusion, and creative interruptions that plague existing DAWs.
-            </p>
-          </section>
-        </FadeIn>
-
-        <FadeIn delay={0.15}>
-          <section className="glass-panel rounded-[8px] p-6 sm:p-8">
-            <h2 className="text-lg font-semibold text-white mb-3">Founder</h2>
-            <p className="text-[#a4abc0] text-sm leading-relaxed mb-4">
-              Aestra is built by Dylan Makori under Aestra Studios.
-            </p>
-            <div className="flex items-center gap-3 text-[#7a82a0] text-xs">
-              <span>GitHub: </span>
-              <a
-                href="https://github.com/currentsuspect/Aestra"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#00e5cc] hover:underline"
-              >
-                currentsuspect/Aestra
-              </a>
+      {/* Socials + signoff */}
+      <FadeIn delay={0.25}>
+        <div className="pt-10 border-t border-zinc-800/80">
+          <div className="flex flex-wrap items-center justify-between gap-y-3 mb-6">
+            <div className="text-zinc-500 text-[13px]">
+              Built by Dylan Makori · Aestra Studios
             </div>
-          </section>
-        </FadeIn>
+            <Button variant="ghost" size="sm" onClick={() => setPage("home")}>
+              Back to home
+            </Button>
+          </div>
 
-        <FadeIn delay={0.2}>
-          <section className="glass-panel rounded-[8px] p-6 sm:p-8">
-            <h2 className="text-lg font-semibold text-white mb-3">Brand Line</h2>
-            <p className="text-2xl font-bold text-white editorial-title">
-              Make music, not excuses.
-            </p>
-          </section>
-        </FadeIn>
-
-        <FadeIn delay={0.25}>
-          <section className="glass-panel rounded-[8px] p-6 sm:p-8">
-            <h2 className="text-lg font-semibold text-white mb-3">Key Terminology</h2>
-            <div className="space-y-3 text-sm">
-              {[
-                ["Aestra DAW", "The core digital audio workstation application."],
-                ["Aestra Studios", "The studio and team building Aestra."],
-                ["Aestra Verb", "Built-in algorithmic reverb plugin."],
-                ["Aestra EQ", "Built-in parametric equalizer plugin."],
-                ["Arsenal", "Pattern engine and source module rack within Aestra."],
-                ["Timeline", "Arrangement and editing view in Aestra."],
-                ["Audition", "Translation listening and monitoring mode."],
-              ].map(([term, desc]) => (
-                <div key={term} className="flex gap-3">
-                  <span className="text-[#7c3aed] font-mono text-xs whitespace-nowrap">{term}</span>
-                  <span className="text-[#7a82a0]">{desc}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-        </FadeIn>
-      </div>
-    </main>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500 mb-3">Find us</p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <SocialLink
+              href="https://x.com/aestrastudios"
+              icon={Twitter}
+              label="X (Twitter)"
+              handle="@aestrastudios"
+            />
+            <SocialLink
+              href="https://github.com/currentsuspect/Aestra"
+              icon={Github}
+              label="Source · GitHub"
+              handle="currentsuspect/Aestra"
+            />
+          </div>
+        </div>
+      </FadeIn>
+    </div>
+  </main>
 );

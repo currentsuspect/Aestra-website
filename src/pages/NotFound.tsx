@@ -1,71 +1,26 @@
-import React, { memo, useEffect, useRef } from "react";
-
-const Waveform = memo(() => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const wf = ref.current;
-    if (!wf) return;
-    wf.innerHTML = "";
-    const total = 48;
-    const aliveStart = 14;
-    const aliveEnd = 34;
-    const center = (aliveStart + aliveEnd) / 2;
-    const maxH = 48;
-
-    for (let i = 0; i < total; i++) {
-      const bar = document.createElement("div");
-      const alive = i >= aliveStart && i <= aliveEnd;
-
-      if (alive) {
-        const dist = Math.abs(i - center);
-        const h = Math.max(4, maxH - dist * dist * 0.6 + (Math.random() - 0.5) * 10);
-        bar.className = "wave-bar alive";
-        bar.style.height = h + "px";
-        bar.style.setProperty("--spd", (0.3 + Math.random() * 0.5) + "s");
-        bar.style.setProperty("--delay", (i * 0.025) + "s");
-      } else {
-        bar.className = "wave-bar dead";
-      }
-      wf.appendChild(bar);
-    }
-  }, []);
-
-  return <div ref={ref} className="waveform" />;
-});
+import React, { memo } from "react";
+import { ArrowLeft, Home } from "lucide-react";
+import { Button } from "../components/ui";
 
 export const NotFound = memo(({ setPage }: { setPage: (p: string) => void }) => (
-  <div className="not-found-page">
-    <div className="grid-bg" />
-    <div className="scanlines" />
-
-    <div className="nf-content">
-      <div className="error-badge">
-        <div className="err-dot" />
-        Track not found
+  <div className="min-h-[80vh] flex items-center justify-center px-5 sm:px-6 py-24">
+    <div className="max-w-md w-full text-center">
+      <p className="text-[13px] font-mono text-zinc-500 uppercase tracking-wider mb-6">404</p>
+      <h1 className="display text-5xl sm:text-6xl text-zinc-50 mb-4">
+        Page not found
+      </h1>
+      <p className="text-zinc-400 text-base sm:text-lg leading-relaxed mb-10">
+        The page you're looking for doesn't exist, or it was moved.
+        Your session is still running — head back to the home page.
+      </p>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <Button size="lg" onClick={() => setPage("home")} icon={Home}>
+          Take me home
+        </Button>
+        <Button size="lg" variant="secondary" onClick={() => window.history.back()}>
+          <ArrowLeft className="w-4 h-4" /> Go back
+        </Button>
       </div>
-
-      <div className="big-404">
-        4<span className="zero">0</span>4
-      </div>
-
-      <Waveform />
-
-      <div className="tagline">This page dropped out.</div>
-      <div className="sub">
-        Like a sample that never loaded. The URL you hit doesn't exist — but your session is still running.
-      </div>
-
-      <div className="nf-actions">
-        <button className="btn-back" onClick={() => window.history.back()}>← Go back</button>
-        <button className="btn-home" onClick={() => setPage("home")}>Take me home</button>
-      </div>
-    </div>
-
-    <div className="status-strip">
-      <div className="status-item">SESSION <b>ACTIVE</b></div>
-      <div className="status-item err">PAGE <b>NULL</b></div>
-      <div className="status-item">ENGINE <b>RUNNING</b></div>
     </div>
   </div>
 ));

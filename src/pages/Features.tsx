@@ -1,52 +1,63 @@
 import React, { useState, memo } from "react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import { FadeIn } from "../components/ui";
 import type { PageProps } from "../types";
 
-const tagColors: Record<string, { text: string; bg: string; border: string; dot: string }> = {
-  teal: { text: "text-[#00e5cc]", bg: "bg-[#00e5cc]/10", border: "border-[#00e5cc]/20", dot: "#00e5cc" },
-  amber: { text: "text-[#e8a838]", bg: "bg-[#e8a838]/10", border: "border-[#e8a838]/20", dot: "#e8a838" },
-  purple: { text: "text-[#7c3aed]", bg: "bg-[#7c3aed]/10", border: "border-[#7c3aed]/20", dot: "#7c3aed" },
-  blue: { text: "text-[#9257ff]", bg: "bg-[#9257ff]/10", border: "border-[#9257ff]/20", dot: "#9257ff" },
-  green: { text: "text-[#3dbb6e]", bg: "bg-[#3dbb6e]/10", border: "border-[#3dbb6e]/20", dot: "#3dbb6e" },
-  coral: { text: "text-[#e85454]", bg: "bg-[#e85454]/10", border: "border-[#e85454]/20", dot: "#e85454" },
-};
-
 const EngineVisual = memo(() => (
-  <div className="vis-engine w-full max-w-[320px]">
-    {[["CPU", 18, "#00e5cc", "18%"], ["RAM", 22, "#00e5cc90", "340mb"], ["Latency", 8, "#00e5cc60", "8ms"], ["Dropouts", 0, "#3dbb6e", "0"]].map(([label, width, color, value]) => (
-      <div className="meter-row" key={String(label)}>
-        <div className="meter-label">{label}</div>
-        <div className="meter-track"><div className="meter-fill" style={{ width: `${width}%`, background: color as string }} /></div>
-        <div className="meter-val" style={{ color: color as string }}>{value}</div>
-      </div>
-    ))}
-    <div className="vis-readout">
-      <div className="readout-item"><div className="readout-val" style={{ color: "#00e5cc" }}>8ms</div><div className="readout-label">Latency</div></div>
-      <div className="readout-item"><div className="readout-val" style={{ color: "#3dbb6e" }}>0</div><div className="readout-label">Dropouts</div></div>
-      <div className="readout-item"><div className="readout-val" style={{ color: "#f0f0f0" }}>18%</div><div className="readout-label">CPU</div></div>
+  <div className="w-full max-w-xs">
+    <div className="space-y-2.5">
+      {[
+        ["CPU",      18, "bg-teal-500/70",  "18%"],
+        ["RAM",      22, "bg-teal-500/60",  "340mb"],
+        ["Latency",   8, "bg-teal-500/50",  "8ms"],
+        ["Dropouts",  0, "bg-emerald-500",  "0"],
+      ].map(([label, w, c, v]) => (
+        <div key={String(label)} className="flex items-center gap-3">
+          <div className="w-14 text-[11px] text-zinc-500 uppercase tracking-wider shrink-0">{label}</div>
+          <div className="flex-1 h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+            <div className={`h-full rounded-full ${c}`} style={{ width: `${w}%` }} />
+          </div>
+          <div className="w-12 text-right text-[11px] font-mono text-zinc-300">{v}</div>
+        </div>
+      ))}
+    </div>
+    <div className="mt-6 grid grid-cols-3 divide-x divide-zinc-800/80 rounded-lg border border-zinc-800/80 bg-zinc-950">
+      {[
+        { v: "8ms",  l: "Latency",  c: "text-teal-400" },
+        { v: "0",    l: "Dropouts", c: "text-emerald-400" },
+        { v: "18%",  l: "CPU",      c: "text-zinc-50" },
+      ].map((s) => (
+        <div key={s.l} className="text-center py-4">
+          <div className={`text-xl font-semibold tracking-tight ${s.c}`}>{s.v}</div>
+          <div className="text-[10px] text-zinc-500 uppercase tracking-wider mt-1">{s.l}</div>
+        </div>
+      ))}
     </div>
   </div>
 ));
 
 const TerminalVisual = memo(() => (
-  <div className="vis-terminal w-full max-w-[340px]">
-    <div className="terminal-bar">
-      <div className="t-dot" style={{ background: "#ff5f57" }} />
-      <div className="t-dot" style={{ background: "#ffbd2e" }} />
-      <div className="t-dot" style={{ background: "#28ca42" }} />
-      <span style={{ fontSize: 11, color: "#2a2f42", marginLeft: 8, fontFamily: "Geist Mono, monospace" }}>aestra — launch</span>
+  <div className="w-full max-w-md rounded-lg border border-zinc-800/80 bg-zinc-950 overflow-hidden">
+    <div className="h-8 px-3 border-b border-zinc-800/80 bg-zinc-900/50 flex items-center gap-1.5">
+      <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+      <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+      <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+      <span className="ml-2 text-[11px] text-zinc-500 font-mono">aestra — launch</span>
     </div>
-    <div className="terminal-body">
-      <div className="t-line skip">› scanning VST folders...</div>
-      <div className="t-line skip">› loading splash screen...</div>
-      <div className="t-line skip">› negotiating audio device...</div>
-      <div style={{ height: 10 }} />
-      <div className="t-line done">✓ audio engine ready</div>
-      <div className="t-line done">✓ last session restored</div>
-      <div className="t-line done">✓ plugins loaded</div>
-      <div className="t-line active">› ready <div className="t-cursor" /></div>
-      <div className="t-time">1.4s <span>from launch to beat</span></div>
+    <div className="p-4 font-mono text-[12px] leading-relaxed space-y-1">
+      <div className="text-zinc-600 line-through">› scanning VST folders…</div>
+      <div className="text-zinc-600 line-through">› loading splash screen…</div>
+      <div className="text-zinc-600 line-through">› negotiating audio device…</div>
+      <div className="h-2" />
+      <div className="text-emerald-400">✓ audio engine ready</div>
+      <div className="text-emerald-400">✓ last session restored</div>
+      <div className="text-emerald-400">✓ plugins loaded</div>
+      <div className="text-amber-400">› ready</div>
+    </div>
+    <div className="px-4 py-3 border-t border-zinc-800/80 flex items-baseline gap-2">
+      <span className="text-xl font-semibold text-amber-400 font-mono tracking-tight">1.4s</span>
+      <span className="text-[11px] text-zinc-500">from launch to beat</span>
     </div>
   </div>
 ));
@@ -54,150 +65,165 @@ const TerminalVisual = memo(() => (
 const PatternVisual = memo(() => {
   const [playing, setPlaying] = useState(false);
   return (
-    <div className="vis-pattern w-full max-w-[340px]">
-      <div className="pattern-header">
-        <span className="pattern-name">PATTERN_03 — main loop</span>
-        <span className="pattern-bpm">140 BPM</span>
+    <div className="w-full max-w-md">
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-[11px] text-zinc-500 font-mono">PATTERN_03 — main loop</span>
+        <span className="text-[11px] text-violet-400 font-mono">140 BPM</span>
       </div>
-      {[["KICK", [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0], "kick"], ["SNARE", [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0], "snare"], ["HAT", [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1], "hat"], ["808", [1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0], ""]].map(([rowLabel, pattern, type]) => (
-        <div className="pattern-row" key={String(rowLabel)}>
-          <div className="row-label">{rowLabel}</div>
-          <div className="cells">
-            {(pattern as number[]).map((on, idx) => {
-              const t = type as string;
-              return <div key={idx} className={`cell ${on === 1 ? `on ${t}` : ""}`} />;
-            })}
+      <div className="space-y-1.5">
+        {[
+          ["KICK",  [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0], "bg-amber-400"],
+          ["SNARE", [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0], "bg-teal-400"],
+          ["HAT",   [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1], "bg-violet-400"],
+          ["808",   [1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0], "bg-zinc-50"],
+        ].map(([label, pattern, color]) => (
+          <div key={String(label)} className="flex items-center gap-2">
+            <div className="w-10 text-[9px] tracking-wider text-zinc-500 font-mono uppercase">{label}</div>
+            <div className="grid grid-cols-16 gap-1 flex-1">
+              {(pattern as number[]).map((on, i) => (
+                <div
+                  key={i}
+                  className={`h-3.5 rounded-sm ${on ? color : "bg-zinc-900"}`}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-      <div className="pattern-footer">
-        <button className="play-btn" onClick={() => setPlaying(!playing)}>
-          {playing
-            ? <svg width="10" height="12" viewBox="0 0 10 12" fill="white"><rect x="1" y="1" width="3" height="10" rx="1"/><rect x="6" y="1" width="3" height="10" rx="1"/></svg>
-            : <svg width="10" height="12" viewBox="0 0 10 12" fill="white"><path d="M1 1l8 5-8 5V1z"/></svg>
-          }
+        ))}
+      </div>
+      <div className="flex items-center gap-3 mt-4">
+        <button
+          onClick={() => setPlaying(!playing)}
+          className="w-7 h-7 rounded-md bg-violet-500 text-white flex items-center justify-center hover:bg-violet-400 transition-colors"
+          aria-label={playing ? "Pause" : "Play"}
+        >
+          {playing ? (
+            <svg width="9" height="9" viewBox="0 0 10 12" fill="currentColor"><rect x="1" y="1" width="3" height="10" rx="1"/><rect x="6" y="1" width="3" height="10" rx="1"/></svg>
+          ) : (
+            <svg width="9" height="9" viewBox="0 0 10 12" fill="currentColor"><path d="M1 1l8 5-8 5V1z"/></svg>
+          )}
         </button>
-        <div className="pattern-pos">1.1.0</div>
-        <div style={{ flex: 1 }} />
-        <div style={{ fontSize: 11, color: "#3a4060", fontFamily: "Geist Mono, monospace" }}>16 steps</div>
+        <span className="text-[10px] text-zinc-500 font-mono">1.1.0</span>
+        <span className="ml-auto text-[10px] text-zinc-500 font-mono">16 steps</span>
       </div>
     </div>
   );
 });
 
 const RoutingVisual = memo(() => (
-  <div className="vis-routing w-full max-w-[340px]">
-    <svg viewBox="0 0 320 200" width="100%" style={{ maxWidth: 320 }}>
-      <path d="M 60 60 C 120 60 100 100 160 100" stroke="#9257ff22" strokeWidth="2" fill="none"/>
-      <path d="M 60 140 C 120 140 100 100 160 100" stroke="#9257ff22" strokeWidth="2" fill="none"/>
-      <path d="M 60 100 L 160 100" stroke="#9257ff33" strokeWidth="2" fill="none"/>
-      <path d="M 200 100 L 260 100" stroke="#9257ff44" strokeWidth="2.5" fill="none"/>
-      <circle r="3" fill="#9257ff" opacity="0.8"><animateMotion dur="2s" repeatCount="indefinite" path="M 60 60 C 120 60 100 100 160 100" /></circle>
-      <circle r="3" fill="#9257ff" opacity="0.5"><animateMotion dur="2.4s" repeatCount="indefinite" begin="0.8s" path="M 60 140 C 120 140 100 100 160 100" /></circle>
-      <circle r="3" fill="#9257ff" opacity="0.6"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s" path="M 60 100 L 160 100" /></circle>
-      <circle r="4" fill="#9257ff" opacity="0.9"><animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s" path="M 200 100 L 260 100" /></circle>
-      <rect x="20" y="46" width="40" height="28" rx="7" fill="#9257ff15" stroke="#9257ff40" strokeWidth="1"/>
-      <text x="40" y="64" textAnchor="middle" fontSize="9" fill="#9257ff" fontFamily="Geist Mono, monospace">KICK</text>
-      <rect x="20" y="86" width="40" height="28" rx="7" fill="#7c3aed15" stroke="#7c3aed40" strokeWidth="1"/>
-      <text x="40" y="104" textAnchor="middle" fontSize="9" fill="#7c3aed" fontFamily="Geist Mono, monospace">808</text>
-      <rect x="20" y="126" width="40" height="28" rx="7" fill="#00e5cc15" stroke="#00e5cc40" strokeWidth="1"/>
-      <text x="40" y="144" textAnchor="middle" fontSize="9" fill="#00e5cc" fontFamily="Geist Mono, monospace">SYNTH</text>
-      <rect x="140" y="80" width="60" height="40" rx="8" fill="#9257ff10" stroke="#9257ff60" strokeWidth="1.5"/>
-      <text x="170" y="97" textAnchor="middle" fontSize="9" fill="#9257ffaa" fontFamily="Geist Mono, monospace">FX BUS</text>
-      <text x="170" y="110" textAnchor="middle" fontSize="8" fill="#9257ff60" fontFamily="Geist Mono, monospace">EQ + VERB</text>
-      <rect x="240" y="78" width="60" height="44" rx="8" fill="#9257ff20" stroke="#9257ff" strokeWidth="1.5"/>
-      <text x="270" y="97" textAnchor="middle" fontSize="9" fill="#9257ff" fontFamily="Geist Mono, monospace">MASTER</text>
-      <text x="270" y="111" textAnchor="middle" fontSize="8" fill="#9257ffaa" fontFamily="Geist Mono, monospace">−3.2 dB</text>
-      <circle cx="290" cy="168" r="4" fill="#3dbb6e"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
-      <text x="300" y="172" fontSize="9" fill="#3dbb6e60" fontFamily="Geist Mono, monospace">LIVE</text>
+  <div className="w-full max-w-md aspect-[16/9]">
+    <svg viewBox="0 0 320 180" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
+      <path d="M 60 50 C 120 50 100 90 160 90" stroke="#3b82f622" strokeWidth="1.5" fill="none"/>
+      <path d="M 60 130 C 120 130 100 90 160 90" stroke="#3b82f622" strokeWidth="1.5" fill="none"/>
+      <path d="M 60 90 L 160 90" stroke="#3b82f633" strokeWidth="1.5" fill="none"/>
+      <path d="M 200 90 L 260 90" stroke="#3b82f644" strokeWidth="2" fill="none"/>
+      <circle r="3" fill="#3b82f6" opacity="0.8">
+        <animateMotion dur="2s" repeatCount="indefinite" path="M 60 50 C 120 50 100 90 160 90" />
+      </circle>
+      <circle r="3" fill="#3b82f6" opacity="0.5">
+        <animateMotion dur="2.4s" repeatCount="indefinite" begin="0.8s" path="M 60 130 C 120 130 100 90 160 90" />
+      </circle>
+      <circle r="3" fill="#3b82f6" opacity="0.6">
+        <animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s" path="M 60 90 L 160 90" />
+      </circle>
+      <circle r="4" fill="#3b82f6" opacity="0.9">
+        <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s" path="M 200 90 L 260 90" />
+      </circle>
+      <rect x="20" y="36" width="40" height="28" rx="6" fill="#3b82f615"/>
+      <text x="40" y="54" textAnchor="middle" fontSize="9" fill="#3b82f6" fontFamily="Geist Mono, monospace">KICK</text>
+      <rect x="20" y="76" width="40" height="28" rx="6" fill="#8b5cf615"/>
+      <text x="40" y="94" textAnchor="middle" fontSize="9" fill="#8b5cf6" fontFamily="Geist Mono, monospace">808</text>
+      <rect x="20" y="116" width="40" height="28" rx="6" fill="#14b8a615"/>
+      <text x="40" y="134" textAnchor="middle" fontSize="9" fill="#14b8a6" fontFamily="Geist Mono, monospace">SYNTH</text>
+      <rect x="140" y="70" width="60" height="40" rx="6" fill="#3b82f610"/>
+      <text x="170" y="88" textAnchor="middle" fontSize="9" fill="#3b82f6" fontFamily="Geist Mono, monospace">FX BUS</text>
+      <text x="170" y="100" textAnchor="middle" fontSize="8" fill="#3b82f6aa" fontFamily="Geist Mono, monospace">EQ + VERB</text>
+      <rect x="240" y="68" width="60" height="44" rx="6" fill="#3b82f620"/>
+      <text x="270" y="88" textAnchor="middle" fontSize="9" fill="#3b82f6" fontFamily="Geist Mono, monospace">MASTER</text>
+      <text x="270" y="102" textAnchor="middle" fontSize="8" fill="#3b82f6aa" fontFamily="Geist Mono, monospace">−3.2 dB</text>
+      <circle cx="260" cy="160" r="3" fill="#22c55e">
+        <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <text x="270" y="163" fontSize="9" fill="#22c55e" fontFamily="Geist Mono, monospace">LIVE</text>
     </svg>
   </div>
 ));
 
 const AuditionVisual = memo(() => {
   const [active, setActive] = useState(0);
-  const devices: [string, string, string, string][] = [
-    ["Laptop Speaker", "Most unforgiving reference", "#3dbb6e15", "#3dbb6e"],
-    ["AirPods Pro", "Consumer earbuds + spatial", "#3a4060", "#7a8099"],
-    ["Car Audio", "Midrange-heavy simulation", "#3a4060", "#7a8099"],
-    ["Spotify Loudness", "−14 LUFS normalization preview", "#00e5cc15", "#00e5cc"],
+  const devices: { name: string; sub: string; accent: string; border: string }[] = [
+    { name: "Laptop speaker",  sub: "Most unforgiving reference",      accent: "text-emerald-400", border: "border-emerald-500/30 bg-emerald-500/5" },
+    { name: "AirPods Pro",     sub: "Consumer earbuds + spatial",      accent: "text-zinc-400",    border: "border-zinc-800" },
+    { name: "Car audio",       sub: "Midrange-heavy simulation",       accent: "text-zinc-400",    border: "border-zinc-800" },
+    { name: "Spotify loudness", sub: "−14 LUFS normalization preview", accent: "text-teal-400",    border: "border-teal-500/30 bg-teal-500/5" },
   ];
   return (
-    <div className="vis-audition w-full max-w-[320px]">
-      {devices.map(([name, sub, bg, stroke], idx) => (
-        <div key={name} className={`audition-device ${active === idx ? "active" : ""}`} onClick={() => setActive(idx)}>
-          <div className="device-icon" style={{ background: bg }}>
-            {idx === 0 && <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="2" stroke={stroke} strokeWidth="1.2"/><circle cx="8" cy="8" r="2" stroke={stroke} strokeWidth="1.2"/></svg>}
-            {idx === 1 && <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5" cy="8" r="3" stroke={stroke} strokeWidth="1.2"/><circle cx="11" cy="8" r="3" stroke={stroke} strokeWidth="1.2"/><path d="M8 5v6" stroke={stroke} strokeWidth="1.2"/></svg>}
-            {idx === 2 && <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 5h14v6a2 2 0 01-2 2H3a2 2 0 01-2-2V5z" stroke={stroke} strokeWidth="1.2"/><circle cx="5" cy="8.5" r="1.5" stroke={stroke} strokeWidth="1"/><circle cx="11" cy="8.5" r="1.5" stroke={stroke} strokeWidth="1"/></svg>}
-            {idx === 3 && <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke={stroke} strokeWidth="1.2"/><path d="M6 8l2-1.5V9.5L6 8z" fill={stroke} /></svg>}
+    <div className="w-full max-w-xs space-y-2">
+      {devices.map((d, idx) => (
+        <button
+          key={d.name}
+          onClick={() => setActive(idx)}
+          className={`w-full flex items-center gap-3 p-3 rounded-lg border bg-zinc-950 hover:border-zinc-700 transition-colors text-left ${
+            active === idx ? d.border : "border-zinc-800/80"
+          }`}
+        >
+          <div className={`h-2 w-2 rounded-full ${active === idx ? "bg-emerald-400" : "bg-zinc-700"}`} />
+          <div className="flex-1 min-w-0">
+            <div className="text-zinc-50 text-sm font-medium truncate">{d.name}</div>
+            <div className="text-zinc-500 text-xs truncate">{d.sub}</div>
           </div>
-          <div className="device-info">
-            <div className="device-name">{name}</div>
-            <div className="device-sub">{sub}</div>
-          </div>
-          <div className={`device-check ${active === idx ? "active" : ""}`}>
-            {active === idx && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round"/></svg>}
-          </div>
-        </div>
+          {active === idx && <Check className="w-3.5 h-3.5 text-emerald-400" />}
+        </button>
       ))}
     </div>
   );
 });
 
 const VersionVisual = memo(() => (
-  <div className="vis-version w-full max-w-[320px]">
-    {[["rough_bounce", "3 days ago · starting point", "#3a4060", ""], ["with_808_rewrite", "yesterday · branched from rough", "#e8a838", "saved"], ["final_mix_v3", "2 hours ago · current", "#e85454", "active"], ["alt_intro_idea", "1 hour ago · experiment", "#3dbb6e", "branch"]].map(([name, meta, dot, tag]) => (
-      <div key={String(name)} className={`branch-item ${tag === "active" ? "current" : ""}`}>
-        <div className="branch-dot" style={{ background: dot as string }} />
-        <div className="branch-info">
-          <div className="branch-name">{name}</div>
-          <div className="branch-meta">{meta}</div>
+  <div className="w-full max-w-xs space-y-2">
+    {[
+      { name: "rough_bounce",     meta: "3 days ago · starting point",        dot: "bg-zinc-600" },
+      { name: "with_808_rewrite", meta: "yesterday · branched from rough",   dot: "bg-amber-400" },
+      { name: "final_mix_v3",     meta: "2 hours ago · current",             dot: "bg-rose-400", active: true },
+      { name: "alt_intro_idea",   meta: "1 hour ago · experiment",           dot: "bg-emerald-400" },
+    ].map((b) => (
+      <div
+        key={b.name}
+        className={`flex items-center gap-3 p-3 rounded-lg border bg-zinc-950 ${
+          b.active ? "border-rose-500/30 bg-rose-500/[0.04]" : "border-zinc-800/80"
+        }`}
+      >
+        <span className={`h-1.5 w-1.5 rounded-full ${b.dot}`} />
+        <div className="flex-1 min-w-0">
+          <div className={`text-sm font-medium ${b.active ? "text-zinc-50" : "text-zinc-300"}`}>{b.name}</div>
+          <div className="text-[11px] text-zinc-500">{b.meta}</div>
         </div>
-        {tag ? <div className="branch-tag" style={{ background: `${dot}15`, color: dot as string }}>{tag}</div> : null}
       </div>
     ))}
-    <button className="compare-btn">Compare takes →</button>
+    <button className="w-full mt-2 h-9 rounded-lg border border-zinc-800 text-zinc-300 text-sm hover:bg-zinc-900 transition-colors">
+      Compare takes
+    </button>
   </div>
 ));
 
-const iconMap: Record<string, React.ReactNode[]> = {
-  ENGINE: [
-    <svg key="e1" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M5 19c3-5 5-10 9-10s6 5 9 10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><circle cx="14" cy="14" r="2.2" stroke="currentColor" strokeWidth="1.3"/></svg>,
-    <svg key="e2" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="5" y="7" width="18" height="14" rx="3" stroke="currentColor" strokeWidth="1.3"/><path d="M10 11h8M10 15h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-    <svg key="e3" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="7" y="7" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.3"/><path d="M4 20h20" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
-  ],
-  STARTUP: [
-    <svg key="s1" viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="8" stroke="currentColor" strokeWidth="1.3"/><path d="M14 10v5l3 2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>,
-    <svg key="s2" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M9 9h10v10H9z" stroke="currentColor" strokeWidth="1.2"/><path d="M6 13h3M19 13h3M14 6v3M14 19v3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-    <svg key="s3" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M14 6v8l5 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/><circle cx="14" cy="14" r="8" stroke="currentColor" strokeWidth="1.3"/></svg>,
-  ],
-  WORKFLOW: [
-    <svg key="w1" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="6" y="6" width="16" height="16" rx="3" stroke="currentColor" strokeWidth="1.3"/><path d="M6 14h16M14 6v16" stroke="currentColor" strokeWidth="1.1"/></svg>,
-    <svg key="w2" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M8 11l-3 3 3 3M20 17l3-3-3-3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/><path d="M6 14h16" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-    <svg key="w3" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="5" y="7" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.3"/><path d="M10 7v14M14 7v14M18 7v14" stroke="currentColor" strokeWidth="1.1"/></svg>,
-  ],
-  MIXING: [
-    <svg key="m1" viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="7" cy="8" r="2" stroke="currentColor" strokeWidth="1.2"/><circle cx="21" cy="20" r="2" stroke="currentColor" strokeWidth="1.2"/><path d="M9 9.5l10 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-    <svg key="m2" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M14 5c5 0 8 4 8 8a3 3 0 01-3 3h-2.5a2 2 0 00-2 2V20a3 3 0 01-3 3c-4 0-7-3-7-7 0-6 5-11 9.5-11z" stroke="currentColor" strokeWidth="1.2"/><circle cx="10" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/><circle cx="18" cy="12" r="1" fill="currentColor"/></svg>,
-    <svg key="m3" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M7 7h6v6H7zM15 15h6v6h-6z" stroke="currentColor" strokeWidth="1.2"/><path d="M13 10h2v2M15 13v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-  ],
-  MONITORING: [
-    <svg key="mo1" viewBox="0 0 28 28" width="16" height="16" fill="none"><rect x="4" y="8" width="8" height="12" rx="2" stroke="currentColor" strokeWidth="1.2"/><rect x="15" y="10" width="9" height="8" rx="2" stroke="currentColor" strokeWidth="1.2"/></svg>,
-    <svg key="mo2" viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="8" stroke="currentColor" strokeWidth="1.2"/><path d="M10 14h8M10 17h6M10 11h5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-    <svg key="mo3" viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="9" stroke="currentColor" strokeWidth="1.2"/><path d="M9 14l3 3 7-7" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  ],
-  HISTORY: [
-    <svg key="h1" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M8 7h12v14H8z" stroke="currentColor" strokeWidth="1.2"/><path d="M11 11h6M11 15h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-    <svg key="h2" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M9 7v14M9 14h6a4 4 0 004-4V7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/><circle cx="9" cy="7" r="1.6" fill="currentColor"/><circle cx="19" cy="7" r="1.6" fill="currentColor"/><circle cx="9" cy="21" r="1.6" fill="currentColor"/></svg>,
-    <svg key="h3" viewBox="0 0 28 28" width="16" height="16" fill="none"><path d="M6 8h7v12H6zM15 8h7v12h-7z" stroke="currentColor" strokeWidth="1.2"/><path d="M13 14h2" stroke="currentColor" strokeWidth="1.2"/></svg>,
-  ],
+const tagColors: Record<string, { dot: string; text: string; ring: string }> = {
+  teal:   { dot: "bg-teal-400",   text: "text-teal-400",   ring: "ring-teal-500/20"   },
+  amber:  { dot: "bg-amber-400",  text: "text-amber-400",  ring: "ring-amber-500/20"  },
+  purple: { dot: "bg-violet-400", text: "text-violet-400", ring: "ring-violet-500/20" },
+  blue:   { dot: "bg-blue-400",   text: "text-blue-400",   ring: "ring-blue-500/20"   },
+  green:  { dot: "bg-emerald-400",text: "text-emerald-400",ring: "ring-emerald-500/20"},
+  coral:  { dot: "bg-rose-400",   text: "text-rose-400",   ring: "ring-rose-500/20"   },
 };
+
+const Check = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 16 16" fill="none">
+    <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
 const sections = [
   {
-    title: "Realtime by Default",
-    tag: "ENGINE",
+    title: "Realtime by default",
+    tag: "Engine",
     tagColor: "teal",
     desc: "The core engine is built in-house to stay fast under load. Sessions stay responsive even when projects get dense.",
     points: [
@@ -208,8 +234,8 @@ const sections = [
     Visual: EngineVisual,
   },
   {
-    title: "Instant Launch",
-    tag: "STARTUP",
+    title: "Instant launch",
+    tag: "Startup",
     tagColor: "amber",
     desc: "Boot time is treated as part of the creative flow. Aestra opens directly into work, without ritual waiting screens.",
     points: [
@@ -220,8 +246,8 @@ const sections = [
     Visual: TerminalVisual,
   },
   {
-    title: "Pattern-Centric Workflow",
-    tag: "WORKFLOW",
+    title: "Pattern-centric workflow",
+    tag: "Workflow",
     tagColor: "purple",
     desc: "Ideas start as loops and evolve into arrangements. The workflow is designed around that path from the beginning.",
     points: [
@@ -232,8 +258,8 @@ const sections = [
     Visual: PatternVisual,
   },
   {
-    title: "Visual Signal Routing",
-    tag: "MIXING",
+    title: "Visual signal routing",
+    tag: "Mixing",
     tagColor: "blue",
     desc: "Routing is visible as a live graph, so you can spot gain and bus issues before they become mix problems.",
     points: [
@@ -244,8 +270,8 @@ const sections = [
     Visual: RoutingVisual,
   },
   {
-    title: "Translation Preview",
-    tag: "MONITORING",
+    title: "Translation preview",
+    tag: "Monitoring",
     tagColor: "green",
     desc: "Preview your mix through common listening profiles before exporting, so decisions hold up outside the studio.",
     points: [
@@ -256,8 +282,8 @@ const sections = [
     Visual: AuditionVisual,
   },
   {
-    title: "Mix History",
-    tag: "HISTORY",
+    title: "Mix history",
+    tag: "History",
     tagColor: "coral",
     desc: "Snapshot and branch your work with readable names, then compare versions to keep what actually improves the track.",
     points: [
@@ -272,32 +298,34 @@ const sections = [
 const FeatureBlock = memo(({ feature, index }: { feature: typeof sections[0]; index: number }) => {
   const tc = tagColors[feature.tagColor] || tagColors.blue;
   const reverse = index % 2 === 1;
-  const icons = iconMap[feature.tag] || [];
-
   return (
-    <section className={`feature-block ${reverse ? "reverse" : ""}`}>
-      <div className={`feature-copy acc-${feature.tagColor}`}>
-        <div className="feature-tag">
-          <div className="feature-tag-dot" style={{ background: tc.dot }} />
-          {feature.tag}
-        </div>
-        <h2>{feature.title}</h2>
-        <p className="lead">{feature.desc}</p>
-        <div className="proof-points">
-          {feature.points.map(([strong, body], i) => (
-            <div key={i} className="proof-point">
-              <div className="proof-icon" style={{ color: tc.dot, background: `${tc.dot}15` }}>
-                {icons[i] || <svg viewBox="0 0 28 28" width="16" height="16" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="1.2"/></svg>}
-              </div>
-              <div className="proof-text">
-                <strong>{strong}</strong>
-                <span>{body}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+    <section className="grid lg:grid-cols-2 border-t border-zinc-800/80">
+      <div className={`p-8 sm:p-12 md:p-16 flex flex-col justify-center ${reverse ? "lg:order-2" : ""}`}>
+        <FadeIn>
+          <div className="inline-flex items-center gap-2 mb-5">
+            <span className={`h-1.5 w-1.5 rounded-full ${tc.dot}`} />
+            <span className={`text-[12px] font-medium ${tc.text}`}>{feature.tag}</span>
+          </div>
+          <h2 className="display-2 text-2xl sm:text-3xl md:text-4xl text-zinc-50 mb-4">
+            {feature.title}
+          </h2>
+          <p className="text-zinc-400 text-base leading-relaxed mb-8 max-w-md">
+            {feature.desc}
+          </p>
+          <ul className="space-y-3">
+            {feature.points.map(([strong, body], i) => (
+              <li key={i} className="flex items-start gap-3">
+                <span className={`mt-1.5 h-1.5 w-1.5 rounded-full ${tc.dot} shrink-0`} />
+                <div>
+                  <div className="text-zinc-50 text-[15px] font-medium">{strong}</div>
+                  <div className="text-zinc-400 text-sm leading-relaxed">{body}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </FadeIn>
       </div>
-      <div className="feature-visual">
+      <div className={`flex items-center justify-center bg-zinc-950/40 p-8 sm:p-12 md:p-16 border-t lg:border-t-0 ${reverse ? "lg:order-1 lg:border-r" : "lg:border-l"} border-zinc-800/80`}>
         <feature.Visual />
       </div>
     </section>
@@ -308,16 +336,20 @@ export const Features = ({ setPage, topOffset = 0 }: PageProps) => {
   return (
     <>
       <Navbar activePage="features" setPage={setPage} topOffset={topOffset} />
-      <main className="pt-24 sm:pt-32 pb-16 sm:pb-20 min-h-screen">
-        <div className="page-hero px-4 sm:px-8 max-w-[700px]">
-          <div className="page-hero-tag">Feature Tour</div>
-          <h1>
-            Built for the way<br />producers <span className="text-[#7c3aed]">actually work.</span>
+      <main className="pt-32 sm:pt-40 pb-20 sm:pb-28 min-h-screen">
+        <div className="px-5 sm:px-6 max-w-6xl mx-auto">
+          <p className="kicker mb-4">Feature tour</p>
+          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-6 max-w-3xl">
+            Built for the way producers<br />
+            <span className="text-zinc-400">actually work.</span>
           </h1>
-          <p>Six things that separate Aestra from every other DAW you've closed out of frustration.</p>
+          <p className="text-zinc-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+            Six things that separate Aestra from every other DAW you've closed
+            out of frustration.
+          </p>
         </div>
 
-        <div className="mt-4 border-t border-[#13161e]">
+        <div className="mt-16 sm:mt-20">
           {sections.map((feature, index) => (
             <FeatureBlock key={feature.title} feature={feature} index={index} />
           ))}
