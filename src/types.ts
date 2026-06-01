@@ -57,11 +57,6 @@ export type PageId =
   | "about"
   | "404";
 
-export const VALID_PAGES: PageId[] = [
-  "features", "pricing", "changelog", "docs",
-  "download", "login", "account", "privacy", "terms", "about",
-];
-
 export const PAGE_PATHS: Record<string, string> = {
   home: "/",
   features: "/features",

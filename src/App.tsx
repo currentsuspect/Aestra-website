@@ -29,7 +29,7 @@ const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.N
 
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="w-2 h-2 rounded-full bg-[#00e5cc] animate-bounce" />
+    <div className="w-2 h-2 rounded-full bg-[#8b5cf6] animate-bounce" />
   </div>
 );
 
