@@ -3,9 +3,11 @@
   "scopes_supported": [],
   "agent_auth": {
     "skill": "https://aestra.studio/auth.md",
+    "register_uri": "https://aestra.studio/agent/auth",
+    "claim_uri": "https://aestra.studio/agent/auth/claim",
     "identity_types_supported": ["anonymous"],
     "anonymous": {
-      "credential_types_supported": []
+      "credential_types_supported": ["api_key"]
     }
   }
 }

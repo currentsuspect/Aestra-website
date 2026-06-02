@@ -1,4 +1,4 @@
-# Auth.md
+# auth.md
 
 Aestra does not currently expose protected APIs. This file is published for forward-compatibility so agents can discover the authentication protocol when APIs launch.
 
