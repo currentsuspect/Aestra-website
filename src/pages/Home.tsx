@@ -142,8 +142,8 @@ const Features = memo(() => (
           Built different. Literally.
         </h2>
         <p className="text-zinc-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-14">
-          We built the engine, the interface, every pixel — so the only thing
-          you feel is the music.
+          From the audio engine to the interface — built from scratch, in C++,
+          for producers.
         </p>
       </FadeIn>
 

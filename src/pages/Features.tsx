@@ -113,38 +113,38 @@ const PatternVisual = memo(() => {
 const RoutingVisual = memo(() => (
   <div className="w-full max-w-md aspect-[16/9]">
     <svg viewBox="0 0 320 180" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-      <path d="M 60 50 C 120 50 100 90 160 90" stroke="#3b82f622" strokeWidth="1.5" fill="none"/>
-      <path d="M 60 130 C 120 130 100 90 160 90" stroke="#3b82f622" strokeWidth="1.5" fill="none"/>
-      <path d="M 60 90 L 160 90" stroke="#3b82f633" strokeWidth="1.5" fill="none"/>
-      <path d="M 200 90 L 260 90" stroke="#3b82f644" strokeWidth="2" fill="none"/>
+      <path d="M 54 50 C 100 50 110 90 145 90" stroke="#3b82f622" strokeWidth="1.5" fill="none"/>
+      <path d="M 54 130 C 100 130 110 90 145 90" stroke="#3b82f622" strokeWidth="1.5" fill="none"/>
+      <path d="M 54 90 L 145 90" stroke="#3b82f633" strokeWidth="1.5" fill="none"/>
+      <path d="M 195 90 L 240 90" stroke="#3b82f644" strokeWidth="2" fill="none"/>
       <circle r="3" fill="#3b82f6" opacity="0.8">
-        <animateMotion dur="2s" repeatCount="indefinite" path="M 60 50 C 120 50 100 90 160 90" />
+        <animateMotion dur="2s" repeatCount="indefinite" path="M 54 50 C 100 50 110 90 145 90" />
       </circle>
       <circle r="3" fill="#3b82f6" opacity="0.5">
-        <animateMotion dur="2.4s" repeatCount="indefinite" begin="0.8s" path="M 60 130 C 120 130 100 90 160 90" />
+        <animateMotion dur="2.4s" repeatCount="indefinite" begin="0.8s" path="M 54 130 C 100 130 110 90 145 90" />
       </circle>
       <circle r="3" fill="#3b82f6" opacity="0.6">
-        <animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s" path="M 60 90 L 160 90" />
+        <animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s" path="M 54 90 L 145 90" />
       </circle>
       <circle r="4" fill="#3b82f6" opacity="0.9">
-        <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s" path="M 200 90 L 260 90" />
+        <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s" path="M 195 90 L 240 90" />
       </circle>
-      <rect x="20" y="36" width="40" height="28" rx="6" fill="#3b82f615"/>
-      <text x="40" y="54" textAnchor="middle" fontSize="9" fill="#3b82f6" fontFamily="Geist Mono, monospace">KICK</text>
-      <rect x="20" y="76" width="40" height="28" rx="6" fill="#8b5cf615"/>
-      <text x="40" y="94" textAnchor="middle" fontSize="9" fill="#8b5cf6" fontFamily="Geist Mono, monospace">808</text>
-      <rect x="20" y="116" width="40" height="28" rx="6" fill="#14b8a615"/>
-      <text x="40" y="134" textAnchor="middle" fontSize="9" fill="#14b8a6" fontFamily="Geist Mono, monospace">SYNTH</text>
-      <rect x="140" y="70" width="60" height="40" rx="6" fill="#3b82f610"/>
-      <text x="170" y="88" textAnchor="middle" fontSize="9" fill="#3b82f6" fontFamily="Geist Mono, monospace">FX BUS</text>
-      <text x="170" y="100" textAnchor="middle" fontSize="8" fill="#3b82f6aa" fontFamily="Geist Mono, monospace">EQ + VERB</text>
-      <rect x="240" y="68" width="60" height="44" rx="6" fill="#3b82f620"/>
-      <text x="270" y="88" textAnchor="middle" fontSize="9" fill="#3b82f6" fontFamily="Geist Mono, monospace">MASTER</text>
-      <text x="270" y="102" textAnchor="middle" fontSize="8" fill="#3b82f6aa" fontFamily="Geist Mono, monospace">−3.2 dB</text>
+      <circle cx="40" cy="50" r="16" fill="#3b82f615" stroke="#3b82f640" strokeWidth="1"/>
+      <text x="40" y="53" textAnchor="middle" fontSize="8" fill="#3b82f6" fontFamily="Geist Mono, monospace">KICK</text>
+      <circle cx="40" cy="90" r="16" fill="#8b5cf615" stroke="#8b5cf640" strokeWidth="1"/>
+      <text x="40" y="93" textAnchor="middle" fontSize="8" fill="#8b5cf6" fontFamily="Geist Mono, monospace">808</text>
+      <circle cx="40" cy="130" r="16" fill="#14b8a615" stroke="#14b8a640" strokeWidth="1"/>
+      <text x="40" y="133" textAnchor="middle" fontSize="7.5" fill="#14b8a6" fontFamily="Geist Mono, monospace">SYNTH</text>
+      <path d="M 145 90 L 170 70 L 195 90 L 170 110 Z" fill="#3b82f610" stroke="#3b82f660" strokeWidth="1"/>
+      <text x="170" y="88" textAnchor="middle" fontSize="8" fill="#3b82f6" fontFamily="Geist Mono, monospace">FX BUS</text>
+      <text x="170" y="100" textAnchor="middle" fontSize="7" fill="#3b82f6aa" fontFamily="Geist Mono, monospace">EQ + VERB</text>
+      <rect x="240" y="68" width="60" height="44" rx="8" fill="#3b82f620" stroke="#3b82f680" strokeWidth="1"/>
+      <text x="270" y="88" textAnchor="middle" fontSize="8" fill="#3b82f6" fontFamily="Geist Mono, monospace">MASTER</text>
+      <text x="270" y="102" textAnchor="middle" fontSize="7" fill="#3b82f6aa" fontFamily="Geist Mono, monospace">−3.2 dB</text>
       <circle cx="260" cy="160" r="3" fill="#22c55e">
         <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
       </circle>
-      <text x="270" y="163" fontSize="9" fill="#22c55e" fontFamily="Geist Mono, monospace">LIVE</text>
+      <text x="270" y="163" fontSize="8" fill="#22c55e" fontFamily="Geist Mono, monospace">LIVE</text>
     </svg>
   </div>
 ));
