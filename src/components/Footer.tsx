@@ -70,13 +70,9 @@ export const Footer = memo(({ setPage }: PageProps) => {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-border/80 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="text-xs text-muted">
-            © 2026 Aestra Studios
-          </div>
-          <div className="text-xs text-muted">
-            Built by Dylan Makori
-          </div>
+        <div className="mt-12 pt-6 border-t border-border/80 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 text-xs text-muted">
+          <div>© 2026 Aestra Studios · Built by Dylan Makori</div>
+          <div className="text-dim">Native C++ · v0.1.1</div>
         </div>
       </div>
     </footer>

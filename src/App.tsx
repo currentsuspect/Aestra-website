@@ -224,7 +224,17 @@ export const App = () => {
       case "about":
         return withShell(<LazyPage><About setPage={handleSetPage} /></LazyPage>, "");
       default:
-        return <LazyPage><NotFound setPage={handleSetPage} /></LazyPage>;
+        return (
+          <LazyPage>
+            <div className="flex flex-col min-h-screen">
+              <Navbar activePage="" setPage={handleSetPage} />
+              <div className="flex-1">
+                <NotFound setPage={handleSetPage} />
+              </div>
+              <Footer setPage={handleSetPage} />
+            </div>
+          </LazyPage>
+        );
     }
   };
 

@@ -379,12 +379,12 @@ export const MockTimeline = memo(() => {
         <div className="relative w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-2xl">
           {/* ── Title Bar (File menu | Tabs | Account + Window) ── */}
           <div className="h-10 border-b border-zinc-800 bg-zinc-900/60 px-3 flex items-center justify-between">
-            {/* Left: File menu */}
-            <div className="flex items-center gap-3 text-[11px] text-zinc-400 min-w-[200px]">
-              <button className="hover:text-zinc-200 transition-colors">File</button>
-              <button className="hover:text-zinc-200 transition-colors">Edit</button>
-              <button className="hover:text-zinc-200 transition-colors">View</button>
-              <button className="hover:text-zinc-200 transition-colors">Help</button>
+            {/* Left: File menu (decorative — non-interactive) */}
+            <div className="flex items-center gap-3 text-[11px] text-zinc-400 min-w-[200px]" aria-hidden="true">
+              <span className="cursor-default">File</span>
+              <span className="cursor-default">Edit</span>
+              <span className="cursor-default">View</span>
+              <span className="cursor-default">Help</span>
             </div>
 
             {/* Center: Tabs (Arsenal / Timeline / Audition) */}
@@ -416,10 +416,10 @@ export const MockTimeline = memo(() => {
               <span className="text-zinc-400">Signed out</span>
               <span className="px-1.5 py-0.5 rounded bg-violet-500/20 border border-violet-500/30 text-violet-300 font-medium">Core</span>
               <div className="flex items-center gap-0.5 ml-2">
-                <button title="Minimize" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
+                <button title="Minimize" aria-label="Minimize window" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
                   <Icon.Minimize />
                 </button>
-                <button title="Maximize" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
+                <button title="Maximize" aria-label="Maximize window" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
                   <Icon.Maximize />
                 </button>
                 <button title="Close" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">

@@ -200,7 +200,11 @@ const VersionVisual = memo(() => (
         </div>
       </div>
     ))}
-    <button className="w-full mt-2 h-9 rounded-lg border border-border text-fg-muted text-sm hover:bg-surface-2 transition-colors">
+    <button
+      type="button"
+      aria-label="Compare all takes"
+      className="w-full mt-2 h-9 rounded-lg border border-border text-fg-muted text-sm hover:bg-surface-2 transition-colors"
+    >
       Compare takes
     </button>
   </div>
@@ -331,7 +335,7 @@ export const Features = ({ setPage, topOffset = 0 }: PageProps) => {
   return (
     <>
       <Navbar activePage="features" setPage={setPage} topOffset={topOffset} />
-      <main className="pt-32 sm:pt-40 pb-20 sm:pb-28 min-h-screen">
+      <div className="pt-32 sm:pt-40 pb-20 sm:pb-28 min-h-screen">
         <div className="px-5 sm:px-6 max-w-6xl mx-auto">
           <p className="kicker mb-4">Feature tour</p>
           <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-6 max-w-3xl">
@@ -349,7 +353,7 @@ export const Features = ({ setPage, topOffset = 0 }: PageProps) => {
             <FeatureBlock key={feature.title} feature={feature} index={index} />
           ))}
         </div>
-      </main>
+      </div>
       <Footer setPage={setPage} />
     </>
   );

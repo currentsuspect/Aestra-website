@@ -1,10 +1,13 @@
 import React, { memo, useState, useEffect } from "react";
-import { User, Shield, Zap, LifeBuoy, Music, Download, Copy, Check, Menu, X } from "lucide-react";
+import { User, Shield, Zap, LifeBuoy, Music, Download, Copy, Check, Menu, X, LogIn, ArrowLeft } from "lucide-react";
 import { cn } from "../lib";
 import { Button, Badge, Card } from "../components/ui";
 import type { PageProps } from "../types";
 
+const DEMO_LICENSE = "XXXX-XXXX-XXXX-8921";
+
 export const Dashboard = memo(({ setPage }: PageProps) => {
+  const [authed, setAuthed] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [copied, setCopied] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -14,7 +17,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
   }, [activeTab]);
 
   const handleCopy = () => {
-    navigator.clipboard?.writeText("XXXX-XXXX-XXXX-8921");
+    navigator.clipboard?.writeText(DEMO_LICENSE);
     setCopied(true);
     setTimeout(() => setCopied(false), 1200);
   };
@@ -28,6 +31,65 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
 
   const activeLabel = navItems.find((n) => n.id === activeTab)?.label ?? activeTab;
 
+  if (!authed) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-5 sm:px-6 py-12 bg-bg">
+        <Card className="w-full max-w-md p-7 sm:p-8 border-border/80">
+          <div className="flex items-center gap-2 mb-7">
+            <Music className="w-5 h-5 text-fg" />
+            <span className="text-[15px] font-semibold text-fg tracking-tight">Aestra</span>
+          </div>
+
+          <h1 className="display text-2xl sm:text-3xl text-fg mb-2">Sign in</h1>
+          <p className="text-muted text-sm leading-relaxed mb-7">
+            Manage your licenses, downloads, and Supporter perks.
+          </p>
+
+          <form
+            onSubmit={(e) => { e.preventDefault(); setAuthed(true); }}
+            className="space-y-3"
+          >
+            <label className="block">
+              <span className="text-[11px] uppercase tracking-wider text-muted font-medium">Email</span>
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                className="mt-1.5 w-full bg-bg border border-border rounded-md px-3 py-2.5 text-sm text-fg placeholder:text-dim focus:outline-none focus:border-border-2 transition-colors"
+                placeholder="you@studio.com"
+              />
+            </label>
+            <label className="block">
+              <span className="text-[11px] uppercase tracking-wider text-muted font-medium">Password</span>
+              <input
+                type="password"
+                required
+                autoComplete="current-password"
+                className="mt-1.5 w-full bg-bg border border-border rounded-md px-3 py-2.5 text-sm text-fg placeholder:text-dim focus:outline-none focus:border-border-2 transition-colors"
+                placeholder="••••••••"
+              />
+            </label>
+            <Button type="submit" className="w-full mt-2" icon={LogIn}>Sign in</Button>
+          </form>
+
+          <p className="mt-6 text-[12px] text-dim text-center">
+            No account? <button onClick={() => setPage("download")} className="text-fg-muted hover:text-fg underline underline-offset-4">Get Aestra</button> — sign-in is created on first license activation.
+          </p>
+
+          <div className="mt-7 pt-5 border-t border-border/80 flex items-center justify-between">
+            <button
+              onClick={() => setPage("home")}
+              className="text-[12px] text-muted hover:text-fg inline-flex items-center gap-1.5 transition-colors"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to site
+            </button>
+            <Badge variant="outline">Preview</Badge>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   const SidebarContent = () => (
     <>
       <div className="p-5 flex items-center gap-2.5 cursor-pointer" onClick={() => setPage("home")}>
@@ -35,13 +97,14 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
         <span className="text-[15px] font-semibold text-fg tracking-tight">Aestra</span>
       </div>
 
-      <nav className="px-3 mt-4 space-y-0.5 flex-1">
+      <nav className="px-3 mt-4 space-y-0.5 flex-1" aria-label="Dashboard sections">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
+              aria-current={activeTab === item.id ? "page" : undefined}
               className={cn(
                 "w-full text-left px-3 py-2.5 rounded-md text-sm transition-colors flex items-center gap-2.5 tap-target",
                 activeTab === item.id
@@ -56,14 +119,13 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
         })}
       </nav>
 
-      <div className="p-3">
-        <div className="flex items-center gap-2.5 p-2.5 rounded-md bg-surface-2/60 border border-border/80">
-          <div className="w-8 h-8 rounded-full bg-surface-3 flex items-center justify-center text-fg-muted text-xs font-semibold shrink-0">JD</div>
-          <div className="text-xs min-w-0">
-            <div className="text-fg truncate">John Doe</div>
-            <div className="text-muted truncate">Pro plan</div>
-          </div>
-        </div>
+      <div className="p-3 border-t border-border/80">
+        <button
+          onClick={() => setAuthed(false)}
+          className="w-full text-left text-[12px] text-muted hover:text-fg inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md hover:bg-surface-2/40 transition-colors"
+        >
+          <LogIn className="w-3.5 h-3.5 rotate-180" /> Sign out
+        </button>
       </div>
     </>
   );
@@ -104,9 +166,9 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
       </aside>
 
       {/* Content */}
-      <main className="flex-1 min-w-0 px-5 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12 overflow-y-auto">
+      <div className="flex-1 min-w-0 px-5 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12 overflow-y-auto">
         <div className="max-w-3xl mx-auto">
-          <div className="flex items-center justify-between gap-3 mb-8 sm:mb-10">
+          <div className="flex items-center justify-between gap-3 mb-2 sm:mb-3">
             <div className="flex items-center gap-2 min-w-0">
               <button
                 onClick={() => setMobileNavOpen(true)}
@@ -115,10 +177,11 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
               >
                 <Menu className="w-5 h-5" />
               </button>
-              <h1 className="text-xl sm:text-2xl font-semibold text-fg tracking-tight capitalize truncate">{activeLabel}</h1>
+              <h1 className="text-xl sm:text-2xl font-semibold text-fg tracking-tight truncate">{activeLabel}</h1>
             </div>
-            <Button size="sm" variant="ghost" onClick={() => setPage("home")}>Sign out</Button>
+            <Button size="sm" variant="ghost" onClick={() => setAuthed(false)}>Sign out</Button>
           </div>
+          <p className="text-[12px] text-dim mb-8 sm:mb-10">Preview environment — data shown is illustrative.</p>
 
           {activeTab === "overview" && (
             <div className="space-y-4">
@@ -131,8 +194,9 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
                 <button
                   onClick={handleCopy}
                   className="w-full bg-bg border border-border rounded-md p-3 font-mono text-fg-muted text-sm flex items-center justify-between hover:border-border-2 transition-colors"
+                  aria-label="Copy license key"
                 >
-                  <span>XXXX-XXXX-XXXX-8921</span>
+                  <span>{DEMO_LICENSE}</span>
                   {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-muted" />}
                 </button>
               </Card>
@@ -206,7 +270,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
                 {[
                   ["Aestra Beta", "Active", "Free core"],
                   ["Muse AI", "Coming soon", "Supporter"],
-                  ["Founder card", "Reserved #042", "Founder"],
+                  ["Founder card", "Reserved", "Founder"],
                 ].map(([name, status, plan]) => (
                   <div key={name} className="flex items-center justify-between py-3">
                     <div>
@@ -220,7 +284,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
             </Card>
           )}
         </div>
-      </main>
+      </div>
     </div>
   );
 });

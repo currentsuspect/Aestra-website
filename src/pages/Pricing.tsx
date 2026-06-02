@@ -139,12 +139,12 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
 ];
 
 const Cell = ({ on, accent }: { on: boolean; accent: "emerald" | "violet" | "amber" }) => {
-  if (!on) return <span className="text-dim">—</span>;
+  if (!on) return <span className="text-dim" aria-label="Not included">—</span>;
   const color =
     accent === "emerald" ? "text-emerald-400" :
     accent === "violet"  ? "text-violet-400"  :
                            "text-amber-400";
-  return <Check className={`w-4 h-4 ${color}`} />;
+  return <Check className={`w-4 h-4 ${color}`} aria-label="Included" role="img" />;
 };
 
 export const Pricing = ({ setPage }: PageProps) => {
