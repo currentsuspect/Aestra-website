@@ -2,32 +2,95 @@
 
 /* ─────────────────────────────────────────────────────────────────
    Aestra — design tokens
-   - Single restrained accent (violet) on a neutral dark surface.
-   - No glassmorphism, no scanlines, no decorative gradients, no
-     film grain, no prism/diamond ornaments, no rainbow text.
+   - Single restrained accent (violet) on a neutral surface.
+   - Dark mode default; light mode activates via [data-theme="light"].
+   - No glassmorphism, no scanlines, no decorative gradients.
    ───────────────────────────────────────────────────────────────── */
 @theme {
+  /* Surfaces */
   --color-bg:           #0a0a0b;
   --color-bg-elev:      #0f0f12;
   --color-surface:      #131316;
   --color-surface-2:    #18181c;
+  --color-surface-3:    #1f1f24;
+
+  /* Borders */
   --color-border:       #1f1f24;
   --color-border-2:     #2a2a31;
-  --color-text:         #fafafa;
-  --color-text-muted:   #a1a1aa;
-  --color-text-dim:     #71717a;
+  --color-border-3:     #3a3a42;
+
+  /* Foreground / text */
+  --color-fg:           #fafafa;
+  --color-fg-muted:     #d4d4d8;
+  --color-muted:        #a1a1aa;
+  --color-dim:          #71717a;
+  --color-faint:        #52525b;
+  --color-on-accent:    #0a0a0b;
+
+  /* Brand accent (unchanged in both themes) */
   --color-accent:       #8b5cf6;
   --color-accent-hover: #a78bfa;
   --color-accent-soft:  #8b5cf61a;
+  --color-accent-2:     #7c3aed;
+
+  /* Semantic */
   --color-success:      #22c55e;
   --color-warn:         #f59e0b;
   --color-error:        #ef4444;
+
+  /* Typography */
   --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 :root {
   color-scheme: dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces — warm off-white with subtle warmth */
+  --color-bg:           #fafaf7;
+  --color-bg-elev:      #ffffff;
+  --color-surface:      #f4f4f0;
+  --color-surface-2:    #ececea;
+  --color-surface-3:    #e4e4df;
+
+  /* Borders — soft, low contrast */
+  --color-border:       #e4e4df;
+  --color-border-2:     #d4d4cf;
+  --color-border-3:     #a1a1aa;
+
+  /* Foreground / text */
+  --color-fg:           #18181b;
+  --color-fg-muted:     #3f3f46;
+  --color-muted:        #52525b;
+  --color-dim:          #71717a;
+  --color-faint:        #a1a1aa;
+  --color-on-accent:    #ffffff;
+
+  /* Accent soft tint warmer in light mode */
+  --color-accent-soft:  #8b5cf614;
+
+  /* Scrollbar */
+  ::-webkit-scrollbar-track { background: var(--color-bg); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-2);
+    border: 2px solid var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-border-3); }
+
+  /* Selection */
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-fg);
+  }
+
+  /* Focus ring uses darker offset in light mode */
+  .focus\:ring-offset-bg:focus-visible {
+    --tw-ring-offset-color: var(--color-bg);
+  }
 }
 
 html {
@@ -38,15 +101,16 @@ html {
 
 body {
   background: var(--color-bg);
-  color: var(--color-text);
+  color: var(--color-fg);
   font-family: var(--font-sans);
   font-feature-settings: "ss01", "cv11";
   margin: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::selection {
   background: var(--color-accent-soft);
-  color: var(--color-text);
+  color: var(--color-fg);
 }
 
 *:focus-visible {
@@ -105,15 +169,15 @@ body {
   border-radius: 5px;
   border: 2px solid var(--color-bg);
 }
-::-webkit-scrollbar-thumb:hover { background: #3a3a42; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-border-3); }
 
 /* ── Skip link ─────────────────────────────────────────────────── */
 .skip-link {
   position: absolute;
   top: -40px;
   left: 0;
-  background: var(--color-surface);
-  color: var(--color-text);
+  background: var(--color-bg-elev);
+  color: var(--color-fg);
   padding: 8px 16px;
   z-index: 9999;
   text-decoration: none;
@@ -136,7 +200,7 @@ body {
 .kicker {
   font-size: 12px;
   font-weight: 500;
-  color: var(--color-text-dim);
+  color: var(--color-dim);
   letter-spacing: 0;
 }
 .kicker-accent {
@@ -148,13 +212,13 @@ body {
   font-weight: 600;
   letter-spacing: -0.035em;
   line-height: 1.05;
-  color: var(--color-text);
+  color: var(--color-fg);
 }
 .display-2 {
   font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.1;
-  color: var(--color-text);
+  color: var(--color-fg);
 }
 
 /* ── Subtle progress ──────────────────────────────────────────── */

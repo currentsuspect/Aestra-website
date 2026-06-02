@@ -372,8 +372,20 @@
   }
   </script>
 
+  <!-- No-flash theme bootstrap (runs before React mounts) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('aestra-theme');
+        if (t === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Skip Navigation Link for Accessibility -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#main-content" class="skip-link" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
 </head>
 <body>
   <div id="root"></div>

@@ -16,6 +16,7 @@ import {
   PAGE_SECTION_TITLES,
 } from "./types";
 import { buildPageStructuredData, updateMetaTag } from "./seo";
+import { useTheme } from "./hooks/useTheme";
 
 const Downloads = lazy(() => import("./pages/Downloads").then(m => ({ default: m.Downloads })));
 const Pricing = lazy(() => import("./pages/Pricing").then(m => ({ default: m.Pricing })));
@@ -29,7 +30,7 @@ const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.N
 
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="w-2 h-2 rounded-full bg-[#8b5cf6] animate-bounce" />
+    <div className="w-2 h-2 rounded-full bg-accent animate-bounce" />
   </div>
 );
 
@@ -39,6 +40,7 @@ const LazyPage = ({ children }: { children: React.ReactNode }) => (
 
 export const App = () => {
   const [page, setPage] = useState(() => resolvePage(window.location.pathname));
+  useTheme();
 
   // Update document title, SEO meta, and per-page structured data on navigation
   useEffect(() => {
@@ -227,7 +229,7 @@ export const App = () => {
   };
 
   return (
-    <div className="site-shell min-h-screen text-zinc-100 font-sans selection:bg-[#7c3aed]/30">
+    <div className="site-shell min-h-screen text-fg font-sans selection:bg-accent-soft">
       <main className="page-enter" id="main-content">
         {renderPage()}
       </main>

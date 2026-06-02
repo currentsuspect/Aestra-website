@@ -15,23 +15,23 @@ const EngineVisual = memo(() => (
         ["Dropouts",  0, "bg-emerald-500",  "0"],
       ].map(([label, w, c, v]) => (
         <div key={String(label)} className="flex items-center gap-3">
-          <div className="w-14 text-[11px] text-zinc-400 uppercase tracking-wider shrink-0">{label}</div>
-          <div className="flex-1 h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+          <div className="w-14 text-[11px] text-muted uppercase tracking-wider shrink-0">{label}</div>
+          <div className="flex-1 h-1.5 bg-surface-2 rounded-full overflow-hidden">
             <div className={`h-full rounded-full ${c}`} style={{ width: `${w}%` }} />
           </div>
-          <div className="w-12 text-right text-[11px] font-mono text-zinc-300">{v}</div>
+          <div className="w-12 text-right text-[11px] font-mono text-fg-muted">{v}</div>
         </div>
       ))}
     </div>
-    <div className="mt-6 grid grid-cols-3 divide-x divide-zinc-800/80 rounded-lg border border-zinc-800/80 bg-zinc-950">
+    <div className="mt-6 grid grid-cols-3 divide-x divide-border/80 rounded-lg border border-border/80 bg-bg">
       {[
         { v: "8ms",  l: "Latency",  c: "text-teal-400" },
         { v: "0",    l: "Dropouts", c: "text-emerald-400" },
-        { v: "18%",  l: "CPU",      c: "text-zinc-50" },
+        { v: "18%",  l: "CPU",      c: "text-fg" },
       ].map((s) => (
         <div key={s.l} className="text-center py-4">
           <div className={`text-xl font-semibold tracking-tight ${s.c}`}>{s.v}</div>
-          <div className="text-[10px] text-zinc-400 uppercase tracking-wider mt-1">{s.l}</div>
+          <div className="text-[10px] text-muted uppercase tracking-wider mt-1">{s.l}</div>
         </div>
       ))}
     </div>
@@ -39,26 +39,26 @@ const EngineVisual = memo(() => (
 ));
 
 const TerminalVisual = memo(() => (
-  <div className="w-full max-w-md rounded-lg border border-zinc-800/80 bg-zinc-950 overflow-hidden">
-    <div className="h-8 px-3 border-b border-zinc-800/80 bg-zinc-900/50 flex items-center gap-1.5">
-      <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-      <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-      <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-      <span className="ml-2 text-[11px] text-zinc-400 font-mono">aestra — launch</span>
+  <div className="w-full max-w-md rounded-lg border border-border/80 bg-bg overflow-hidden">
+    <div className="h-8 px-3 border-b border-border/80 bg-surface-2/50 flex items-center gap-1.5">
+      <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
+      <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
+      <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
+      <span className="ml-2 text-[11px] text-muted font-mono">aestra — launch</span>
     </div>
     <div className="p-4 font-mono text-[12px] leading-relaxed space-y-1">
-      <div className="text-zinc-500 line-through">› scanning VST folders…</div>
-      <div className="text-zinc-500 line-through">› loading splash screen…</div>
-      <div className="text-zinc-500 line-through">› negotiating audio device…</div>
+      <div className="text-dim line-through">› scanning VST folders…</div>
+      <div className="text-dim line-through">› loading splash screen…</div>
+      <div className="text-dim line-through">› negotiating audio device…</div>
       <div className="h-2" />
       <div className="text-emerald-400">✓ audio engine ready</div>
       <div className="text-emerald-400">✓ last session restored</div>
       <div className="text-emerald-400">✓ plugins loaded</div>
       <div className="text-amber-400">› ready</div>
     </div>
-    <div className="px-4 py-3 border-t border-zinc-800/80 flex items-baseline gap-2">
+    <div className="px-4 py-3 border-t border-border/80 flex items-baseline gap-2">
       <span className="text-xl font-semibold text-amber-400 font-mono tracking-tight">1.4s</span>
-      <span className="text-[11px] text-zinc-400">from launch to beat</span>
+      <span className="text-[11px] text-muted">from launch to beat</span>
     </div>
   </div>
 ));
@@ -68,7 +68,7 @@ const PatternVisual = memo(() => {
   return (
     <div className="w-full max-w-md">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[11px] text-zinc-400 font-mono">PATTERN_03 — main loop</span>
+        <span className="text-[11px] text-muted font-mono">PATTERN_03 — main loop</span>
         <span className="text-[11px] text-violet-400 font-mono">140 BPM</span>
       </div>
       <div className="space-y-1.5">
@@ -76,15 +76,15 @@ const PatternVisual = memo(() => {
           ["KICK",  [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0], "bg-amber-400"],
           ["SNARE", [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0], "bg-teal-400"],
           ["HAT",   [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1], "bg-violet-400"],
-          ["808",   [1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0], "bg-zinc-50"],
+          ["808",   [1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0], "bg-fg"],
         ].map(([label, pattern, color]) => (
           <div key={String(label)} className="flex items-center gap-2">
-            <div className="w-10 text-[9px] tracking-wider text-zinc-400 font-mono uppercase">{label}</div>
+            <div className="w-10 text-[9px] tracking-wider text-muted font-mono uppercase">{label}</div>
             <div className="grid grid-cols-16 gap-1 flex-1">
               {(pattern as number[]).map((on, i) => (
                 <div
                   key={i}
-                  className={`h-3.5 rounded-sm ${on ? color : "bg-zinc-900"}`}
+                  className={`h-3.5 rounded-sm ${on ? color : "bg-surface-2"}`}
                 />
               ))}
             </div>
@@ -103,8 +103,8 @@ const PatternVisual = memo(() => {
             <svg width="9" height="9" viewBox="0 0 10 12" fill="currentColor"><path d="M1 1l8 5-8 5V1z"/></svg>
           )}
         </button>
-        <span className="text-[10px] text-zinc-400 font-mono">1.1.0</span>
-        <span className="ml-auto text-[10px] text-zinc-400 font-mono">16 steps</span>
+        <span className="text-[10px] text-muted font-mono">1.1.0</span>
+        <span className="ml-auto text-[10px] text-muted font-mono">16 steps</span>
       </div>
     </div>
   );
@@ -153,8 +153,8 @@ const AuditionVisual = memo(() => {
   const [active, setActive] = useState(0);
   const devices: { name: string; sub: string; accent: string; border: string }[] = [
     { name: "Laptop speaker",  sub: "Most unforgiving reference",      accent: "text-emerald-400", border: "border-emerald-500/30 bg-emerald-500/5" },
-    { name: "AirPods Pro",     sub: "Consumer earbuds + spatial",      accent: "text-zinc-400",    border: "border-zinc-800" },
-    { name: "Car audio",       sub: "Midrange-heavy simulation",       accent: "text-zinc-400",    border: "border-zinc-800" },
+    { name: "AirPods Pro",     sub: "Consumer earbuds + spatial",      accent: "text-muted",    border: "border-border" },
+    { name: "Car audio",       sub: "Midrange-heavy simulation",       accent: "text-muted",    border: "border-border" },
     { name: "Spotify loudness", sub: "−14 LUFS normalization preview", accent: "text-teal-400",    border: "border-teal-500/30 bg-teal-500/5" },
   ];
   return (
@@ -163,14 +163,14 @@ const AuditionVisual = memo(() => {
         <button
           key={d.name}
           onClick={() => setActive(idx)}
-          className={`w-full flex items-center gap-3 p-3 rounded-lg border bg-zinc-950 hover:border-zinc-700 transition-colors text-left ${
-            active === idx ? d.border : "border-zinc-800/80"
+          className={`w-full flex items-center gap-3 p-3 rounded-lg border bg-bg hover:border-border-2 transition-colors text-left ${
+            active === idx ? d.border : "border-border/80"
           }`}
         >
-          <div className={`h-2 w-2 rounded-full ${active === idx ? "bg-emerald-400" : "bg-zinc-700"}`} />
+          <div className={`h-2 w-2 rounded-full ${active === idx ? "bg-emerald-400" : "bg-surface-3"}`} />
           <div className="flex-1 min-w-0">
-            <div className="text-zinc-50 text-sm font-medium truncate">{d.name}</div>
-            <div className="text-zinc-400 text-xs truncate">{d.sub}</div>
+            <div className="text-fg text-sm font-medium truncate">{d.name}</div>
+            <div className="text-muted text-xs truncate">{d.sub}</div>
           </div>
           {active === idx && <Check className="w-3.5 h-3.5 text-emerald-400" />}
         </button>
@@ -182,25 +182,25 @@ const AuditionVisual = memo(() => {
 const VersionVisual = memo(() => (
   <div className="w-full max-w-xs space-y-2">
     {[
-      { name: "rough_bounce",     meta: "3 days ago · starting point",        dot: "bg-zinc-600" },
+      { name: "rough_bounce",     meta: "3 days ago · starting point",        dot: "bg-faint" },
       { name: "with_808_rewrite", meta: "yesterday · branched from rough",   dot: "bg-amber-400" },
       { name: "final_mix_v3",     meta: "2 hours ago · current",             dot: "bg-rose-400", active: true },
       { name: "alt_intro_idea",   meta: "1 hour ago · experiment",           dot: "bg-emerald-400" },
     ].map((b) => (
       <div
         key={b.name}
-        className={`flex items-center gap-3 p-3 rounded-lg border bg-zinc-950 ${
-          b.active ? "border-rose-500/30 bg-rose-500/[0.04]" : "border-zinc-800/80"
+        className={`flex items-center gap-3 p-3 rounded-lg border bg-bg ${
+          b.active ? "border-rose-500/30 bg-rose-500/[0.04]" : "border-border/80"
         }`}
       >
         <span className={`h-1.5 w-1.5 rounded-full ${b.dot}`} />
         <div className="flex-1 min-w-0">
-          <div className={`text-sm font-medium ${b.active ? "text-zinc-50" : "text-zinc-300"}`}>{b.name}</div>
-          <div className="text-[11px] text-zinc-400">{b.meta}</div>
+          <div className={`text-sm font-medium ${b.active ? "text-fg" : "text-fg-muted"}`}>{b.name}</div>
+          <div className="text-[11px] text-muted">{b.meta}</div>
         </div>
       </div>
     ))}
-    <button className="w-full mt-2 h-9 rounded-lg border border-zinc-800 text-zinc-300 text-sm hover:bg-zinc-900 transition-colors">
+    <button className="w-full mt-2 h-9 rounded-lg border border-border text-fg-muted text-sm hover:bg-surface-2 transition-colors">
       Compare takes
     </button>
   </div>
@@ -294,17 +294,17 @@ const FeatureBlock = memo(({ feature, index }: { feature: typeof sections[0]; in
   const tc = tagColors[feature.tagColor] || tagColors.blue;
   const reverse = index % 2 === 1;
   return (
-    <section className="grid lg:grid-cols-2 border-t border-zinc-800/80">
+    <section className="grid lg:grid-cols-2 border-t border-border/80">
       <div className={`p-8 sm:p-12 md:p-16 flex flex-col justify-center ${reverse ? "lg:order-2" : ""}`}>
         <FadeIn>
           <div className="inline-flex items-center gap-2 mb-5">
             <span className={`h-1.5 w-1.5 rounded-full ${tc.dot}`} />
             <span className={`text-[12px] font-medium ${tc.text}`}>{feature.tag}</span>
           </div>
-          <h2 className="display-2 text-2xl sm:text-3xl md:text-4xl text-zinc-50 mb-4">
+          <h2 className="display-2 text-2xl sm:text-3xl md:text-4xl text-fg mb-4">
             {feature.title}
           </h2>
-          <p className="text-zinc-400 text-base leading-relaxed mb-8 max-w-md">
+          <p className="text-muted text-base leading-relaxed mb-8 max-w-md">
             {feature.desc}
           </p>
           <ul className="space-y-3">
@@ -312,15 +312,15 @@ const FeatureBlock = memo(({ feature, index }: { feature: typeof sections[0]; in
               <li key={i} className="flex items-start gap-3">
                 <span className={`mt-1.5 h-1.5 w-1.5 rounded-full ${tc.dot} shrink-0`} />
                 <div>
-                  <div className="text-zinc-50 text-[15px] font-medium">{strong}</div>
-                  <div className="text-zinc-400 text-sm leading-relaxed">{body}</div>
+                  <div className="text-fg text-[15px] font-medium">{strong}</div>
+                  <div className="text-muted text-sm leading-relaxed">{body}</div>
                 </div>
               </li>
             ))}
           </ul>
         </FadeIn>
       </div>
-      <div className={`flex items-center justify-center bg-zinc-950/40 p-8 sm:p-12 md:p-16 border-t lg:border-t-0 ${reverse ? "lg:order-1 lg:border-r" : "lg:border-l"} border-zinc-800/80`}>
+      <div className={`flex items-center justify-center bg-bg/40 p-8 sm:p-12 md:p-16 border-t lg:border-t-0 ${reverse ? "lg:order-1 lg:border-r" : "lg:border-l"} border-border/80`}>
         <feature.Visual />
       </div>
     </section>
@@ -334,11 +334,11 @@ export const Features = ({ setPage, topOffset = 0 }: PageProps) => {
       <main className="pt-32 sm:pt-40 pb-20 sm:pb-28 min-h-screen">
         <div className="px-5 sm:px-6 max-w-6xl mx-auto">
           <p className="kicker mb-4">Feature tour</p>
-          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-6 max-w-3xl">
+          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-6 max-w-3xl">
             Built for the way producers<br />
-            <span className="text-zinc-400">actually work.</span>
+            <span className="text-muted">actually work.</span>
           </h1>
-          <p className="text-zinc-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+          <p className="text-muted text-base sm:text-lg max-w-2xl leading-relaxed">
             Six things that separate Aestra from every other DAW you've closed
             out of frustration.
           </p>

@@ -528,38 +528,38 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   className={cn(
                     "w-full rounded-lg p-4 text-left border transition-colors",
                     recipe.id === selectedRecipe
-                      ? "border-zinc-700 bg-zinc-900"
-                      : "border-zinc-800/80 bg-zinc-950 hover:border-zinc-700"
+                      ? "border-border-2 bg-surface-2"
+                      : "border-border/80 bg-bg hover:border-border-2"
                   )}
                 >
-                  <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-1">Recipe</div>
-                  <div className="text-zinc-50 font-medium text-sm">{recipe.title}</div>
-                  <div className="text-xs text-zinc-400 mt-1">{recipe.preset}</div>
+                  <div className="text-[11px] uppercase tracking-wider text-muted mb-1">Recipe</div>
+                  <div className="text-fg font-medium text-sm">{recipe.title}</div>
+                  <div className="text-xs text-muted mt-1">{recipe.preset}</div>
                 </button>
               ))}
             </div>
 
-            <Card className="p-5 sm:p-6 border-zinc-800/80">
-              <h3 className="text-xl text-zinc-50 font-semibold tracking-tight">{selectedRecipeData.title}</h3>
-              <p className="text-sm text-zinc-400 mt-2 leading-relaxed">{selectedRecipeData.goal}</p>
-              <div className="mt-5 inline-flex rounded-md border border-zinc-800 overflow-hidden">
+            <Card className="p-5 sm:p-6 border-border/80">
+              <h3 className="text-xl text-fg font-semibold tracking-tight">{selectedRecipeData.title}</h3>
+              <p className="text-sm text-muted mt-2 leading-relaxed">{selectedRecipeData.goal}</p>
+              <div className="mt-5 inline-flex rounded-md border border-border overflow-hidden">
                 <button
                   onClick={() => setRecipeMode("before")}
-                  className={cn("px-3 py-1.5 text-xs", recipeMode === "before" ? "bg-zinc-800 text-zinc-100" : "bg-transparent text-zinc-400")}
+                  className={cn("px-3 py-1.5 text-xs", recipeMode === "before" ? "bg-surface-3 text-fg" : "bg-transparent text-muted")}
                 >
                   Before
                 </button>
                 <button
                   onClick={() => setRecipeMode("after")}
-                  className={cn("px-3 py-1.5 text-xs border-l border-zinc-800", recipeMode === "after" ? "bg-zinc-800 text-zinc-100" : "bg-transparent text-zinc-400")}
+                  className={cn("px-3 py-1.5 text-xs border-l border-border", recipeMode === "after" ? "bg-surface-3 text-fg" : "bg-transparent text-muted")}
                 >
                   After
                 </button>
               </div>
-              <div className="mt-4 rounded-lg border border-zinc-800/80 bg-zinc-950 px-4 py-3 text-sm text-zinc-300 leading-relaxed">
+              <div className="mt-4 rounded-lg border border-border/80 bg-bg px-4 py-3 text-sm text-fg-muted leading-relaxed">
                 {recipeMode === "before" ? selectedRecipeData.before : selectedRecipeData.after}
               </div>
-              <h4 className="text-sm text-zinc-50 mt-7 mb-3 font-medium">Step checklist</h4>
+              <h4 className="text-sm text-fg mt-7 mb-3 font-medium">Step checklist</h4>
               <div className="space-y-2">
                 {selectedRecipeData.steps.map((step, index) => (
                   <button
@@ -569,13 +569,13 @@ export const Docs = memo(({ setPage }: PageProps) => {
                       "w-full rounded-lg border px-3 py-3 text-left flex items-start gap-3 transition-colors",
                       recipeStepChecks[index]
                         ? "border-emerald-500/30 bg-emerald-500/5"
-                        : "border-zinc-800/80 bg-zinc-950 hover:border-zinc-700"
+                        : "border-border/80 bg-bg hover:border-border-2"
                     )}
                   >
-                    <span className={cn("mt-0.5 inline-flex w-4 h-4 rounded-full border items-center justify-center text-[10px] shrink-0", recipeStepChecks[index] ? "border-emerald-400 text-emerald-400" : "border-zinc-700 text-zinc-400")}>
+                    <span className={cn("mt-0.5 inline-flex w-4 h-4 rounded-full border items-center justify-center text-[10px] shrink-0", recipeStepChecks[index] ? "border-emerald-400 text-emerald-400" : "border-border-2 text-muted")}>
                       {recipeStepChecks[index] ? "✓" : index + 1}
                     </span>
-                    <span className="text-sm text-zinc-300 leading-relaxed">{step}</span>
+                    <span className="text-sm text-fg-muted leading-relaxed">{step}</span>
                   </button>
                 ))}
               </div>
@@ -585,7 +585,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
 
       case "signal-flow":
         return (
-          <Card className="p-5 sm:p-6 border-zinc-800/80">
+          <Card className="p-5 sm:p-6 border-border/80">
             <div className="flex flex-wrap gap-2 mb-5">
               {flowNodes.map((node) => (
                 <button
@@ -594,8 +594,8 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   className={cn(
                     "rounded-md px-3 py-1.5 text-xs border transition-colors",
                     selectedFlowNode === node.id
-                      ? "border-zinc-600 bg-zinc-800 text-zinc-100"
-                      : "border-zinc-800 text-zinc-400 hover:text-zinc-100"
+                      ? "border-border-2 bg-surface-3 text-fg"
+                      : "border-border text-muted hover:text-fg"
                   )}
                 >
                   {node.name}
@@ -603,7 +603,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
               ))}
             </div>
 
-            <div className="rounded-lg border border-zinc-800/80 bg-zinc-950 p-4 mb-5 overflow-x-auto">
+            <div className="rounded-lg border border-border/80 bg-bg p-4 mb-5 overflow-x-auto">
               <svg viewBox="0 0 760 90" className="h-auto w-full min-w-[600px]">
                 {flowNodes.map((node, index) => {
                   const x = 60 + index * 150;
@@ -624,16 +624,16 @@ export const Docs = memo(({ setPage }: PageProps) => {
             <div className="flex gap-2 mb-4">
               <button
                 onClick={() => setFlowMode("before")}
-                className={cn("rounded-md px-3 py-1.5 text-xs border", flowMode === "before" ? "border-zinc-600 bg-zinc-800 text-zinc-100" : "border-zinc-800 text-zinc-400")}
+                className={cn("rounded-md px-3 py-1.5 text-xs border", flowMode === "before" ? "border-border-2 bg-surface-3 text-fg" : "border-border text-muted")}
               >Before</button>
               <button
                 onClick={() => setFlowMode("after")}
-                className={cn("rounded-md px-3 py-1.5 text-xs border", flowMode === "after" ? "border-zinc-600 bg-zinc-800 text-zinc-100" : "border-zinc-800 text-zinc-400")}
+                className={cn("rounded-md px-3 py-1.5 text-xs border", flowMode === "after" ? "border-border-2 bg-surface-3 text-fg" : "border-border text-muted")}
               >After</button>
             </div>
 
-            <h3 className="text-lg font-semibold text-zinc-50">{selectedFlowData.name}</h3>
-            <p className="text-sm text-zinc-300 mt-2 leading-relaxed">{flowMode === "before" ? selectedFlowData.before : selectedFlowData.after}</p>
+            <h3 className="text-lg font-semibold text-fg">{selectedFlowData.name}</h3>
+            <p className="text-sm text-fg-muted mt-2 leading-relaxed">{flowMode === "before" ? selectedFlowData.before : selectedFlowData.after}</p>
             <p className="text-sm text-violet-300 mt-3">Tip: {selectedFlowData.tip}</p>
           </Card>
         );
@@ -649,19 +649,19 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   className={cn(
                     "w-full rounded-lg px-4 py-3 text-left border transition-colors",
                     selectedPersona === track.id
-                      ? "border-zinc-700 bg-zinc-900"
-                      : "border-zinc-800/80 bg-zinc-950 hover:border-zinc-700"
+                      ? "border-border-2 bg-surface-2"
+                      : "border-border/80 bg-bg hover:border-border-2"
                   )}
                 >
-                  <div className="text-zinc-50 font-medium text-sm">{track.label}</div>
-                  <div className="text-xs text-zinc-400 mt-1 leading-relaxed">{track.summary}</div>
+                  <div className="text-fg font-medium text-sm">{track.label}</div>
+                  <div className="text-xs text-muted mt-1 leading-relaxed">{track.summary}</div>
                 </button>
               ))}
             </div>
 
-            <Card className="p-5 sm:p-6 border-zinc-800/80">
-              <h3 className="text-xl text-zinc-50 font-semibold tracking-tight">{selectedPersonaData.label} track</h3>
-              <p className="text-sm text-zinc-400 mt-2 leading-relaxed">{selectedPersonaData.summary}</p>
+            <Card className="p-5 sm:p-6 border-border/80">
+              <h3 className="text-xl text-fg font-semibold tracking-tight">{selectedPersonaData.label} track</h3>
+              <p className="text-sm text-muted mt-2 leading-relaxed">{selectedPersonaData.summary}</p>
               <div className="space-y-2 mt-5">
                 {selectedPersonaData.playlist.map((item, index) => {
                   const progress = personaProgress[selectedPersonaData.id] ?? 0;
@@ -672,8 +672,8 @@ export const Docs = memo(({ setPage }: PageProps) => {
                       className={cn(
                         "rounded-lg border px-3 py-3 text-sm leading-relaxed",
                         done
-                          ? "border-emerald-500/30 bg-emerald-500/5 text-zinc-200"
-                          : "border-zinc-800/80 bg-zinc-950 text-zinc-400"
+                          ? "border-emerald-500/30 bg-emerald-500/5 text-fg-muted"
+                          : "border-border/80 bg-bg text-muted"
                       )}
                     >
                       <span className="mr-2 text-xs">{done ? "✓" : `${index + 1}.`}</span>
@@ -712,7 +712,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
 
       case "symptom-solver":
         return (
-          <Card className="p-5 sm:p-6 border-zinc-800/80">
+          <Card className="p-5 sm:p-6 border-border/80">
             <div className="flex flex-wrap gap-2 mb-5">
               {symptoms.map((item) => (
                 <button
@@ -721,8 +721,8 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   className={cn(
                     "rounded-md px-3 py-1.5 text-xs border transition-colors",
                     selectedSymptom === item.id
-                      ? "border-zinc-600 bg-zinc-800 text-zinc-100"
-                      : "border-zinc-800 text-zinc-400 hover:text-zinc-100"
+                      ? "border-border-2 bg-surface-3 text-fg"
+                      : "border-border text-muted hover:text-fg"
                   )}
                 >
                   {item.symptom}
@@ -730,19 +730,19 @@ export const Docs = memo(({ setPage }: PageProps) => {
               ))}
             </div>
 
-            <h3 className="text-lg text-zinc-50 font-semibold tracking-tight">{selectedSymptomData.symptom}</h3>
+            <h3 className="text-lg text-fg font-semibold tracking-tight">{selectedSymptomData.symptom}</h3>
             <div className="grid md:grid-cols-2 gap-4 mt-5">
-              <div className="rounded-lg border border-zinc-800/80 bg-zinc-950 p-4">
-                <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-3">Immediate fixes</div>
-                <ul className="space-y-2 text-sm text-zinc-300 leading-relaxed">
+              <div className="rounded-lg border border-border/80 bg-bg p-4">
+                <div className="text-[11px] uppercase tracking-wider text-muted mb-3">Immediate fixes</div>
+                <ul className="space-y-2 text-sm text-fg-muted leading-relaxed">
                   {selectedSymptomData.immediate.map((line, index) => (
                     <li key={index}>• {line}</li>
                   ))}
                 </ul>
               </div>
-              <div className="rounded-lg border border-zinc-800/80 bg-zinc-950 p-4">
-                <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-3">Deep fixes</div>
-                <ul className="space-y-2 text-sm text-zinc-300 leading-relaxed">
+              <div className="rounded-lg border border-border/80 bg-bg p-4">
+                <div className="text-[11px] uppercase tracking-wider text-muted mb-3">Deep fixes</div>
+                <ul className="space-y-2 text-sm text-fg-muted leading-relaxed">
                   {selectedSymptomData.deep.map((line, index) => (
                     <li key={index}>• {line}</li>
                   ))}
@@ -754,11 +754,11 @@ export const Docs = memo(({ setPage }: PageProps) => {
 
       case "command-palette":
         return (
-          <Card className="p-5 sm:p-6 border-zinc-800/80">
+          <Card className="p-5 sm:p-6 border-border/80">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-lg font-semibold text-zinc-50">Docs command palette</h3>
-                <p className="text-sm text-zinc-400 mt-1">Use / (or Ctrl/Cmd + K) to jump anywhere in docs instantly.</p>
+                <h3 className="text-lg font-semibold text-fg">Docs command palette</h3>
+                <p className="text-sm text-muted mt-1">Use / (or Ctrl/Cmd + K) to jump anywhere in docs instantly.</p>
               </div>
               <Button variant="secondary" size="sm" onClick={() => setPaletteOpen(true)}>Open palette</Button>
             </div>
@@ -770,9 +770,9 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 ["Close palette", "Esc"],
                 ["Jump to section", "Type section name"]
               ].map(([label, key]) => (
-                <div key={label + key} className="rounded-md border border-zinc-800/80 bg-zinc-950 px-3 py-3 flex items-center justify-between text-sm">
-                  <span className="text-zinc-300">{label}</span>
-                  <span className="text-xs text-zinc-400 font-mono">{key}</span>
+                <div key={label + key} className="rounded-md border border-border/80 bg-bg px-3 py-3 flex items-center justify-between text-sm">
+                  <span className="text-fg-muted">{label}</span>
+                  <span className="text-xs text-muted font-mono">{key}</span>
                 </div>
               ))}
             </div>
@@ -782,13 +782,13 @@ export const Docs = memo(({ setPage }: PageProps) => {
       case "mini-sandboxes":
         return (
           <div className="grid xl:grid-cols-2 gap-4">
-            <Card className="p-5 border-zinc-800/80">
-              <h3 className="text-lg font-semibold text-zinc-50">Pattern mini-grid</h3>
-              <p className="text-sm text-zinc-400 mt-1">Tap cells to sketch a groove idea.</p>
+            <Card className="p-5 border-border/80">
+              <h3 className="text-lg font-semibold text-fg">Pattern mini-grid</h3>
+              <p className="text-sm text-muted mt-1">Tap cells to sketch a groove idea.</p>
               <div className="mt-4 space-y-2.5">
                 {Object.entries(patternRows).map(([row, values]) => (
                   <div key={row} className="grid grid-cols-[56px_1fr] gap-3 items-center">
-                    <div className="text-xs text-zinc-400 uppercase font-mono">{row}</div>
+                    <div className="text-xs text-muted uppercase font-mono">{row}</div>
                     <div className="grid grid-cols-16 gap-1">
                       {values.map((value, idx) => (
                         <button
@@ -796,7 +796,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                           onClick={() => togglePatternCell(row, idx)}
                           className={cn(
                             "h-5 rounded-sm border transition-colors",
-                            value ? "bg-violet-500 border-violet-400" : "bg-zinc-950 border-zinc-800 hover:border-zinc-700"
+                            value ? "bg-violet-500 border-violet-400" : "bg-bg border-border hover:border-border-2"
                           )}
                         />
                       ))}
@@ -806,9 +806,9 @@ export const Docs = memo(({ setPage }: PageProps) => {
               </div>
             </Card>
 
-            <Card className="p-5 border-zinc-800/80">
-              <h3 className="text-lg font-semibold text-zinc-50">Routing mini-lab</h3>
-              <p className="text-sm text-zinc-400 mt-1">Toggle processing blocks to inspect chain behavior.</p>
+            <Card className="p-5 border-border/80">
+              <h3 className="text-lg font-semibold text-fg">Routing mini-lab</h3>
+              <p className="text-sm text-muted mt-1">Toggle processing blocks to inspect chain behavior.</p>
               <div className="mt-4 space-y-2">
                 {Object.entries(routingToggles).map(([node, active]) => (
                   <button
@@ -816,15 +816,15 @@ export const Docs = memo(({ setPage }: PageProps) => {
                     onClick={() => setRoutingToggles((prev) => ({ ...prev, [node]: !active }))}
                     className={cn(
                       "w-full rounded-md border px-3 py-3 text-left flex items-center justify-between transition-colors",
-                      active ? "border-violet-500/30 bg-violet-500/5" : "border-zinc-800/80 bg-zinc-950 hover:border-zinc-700"
+                      active ? "border-violet-500/30 bg-violet-500/5" : "border-border/80 bg-bg hover:border-border-2"
                     )}
                   >
-                    <span className="text-sm text-zinc-200 uppercase font-mono">{node}</span>
-                    <span className={cn("text-xs font-medium", active ? "text-violet-300" : "text-zinc-400")}>{active ? "ON" : "OFF"}</span>
+                    <span className="text-sm text-fg-muted uppercase font-mono">{node}</span>
+                    <span className={cn("text-xs font-medium", active ? "text-violet-300" : "text-muted")}>{active ? "ON" : "OFF"}</span>
                   </button>
                 ))}
               </div>
-              <div className="mt-4 rounded-md border border-zinc-800/80 bg-zinc-950 p-3 text-sm text-zinc-300">
+              <div className="mt-4 rounded-md border border-border/80 bg-bg p-3 text-sm text-fg-muted">
                 Current chain: {Object.entries(routingToggles).filter(([, active]) => active).map(([node]) => node.toUpperCase()).join(" → ") || "BYPASS"}
               </div>
             </Card>
@@ -833,7 +833,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
 
       case "changes-for-me":
         return (
-          <Card className="p-5 sm:p-6 border-zinc-800/80">
+          <Card className="p-5 sm:p-6 border-border/80">
             <div className="flex flex-wrap gap-2 mb-5">
               {workflowImpact.map((item) => (
                 <button
@@ -842,8 +842,8 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   className={cn(
                     "rounded-md px-3 py-1.5 text-xs border transition-colors",
                     selectedWorkflowImpact === item.id
-                      ? "border-zinc-600 bg-zinc-800 text-zinc-100"
-                      : "border-zinc-800 text-zinc-400 hover:text-zinc-100"
+                      ? "border-border-2 bg-surface-3 text-fg"
+                      : "border-border text-muted hover:text-fg"
                   )}
                 >
                   {item.label}
@@ -852,10 +852,10 @@ export const Docs = memo(({ setPage }: PageProps) => {
             </div>
             <div className="space-y-3">
               {selectedImpactData.notes.map((note, index) => (
-                <div key={index} className="rounded-lg border border-zinc-800/80 bg-zinc-950 p-4">
-                  <div className="text-xs text-zinc-400 font-mono uppercase tracking-wider">{note.version}</div>
-                  <div className="text-sm text-zinc-50 mt-1.5">{note.change}</div>
-                  <div className="text-sm text-zinc-400 mt-2 leading-relaxed">Impact: {note.impact}</div>
+                <div key={index} className="rounded-lg border border-border/80 bg-bg p-4">
+                  <div className="text-xs text-muted font-mono uppercase tracking-wider">{note.version}</div>
+                  <div className="text-sm text-fg mt-1.5">{note.change}</div>
+                  <div className="text-sm text-muted mt-2 leading-relaxed">Impact: {note.impact}</div>
                 </div>
               ))}
             </div>
@@ -869,11 +869,11 @@ export const Docs = memo(({ setPage }: PageProps) => {
         return (
           <div className="grid gap-3">
             {communityBreakdowns.map((item) => (
-              <Card key={item.id} className="p-5 border-zinc-800/80">
+              <Card key={item.id} className="p-5 border-border/80">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-lg text-zinc-50 font-semibold tracking-tight">{item.title}</h3>
-                    <p className="text-xs text-zinc-400 mt-1 font-mono">{item.genre}</p>
+                    <h3 className="text-lg text-fg font-semibold tracking-tight">{item.title}</h3>
+                    <p className="text-xs text-muted mt-1 font-mono">{item.genre}</p>
                   </div>
                   <Button
                     variant="secondary"
@@ -888,13 +888,13 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   </Button>
                 </div>
                 <div className="mt-4 grid md:grid-cols-2 gap-3">
-                  <div className="rounded-md border border-zinc-800/80 bg-zinc-950 p-3">
-                    <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5">Chain used</div>
-                    <div className="text-sm text-zinc-300 leading-relaxed">{item.chain}</div>
+                  <div className="rounded-md border border-border/80 bg-bg p-3">
+                    <div className="text-[11px] uppercase tracking-wider text-muted mb-1.5">Chain used</div>
+                    <div className="text-sm text-fg-muted leading-relaxed">{item.chain}</div>
                   </div>
-                  <div className="rounded-md border border-zinc-800/80 bg-zinc-950 p-3">
-                    <div className="text-[11px] uppercase tracking-wider text-zinc-400 mb-1.5">Key takeaway</div>
-                    <div className="text-sm text-zinc-300 leading-relaxed">{item.takeaway}</div>
+                  <div className="rounded-md border border-border/80 bg-bg p-3">
+                    <div className="text-[11px] uppercase tracking-wider text-muted mb-1.5">Key takeaway</div>
+                    <div className="text-sm text-fg-muted leading-relaxed">{item.takeaway}</div>
                   </div>
                 </div>
               </Card>
@@ -909,24 +909,24 @@ export const Docs = memo(({ setPage }: PageProps) => {
 
   return (
     <div className="pt-32 sm:pt-40 min-h-screen flex">
-      <aside className="w-64 fixed left-0 top-32 sm:top-40 bottom-0 border-r border-zinc-800/80 bg-[#0a0a0b] hidden md:block overflow-y-auto">
+      <aside className="w-64 fixed left-0 top-32 sm:top-40 bottom-0 border-r border-border/80 bg-bg hidden md:block overflow-y-auto">
         <div className="p-6">
           <div className="relative mb-6">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-400" />
+            <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search docs..."
               aria-label="Search documentation"
-              className="w-full bg-zinc-950 border border-zinc-800 rounded-md py-2 pl-9 pr-3 text-sm text-zinc-100 placeholder-zinc-500 focus:ring-1 focus:ring-zinc-700 focus:outline-none"
+              className="w-full bg-bg border border-border rounded-md py-2 pl-9 pr-3 text-sm text-fg placeholder-dim focus:ring-1 focus:ring-border-2 focus:outline-none"
             />
           </div>
 
           <div className="space-y-7">
             {Object.entries(groupedSections).map(([group, sections]) => (
               <div key={group}>
-                <h4 className="text-[11px] font-medium text-zinc-400 uppercase tracking-wider mb-3">{group}</h4>
+                <h4 className="text-[11px] font-medium text-muted uppercase tracking-wider mb-3">{group}</h4>
                 <ul className="space-y-1">
                   {sections.map((section) => (
                     <li key={section.id}>
@@ -935,12 +935,12 @@ export const Docs = memo(({ setPage }: PageProps) => {
                         className={cn(
                           "w-full text-left rounded-md px-3 py-2 transition-colors",
                           activeSection === section.id
-                            ? "text-zinc-50 bg-zinc-900"
-                            : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60"
+                            ? "text-fg bg-surface-2"
+                            : "text-muted hover:text-fg hover:bg-surface-2/60"
                         )}
                       >
                         <div className="text-sm">{section.title}</div>
-                        <div className="text-[11px] text-zinc-400 mt-0.5">{section.eyebrow}</div>
+                        <div className="text-[11px] text-muted mt-0.5">{section.eyebrow}</div>
                       </button>
                     </li>
                   ))}
@@ -949,7 +949,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
             ))}
 
             {filteredSections.length === 0 && (
-              <div className="rounded-md border border-zinc-800 bg-zinc-950 p-4 text-sm text-zinc-400">
+              <div className="rounded-md border border-border bg-bg p-4 text-sm text-muted">
                 No docs matched that search.
               </div>
             )}
@@ -962,34 +962,34 @@ export const Docs = memo(({ setPage }: PageProps) => {
         <div className="md:hidden mb-5 relative">
           <button
             onClick={() => setMobileNavOpen((v) => !v)}
-            className="w-full flex items-center justify-between gap-2 rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-left"
+            className="w-full flex items-center justify-between gap-2 rounded-lg border border-border bg-bg px-4 py-3 text-left"
             aria-expanded={mobileNavOpen}
             aria-haspopup="listbox"
           >
             <div className="min-w-0">
-              <div className="text-[10px] uppercase tracking-wider text-zinc-400">{currentSection.group}</div>
-              <div className="text-sm text-zinc-100 truncate mt-0.5">{currentSection.title}</div>
+              <div className="text-[10px] uppercase tracking-wider text-muted">{currentSection.group}</div>
+              <div className="text-sm text-fg truncate mt-0.5">{currentSection.title}</div>
             </div>
-            <ChevronDown className={cn("w-4 h-4 text-zinc-400 shrink-0 transition-transform", mobileNavOpen && "rotate-180")} />
+            <ChevronDown className={cn("w-4 h-4 text-muted shrink-0 transition-transform", mobileNavOpen && "rotate-180")} />
           </button>
           {mobileNavOpen && (
             <>
               <div className="fixed inset-0 z-30" onClick={() => setMobileNavOpen(false)} aria-hidden="true" />
-              <div className="absolute left-0 right-0 top-full mt-2 z-40 max-h-[70vh] overflow-y-auto rounded-lg border border-zinc-800 bg-zinc-950 shadow-2xl p-2">
+              <div className="absolute left-0 right-0 top-full mt-2 z-40 max-h-[70vh] overflow-y-auto rounded-lg border border-border bg-bg shadow-2xl p-2">
                 <div className="relative mb-2">
-                  <Search className="absolute left-3 top-2.5 w-4 h-4 text-zinc-400" />
+                  <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted" />
                   <input
                     type="text"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Search docs..."
                     aria-label="Search documentation"
-                    className="w-full bg-zinc-900 border border-zinc-800 rounded-md py-2 pl-9 pr-3 text-sm text-zinc-100 placeholder-zinc-500 focus:ring-1 focus:ring-zinc-700 focus:outline-none"
+                    className="w-full bg-surface-2 border border-border rounded-md py-2 pl-9 pr-3 text-sm text-fg placeholder-dim focus:ring-1 focus:ring-border-2 focus:outline-none"
                   />
                 </div>
                 {Object.entries(groupedSections).map(([group, sections]) => (
                   <div key={group} className="mb-2">
-                    <div className="text-[10px] uppercase tracking-wider text-zinc-400 px-3 py-1.5">{group}</div>
+                    <div className="text-[10px] uppercase tracking-wider text-muted px-3 py-1.5">{group}</div>
                     {sections.map((section) => (
                       <button
                         key={section.id}
@@ -997,20 +997,20 @@ export const Docs = memo(({ setPage }: PageProps) => {
                         className={cn(
                           "w-full text-left rounded-md px-3 py-2.5 flex items-start gap-2 transition-colors",
                           activeSection === section.id
-                            ? "text-zinc-50 bg-zinc-900"
-                            : "text-zinc-300 hover:bg-zinc-900/60"
+                            ? "text-fg bg-surface-2"
+                            : "text-fg-muted hover:bg-surface-2/60"
                         )}
                       >
                         <div className="min-w-0">
                           <div className="text-sm truncate">{section.title}</div>
-                          <div className="text-[11px] text-zinc-400 mt-0.5 truncate">{section.eyebrow}</div>
+                          <div className="text-[11px] text-muted mt-0.5 truncate">{section.eyebrow}</div>
                         </div>
                       </button>
                     ))}
                   </div>
                 ))}
                 {filteredSections.length === 0 && (
-                  <div className="rounded-md border border-zinc-800 bg-zinc-900 p-4 text-sm text-zinc-400">
+                  <div className="rounded-md border border-border bg-surface-2 p-4 text-sm text-muted">
                     No docs matched that search.
                   </div>
                 )}
@@ -1019,17 +1019,17 @@ export const Docs = memo(({ setPage }: PageProps) => {
           )}
         </div>
 
-        <div className="text-[12px] text-zinc-400 font-mono uppercase tracking-wider mb-3 hidden md:block">
+        <div className="text-[12px] text-muted font-mono uppercase tracking-wider mb-3 hidden md:block">
           {currentSection.group} / {currentSection.eyebrow}
         </div>
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-zinc-50 mb-4 tracking-tight">{currentSection.title}</h1>
-        <p className="text-base sm:text-lg text-zinc-300 leading-relaxed mb-7">{currentSection.summary}</p>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-fg mb-4 tracking-tight">{currentSection.title}</h1>
+        <p className="text-base sm:text-lg text-fg-muted leading-relaxed mb-7">{currentSection.summary}</p>
 
-        <Card className="p-5 mb-7 border-zinc-800/80">
-          <h4 className="flex items-center text-zinc-50 font-medium mb-2 text-sm">
-            <BookOpen className="w-4 h-4 mr-2 text-zinc-400" /> {currentSection.calloutTitle ?? "Quick context"}
+        <Card className="p-5 mb-7 border-border/80">
+          <h4 className="flex items-center text-fg font-medium mb-2 text-sm">
+            <BookOpen className="w-4 h-4 mr-2 text-muted" /> {currentSection.calloutTitle ?? "Quick context"}
           </h4>
-          <p className="text-sm text-zinc-300 leading-relaxed">
+          <p className="text-sm text-fg-muted leading-relaxed">
             {currentSection.callout ?? "Use this segment as a practical guide, then jump to source docs when needed."}
           </p>
         </Card>
@@ -1038,7 +1038,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
 
         {!!currentSection.links?.length && (
           <>
-            <h2 className="text-xl font-semibold text-zinc-50 mt-12 mb-4 tracking-tight">Source documents</h2>
+            <h2 className="text-xl font-semibold text-fg mt-12 mb-4 tracking-tight">Source documents</h2>
             <div className="grid gap-2">
               {currentSection.links.map((link, index) => (
                 <a
@@ -1046,20 +1046,20 @@ export const Docs = memo(({ setPage }: PageProps) => {
                   href={link.href}
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="rounded-lg border border-zinc-800/80 bg-zinc-950 px-4 py-3 flex items-center justify-between text-sm hover:border-zinc-700 transition-colors"
+                  className="rounded-lg border border-border/80 bg-bg px-4 py-3 flex items-center justify-between text-sm hover:border-border-2 transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <FileText className="w-4 h-4 text-zinc-400 shrink-0" />
-                    <span className="text-zinc-300 truncate">{link.label}</span>
+                    <FileText className="w-4 h-4 text-muted shrink-0" />
+                    <span className="text-fg-muted truncate">{link.label}</span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+                  <ArrowRight className="w-3.5 h-3.5 text-muted shrink-0" />
                 </a>
               ))}
             </div>
           </>
         )}
 
-        <div className="flex gap-3 mt-12 pt-8 border-t border-zinc-800/80">
+        <div className="flex gap-3 mt-12 pt-8 border-t border-border/80">
           <Button
             variant="secondary"
             size="md"
@@ -1067,7 +1067,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
             disabled={!previousSection}
             onClick={() => previousSection && setActiveSection(previousSection.id)}
           >
-            <span className="text-zinc-400 truncate">Previous: {previousSection ? previousSection.title : "None"}</span>
+            <span className="text-muted truncate">Previous: {previousSection ? previousSection.title : "None"}</span>
           </Button>
           <Button
             variant="secondary"
@@ -1076,22 +1076,22 @@ export const Docs = memo(({ setPage }: PageProps) => {
             disabled={!nextSection}
             onClick={() => nextSection && setActiveSection(nextSection.id)}
           >
-            <span className="text-zinc-100 truncate">Next: {nextSection ? nextSection.title : "None"}</span>
-            <ArrowRight className="w-4 h-4 text-zinc-400" />
+            <span className="text-fg truncate">Next: {nextSection ? nextSection.title : "None"}</span>
+            <ArrowRight className="w-4 h-4 text-muted" />
           </Button>
         </div>
       </div>
 
       {paletteOpen && (
         <div className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm p-4 sm:p-8" onClick={() => setPaletteOpen(false)}>
-          <div className="max-w-xl mx-auto mt-24 rounded-xl border border-zinc-800 bg-zinc-950 shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <div className="p-3 border-b border-zinc-800">
+          <div className="max-w-xl mx-auto mt-24 rounded-xl border border-border bg-bg shadow-2xl" onClick={(event) => event.stopPropagation()}>
+            <div className="p-3 border-b border-border">
               <input
                 ref={paletteInputRef}
                 value={paletteQuery}
                 onChange={(e) => setPaletteQuery(e.target.value)}
                 placeholder="Type a command…"
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-md py-2 px-3 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-700"
+                className="w-full bg-surface-2 border border-border rounded-md py-2 px-3 text-sm text-fg placeholder-dim focus:outline-none focus:ring-1 focus:ring-border-2"
               />
             </div>
             <div className="max-h-[50vh] overflow-y-auto p-1.5">
@@ -1102,17 +1102,17 @@ export const Docs = memo(({ setPage }: PageProps) => {
                     action.run();
                     setPaletteOpen(false);
                   }}
-                  className="w-full text-left rounded-md px-3 py-2.5 hover:bg-zinc-900 transition-colors"
+                  className="w-full text-left rounded-md px-3 py-2.5 hover:bg-surface-2 transition-colors"
                 >
-                  <div className="text-sm text-zinc-100">{action.label}</div>
-                  <div className="text-xs text-zinc-400 mt-0.5">{action.hint}</div>
+                  <div className="text-sm text-fg">{action.label}</div>
+                  <div className="text-xs text-muted mt-0.5">{action.hint}</div>
                 </button>
               ))}
               {filteredPaletteActions.length === 0 && (
-                <div className="px-3 py-6 text-sm text-zinc-400 text-center">No command matched.</div>
+                <div className="px-3 py-6 text-sm text-muted text-center">No command matched.</div>
               )}
             </div>
-            <div className="px-4 py-2.5 border-t border-zinc-800 text-xs text-zinc-400 flex justify-between">
+            <div className="px-4 py-2.5 border-t border-border text-xs text-muted flex justify-between">
               <span>/ or Ctrl/Cmd + K to open</span>
               <span>Esc to close</span>
             </div>

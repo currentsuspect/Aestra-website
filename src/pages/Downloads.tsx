@@ -16,22 +16,22 @@ export const Downloads = ({ setPage }: PageProps) => {
       <div className="max-w-4xl mx-auto">
         <button
           onClick={() => setPage("home")}
-          className="text-zinc-400 hover:text-zinc-100 mb-10 flex items-center text-sm transition-colors"
+          className="text-muted hover:text-fg mb-10 flex items-center text-sm transition-colors"
         >
           <ArrowRight className="rotate-180 w-4 h-4 mr-1.5" /> Back to home
         </button>
 
         <div className="mb-12">
           <p className="kicker mb-4">Downloads</p>
-          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-4">
+          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-4">
             Get Aestra.
           </h1>
-          <p className="text-zinc-400 text-base sm:text-lg max-w-xl leading-relaxed">
+          <p className="text-muted text-base sm:text-lg max-w-xl leading-relaxed">
             Pre-release builds. Expect sharp edges.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950 overflow-hidden">
+        <div className="rounded-2xl border border-border/80 bg-bg overflow-hidden">
           {builds.map((build, i) => {
             const Icon = build.icon;
             const url = build.type === "Source"
@@ -43,15 +43,15 @@ export const Downloads = ({ setPage }: PageProps) => {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between gap-4 p-5 sm:p-6 border-b border-zinc-800/80 last:border-b-0 hover:bg-zinc-900/40 transition-colors"
+                className="flex items-center justify-between gap-4 p-5 sm:p-6 border-b border-border/80 last:border-b-0 hover:bg-surface-2/40 transition-colors"
               >
                 <div className="flex items-center gap-4 min-w-0">
-                  <div className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 shrink-0">
+                  <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-fg-muted shrink-0">
                     <Icon size={18} />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-zinc-50 text-[15px] font-medium">{build.os}</div>
-                    <div className="text-zinc-400 text-[13px]">{build.arch}</div>
+                    <div className="text-fg text-[15px] font-medium">{build.os}</div>
+                    <div className="text-muted text-[13px]">{build.arch}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
@@ -65,7 +65,7 @@ export const Downloads = ({ setPage }: PageProps) => {
           })}
         </div>
 
-        <div className="mt-12 text-[13px] text-zinc-400 leading-relaxed max-w-2xl">
+        <div className="mt-12 text-[13px] text-muted leading-relaxed max-w-2xl">
           Builds are produced automatically from CI. If a build fails or the artifact
           is missing, check the GitHub Actions page for the latest successful run.
         </div>

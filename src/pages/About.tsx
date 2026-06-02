@@ -8,27 +8,27 @@ const SocialLink = ({ href, icon: Icon, label, handle }: { href: string; icon: R
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="group flex items-center gap-3 p-4 rounded-xl border border-zinc-800/80 bg-zinc-950 hover:border-zinc-700 transition-colors"
+    className="group flex items-center gap-3 p-4 rounded-xl border border-border/80 bg-bg hover:border-border-2 transition-colors"
   >
-    <span className="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 group-hover:text-zinc-50 transition-colors shrink-0">
+    <span className="w-9 h-9 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-fg-muted group-hover:text-fg transition-colors shrink-0">
       <Icon className="w-4 h-4" />
     </span>
     <div className="min-w-0 flex-1">
-      <div className="text-[11px] uppercase tracking-wider text-zinc-400">{label}</div>
-      <div className="text-sm text-zinc-100 truncate">{handle}</div>
+      <div className="text-[11px] uppercase tracking-wider text-muted">{label}</div>
+      <div className="text-sm text-fg truncate">{handle}</div>
     </div>
-    <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-300 transition-colors shrink-0" />
+    <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-fg-muted transition-colors shrink-0" />
   </a>
 );
 
 const Fact = ({ icon: Icon, title, body }: { icon: React.ComponentType<{ className?: string }>; title: string; body: string }) => (
-  <div className="flex items-start gap-3 p-4 rounded-xl border border-zinc-800/80 bg-zinc-950">
-    <span className="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 shrink-0">
+  <div className="flex items-start gap-3 p-4 rounded-xl border border-border/80 bg-bg">
+    <span className="w-9 h-9 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-fg-muted shrink-0">
       <Icon className="w-4 h-4" />
     </span>
     <div className="min-w-0">
-      <div className="text-sm text-zinc-100 font-medium">{title}</div>
-      <div className="text-[13px] text-zinc-400 mt-0.5 leading-relaxed">{body}</div>
+      <div className="text-sm text-fg font-medium">{title}</div>
+      <div className="text-[13px] text-muted mt-0.5 leading-relaxed">{body}</div>
     </div>
   </div>
 );
@@ -41,20 +41,20 @@ export const About = ({ setPage }: PageProps) => (
         <div>
           <FadeIn>
             <p className="kicker mb-5">About</p>
-            <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-8">
+            <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-8">
               Building the DAW<br />
-              <span className="text-zinc-400">producers deserve.</span>
+              <span className="text-muted">producers deserve.</span>
             </h1>
           </FadeIn>
 
           <FadeIn delay={0.05}>
-            <p className="text-2xl sm:text-3xl text-zinc-100 leading-snug tracking-tight mb-8 max-w-xl">
+            <p className="text-2xl sm:text-3xl text-fg leading-snug tracking-tight mb-8 max-w-xl">
               Music production should feel effortless.
             </p>
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            <p className="text-zinc-400 text-[16px] sm:text-[17px] leading-relaxed max-w-xl">
+            <p className="text-muted text-[16px] sm:text-[17px] leading-relaxed max-w-xl">
               Too often, producers spend more time fighting crashes, digging through
               menus, fixing routing mistakes, and recovering lost work than actually
               making music. Aestra exists to change that.
@@ -76,9 +76,9 @@ export const About = ({ setPage }: PageProps) => (
       <FadeIn delay={0.15}>
         <div className="grid md:grid-cols-[180px_1fr] gap-6 md:gap-12 mb-16 sm:mb-20">
           <div>
-            <div className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 sticky top-28">The story</div>
+            <div className="text-[11px] uppercase tracking-[0.18em] text-muted sticky top-28">The story</div>
           </div>
-          <div className="space-y-6 text-zinc-300 text-[16px] sm:text-[17px] leading-relaxed max-w-2xl">
+          <div className="space-y-6 text-fg-muted text-[16px] sm:text-[17px] leading-relaxed max-w-2xl">
             <p>
               Built natively from the ground up, Aestra focuses on speed, stability,
               and creative flow. Every decision is guided by a simple idea: technology
@@ -89,7 +89,7 @@ export const About = ({ setPage }: PageProps) => (
               finishing a release, Aestra aims to stay out of the way and let the work
               happen.
             </p>
-            <p className="text-zinc-200">
+            <p className="text-fg-muted">
               Because making music is hard enough already.
             </p>
           </div>
@@ -98,17 +98,17 @@ export const About = ({ setPage }: PageProps) => (
 
       {/* Closing line */}
       <FadeIn delay={0.2}>
-        <p className="display text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-16 sm:mb-20 max-w-2xl">
+        <p className="display text-3xl sm:text-4xl md:text-5xl text-fg mb-16 sm:mb-20 max-w-2xl">
           Make music,<br />
-          <span className="text-zinc-400">not excuses.</span>
+          <span className="text-muted">not excuses.</span>
         </p>
       </FadeIn>
 
       {/* Socials + signoff */}
       <FadeIn delay={0.25}>
-        <div className="pt-10 border-t border-zinc-800/80">
+        <div className="pt-10 border-t border-border/80">
           <div className="flex flex-wrap items-center justify-between gap-y-3 mb-6">
-            <div className="text-zinc-400 text-[13px]">
+            <div className="text-muted text-[13px]">
               Built by Dylan Makori · Aestra Studios
             </div>
             <Button variant="ghost" size="sm" onClick={() => setPage("home")}>
@@ -116,7 +116,7 @@ export const About = ({ setPage }: PageProps) => (
             </Button>
           </div>
 
-          <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-400 mb-3">Find us</p>
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted mb-3">Find us</p>
           <div className="grid sm:grid-cols-2 gap-3">
             <SocialLink
               href="https://x.com/aestrastudios"

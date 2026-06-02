@@ -6,10 +6,10 @@ import type { ButtonProps, BadgeProps, CardProps, FeatureCardProps, FadeInProps 
 /* ── Loading fallback ─────────────────────────────────────────── */
 export const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="flex items-center gap-2 text-sm text-zinc-400">
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-zinc-700 animate-pulse" />
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-zinc-700 animate-pulse [animation-delay:120ms]" />
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-zinc-700 animate-pulse [animation-delay:240ms]" />
+    <div className="flex items-center gap-2 text-sm text-muted">
+      <span className="inline-block w-1.5 h-1.5 rounded-full bg-surface-3 animate-pulse" />
+      <span className="inline-block w-1.5 h-1.5 rounded-full bg-surface-3 animate-pulse [animation-delay:120ms]" />
+      <span className="inline-block w-1.5 h-1.5 rounded-full bg-surface-3 animate-pulse [animation-delay:240ms]" />
     </div>
   </div>
 );
@@ -23,17 +23,17 @@ export const Button = memo(({
   icon: Icon,
   ...props
 }: ButtonProps) => {
-  const base = "inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0b] disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap";
+  const base = "inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap";
 
   const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
     primary:
-      "bg-white text-zinc-900 hover:bg-zinc-200",
+      "bg-fg text-on-accent hover:bg-fg-muted",
     secondary:
-      "bg-zinc-900 text-zinc-100 border border-zinc-800 hover:bg-zinc-800 hover:border-zinc-700",
+      "bg-surface-2 text-fg border border-border hover:bg-surface-3 hover:border-border-2",
     ghost:
-      "text-zinc-400 hover:text-zinc-100",
+      "text-muted hover:text-fg",
     outline:
-      "bg-transparent text-zinc-100 border border-zinc-800 hover:bg-zinc-900 hover:border-zinc-700",
+      "bg-transparent text-fg border border-border hover:bg-surface-2 hover:border-border-2",
   };
 
   const sizes: Record<NonNullable<ButtonProps["size"]>, string> = {
@@ -58,7 +58,7 @@ export const Button = memo(({
 export const Badge = memo(({ children, variant = "default", className }: BadgeProps) => {
   const styles =
     variant === "outline"
-      ? "border border-zinc-800 text-zinc-300 bg-zinc-900/60"
+      ? "border border-border text-fg-muted bg-surface-2/60"
       : "bg-violet-500/10 border border-violet-500/20 text-violet-300";
 
   return (
@@ -70,7 +70,7 @@ export const Badge = memo(({ children, variant = "default", className }: BadgePr
 
 /* ── Card ─────────────────────────────────────────────────────── */
 export const Card = memo(({ children, className }: CardProps) => (
-  <div className={cn("rounded-xl bg-zinc-950 border border-zinc-800/80", className)}>
+  <div className={cn("rounded-xl bg-bg border border-border/80", className)}>
     {children}
   </div>
 ));
@@ -100,14 +100,14 @@ export const FeatureCard = memo(({ label, title, description, visual, color = "b
   const c = colorStyles[color] || colorStyles.blue;
   return (
     <FadeIn delay={delay}>
-      <div className="rounded-xl bg-zinc-950 border border-zinc-800/80 p-5 sm:p-6 hover:border-zinc-700 transition-colors h-full flex flex-col">
+      <div className="rounded-xl bg-bg border border-border/80 p-5 sm:p-6 hover:border-border-2 transition-colors h-full flex flex-col">
         <div className="flex items-center justify-between mb-5">
           <span className={cn("text-xs font-medium", c.text)}>{label}</span>
           <span className={cn("h-1.5 w-1.5 rounded-full", c.bg)} />
         </div>
         <div className="h-20 mb-5">{visual}</div>
-        <h3 className="text-[15px] font-semibold text-zinc-50 mb-1.5 tracking-tight">{title}</h3>
-        <p className="text-[13.5px] text-zinc-400 leading-relaxed">{description}</p>
+        <h3 className="text-[15px] font-semibold text-fg mb-1.5 tracking-tight">{title}</h3>
+        <p className="text-[13.5px] text-muted leading-relaxed">{description}</p>
       </div>
     </FadeIn>
   );

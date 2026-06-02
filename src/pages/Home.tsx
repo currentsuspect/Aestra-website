@@ -21,7 +21,7 @@ const Hero = ({ setPage }: PageProps) => {
           <div>
             <FadeIn>
               <div className="flex items-center gap-2 mb-6">
-                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-[12px] text-zinc-300">
+                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-surface-2 border border-border text-[12px] text-fg-muted">
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                   Beta · source-available · cross-platform
                 </span>
@@ -29,14 +29,14 @@ const Hero = ({ setPage }: PageProps) => {
             </FadeIn>
 
             <FadeIn delay={0.05}>
-              <h1 className="display text-[40px] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[72px] text-zinc-50 mb-6 max-w-xl">
+              <h1 className="display text-[40px] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[72px] text-fg mb-6 max-w-xl">
                 A native DAW for<br className="hidden sm:block" />
                 producers who want flow.
               </h1>
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <p className="text-base sm:text-lg font-medium text-zinc-100 max-w-xl mb-10 leading-relaxed">
+              <p className="text-base sm:text-lg font-medium text-fg max-w-xl mb-10 leading-relaxed">
                 Make music, not excuses.
               </p>
             </FadeIn>
@@ -53,7 +53,7 @@ const Hero = ({ setPage }: PageProps) => {
             </FadeIn>
 
             <FadeIn delay={0.2}>
-              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-zinc-400">
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-muted">
                 <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> Windows · macOS · Linux</span>
                 <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> VST3 &amp; CLAP</span>
                 <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> Source available</span>
@@ -62,24 +62,24 @@ const Hero = ({ setPage }: PageProps) => {
           </div>
 
           <FadeIn delay={0.25}>
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/40 divide-y divide-zinc-800/80 overflow-hidden">
+            <div className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden">
               {FEATURE_LIST.map((f) => {
                 const Icon = f.icon;
                 return (
                   <div key={f.name} className="flex items-center gap-4 px-4 py-3.5">
-                    <div className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">
-                      <Icon className="w-[18px] h-[18px] text-zinc-300" strokeWidth={1.5} />
+                    <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0">
+                      <Icon className="w-[18px] h-[18px] text-fg-muted" strokeWidth={1.5} />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[14px] font-medium text-zinc-100 leading-snug">{f.name}</span>
+                        <span className="text-[14px] font-medium text-fg leading-snug">{f.name}</span>
                         {f.badge && (
                           <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/90 border border-amber-500/20 bg-amber-500/10 rounded px-1.5 py-0.5">
                             {f.badge}
                           </span>
                         )}
                       </div>
-                      <div className="text-[12px] text-zinc-400 leading-snug">{f.desc}</div>
+                      <div className="text-[12px] text-muted leading-snug">{f.desc}</div>
                     </div>
                   </div>
                 );
@@ -102,13 +102,13 @@ const WhySection = memo(() => (
     <div className="max-w-6xl mx-auto">
       <FadeIn>
         <p className="kicker mb-4">Why Aestra</p>
-        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-12 max-w-3xl">
+        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-12 max-w-3xl">
           Existing DAWs are powerful.<br />
-          <span className="text-zinc-400">Producers still fight them.</span>
+          <span className="text-muted">Producers still fight them.</span>
         </h2>
       </FadeIn>
 
-      <div className="grid sm:grid-cols-2 gap-px bg-zinc-800/80 rounded-2xl overflow-hidden border border-zinc-800/80">
+      <div className="grid sm:grid-cols-2 gap-px bg-surface-3/80 rounded-2xl overflow-hidden border border-border/80">
         {[
           ["Crashes and plugin conflicts", "A native C++ engine for stable sessions, and a plugin host that isolates misbehaving VSTs."],
           ["Slow startup and scanning", "Open Aestra and you're making music. No scanning, no splash screen."],
@@ -116,12 +116,12 @@ const WhySection = memo(() => (
           ["Creative interruptions", "Aestra gets out of your way — no modal dialogs, no scanning popups mid-session."],
         ].map(([problem, solution], i) => (
           <FadeIn key={i} delay={i * 0.05}>
-            <div className="bg-zinc-950 p-6 sm:p-7 h-full">
+            <div className="bg-bg p-6 sm:p-7 h-full">
               <div className="flex items-start gap-3">
                 <span className="mt-1 h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0" />
                 <div>
-                  <div className="text-zinc-50 font-medium mb-1.5">{problem}</div>
-                  <div className="text-zinc-400 text-sm leading-relaxed">{solution}</div>
+                  <div className="text-fg font-medium mb-1.5">{problem}</div>
+                  <div className="text-muted text-sm leading-relaxed">{solution}</div>
                 </div>
               </div>
             </div>
@@ -138,10 +138,10 @@ const Features = memo(() => (
     <div className="max-w-6xl mx-auto">
       <FadeIn>
         <p className="kicker mb-4">Core pillars</p>
-        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-4 max-w-3xl">
+        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4 max-w-3xl">
           Built different. Literally.
         </h2>
-        <p className="text-zinc-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-14">
+        <p className="text-muted text-base sm:text-lg max-w-2xl leading-relaxed mb-14">
           From the audio engine to the interface — built from scratch, in C++,
           for producers.
         </p>
@@ -156,7 +156,7 @@ const Features = memo(() => (
           visual={
             <div className="flex items-end gap-1.5 h-full">
               {[72, 55, 83, 60, 45, 70, 50, 65, 58, 75].map((h, i) => (
-                <div key={i} className="relative flex-1 h-full bg-zinc-900 rounded-sm overflow-hidden">
+                <div key={i} className="relative flex-1 h-full bg-surface-2 rounded-sm overflow-hidden">
                   <div className="absolute bottom-0 left-0 right-0 bg-teal-500/70 rounded-sm" style={{ height: `${h}%` }} />
                 </div>
               ))}
@@ -171,14 +171,14 @@ const Features = memo(() => (
           description="Open Aestra and you're in the session. No plugin scanning, no splash screen, no waiting."
           visual={
             <div className="flex flex-col justify-center h-full gap-2">
-              <div className="flex items-center justify-between text-[11px] text-zinc-400">
+              <div className="flex items-center justify-between text-[11px] text-muted">
                 <span>Cold start</span>
                 <span className="font-mono text-amber-400">1.4s</span>
               </div>
-              <div className="h-1.5 bg-zinc-900 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-surface-2 rounded-full overflow-hidden">
                 <div className="h-full bg-amber-400 rounded-full" style={{ width: "92%" }} />
               </div>
-              <div className="flex justify-between text-[10px] text-zinc-400">
+              <div className="flex justify-between text-[10px] text-muted">
                 <span>vs. 12s typical</span>
                 <span>no plugin scan</span>
               </div>
@@ -198,7 +198,7 @@ const Features = memo(() => (
                 0,1,0,0,1,0,1,1,
                 1,0,1,0,0,1,0,0
               ].map((on, i) => (
-                <div key={i} className={`rounded-sm ${on ? 'bg-violet-500/80' : 'bg-zinc-900'}`} />
+                <div key={i} className={`rounded-sm ${on ? 'bg-violet-500/80' : 'bg-surface-2'}`} />
               ))}
             </div>
           }
@@ -236,7 +236,7 @@ const Features = memo(() => (
           visual={
             <div className="flex flex-wrap gap-1.5 content-center h-full">
               {["Spotify", "AirPods", "Car", "Phone", "Laptop", "Earbuds"].map((p) => (
-                <span key={p} className="bg-zinc-900 border border-zinc-800 rounded-md px-2 py-0.5 text-[11px] text-zinc-400">
+                <span key={p} className="bg-surface-2 border border-border rounded-md px-2 py-0.5 text-[11px] text-muted">
                   {p}
                 </span>
               ))}
@@ -258,7 +258,7 @@ const Features = memo(() => (
               ].map((b) => (
                 <div key={b.name} className="flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ background: b.dot }} />
-                  <span className={b.active ? "text-zinc-50 font-medium" : "text-zinc-400"}>{b.name}</span>
+                  <span className={b.active ? "text-fg font-medium" : "text-muted"}>{b.name}</span>
                 </div>
               ))}
             </div>
@@ -276,10 +276,10 @@ const Plugins = memo(() => (
     <div className="max-w-6xl mx-auto">
       <FadeIn>
         <p className="kicker mb-4">Built-in tools</p>
-        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-4 max-w-3xl">
+        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4 max-w-3xl">
           Creative tools that ship with the DAW.
         </h2>
-        <p className="text-zinc-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-14">
+        <p className="text-muted text-base sm:text-lg max-w-2xl leading-relaxed mb-14">
           No hunting for third-party plugins to get started. Aestra ships
           with essential production tools built natively for the engine.
         </p>
@@ -322,13 +322,13 @@ const Plugins = memo(() => (
                                    "bg-amber-500/10 border-amber-500/20 text-amber-400";
           return (
             <FadeIn key={p.name} delay={i * 0.05}>
-              <div className="rounded-xl bg-zinc-950 border border-zinc-800/80 p-6 sm:p-7 h-full hover:border-zinc-700 transition-colors">
+              <div className="rounded-xl bg-bg border border-border/80 p-6 sm:p-7 h-full hover:border-border-2 transition-colors">
                 <div className={`w-10 h-10 rounded-lg ${dotBg} border flex items-center justify-center mb-5`}>
                   <Icon className="w-5 h-5" />
                 </div>
-                <div className="text-[12px] text-zinc-400 mb-1.5">{p.kind}</div>
-                <h3 className="text-[17px] font-semibold text-zinc-50 tracking-tight mb-2">{p.name}</h3>
-                <p className="text-[14px] text-zinc-400 leading-relaxed mb-5">{p.desc}</p>
+                <div className="text-[12px] text-muted mb-1.5">{p.kind}</div>
+                <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-2">{p.name}</h3>
+                <p className="text-[14px] text-muted leading-relaxed mb-5">{p.desc}</p>
                 <span className={`inline-flex items-center gap-1.5 text-[12px] ${
                   p.statusColor === "emerald" ? "text-emerald-400" : "text-amber-400"
                 }`}>
@@ -353,11 +353,11 @@ const FreeCore = memo(({ setPage }: PageProps) => (
       <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
         <FadeIn>
           <p className="kicker mb-4">Open access</p>
-          <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-6">
+          <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-6">
             Free core.<br />
-            <span className="text-zinc-400">Pay what you want to go further.</span>
+            <span className="text-muted">Pay what you want to go further.</span>
           </h2>
-          <p className="text-zinc-400 text-base sm:text-lg leading-relaxed mb-8">
+          <p className="text-muted text-base sm:text-lg leading-relaxed mb-8">
             The full DAW is free. No feature gates. No export limits.
             Supporter tiers fund development without locking anything behind a paywall.
           </p>
@@ -372,7 +372,7 @@ const FreeCore = memo(({ setPage }: PageProps) => (
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950 divide-y divide-zinc-800/80">
+          <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80">
             {[
               { tier: "Core",       price: "$0",     desc: "Full DAW. Forever free.",     accent: "emerald" },
               { tier: "Supporter",  price: "$5/mo",  desc: "Priority builds + cloud sync.", accent: "violet" },
@@ -385,10 +385,10 @@ const FreeCore = memo(({ setPage }: PageProps) => (
                                          "bg-amber-400"
                 }`} />
                 <div className="flex-1 min-w-0">
-                  <div className="text-zinc-50 font-medium">{tier}</div>
-                  <div className="text-zinc-400 text-sm">{desc}</div>
+                  <div className="text-fg font-medium">{tier}</div>
+                  <div className="text-muted text-sm">{desc}</div>
                 </div>
-                <div className="text-[15px] font-mono text-zinc-50">{price}</div>
+                <div className="text-[15px] font-mono text-fg">{price}</div>
               </div>
             ))}
           </div>
@@ -404,10 +404,10 @@ const ClosingCTA = memo(({ setPage }: PageProps) => (
     <div className="max-w-3xl mx-auto text-center">
       <FadeIn>
         <p className="kicker mb-4">Get started</p>
-        <h2 className="display text-3xl sm:text-5xl md:text-6xl text-zinc-50 mb-6">
+        <h2 className="display text-3xl sm:text-5xl md:text-6xl text-fg mb-6">
           Make music,<br />not excuses.
         </h2>
-        <p className="text-zinc-400 text-base sm:text-lg max-w-md mx-auto mb-10">
+        <p className="text-muted text-base sm:text-lg max-w-md mx-auto mb-10">
           Download Aestra and start making music today. Free core, no strings attached.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -454,7 +454,7 @@ const ScrollHint = () => {
         width="20"
         height="34"
         viewBox="0 0 20 34"
-        className="text-zinc-400"
+        className="text-muted"
         fill="none"
       >
         <rect
@@ -484,7 +484,7 @@ const ScrollHint = () => {
           />
         </circle>
       </svg>
-      <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-zinc-400">
+      <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-muted">
         Scroll
       </span>
     </div>
@@ -555,10 +555,10 @@ const FounderCountdown = () => {
 
   const CountdownUnit = ({ value, label, last }: { value: number; label: string; last?: boolean }) => (
     <div className="flex-1 min-w-0 flex flex-col gap-1.5 px-2 first:pl-0 last:pr-0">
-      <div className="text-2xl sm:text-[28px] font-semibold text-zinc-50 font-mono tabular-nums tracking-tight leading-none">
+      <div className="text-2xl sm:text-[28px] font-semibold text-fg font-mono tabular-nums tracking-tight leading-none">
         {String(value).padStart(2, "0")}
       </div>
-      <div className="text-[10px] sm:text-[11px] text-zinc-400 uppercase tracking-wider">{label}</div>
+      <div className="text-[10px] sm:text-[11px] text-muted uppercase tracking-wider">{label}</div>
     </div>
   );
 
@@ -573,20 +573,20 @@ const FounderCountdown = () => {
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                   Founder window · 500 cards
                 </span>
-                <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-5">
+                <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-5">
                   Some things don't get a second run.
                 </h2>
-                <p className="text-zinc-400 text-base sm:text-lg max-w-xl leading-relaxed mb-8">
+                <p className="text-muted text-base sm:text-lg max-w-xl leading-relaxed mb-8">
                   Not a subscription. Not a tier. A piece of history — your name
                   in the product, your Founder number forever, and lifetime access from day one.
                 </p>
 
                 <div className="mb-8">
                   <div className="flex items-center justify-between mb-3 text-sm">
-                    <span className="text-zinc-300">
+                    <span className="text-fg-muted">
                       <span className="text-amber-300 font-mono font-semibold">{FOUNDER_CLAIMED}</span> / {FOUNDER_TOTAL} claimed
                     </span>
-                    <span className="text-zinc-400 text-[13px]">{spotsLeft} spots left</span>
+                    <span className="text-muted text-[13px]">{spotsLeft} spots left</span>
                   </div>
                   <div className="progress-track">
                     <div className="progress-fill" style={{ width: `${(FOUNDER_CLAIMED / FOUNDER_TOTAL) * 100}%` }} />
@@ -602,18 +602,18 @@ const FounderCountdown = () => {
                       placeholder="you@studio.email"
                       required
                       aria-label="Email address for waitlist"
-                      className="flex-1 h-11 px-3.5 rounded-lg bg-zinc-950 border border-zinc-800 text-zinc-50 text-sm placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors"
+                      className="flex-1 h-11 px-3.5 rounded-lg bg-bg border border-border text-fg text-sm placeholder-dim focus:outline-none focus:border-border-2 transition-colors"
                     />
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="h-11 px-5 rounded-lg bg-white text-zinc-900 font-medium text-sm hover:bg-zinc-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                      className="h-11 px-5 rounded-lg bg-fg text-on-accent font-medium text-sm hover:bg-fg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                     >
                       {submitting ? "Joining..." : "Join waitlist"}
                     </button>
                   </form>
                 ) : (
-                  <div className="flex items-center gap-2 text-zinc-100">
+                  <div className="flex items-center gap-2 text-fg">
                     <Check className="w-4 h-4 text-emerald-400" />
                     <span className="font-medium">You're on the list.</span>
                   </div>
@@ -623,14 +623,14 @@ const FounderCountdown = () => {
 
               <div className="lg:w-72">
                 <p className="kicker mb-4">Beta launch</p>
-                <div className="flex items-stretch divide-x divide-zinc-800/80 border-y border-zinc-800/80 py-3">
+                <div className="flex items-stretch divide-x divide-border/80 border-y border-border/80 py-3">
                   <CountdownUnit value={timeLeft.months} label="Mo" />
                   <CountdownUnit value={timeLeft.days} label="Days" />
                   <CountdownUnit value={timeLeft.hours} label="Hrs" />
                   <CountdownUnit value={timeLeft.minutes} label="Min" />
                   <CountdownUnit value={timeLeft.seconds} label="Sec" last />
                 </div>
-                <p className="text-zinc-400 text-[12px] mt-4 leading-relaxed">
+                <p className="text-muted text-[12px] mt-4 leading-relaxed">
                   Founder access activates when beta launches in December 2026.
                   Waitlist locks your slot number.
                 </p>

@@ -79,7 +79,7 @@ const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?
       <div className="progress-track flex-1">
         <div className="progress-fill" style={{ width: `${fillWidth}%` }} />
       </div>
-      <div className="text-[13px] text-zinc-400 whitespace-nowrap">
+      <div className="text-[13px] text-muted whitespace-nowrap">
         <span className="text-amber-300 font-mono font-semibold">{count}</span> / {total} claimed
       </div>
     </div>
@@ -139,7 +139,7 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
 ];
 
 const Cell = ({ on, accent }: { on: boolean; accent: "emerald" | "violet" | "amber" }) => {
-  if (!on) return <span className="text-zinc-700">—</span>;
+  if (!on) return <span className="text-dim">—</span>;
   const color =
     accent === "emerald" ? "text-emerald-400" :
     accent === "violet"  ? "text-violet-400"  :
@@ -154,11 +154,11 @@ export const Pricing = ({ setPage }: PageProps) => {
       <section className="text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
         <div className="max-w-3xl mx-auto">
           <p className="kicker mb-4">Pricing</p>
-          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-zinc-50 mb-5">
+          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-5">
             Aestra is free to use.<br />
-            <span className="text-zinc-400">Fully.</span>
+            <span className="text-muted">Fully.</span>
           </h1>
-          <p className="text-zinc-400 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-muted text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             No export lock. No time limits. No artificial walls.
             Supporter keeps the project alive and unlocks the extras.
           </p>
@@ -173,27 +173,27 @@ export const Pricing = ({ setPage }: PageProps) => {
               <div
                 className={`rounded-2xl p-7 sm:p-8 h-full flex flex-col ${
                   t.highlighted
-                    ? "border border-violet-500/30 bg-zinc-950"
-                    : "border border-zinc-800/80 bg-zinc-950"
+                    ? "border border-violet-500/30 bg-bg"
+                    : "border border-border/80 bg-bg"
                 }`}
               >
                 {t.badge && (
-                  <div className="text-center text-[12px] font-medium text-violet-300 mb-5 pb-5 border-b border-zinc-800/80">
+                  <div className="text-center text-[12px] font-medium text-violet-300 mb-5 pb-5 border-b border-border/80">
                     {t.badge}
                   </div>
                 )}
                 <div className="mb-6">
-                  <div className="text-[12px] uppercase tracking-wider text-zinc-400 mb-3">{t.name}</div>
+                  <div className="text-[12px] uppercase tracking-wider text-muted mb-3">{t.name}</div>
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl font-semibold tracking-tight text-zinc-50">{t.price}</span>
-                    {t.sub && <span className="text-zinc-400 text-base">{t.sub}</span>}
+                    <span className="text-5xl font-semibold tracking-tight text-fg">{t.price}</span>
+                    {t.sub && <span className="text-muted text-base">{t.sub}</span>}
                   </div>
-                  <p className="text-zinc-400 text-sm leading-relaxed">{t.tagline}</p>
+                  <p className="text-muted text-sm leading-relaxed">{t.tagline}</p>
                 </div>
 
                 <ul className="space-y-3 mb-8 flex-1">
                   {t.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-[14px] text-zinc-200">
+                    <li key={f} className="flex items-start gap-2.5 text-[14px] text-fg-muted">
                       <CheckIcon accent={t.accent} />
                       <span>{f}</span>
                     </li>
@@ -215,7 +215,7 @@ export const Pricing = ({ setPage }: PageProps) => {
       </div>
 
       <div className="px-5 sm:px-6 pb-20">
-        <p className="text-center text-[13px] text-zinc-400 max-w-2xl mx-auto">
+        <p className="text-center text-[13px] text-muted max-w-2xl mx-auto">
           No card required for Core. Cancel Supporter anytime. Founder is a one-time purchase, never restocked.
         </p>
       </div>
@@ -224,9 +224,9 @@ export const Pricing = ({ setPage }: PageProps) => {
       <div className="px-5 sm:px-6 pb-20">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-10">
-            <div className="flex-1 h-px bg-zinc-800/80" />
-            <span className="text-[12px] text-zinc-400 tracking-wider">Founder · 500 exist, ever</span>
-            <div className="flex-1 h-px bg-zinc-800/80" />
+            <div className="flex-1 h-px bg-surface-3/80" />
+            <span className="text-[12px] text-muted tracking-wider">Founder · 500 exist, ever</span>
+            <div className="flex-1 h-px bg-surface-3/80" />
           </div>
 
           <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.03] p-7 sm:p-10">
@@ -236,17 +236,17 @@ export const Pricing = ({ setPage }: PageProps) => {
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                   Limited to 500 — never reproduced
                 </span>
-                <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-4">
+                <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
                   You believed <span className="text-amber-300">first.</span>
                 </h2>
-                <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-lg">
+                <p className="text-muted text-base sm:text-lg leading-relaxed max-w-lg">
                   Not a tier. A record. Your name ships inside every copy of Aestra, permanently.
                   The card is your proof of being first.
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-5xl font-semibold text-zinc-50 tracking-tight">$129</div>
-                <div className="text-zinc-400 text-sm mt-1">one-time</div>
+                <div className="text-5xl font-semibold text-fg tracking-tight">$129</div>
+                <div className="text-muted text-sm mt-1">one-time</div>
               </div>
             </div>
 
@@ -264,7 +264,7 @@ export const Pricing = ({ setPage }: PageProps) => {
                 "Vote on feature priorities",
                 "No subscription. Ever.",
               ].map((f) => (
-                <span key={f} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-zinc-950 border border-zinc-800/80 text-zinc-300 text-[13px]">
+                <span key={f} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-bg border border-border/80 text-fg-muted text-[13px]">
                   <Check className="w-3.5 h-3.5 text-amber-300 shrink-0" />
                   {f}
                 </span>
@@ -275,11 +275,11 @@ export const Pricing = ({ setPage }: PageProps) => {
               <Button
                 size="lg"
                 onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
-                className="bg-amber-400 text-zinc-950 hover:bg-amber-300"
+                className="bg-amber-400 text-on-accent hover:bg-amber-300"
               >
                 Join the waitlist <ArrowRight className="w-4 h-4" />
               </Button>
-              <p className="text-zinc-400 text-[13px] max-w-sm">
+              <p className="text-muted text-[13px] max-w-sm">
                 Founder access activates when beta launches in December 2026. Waitlist locks your slot number.
               </p>
             </div>
@@ -291,33 +291,33 @@ export const Pricing = ({ setPage }: PageProps) => {
       <div className="px-5 sm:px-6 pb-32">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-10">
-            <div className="flex-1 h-px bg-zinc-800/80" />
-            <span className="text-[12px] text-zinc-400 tracking-wider">What you get at each level</span>
-            <div className="flex-1 h-px bg-zinc-800/80" />
+            <div className="flex-1 h-px bg-surface-3/80" />
+            <span className="text-[12px] text-muted tracking-wider">What you get at each level</span>
+            <div className="flex-1 h-px bg-surface-3/80" />
           </div>
 
           {/* Mobile: stacked cards per group */}
           <div className="md:hidden space-y-6">
             {compareGroups.map((group) => (
-              <div key={group.label} className="rounded-2xl border border-zinc-800/80 bg-zinc-950 overflow-hidden">
-                <div className="px-4 py-2.5 bg-zinc-900/50 border-b border-zinc-800/80 text-[11px] uppercase tracking-wider text-zinc-400 font-medium">
+              <div key={group.label} className="rounded-2xl border border-border/80 bg-bg overflow-hidden">
+                <div className="px-4 py-2.5 bg-surface-2/50 border-b border-border/80 text-[11px] uppercase tracking-wider text-muted font-medium">
                   {group.label}
                 </div>
                 <ul>
                   {group.rows.map(([feat, core, sup, found], i) => (
-                    <li key={i} className="px-4 py-3 border-b border-zinc-800/80 last:border-b-0">
-                      <div className="text-[13.5px] text-zinc-200 mb-2.5">{feat}</div>
-                      <div className="grid grid-cols-3 gap-2 text-[11px] text-zinc-400">
+                    <li key={i} className="px-4 py-3 border-b border-border/80 last:border-b-0">
+                      <div className="text-[13.5px] text-fg-muted mb-2.5">{feat}</div>
+                      <div className="grid grid-cols-3 gap-2 text-[11px] text-muted">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-zinc-400">Core</span>
+                          <span className="text-muted">Core</span>
                           <Cell on={core} accent="emerald" />
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <span className="text-zinc-400">Supporter</span>
+                          <span className="text-muted">Supporter</span>
                           <Cell on={sup} accent="violet" />
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <span className="text-zinc-400">Founder</span>
+                          <span className="text-muted">Founder</span>
                           <Cell on={found} accent="amber" />
                         </div>
                       </div>
@@ -329,31 +329,31 @@ export const Pricing = ({ setPage }: PageProps) => {
           </div>
 
           {/* Desktop: full grid */}
-          <div className="hidden md:block rounded-2xl border border-zinc-800/80 overflow-hidden">
-            <div className="grid grid-cols-[1fr_140px_160px_160px] bg-zinc-900/50 border-b border-zinc-800/80">
-              <div className="p-5 text-[11px] uppercase tracking-wider text-zinc-400">Feature</div>
+          <div className="hidden md:block rounded-2xl border border-border/80 overflow-hidden">
+            <div className="grid grid-cols-[1fr_140px_160px_160px] bg-surface-2/50 border-b border-border/80">
+              <div className="p-5 text-[11px] uppercase tracking-wider text-muted">Feature</div>
               <div className="p-5 text-center">
-                <div className="text-zinc-200 text-sm font-medium">Core</div>
-                <div className="text-zinc-400 text-[11px] font-mono mt-0.5">$0</div>
+                <div className="text-fg-muted text-sm font-medium">Core</div>
+                <div className="text-muted text-[11px] font-mono mt-0.5">$0</div>
               </div>
               <div className="p-5 text-center">
                 <div className="text-violet-300 text-sm font-medium">Supporter</div>
-                <div className="text-zinc-400 text-[11px] font-mono mt-0.5">$5/mo</div>
+                <div className="text-muted text-[11px] font-mono mt-0.5">$5/mo</div>
               </div>
               <div className="p-5 text-center">
                 <div className="text-amber-300 text-sm font-medium">Founder</div>
-                <div className="text-zinc-400 text-[11px] font-mono mt-0.5">$129</div>
+                <div className="text-muted text-[11px] font-mono mt-0.5">$129</div>
               </div>
             </div>
 
             {compareGroups.map((group) => (
               <div key={group.label}>
-                <div className="px-5 py-2.5 bg-zinc-900/30 border-y border-zinc-800/80 text-[11px] uppercase tracking-wider text-zinc-400 font-medium">
+                <div className="px-5 py-2.5 bg-surface-2/30 border-y border-border/80 text-[11px] uppercase tracking-wider text-muted font-medium">
                   {group.label}
                 </div>
                 {group.rows.map(([feat, core, sup, found], i) => (
-                  <div key={i} className="grid grid-cols-[1fr_140px_160px_160px] border-b border-zinc-800/80 last:border-b-0 hover:bg-zinc-900/30 transition-colors">
-                    <div className="p-4 text-[13.5px] text-zinc-200">{feat}</div>
+                  <div key={i} className="grid grid-cols-[1fr_140px_160px_160px] border-b border-border/80 last:border-b-0 hover:bg-surface-2/30 transition-colors">
+                    <div className="p-4 text-[13.5px] text-fg-muted">{feat}</div>
                     <div className="p-4 flex items-center justify-center"><Cell on={core} accent="emerald" /></div>
                     <div className="p-4 flex items-center justify-center"><Cell on={sup} accent="violet" /></div>
                     <div className="p-4 flex items-center justify-center"><Cell on={found} accent="amber" /></div>
