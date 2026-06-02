@@ -63,15 +63,10 @@ export const buildPageStructuredData = (
 
   base["@graph"].push(breadcrumb);
 
-  if (page === "changelog") {
-    base["@graph"].push({
-      "@type": "ItemList",
-      "@id": `${url}#changelog`,
-      name: "Aestra changelog",
-      description: "Release history and development progress for the Aestra DAW.",
-      itemListOrder: "https://schema.org/ItemListOrderDescending",
-    });
-  }
+  // Note: the changelog ItemList was previously pushed empty (no
+  // itemListElement), which Google drops. The full release data lives
+  // in Changelog.tsx; not duplicating it here to keep a single source
+  // of truth. The static index.html graph already covers the home page.
 
   if (page === "pricing") {
     base["@graph"].push({
@@ -81,37 +76,39 @@ export const buildPageStructuredData = (
       description:
         "A native C++ digital audio workstation. Free core, optional Supporter and Founder tiers.",
       brand: { "@id": "https://aestra.studio/#organization" },
-      offers: {
-        "@type": "AggregateOffer",
-        priceCurrency: "USD",
-        lowPrice: 0,
-        highPrice: 129,
-        offerCount: 3,
-        offers: [
-          {
-            "@type": "Offer",
-            name: "Core",
-            price: 0,
-            priceCurrency: "USD",
-            availability: "https://schema.org/InStock",
-          },
-          {
-            "@type": "Offer",
-            name: "Supporter",
-            price: 5,
-            priceCurrency: "USD",
-            priceValidUntil: "2027-12-31",
-            availability: "https://schema.org/PreOrder",
-          },
-          {
-            "@type": "Offer",
-            name: "Founder",
-            price: 129,
-            priceCurrency: "USD",
-            availability: "https://schema.org/LimitedAvailability",
-          },
-        ],
-      },
+      offers: [
+        {
+          "@type": "Offer",
+          "@id": `${url}#core`,
+          name: "Core",
+          price: "0",
+          priceCurrency: "USD",
+          description: "Full DAW. Forever free. No feature gates.",
+          url,
+          availability: "https://schema.org/InStock",
+        },
+        {
+          "@type": "Offer",
+          "@id": `${url}#supporter`,
+          name: "Supporter",
+          price: "5",
+          priceCurrency: "USD",
+          priceValidUntil: "2027-12-31",
+          description: "Monthly subscription supporting development.",
+          url,
+          availability: "https://schema.org/PreOrder",
+        },
+        {
+          "@type": "Offer",
+          "@id": `${url}#founder`,
+          name: "Founder",
+          price: "129",
+          priceCurrency: "USD",
+          description: "One-time Founder Gold Card. Lifetime access. Limited to 500 units.",
+          url,
+          availability: "https://schema.org/LimitedAvailability",
+        },
+      ],
     });
   }
 
@@ -151,7 +148,7 @@ export const buildPageStructuredData = (
     });
   }
 
-  if (page === "privacy" || page === "terms") {
+  if (page === "privacy" || page === "terms" || page === "404") {
     base["@graph"].push({
       "@type": "WebPage",
       "@id": url,
@@ -159,23 +156,6 @@ export const buildPageStructuredData = (
       url,
       isPartOf: { "@id": "https://aestra.studio/#website" },
       inLanguage: "en-US",
-    });
-  }
-
-  if (page === "home") {
-    base["@graph"].push({
-      "@type": "WebPage",
-      "@id": `${url}#webpage`,
-      url,
-      name: "Aestra — Make music, not excuses.",
-      isPartOf: { "@id": "https://aestra.studio/#website" },
-      inLanguage: "en-US",
-      primaryImageOfPage: {
-        "@type": "ImageObject",
-        url: "https://aestra.studio/og-image.svg",
-        width: 1200,
-        height: 630,
-      },
     });
   }
 

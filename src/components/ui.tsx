@@ -1,6 +1,5 @@
 import React, { memo } from "react";
-import type { LucideIcon } from "lucide-react";
-import { cn, useInView } from "../lib";
+import { cn, useInView, prefersReducedMotion } from "../lib";
 import type { ButtonProps, BadgeProps, CardProps, FeatureCardProps, FadeInProps } from "../types";
 
 /* ── Loading fallback ─────────────────────────────────────────── */
@@ -21,6 +20,8 @@ export const Button = memo(({
   size = "md",
   className,
   icon: Icon,
+  iconPosition = "left",
+  type = "button",
   ...props
 }: ButtonProps) => {
   const base = "inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap";
@@ -45,11 +46,13 @@ export const Button = memo(({
 
   return (
     <button
+      type={type}
       className={cn(base, variants[variant], sizes[size], className)}
       {...props}
     >
-      {Icon && <Icon className={cn("w-4 h-4", children ? "" : "")} />}
+      {Icon && iconPosition === "left" && <Icon className="w-4 h-4" aria-hidden="true" />}
       {children}
+      {Icon && iconPosition === "right" && <Icon className="w-4 h-4" aria-hidden="true" />}
     </button>
   );
 });
@@ -59,7 +62,7 @@ export const Badge = memo(({ children, variant = "default", className }: BadgePr
   const styles =
     variant === "outline"
       ? "border border-border text-fg-muted bg-surface-2/60"
-      : "bg-violet-500/10 border border-violet-500/20 text-violet-300";
+      : "bg-violet-500/10 border border-violet-500/20 text-violet-400";
 
   return (
     <span className={cn("inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium", styles, className)}>
@@ -76,11 +79,26 @@ export const Card = memo(({ children, className }: CardProps) => (
 ));
 
 /* ── FadeIn ───────────────────────────────────────────────────── */
+const FADE_IN_STEPS = 6;
 export const FadeIn = memo(({ children, className, delay = 0 }: FadeInProps) => {
   const { ref, inView } = useInView();
-  const delayClass = delay > 0 ? `fade-in-delay-${Math.round(delay * 10)}` : "";
+  // Cap the index so we never produce a nonexistent class (e.g. delay > 0.6).
+  // For larger delays, use a continuous inline style instead.
+  const step = Math.round(delay * 10);
+  const delayClass = step > 0 && step <= FADE_IN_STEPS ? `fade-in-delay-${step}` : "";
+  const noMotion = prefersReducedMotion();
   return (
-    <div ref={ref} className={cn("fade-in", inView && "visible", delayClass, className)}>
+    <div
+      ref={ref}
+      className={cn(
+        "fade-in",
+        inView && "visible",
+        noMotion && "no-motion",
+        delayClass,
+        className
+      )}
+      style={step > FADE_IN_STEPS ? { transitionDelay: `${Math.min(delay, 1.2)}s` } : undefined}
+    >
       {children}
     </div>
   );
@@ -103,12 +121,13 @@ export const FeatureCard = memo(({ label, title, description, visual, color = "b
       <div className="rounded-xl bg-bg border border-border/80 p-5 sm:p-6 hover:border-border-2 transition-colors h-full flex flex-col">
         <div className="flex items-center justify-between mb-5">
           <span className={cn("text-xs font-medium", c.text)}>{label}</span>
-          <span className={cn("h-1.5 w-1.5 rounded-full", c.bg)} />
+          <span className={cn("h-1.5 w-1.5 rounded-full", c.bg)} aria-hidden="true" />
         </div>
-        <div className="h-20 mb-5">{visual}</div>
+        <div className="h-20 mb-5" aria-hidden="true">{visual}</div>
         <h3 className="text-[15px] font-semibold text-fg mb-1.5 tracking-tight">{title}</h3>
         <p className="text-[13.5px] text-muted leading-relaxed">{description}</p>
       </div>
     </FadeIn>
   );
 });
+

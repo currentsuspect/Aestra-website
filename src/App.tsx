@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback, lazy, Suspense } from "react";
+import React, { useState, useEffect, useCallback, useRef, lazy, Suspense } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA } from "./pages/Home";
 import { Features } from "./pages/Features";
-import { resolvePage } from "./lib";
+import { resolvePage, prefersReducedMotion } from "./lib";
 import type { PageProps } from "./types";
 import {
   PAGE_TITLES,
@@ -38,9 +38,20 @@ const LazyPage = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<PageLoader />}>{children}</Suspense>
 );
 
+const scrollOpts: ScrollIntoViewOptions = prefersReducedMotion() ? { behavior: "auto" } : { behavior: "smooth" };
+
 export const App = () => {
   const [page, setPage] = useState(() => resolvePage(window.location.pathname));
   useTheme();
+
+  // Enable native browser scroll restoration. We only force scrollTo(0, 0)
+  // for top-level page transitions, not for popstate (back/forward) which
+  // should restore the user's previous scroll position automatically.
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
 
   // Update document title, SEO meta, and per-page structured data on navigation
   useEffect(() => {
@@ -95,7 +106,7 @@ export const App = () => {
     setTwitter("twitter:title", title);
     setTwitter("twitter:description", desc);
     setTwitter("twitter:image", ogImageAbs);
-    setTwitter("twitter:card", ogType === "article" ? "summary_large_image" : "summary_large_image");
+    setTwitter("twitter:card", "summary_large_image");
 
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
@@ -105,49 +116,75 @@ export const App = () => {
     }
     canonical.setAttribute("href", url);
 
-    // Inject per-page BreadcrumbList JSON-LD
-    const pageStructuredData = buildPageStructuredData(pageId, sectionTitle, url);
-    let ldScript = document.getElementById("page-structured-data") as HTMLScriptElement | null;
-    if (!ldScript) {
-      ldScript = document.createElement("script");
-      ldScript.type = "application/ld+json";
-      ldScript.id = "page-structured-data";
-      document.head.appendChild(ldScript);
+    // Only inject per-page structured data when not on the home page,
+    // because index.html already provides the full home graph (@graph).
+    // This avoids the duplicate BreadcrumbList / WebPage that previously
+    // appeared on the home page.
+    if (pageId !== "home") {
+      const pageStructuredData = buildPageStructuredData(pageId, sectionTitle, url);
+      let ldScript = document.getElementById("page-structured-data") as HTMLScriptElement | null;
+      if (!ldScript) {
+        ldScript = document.createElement("script");
+        ldScript.type = "application/ld+json";
+        ldScript.id = "page-structured-data";
+        document.head.appendChild(ldScript);
+      }
+      ldScript.textContent = JSON.stringify(pageStructuredData);
+    } else {
+      const existing = document.getElementById("page-structured-data");
+      if (existing) existing.remove();
     }
-    ldScript.textContent = JSON.stringify(pageStructuredData);
   }, [page]);
 
-  // Handle browser back/forward
+  // Track whether the next page change is the result of a popstate (back/forward).
+  // If so, we don't force scrollTo(0, 0) — let the browser restore position.
+  const isPopState = useRef(false);
+
   useEffect(() => {
-    const onPopState = () => setPage(resolvePage(window.location.pathname));
+    const onPopState = () => {
+      isPopState.current = true;
+      setPage(resolvePage(window.location.pathname));
+    };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
 
-  // Handle hash scrolling
+  // Handle hash scrolling + scroll-to-top on page change
   useEffect(() => {
     const hash = window.location.hash;
-    if (hash) {
-      const timer = setTimeout(() => {
-        document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-      return () => clearTimeout(timer);
+    if (hash && hash.length > 1) {
+      // Retry until the lazy-loaded target exists.
+      let attempts = 0;
+      const tryScroll = () => {
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView(scrollOpts);
+          (target as HTMLElement).focus?.({ preventScroll: true });
+        } else if (attempts++ < 20) {
+          setTimeout(tryScroll, 100);
+        }
+      };
+      tryScroll();
+    } else if (!isPopState.current) {
+      window.scrollTo(0, 0);
     }
-    window.scrollTo(0, 0);
+    isPopState.current = false;
   }, [page]);
 
-  // Handle anchor clicks
+  // Handle anchor clicks (in-page navigation)
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest("a[href^='#']");
-      if (target) {
-        e.preventDefault();
-        const hash = target.getAttribute("href");
-        if (hash) {
-          document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
-          window.history.pushState(null, "", hash);
-        }
+      if (!target) return;
+      const hash = target.getAttribute("href");
+      if (!hash || hash === "#") return;
+      e.preventDefault();
+      const dest = document.querySelector(hash);
+      if (dest) {
+        dest.scrollIntoView(scrollOpts);
+        (dest as HTMLElement).focus?.({ preventScroll: true });
       }
+      window.history.pushState(null, "", hash);
     };
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);

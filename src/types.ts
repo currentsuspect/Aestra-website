@@ -15,11 +15,12 @@ export interface BadgeProps {
 }
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   variant?: "primary" | "secondary" | "ghost" | "outline";
   size?: "sm" | "md" | "lg" | "icon";
   className?: string;
   icon?: React.ComponentType<{ className?: string }>;
+  iconPosition?: "left" | "right";
 }
 
 export interface FeatureCardProps {
@@ -35,7 +36,6 @@ export interface FadeInProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  once?: boolean;
 }
 
 export interface CardProps {
@@ -57,7 +57,11 @@ export type PageId =
   | "about"
   | "404";
 
-export const PAGE_PATHS: Record<string, string> = {
+type SEOConstants = Record<PageId, string>;
+
+const asSEO = <T extends SEOConstants>(c: T): T => c;
+
+export const PAGE_PATHS = asSEO({
   home: "/",
   features: "/features",
   pricing: "/pricing",
@@ -70,9 +74,9 @@ export const PAGE_PATHS: Record<string, string> = {
   terms: "/terms",
   about: "/about",
   "404": "/404",
-};
+});
 
-export const PAGE_TITLES: Record<string, string> = {
+export const PAGE_TITLES = asSEO({
   home: "Aestra — Make music, not excuses.",
   features: "Features — Aestra",
   pricing: "Pricing — Aestra",
@@ -85,9 +89,9 @@ export const PAGE_TITLES: Record<string, string> = {
   terms: "Terms of Service — Aestra",
   about: "About — Aestra",
   "404": "Not Found — Aestra",
-};
+});
 
-export const PAGE_DESCRIPTIONS: Record<string, string> = {
+export const PAGE_DESCRIPTIONS = asSEO({
   home: "Aestra is an accessible, premium native digital audio workstation built around speed, stability, and producer-first workflow. Make music, not excuses.",
   features: "Explore Aestra's core features: native performance, instant startup, pattern-first workflow, visual routing, audition mode, and version control.",
   pricing: "Aestra pricing: free core DAW, Supporter tier at $5/month, and Founder Gold Card at $129 one-time. Open access, no feature gates.",
@@ -100,9 +104,9 @@ export const PAGE_DESCRIPTIONS: Record<string, string> = {
   terms: "Aestra terms of service: ASSAL v1.1 license, your music is yours, Supporter and Founder tier details.",
   about: "About Aestra Studios: building a native DAW for producers who want flow, not friction.",
   "404": "Page not found — Aestra",
-};
+});
 
-export const PAGE_KEYWORDS: Record<string, string> = {
+export const PAGE_KEYWORDS = asSEO({
   home: "DAW, digital audio workstation, free DAW, music production software, native DAW, producer workflow, VST3, CLAP, beat making, mixing, recording, Aestra",
   features: "DAW features, native audio engine, pattern workflow, signal routing, audition mode, version control, music production tools",
   pricing: "DAW pricing, free DAW, music software subscription, lifetime license, founder edition, supporter tier",
@@ -115,9 +119,9 @@ export const PAGE_KEYWORDS: Record<string, string> = {
   terms: "Aestra terms of service, ASSAL license, source available, your music is yours",
   about: "about Aestra Studios, Dylan Makori, founder, mission, Aestra team",
   "404": "page not found, 404, Aestra",
-};
+});
 
-export const PAGE_OG_TYPES: Record<string, string> = {
+export const PAGE_OG_TYPES = asSEO({
   home: "website",
   features: "website",
   pricing: "product",
@@ -130,9 +134,9 @@ export const PAGE_OG_TYPES: Record<string, string> = {
   terms: "article",
   about: "profile",
   "404": "website",
-};
+});
 
-export const PAGE_OG_IMAGES: Record<string, string> = {
+export const PAGE_OG_IMAGES = asSEO({
   home: "/og-image.svg",
   features: "/og-image.svg",
   pricing: "/og-image.svg",
@@ -145,9 +149,9 @@ export const PAGE_OG_IMAGES: Record<string, string> = {
   terms: "/og-image.svg",
   about: "/og-image.svg",
   "404": "/og-image.svg",
-};
+});
 
-export const PAGE_ROBOTS: Record<string, string> = {
+export const PAGE_ROBOTS = asSEO({
   home: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
   features: "index, follow, max-snippet:-1, max-image-preview:large",
   pricing: "index, follow, max-snippet:-1",
@@ -160,9 +164,9 @@ export const PAGE_ROBOTS: Record<string, string> = {
   terms: "index, follow, max-snippet:-1",
   about: "index, follow",
   "404": "noindex, nofollow",
-};
+});
 
-export const PAGE_SECTION_TITLES: Record<string, string> = {
+export const PAGE_SECTION_TITLES = asSEO({
   home: "Home",
   features: "Features",
   pricing: "Pricing",
@@ -175,4 +179,4 @@ export const PAGE_SECTION_TITLES: Record<string, string> = {
   terms: "Terms of Service",
   about: "About",
   "404": "Not Found",
-};
+});

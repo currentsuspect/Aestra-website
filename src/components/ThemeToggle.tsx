@@ -7,8 +7,10 @@ export const ThemeToggle = memo(() => {
   const isDark = theme === "dark";
   return (
     <button
+      type="button"
       onClick={toggleTheme}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+      aria-pressed={isDark}
       title={`Switch to ${isDark ? "light" : "dark"} mode`}
       className="w-9 h-9 rounded-md flex items-center justify-center text-muted hover:text-fg hover:bg-surface-2 transition-colors"
     >

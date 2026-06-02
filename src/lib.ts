@@ -8,23 +8,32 @@ export const HEADER_WIDTH = 180;
 export const RULER_HEIGHT = 32;
 export const SNAP_GRID_PX = 20;
 
-// Shared IntersectionObserver — one observer for all FadeIn instances
-const observerCallbacks = new Map<Element, (entry: IntersectionObserverEntry) => void>();
-let sharedObserver: IntersectionObserver | null = null;
+// Shared IntersectionObserver — one observer for all useInView instances.
+// Per-key options are tracked so different configs (different rootMargin,
+// thresholds) still share an observer with the union of options.
+type ObserverOptions = IntersectionObserverInit;
+const observers = new Map<string, { obs: IntersectionObserver; cbs: Map<Element, (entry: IntersectionObserverEntry) => void> }>();
+const optionsKey = (o?: ObserverOptions) =>
+  `${o?.rootMargin ?? "0px"}|${(o?.threshold as number[] | number | undefined) ?? "0.1"}`;
 
-function getSharedObserver(): IntersectionObserver {
-  if (!sharedObserver) {
-    sharedObserver = new IntersectionObserver(
+function getSharedObserver(options?: ObserverOptions) {
+  const key = optionsKey(options);
+  let entry = observers.get(key);
+  if (!entry) {
+    const cbs = new Map<Element, (entry: IntersectionObserverEntry) => void>();
+    const obs = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const cb = observerCallbacks.get(entry.target);
+          const cb = cbs.get(entry.target);
           if (cb) cb(entry);
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, ...(options || {}) }
     );
+    entry = { obs, cbs };
+    observers.set(key, entry);
   }
-  return sharedObserver;
+  return entry;
 }
 
 export function useInView(options?: IntersectionObserverInit) {
@@ -35,29 +44,45 @@ export function useInView(options?: IntersectionObserverInit) {
     const el = ref.current;
     if (!el || inView) return;
 
-    const observer = getSharedObserver();
-    observerCallbacks.set(el, (entry) => {
+    const { obs, cbs } = getSharedObserver(options);
+    cbs.set(el, (entry) => {
       if (entry.isIntersecting) {
         setInView(true);
-        observer.unobserve(el);
-        observerCallbacks.delete(el);
+        obs.unobserve(el);
+        cbs.delete(el);
       }
     });
-    observer.observe(el);
+    obs.observe(el);
 
     return () => {
-      observer.unobserve(el);
-      observerCallbacks.delete(el);
+      obs.unobserve(el);
+      cbs.delete(el);
     };
-  }, [inView]);
+  }, [inView, options]);
 
   return { ref, inView };
 }
 
 // Resolve page from URL path
-export function resolvePage(path: string): string {
+const VALID_PAGES = new Set([
+  "features", "pricing", "changelog", "docs", "download",
+  "login", "account", "privacy", "terms", "about",
+]);
+
+export const resolvePage = (path: string): string => {
   const clean = path.replace(/^\//, "").replace(/\/$/, "");
   if (!clean) return "home";
-  const VALID = ["features", "pricing", "changelog", "docs", "download", "login", "account", "privacy", "terms", "about"];
-  return VALID.includes(clean) ? clean : "404";
-}
+  return VALID_PAGES.has(clean) ? clean : "404";
+};
+
+// prefers-reduced-motion helper. Resolved once at module load because the
+// user value rarely changes during a session, and React.useState/useEffect
+// would cause a flash of motion for the first frame.
+export const prefersReducedMotion = (): boolean => {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
+  try {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  } catch {
+    return false;
+  }
+};

@@ -1,8 +1,14 @@
-import React, { useState, useEffect, useMemo, memo } from "react";
+import React, { useState, useEffect, memo, lazy, Suspense } from "react";
 import { Download, ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, GitBranch, Sparkles } from "lucide-react";
-import { Button, Badge, FeatureCard, FadeIn } from "../components/ui";
-import { MockTimeline } from "../components/MockTimeline";
+import { Button, FeatureCard, FadeIn } from "../components/ui";
+import { prefersReducedMotion } from "../lib";
 import type { PageProps } from "../types";
+
+const MockTimeline = lazy(() =>
+  import("../components/MockTimeline").then((m) => ({ default: m.MockTimeline }))
+);
+
+const mockFallback = <div className="h-px" aria-hidden="true" />;
 
 /* ── Hero ─────────────────────────────────────────────────────── */
 const FEATURE_LIST = [
@@ -14,6 +20,16 @@ const FEATURE_LIST = [
 ];
 
 const Hero = ({ setPage }: PageProps) => {
+  const scrollToFeatures = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const target = document.getElementById("features");
+    if (target) {
+      target.scrollIntoView({ block: "start" });
+    } else {
+      setPage("features");
+    }
+  };
+
   return (
     <section className="relative pt-20 sm:pt-24 lg:pt-28 pb-4 sm:pb-6 px-5 sm:px-6">
       <div className="max-w-7xl mx-auto w-full">
@@ -22,7 +38,7 @@ const Hero = ({ setPage }: PageProps) => {
             <FadeIn>
               <div className="flex items-center gap-2 mb-6">
                 <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-surface-2 border border-border text-[12px] text-fg-muted">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" aria-hidden="true" />
                   Beta · source-available · cross-platform
                 </span>
               </div>
@@ -46,52 +62,63 @@ const Hero = ({ setPage }: PageProps) => {
                 <Button size="lg" onClick={() => setPage("download")} icon={Download}>
                   Download for free
                 </Button>
-                <Button variant="secondary" size="lg" onClick={() => setPage("features")}>
-                  See features <ChevronRight className="w-4 h-4" />
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  onClick={scrollToFeatures}
+                  icon={ChevronRight}
+                  iconPosition="right"
+                >
+                  See features
                 </Button>
               </div>
             </FadeIn>
 
             <FadeIn delay={0.2}>
-              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-muted">
-                <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> Windows · macOS · Linux</span>
-                <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> VST3 &amp; CLAP</span>
-                <span className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" /> Source available</span>
-              </div>
+              <ul className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-muted list-none">
+                <li className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Windows · macOS · Linux</li>
+                <li className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> VST3 &amp; CLAP</li>
+                <li className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Source available</li>
+              </ul>
             </FadeIn>
           </div>
 
           <FadeIn delay={0.25}>
-            <div className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden">
+            <ul
+              aria-label="Five core capabilities"
+              className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden"
+            >
               {FEATURE_LIST.map((f) => {
                 const Icon = f.icon;
                 return (
-                  <div key={f.name} className="flex items-center gap-4 px-4 py-3.5">
-                    <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0">
+                  <li key={f.name} className="flex items-center gap-4 px-4 py-3.5">
+                    <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0" aria-hidden="true">
                       <Icon className="w-[18px] h-[18px] text-fg-muted" strokeWidth={1.5} />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-[14px] font-medium text-fg leading-snug">{f.name}</span>
                         {f.badge && (
-                          <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/90 border border-amber-500/20 bg-amber-500/10 rounded px-1.5 py-0.5">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 border border-amber-500/20 bg-amber-500/10 rounded px-1.5 py-0.5">
                             {f.badge}
                           </span>
                         )}
                       </div>
                       <div className="text-[12px] text-muted leading-snug">{f.desc}</div>
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           </FadeIn>
         </div>
       </div>
 
       <ScrollHint />
 
-      <MockTimeline />
+      <Suspense fallback={mockFallback}>
+        <MockTimeline />
+      </Suspense>
     </section>
   );
 };
@@ -118,7 +145,7 @@ const WhySection = memo(() => (
           <FadeIn key={i} delay={i * 0.05}>
             <div className="bg-bg p-6 sm:p-7 h-full">
               <div className="flex items-start gap-3">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0" />
+                <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0" aria-hidden="true" />
                 <div>
                   <div className="text-fg font-medium mb-1.5">{problem}</div>
                   <div className="text-muted text-sm leading-relaxed">{solution}</div>
@@ -210,19 +237,27 @@ const Features = memo(() => (
           title="Live routing"
           description="See exactly where your sound goes — color-coded, animated, as you mix."
           visual={
-            <svg className="w-full h-full" viewBox="0 0 220 60" preserveAspectRatio="none">
-              <circle cx="20" cy="30" r="6" fill="#3b82f633" stroke="#3b82f6" strokeWidth="1.2"/>
-              <rect x="60" y="14" width="32" height="14" rx="3" fill="#3b82f615" stroke="#3b82f680" strokeWidth="1"/>
-              <rect x="60" y="32" width="32" height="14" rx="3" fill="#3b82f615" stroke="#3b82f680" strokeWidth="1"/>
-              <rect x="130" y="22" width="40" height="16" rx="3" fill="#3b82f622" stroke="#3b82f6" strokeWidth="1.2"/>
-              <circle cx="195" cy="30" r="5" fill="#3b82f633" stroke="#3b82f6" strokeWidth="1.2"/>
-              <line x1="26" y1="30" x2="60" y2="21" stroke="#3b82f644" strokeWidth="1"/>
-              <line x1="26" y1="30" x2="60" y2="39" stroke="#3b82f644" strokeWidth="1"/>
-              <line x1="92" y1="21" x2="130" y2="30" stroke="#3b82f644" strokeWidth="1"/>
-              <line x1="92" y1="39" x2="130" y2="30" stroke="#3b82f644" strokeWidth="1"/>
-              <line x1="170" y1="30" x2="190" y2="30" stroke="#3b82f6" strokeWidth="1.2"/>
-              <circle cx="16" cy="30" r="1.5" fill="#3b82f6">
-                <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+            <svg
+              className="w-full h-full routing-svg"
+              viewBox="0 0 220 60"
+              preserveAspectRatio="xMidYMid meet"
+              role="img"
+              aria-label="Live routing diagram: input splits to two processors, joins a bus, then to master output"
+            >
+              <circle cx="20" cy="30" r="6" className="fill-blue-400/15 stroke-blue-400" strokeWidth="1.2"/>
+              <rect x="60" y="14" width="32" height="14" rx="3" className="fill-blue-400/10 stroke-blue-400/40" strokeWidth="1"/>
+              <rect x="60" y="32" width="32" height="14" rx="3" className="fill-blue-400/10 stroke-blue-400/40" strokeWidth="1"/>
+              <rect x="130" y="22" width="40" height="16" rx="3" className="fill-blue-400/20 stroke-blue-400" strokeWidth="1.2"/>
+              <circle cx="195" cy="30" r="5" className="fill-blue-400/15 stroke-blue-400" strokeWidth="1.2"/>
+              <line x1="26" y1="30" x2="60" y2="21" className="stroke-blue-400/40" strokeWidth="1"/>
+              <line x1="26" y1="30" x2="60" y2="39" className="stroke-blue-400/40" strokeWidth="1"/>
+              <line x1="92" y1="21" x2="130" y2="30" className="stroke-blue-400/40" strokeWidth="1"/>
+              <line x1="92" y1="39" x2="130" y2="30" className="stroke-blue-400/40" strokeWidth="1"/>
+              <line x1="170" y1="30" x2="190" y2="30" className="stroke-blue-400" strokeWidth="1.2"/>
+              <circle cx="16" cy="30" r="1.5" className="fill-blue-400">
+                {!prefersReducedMotion() && (
+                  <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+                )}
               </circle>
             </svg>
           }
@@ -323,18 +358,25 @@ const Plugins = memo(() => (
           return (
             <FadeIn key={p.name} delay={i * 0.05}>
               <div className="rounded-xl bg-bg border border-border/80 p-6 sm:p-7 h-full hover:border-border-2 transition-colors">
-                <div className={`w-10 h-10 rounded-lg ${dotBg} border flex items-center justify-center mb-5`}>
+                <div className={`w-10 h-10 rounded-lg ${dotBg} border flex items-center justify-center mb-5`} aria-hidden="true">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div className="text-[12px] text-muted mb-1.5">{p.kind}</div>
                 <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-2">{p.name}</h3>
                 <p className="text-[14px] text-muted leading-relaxed mb-5">{p.desc}</p>
-                <span className={`inline-flex items-center gap-1.5 text-[12px] ${
-                  p.statusColor === "emerald" ? "text-emerald-400" : "text-amber-400"
-                }`}>
-                  <span className={`h-1.5 w-1.5 rounded-full ${
-                    p.statusColor === "emerald" ? "bg-emerald-400" : "bg-amber-400"
-                  }`} />
+                <span
+                  className={`inline-flex items-center gap-1.5 text-[12px] px-2 py-0.5 rounded-md border ${
+                    p.statusColor === "emerald"
+                      ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/5"
+                      : "text-amber-400 border-amber-500/20 bg-amber-500/5"
+                  }`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      p.statusColor === "emerald" ? "bg-emerald-400" : "bg-amber-400"
+                    }`}
+                  />
                   {p.status}
                 </span>
               </div>
@@ -379,7 +421,7 @@ const FreeCore = memo(({ setPage }: PageProps) => (
               { tier: "Founder",    price: "$129",   desc: "One-time. Lifetime. Your name in the product.", accent: "amber" },
             ].map(({ tier, price, desc, accent }) => (
               <div key={tier} className="flex items-center gap-5 p-5 sm:p-6">
-                <span className={`h-2 w-2 rounded-full shrink-0 ${
+                <span aria-hidden="true" className={`h-2 w-2 rounded-full shrink-0 ${
                   accent === "emerald" ? "bg-emerald-400" :
                   accent === "violet"  ? "bg-violet-400"  :
                                          "bg-amber-400"
@@ -414,8 +456,18 @@ const ClosingCTA = memo(({ setPage }: PageProps) => (
           <Button size="lg" onClick={() => setPage("download")} icon={Download}>
             Download for free
           </Button>
-          <Button variant="secondary" size="lg" onClick={() => setPage("features")}>
-            See features <ChevronRight className="w-4 h-4" />
+          <Button
+            variant="secondary"
+            size="lg"
+            onClick={(e) => {
+              e.preventDefault();
+              const target = document.getElementById("features");
+              if (target) target.scrollIntoView({ block: "start" });
+            }}
+            icon={ChevronRight}
+            iconPosition="right"
+          >
+            See features
           </Button>
         </div>
       </FadeIn>
@@ -426,6 +478,7 @@ const ClosingCTA = memo(({ setPage }: PageProps) => (
 /* ── Scroll hint (bottom-center, fades on scroll) ────────────── */
 const ScrollHint = () => {
   const [opacity, setOpacity] = useState(1);
+  const reduced = prefersReducedMotion();
 
   useEffect(() => {
     let raf = 0;
@@ -466,22 +519,26 @@ const ScrollHint = () => {
           stroke="currentColor"
           strokeWidth="1.2"
         />
-        <circle cx="10" r="1.6" fill="currentColor">
-          <animate
-            attributeName="cy"
-            values="8;16;8"
-            dur="1.8s"
-            repeatCount="indefinite"
-            calcMode="spline"
-            keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
-            keyTimes="0; 0.5; 1"
-          />
-          <animate
-            attributeName="opacity"
-            values="0.5;1;0.5"
-            dur="1.8s"
-            repeatCount="indefinite"
-          />
+        <circle cx="10" cy="8" r="1.6" fill="currentColor">
+          {!reduced && (
+            <>
+              <animate
+                attributeName="cy"
+                values="8;16;8"
+                dur="1.8s"
+                repeatCount="indefinite"
+                calcMode="spline"
+                keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"
+                keyTimes="0; 0.5; 1"
+              />
+              <animate
+                attributeName="opacity"
+                values="0.5;1;0.5"
+                dur="1.8s"
+                repeatCount="indefinite"
+              />
+            </>
+          )}
         </circle>
       </svg>
       <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-muted">
@@ -495,52 +552,55 @@ const ScrollHint = () => {
 const FOUNDER_TOTAL = 500;
 const FOUNDER_CLAIMED = 31;
 const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID || "xnjlaqqr";
+const FOUNDER_TARGET = new Date("2026-12-25T00:00:00").getTime();
+
+const isLaunched = () => Date.now() >= FOUNDER_TARGET;
+
+const computeTimeLeft = () => {
+  const now = Date.now();
+  const diff = Math.max(0, FOUNDER_TARGET - now);
+  const totalSeconds = Math.floor(diff / 1000);
+  const months = Math.floor(totalSeconds / (30.44 * 24 * 3600));
+  const remaining = totalSeconds - months * Math.floor(30.44 * 24 * 3600);
+  const days = Math.floor(remaining / (24 * 3600));
+  const hours = Math.floor((remaining % (24 * 3600)) / 3600);
+  const minutes = Math.floor((remaining % 3600) / 60);
+  const seconds = remaining % 60;
+  return { months, days, hours, minutes, seconds };
+};
 
 const FounderCountdown = () => {
-  const targetDate = new Date("2026-12-25T00:00:00").getTime();
-  const [timeLeft, setTimeLeft] = useState({ months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState(computeTimeLeft);
   const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const spotsLeft = FOUNDER_TOTAL - FOUNDER_CLAIMED;
+  const [error, setError] = useState("");
+  const [launched, setLaunched] = useState(isLaunched);
 
   useEffect(() => {
     const update = () => {
-      const now = Date.now();
-      const diff = Math.max(0, targetDate - now);
-
-      const totalSeconds = Math.floor(diff / 1000);
-      const months = Math.floor(totalSeconds / (30.44 * 24 * 3600));
-      const remaining = totalSeconds - months * Math.floor(30.44 * 24 * 3600);
-      const days = Math.floor(remaining / (24 * 3600));
-      const hours = Math.floor((remaining % (24 * 3600)) / 3600);
-      const minutes = Math.floor((remaining % 3600) / 60);
-      const seconds = remaining % 60;
-
-      setTimeLeft({ months, days, hours, minutes, seconds });
+      setTimeLeft(computeTimeLeft());
+      if (Date.now() >= FOUNDER_TARGET) setLaunched(true);
     };
-
     update();
     const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
-  }, [targetDate]);
-
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !email.includes("@")) return;
-
+    if (!email || !email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
     setSubmitting(true);
     setError("");
-
     try {
       const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, source: "founder-waitlist" }),
       });
-
       if (res.ok) {
         setSubmitted(true);
       } else {
@@ -553,14 +613,26 @@ const FounderCountdown = () => {
     }
   };
 
-  const CountdownUnit = ({ value, label, last }: { value: number; label: string; last?: boolean }) => (
-    <div className="flex-1 min-w-0 flex flex-col gap-1.5 px-2 first:pl-0 last:pr-0">
-      <div className="text-2xl sm:text-[28px] font-semibold text-fg font-mono tabular-nums tracking-tight leading-none">
+  const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
+    <div
+      className="flex-1 min-w-0 flex flex-col gap-1.5 px-2 first:pl-0 last:pr-0"
+      role="timer"
+      aria-label={`${value} ${label.toLowerCase()}`}
+    >
+      <div
+        className="text-2xl sm:text-[28px] font-semibold text-fg font-mono tabular-nums tracking-tight leading-none"
+        aria-live="off"
+      >
         {String(value).padStart(2, "0")}
       </div>
       <div className="text-[10px] sm:text-[11px] text-muted uppercase tracking-wider">{label}</div>
     </div>
   );
+
+  const spotsLeft = FOUNDER_TOTAL - FOUNDER_CLAIMED;
+  const formId = "founder-waitlist-email";
+  const errorId = "founder-waitlist-error";
+  const successId = "founder-waitlist-success";
 
   return (
     <section id="founder-section" className="py-24 sm:py-32 px-5 sm:px-6">
@@ -570,7 +642,7 @@ const FounderCountdown = () => {
             <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-14 items-start">
               <div>
                 <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[12px] mb-6">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                   Founder window · 500 cards
                 </span>
                 <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-5">
@@ -585,54 +657,96 @@ const FounderCountdown = () => {
                   <div className="flex items-center justify-between mb-3 text-sm">
                     <span className="text-fg-muted">
                       <span className="text-amber-300 font-mono font-semibold">{FOUNDER_CLAIMED}</span> / {FOUNDER_TOTAL} claimed
+                      <span className="text-dim ml-2">(illustrative)</span>
                     </span>
                     <span className="text-muted text-[13px]">{spotsLeft} spots left</span>
                   </div>
-                  <div className="progress-track">
+                  <div
+                    className="progress-track"
+                    role="progressbar"
+                    aria-valuenow={FOUNDER_CLAIMED}
+                    aria-valuemin={0}
+                    aria-valuemax={FOUNDER_TOTAL}
+                    aria-label="Founder cards claimed (illustrative)"
+                  >
                     <div className="progress-fill" style={{ width: `${(FOUNDER_CLAIMED / FOUNDER_TOTAL) * 100}%` }} />
                   </div>
                 </div>
 
-                {!submitted ? (
-                  <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 max-w-md">
+                {launched ? (
+                  <div className="rounded-lg border border-border bg-bg p-4 max-w-md">
+                    <p className="text-fg font-medium mb-1">The waitlist is closed.</p>
+                    <p className="text-muted text-sm leading-relaxed">
+                      Beta launched on December 25, 2026. Visit the <a href="/download" className="text-fg underline underline-offset-4 hover:text-fg-muted">download page</a> to get Aestra, or <a href="/pricing" className="text-fg underline underline-offset-4 hover:text-fg-muted">see pricing</a> for current tiers.
+                    </p>
+                  </div>
+                ) : !submitted ? (
+                  <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col sm:flex-row gap-2.5 max-w-md"
+                    aria-label="Founder waitlist signup"
+                    noValidate
+                  >
+                    <label htmlFor={formId} className="sr-only">Email address</label>
                     <input
+                      id={formId}
                       type="email"
+                      name="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => { setEmail(e.target.value); if (error) setError(""); }}
                       placeholder="you@studio.email"
                       required
-                      aria-label="Email address for waitlist"
+                      autoComplete="email"
+                      inputMode="email"
+                      aria-invalid={Boolean(error)}
+                      aria-describedby={error ? errorId : undefined}
                       className="flex-1 h-11 px-3.5 rounded-lg bg-bg border border-border text-fg text-sm placeholder-dim focus:outline-none focus:border-border-2 transition-colors"
                     />
                     <button
                       type="submit"
                       disabled={submitting}
+                      aria-busy={submitting}
                       className="h-11 px-5 rounded-lg bg-fg text-on-accent font-medium text-sm hover:bg-fg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                     >
                       {submitting ? "Joining..." : "Join waitlist"}
                     </button>
+                    {error && (
+                      <p id={errorId} role="alert" className="text-rose-400 text-sm mt-2 sm:basis-full">
+                        {error}
+                      </p>
+                    )}
                   </form>
                 ) : (
-                  <div className="flex items-center gap-2 text-fg">
-                    <Check className="w-4 h-4 text-emerald-400" />
+                  <div id={successId} role="status" aria-live="polite" className="flex items-center gap-2 text-fg">
+                    <Check className="w-4 h-4 text-emerald-400" aria-hidden="true" />
                     <span className="font-medium">You're on the list.</span>
                   </div>
                 )}
-                {error && <p className="text-rose-400 text-sm mt-3">{error}</p>}
               </div>
 
-              <div className="lg:w-72">
+              <div className="lg:w-72" aria-live="polite">
                 <p className="kicker mb-4">Beta launch</p>
-                <div className="flex items-stretch divide-x divide-border/80 border-y border-border/80 py-3">
-                  <CountdownUnit value={timeLeft.months} label="Mo" />
-                  <CountdownUnit value={timeLeft.days} label="Days" />
-                  <CountdownUnit value={timeLeft.hours} label="Hrs" />
-                  <CountdownUnit value={timeLeft.minutes} label="Min" />
-                  <CountdownUnit value={timeLeft.seconds} label="Sec" last />
-                </div>
+                {launched ? (
+                  <p className="text-fg text-sm leading-relaxed border-y border-border/80 py-3">
+                    Beta launched. Time is up.
+                  </p>
+                ) : (
+                  <div
+                    className="flex items-stretch divide-x divide-border/80 border-y border-border/80 py-3"
+                    role="timer"
+                    aria-label={`Time until beta launch: ${timeLeft.months} months, ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes`}
+                  >
+                    <CountdownUnit value={timeLeft.months} label="Mo" />
+                    <CountdownUnit value={timeLeft.days} label="Days" />
+                    <CountdownUnit value={timeLeft.hours} label="Hrs" />
+                    <CountdownUnit value={timeLeft.minutes} label="Min" />
+                    <CountdownUnit value={timeLeft.seconds} label="Sec" />
+                  </div>
+                )}
                 <p className="text-muted text-[12px] mt-4 leading-relaxed">
-                  Founder access activates when beta launches in December 2026.
-                  Waitlist locks your slot number.
+                  {launched
+                    ? "Founder access is now active for all Founder card holders."
+                    : "Founder access activates when beta launches in December 2026. Waitlist locks your slot number."}
                 </p>
               </div>
             </div>

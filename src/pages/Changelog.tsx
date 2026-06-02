@@ -151,6 +151,8 @@ export const Changelog = memo(({ setPage }: PageProps) => {
     { label: "Docs",        value: "docs" },
   ];
 
+  const lastSynced = new Date("2026-06-01T00:00:00Z");
+
   return (
     <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 px-5 sm:px-6 min-h-screen">
       <div className="max-w-4xl mx-auto">
@@ -161,22 +163,28 @@ export const Changelog = memo(({ setPage }: PageProps) => {
               What shipped, what's coming.
             </h1>
             <div className="flex items-center gap-2 text-[13px] text-muted">
-              <CalendarDays className="w-3.5 h-3.5" />
-              <span>Source synced from Aestra CHANGELOG.md through Jun 2026</span>
+              <CalendarDays className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>
+                Source synced from Aestra CHANGELOG.md through{" "}
+                <time dateTime={lastSynced.toISOString().slice(0, 10)}>
+                  {lastSynced.toLocaleDateString("en-US", { year: "numeric", month: "long" })}
+                </time>
+              </span>
             </div>
           </div>
           <div className="flex items-center text-[13px] text-muted">
-            <Activity className="w-3.5 h-3.5 mr-2" />
-            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-2" />
+            <Activity className="w-3.5 h-3.5 mr-2" aria-hidden="true" />
+            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-2" aria-hidden="true" />
             Unreleased line actively moving
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-12">
+        <div className="flex flex-wrap gap-2 mb-12" role="group" aria-label="Filter changes by type">
           {filters.map((filter) => (
             <button
               key={filter.value}
               onClick={() => setActiveType(filter.value)}
+              aria-pressed={activeType === filter.value}
               className={cn(
                 "rounded-md px-3 py-1.5 text-[13px] border transition-colors",
                 activeType === filter.value
@@ -229,7 +237,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 h-10 text-sm text-fg-muted hover:text-fg hover:border-border-2 transition-colors"
           >
-            Open canonical CHANGELOG.md <ArrowRight className="w-3.5 h-3.5" />
+            Open canonical CHANGELOG.md <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </a>
         </div>
       </div>

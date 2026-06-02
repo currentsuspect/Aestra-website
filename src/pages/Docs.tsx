@@ -604,17 +604,27 @@ export const Docs = memo(({ setPage }: PageProps) => {
             </div>
 
             <div className="rounded-lg border border-border/80 bg-bg p-4 mb-5 overflow-x-auto">
-              <svg viewBox="0 0 760 90" className="h-auto w-full min-w-[600px]">
+              <svg viewBox="0 0 760 90" className="h-auto w-full min-w-[600px] flow-svg" role="img" aria-label="Audio signal flow diagram">
                 {flowNodes.map((node, index) => {
                   const x = 60 + index * 150;
                   const active = node.id === selectedFlowNode;
                   return (
-                    <g key={node.id} onClick={() => setSelectedFlowNode(node.id)} style={{ cursor: "pointer" }}>
+                    <g key={node.id} onClick={() => setSelectedFlowNode(node.id)} className="cursor-pointer">
                       {index < flowNodes.length - 1 && (
-                        <line x1={x + 42} y1={45} x2={x + 108} y2={45} stroke={active ? "#a1a1aa" : "#27272a"} strokeWidth="2" />
+                        <line
+                          x1={x + 42} y1={45} x2={x + 108} y2={45}
+                          className={active ? "stroke-fg-muted" : "stroke-border-2"}
+                          strokeWidth="2"
+                        />
                       )}
-                      <rect x={x} y={26} width={84} height={38} rx={8} fill={active ? "#27272a" : "#0a0a0b"} stroke={active ? "#71717a" : "#27272a"} />
-                      <text x={x + 42} y={49} textAnchor="middle" fontSize="11" fill={active ? "#fafafa" : "#a1a1aa"}>{node.badge}</text>
+                      <rect
+                        x={x} y={26} width={84} height={38} rx={8}
+                        className={active ? "fill-surface-2 stroke-muted" : "fill-bg stroke-border-2"}
+                      />
+                      <text
+                        x={x + 42} y={49} textAnchor="middle" fontSize="11"
+                        className={active ? "fill-fg" : "fill-fg-muted"}
+                      >{node.badge}</text>
                     </g>
                   );
                 })}
@@ -789,7 +799,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 {Object.entries(patternRows).map(([row, values]) => (
                   <div key={row} className="grid grid-cols-[56px_1fr] gap-3 items-center">
                     <div className="text-xs text-muted uppercase font-mono">{row}</div>
-                    <div className="grid grid-cols-16 gap-1">
+                    <div className="grid grid-cols-[repeat(16,minmax(0,1fr))] gap-1">
                       {values.map((value, idx) => (
                         <button
                           key={`${row}-${idx}`}

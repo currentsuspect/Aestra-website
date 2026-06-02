@@ -1,46 +1,83 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
 
 export type Theme = "dark" | "light";
 
 const STORAGE_KEY = "aestra-theme";
 
+const isTheme = (v: unknown): v is Theme => v === "light" || v === "dark";
+
 const getInitialTheme = (): Theme => {
   if (typeof document !== "undefined") {
     const attr = document.documentElement.getAttribute("data-theme");
-    if (attr === "light" || attr === "dark") return attr;
+    if (isTheme(attr)) return attr;
   }
   if (typeof window !== "undefined") {
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored === "light" || stored === "dark") return stored;
+      if (isTheme(stored)) return stored;
     } catch {
       // ignore
+    }
+    if (typeof window.matchMedia === "function") {
+      try {
+        if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
+      } catch {
+        // ignore
+      }
     }
   }
   return "dark";
 };
 
-export const useTheme = () => {
-  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+// Module-level store — single source of truth across all useTheme() consumers.
+let currentTheme: Theme = getInitialTheme();
+const listeners = new Set<() => void>();
 
-  useEffect(() => {
-    if (theme === "light") {
+const applyTheme = (t: Theme) => {
+  if (typeof document !== "undefined") {
+    if (t === "light") {
       document.documentElement.setAttribute("data-theme", "light");
     } else {
       document.documentElement.removeAttribute("data-theme");
     }
+  }
+  if (typeof window !== "undefined") {
     try {
-      window.localStorage.setItem(STORAGE_KEY, theme);
+      window.localStorage.setItem(STORAGE_KEY, t);
     } catch {
       // ignore
     }
-  }, [theme]);
+  }
+};
 
-  const setTheme = useCallback((t: Theme) => setThemeState(t), []);
-  const toggleTheme = useCallback(
-    () => setThemeState((prev) => (prev === "dark" ? "light" : "dark")),
-    []
-  );
+const setThemeGlobal = (t: Theme) => {
+  if (currentTheme === t) return;
+  currentTheme = t;
+  applyTheme(t);
+  listeners.forEach((l) => l());
+};
 
-  return { theme, setTheme, toggleTheme };
+const toggleThemeGlobal = () => setThemeGlobal(currentTheme === "dark" ? "light" : "dark");
+
+const subscribe = (cb: () => void) => {
+  listeners.add(cb);
+  return () => listeners.delete(cb);
+};
+
+const getSnapshot = (): Theme => currentTheme;
+const getServerSnapshot = (): Theme => "dark";
+
+export const useTheme = () => {
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const toggleTheme = useCallback(toggleThemeGlobal, []);
+  return { theme, setTheme: setThemeGlobal, toggleTheme };
+};
+
+// Kept for compatibility with App.tsx side-effect-only call.
+export const useThemeEffect = () => {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    setReady(true);
+  }, []);
+  return ready;
 };

@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <!-- ===== Primary SEO ===== -->
   <title>Aestra — Make music, not excuses.</title>
@@ -17,7 +16,7 @@
   <meta name="publisher" content="Aestra Studios">
   <meta name="copyright" content="© 2026 Aestra Studios">
   <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#fafaf7" media="(prefers-color-scheme: light)">
   <meta name="msapplication-TileColor" content="#09090b">
   <meta name="msapplication-navbutton-color" content="#09090b">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,7 +27,7 @@
   <meta name="application-version" content="0.1.1">
   <meta name="generator" content="Aestra Studios">
   <meta name="color-scheme" content="dark light">
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1, max-snippet:-1">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="bingbot" content="index, follow">
   <meta name="slurp" content="index, follow">
@@ -65,7 +64,6 @@
   <meta property="og:title" content="Aestra — Make music, not excuses.">
   <meta property="og:description" content="A native C++ digital audio workstation. Free core, no feature gates, cross-platform. Built for producers who want flow, not friction.">
   <meta property="og:url" content="https://aestra.studio/">
-  <meta property="og:base" content="https://aestra.studio/">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:image" content="https://aestra.studio/og-image.png">
@@ -75,19 +73,14 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Aestra — a native digital audio workstation for producers">
   <meta property="og:logo" content="https://aestra.studio/logo.png">
-  <meta property="og:determiner" content="">
-  <meta property="og:see_also" content="https://github.com/currentsuspect/Aestra">
-  <meta property="og:see_also" content="https://x.com/aestrastudios">
 
   <!-- ===== Twitter Card ===== -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@aestrastudios">
   <meta name="twitter:creator" content="@aestrastudios">
-  <meta name="twitter:site:id" content="aestrastudios">
   <meta name="twitter:title" content="Aestra — Make music, not excuses.">
   <meta name="twitter:description" content="A native C++ DAW for producers. Free core, no feature gates, cross-platform. Built for flow.">
   <meta name="twitter:image" content="https://aestra.studio/og-image.png">
-  <meta name="twitter:image:src" content="https://aestra.studio/og-image.png">
   <meta name="twitter:image:alt" content="Aestra — a native digital audio workstation for producers">
   <meta name="twitter:image:width" content="1200">
   <meta name="twitter:image:height" content="630">
@@ -101,9 +94,14 @@
   <!-- ===== Favicon / App Icons ===== -->
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="72x72" href="/favicon-72.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="/favicon-128.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="/favicon-256.png">
   <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57.png">
   <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72.png">
   <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76.png">
@@ -130,13 +128,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://formspree.io">
+  <link rel="preconnect" href="https://formspree.io" crossorigin>
   <link rel="dns-prefetch" href="https://github.com">
   <link rel="dns-prefetch" href="https://api.github.com">
   <link rel="preconnect" href="https://github.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
 
   <!-- ===== Security ===== -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://formspree.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://formspree.io https://api.github.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://formspree.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://formspree.io https://api.github.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io; object-src 'none';">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -372,12 +371,17 @@
   }
   </script>
 
-  <!-- No-flash theme bootstrap (runs before React mounts) -->
+  <!-- No-flash theme bootstrap (runs before React mounts).
+       Honors saved choice first, then OS preference as a fallback. -->
   <script>
     (function() {
       try {
         var t = localStorage.getItem('aestra-theme');
-        if (t === 'light') {
+        var light = t === 'light';
+        if (!t) {
+          light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        }
+        if (light) {
           document.documentElement.setAttribute('data-theme', 'light');
         }
       } catch (e) {}
@@ -385,7 +389,7 @@
   </script>
 
   <!-- Skip Navigation Link for Accessibility -->
-  <a href="#main-content" class="skip-link" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 </head>
 <body>
   <div id="root"></div>

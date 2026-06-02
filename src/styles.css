@@ -45,6 +45,7 @@
 
 :root {
   color-scheme: dark;
+  --tw-ring-offset-color: var(--color-bg);
 }
 
 [data-theme="light"] {
@@ -66,30 +67,73 @@
   --color-fg:           #18181b;
   --color-fg-muted:     #3f3f46;
   --color-muted:        #52525b;
-  --color-dim:          #71717a;
+  --color-dim:          #5a5a62;
   --color-faint:        #a1a1aa;
   --color-on-accent:    #ffffff;
 
-  /* Accent soft tint warmer in light mode */
-  --color-accent-soft:  #8b5cf614;
+  /* Accent — slightly darker in light for better text contrast */
+  --color-accent:       #7c3aed;
+  --color-accent-hover: #6d28d9;
+  --color-accent-soft:  #7c3aed1a;
+  --color-accent-2:     #5b21b6;
 
-  /* Scrollbar */
-  ::-webkit-scrollbar-track { background: var(--color-bg); }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-border-2);
-    border: 2px solid var(--color-bg);
-  }
-  ::-webkit-scrollbar-thumb:hover { background: var(--color-border-3); }
+  /* Semantic — darker variants for AA contrast on warm off-white */
+  --color-success:      #15803d;
+  --color-warn:         #b45309;
+  --color-error:        #b91c1c;
 
-  /* Selection */
+  /* Light-mode color contrast overrides for Tailwind utilities.
+     On #fafaf7, the -300/-400 shades are too light to meet WCAG AA.
+     Map to the -700/-600 equivalent that does. */
+  .text-emerald-300 { color: #047857; }
+  .text-emerald-400 { color: #059669; }
+  .text-rose-300    { color: #be123c; }
+  .text-rose-400    { color: #e11d48; }
+  .text-amber-300   { color: #b45309; }
+  .text-amber-400   { color: #d97706; }
+  .text-violet-300  { color: #6d28d9; }
+  .text-violet-400  { color: #7c3aed; }
+  .text-blue-300    { color: #1d4ed8; }
+  .text-blue-400    { color: #2563eb; }
+  .text-sky-300     { color: #0369a1; }
+  .text-sky-400     { color: #0284c7; }
+  .text-teal-300    { color: #0f766e; }
+  .text-teal-400    { color: #0d9488; }
+  .text-cyan-300    { color: #0e7490; }
+  .text-cyan-400    { color: #0891b2; }
+  .text-fuchsia-300 { color: #a21caf; }
+  .text-fuchsia-400 { color: #c026d3; }
+  .text-pink-300    { color: #be185d; }
+  .text-pink-400    { color: #db2777; }
+  .text-indigo-300  { color: #4338ca; }
+  .text-indigo-400  { color: #4f46e5; }
+  .text-purple-300  { color: #6d28d9; }
+  .text-purple-400  { color: #7c3aed; }
+  .text-green-300   { color: #15803d; }
+  .text-green-400   { color: #16a34a; }
+  .text-lime-300    { color: #4d7c0f; }
+  .text-lime-400    { color: #65a30d; }
+  .text-yellow-300  { color: #a16207; }
+  .text-yellow-400  { color: #ca8a04; }
+  .text-orange-300  { color: #c2410c; }
+  .text-orange-400  { color: #ea580c; }
+  .text-red-300     { color: #b91c1c; }
+  .text-red-400     { color: #dc2626; }
+  .text-stone-300   { color: #57534e; }
+  .text-stone-400   { color: #78716c; }
+  .text-zinc-300    { color: #3f3f46; }
+  .text-zinc-400    { color: #52525b; }
+  .text-slate-300   { color: #334155; }
+  .text-slate-400   { color: #475569; }
+  .text-gray-300    { color: #374151; }
+  .text-gray-400    { color: #4b5563; }
+  .text-neutral-300 { color: #404040; }
+  .text-neutral-400 { color: #525252; }
+
+  /* Stronger selection in light mode for visibility */
   ::selection {
     background: var(--color-accent-soft);
     color: var(--color-fg);
-  }
-
-  /* Focus ring uses darker offset in light mode */
-  .focus\:ring-offset-bg:focus-visible {
-    --tw-ring-offset-color: var(--color-bg);
   }
 }
 
@@ -128,19 +172,21 @@ body {
   }
   html { scroll-behavior: auto; }
   .fade-in { opacity: 1; transform: none; }
+  /* SMIL animations (Home page bouncing circles, feature card live routing)
+     aren't affected by CSS animation-* rules. JS in components checks the
+     same media query before mounting or rendering <animate> elements. */
+  .animate-bounce-down { animation: none !important; }
 }
 
 /* ── Reveal-on-scroll ─────────────────────────────────────────── */
+.fade-in.visible,
+.fade-in.no-motion {
+  opacity: 1;
+  transform: none;
+}
 .fade-in {
-  opacity: 0;
-  transform: translateY(12px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 .fade-in-delay-1 { transition-delay: 0.06s; }
 .fade-in-delay-2 { transition-delay: 0.12s; }
@@ -243,3 +289,18 @@ body {
 @media (min-width: 768px) {
   .tap-target { min-height: 36px; min-width: 36px; }
 }
+
+/* ── Docs signal-flow SVG uses semantic tokens ────────────────── */
+.flow-svg .stroke-border-2 { stroke: var(--color-border-2); }
+.flow-svg .stroke-fg-muted { stroke: var(--color-fg-muted); }
+.flow-svg .stroke-muted    { stroke: var(--color-muted); }
+.flow-svg .fill-bg         { fill: var(--color-bg); }
+.flow-svg .fill-surface-2  { fill: var(--color-surface-2); }
+.flow-svg .fill-fg         { fill: var(--color-fg); }
+.flow-svg .fill-fg-muted   { fill: var(--color-fg-muted); }
+
+/* ── MockTimeline: theme-aware hardcoded colors. The DAW is a
+   dark-styled component on purpose, but the deepest surface must
+   still respect the user theme to avoid invisible black boxes on
+   light mode. We use the .mock-bg / .mock-fg classes internally. ── */
+.mock-bg { background: var(--mock-bg, #0d0d12); color: var(--mock-fg, #fafafa); }

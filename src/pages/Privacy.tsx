@@ -2,6 +2,13 @@ import React, { memo } from "react";
 import { ArrowRight } from "lucide-react";
 import type { PageProps } from "../types";
 
+const LAST_UPDATED = "2026-04-12";
+const formattedDate = new Date(LAST_UPDATED).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
 export const Privacy = memo(({ setPage }: PageProps) => (
   <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 px-5 sm:px-6 min-h-screen">
     <div className="max-w-2xl mx-auto">
@@ -9,11 +16,13 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         onClick={() => setPage("home")}
         className="text-muted hover:text-fg mb-10 flex items-center text-sm transition-colors"
       >
-        <ArrowRight className="rotate-180 w-4 h-4 mr-1.5" /> Back to home
+        <ArrowRight className="rotate-180 w-4 h-4 mr-1.5" aria-hidden="true" /> Back to home
       </button>
       <p className="kicker mb-4">Privacy</p>
       <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-3">Privacy policy</h1>
-      <p className="text-muted text-sm mb-12">Last updated: April 12, 2026</p>
+      <p className="text-muted text-sm mb-12">
+        Last updated: <time dateTime={LAST_UPDATED}>{formattedDate}</time>
+      </p>
 
       <div className="space-y-10 text-fg-muted text-[15px] leading-relaxed">
         <section>
@@ -36,8 +45,16 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">Waitlist emails</h2>
           <p className="text-muted">
-            Emails collected via the Founder waitlist are stored by Formspree, our form processor.
-            We use these emails solely to notify you when Founder cards become available.
+            Emails collected via the Founder waitlist are stored by{" "}
+            <a
+              href="https://formspree.io/legal/privacy-policy/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-fg underline underline-offset-4 hover:text-fg"
+            >
+              Formspree
+            </a>
+            , our form processor. We use these emails solely to notify you when Founder cards become available.
             We will not send marketing emails, share your email, or add you to any list you didn't sign up for.
             You can request removal at any time.
           </p>
@@ -53,11 +70,11 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         </section>
 
         <section>
-          <h2 className="text-[15px] font-medium text-fg mb-3">Muse AI (future)</h2>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Muse AI (planned)</h2>
           <p className="text-muted">
-            When Muse AI launches, all predictions run locally on your machine.
-            No audio, MIDI, or project data is sent to the cloud.
-            Optional anonymous telemetry for model improvement can be disabled without affecting Muse's functionality.
+            Our current plan for Muse AI is to run all predictions locally on your machine.
+            Subject to change before launch, but our intent is: no audio, MIDI, or project data sent to the cloud.
+            Optional anonymous telemetry for model improvement, if introduced, would be opt-in and can be disabled without affecting Muse's functionality.
           </p>
         </section>
 
@@ -68,8 +85,16 @@ export const Privacy = memo(({ setPage }: PageProps) => (
             Open an issue on{" "}
             <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-fg underline underline-offset-4 hover:text-fg">
               GitHub
-            </a>{" "}
-            or reach out through the community channels.
+            </a>
+            {" "}or reach out through the community channels. We aim to respond to verified requests within 30 days.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Governing law</h2>
+          <p className="text-muted">
+            This policy is provided in good faith. Where local consumer or data-protection law (such as the EU GDPR, UK GDPR, or California CCPA) grants you additional rights, those rights apply in addition to anything stated here.
+            Disputes will be handled in the jurisdiction of Aestra Studios' registered place of business, without prejudice to your mandatory local protections.
           </p>
         </section>
       </div>
