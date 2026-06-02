@@ -36,7 +36,7 @@ const Hero = ({ setPage }: PageProps) => {
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <p className="text-base sm:text-lg font-medium text-zinc-200 max-w-xl mb-10 leading-relaxed">
+              <p className="text-base sm:text-lg font-medium text-zinc-100 max-w-xl mb-10 leading-relaxed">
                 Make music, not excuses.
               </p>
             </FadeIn>
@@ -62,30 +62,28 @@ const Hero = ({ setPage }: PageProps) => {
           </div>
 
           <FadeIn delay={0.25}>
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-2">
-              <div className="divide-y divide-zinc-800/80">
-                {FEATURE_LIST.map((f) => {
-                  const Icon = f.icon;
-                  return (
-                    <div key={f.name} className="flex items-center gap-4 px-4 py-3.5">
-                      <div className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">
-                        <Icon className="w-[18px] h-[18px] text-zinc-300" strokeWidth={1.5} />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 mb-0.5">
-                          <span className="text-[14px] font-medium text-zinc-100 leading-snug">{f.name}</span>
-                          {f.badge && (
-                            <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/90 border border-amber-500/20 bg-amber-500/10 rounded px-1.5 py-0.5">
-                              {f.badge}
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-[12px] text-zinc-400 leading-snug">{f.desc}</div>
-                      </div>
+            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/40 divide-y divide-zinc-800/80 overflow-hidden">
+              {FEATURE_LIST.map((f) => {
+                const Icon = f.icon;
+                return (
+                  <div key={f.name} className="flex items-center gap-4 px-4 py-3.5">
+                    <div className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">
+                      <Icon className="w-[18px] h-[18px] text-zinc-300" strokeWidth={1.5} />
                     </div>
-                  );
-                })}
-              </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[14px] font-medium text-zinc-100 leading-snug">{f.name}</span>
+                        {f.badge && (
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/90 border border-amber-500/20 bg-amber-500/10 rounded px-1.5 py-0.5">
+                            {f.badge}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[12px] text-zinc-400 leading-snug">{f.desc}</div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </FadeIn>
         </div>
