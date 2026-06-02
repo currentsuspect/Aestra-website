@@ -1,6 +1,6 @@
-# Aestra — Agent Registration
+# Auth.md
 
-Aestra does not currently expose protected APIs requiring OAuth. This file is published for forward-compatibility.
+Aestra does not currently expose protected APIs. This file is published for forward-compatibility so agents can discover the authentication protocol when APIs launch.
 
 ## Identity
 
@@ -9,13 +9,14 @@ Aestra does not currently expose protected APIs requiring OAuth. This file is pu
 
 ## Authentication
 
-No authentication is required to access public Aestra content or documentation.
+No credentials are required to access public Aestra content or documentation.
 
-## Future
+When protected APIs are available, agents should follow this discovery flow:
 
-When Aestra exposes authenticated APIs (e.g., account management, project sync), authentication metadata will be published at:
+1. `GET /.well-known/oauth-protected-resource` — find the authorization server
+2. `GET /.well-known/oauth-authorization-server` — read the `agent_auth` block
+3. `POST` to `register_uri` with `{ type: "anonymous" }` to obtain credentials
 
-- `/.well-known/oauth-authorization-server`
-- `/.well-known/oauth-protected-resource`
+## agent_auth
 
-Agents should check `/.well-known/oauth-protected-resource` for the current list of authorization servers before attempting to obtain tokens.
+See `/.well-known/oauth-authorization-server` for the `agent_auth` block with `register_uri`, supported identity types, and credential types.

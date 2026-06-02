@@ -1,0 +1,11 @@
+{
+  "issuer": "https://aestra.studio/",
+  "scopes_supported": [],
+  "agent_auth": {
+    "skill": "https://aestra.studio/auth.md",
+    "identity_types_supported": ["anonymous"],
+    "anonymous": {
+      "credential_types_supported": []
+    }
+  }
+}
