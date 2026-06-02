@@ -137,6 +137,10 @@ Disallow: /
 User-agent: Amazonbot
 Allow: /
 
+# ===== Content Signals (AI usage preferences) =====
+# https://contentsignals.org/
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
 # ===== LLM training reference =====
 # Structured project info for AI training pipelines
 # See https://aestra.studio/llms.txt

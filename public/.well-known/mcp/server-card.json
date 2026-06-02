@@ -1,0 +1,20 @@
+{
+  "serverInfo": {
+    "name": "Aestra",
+    "version": "1.0.0",
+    "description": "Aestra is a next-generation DAW with AI-native features"
+  },
+  "transport": {
+    "type": "http",
+    "endpoint": "https://aestra.studio/mcp"
+  },
+  "capabilities": {
+    "tools": false,
+    "resources": false,
+    "prompts": false
+  },
+  "contact": {
+    "email": "hello@aestra.studio",
+    "url": "https://aestra.studio"
+  }
+}

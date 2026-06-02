@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agentskills.io/schemas/skills-index/v0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "api-catalog",
+      "type": "api-catalog",
+      "description": "Discover Aestra's API surface via RFC 9727 API catalog",
+      "url": "https://aestra.studio/.well-known/api-catalog",
+      "sha256": ""
+    },
+    {
+      "name": "docs",
+      "type": "service-doc",
+      "description": "Aestra product documentation",
+      "url": "https://aestra.studio/docs",
+      "sha256": ""
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://aestra.studio/",
+      "service-doc": [
+        { "href": "https://aestra.studio/docs", "type": "text/html" }
+      ]
+    }
+  ]
+}

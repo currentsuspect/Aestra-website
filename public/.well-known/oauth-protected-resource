@@ -1,0 +1,6 @@
+{
+  "resource": "https://aestra.studio/",
+  "authorization_servers": [],
+  "scopes_supported": [],
+  "bearer_methods_supported": ["header"]
+}
