@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+    { "source": "/((?!assets/|\\.well-known/|auth\\.md|llms\\.txt|robots\\.txt|sitemap|humans\\.txt|manifest\\.webmanifest|browserconfig\\.xml|opensearch\\.xml).*)", "destination": "/index.html" }
   ],
   "headers": [
     {
