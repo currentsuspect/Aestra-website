@@ -6,10 +6,10 @@ import type { PageProps } from "../types";
 
 /* ── Hero ─────────────────────────────────────────────────────── */
 const FEATURE_LIST = [
-  { icon: Headphones, name: "Audition",        desc: "Hear your mix through phones, cars, laptops and club systems — instantly." },
-  { icon: Workflow,   name: "Node Routing",    desc: "Visual signal flow. No hidden sends. No routing mysteries." },
   { icon: GitBranch,  name: "Session History", desc: "Git-inspired versioning. Never lose a session again." },
+  { icon: Workflow,   name: "Node Routing",    desc: "Visual signal flow. No hidden sends. No routing mysteries." },
   { icon: Layers,     name: "Takes",           desc: "Record freely. Every take stays recoverable." },
+  { icon: Headphones, name: "Audition",        desc: "Reference across devices without leaving your session." },
   { icon: Sparkles,   name: "Muse",            desc: "Suggests sounds, fixes workflow friction, and helps you finish tracks.", badge: "Coming soon" },
 ];
 
@@ -36,7 +36,7 @@ const Hero = ({ setPage }: PageProps) => {
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <p className="text-sm sm:text-base text-zinc-400 max-w-xl mb-10 leading-relaxed">
+              <p className="text-base sm:text-lg font-medium text-zinc-200 max-w-xl mb-10 leading-relaxed">
                 Make music, not excuses.
               </p>
             </FadeIn>
