@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
+import React, { useState, useEffect, useRef, useCallback, memo } from "react";
 import { cn } from "../lib";
 
 /* ── Native Palette (from NUIThemeSystem.cpp) ───────────────────── */
@@ -26,26 +26,24 @@ const C = {
 };
 
 const TRACK_COLORS = [
-  "#7c3aed", // Track 1 - violet (primary)
-  "#2dd4bf", // Track 2 - teal (the audio track)
-  "#71717a", "#71717a", "#71717a", // pattern tracks (muted)
-  "#71717a", "#71717a", "#71717a", "#71717a", "#71717a", "#71717a",
+  "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed",
+  "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed",
 ];
 
 type Tool = "select" | "cut" | "loop" | "paint" | "arrow" | "erase";
 
 const TRACK_LAYOUT: { name: string; kind: "pattern" | "audio" }[] = [
-  { name: "Track1",  kind: "pattern" },
-  { name: "Track2",  kind: "audio" },
-  { name: "Track3",  kind: "pattern" },
-  { name: "Track4",  kind: "pattern" },
-  { name: "Track5",  kind: "pattern" },
-  { name: "Track6",  kind: "pattern" },
-  { name: "Track7",  kind: "pattern" },
-  { name: "Track8",  kind: "pattern" },
-  { name: "Track9",  kind: "pattern" },
-  { name: "Track10", kind: "pattern" },
-  { name: "Track11", kind: "pattern" },
+  { name: "Track 1",  kind: "pattern" },
+  { name: "Track 2",  kind: "pattern" },
+  { name: "Track 3",  kind: "pattern" },
+  { name: "Track 4",  kind: "pattern" },
+  { name: "Track 5",  kind: "pattern" },
+  { name: "Track 6",  kind: "pattern" },
+  { name: "Track 7",  kind: "pattern" },
+  { name: "Track 8",  kind: "pattern" },
+  { name: "Track 9",  kind: "pattern" },
+  { name: "Track 10", kind: "pattern" },
+  { name: "Track 11", kind: "pattern" },
 ];
 
 const NAV_TREE: { section: string; items: { name: string; color?: string; type?: "leaf" | "folder" }[] }[] = [
@@ -70,6 +68,7 @@ const NAV_TREE: { section: string; items: { name: string; color?: string; type?:
     { name: "Packs",          type: "folder" },
     { name: "User Library",   type: "folder" },
     { name: "Current Project", type: "folder" },
+    { name: "+ Add Folder...", type: "leaf" },
   ]},
 ];
 
@@ -77,8 +76,11 @@ const FILES = [
   { name: "Baby Keem - Ca$ino.flac", kind: "FLAC", size: "28 MB" },
   { name: "Bktherula - CODE.flac", kind: "FLAC", size: "19 MB" },
   { name: "Che - Promoting Violence.flac", kind: "FLAC", size: "17 MB" },
+  { name: "CurrentSuspect - ANSWERS.flac", kind: "FLAC", size: "22 MB" },
+  { name: "North West - Aishite (愛).flac", kind: "FLAC", size: "16 MB" },
+  { name: "North West - W0ah.flac", kind: "FLAC", size: "13 MB" },
   { name: "PlaqueBoyMax - Super Wrong.flac", kind: "FLAC", size: "12 MB" },
-  { name: "PlaqueBoyMax - Yellow Lamb Truck.flac", kind: "FLAC", size: "10 MB" },
+  { name: "PlaqueBoyMax - Yellow Lamb.flac", kind: "FLAC", size: "10 MB" },
   { name: "Rapsody - Black Popstar.flac", kind: "FLAC", size: "14 MB" },
   { name: "SLAYR - Flashout Freestyle.flac", kind: "FLAC", size: "23 MB" },
   { name: "SoFaygo - MM3.flac", kind: "FLAC", size: "19 MB" },
@@ -86,6 +88,7 @@ const FILES = [
   { name: "Travis Scott - NO BYSTANDERS.flac", kind: "FLAC", size: "25 MB" },
   { name: "Travis Scott - SHYNE.flac", kind: "FLAC", size: "21 MB" },
   { name: "Yeat - Purpose General.flac", kind: "FLAC", size: "21 MB" },
+  { name: "prettifun - #FreePretti.flac", kind: "FLAC", size: "18 MB" },
 ];
 
 type Track = {
@@ -100,22 +103,6 @@ const initialTracks: Track[] = TRACK_LAYOUT.map((t, i) => ({
 }));
 
 /* ── Utility ────────────────────────────────────────────────────── */
-const fmt = (t: number) => {
-  const m = Math.floor(t / 60);
-  const s = Math.floor(t % 60);
-  const cs = Math.floor((t % 1) * 100);
-  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}.${String(cs).padStart(2, "0")}`;
-};
-
-// Deterministic waveform generator (per-track seed)
-const wavePoints = (seed: number, count: number, amp = 10) => {
-  return Array.from({ length: count }, (_, i) => {
-    const x = (i / (count - 1)) * 200;
-    const y = 14 + Math.sin(i * 0.42 + seed) * amp * Math.cos(i * 0.13 + seed * 0.7) * (0.6 + Math.sin(i * 0.08 + seed) * 0.4);
-    return `${x},${y}`;
-  }).join(" ");
-};
-
 const audioPoints = (seed: number, count: number, amp = 6) => {
   return Array.from({ length: count }, (_, i) => {
     const x = (i / (count - 1)) * 200;
@@ -151,6 +138,16 @@ const Icon = {
   Maximize: () => <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1"><rect x="2.5" y="2.5" width="5" height="5"/></svg>,
   Close: () => <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1"><path d="M2.5 2.5l5 5M7.5 2.5l-5 5"/></svg>,
   Curve: () => <svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M1.5 9c1.5-4 3.5-4 5 0s3.5 4 6 0"/></svg>,
+  Dots: () => <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><circle cx="3" cy="7" r="1.1"/><circle cx="7" cy="7" r="1.1"/><circle cx="11" cy="7" r="1.1"/></svg>,
+  Hourglass: () => <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round"><path d="M4 2h6M4 12h6M4 2c0 2.5 1.2 3.5 3 5 1.8-1.5 3-2.5 3-5M4 12c0-2.5 1.2-3.5 3-5 1.8 1.5 3 2.5 3 5"/></svg>,
+  Sliders: () => <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"><line x1="3" y1="2" x2="3" y2="12"/><line x1="7" y1="2" x2="7" y2="12"/><line x1="11" y1="2" x2="11" y2="12"/><circle cx="3" cy="5" r="1.3" fill="currentColor"/><circle cx="7" cy="9" r="1.3" fill="currentColor"/><circle cx="11" cy="4" r="1.3" fill="currentColor"/></svg>,
+  Grid: () => <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.1"><rect x="2" y="2" width="4" height="4" rx="0.6"/><rect x="8" y="2" width="4" height="4" rx="0.6"/><rect x="2" y="8" width="4" height="4" rx="0.6"/><rect x="8" y="8" width="4" height="4" rx="0.6"/></svg>,
+  Monitor: () => <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round"><rect x="2" y="3" width="10" height="6.5" rx="1"/><path d="M5 12h4M7 9.5V12"/></svg>,
+  TimelineView: () => <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.1"><rect x="2" y="3" width="10" height="2.2" rx="0.5"/><rect x="2" y="6.4" width="7" height="2.2" rx="0.5"/><rect x="2" y="9.8" width="10" height="0.1" rx="0.5"/><line x1="2" y1="9.8" x2="12" y2="9.8"/></svg>,
+  Menu: () => <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"><line x1="2.5" y1="4" x2="11.5" y2="4"/><line x1="2.5" y1="7" x2="11.5" y2="7"/><line x1="2.5" y1="10" x2="11.5" y2="10"/></svg>,
+  Marquee: () => <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.1" strokeDasharray="2 1.4"><rect x="2" y="2" width="8" height="8" rx="1"/></svg>,
+  Pencil: () => <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round"><path d="M8.5 1.5l2 2-6 6-2.5.5.5-2.5z"/></svg>,
+  Knob: () => <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.1"><circle cx="7" cy="7" r="4.5"/><path d="M7 3v2.5" strokeLinecap="round"/></svg>,
 };
 
 /* ── Transport Button ───────────────────────────────────────────── */
@@ -215,8 +212,7 @@ export const MockTimeline = memo(() => {
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(["Sounds", "Packs", "User Library"]));
   const [tracks, setTracks] = useState(initialTracks);
   const [faders, setFaders] = useState<number[]>([66, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-  const [selectedTool, setSelectedTool] = useState<Tool>("paint");
-  const [hoveredClip, setHoveredClip] = useState<string | null>(null);
+  const [selectedTool, setSelectedTool] = useState<Tool>("arrow");
   const playheadRef = useRef<HTMLDivElement>(null);
   const playheadPos = useRef(190);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -328,41 +324,6 @@ export const MockTimeline = memo(() => {
     if (playheadRef.current) playheadRef.current.style.transform = `translateX(${newX}px)`;
   }, []);
 
-  // Clip layout for the arrangement overview (top strip) — uses a vibrant palette for the mini-map
-  const OVERVIEW_PALETTE = [
-    "#7c3aed", "#2dd4bf", "#3b82f6", "#a78bfa", "#60a5fa",
-    "#2dd4bf", "#f472b6", "#fb923c", "#facc15", "#a3e635", "#22d3ee",
-  ];
-  const overviewClips = useMemo(() => TRACK_LAYOUT.map((t, i) => {
-    const segments: { start: number; width: number; color: string }[] = [];
-    let x = 4 + (i * 1.3) % 12;
-    for (let k = 0; k < 4 + (i % 3); k++) {
-      const w = 6 + (i * 3 + k * 5) % 12;
-      segments.push({ start: x, width: w, color: OVERVIEW_PALETTE[i % OVERVIEW_PALETTE.length] });
-      x += w + 1 + (k % 2);
-    }
-    return segments;
-  }), []);
-
-  // Clip layout for the main tracks
-  const trackClips = useMemo(() => TRACK_LAYOUT.map((t, i) => {
-    if (t.kind === "audio") {
-      return [
-        { id: `${i}-a`, start: 1, width: 30, label: "@vagorose — percloop — itsok" },
-        { id: `${i}-b`, start: 32, width: 28, label: "@vagorose — percloop — itsok" },
-      ];
-    }
-    return [
-      { id: `${i}-p1`, start: 1, width: 12, label: `pattern_${i}` },
-      { id: `${i}-p2`, start: 14, width: 14, label: `pattern_${i}` },
-      { id: `${i}-p3`, start: 29, width: 11, label: `pattern_${i}` },
-      { id: `${i}-p4`, start: 41, width: 9, label: `pattern_${i}` },
-    ];
-  }), []);
-
-  const selectedFileDuration = "174.3s";
-  const selectedFileBase = FILES[selectedFile].name.replace(".flac", "").slice(0, 22);
-
   return (
     <div className="mt-8 sm:mt-10 lg:mt-12 w-full max-w-7xl mx-auto relative px-0 sm:px-2">
       {/* Mobile fallback */}
@@ -432,9 +393,11 @@ export const MockTimeline = memo(() => {
           {/* ── Main Content ─────────────────────────────────── */}
           {activeView === "timeline" && (
             <div className="flex-1 flex flex-col min-h-0">
-              {/* Row 1: Transport (left) + view icons + master fader (right) — full width */}
+              {/* Row 1: Transport (centered) + view icons + master meters (right) — full width */}
               <div className="h-9 border-b border-[#1e1e28] bg-[#0d0d12] px-2 flex items-center gap-2 shrink-0">
-                {/* Transport cluster (left) */}
+                {/* Leading spacer (centers the transport cluster) */}
+                <div className="flex-1" />
+                {/* Transport cluster */}
                 <div className="flex items-center h-7 gap-0.5 rounded-md border border-[#2a2a36] bg-[#0a0a0e] px-1.5">
                   <button
                     onClick={() => setIsPlaying(v => !v)}
@@ -471,31 +434,42 @@ export const MockTimeline = memo(() => {
                   </button>
                   <div className="w-px h-4 bg-[#2a2a36] mx-1" />
                   <button
+                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
+                    title="More"
+                  >
+                    <Icon.Dots />
+                  </button>
+                  <button
+                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
+                    title="Loop range"
+                  >
+                    <Icon.Hourglass />
+                  </button>
+                  <button
                     onClick={() => setMetronomeOn(v => !v)}
                     className={cn(
-                      "w-7 h-7 rounded flex items-center justify-center text-[12px] font-mono transition-colors",
+                      "w-7 h-7 rounded flex items-center justify-center transition-colors",
                       metronomeOn ? "bg-violet-500/20 text-violet-300" : "text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
                     )}
-                    title="Metronome"
+                    title="Loop"
                   >
-                    ♩
+                    <Icon.Loop />
                   </button>
                   <button
                     className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
-                    title="Loop region"
+                    title="Metronome / Accent"
                   >
-                    <span className="text-[12px]">⌛</span>
+                    <Icon.Metronome />
                   </button>
-                  <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
-                    title="Accent"
-                  >
-                    <span className="text-[12px]">●</span>
-                  </button>
-                  <div className="w-px h-4 bg-[#2a2a36] mx-1" />
-                  <span className="text-[10px] text-zinc-400 font-mono tabular-nums px-1.5">4 / 4</span>
-                  <div className="w-px h-4 bg-[#2a2a36] mx-1" />
-                  <div className="flex flex-col items-center justify-center h-7 w-[64px] rounded border border-[#2a2a36] bg-[#0a0a0e] px-1">
+                </div>
+
+                {/* Time signature + BPM + position block */}
+                <div className="flex items-center h-7 gap-0 rounded-md border border-[#2a2a36] bg-[#0a0a0e] overflow-hidden ml-1">
+                  <div className="flex items-center justify-center h-7 w-[48px] px-1">
+                    <span className="text-[11px] text-zinc-300 font-mono tabular-nums">4/4</span>
+                  </div>
+                  <div className="w-px h-5 bg-[#2a2a36]" />
+                  <div className="flex flex-col items-center justify-center h-7 w-[60px] px-1">
                     <span className="text-[7px] text-zinc-500 font-mono uppercase tracking-wider leading-none">BPM</span>
                     <input
                       type="number"
@@ -504,36 +478,61 @@ export const MockTimeline = memo(() => {
                         const n = Number(e.target.value);
                         if (!Number.isNaN(n)) setBpm(String(Math.max(40, Math.min(300, n))));
                       }}
-                      className="w-full bg-transparent text-[10px] text-zinc-200 font-mono tabular-nums outline-none text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none leading-none"
+                      className="w-full bg-transparent text-[11px] text-zinc-200 font-mono tabular-nums outline-none text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none leading-none mt-px"
                     />
                   </div>
-                  <div className="flex items-center justify-center h-7 w-[64px] rounded border border-[#2a2a36] bg-[#0a0a0e]">
-                    <span className="text-[10px] text-zinc-200 font-mono tabular-nums">0:00.00</span>
+                  <div className="w-px h-5 bg-[#2a2a36]" />
+                  <div className="flex items-center justify-center h-7 w-[72px] px-1">
+                    <span className="text-[12px] text-zinc-200 font-mono tabular-nums">0:00.00</span>
                   </div>
                 </div>
 
                 {/* Spacer */}
                 <div className="flex-1" />
 
-                {/* Master fader */}
-                <div className="flex items-center gap-1.5 pl-2 ml-1 border-l border-[#2a2a36] h-6">
-                  <span className="text-[9px] text-zinc-400 font-mono uppercase tracking-wider">M</span>
-                  <div className="w-16 h-1.5 rounded-full bg-[#1e1e28] relative overflow-hidden">
-                    <div className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-emerald-500 via-amber-400 to-red-500" style={{ width: "72%" }} />
-                    <div className="absolute top-1/2 -translate-y-1/2 w-2 h-3 rounded-sm bg-white shadow" style={{ left: "calc(72% - 4px)" }} />
-                  </div>
-                  <span className="text-[9px] text-zinc-400 font-mono tabular-nums w-7 text-right">-3.2</span>
+                {/* View switcher icons */}
+                <div className="flex items-center h-7 gap-0.5">
+                  <button onClick={() => setActiveView("mixer")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]" title="Mixer">
+                    <Icon.Sliders />
+                  </button>
+                  <button onClick={() => setActiveView("arsenal")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]" title="Arsenal">
+                    <Icon.Grid />
+                  </button>
+                  <button onClick={() => setActiveView("audition")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]" title="Audition">
+                    <Icon.Monitor />
+                  </button>
+                  <button onClick={() => setActiveView("timeline")} className="w-7 h-7 rounded flex items-center justify-center transition-colors bg-violet-500/20 text-violet-300" title="Timeline">
+                    <Icon.TimelineView />
+                  </button>
+                </div>
+
+                {/* Master meters (top-right) */}
+                <div className="flex flex-col gap-1 ml-2 w-[140px] shrink-0">
+                  {[0, 1].map(ch => (
+                    <div key={ch} className="h-1.5 rounded-full bg-[#16161e] relative overflow-hidden border border-[#1e1e28]">
+                      <div
+                        className="absolute inset-y-0 left-0 rounded-full transition-all duration-100"
+                        style={{
+                          width: isPlaying ? `${40 + (ch === 0 ? tracks[0].meter : tracks[1].meter) * 0.5}%` : "0%",
+                          background: "linear-gradient(90deg, #3dbb6e 0%, #3dbb6e 55%, #e8a838 78%, #e85454 100%)",
+                        }}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
 
               {/* Row 2: Tool palette (full width) */}
               <div className="h-8 border-b border-[#1e1e28] bg-[#0d0d12] px-2 flex items-center gap-1 shrink-0">
+                <ToolBtn active={false} onClick={() => {}} title="Add"><Icon.Plus /></ToolBtn>
+                <div className="w-px h-4 bg-[#2a2a36] mx-0.5" />
                 <ToolBtn active={selectedTool === "select"} onClick={() => setSelectedTool("select")} title="Select (1)"><Icon.Cursor /></ToolBtn>
                 <ToolBtn active={selectedTool === "cut"}    onClick={() => setSelectedTool("cut")}    title="Cut (2)"><Icon.Scissors /></ToolBtn>
-                <ToolBtn active={selectedTool === "loop"}   onClick={() => setSelectedTool("loop")}   title="Loop"><Icon.Loop /></ToolBtn>
-                <ToolBtn active={selectedTool === "paint"}  onClick={() => setSelectedTool("paint")}  title="Paint (3)"><Icon.Paint /></ToolBtn>
+                <ToolBtn active={selectedTool === "loop"}   onClick={() => setSelectedTool("loop")}   title="Marquee"><Icon.Marquee /></ToolBtn>
+                <ToolBtn active={selectedTool === "paint"}  onClick={() => setSelectedTool("paint")}  title="Paint (3)"><Icon.Pencil /></ToolBtn>
                 <ToolBtn active={selectedTool === "arrow"}  onClick={() => setSelectedTool("arrow")}  title="Arrow"><Icon.Arrow /></ToolBtn>
-                <ToolBtn active={selectedTool === "erase"}  onClick={() => setSelectedTool("erase")}  title="Erase (4)"><Icon.Eraser /></ToolBtn>
+                <div className="w-px h-4 bg-[#2a2a36] mx-0.5" />
+                <ToolBtn active={false} onClick={() => {}} title="Menu"><Icon.Menu /></ToolBtn>
               </div>
 
               {/* File browser + tracks row */}
@@ -635,7 +634,7 @@ export const MockTimeline = memo(() => {
                             <div>
                               <button
                                 onClick={() => toggleFolder("User Library")}
-                                className="w-full flex items-center gap-1.5 pl-6 pr-2.5 py-1 text-[10px] text-zinc-300 hover:bg-[rgba(255,255,255,0.04)] text-left"
+                                className="w-full flex items-center gap-1.5 pl-5 pr-2.5 py-1 text-[10px] text-zinc-300 hover:bg-[rgba(255,255,255,0.04)] text-left"
                               >
                                 <span className={cn("transition-transform", expandedFolders.has("User Library") && "rotate-90")}><Icon.ChevronRight /></span>
                                 <Icon.Folder />
@@ -646,7 +645,7 @@ export const MockTimeline = memo(() => {
                                   key={file.name}
                                   onClick={() => setSelectedFile(i)}
                                   className={cn(
-                                    "w-full flex items-center gap-2 pl-9 pr-2.5 py-1 text-[10px] text-left transition-colors truncate",
+                                    "w-full flex items-center gap-2 pl-7 pr-2.5 py-1 text-[10px] text-left transition-colors truncate",
                                     selectedFile === i
                                       ? "bg-[rgba(124,58,237,0.14)] text-white"
                                       : "text-zinc-400 hover:bg-[rgba(255,255,255,0.04)]",
@@ -654,7 +653,6 @@ export const MockTimeline = memo(() => {
                                 >
                                   <Icon.Audio />
                                   <span className="truncate flex-1">{file.name}</span>
-                                  <span className="text-[8px] text-zinc-500 flex-shrink-0">{file.size}</span>
                                 </button>
                               ))}
                             </div>
@@ -710,35 +708,21 @@ export const MockTimeline = memo(() => {
 
               {/* Arrangement Area */}
               <div className="flex-1 flex flex-col min-w-0" ref={containerRef}>
-                {/* Arrangement overview (multi-color strip) */}
-                <div className="h-5 border-b border-[#1e1e28] bg-[#0a0a0e] px-0 relative">
-                  <div className="absolute left-[190px] right-3 top-1 bottom-1">
-                    {overviewClips.map((segs, i) => (
-                      <div key={i} className="absolute h-1.5" style={{ top: 1 + (i % 3) * 4, left: `${segs[0].start * 1.6}%`, right: 0 }}>
-                        {segs.map((s, k) => (
-                          <span key={k} className="absolute h-full rounded-[1px]" style={{ left: `${(s.start / 100) * 100}%`, width: `${s.width * 0.6}%`, background: s.color, opacity: 0.65 }} />
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Selection / loop region bar (purple) */}
                 <div className="h-5 border-b border-[#1e1e28] bg-[#0a0a0e] px-0 relative">
                   <div className="absolute left-[190px] right-3 top-1 bottom-1">
                     <div
-                      className="absolute h-full rounded-[3px] flex items-center"
+                      className="absolute h-full rounded-[2px] flex items-center"
                       style={{
-                        left: "8%",
-                        width: "72%",
-                        background: "linear-gradient(180deg, rgba(124,58,237,0.55) 0%, rgba(124,58,237,0.30) 100%)",
-                        border: "1px solid rgba(167,139,250,0.55)",
-                        boxShadow: "0 0 10px rgba(124,58,237,0.35), inset 0 1px 0 rgba(255,255,255,0.10)",
+                        left: "0%",
+                        width: "76%",
+                        background: "linear-gradient(180deg, rgba(124,58,237,0.55) 0%, rgba(124,58,237,0.32) 100%)",
+                        border: "1px solid rgba(167,139,250,0.6)",
+                        boxShadow: "0 0 8px rgba(124,58,237,0.30), inset 0 1px 0 rgba(255,255,255,0.10)",
                       }}
                     >
-                      <span className="absolute left-1.5 top-0.5 text-[7px] text-violet-100/80 font-mono uppercase tracking-wider">Selection · 1. 1. 1 — 11. 1. 1</span>
-                      <span className="absolute -left-0.5 top-1/2 -translate-y-1/2 w-1 h-2.5 rounded-[1px] bg-violet-200/90" />
-                      <span className="absolute -right-0.5 top-1/2 -translate-y-1/2 w-1 h-2.5 rounded-[1px] bg-violet-200/90" />
+                      <span className="absolute -left-0.5 top-1/2 -translate-y-1/2 w-1 h-3 rounded-[1px] bg-violet-200/90" />
+                      <span className="absolute -right-0.5 top-1/2 -translate-y-1/2 w-1 h-3 rounded-[1px] bg-violet-200/90" />
                     </div>
                   </div>
                 </div>
@@ -779,80 +763,35 @@ export const MockTimeline = memo(() => {
                       {/* Track rows */}
                   {tracks.map((track, idx) => {
                     const y = idx * 36;
-                    const clips = trackClips[idx] || [];
-                    const isAudioTrack = TRACK_LAYOUT[idx]?.kind === "audio";
-                    const isPrimaryTrack = idx === 0;
-                    const trackTextColor = isPrimaryTrack ? "#60a5fa" : isAudioTrack ? "#2dd4bf" : "#a1a1aa";
                     return (
                       <div key={track.id} className="absolute inset-x-0 flex" style={{ top: y, height: 36 }}>
                         {/* Track header */}
                         <div
                           onClick={(e) => { e.stopPropagation(); setSelectedTrack(idx); }}
-                          className="w-[190px] border-r border-[rgba(30,30,40,0.48)] bg-[#111118] flex items-center relative flex-shrink-0 cursor-pointer transition-colors hover:bg-[#16161e]"
+                          className="w-[190px] border-r border-[rgba(30,30,40,0.48)] border-b border-b-[rgba(30,30,40,0.36)] bg-[#111118] flex items-center relative flex-shrink-0 cursor-pointer transition-colors hover:bg-[#16161e]"
                           style={selectedTrack === idx ? { background: "rgba(124,58,237,0.08)" } : undefined}
                         >
                           <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: track.color, opacity: selectedTrack === idx ? 0.9 : 0.4 }} />
-                          <div className="flex items-center justify-between w-full px-3 pl-4">
-                            <span className="text-[11px] font-medium truncate" style={{ color: trackTextColor }}>{track.name}</span>
+                          <span className="w-5 text-center text-[10px] text-zinc-500 font-mono tabular-nums shrink-0 pl-1.5">{track.id}</span>
+                          <div className="flex items-center justify-between flex-1 pr-2.5 pl-1">
+                            <span className="text-[11px] font-medium truncate" style={{ color: "#7c8cf8" }}>{track.name}</span>
                             <div className="flex items-center gap-0.5">
                               <MSR label="M" active={track.muted} color={C.warning} onClick={() => toggleMute(track.id)} />
                               <MSR label="S" active={track.soloed} color={C.success} onClick={() => toggleSolo(track.id)} />
                               <MSR label="R" active={track.recording} color={C.error} onClick={() => toggleRecord(track.id)} />
                               <button
-                                className="w-[18px] h-[16px] rounded flex items-center justify-center text-zinc-400 hover:text-zinc-300 transition-colors"
-                                title="Automation curve"
+                                className="w-[18px] h-[16px] rounded flex items-center justify-center transition-colors"
+                                style={{ color: C.primary }}
+                                title="Track controls"
                               >
-                                <Icon.Curve />
+                                <Icon.Knob />
                               </button>
                             </div>
                           </div>
                         </div>
 
-                        {/* Clip area */}
-                        <div className="flex-1 relative pointer-events-none">
-                          {clips.map((clip) => {
-                            const isAudio = isAudioTrack;
-                            const isHover = hoveredClip === clip.id;
-                            const bg = isAudio
-                              ? `linear-gradient(180deg, ${track.color}35 0%, ${track.color}20 100%)`
-                              : `linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%)`;
-                            const border = isAudio
-                              ? `1px solid ${track.color}${isHover ? "cc" : "65"}`
-                              : `1px solid rgba(255,255,255,${isHover ? "0.10" : "0.05"})`;
-                            return (
-                              <div
-                                key={clip.id}
-                                onMouseEnter={() => setHoveredClip(clip.id)}
-                                onMouseLeave={() => setHoveredClip(null)}
-                                className={cn(
-                                  "absolute rounded-[3px] pointer-events-auto cursor-pointer transition-shadow",
-                                  isHover && "ring-1 ring-violet-400/60 shadow-lg"
-                                )}
-                                style={{
-                                  left: `${(clip.start / 60) * 100}%`,
-                                  width: `${(clip.width / 60) * 100}%`,
-                                  top: 4, bottom: 4,
-                                  background: bg,
-                                  border,
-                                }}
-                              >
-                                {isAudio ? (
-                                  <svg className="w-full h-full" viewBox="0 0 200 28" preserveAspectRatio="none">
-                                    <polyline points={audioPoints(idx, 80, 8)} fill="none" stroke="#ffffff" strokeWidth="1.2" strokeOpacity="0.85" vectorEffect="non-scaling-stroke" />
-                                  </svg>
-                                ) : (
-                                  <svg className="w-full h-full" viewBox="0 0 200 28" preserveAspectRatio="none">
-                                    <polyline points={wavePoints(idx, 50, 4)} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-                                  </svg>
-                                )}
-                                <span className={cn(
-                                  "absolute left-1.5 top-0.5 text-[7px] truncate max-w-[90%]",
-                                  isAudio ? "text-white/85 font-medium" : "text-white/35"
-                                )}>{clip.label}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
+                        {/* Clip area (empty timeline) */}
+                        <div className="flex-1 relative border-b border-[rgba(30,30,40,0.36)]" />
                       </div>
                     );
                   })}
