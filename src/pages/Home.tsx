@@ -102,22 +102,18 @@ const WhySection = memo(() => (
     <div className="max-w-6xl mx-auto">
       <FadeIn>
         <p className="kicker mb-4">Why Aestra</p>
-        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-6 max-w-3xl">
+        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-zinc-50 mb-12 max-w-3xl">
           Existing DAWs are powerful.<br />
           <span className="text-zinc-400">Producers still fight them.</span>
         </h2>
-        <p className="text-zinc-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-14">
-          Crashes mid-session. Routing confusion. Slow export. Creative interruptions
-          that kill momentum. Aestra removes the friction between the idea and the take.
-        </p>
       </FadeIn>
 
       <div className="grid sm:grid-cols-2 gap-px bg-zinc-800/80 rounded-2xl overflow-hidden border border-zinc-800/80">
         {[
-          ["Crashes and plugin conflicts", "Aestra runs a native C++ engine with stable sessions from the start."],
+          ["Crashes and plugin conflicts", "A native C++ engine for stable sessions, and a plugin host that isolates misbehaving VSTs."],
           ["Slow startup and scanning", "Open Aestra and you're making music. No scanning, no splash screen."],
           ["Opaque routing and export paths", "Visual signal routing shows exactly where your sound goes."],
-          ["Creative interruptions", "Pattern-first workflow keeps you in the loop, not in menus."],
+          ["Creative interruptions", "Aestra gets out of your way — no modal dialogs, no scanning popups mid-session."],
         ].map(([problem, solution], i) => (
           <FadeIn key={i} delay={i * 0.05}>
             <div className="bg-zinc-950 p-6 sm:p-7 h-full">
