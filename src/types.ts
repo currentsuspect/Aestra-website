@@ -137,18 +137,18 @@ export const PAGE_OG_TYPES = asSEO({
 });
 
 export const PAGE_OG_IMAGES = asSEO({
-  home: "/og-image.svg",
-  features: "/og-image.svg",
-  pricing: "/og-image.svg",
-  changelog: "/og-image.svg",
-  docs: "/og-image.svg",
-  download: "/og-image.svg",
-  login: "/og-image.svg",
-  account: "/og-image.svg",
-  privacy: "/og-image.svg",
-  terms: "/og-image.svg",
-  about: "/og-image.svg",
-  "404": "/og-image.svg",
+  home: "/og-image.png",
+  features: "/og-image.png",
+  pricing: "/og-image.png",
+  changelog: "/og-image.png",
+  docs: "/og-image.png",
+  download: "/og-image.png",
+  login: "/og-image.png",
+  account: "/og-image.png",
+  privacy: "/og-image.png",
+  terms: "/og-image.png",
+  about: "/og-image.png",
+  "404": "/og-image.png",
 });
 
 export const PAGE_ROBOTS = asSEO({
