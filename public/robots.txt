@@ -9,6 +9,7 @@ Disallow: /api/
 Disallow: /_next/
 Disallow: /admin/
 Disallow: /*.json$
+Allow: /.well-known/
 Disallow: /*?*utm_*
 Disallow: /*?*fbclid=*
 Disallow: /*?*gclid=*
