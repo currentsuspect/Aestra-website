@@ -91,7 +91,7 @@ const Hero = ({ setPage }: PageProps) => {
               {FEATURE_LIST.map((f) => {
                 const Icon = f.icon;
                 return (
-                  <li key={f.name} className="flex items-center gap-4 px-4 py-3.5">
+                  <li key={f.name} className="flex items-center gap-4 px-3 py-2.5 sm:px-4 sm:py-3.5">
                     <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0" aria-hidden="true">
                       <Icon className="w-[18px] h-[18px] text-fg-muted" strokeWidth={1.5} />
                     </div>

@@ -165,6 +165,19 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
           </Button>
         </div>
 
+        <div className="md:hidden flex items-center gap-0.5">
+          <a
+            href="https://github.com/currentsuspect/Aestra"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="h-8 w-8 inline-flex items-center justify-center rounded-md text-muted hover:text-fg hover:bg-surface-2 transition-colors"
+            aria-label="GitHub repository (opens in new tab)"
+          >
+            <GitHubIcon className="w-4 h-4" aria-hidden="true" />
+          </a>
+          <ThemeToggle />
+        </div>
+
         <button
           ref={toggleRef}
           className="md:hidden text-muted hover:text-fg p-2 -mr-2 min-w-[40px] min-h-[40px] flex items-center justify-center"
@@ -205,22 +218,8 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
               {link.name}
             </button>
           ))}
-          <div className="flex gap-2 pt-3">
-            <div className="flex-1 grid grid-cols-2 gap-2">
-              <a
-                href="https://github.com/currentsuspect/Aestra"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-10 inline-flex items-center justify-center gap-2 rounded-md border border-border text-sm text-fg-muted hover:text-fg hover:bg-surface-2"
-                aria-label="GitHub (opens in new tab)"
-              >
-                <GitHubIcon className="w-4 h-4" aria-hidden="true" /> GitHub
-              </a>
-              <div className="h-10 inline-flex items-center justify-center rounded-md border border-border">
-                <ThemeToggle />
-              </div>
-            </div>
-            <Button size="md" onClick={() => { setPage("download"); closeMobile(false); }} icon={Download}>
+          <div className="flex pt-3">
+            <Button size="md" onClick={() => { setPage("download"); closeMobile(false); }} icon={Download} className="w-full">
               {currentOS ? `Download for ${currentOS}` : "Download"}
             </Button>
           </div>
