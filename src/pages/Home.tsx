@@ -84,7 +84,8 @@ const Hero = ({ setPage }: PageProps) => {
           </div>
 
           <FadeIn delay={0.25}>
-            <ul
+            <div className="hidden lg:block">
+              <ul
               aria-label="Five core capabilities"
               className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden"
             >
@@ -110,6 +111,7 @@ const Hero = ({ setPage }: PageProps) => {
                 );
               })}
             </ul>
+            </div>
           </FadeIn>
         </div>
       </div>

@@ -165,7 +165,7 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
           </Button>
         </div>
 
-        <div className="md:hidden flex items-center gap-0.5">
+        <div className="md:hidden flex items-center gap-0.5 ml-auto">
           <a
             href="https://github.com/currentsuspect/Aestra"
             target="_blank"
