@@ -80,13 +80,13 @@ export const detectOS = (): string => {
   const ua = navigator.userAgent;
   if (ua.includes("Windows")) return "Windows";
   if (ua.includes("Mac OS X") || ua.includes("macOS")) return "macOS";
-  if (ua.includes("Linux")) return "Linux";
+  if (ua.includes("Linux") && !ua.includes("Android")) return "Linux";
+  if (/iPad|iPhone|iPod/.test(ua)) return "iOS";
+  if (ua.includes("Android")) return "Android";
   return "";
 };
 
-// prefers-reduced-motion helper. Resolved once at module load because the
-// user value rarely changes during a session, and React.useState/useEffect
-// would cause a flash of motion for the first frame.
+// prefers-reduced-motion — a one-shot check (non-reactive).
 export const prefersReducedMotion = (): boolean => {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
   try {
@@ -95,3 +95,15 @@ export const prefersReducedMotion = (): boolean => {
     return false;
   }
 };
+
+// Reactive hook that updates when the user's motion preference changes.
+export function useReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(prefersReducedMotion);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return reduced;
+}

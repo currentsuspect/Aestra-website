@@ -559,7 +559,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
               <div className="mt-4 rounded-lg border border-border/80 bg-bg px-4 py-3 text-sm text-fg-muted leading-relaxed">
                 {recipeMode === "before" ? selectedRecipeData.before : selectedRecipeData.after}
               </div>
-              <h4 className="text-sm text-fg mt-7 mb-3 font-medium">Step checklist</h4>
+              <h2 className="text-sm text-fg mt-7 mb-3 font-medium">Step checklist</h2>
               <div className="space-y-2">
                 {selectedRecipeData.steps.map((step, index) => (
                   <button
@@ -929,14 +929,14 @@ export const Docs = memo(({ setPage }: PageProps) => {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search docs..."
               aria-label="Search documentation"
-              className="w-full bg-bg border border-border rounded-md py-2 pl-9 pr-3 text-sm text-fg placeholder-dim focus:ring-1 focus:ring-border-2 focus:outline-none"
+              className="w-full bg-bg border border-border rounded-md py-2 pl-9 pr-3 text-sm text-fg placeholder-dim focus:ring-1 focus:ring-accent focus:outline-none"
             />
           </div>
 
           <div className="space-y-7">
             {Object.entries(groupedSections).map(([group, sections]) => (
               <div key={group}>
-                <h4 className="text-[11px] font-medium text-muted uppercase tracking-wider mb-3">{group}</h4>
+                <h3 className="text-[11px] font-medium text-muted uppercase tracking-wider mb-3">{group}</h3>
                 <ul className="space-y-1">
                   {sections.map((section) => (
                     <li key={section.id}>
@@ -1036,9 +1036,9 @@ export const Docs = memo(({ setPage }: PageProps) => {
         <p className="text-base sm:text-lg text-fg-muted leading-relaxed mb-7">{currentSection.summary}</p>
 
         <Card className="p-5 mb-7 border-border/80">
-          <h4 className="flex items-center text-fg font-medium mb-2 text-sm">
+          <h2 className="flex items-center text-fg font-medium mb-2 text-sm">
             <BookOpen className="w-4 h-4 mr-2 text-muted" /> {currentSection.calloutTitle ?? "Quick context"}
-          </h4>
+          </h2>
           <p className="text-sm text-fg-muted leading-relaxed">
             {currentSection.callout ?? "Use this segment as a practical guide, then jump to source docs when needed."}
           </p>
@@ -1101,7 +1101,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 value={paletteQuery}
                 onChange={(e) => setPaletteQuery(e.target.value)}
                 placeholder="Type a command…"
-                className="w-full bg-surface-2 border border-border rounded-md py-2 px-3 text-sm text-fg placeholder-dim focus:outline-none focus:ring-1 focus:ring-border-2"
+                className="w-full bg-surface-2 border border-border rounded-md py-2 px-3 text-sm text-fg placeholder-dim                 focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
             <div className="max-h-[50vh] overflow-y-auto p-1.5">

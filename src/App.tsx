@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, lazy, Suspense } from "react";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
+import { LoadingFallback } from "./components/ui";
 import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA } from "./pages/Home";
 import { Features } from "./pages/Features";
 import { resolvePage, prefersReducedMotion } from "./lib";
@@ -28,11 +29,7 @@ const Terms = lazy(() => import("./pages/Terms").then(m => ({ default: m.Terms }
 const About = lazy(() => import("./pages/About").then(m => ({ default: m.About })));
 const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.NotFound })));
 
-const PageLoader = () => (
-  <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="w-2 h-2 rounded-full bg-accent animate-bounce" />
-  </div>
-);
+const PageLoader = () => <LoadingFallback />;
 
 const LazyPage = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<PageLoader />}>{children}</Suspense>
@@ -277,6 +274,7 @@ export const App = () => {
 
   return (
     <div className="site-shell min-h-screen text-fg font-sans selection:bg-accent-soft">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <main className="page-enter" id="main-content">
         {renderPage()}
       </main>

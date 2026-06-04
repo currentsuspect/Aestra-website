@@ -80,7 +80,7 @@ const PatternVisual = memo(() => {
         ].map(([label, pattern, color]) => (
           <div key={String(label)} className="flex items-center gap-2">
             <div className="w-10 text-[9px] tracking-wider text-muted font-mono uppercase">{label}</div>
-            <div className="grid grid-cols-16 gap-1 flex-1">
+            <div className="grid grid-cols-[repeat(16,minmax(0,1fr))] gap-1 flex-1">
               {(pattern as number[]).map((on, i) => (
                 <div
                   key={i}

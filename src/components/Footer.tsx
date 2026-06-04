@@ -31,7 +31,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
   return (
     <footer className="border-t border-border/80 bg-bg">
       <div className="max-w-6xl mx-auto px-5 sm:px-6 py-14">
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
               <img src="/logo.png" alt="Aestra logo" width="28" height="28" className="w-7 h-7 rounded-md" />
@@ -102,7 +102,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
 
         <div className="mt-12 pt-6 border-t border-border/80 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 text-xs text-muted">
           <div>© 2026 Aestra Studios · Built by Dylan Makori</div>
-          <div className="text-dim">Native C++ · v0.1.0</div>
+          <div className="text-dim">Native C++ · v0.6.0-alpha</div>
         </div>
       </div>
     </footer>

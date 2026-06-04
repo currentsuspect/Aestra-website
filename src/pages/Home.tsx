@@ -45,7 +45,7 @@ const Hero = ({ setPage }: PageProps) => {
             </FadeIn>
 
             <FadeIn delay={0.05}>
-              <h1 className="display text-[40px] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[72px] text-fg mb-6 max-w-xl">
+              <h1 className="display text-[40px] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[72px] text-fg mb-6">
                 A native DAW for<br />
                 producers who want flow.
               </h1>
@@ -547,7 +547,7 @@ const ScrollHint = () => {
 /* ── Founder Countdown ───────────────────────────────────────── */
 const FOUNDER_TOTAL = 500;
 const FOUNDER_CLAIMED = 31;
-const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID || "xnjlaqqr";
+const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
 const FOUNDER_TARGET = new Date("2026-12-25T00:00:00").getTime();
 
 const isLaunched = () => Date.now() >= FOUNDER_TARGET;
@@ -696,7 +696,7 @@ const FounderCountdown = () => {
                       inputMode="email"
                       aria-invalid={Boolean(error)}
                       aria-describedby={error ? errorId : undefined}
-                      className="flex-1 h-11 px-3.5 rounded-lg bg-bg border border-border text-fg text-sm placeholder-dim focus:outline-none focus:border-border-2 transition-colors"
+                      className="flex-1 h-11 px-3.5 rounded-lg bg-bg border border-border text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors"
                     />
                     <button
                       type="submit"

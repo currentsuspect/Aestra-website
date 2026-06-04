@@ -78,7 +78,7 @@ export const Downloads = ({ setPage }: PageProps) => {
                 >
                   <div className="flex items-center gap-4 min-w-0">
                     <span className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-fg-muted shrink-0" aria-hidden="true">
-                      <Icon size={18} />
+                      <Icon width={18} height={18} />
                     </span>
                     <div className="min-w-0">
                       <h2 className="text-fg text-[15px] font-medium">{build.os}</h2>

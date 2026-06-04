@@ -130,11 +130,10 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
           <span className="text-[15px] font-semibold text-fg tracking-tight">Aestra</span>
         </button>
 
-        <div className="hidden md:flex items-center gap-1" role="menubar">
+        <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <button
               key={link.id}
-              role="menuitem"
               onClick={() => setPage(link.id)}
               aria-current={activePage === link.id ? "page" : undefined}
               className={cn(

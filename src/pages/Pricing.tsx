@@ -204,7 +204,8 @@ export const Pricing = ({ setPage }: PageProps) => {
                   variant={t.ctaVariant}
                   size="md"
                   className="w-full"
-                  onClick={() => setPage(t.name === "Core" ? "download" : "changelog")}
+                  disabled={t.name === "Supporter"}
+                  onClick={() => setPage("download")}
                 >
                   {t.cta}
                 </Button>

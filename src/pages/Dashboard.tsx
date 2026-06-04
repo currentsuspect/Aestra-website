@@ -51,23 +51,23 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
           >
             <label className="block">
               <span className="text-[11px] uppercase tracking-wider text-muted font-medium">Email</span>
-              <input
-                type="email"
-                required
-                autoComplete="email"
-                className="mt-1.5 w-full bg-bg border border-border rounded-md px-3 py-2.5 text-sm text-fg placeholder:text-dim focus:outline-none focus:border-border-2 transition-colors"
-                placeholder="you@studio.com"
-              />
+                <input
+                  type="email"
+                  required
+                  autoComplete="email"
+                  className="mt-1.5 w-full bg-bg border border-border rounded-md px-3 py-2.5 text-sm text-fg placeholder:text-dim focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors"
+                  placeholder="you@studio.com"
+                />
             </label>
             <label className="block">
               <span className="text-[11px] uppercase tracking-wider text-muted font-medium">Password</span>
-              <input
-                type="password"
-                required
-                autoComplete="current-password"
-                className="mt-1.5 w-full bg-bg border border-border rounded-md px-3 py-2.5 text-sm text-fg placeholder:text-dim focus:outline-none focus:border-border-2 transition-colors"
-                placeholder="••••••••"
-              />
+                <input
+                  type="password"
+                  required
+                  autoComplete="current-password"
+                  className="mt-1.5 w-full bg-bg border border-border rounded-md px-3 py-2.5 text-sm text-fg placeholder:text-dim focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors"
+                  placeholder="••••••••"
+                />
             </label>
             <Button type="submit" className="w-full mt-2" icon={LogIn}>Sign in</Button>
           </form>
@@ -253,12 +253,12 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
             <Card className="p-6 border-border/80">
               <h3 className="text-fg font-medium mb-3">Open a ticket</h3>
               <textarea
-                className="w-full h-32 bg-bg border border-border rounded-md p-3 text-fg-muted text-sm focus:outline-none focus:border-border-2 transition-colors resize-none"
+                className="w-full h-32 bg-bg border border-border rounded-md p-3 text-fg-muted text-sm focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors resize-none"
                 placeholder="Describe your issue..."
                 aria-label="Support ticket description"
               />
               <div className="mt-4">
-                <Button>Submit request</Button>
+                <Button onClick={() => alert("Support ticket system coming soon.")}>Submit request</Button>
               </div>
             </Card>
           )}
