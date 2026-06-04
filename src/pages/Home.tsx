@@ -118,9 +118,40 @@ const Hero = ({ setPage }: PageProps) => {
 
       <ScrollHint />
 
-      <Suspense fallback={mockFallback}>
-        <MockTimeline />
-      </Suspense>
+      <div className="mt-84 sm:mt-10 lg:mt-12">
+        <div className="lg:hidden mb-6">
+          <ul
+            aria-label="Five core capabilities"
+            className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden"
+          >
+            {FEATURE_LIST.map((f) => {
+              const Icon = f.icon;
+              return (
+                <li key={f.name} className="flex items-center gap-4 px-3 py-2.5 sm:px-4 sm:py-3.5">
+                  <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0" aria-hidden="true">
+                    <Icon className="w-[18px] h-[18px] text-fg-muted" strokeWidth={1.5} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-[14px] font-medium text-fg leading-snug">{f.name}</span>
+                      {f.badge && (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium text-amber-400 border border-amber-500/20 bg-amber-500/10">
+                          {f.badge}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-[12px] text-muted leading-snug">{f.desc}</div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <Suspense fallback={mockFallback}>
+          <MockTimeline />
+        </Suspense>
+      </div>
     </section>
   );
 };
