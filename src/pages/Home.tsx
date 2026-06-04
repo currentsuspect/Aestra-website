@@ -18,7 +18,7 @@ const SingIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 /* ── Hero ─────────────────────────────────────────────────────── */
 const FEATURE_LIST = [
-  { icon: SingIcon,  name: "Takes",           desc: "Record freely, recover anything. Every state of your session is versioned automatically — go back to any take, any time." },
+  { icon: SingIcon,  name: "Takes",           desc: "Work freely. Every state is saved." },
   { icon: Workflow,   name: "Node Routing",    desc: "Visual signal flow. No hidden sends. No routing mysteries." },
   { icon: Headphones, name: "Audition",        desc: "Reference across devices without leaving your session." },
   { icon: Sparkles,   name: "Muse",            desc: "Suggests sounds, fixes workflow friction, and helps you finish tracks.", badge: "Coming soon" },
