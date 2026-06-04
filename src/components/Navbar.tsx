@@ -7,9 +7,19 @@ import type { NavbarProps } from "../types";
 
 const MENU_ID = "mobile-menu";
 
+function detectOS(): string {
+  if (typeof navigator === "undefined") return "";
+  const ua = navigator.userAgent;
+  if (ua.includes("Windows")) return "Windows";
+  if (ua.includes("Mac OS X") || ua.includes("macOS")) return "macOS";
+  if (ua.includes("Linux")) return "Linux";
+  return "";
+}
+
 export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const currentOS = useMemo(() => detectOS(), []);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
@@ -160,7 +170,7 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
           <ThemeToggle />
           <div className="w-px h-5 bg-surface-3 mx-1" />
           <Button size="sm" onClick={() => setPage("download")} icon={Download}>
-            Download
+            {currentOS ? `Download for ${currentOS}` : "Download"}
           </Button>
         </div>
 
@@ -220,7 +230,7 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
               </div>
             </div>
             <Button size="md" onClick={() => { setPage("download"); closeMobile(false); }} icon={Download}>
-              Download
+              {currentOS ? `Download for ${currentOS}` : "Download"}
             </Button>
           </div>
         </div>
