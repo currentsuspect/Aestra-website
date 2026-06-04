@@ -21,7 +21,7 @@ const tiers = [
     price: "$0",
     sub: "forever",
     tagline: "The full DAW. No time limits, no export lock.",
-    cta: "Download free",
+    cta: "Request early access",
     ctaVariant: "secondary" as const,
     accent: "emerald" as const,
     features: [
@@ -205,7 +205,7 @@ export const Pricing = ({ setPage }: PageProps) => {
                   size="md"
                   className="w-full"
                   disabled={t.name === "Supporter"}
-                  onClick={() => setPage("download")}
+                  onClick={() => setPage("home")}
                 >
                   {t.cta}
                 </Button>

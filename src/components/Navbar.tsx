@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback, memo } from "react";
-import { Download, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { GitHubIcon } from "./Icons";
-import { cn, detectOS } from "../lib";
+import { cn } from "../lib";
 import { Button } from "./ui";
 import { ThemeToggle } from "./ThemeToggle";
 import type { NavbarProps } from "../types";
@@ -11,7 +11,6 @@ const MENU_ID = "mobile-menu";
 export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const currentOS = useMemo(() => detectOS(), []);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
@@ -160,8 +159,8 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
           </a>
           <ThemeToggle />
           <div className="w-px h-5 bg-surface-3 mx-1" />
-          <Button size="sm" onClick={() => setPage("download")} icon={Download}>
-            {currentOS ? `Download for ${currentOS}` : "Download"}
+          <Button size="sm" onClick={() => setPage("home")}>
+            Request early access
           </Button>
         </div>
 
@@ -219,8 +218,8 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
             </button>
           ))}
           <div className="flex pt-3">
-            <Button size="md" onClick={() => { setPage("download"); closeMobile(false); }} icon={Download} className="w-full">
-              {currentOS ? `Download for ${currentOS}` : "Download"}
+            <Button size="md" onClick={() => { setPage("home"); closeMobile(false); }} className="w-full">
+              Request early access
             </Button>
           </div>
         </div>

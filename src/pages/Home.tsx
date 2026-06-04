@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo, lazy, Suspense } from "react";
-import { Download, ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles } from "lucide-react";
+import { ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles } from "lucide-react";
 import { Button, FeatureCard, FadeIn } from "../components/ui";
 import { prefersReducedMotion } from "../lib";
 import type { PageProps } from "../types";
@@ -15,6 +15,92 @@ const SingIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <path fillRule="evenodd" clipRule="evenodd" d="M82.07,40.62c4.82,4.82,7.23,11.14,7.23,17.45c0,6.32-2.41,12.63-7.23,17.45c-1.24,1.24-2.59,2.33-4.01,3.25 c-6.91-0.5-14.59-5.59-20.9-12.23c-6.52-6.86-11.52-15.29-12.75-22.09c-0.03-0.15-0.05-0.29-0.07-0.44 c0.83-1.19,1.77-2.33,2.84-3.39c4.82-4.82,11.14-7.23,17.45-7.23C70.94,33.39,77.25,35.8,82.07,40.62L82.07,40.62z M108.73,37.6 h4.4v1.47c11.01,2.52,12.27,7.81,5.88,16.14c0.68-8.27-0.15-10.04-5.88-10.43v20.9c0.01,0.11,0.02,0.22,0.02,0.33 c0,2.72-2.85,5.41-6.37,6.02c-3.52,0.61-6.37-1.1-6.37-3.82c0-3.71,5.09-6.92,8.32-5.79L108.73,37.6L108.73,37.6z M94.99,85.23 c2.92,0,5.28,2.36,5.28,5.28c0,2.92-2.36,5.28-5.28,5.28c-2.92,0-5.28-2.36-5.28-5.28C89.71,87.59,92.07,85.23,94.99,85.23 L94.99,85.23z M72.7,10.71h2.08v0.69c5.19,1.19,5.79,3.68,2.78,7.61c0.32-3.9-0.07-4.74-2.78-4.92v9.86 c0.01,0.05,0.01,0.1,0.01,0.16c0,1.28-1.35,2.55-3,2.84c-1.66,0.29-3-0.52-3-1.8c0-1.75,2.4-3.27,3.92-2.73V10.71L72.7,10.71z M31.99,21.89c0.77-0.13,1.49-0.11,2.13,0.04V6.96l-15.83,4.55v17.38c0.01,0.09,0.01,0.19,0.01,0.29c0,0,0,0,0,0 c0,2.34-2.46,4.66-5.48,5.19c-3.03,0.52-5.48-0.95-5.48-3.29c0-2.34,2.46-4.66,5.48-5.19c1.14-0.2,2.2-0.11,3.08,0.2l0-21.39h0.13 L36.51,0v24.1c0.04,0.18,0.05,0.36,0.05,0.54c0,0,0,0,0,0c0,1.95-2.05,3.9-4.58,4.33c-2.53,0.44-4.58-0.79-4.58-2.75 C27.4,24.27,29.46,22.33,31.99,21.89L31.99,21.89L31.99,21.89z M6.72,119.07c-1.16,1.08-2.49,1.92-3.95,2.54 c-2.96,1.27-3.39,1.49-2.02-1.49c0.72-1.56,1.63-2.99,2.77-4.26c-1.27-1.36-1.92-2.64-2.11-4.11c-0.19-1.51,0.14-3.03,0.8-4.96 c2.16-6.28,19.88-27.95,30.92-41.44c2.83-3.46,5.2-6.36,6.84-8.43c0.12-2.58,0.64-5.14,1.56-7.58c2.42,6.59,7.1,13.78,12.82,19.79 c5.28,5.56,11.49,10.17,17.69,12.48c-2.16,0.68-4.4,1.06-6.65,1.13c-1.79,1.41-4.35,3.48-7.46,6c-13.58,11-37.3,30.2-42.31,31.72 c-1.79,0.54-3.28,0.84-4.74,0.67C9.39,120.95,8.07,120.33,6.72,119.07L6.72,119.07L6.72,119.07z M40.36,62.58 c-1.23,1.51-2.67,3.28-4.25,5.21c-10.86,13.27-28.3,34.59-30.24,40.25c-0.48,1.4-0.73,2.42-0.63,3.21 c0.09,0.69,0.51,1.38,1.38,2.24l2.57,2.57c0.78,0.78,1.48,1.21,2.19,1.29c0.63,0.07,1.37-0.15,2.35-0.61 l14.44-6.79c-1.48-1.48-3.92-4.61-6.36-8.05C39.85,67.3,39.53,64.69,40.36,62.58L40.36,62.58L40.36,62.58z M58.56,84.94 c3.06,3.22,5.3,6.56,6.68,9.98C61.37,94.23,59.28,90.85,58.56,84.94L58.56,84.94z" />
   </svg>
 );
+
+/* ── Early Access Button (inline Formspree form) ─────────────── */
+const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
+
+const EarlyAccessButton = () => {
+  const [mode, setMode] = useState<"button" | "form" | "submitting" | "done" | "error">("button");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  if (mode === "done") {
+    return (
+      <div className="flex items-center gap-2 text-sm text-fg">
+        <Check className="w-4 h-4 text-emerald-400" aria-hidden="true" />
+        <span>You're on the list.</span>
+      </div>
+    );
+  }
+
+  if (mode === "error") {
+    return (
+      <div className="flex flex-col sm:flex-row gap-2">
+        <p className="text-rose-400 text-sm">Something went wrong. Try again.</p>
+        <Button size="sm" onClick={() => setMode("form")}>Try again</Button>
+      </div>
+    );
+  }
+
+  if (mode === "form" || mode === "submitting") {
+    return (
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          if (!email) return;
+          setMode("submitting");
+          try {
+            const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, email, source: "early-access" }),
+            });
+            if (res.ok) setMode("done");
+            else setMode("error");
+          } catch {
+            setMode("error");
+          }
+        }}
+        className="flex flex-col sm:flex-row gap-2"
+      >
+        <label className="sr-only" htmlFor="ea-name">Your name</label>
+        <input
+          id="ea-name"
+          type="text"
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="h-11 px-3.5 rounded-lg bg-bg border border-border text-fg text-sm placeholder-dim w-full sm:w-auto"
+        />
+        <label className="sr-only" htmlFor="ea-email">Email address</label>
+        <input
+          id="ea-email"
+          type="email"
+          placeholder="you@studio.email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          autoComplete="email"
+          className="flex-1 h-11 px-3.5 rounded-lg bg-bg border border-border text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors"
+        />
+        <button
+          type="submit"
+          disabled={mode === "submitting"}
+          className="h-11 px-5 rounded-lg bg-fg text-on-accent font-medium text-sm hover:bg-fg-muted transition-colors disabled:opacity-50 whitespace-nowrap"
+        >
+          {mode === "submitting" ? "Sending…" : "Request access"}
+        </button>
+      </form>
+    );
+  }
+
+  return (
+    <Button size="lg" onClick={() => setMode("form")}>
+      Request early access
+    </Button>
+  );
+};
 
 /* ── Hero ─────────────────────────────────────────────────────── */
 const FEATURE_LIST = [
@@ -64,9 +150,7 @@ const Hero = ({ setPage }: PageProps) => {
 
             <FadeIn delay={0.15}>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <Button size="lg" onClick={() => setPage("download")} icon={Download}>
-                  Download for free
-                </Button>
+                <EarlyAccessButton />
                 <Button
                   variant="secondary"
                   size="lg"
@@ -442,9 +526,7 @@ const FreeCore = memo(({ setPage }: PageProps) => (
             Supporter tiers fund development without locking anything behind a paywall.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button size="lg" onClick={() => setPage("download")} icon={Download}>
-              Download free
-            </Button>
+            <EarlyAccessButton />
             <Button variant="outline" size="lg" onClick={() => setPage("pricing")}>
               See pricing <ChevronRight className="w-4 h-4" />
             </Button>
@@ -488,12 +570,10 @@ const ClosingCTA = memo(({ setPage }: PageProps) => (
           Make music,<br />not excuses.
         </h2>
         <p className="text-muted text-base sm:text-lg max-w-md mx-auto mb-10">
-          Download Aestra and start making music today. Free core, no strings attached.
+          Aestra is in active development. Get early access and be part of the journey.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <Button size="lg" onClick={() => setPage("download")} icon={Download}>
-            Download for free
-          </Button>
+          <EarlyAccessButton />
           <Button
             variant="secondary"
             size="lg"
@@ -585,7 +665,6 @@ const ScrollHint = () => {
 /* ── Founder Countdown ───────────────────────────────────────── */
 const FOUNDER_TOTAL = 500;
 const FOUNDER_CLAIMED = 31;
-const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
 const FOUNDER_TARGET = new Date("2026-12-25T00:00:00").getTime();
 
 const isLaunched = () => Date.now() >= FOUNDER_TARGET;
