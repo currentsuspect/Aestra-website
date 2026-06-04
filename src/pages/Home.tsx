@@ -31,8 +31,8 @@ const Hero = ({ setPage }: PageProps) => {
   };
 
   return (
-    <section className="relative pt-20 sm:pt-24 lg:pt-28 pb-4 sm:pb-6 px-5 sm:px-6">
-      <div className="max-w-7xl mx-auto w-full">
+    <section className="relative py-20 sm:py-24 lg:py-28 px-5 sm:px-6">
+      <div className="max-w-6xl mx-auto w-full">
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-center">
           <div>
             <FadeIn>
@@ -46,7 +46,7 @@ const Hero = ({ setPage }: PageProps) => {
 
             <FadeIn delay={0.05}>
               <h1 className="display text-[40px] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[72px] text-fg mb-6 max-w-xl">
-                A native DAW for<br className="hidden sm:block" />
+                A native DAW for<br />
                 producers who want flow.
               </h1>
             </FadeIn>
@@ -99,7 +99,7 @@ const Hero = ({ setPage }: PageProps) => {
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-[14px] font-medium text-fg leading-snug">{f.name}</span>
                         {f.badge && (
-                          <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 border border-amber-500/20 bg-amber-500/10 rounded px-1.5 py-0.5">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium text-amber-400 border border-amber-500/20 bg-amber-500/10">
                             {f.badge}
                           </span>
                         )}
@@ -365,7 +365,7 @@ const Plugins = memo(() => (
                 <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-2">{p.name}</h3>
                 <p className="text-[14px] text-muted leading-relaxed mb-5">{p.desc}</p>
                 <span
-                  className={`inline-flex items-center gap-1.5 text-[12px] px-2 py-0.5 rounded-md border ${
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium border ${
                     p.statusColor === "emerald"
                       ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/5"
                       : "text-amber-400 border-amber-500/20 bg-amber-500/5"
@@ -459,11 +459,7 @@ const ClosingCTA = memo(({ setPage }: PageProps) => (
           <Button
             variant="secondary"
             size="lg"
-            onClick={(e) => {
-              e.preventDefault();
-              const target = document.getElementById("features");
-              if (target) target.scrollIntoView({ block: "start" });
-            }}
+            onClick={() => setPage("features")}
             icon={ChevronRight}
             iconPosition="right"
           >

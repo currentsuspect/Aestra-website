@@ -4,11 +4,12 @@ import type { SVGProps } from "react";
 
 import { Badge } from "../components/ui";
 import { GitHubIcon } from "../components/Icons";
+import { detectOS } from "../lib";
 import type { PageProps } from "../types";
 
 const WinIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <g transform="translate(2.2, 2.2) scale(0.82)">
+    <g transform="translate(2.8, 2.8) scale(0.76)">
       <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.801" />
     </g>
   </svg>
@@ -32,15 +33,6 @@ const workflows = {
   linux: "https://github.com/currentsuspect/Aestra/actions/workflows/linux.yml",
 };
 
-function detectOS(): string {
-  if (typeof navigator === "undefined") return "";
-  const ua = navigator.userAgent;
-  if (ua.includes("Windows")) return "Windows";
-  if (ua.includes("Mac OS X") || ua.includes("macOS")) return "macOS";
-  if (ua.includes("Linux")) return "Linux";
-  return "";
-}
-
 export const Downloads = ({ setPage }: PageProps) => {
   const currentOS = useMemo(() => detectOS(), []);
 
@@ -55,7 +47,7 @@ export const Downloads = ({ setPage }: PageProps) => {
 
   return (
     <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 px-5 sm:px-6 min-h-screen">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <button
           onClick={() => setPage("home")}
           className="text-muted hover:text-fg mb-10 flex items-center text-sm transition-colors"

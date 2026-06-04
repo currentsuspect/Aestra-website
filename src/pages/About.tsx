@@ -17,7 +17,7 @@ const Fact = ({ icon: Icon, title, body }: { icon: React.ComponentType<{ classNa
 
 export const About = ({ setPage }: PageProps) => (
   <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 min-h-screen px-5 sm:px-6">
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       {/* Hero — wider so the headline doesn't feel lost on desktop */}
       <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-start mb-16 sm:mb-20">
         <div>
@@ -58,7 +58,7 @@ export const About = ({ setPage }: PageProps) => (
       <FadeIn delay={0.15}>
         <div className="grid md:grid-cols-[180px_1fr] gap-6 md:gap-12 mb-16 sm:mb-20">
           <div>
-            <div className="text-[11px] uppercase tracking-[0.18em] text-muted sticky top-28">The story</div>
+            <div className="text-[11px] uppercase tracking-[0.18em] text-muted sticky top-20">The story</div>
           </div>
           <div className="space-y-6 text-fg-muted text-[16px] sm:text-[17px] leading-relaxed max-w-2xl">
             <p>

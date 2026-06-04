@@ -1,21 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback, memo } from "react";
 import { Download, Menu, X } from "lucide-react";
 import { GitHubIcon } from "./Icons";
-import { cn } from "../lib";
+import { cn, detectOS } from "../lib";
 import { Button } from "./ui";
 import { ThemeToggle } from "./ThemeToggle";
 import type { NavbarProps } from "../types";
 
 const MENU_ID = "mobile-menu";
-
-function detectOS(): string {
-  if (typeof navigator === "undefined") return "";
-  const ua = navigator.userAgent;
-  if (ua.includes("Windows")) return "Windows";
-  if (ua.includes("Mac OS X") || ua.includes("macOS")) return "macOS";
-  if (ua.includes("Linux")) return "Linux";
-  return "";
-}
 
 export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);

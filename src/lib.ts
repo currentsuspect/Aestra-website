@@ -75,6 +75,15 @@ export const resolvePage = (path: string): string => {
   return VALID_PAGES.has(clean) ? clean : "404";
 };
 
+export const detectOS = (): string => {
+  if (typeof navigator === "undefined") return "";
+  const ua = navigator.userAgent;
+  if (ua.includes("Windows")) return "Windows";
+  if (ua.includes("Mac OS X") || ua.includes("macOS")) return "macOS";
+  if (ua.includes("Linux")) return "Linux";
+  return "";
+};
+
 // prefers-reduced-motion helper. Resolved once at module load because the
 // user value rarely changes during a session, and React.useState/useEffect
 // would cause a flash of motion for the first frame.
