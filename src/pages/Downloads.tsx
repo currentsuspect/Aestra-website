@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { ArrowRight, Monitor, Apple, Terminal, Github } from "lucide-react";
+
 import { Badge } from "../components/ui";
 import type { PageProps } from "../types";
 
@@ -9,13 +10,26 @@ const workflows = {
   linux: "https://github.com/currentsuspect/Aestra/actions/workflows/linux.yml",
 };
 
+function detectOS(): string {
+  if (typeof navigator === "undefined") return "";
+  const ua = navigator.userAgent;
+  if (ua.includes("Windows")) return "Windows";
+  if (ua.includes("Mac OS X") || ua.includes("macOS")) return "macOS";
+  if (ua.includes("Linux")) return "Linux";
+  return "";
+}
+
 export const Downloads = ({ setPage }: PageProps) => {
+  const currentOS = useMemo(() => detectOS(), []);
+
   const builds = [
-    { os: "Windows", arch: "x64",             icon: Monitor, type: "Beta",   href: workflows.windows, cta: "Find build in CI" },
-    { os: "macOS",   arch: "Apple Silicon",   icon: Apple,   type: "Beta",   href: workflows.macos,   cta: "Find build in CI" },
-    { os: "Linux",   arch: "Ubuntu / Debian", icon: Terminal, type: "Beta",  href: workflows.linux,   cta: "Find build in CI" },
-    { os: "Source",  arch: "GitHub",          icon: Github,  type: "Source", href: "https://github.com/currentsuspect/Aestra", cta: "View source" },
+    { id: "Windows", os: "Windows", arch: "x64",             icon: Monitor, type: "Beta",   href: workflows.windows, cta: "Find build in CI" },
+    { id: "macOS",   os: "macOS",   arch: "Apple Silicon",   icon: Apple,   type: "Beta",   href: workflows.macos,   cta: "Find build in CI" },
+    { id: "Linux",   os: "Linux",   arch: "Ubuntu / Debian", icon: Terminal, type: "Beta",  href: workflows.linux,   cta: "Find build in CI" },
+    { id: "Source",  os: "Source",  arch: "GitHub",          icon: Github,  type: "Source", href: "https://github.com/currentsuspect/Aestra", cta: "View source" },
   ] as const;
+
+  const isCurrent = (id: string) => id === currentOS;
 
   return (
     <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 px-5 sm:px-6 min-h-screen">
@@ -57,12 +71,15 @@ export const Downloads = ({ setPage }: PageProps) => {
                       <p className="text-muted text-[13px]">{build.arch}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <Badge variant="outline">{build.type === "Source" ? "Source" : "Beta"}</Badge>
-                    <span className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-medium bg-surface-2 text-fg border border-border whitespace-nowrap">
-                      {build.cta} <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-                    </span>
-                  </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                      {isCurrent(build.id) && (
+                        <Badge>Recommended</Badge>
+                      )}
+                      <Badge variant="outline">{build.type === "Source" ? "Source" : "Beta"}</Badge>
+                      <span className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-medium bg-surface-2 text-fg border border-border whitespace-nowrap">
+                        {build.cta} <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                      </span>
+                    </div>
                 </a>
               </li>
             );
