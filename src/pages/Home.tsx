@@ -118,7 +118,7 @@ const Hero = ({ setPage }: PageProps) => {
 
       <ScrollHint />
 
-      <div className="mt-84 sm:mt-10 lg:mt-12">
+      <div className="mt-32 sm:mt-10 lg:mt-12">
         <div className="lg:hidden mb-6">
           <ul
             aria-label="Five core capabilities"
