@@ -31,7 +31,7 @@ const Hero = ({ setPage }: PageProps) => {
   };
 
   return (
-    <section className="relative py-20 sm:py-24 lg:py-28 px-5 sm:px-6">
+    <section className="relative pt-[68px] sm:pt-20 lg:pt-[88px] pb-20 sm:pb-24 lg:pb-28 px-5 sm:px-6">
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-center">
           <div>
