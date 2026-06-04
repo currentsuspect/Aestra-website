@@ -1,25 +1,7 @@
 import React, { memo } from "react";
-import { Github, Twitter, ArrowUpRight, Code2, Music, Mic } from "lucide-react";
+import { Code2, Music, Mic } from "lucide-react";
 import { FadeIn, Button } from "../components/ui";
 import type { PageProps } from "../types";
-
-const SocialLink = ({ href, icon: Icon, label, handle }: { href: string; icon: React.ComponentType<{ className?: string }>; label: string; handle: string }) => (
-  <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group flex items-center gap-3 p-4 rounded-xl border border-border/80 bg-bg hover:border-border-2 transition-colors"
-  >
-    <span className="w-9 h-9 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-fg-muted group-hover:text-fg transition-colors shrink-0">
-      <Icon className="w-4 h-4" />
-    </span>
-    <div className="min-w-0 flex-1">
-      <div className="text-[11px] uppercase tracking-wider text-muted">{label}</div>
-      <div className="text-sm text-fg truncate">{handle}</div>
-    </div>
-    <ArrowUpRight className="w-4 h-4 text-muted group-hover:text-fg-muted transition-colors shrink-0" />
-  </a>
-);
 
 const Fact = ({ icon: Icon, title, body }: { icon: React.ComponentType<{ className?: string }>; title: string; body: string }) => (
   <div className="flex items-start gap-3 p-4 rounded-xl border border-border/80 bg-bg">
@@ -104,31 +86,11 @@ export const About = ({ setPage }: PageProps) => (
         </p>
       </FadeIn>
 
-      {/* Socials + signoff */}
       <FadeIn delay={0.25}>
-        <div className="pt-10 border-t border-border/80">
-          <div className="flex flex-wrap items-center justify-between gap-y-3 mb-6">
-            <div />
-            <Button variant="ghost" size="sm" onClick={() => setPage("home")}>
-              Back to home
-            </Button>
-          </div>
-
-          <p className="text-[11px] uppercase tracking-[0.18em] text-muted mb-3">Find us</p>
-          <div className="grid sm:grid-cols-2 gap-3">
-            <SocialLink
-              href="https://x.com/aestrastudios"
-              icon={Twitter}
-              label="X (Twitter)"
-              handle="@aestrastudios"
-            />
-            <SocialLink
-              href="https://github.com/currentsuspect/Aestra"
-              icon={Github}
-              label="Source · GitHub"
-              handle="currentsuspect/Aestra"
-            />
-          </div>
+        <div className="pt-10 border-t border-border/80 flex justify-end">
+          <Button variant="ghost" size="sm" onClick={() => setPage("home")}>
+            Back to home
+          </Button>
         </div>
       </FadeIn>
     </div>
