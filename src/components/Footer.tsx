@@ -80,11 +80,6 @@ export const Footer = memo(({ setPage }: PageProps) => {
               <ul className="space-y-2 text-sm text-muted">
                 <li><InternalLink to="/docs" setPage={setPage} className="hover:text-fg transition-colors">Documentation</InternalLink></li>
                 <li><InternalLink to="/about" setPage={setPage} className="hover:text-fg transition-colors">About</InternalLink></li>
-                <li>
-                  <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="hover:text-fg transition-colors">
-                    Source
-                  </a>
-                </li>
                 <li><InternalLink to="/privacy" setPage={setPage} className="hover:text-fg transition-colors">Privacy</InternalLink></li>
                 <li><InternalLink to="/terms" setPage={setPage} className="hover:text-fg transition-colors">Terms</InternalLink></li>
               </ul>
