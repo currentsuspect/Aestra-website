@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback, memo } from "react";
-import { Download, Menu, X, Github, Twitter } from "lucide-react";
+import { Download, Menu, X, Github } from "lucide-react";
 import { cn } from "../lib";
 import { Button } from "./ui";
 import { ThemeToggle } from "./ThemeToggle";
@@ -149,15 +149,6 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
 
         <div className="hidden md:flex items-center gap-1">
           <a
-            href="https://x.com/aestrastudios"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="h-8 w-8 inline-flex items-center justify-center rounded-md text-muted hover:text-fg hover:bg-surface-2 transition-colors"
-            aria-label="X (Twitter) (opens in new tab)"
-          >
-            <Twitter className="w-4 h-4" aria-hidden="true" />
-          </a>
-          <a
             href="https://github.com/currentsuspect/Aestra"
             target="_blank"
             rel="noopener noreferrer"
@@ -213,29 +204,22 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
               {link.name}
             </button>
           ))}
-          <div className="grid grid-cols-3 gap-2 pt-3">
-            <a
-              href="https://x.com/aestrastudios"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="h-10 inline-flex items-center justify-center gap-2 rounded-md border border-border text-sm text-fg-muted hover:text-fg hover:bg-surface-2"
-              aria-label="X (Twitter) (opens in new tab)"
-            >
-              <Twitter className="w-4 h-4" aria-hidden="true" /> X
-            </a>
-            <a
-              href="https://github.com/currentsuspect/Aestra"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="h-10 inline-flex items-center justify-center gap-2 rounded-md border border-border text-sm text-fg-muted hover:text-fg hover:bg-surface-2"
-              aria-label="GitHub (opens in new tab)"
-            >
-              <Github className="w-4 h-4" aria-hidden="true" /> GitHub
-            </a>
-            <div className="h-10 inline-flex items-center justify-center rounded-md border border-border">
-              <ThemeToggle />
+          <div className="flex gap-2 pt-3">
+            <div className="flex-1 grid grid-cols-2 gap-2">
+              <a
+                href="https://github.com/currentsuspect/Aestra"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-10 inline-flex items-center justify-center gap-2 rounded-md border border-border text-sm text-fg-muted hover:text-fg hover:bg-surface-2"
+                aria-label="GitHub (opens in new tab)"
+              >
+                <Github className="w-4 h-4" aria-hidden="true" /> GitHub
+              </a>
+              <div className="h-10 inline-flex items-center justify-center rounded-md border border-border">
+                <ThemeToggle />
+              </div>
             </div>
-            <Button size="md" onClick={() => { setPage("download"); closeMobile(false); }} icon={Download} className="col-span-3">
+            <Button size="md" onClick={() => { setPage("download"); closeMobile(false); }} icon={Download}>
               Download
             </Button>
           </div>
