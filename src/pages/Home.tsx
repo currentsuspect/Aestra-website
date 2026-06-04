@@ -31,7 +31,7 @@ const Hero = ({ setPage }: PageProps) => {
   };
 
   return (
-    <section className="relative pt-[68px] sm:pt-20 lg:pt-[88px] pb-20 sm:pb-24 lg:pb-28 px-5 sm:px-6">
+    <section className="relative pt-[68px] sm:pt-20 lg:pt-[88px] pb-12 sm:pb-24 lg:pb-28 px-5 sm:px-6">
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-center">
           <div>
@@ -45,7 +45,7 @@ const Hero = ({ setPage }: PageProps) => {
             </FadeIn>
 
             <FadeIn delay={0.05}>
-              <h1 className="display text-[40px] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[72px] text-fg mb-6">
+              <h1 className="display text-[32px] leading-[1.05] sm:text-6xl md:text-7xl lg:text-[72px] text-fg mb-6">
                 A native DAW for<br />
                 producers who want flow.
               </h1>

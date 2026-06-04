@@ -46,7 +46,7 @@ export const Downloads = ({ setPage }: PageProps) => {
   const isCurrent = (id: string) => id === currentOS;
 
   return (
-    <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 px-5 sm:px-6 min-h-screen">
+    <div className="pt-24 sm:pt-40 pb-16 sm:pb-32 px-5 sm:px-6 min-h-screen">
       <div className="max-w-6xl mx-auto">
         <button
           onClick={() => setPage("home")}
@@ -74,7 +74,7 @@ export const Downloads = ({ setPage }: PageProps) => {
                   href={build.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between gap-4 p-5 sm:p-6 hover:bg-surface-2/40 transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 sm:p-6 hover:bg-surface-2/40 transition-colors"
                 >
                   <div className="flex items-center gap-4 min-w-0">
                     <span className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-fg-muted shrink-0" aria-hidden="true">
@@ -85,7 +85,7 @@ export const Downloads = ({ setPage }: PageProps) => {
                       <p className="text-muted text-[13px]">{build.arch}</p>
                     </div>
                   </div>
-                    <div className="flex items-center gap-3 shrink-0">
+                    <div className="flex items-center gap-3 shrink-0 flex-wrap justify-end">
                       {isCurrent(build.id) && (
                         <Badge>Recommended</Badge>
                       )}
