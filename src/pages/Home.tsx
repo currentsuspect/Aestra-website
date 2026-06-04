@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo, lazy, Suspense } from "react";
-import { Download, ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, GitBranch, Sparkles } from "lucide-react";
+import { Download, ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles } from "lucide-react";
 import { Button, FeatureCard, FadeIn } from "../components/ui";
 import { prefersReducedMotion } from "../lib";
 import type { PageProps } from "../types";
@@ -18,9 +18,8 @@ const SingIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 /* ── Hero ─────────────────────────────────────────────────────── */
 const FEATURE_LIST = [
-  { icon: GitBranch,  name: "Session History", desc: "Git-inspired versioning. Never lose a session again." },
+  { icon: SingIcon,  name: "Takes",           desc: "Record freely, recover anything. Every state of your session is versioned automatically — go back to any take, any time." },
   { icon: Workflow,   name: "Node Routing",    desc: "Visual signal flow. No hidden sends. No routing mysteries." },
-  { icon: SingIcon,  name: "Takes",           desc: "Record freely. Every take stays recoverable." },
   { icon: Headphones, name: "Audition",        desc: "Reference across devices without leaving your session." },
   { icon: Sparkles,   name: "Muse",            desc: "Suggests sounds, fixes workflow friction, and helps you finish tracks.", badge: "Coming soon" },
 ];
