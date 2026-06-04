@@ -39,7 +39,7 @@ const Hero = ({ setPage }: PageProps) => {
               <div className="flex items-center gap-2 mb-6">
                 <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-surface-2 border border-border text-[12px] text-fg-muted">
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400" aria-hidden="true" />
-                  Beta · source-available · cross-platform
+                  Beta
                 </span>
               </div>
             </FadeIn>
