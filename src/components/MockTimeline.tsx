@@ -327,7 +327,7 @@ export const MockTimeline = memo(() => {
   return (
     <div className="mt-8 sm:mt-10 lg:mt-12 w-full max-w-7xl mx-auto relative px-0 sm:px-2">
       {/* Mobile fallback */}
-      <div className="md:hidden rounded-xl border border-zinc-800 bg-zinc-950 p-5 text-center">
+      <div className="md:hidden rounded-xl border border-zinc-800 bg-zinc-950 p-8 text-center">
         <div className="flex items-center justify-center gap-2 mb-3 text-zinc-400">
           <Icon.Timeline />
           <span className="text-xs">Aestra preview</span>
