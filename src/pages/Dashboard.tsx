@@ -189,7 +189,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
                 <h3 className="text-[12px] uppercase tracking-wider text-muted font-medium mb-3">Active license</h3>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="border-emerald-500/20 bg-emerald-500/5 text-emerald-300">Active</Badge>
-                  <span className="text-muted text-sm">Beta</span>
+                  <span className="text-muted text-sm">Alpha</span>
                 </div>
                 <button
                   onClick={handleCopy}
@@ -204,7 +204,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
               <Card className="p-6 border-border/80">
                 <h3 className="text-[12px] uppercase tracking-wider text-muted font-medium mb-3">Latest build</h3>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="text-fg font-medium">Aestra Beta</div>
+                  <div className="text-fg font-medium">Aestra Alpha</div>
                   <div className="text-xs text-muted">Released 2 days ago</div>
                 </div>
                 <Button className="w-full" icon={Download}>Download installer</Button>
@@ -268,7 +268,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
               <h3 className="text-[12px] uppercase tracking-wider text-muted font-medium mb-4">Your licenses</h3>
               <div className="divide-y divide-border/80">
                 {[
-                  ["Aestra Beta", "Active", "Free core"],
+                  ["Aestra Alpha", "Active", "Free core"],
                   ["Muse AI", "Coming soon", "Supporter"],
                   ["Founder card", "Reserved", "Founder"],
                 ].map(([name, status, plan]) => (

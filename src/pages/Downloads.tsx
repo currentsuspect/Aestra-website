@@ -37,9 +37,11 @@ export const Downloads = ({ setPage }: PageProps) => {
   const currentOS = useMemo(() => detectOS(), []);
 
   const builds = [
-    { id: "Windows", os: "Windows", arch: "x64",             icon: WinIcon, type: "Beta",   href: workflows.windows, cta: "Find build in CI" },
-    { id: "macOS",   os: "macOS",   arch: "Apple Silicon",   icon: MacIcon, type: "Beta",   href: workflows.macos,   cta: "Find build in CI" },
-    { id: "Linux",   os: "Linux",   arch: "Ubuntu / Debian / Arch", icon: LinuxIcon, type: "Beta",  href: workflows.linux,   cta: "Find build in CI" },
+    { id: "Windows", os: "Windows", arch: "x64",             icon: WinIcon, type: "Alpha",   href: workflows.windows, cta: "Find build in CI" },
+
+    { id: "macOS",   os: "macOS",   arch: "Apple Silicon",   icon: MacIcon, type: "Alpha",   href: workflows.macos,   cta: "Find build in CI" },
+
+    { id: "Linux",   os: "Linux",   arch: "Ubuntu / Debian / Arch", icon: LinuxIcon, type: "Alpha",  href: workflows.linux,   cta: "Find build in CI" },
     { id: "Source",  os: "Source",  arch: "GitHub",          icon: GitHubIcon,  type: "Source", href: "https://github.com/currentsuspect/Aestra", cta: "View source" },
   ] as const;
 
@@ -89,7 +91,7 @@ export const Downloads = ({ setPage }: PageProps) => {
                       {isCurrent(build.id) && (
                         <Badge>Recommended</Badge>
                       )}
-                      <Badge variant="outline">{build.type === "Source" ? "Source" : "Beta"}</Badge>
+                      <Badge variant="outline">{build.type === "Source" ? "Source" : "Alpha"}</Badge>
                       <span className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-medium bg-surface-2 text-fg border border-border whitespace-nowrap">
                         {build.cta} <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                       </span>
