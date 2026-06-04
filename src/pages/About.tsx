@@ -108,9 +108,7 @@ export const About = ({ setPage }: PageProps) => (
       <FadeIn delay={0.25}>
         <div className="pt-10 border-t border-border/80">
           <div className="flex flex-wrap items-center justify-between gap-y-3 mb-6">
-            <div className="text-muted text-[13px]">
-              Built by Dylan Makori · Aestra Studios
-            </div>
+            <div />
             <Button variant="ghost" size="sm" onClick={() => setPage("home")}>
               Back to home
             </Button>
