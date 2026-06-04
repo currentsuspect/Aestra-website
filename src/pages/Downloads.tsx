@@ -25,7 +25,7 @@ export const Downloads = ({ setPage }: PageProps) => {
   const builds = [
     { id: "Windows", os: "Windows", arch: "x64",             icon: Monitor, type: "Beta",   href: workflows.windows, cta: "Find build in CI" },
     { id: "macOS",   os: "macOS",   arch: "Apple Silicon",   icon: Apple,   type: "Beta",   href: workflows.macos,   cta: "Find build in CI" },
-    { id: "Linux",   os: "Linux",   arch: "Ubuntu / Debian", icon: Terminal, type: "Beta",  href: workflows.linux,   cta: "Find build in CI" },
+    { id: "Linux",   os: "Linux",   arch: "Ubuntu / Debian / Arch", icon: Terminal, type: "Beta",  href: workflows.linux,   cta: "Find build in CI" },
     { id: "Source",  os: "Source",  arch: "GitHub",          icon: Github,  type: "Source", href: "https://github.com/currentsuspect/Aestra", cta: "View source" },
   ] as const;
 
