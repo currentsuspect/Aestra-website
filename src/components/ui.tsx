@@ -3,13 +3,40 @@ import { cn, useInView, prefersReducedMotion } from "../lib";
 import type { ButtonProps, BadgeProps, CardProps, FeatureCardProps, FadeInProps } from "../types";
 
 /* ── Loading fallback ─────────────────────────────────────────── */
+const prismSpin = `
+@keyframes prismSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+`;
+
 export const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="flex items-center gap-2 text-sm text-muted">
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-surface-3 animate-pulse" />
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-surface-3 animate-pulse [animation-delay:120ms]" />
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-surface-3 animate-pulse [animation-delay:240ms]" />
-    </div>
+    <style>{prismSpin}</style>
+    <svg width="48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={{ animation: "prismSpin 3s linear infinite" }}>
+      <defs>
+        <linearGradient id="pf" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#2a2840"/><stop offset="50%" stopColor="#1a1830"/><stop offset="100%" stopColor="#12101e"/>
+        </linearGradient>
+        <linearGradient id="pe" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#4a4070"/><stop offset="100%" stopColor="#2a2450"/>
+        </linearGradient>
+        <linearGradient id="bi" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#ffffff20"/><stop offset="100%" stopColor="#ffffff90"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <polygon points="100,28 168,152 32,152" fill="url(#pf)" stroke="url(#pe)" strokeWidth="1.5" strokeLinejoin="round"/>
+      <polygon points="100,28 168,152 32,152" fill="none" stroke="#8f82df30" strokeWidth="0.5"/>
+      <line x1="10" y1="100" x2="66" y2="100" stroke="url(#bi)" strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="134" y1="100" x2="170" y2="72" stroke="#ff4a6e" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.9"/>
+      <line x1="134" y1="100" x2="178" y2="82" stroke="#ff8a4a" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.85"/>
+      <line x1="134" y1="100" x2="186" y2="94" stroke="#ffd04a" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.8"/>
+      <line x1="134" y1="100" x2="190" y2="106" stroke="#4aff8a" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.8"/>
+      <line x1="134" y1="100" x2="184" y2="118" stroke="#4a9eff" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.85"/>
+      <line x1="134" y1="100" x2="174" y2="130" stroke="#8f82df" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.9"/>
+      <circle cx="66" cy="100" r="3" fill="#ffffff" opacity="0.6"/>
+    </svg>
   </div>
 );
 
