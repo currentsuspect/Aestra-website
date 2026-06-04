@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Github } from "lucide-react";
+import { GitHubIcon } from "./Icons";
 import type { PageProps } from "../types";
 
 const stripLeading = (p: string) => p.replace(/^\//, "");
@@ -59,7 +59,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
                 className="w-9 h-9 inline-flex items-center justify-center rounded-md text-muted hover:text-fg hover:bg-surface-2 transition-colors"
                 aria-label="GitHub (opens in new tab)"
               >
-                <Github className="w-4 h-4" aria-hidden="true" />
+                <GitHubIcon className="w-4 h-4" aria-hidden="true" />
               </a>
               <a
                 href="https://discord.gg/48DUWgvPZ"

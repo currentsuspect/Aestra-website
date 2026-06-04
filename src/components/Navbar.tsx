@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback, memo } from "react";
-import { Download, Menu, X, Github } from "lucide-react";
+import { Download, Menu, X } from "lucide-react";
+import { GitHubIcon } from "./Icons";
 import { cn } from "../lib";
 import { Button } from "./ui";
 import { ThemeToggle } from "./ThemeToggle";
@@ -165,7 +166,7 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
             className="h-8 w-8 inline-flex items-center justify-center rounded-md text-muted hover:text-fg hover:bg-surface-2 transition-colors"
             aria-label="GitHub repository (opens in new tab)"
           >
-            <Github className="w-4 h-4" aria-hidden="true" />
+            <GitHubIcon className="w-4 h-4" aria-hidden="true" />
           </a>
           <ThemeToggle />
           <div className="w-px h-5 bg-surface-3 mx-1" />
@@ -223,7 +224,7 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
                 className="h-10 inline-flex items-center justify-center gap-2 rounded-md border border-border text-sm text-fg-muted hover:text-fg hover:bg-surface-2"
                 aria-label="GitHub (opens in new tab)"
               >
-                <Github className="w-4 h-4" aria-hidden="true" /> GitHub
+                <GitHubIcon className="w-4 h-4" aria-hidden="true" /> GitHub
               </a>
               <div className="h-10 inline-flex items-center justify-center rounded-md border border-border">
                 <ThemeToggle />
