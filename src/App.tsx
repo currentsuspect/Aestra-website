@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef, lazy, Suspense } from 
 import { Navbar } from "./components/Navbar";
 import { EarlyAccessModal } from "./components/EarlyAccessModal";
 import { ToastProvider } from "./components/Toast";
+import { Cursor } from "./components/Cursor";
 import { Footer } from "./components/Footer";
 import { LoadingFallback } from "./components/ui";
 import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA, FAQ as HomeFAQ, ChangelogTeaser } from "./pages/Home";
@@ -291,6 +292,7 @@ export const App = () => {
     <ToastProvider>
       <div className="site-shell min-h-screen text-fg font-sans selection:bg-accent-soft">
         <a href="#main-content" className="skip-link">Skip to main content</a>
+        <Cursor />
         <EarlyAccessModal open={earlyAccessOpen} onClose={() => setEarlyAccessOpen(false)} purpose={earlyAccessPurpose} />
         <main className="page-enter" id="main-content">
           {renderPage()}

@@ -157,6 +157,62 @@ body {
   color: var(--color-fg);
 }
 
+/* ── Custom cursor ────────────────────────────────────────────── */
+body.custom-cursor,
+body.custom-cursor * {
+  cursor: none !important;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-fg);
+  transition: opacity 0.15s ease, width 0.15s ease, height 0.15s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--color-accent);
+  background: transparent;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              opacity 0.25s ease;
+  opacity: 0.7;
+}
+
+.cursor-ring.is-hover {
+  width: 44px;
+  height: 44px;
+  border-color: var(--color-accent-hover);
+  opacity: 0.4;
+}
+
+@media (pointer: coarse) {
+  body.custom-cursor,
+  body.custom-cursor * {
+    cursor: auto !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
 /* ── Reduced motion ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
