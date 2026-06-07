@@ -32,7 +32,7 @@ const COPY: Record<EarlyAccessPurpose, {
     title: "Get notified",
     desc: "Drop your email and we'll ping you the moment Supporter opens.",
     aria: "Get notified about Supporter launch",
-    cta: "Notify me",
+    cta: "Count me in",
     successTitle: "You're on the list.",
     successDesc: "We'll let you know the moment Supporter opens.",
     successToast: "You're on the list.",
