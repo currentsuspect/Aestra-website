@@ -101,7 +101,32 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
 
           <FadeIn delay={0.25}>
             <div className="hidden lg:block">
-              <HeroDemo />
+              <ul
+              aria-label="Core capabilities"
+              className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden"
+            >
+              {FEATURE_LIST.map((f) => {
+                const Icon = f.icon;
+                return (
+                  <li key={f.name} className="flex items-center gap-4 px-3 py-2.5 sm:px-4 sm:py-3.5">
+                    <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0" aria-hidden="true">
+                      <Icon className="w-[18px] h-[18px] text-fg-muted" strokeWidth={1.5} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[14px] font-medium text-fg leading-snug">{f.name}</span>
+                        {f.badge && (
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium text-amber-400 border border-amber-500/20 bg-amber-500/10">
+                            {f.badge}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[12px] text-muted leading-snug">{f.desc}</div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
             </div>
           </FadeIn>
         </div>
@@ -146,123 +171,6 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
     </section>
   );
 };
-
-/* ── Hero demo (right column on desktop) ──────────────────────── */
-const HERO_TRACKS: { name: string; color: string; clips: { x: number; w: number; alpha?: number }[] }[] = [
-  { name: "KICK",  color: "#f59e0b", clips: [{ x: 0, w: 12 }, { x: 22, w: 12 }, { x: 48, w: 12 }, { x: 76, w: 12 }] },
-  { name: "SNARE", color: "#14b8a6", clips: [{ x: 14, w: 10 }, { x: 40, w: 10 }, { x: 66, w: 10 }] },
-  { name: "808",   color: "#8b5cf6", clips: [{ x: 0, w: 18 }, { x: 30, w: 18 }, { x: 60, w: 18 }] },
-  { name: "HAT",   color: "#3b82f6", clips: [{ x: 0, w: 5 }, { x: 8, w: 5 }, { x: 16, w: 5 }, { x: 24, w: 5 }, { x: 32, w: 5 }, { x: 40, w: 5 }, { x: 48, w: 5 }, { x: 56, w: 5 }, { x: 64, w: 5 }, { x: 72, w: 5 }, { x: 80, w: 5 }] },
-];
-
-const HeroDemo = memo(() => {
-  const [progress, setProgress] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const [activeRow, setActiveRow] = useState(0);
-  const reduced = prefersReducedMotion();
-
-  useEffect(() => {
-    if (!playing) return;
-    let raf = 0;
-    let start = performance.now() - progress * 3200;
-    const loop = (now: number) => {
-      const t = ((now - start) % 3200) / 3200;
-      setProgress(t);
-      const row = Math.min(3, Math.floor(t * 4));
-      setActiveRow(row);
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [playing]);
-
-  return (
-    <div className="rounded-2xl border border-border/80 bg-bg/60 overflow-hidden shadow-2xl">
-      <div className="h-9 px-3 border-b border-border/80 bg-surface-2/50 flex items-center gap-1.5">
-        <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
-        <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
-        <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
-        <span className="ml-2 text-[11px] text-muted font-mono">Aestra — pattern 03</span>
-        <span className="ml-auto text-[11px] text-emerald-300 font-mono flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
-          {playing ? "PLAYING" : "READY"}
-        </span>
-      </div>
-
-      <div className="grid grid-cols-[88px_1fr] divide-x divide-border/80">
-        <div>
-          <div className="h-7 px-2 flex items-center text-[10px] text-muted font-mono uppercase tracking-wider border-b border-border/80">Track</div>
-          {HERO_TRACKS.map((t, i) => (
-            <div
-              key={t.name}
-              className={`h-8 px-2 flex items-center text-[10px] font-mono uppercase tracking-wider border-b border-border/80 last:border-b-0 transition-colors ${
-                activeRow === i && playing ? "text-fg" : "text-muted"
-              }`}
-            >
-              <span className="h-1.5 w-1.5 rounded-full mr-1.5" style={{ background: t.color }} aria-hidden="true" />
-              {t.name}
-            </div>
-          ))}
-        </div>
-        <div className="relative">
-          <div className="h-7 border-b border-border/80 grid grid-cols-8 text-[9px] text-muted font-mono">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="border-r border-border/80 last:border-r-0 flex items-center justify-center">{i + 1}</div>
-            ))}
-          </div>
-          {HERO_TRACKS.map((t, i) => (
-            <div
-              key={t.name}
-              className={`h-8 relative border-b border-border/80 last:border-b-0 transition-colors ${
-                activeRow === i && playing ? "bg-surface-2/30" : ""
-              }`}
-            >
-              {t.clips.map((c, j) => (
-                <div
-                  key={j}
-                  className="absolute top-1.5 bottom-1.5 rounded-sm"
-                  style={{
-                    left: `${c.x}%`,
-                    width: `${c.w}%`,
-                    background: t.color,
-                    opacity: 0.55,
-                  }}
-                />
-              ))}
-            </div>
-          ))}
-          <div
-            className="absolute top-0 bottom-0 w-px bg-fg/80 pointer-events-none"
-            style={{ left: `${progress * 100}%`, transition: reduced ? "none" : "left 0.05s linear" }}
-            aria-hidden="true"
-          >
-            <div className="absolute -top-1 -left-[5px] w-2.5 h-2.5 rounded-full bg-fg shadow-[0_0_8px_var(--color-fg)]" />
-          </div>
-        </div>
-      </div>
-
-      <div className="px-4 py-3 border-t border-border/80 flex items-center gap-3">
-        <button
-          onClick={() => setPlaying((p) => !p)}
-          aria-label={playing ? "Pause" : "Play"}
-          className={`w-8 h-8 rounded-md text-white flex items-center justify-center transition-colors ${
-            playing ? "bg-violet-400" : "bg-violet-500 hover:bg-violet-400"
-          }`}
-        >
-          {playing ? (
-            <svg width="10" height="10" viewBox="0 0 10 12" fill="currentColor"><rect x="1" y="1" width="3" height="10" rx="1"/><rect x="6" y="1" width="3" height="10" rx="1"/></svg>
-          ) : (
-            <svg width="10" height="10" viewBox="0 0 10 12" fill="currentColor"><path d="M1 1l8 5-8 5V1z"/></svg>
-          )}
-        </button>
-        <span className="text-[11px] text-muted font-mono">140 BPM · 4/4</span>
-        <span className="ml-auto text-[11px] text-muted font-mono tabular-nums">
-          {String(Math.floor(progress * 8) + 1).padStart(3, "0")}/008
-        </span>
-      </div>
-    </div>
-  );
-});
 
 /* ── Why Aestra ───────────────────────────────────────────────── */
 const WhySection = memo(() => (
