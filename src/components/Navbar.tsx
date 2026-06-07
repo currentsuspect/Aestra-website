@@ -159,7 +159,7 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
           </a>
           <ThemeToggle />
           <div className="w-px h-5 bg-surface-3 mx-1" />
-          <Button size="sm" onClick={onEarlyAccess}>
+          <Button size="sm" onClick={() => onEarlyAccess?.()}>
             Request early access
           </Button>
         </div>

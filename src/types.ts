@@ -1,7 +1,9 @@
+import type { EarlyAccessPurpose } from "./components/EarlyAccessModal";
+
 export interface PageProps {
   setPage: (page: string) => void;
   topOffset?: number;
-  onEarlyAccess?: () => void;
+  onEarlyAccess?: (purpose?: EarlyAccessPurpose) => void;
 }
 
 export interface NavbarProps extends PageProps {

@@ -4,12 +4,51 @@ import { useToast } from "./Toast";
 
 const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
 
+export type EarlyAccessPurpose = "early-access" | "supporter-notify";
+
+const COPY: Record<EarlyAccessPurpose, {
+  title: string;
+  desc: string;
+  aria: string;
+  cta: string;
+  successTitle: string;
+  successDesc: string;
+  successToast: string;
+  successToastDesc: string;
+  source: string;
+}> = {
+  "early-access": {
+    title: "Request early access",
+    desc: "Aestra is in active development. Get in early.",
+    aria: "Request early access",
+    cta: "Request access",
+    successTitle: "You're on the list.",
+    successDesc: "We'll let you know when early access opens.",
+    successToast: "You're on the list.",
+    successToastDesc: "We'll reach out when early access opens.",
+    source: "early-access",
+  },
+  "supporter-notify": {
+    title: "Get notified",
+    desc: "Drop your email and we'll ping you the moment Supporter opens.",
+    aria: "Get notified about Supporter launch",
+    cta: "Notify me",
+    successTitle: "You're on the list.",
+    successDesc: "We'll let you know the moment Supporter opens.",
+    successToast: "You're on the list.",
+    successToastDesc: "We'll ping you when Supporter launches.",
+    source: "supporter-notify",
+  },
+};
+
 export const EarlyAccessModal = ({
   open,
   onClose,
+  purpose = "early-access",
 }: {
   open: boolean;
   onClose: () => void;
+  purpose?: EarlyAccessPurpose;
 }) => {
   const toast = useToast();
   const [name, setName] = useState("");
@@ -19,6 +58,8 @@ export const EarlyAccessModal = ({
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
 
+  const copy = COPY[purpose];
+
   if (!open) return null;
 
   return (
@@ -26,7 +67,7 @@ export const EarlyAccessModal = ({
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label="Request early access"
+      aria-label={copy.aria}
     >
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <div className="relative w-full max-w-md bg-bg rounded-2xl border border-border/80 p-6 sm:p-8 shadow-2xl">
@@ -43,13 +84,13 @@ export const EarlyAccessModal = ({
             <div className="w-10 h-10 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4">
               <Check className="w-5 h-5 text-emerald-400" />
             </div>
-            <h3 className="text-lg font-semibold text-fg mb-1">You're on the list.</h3>
-            <p className="text-sm text-muted">We'll let you know when early access opens.</p>
+            <h3 className="text-lg font-semibold text-fg mb-1">{copy.successTitle}</h3>
+            <p className="text-sm text-muted">{copy.successDesc}</p>
           </div>
         ) : (
           <>
-            <h3 className="text-lg font-semibold text-fg mb-1">Request early access</h3>
-            <p className="text-sm text-muted mb-6">Aestra is in active development. Get in early.</p>
+            <h3 className="text-lg font-semibold text-fg mb-1">{copy.title}</h3>
+            <p className="text-sm text-muted mb-6">{copy.desc}</p>
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -60,11 +101,11 @@ export const EarlyAccessModal = ({
                   const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name, email, daw, source: "early-access" }),
+                    body: JSON.stringify({ name, email, daw, source: copy.source }),
                   });
                   if (res.ok) {
                     setDone(true);
-                    toast.success("You're on the list.", "We'll reach out when early access opens.");
+                    toast.success(copy.successToast, copy.successToastDesc);
                   } else {
                     setError("Something went wrong. Try again.");
                     toast.error("Couldn't send request", "Something went wrong. Try again.");
@@ -120,7 +161,7 @@ export const EarlyAccessModal = ({
                 disabled={submitting}
                 className="w-full h-11 rounded-lg bg-fg text-on-accent font-medium text-sm hover:bg-fg-muted transition-colors disabled:opacity-50"
               >
-                {submitting ? "Sending…" : "Request access"}
+                {submitting ? "Sending…" : copy.cta}
               </button>
             </form>
           </>

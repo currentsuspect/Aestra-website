@@ -38,7 +38,7 @@ const tiers = [
     price: "$5",
     sub: "/ month",
     tagline: "Everything — plus the reason we keep building.",
-    cta: "Coming soon",
+    cta: "Notify me when Supporter launches",
     ctaVariant: "primary" as const,
     accent: "violet" as const,
     highlighted: true,
@@ -153,7 +153,7 @@ const Cell = ({ on, accent }: { on: boolean; accent: "emerald" | "violet" | "amb
   return <Check className={`w-4 h-4 ${color}`} aria-label="Included" role="img" />;
 };
 
-export const Pricing = ({ setPage }: PageProps) => {
+export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
@@ -205,8 +205,7 @@ export const Pricing = ({ setPage }: PageProps) => {
                   variant={t.ctaVariant}
                   size="md"
                   className="w-full"
-                  disabled={t.name === "Supporter"}
-                  onClick={() => setPage("home")}
+                  onClick={() => onEarlyAccess?.(t.name === "Supporter" ? "supporter-notify" : "early-access")}
                 >
                   {t.cta}
                 </Button>

@@ -8,6 +8,7 @@ import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, 
 import { Features } from "./pages/Features";
 import { resolvePage, prefersReducedMotion } from "./lib";
 import type { PageProps } from "./types";
+import type { EarlyAccessPurpose } from "./components/EarlyAccessModal";
 import {
   PAGE_TITLES,
   PAGE_DESCRIPTIONS,
@@ -197,7 +198,11 @@ export const App = () => {
   }, []);
 
   const [earlyAccessOpen, setEarlyAccessOpen] = useState(false);
-  const handleEarlyAccess = useCallback(() => setEarlyAccessOpen(true), []);
+  const [earlyAccessPurpose, setEarlyAccessPurpose] = useState<EarlyAccessPurpose>("early-access");
+  const handleEarlyAccess = useCallback((purpose?: EarlyAccessPurpose) => {
+    setEarlyAccessPurpose(purpose ?? "early-access");
+    setEarlyAccessOpen(true);
+  }, []);
 
   const withShell = (content: React.ReactNode, navPage: string) => (
     <>
@@ -286,7 +291,7 @@ export const App = () => {
     <ToastProvider>
       <div className="site-shell min-h-screen text-fg font-sans selection:bg-accent-soft">
         <a href="#main-content" className="skip-link">Skip to main content</a>
-        <EarlyAccessModal open={earlyAccessOpen} onClose={() => setEarlyAccessOpen(false)} />
+        <EarlyAccessModal open={earlyAccessOpen} onClose={() => setEarlyAccessOpen(false)} purpose={earlyAccessPurpose} />
         <main className="page-enter" id="main-content">
           {renderPage()}
         </main>
