@@ -20,24 +20,24 @@ const tiers = [
     name: "Core",
     price: "$0",
     sub: "forever",
-    tagline: "The full DAW. No time limits, no export lock.",
+    tagline: "Everything you need to make a full record. Free, forever.",
     cta: "Request early access",
     ctaVariant: "secondary" as const,
     accent: "emerald" as const,
     features: [
       "Unlimited tracks & patterns",
-      "Pattern-based workflow",
-      "Routing visualizer",
-      "Audition mode",
-      "Version control (Takes)",
-      "Built-in plugin suite",
+      "Pattern-based sequencer",
+      "Visual routing map",
+      "Audition mode — preview samples without breaking flow",
+      "Takes — git-style session versioning",
+      "Built-in plugin suite — Verb, EQ, Comp, Drift, Delay",
     ],
   },
   {
     name: "Supporter",
     price: "$5",
     sub: "/ month",
-    tagline: "Back Aestra. Fund the future.",
+    tagline: "The full Aestra experience — and the reason we can keep building it.",
     cta: "Coming soon",
     ctaVariant: "primary" as const,
     accent: "violet" as const,
@@ -45,8 +45,8 @@ const tiers = [
     badge: "Best way to support Aestra",
     features: [
       "Everything in Core",
-      "Muse — local AI assistant",
-      "Premium plugins & monthly drops",
+      "Muse — AI assistant built into your session",
+      "Native Suite plugins + monthly drops",
       "100GB Aestra Cloud included",
       "Monthly sound packs",
     ],
@@ -171,9 +171,9 @@ export const Pricing = ({ setPage }: PageProps) => {
           {tiers.map((t, i) => (
             <FadeIn key={t.name} delay={i * 0.05}>
               <div
-                className={`rounded-2xl p-7 sm:p-8 h-full flex flex-col ${
+                className={`rounded-2xl p-7 sm:p-8 h-full flex flex-col transition-all duration-300 ${
                   t.highlighted
-                    ? "border border-violet-500/30 bg-bg"
+                    ? "border border-violet-500/30 bg-bg shadow-[0_0_0_0_rgba(139,92,246,0)] hover:border-violet-500/60 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-20px_rgba(139,92,246,0.45)]"
                     : "border border-border/80 bg-bg"
                 }`}
               >
