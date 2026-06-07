@@ -1,6 +1,7 @@
 export interface PageProps {
   setPage: (page: string) => void;
   topOffset?: number;
+  onEarlyAccess?: () => void;
 }
 
 export interface NavbarProps extends PageProps {

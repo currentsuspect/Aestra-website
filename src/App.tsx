@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, lazy, Suspense } from "react";
 import { Navbar } from "./components/Navbar";
+import { EarlyAccessModal } from "./components/EarlyAccessModal";
 import { Footer } from "./components/Footer";
 import { LoadingFallback } from "./components/ui";
 import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA } from "./pages/Home";
@@ -193,9 +194,12 @@ export const App = () => {
     window.history.pushState(null, "", path);
   }, []);
 
+  const [earlyAccessOpen, setEarlyAccessOpen] = useState(false);
+  const handleEarlyAccess = useCallback(() => setEarlyAccessOpen(true), []);
+
   const withShell = (content: React.ReactNode, navPage: string) => (
     <>
-      <Navbar activePage={navPage} setPage={handleSetPage} />
+      <Navbar activePage={navPage} setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
       {content}
       <Footer setPage={handleSetPage} />
     </>
@@ -206,21 +210,21 @@ export const App = () => {
       case "home":
         return (
           <>
-            <Navbar activePage="home" setPage={handleSetPage} />
-            <Hero setPage={handleSetPage} />
+            <Navbar activePage="home" setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
+            <Hero setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <WhySection />
             <div id="features"><HomeFeatures /></div>
             <Plugins />
-            <FreeCore setPage={handleSetPage} />
+            <FreeCore setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <FounderCountdown />
-            <ClosingCTA setPage={handleSetPage} />
+            <ClosingCTA setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <Footer setPage={handleSetPage} />
           </>
         );
       case "features":
         return (
           <>
-            <Features setPage={handleSetPage} />
+            <Features setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
           </>
         );
       case "pricing":
@@ -230,7 +234,7 @@ export const App = () => {
       case "docs":
         return (
           <>
-            <Navbar activePage="docs" setPage={handleSetPage} />
+            <Navbar activePage="docs" setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <LazyPage><Docs setPage={handleSetPage} /></LazyPage>
           </>
         );
@@ -242,7 +246,7 @@ export const App = () => {
       case "privacy":
         return (
           <>
-            <Navbar activePage="" setPage={handleSetPage} />
+            <Navbar activePage="" setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <LazyPage><Privacy setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
@@ -250,7 +254,7 @@ export const App = () => {
       case "terms":
         return (
           <>
-            <Navbar activePage="" setPage={handleSetPage} />
+            <Navbar activePage="" setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <LazyPage><Terms setPage={handleSetPage} /></LazyPage>
             <Footer setPage={handleSetPage} />
           </>
@@ -261,7 +265,7 @@ export const App = () => {
         return (
           <LazyPage>
             <div className="flex flex-col min-h-screen">
-              <Navbar activePage="" setPage={handleSetPage} />
+              <Navbar activePage="" setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
               <div className="flex-1">
                 <NotFound setPage={handleSetPage} />
               </div>
@@ -275,6 +279,7 @@ export const App = () => {
   return (
     <div className="site-shell min-h-screen text-fg font-sans selection:bg-accent-soft">
       <a href="#main-content" className="skip-link">Skip to main content</a>
+      <EarlyAccessModal open={earlyAccessOpen} onClose={() => setEarlyAccessOpen(false)} />
       <main className="page-enter" id="main-content">
         {renderPage()}
       </main>

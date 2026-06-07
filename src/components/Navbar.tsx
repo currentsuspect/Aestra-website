@@ -8,7 +8,7 @@ import type { NavbarProps } from "../types";
 
 const MENU_ID = "mobile-menu";
 
-export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
+export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -159,7 +159,7 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
           </a>
           <ThemeToggle />
           <div className="w-px h-5 bg-surface-3 mx-1" />
-          <Button size="sm" onClick={() => setPage("home")}>
+          <Button size="sm" onClick={onEarlyAccess}>
             Request early access
           </Button>
         </div>
@@ -218,7 +218,7 @@ export const Navbar = memo(({ activePage, setPage }: NavbarProps) => {
             </button>
           ))}
           <div className="flex pt-3">
-            <Button size="md" onClick={() => { setPage("home"); closeMobile(false); }} className="w-full">
+            <Button size="md" onClick={() => { onEarlyAccess?.(); closeMobile(false); }} className="w-full">
               Request early access
             </Button>
           </div>
