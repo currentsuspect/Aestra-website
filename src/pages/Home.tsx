@@ -573,11 +573,14 @@ const Plugins = memo(() => (
       <FadeIn>
         <p className="kicker mb-4">Built-in tools</p>
         <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4 max-w-3xl">
-          Creative tools that ship with the DAW.
+          Professional tools.<br />
+          <span className="text-muted">Zero extra cost.</span>
         </h2>
         <p className="text-muted text-base sm:text-lg max-w-2xl leading-relaxed mb-14">
-          No hunting for third-party plugins to get started. Aestra ships
-          with essential production tools built natively for the engine.
+          Most DAWs give you the engine and leave you to find the fuel. Aestra
+          ships with a full suite of studio-grade plugins — reverb, EQ,
+          compression — built natively for the engine and tuned for
+          low-CPU machines.
         </p>
       </FadeIn>
 
@@ -586,28 +589,28 @@ const Plugins = memo(() => (
           {
             icon: Music2,
             color: "violet",
-            name: "Aestra Verb",
+            name: "AestraVerb",
             kind: "Reverb",
-            desc: "Algorithmic reverb with plate, hall, and room modes. Low CPU, high character.",
+            desc: "8-line modulated FDN with a Householder mixing matrix. Plate, hall, and room modes — character without the CPU tax.",
             status: "Available",
             statusColor: "emerald",
           },
           {
             icon: Layers,
             color: "blue",
-            name: "Aestra EQ",
+            name: "AestraEQ",
             kind: "Equalizer",
-            desc: "Parametric EQ with spectrum analyzer. Clean curves, transparent sound.",
+            desc: "Contextual inspector with ghost band preview and a floating toolbar. Surgical moves, transparent signal.",
             status: "Available",
             statusColor: "emerald",
           },
           {
             icon: Cpu,
             color: "amber",
-            name: "Aestra Comp",
+            name: "AestraComp",
             kind: "Compressor",
-            desc: "Bus and channel compression with visual gain reduction metering.",
-            status: "In progress",
+            desc: "RMS detection with parameter smoothing. Bus and channel compression with full visual gain reduction.",
+            status: "Ships next",
             statusColor: "amber",
           },
         ].map((p, i) => {
@@ -618,13 +621,13 @@ const Plugins = memo(() => (
                                    "bg-amber-500/10 border-amber-500/20 text-amber-400";
           return (
             <FadeIn key={p.name} delay={i * 0.05}>
-              <div className="rounded-xl bg-bg border border-border/80 p-6 sm:p-7 h-full hover:border-border-2 transition-colors">
+              <div className="rounded-xl bg-bg border border-border/80 p-6 sm:p-7 h-full hover:border-border-2 transition-colors flex flex-col">
                 <div className={`w-10 h-10 rounded-lg ${dotBg} border flex items-center justify-center mb-5`} aria-hidden="true">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div className="text-[12px] text-muted mb-1.5">{p.kind}</div>
                 <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-2">{p.name}</h3>
-                <p className="text-[14px] text-muted leading-relaxed mb-5">{p.desc}</p>
+                <p className="text-[14px] text-muted leading-relaxed mb-5 flex-1">{p.desc}</p>
                 <span
                   className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium border ${
                     p.statusColor === "emerald"
