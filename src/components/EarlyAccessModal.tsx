@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
+import { useToast } from "./Toast";
 
 const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
 
@@ -10,6 +11,7 @@ export const EarlyAccessModal = ({
   open: boolean;
   onClose: () => void;
 }) => {
+  const toast = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [daw, setDaw] = useState("");
@@ -60,10 +62,16 @@ export const EarlyAccessModal = ({
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ name, email, daw, source: "early-access" }),
                   });
-                  if (res.ok) setDone(true);
-                  else setError("Something went wrong. Try again.");
+                  if (res.ok) {
+                    setDone(true);
+                    toast.success("You're on the list.", "We'll reach out when early access opens.");
+                  } else {
+                    setError("Something went wrong. Try again.");
+                    toast.error("Couldn't send request", "Something went wrong. Try again.");
+                  }
                 } catch {
                   setError("Network error. Try again.");
+                  toast.error("Network error", "Check your connection and try again.");
                 } finally {
                   setSubmitting(false);
                 }

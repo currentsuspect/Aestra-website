@@ -66,7 +66,7 @@ export function useInView(options?: IntersectionObserverInit) {
 // Resolve page from URL path
 const VALID_PAGES = new Set([
   "features", "pricing", "changelog", "docs", "download",
-  "login", "account", "privacy", "terms", "about",
+  "login", "account", "privacy", "terms", "about", "roadmap",
 ]);
 
 export const resolvePage = (path: string): string => {

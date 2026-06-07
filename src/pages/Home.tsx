@@ -1,7 +1,9 @@
 import React, { useState, useEffect, memo, lazy, Suspense } from "react";
-import { ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles } from "lucide-react";
+import { ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles, Plus, Minus, ArrowRight, CalendarDays, Activity } from "lucide-react";
 import { Button, FeatureCard, FadeIn } from "../components/ui";
+import { useToast } from "../components/Toast";
 import { prefersReducedMotion } from "../lib";
+import { RELEASES } from "../changelogData";
 import type { PageProps } from "../types";
 
 const MockTimeline = lazy(() =>
@@ -99,32 +101,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
 
           <FadeIn delay={0.25}>
             <div className="hidden lg:block">
-              <ul
-              aria-label="Five core capabilities"
-              className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden"
-            >
-              {FEATURE_LIST.map((f) => {
-                const Icon = f.icon;
-                return (
-                  <li key={f.name} className="flex items-center gap-4 px-3 py-2.5 sm:px-4 sm:py-3.5">
-                    <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0" aria-hidden="true">
-                      <Icon className="w-[18px] h-[18px] text-fg-muted" strokeWidth={1.5} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[14px] font-medium text-fg leading-snug">{f.name}</span>
-                        {f.badge && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium text-amber-400 border border-amber-500/20 bg-amber-500/10">
-                            {f.badge}
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-[12px] text-muted leading-snug">{f.desc}</div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+              <HeroDemo />
             </div>
           </FadeIn>
         </div>
@@ -135,7 +112,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
       <div className="mt-32 sm:mt-10 lg:mt-12">
         <div className="lg:hidden mb-6">
           <ul
-            aria-label="Five core capabilities"
+            aria-label="Core capabilities"
             className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden"
           >
             {FEATURE_LIST.map((f) => {
@@ -169,6 +146,123 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
     </section>
   );
 };
+
+/* ── Hero demo (right column on desktop) ──────────────────────── */
+const HERO_TRACKS: { name: string; color: string; clips: { x: number; w: number; alpha?: number }[] }[] = [
+  { name: "KICK",  color: "#f59e0b", clips: [{ x: 0, w: 12 }, { x: 22, w: 12 }, { x: 48, w: 12 }, { x: 76, w: 12 }] },
+  { name: "SNARE", color: "#14b8a6", clips: [{ x: 14, w: 10 }, { x: 40, w: 10 }, { x: 66, w: 10 }] },
+  { name: "808",   color: "#8b5cf6", clips: [{ x: 0, w: 18 }, { x: 30, w: 18 }, { x: 60, w: 18 }] },
+  { name: "HAT",   color: "#3b82f6", clips: [{ x: 0, w: 5 }, { x: 8, w: 5 }, { x: 16, w: 5 }, { x: 24, w: 5 }, { x: 32, w: 5 }, { x: 40, w: 5 }, { x: 48, w: 5 }, { x: 56, w: 5 }, { x: 64, w: 5 }, { x: 72, w: 5 }, { x: 80, w: 5 }] },
+];
+
+const HeroDemo = memo(() => {
+  const [progress, setProgress] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const [activeRow, setActiveRow] = useState(0);
+  const reduced = prefersReducedMotion();
+
+  useEffect(() => {
+    if (!playing) return;
+    let raf = 0;
+    let start = performance.now() - progress * 3200;
+    const loop = (now: number) => {
+      const t = ((now - start) % 3200) / 3200;
+      setProgress(t);
+      const row = Math.min(3, Math.floor(t * 4));
+      setActiveRow(row);
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, [playing]);
+
+  return (
+    <div className="rounded-2xl border border-border/80 bg-bg/60 overflow-hidden shadow-2xl">
+      <div className="h-9 px-3 border-b border-border/80 bg-surface-2/50 flex items-center gap-1.5">
+        <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
+        <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
+        <span className="w-2.5 h-2.5 rounded-full bg-surface-3" />
+        <span className="ml-2 text-[11px] text-muted font-mono">Aestra — pattern 03</span>
+        <span className="ml-auto text-[11px] text-emerald-300 font-mono flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
+          {playing ? "PLAYING" : "READY"}
+        </span>
+      </div>
+
+      <div className="grid grid-cols-[88px_1fr] divide-x divide-border/80">
+        <div>
+          <div className="h-7 px-2 flex items-center text-[10px] text-muted font-mono uppercase tracking-wider border-b border-border/80">Track</div>
+          {HERO_TRACKS.map((t, i) => (
+            <div
+              key={t.name}
+              className={`h-8 px-2 flex items-center text-[10px] font-mono uppercase tracking-wider border-b border-border/80 last:border-b-0 transition-colors ${
+                activeRow === i && playing ? "text-fg" : "text-muted"
+              }`}
+            >
+              <span className="h-1.5 w-1.5 rounded-full mr-1.5" style={{ background: t.color }} aria-hidden="true" />
+              {t.name}
+            </div>
+          ))}
+        </div>
+        <div className="relative">
+          <div className="h-7 border-b border-border/80 grid grid-cols-8 text-[9px] text-muted font-mono">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="border-r border-border/80 last:border-r-0 flex items-center justify-center">{i + 1}</div>
+            ))}
+          </div>
+          {HERO_TRACKS.map((t, i) => (
+            <div
+              key={t.name}
+              className={`h-8 relative border-b border-border/80 last:border-b-0 transition-colors ${
+                activeRow === i && playing ? "bg-surface-2/30" : ""
+              }`}
+            >
+              {t.clips.map((c, j) => (
+                <div
+                  key={j}
+                  className="absolute top-1.5 bottom-1.5 rounded-sm"
+                  style={{
+                    left: `${c.x}%`,
+                    width: `${c.w}%`,
+                    background: t.color,
+                    opacity: 0.55,
+                  }}
+                />
+              ))}
+            </div>
+          ))}
+          <div
+            className="absolute top-0 bottom-0 w-px bg-fg/80 pointer-events-none"
+            style={{ left: `${progress * 100}%`, transition: reduced ? "none" : "left 0.05s linear" }}
+            aria-hidden="true"
+          >
+            <div className="absolute -top-1 -left-[5px] w-2.5 h-2.5 rounded-full bg-fg shadow-[0_0_8px_var(--color-fg)]" />
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 py-3 border-t border-border/80 flex items-center gap-3">
+        <button
+          onClick={() => setPlaying((p) => !p)}
+          aria-label={playing ? "Pause" : "Play"}
+          className={`w-8 h-8 rounded-md text-white flex items-center justify-center transition-colors ${
+            playing ? "bg-violet-400" : "bg-violet-500 hover:bg-violet-400"
+          }`}
+        >
+          {playing ? (
+            <svg width="10" height="10" viewBox="0 0 10 12" fill="currentColor"><rect x="1" y="1" width="3" height="10" rx="1"/><rect x="6" y="1" width="3" height="10" rx="1"/></svg>
+          ) : (
+            <svg width="10" height="10" viewBox="0 0 10 12" fill="currentColor"><path d="M1 1l8 5-8 5V1z"/></svg>
+          )}
+        </button>
+        <span className="text-[11px] text-muted font-mono">140 BPM · 4/4</span>
+        <span className="ml-auto text-[11px] text-muted font-mono tabular-nums">
+          {String(Math.floor(progress * 8) + 1).padStart(3, "0")}/008
+        </span>
+      </div>
+    </div>
+  );
+});
 
 /* ── Why Aestra ───────────────────────────────────────────────── */
 const WhySection = memo(() => (
@@ -205,6 +299,167 @@ const WhySection = memo(() => (
     </div>
   </section>
 ));
+
+/* ── FAQ ───────────────────────────────────────────────────────── */
+const FAQ = memo(({ setPage }: PageProps) => {
+  const go = (page: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    setPage(page);
+  };
+  const faqs: { q: string; a: React.ReactNode }[] = [
+    {
+      q: "Is Aestra really free?",
+      a: (
+        <>
+          Yes. Aestra's core DAW is free forever with no feature gates, no export limits,
+          and no time limits. Optional <a href="/pricing" onClick={go("pricing")} className="text-fg underline underline-offset-4 hover:text-fg-muted">Supporter and Founder tiers</a> fund
+          development without locking anything behind a paywall.
+        </>
+      ),
+    },
+    {
+      q: "What platforms does Aestra support?",
+      a: "Aestra is a native cross-platform DAW that runs on Windows, macOS (Apple Silicon), and Linux (Ubuntu / Debian / Fedora). The engine is built in C++17 for low latency and minimal resource use — no Electron, no JVM.",
+    },
+    {
+      q: "Does Aestra support VST3 and CLAP plugins?",
+      a: "Yes. Aestra hosts VST3 and CLAP plugins natively, with a plugin sandbox that isolates misbehaving instruments. The built-in suite (Aestra Verb, Aestra EQ, Aestra Comp) ships with the DAW so you can start making music without hunting for third-party plugins.",
+    },
+    {
+      q: "Can I use Aestra commercially?",
+      a: "Yes. Anything you create with Aestra — beats, mixes, stems, full projects — belongs entirely to you. There are no royalties, licensing fees, or attribution requirements on your output.",
+    },
+    {
+      q: "Is Aestra open source?",
+      a: "Aestra is source-available under the Aestra Studios Source-Available License (ASSAL) v1.1. You can view, modify, and build the source for personal and educational use. Commercial use requires a separate agreement.",
+    },
+    {
+      q: "When will Aestra be ready?",
+      a: "We're currently in alpha with a working native engine, pattern workflow, and built-in plugin suite. Public beta is targeted for late 2026. Join the early-access list to test builds as they ship.",
+    },
+  ];
+  return (
+    <section className="py-24 sm:py-32 px-5 sm:px-6">
+      <div className="max-w-3xl mx-auto">
+        <FadeIn>
+          <p className="kicker mb-4">Questions</p>
+          <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
+            Frequently asked.
+          </h2>
+          <p className="text-muted text-base sm:text-lg leading-relaxed mb-12">
+            The short answers to the things producers ask most.
+          </p>
+        </FadeIn>
+
+        <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80 overflow-hidden">
+          {faqs.map((item, i) => (
+            <FadeIn key={item.q} delay={i * 0.04}>
+              <details className="group">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none px-5 sm:px-6 py-4 sm:py-5 hover:bg-surface-2/40 transition-colors">
+                  <span className="text-fg text-[15px] sm:text-base font-medium pr-4">{item.q}</span>
+                  <span
+                    aria-hidden="true"
+                    className="w-6 h-6 rounded-md flex items-center justify-center text-muted group-hover:text-fg shrink-0 transition-colors"
+                  >
+                    <Plus className="w-4 h-4 group-open:hidden" />
+                    <Minus className="w-4 h-4 hidden group-open:block" />
+                  </span>
+                </summary>
+                <div className="px-5 sm:px-6 pb-5 -mt-1 text-muted text-[14px] sm:text-[15px] leading-relaxed">
+                  {item.a}
+                </div>
+              </details>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+});
+
+/* ── Changelog teaser ─────────────────────────────────────────── */
+const typeColor: Record<string, string> = {
+  new:      "text-emerald-300 bg-emerald-500/10 border-emerald-500/20",
+  fix:      "text-rose-300    bg-rose-500/10    border-rose-500/20",
+  security: "text-amber-300   bg-amber-500/10   border-amber-500/20",
+  ci:       "text-blue-300    bg-blue-500/10    border-blue-500/20",
+  perf:     "text-sky-300     bg-sky-500/10     border-sky-500/20",
+  docs:     "text-fg-muted    bg-surface-3      border-border-2",
+};
+
+const ChangelogTeaser = memo(({ setPage }: PageProps) => {
+  const top = RELEASES.slice(0, 3);
+  return (
+    <section className="py-24 sm:py-32 px-5 sm:px-6">
+      <div className="max-w-4xl mx-auto">
+        <FadeIn>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+            <div>
+              <p className="kicker mb-4">Changelog</p>
+              <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg">
+                Built in public.
+              </h2>
+            </div>
+            <div className="flex items-center gap-2 text-[13px] text-muted">
+              <Activity className="w-3.5 h-3.5" aria-hidden="true" />
+              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" aria-hidden="true" />
+              Unreleased line actively moving
+            </div>
+          </div>
+        </FadeIn>
+
+        <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80 overflow-hidden">
+          {top.map((r) => (
+            <FadeIn key={r.ver} delay={0}>
+              <button
+                onClick={() => setPage("changelog")}
+                className="w-full text-left p-5 sm:p-6 hover:bg-surface-2/40 transition-colors group"
+              >
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-2">
+                  <span className="text-fg font-semibold text-[15px] tracking-tight">{r.ver}</span>
+                  <span className="text-muted text-[12px] flex items-center gap-1.5">
+                    <CalendarDays className="w-3 h-3" aria-hidden="true" />
+                    {r.date}
+                  </span>
+                  {r.status === "active" && (
+                    <span className="text-[11px] uppercase tracking-wider text-emerald-300 border border-emerald-500/20 bg-emerald-500/10 rounded-md px-2 py-0.5">
+                      Active
+                    </span>
+                  )}
+                </div>
+                <p className="text-muted text-[14px] leading-relaxed mb-3">{r.summary}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {Array.from(new Set(r.changes.map((c) => c.type))).slice(0, 4).map((t) => (
+                    <span
+                      key={t}
+                      className={`text-[11px] uppercase tracking-wider rounded-md px-2 py-0.5 border ${typeColor[t]}`}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            </FadeIn>
+          ))}
+        </div>
+
+        <FadeIn>
+          <div className="mt-8 text-center">
+            <Button
+              variant="ghost"
+              size="md"
+              onClick={() => setPage("changelog")}
+              icon={ArrowRight}
+              iconPosition="right"
+            >
+              See full changelog
+            </Button>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+});
 
 /* ── Feature pillars ─────────────────────────────────────────── */
 const Features = memo(() => (
@@ -608,6 +863,7 @@ const computeTimeLeft = () => {
 };
 
 const FounderCountdown = () => {
+  const toast = useToast();
   const [timeLeft, setTimeLeft] = useState(computeTimeLeft);
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -629,6 +885,7 @@ const FounderCountdown = () => {
     e.preventDefault();
     if (!email || !email.includes("@")) {
       setError("Please enter a valid email address.");
+      toast.error("Invalid email", "Please enter a valid email address.");
       return;
     }
     setSubmitting(true);
@@ -641,11 +898,14 @@ const FounderCountdown = () => {
       });
       if (res.ok) {
         setSubmitted(true);
+        toast.success("Slot reserved.", "We'll email you when your Founder number is ready.");
       } else {
         setError("Something went wrong. Try again.");
+        toast.error("Couldn't join waitlist", "Something went wrong. Try again.");
       }
     } catch {
       setError("Network error. Try again.");
+      toast.error("Network error", "Check your connection and try again.");
     } finally {
       setSubmitting(false);
     }
@@ -795,4 +1055,4 @@ const FounderCountdown = () => {
   );
 };
 
-export { Hero, Features, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA };
+export { Hero, Features, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA, FAQ, ChangelogTeaser };

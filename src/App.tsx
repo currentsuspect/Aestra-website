@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef, lazy, Suspense } from "react";
 import { Navbar } from "./components/Navbar";
 import { EarlyAccessModal } from "./components/EarlyAccessModal";
+import { ToastProvider } from "./components/Toast";
 import { Footer } from "./components/Footer";
 import { LoadingFallback } from "./components/ui";
-import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA } from "./pages/Home";
+import { Hero, Features as HomeFeatures, FounderCountdown, WhySection, Plugins, FreeCore, ClosingCTA, FAQ as HomeFAQ, ChangelogTeaser } from "./pages/Home";
 import { Features } from "./pages/Features";
 import { resolvePage, prefersReducedMotion } from "./lib";
 import type { PageProps } from "./types";
@@ -28,6 +29,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard").then(m => ({ default: m
 const Privacy = lazy(() => import("./pages/Privacy").then(m => ({ default: m.Privacy })));
 const Terms = lazy(() => import("./pages/Terms").then(m => ({ default: m.Terms })));
 const About = lazy(() => import("./pages/About").then(m => ({ default: m.About })));
+const Roadmap = lazy(() => import("./pages/Roadmap").then(m => ({ default: m.Roadmap })));
 const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.NotFound })));
 
 const PageLoader = () => <LoadingFallback />;
@@ -213,9 +215,11 @@ export const App = () => {
             <Navbar activePage="home" setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <Hero setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <WhySection />
+            <ChangelogTeaser setPage={handleSetPage} />
             <div id="features"><HomeFeatures /></div>
             <Plugins />
             <FreeCore setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
+            <HomeFAQ setPage={handleSetPage} />
             <FounderCountdown />
             <ClosingCTA setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <Footer setPage={handleSetPage} />
@@ -261,6 +265,8 @@ export const App = () => {
         );
       case "about":
         return withShell(<LazyPage><About setPage={handleSetPage} /></LazyPage>, "");
+      case "roadmap":
+        return withShell(<LazyPage><Roadmap setPage={handleSetPage} /></LazyPage>, "roadmap");
       default:
         return (
           <LazyPage>
@@ -277,12 +283,14 @@ export const App = () => {
   };
 
   return (
-    <div className="site-shell min-h-screen text-fg font-sans selection:bg-accent-soft">
-      <a href="#main-content" className="skip-link">Skip to main content</a>
-      <EarlyAccessModal open={earlyAccessOpen} onClose={() => setEarlyAccessOpen(false)} />
-      <main className="page-enter" id="main-content">
-        {renderPage()}
-      </main>
-    </div>
+    <ToastProvider>
+      <div className="site-shell min-h-screen text-fg font-sans selection:bg-accent-soft">
+        <a href="#main-content" className="skip-link">Skip to main content</a>
+        <EarlyAccessModal open={earlyAccessOpen} onClose={() => setEarlyAccessOpen(false)} />
+        <main className="page-enter" id="main-content">
+          {renderPage()}
+        </main>
+      </div>
+    </ToastProvider>
   );
 };

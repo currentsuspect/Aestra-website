@@ -480,8 +480,121 @@ export const Features = ({ setPage, topOffset = 0, onEarlyAccess }: PageProps) =
             <FeatureBlock key={feature.title} feature={feature} index={index} />
           ))}
         </div>
+
+        <ComparisonTable />
       </div>
       <Footer setPage={setPage} />
     </>
+  );
+};
+
+/* ── Comparison table ────────────────────────────────────────── */
+type Cell = "yes" | "no" | "limited" | "na";
+
+const cellDisplay: Record<Cell, { mark: string; color: string; label: string }> = {
+  yes:     { mark: "✓",  color: "text-emerald-400", label: "Yes" },
+  no:      { mark: "—",  color: "text-dim",         label: "No" },
+  limited: { mark: "~",  color: "text-amber-400",   label: "Limited" },
+  na:      { mark: "—",  color: "text-dim",         label: "—" },
+};
+
+const COMPARISON_ROWS: { label: string; aestra: Cell; ableton: Cell; logic: Cell; fl: Cell; }[] = [
+  { label: "Free core, no feature gates",   aestra: "yes",  ableton: "limited", logic: "no",      fl: "limited" },
+  { label: "Native C++ engine",             aestra: "yes",  ableton: "no",      logic: "yes",     fl: "no"      },
+  { label: "Cross-platform (Win/macOS/Linux)", aestra: "yes",  ableton: "limited", logic: "no",   fl: "limited" },
+  { label: "VST3 plugin hosting",           aestra: "yes",  ableton: "yes",     logic: "yes",     fl: "yes"     },
+  { label: "CLAP plugin hosting",           aestra: "yes",  ableton: "yes",     logic: "no",      fl: "no"      },
+  { label: "Pattern-first workflow",        aestra: "yes",  ableton: "limited", logic: "no",      fl: "yes"     },
+  { label: "Visual signal routing",         aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
+  { label: "Audition (translation preview)",aestra: "yes",  ableton: "no",      logic: "limited", fl: "no"      },
+  { label: "Takes & project history",       aestra: "yes",  ableton: "limited", logic: "limited", fl: "limited" },
+  { label: "Source-available",              aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
+];
+
+const ComparisonTable = () => {
+  const columns: { key: keyof typeof COMPARISON_ROWS[0]; label: string; sub: string; highlight: boolean }[] = [
+    { key: "aestra",  label: "Aestra",    sub: "Alpha",  highlight: true  },
+    { key: "ableton", label: "Live",      sub: "Suite",  highlight: false },
+    { key: "logic",   label: "Logic Pro", sub: "macOS",  highlight: false },
+    { key: "fl",      label: "FL Studio", sub: "All",    highlight: false },
+  ];
+  return (
+    <section className="mt-24 sm:mt-32 px-5 sm:px-6">
+      <div className="max-w-6xl mx-auto">
+        <p className="kicker mb-4">How Aestra compares</p>
+        <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4 max-w-3xl">
+          Different bets. Same job.
+        </h2>
+        <p className="text-muted text-base sm:text-lg leading-relaxed max-w-2xl mb-10">
+          We don't pretend to out-mature Ableton, Logic, or FL. We do
+          things differently — native, pattern-first, open. Here's how
+          the four stack up on the things we care about most.
+        </p>
+
+        <div className="rounded-2xl border border-border/80 bg-bg overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-border/80">
+                  <th scope="col" className="px-4 sm:px-5 py-4 text-[12px] font-medium text-muted uppercase tracking-wider w-[42%] sm:w-[44%]">
+                    Capability
+                  </th>
+                  {columns.map((c) => (
+                    <th
+                      key={String(c.key)}
+                      scope="col"
+                      className={`px-3 sm:px-4 py-4 text-left w-[14.5%] ${
+                        c.highlight ? "bg-violet-500/[0.06]" : ""
+                      }`}
+                    >
+                      <div className={`text-[13px] sm:text-sm font-semibold ${c.highlight ? "text-fg" : "text-fg-muted"}`}>
+                        {c.label}
+                      </div>
+                      <div className="text-[10px] text-dim font-mono uppercase tracking-wider mt-0.5">
+                        {c.sub}
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/80">
+                {COMPARISON_ROWS.map((row, i) => (
+                  <tr key={row.label} className={i % 2 === 1 ? "bg-surface-2/30" : ""}>
+                    <th scope="row" className="px-4 sm:px-5 py-3.5 text-[14px] font-medium text-fg text-left">
+                      {row.label}
+                    </th>
+                    {columns.map((c) => {
+                      const cell = row[c.key] as Cell;
+                      const d = cellDisplay[cell];
+                      return (
+                        <td
+                          key={String(c.key)}
+                          className={`px-3 sm:px-4 py-3.5 text-center ${
+                            c.highlight ? "bg-violet-500/[0.06]" : ""
+                          }`}
+                        >
+                          <span
+                            className={`inline-block text-base font-semibold ${d.color}`}
+                            aria-label={d.label}
+                            title={d.label}
+                          >
+                            {d.mark}
+                          </span>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p className="text-dim text-[12px] mt-4 leading-relaxed">
+          Comparison based on publicly documented features as of 2026.
+          Aestra is in alpha — feature availability may differ in current builds.
+        </p>
+      </div>
+    </section>
   );
 };
