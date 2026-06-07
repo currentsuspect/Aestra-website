@@ -230,9 +230,9 @@ const FAQ = memo(({ setPage }: PageProps) => {
       a: (
         <div className="space-y-3">
           <p>
-            Aestra ships with a genuinely premium set of plugins out of the box — a parametric
-            EQ that holds its own against anything on the market, a compressor, delay, and more.
-            These are free, forever, no asterisk.
+            Aestra ships with a genuinely premium set of plugins out of the box — reverb, a
+            parametric EQ that holds its own against anything on the market, compressor, pitch
+            shifting, and delay. These are free, forever, no asterisk.
           </p>
           <p>
             The Native Suite is a separate collection of specialist plugins that would
