@@ -237,7 +237,7 @@ export const App = () => {
           </>
         );
       case "pricing":
-        return withShell(<LazyPage><Pricing setPage={handleSetPage} /></LazyPage>, "pricing");
+        return withShell(<LazyPage><Pricing setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} /></LazyPage>, "pricing");
       case "changelog":
         return withShell(<LazyPage><Changelog setPage={handleSetPage} /></LazyPage>, "changelog");
       case "docs":
