@@ -642,12 +642,18 @@ const Plugins = memo(() => (
                     }`}
                   />
                   {p.status}
-                </span>
+                 </span>
               </div>
             </FadeIn>
           );
         })}
       </div>
+
+      <FadeIn delay={0.15}>
+        <p className="mt-8 text-center text-muted text-[14px] sm:text-[15px]">
+          Plus <span className="text-fg font-medium">AestraDrift</span> and <span className="text-fg font-medium">AestraDelay</span> — both shipping through the beta period.
+        </p>
+      </FadeIn>
     </div>
   </section>
 ));
