@@ -49,6 +49,7 @@ const tiers = [
       "Native Suite plugins + monthly drops",
       "100GB Aestra Cloud included",
       "Monthly sound packs",
+      "Direct support from the team",
     ],
   },
 ];
@@ -134,6 +135,12 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
       ["Beta access — mobile & tablet",    false, false, true],
       ["Vote on feature priorities",       false, false, true],
       ["Lifetime access — no subscription",false, false, true],
+    ],
+  },
+  {
+    label: "Support",
+    rows: [
+      ["Direct support from the team",     false, true, true],
     ],
   },
 ];
