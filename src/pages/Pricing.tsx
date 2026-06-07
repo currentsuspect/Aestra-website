@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from "react";
-import { Check, ArrowRight, Sparkles } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
 import type { PageProps } from "../types";
 
@@ -43,15 +43,9 @@ const tiers = [
     accent: "violet" as const,
     highlighted: true,
     badge: "Recommended",
-    headlineFeature: {
-      icon: Sparkles,
-      name: "Muse",
-      tagline: "Tell your DAW what you need. It handles the rest.",
-      moment: "Ask your DAW to export stems while you mix.",
-      status: "Coming soon",
-    },
     features: [
       "Everything in Core",
+      "Muse — tell your DAW what you need. It handles the rest.",
       "Native Suite plugins + monthly drops",
       "100GB Aestra Cloud included",
       "Monthly sound packs",
@@ -203,39 +197,6 @@ export const Pricing = ({ setPage }: PageProps) => {
                   </div>
                   <p className="text-muted text-sm leading-relaxed">{t.tagline}</p>
                 </div>
-
-                {t.headlineFeature && (
-                  <div className="mb-7 rounded-xl border border-violet-500/30 bg-violet-500/[0.07] p-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-violet-500/15 border border-violet-500/30 flex items-center justify-center shrink-0">
-                        <t.headlineFeature.icon className="w-[18px] h-[18px] text-violet-300" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 mb-2 flex-wrap">
-                          <span className="text-fg font-semibold text-[15px] tracking-tight">
-                            {t.headlineFeature.name}
-                          </span>
-                          {t.headlineFeature.status && (
-                            <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-amber-300 border border-amber-500/25 bg-amber-500/10 rounded px-1.5 py-0.5 font-medium">
-                              <span className="h-1 w-1 rounded-full bg-amber-400" />
-                              {t.headlineFeature.status}
-                            </span>
-                          )}
-                        </div>
-                        {t.headlineFeature.tagline && (
-                          <p className="text-fg text-[13.5px] font-medium leading-relaxed mb-1.5">
-                            {t.headlineFeature.tagline}
-                          </p>
-                        )}
-                        {t.headlineFeature.moment && (
-                          <p className="text-fg-muted text-[12.5px] leading-relaxed italic">
-                            e.g. &ldquo;{t.headlineFeature.moment}&rdquo;
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
 
                 <ul className="space-y-3 mb-8 flex-1">
                   {t.features.map((f) => (
