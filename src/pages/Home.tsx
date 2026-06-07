@@ -238,8 +238,8 @@ const FAQ = memo(({ setPage }: PageProps) => {
       a: "Yes. Anything you create with Aestra — beats, mixes, stems, full projects — belongs entirely to you. There are no royalties, licensing fees, or attribution requirements on your output.",
     },
     {
-      q: "Is Aestra open source?",
-      a: "Aestra is source-available under the Aestra Studios Source-Available License (ASSAL) v1.1. You can view, modify, and build the source for personal and educational use. Commercial use requires a separate agreement.",
+      q: "Why not open source Aestra?",
+      a: "We wanted to give you the full open-source experience without losing ownership and risking cloning. Open-source projects get cloned, and we'd lose our edge if we went FOSS. So we introduced our own terms that favor both of us: FSA (Free Source Available). We keep ownership of the code; you can request changes by forking and contributing back. Please be understanding of this approach.",
     },
     {
       q: "When will Aestra be ready?",
