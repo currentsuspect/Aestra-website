@@ -226,6 +226,29 @@ const FAQ = memo(({ setPage }: PageProps) => {
       ),
     },
     {
+      q: "What's the difference between the free DAW and the paid plugins?",
+      a: (
+        <div className="space-y-3">
+          <p>
+            Aestra ships with a genuinely premium set of plugins out of the box — a parametric
+            EQ that holds its own against anything on the market, a compressor, delay, and more.
+            These are free, forever, no asterisk.
+          </p>
+          <p>
+            The Native Suite is a separate collection of specialist plugins that would
+            individually cost you anywhere from $100–300 elsewhere. We can't give those away
+            and keep the project alive, so we bundled them into a $5/month Supporter tier —
+            which, frankly, is less than a single plugin costs anywhere else. If you'd rather
+            own than subscribe, individual plugins are available for one-time purchase on the site.
+          </p>
+          <p>
+            Nothing in the free tier is hobbled to nudge you toward paying. You can make a full
+            record with what comes included.
+          </p>
+        </div>
+      ),
+    },
+    {
       q: "What platforms does Aestra support?",
       a: "Aestra is a native cross-platform DAW that runs on Windows, macOS (Apple Silicon), and Linux (Ubuntu / Debian / Fedora). The engine is built in C++17 for low latency and minimal resource use — no Electron, no JVM.",
     },
