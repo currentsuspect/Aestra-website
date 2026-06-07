@@ -239,7 +239,25 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "Why not open source Aestra?",
-      a: "We wanted to give you the full open-source experience without losing ownership and risking cloning. Open-source projects get cloned, and we'd lose our edge if we went FOSS. So we introduced our own terms that favor both of us: FSA (Free Source Available). We keep ownership of the code; you can request changes by forking and contributing back. Please be understanding of this approach.",
+      a: (
+        <div className="space-y-3">
+          <p>
+            Source-available is the honest middle ground. You can read every line of the codebase,
+            audit what's running on your machine, and contribute back changes through a fork — but
+            we retain ownership and you can't redistribute or commercialize the source.
+          </p>
+          <p>
+            Why? Because Aestra is a long-term project built by a small team, and going fully
+            open-source creates real risks: forks that undercut the product, commercial use of our
+            work without contribution, and loss of the ownership that lets us keep building. ASSAL
+            (the Aestra Source-Available Software License) is how we keep the source open while
+            keeping the project sustainable.
+          </p>
+          <p>
+            If you want to see something changed, fork it and send a PR. That's the deal.
+          </p>
+        </div>
+      ),
     },
     {
       q: "When will Aestra be ready?",
