@@ -282,7 +282,7 @@ export const Pricing = ({ setPage }: PageProps) => {
                 Join the waitlist <ArrowRight className="w-4 h-4" />
               </Button>
               <p className="text-muted text-[13px] max-w-sm">
-                Founder access activates when beta launches in December 2026. Waitlist locks your slot number.
+                Founder access activates when beta launches in December 2026. Joining the waitlist holds your place in line.
               </p>
             </div>
           </div>

@@ -1012,7 +1012,7 @@ const FounderCountdown = () => {
                 <p className="text-muted text-[12px] mt-4 leading-relaxed">
                   {launched
                     ? "Founder access is now active for all Founder card holders."
-                    : "Founder access activates when beta launches in December 2026. Waitlist locks your slot number."}
+                    : "Founder access activates when beta launches in December 2026. Joining the waitlist holds your place in line."}
                 </p>
               </div>
             </div>
