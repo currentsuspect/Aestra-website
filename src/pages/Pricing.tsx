@@ -42,7 +42,6 @@ const tiers = [
     ctaVariant: "primary" as const,
     accent: "violet" as const,
     highlighted: true,
-    badge: "Recommended",
     features: [
       "Everything in Core",
       "Muse — tell your DAW what you need. It handles the rest.",
@@ -184,11 +183,6 @@ export const Pricing = ({ setPage }: PageProps) => {
                     : "border border-border/80 bg-bg"
                 }`}
               >
-                {t.badge && (
-                  <div className="text-center text-[12px] font-medium text-violet-300 mb-5 pb-5 border-b border-border/80">
-                    {t.badge}
-                  </div>
-                )}
                 <div className="mb-6">
                   <div className="text-[12px] uppercase tracking-wider text-muted mb-3">{t.name}</div>
                   <div className="flex items-baseline gap-2 mb-2">
