@@ -393,7 +393,7 @@ const ChangelogTeaser = memo(({ setPage }: PageProps) => {
         </div>
 
         <FadeIn>
-          <div className="mt-8 text-center">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-2">
             <Button
               variant="ghost"
               size="md"
@@ -402,6 +402,16 @@ const ChangelogTeaser = memo(({ setPage }: PageProps) => {
               iconPosition="right"
             >
               See full changelog
+            </Button>
+            <span className="text-dim text-xs hidden sm:inline">·</span>
+            <Button
+              variant="ghost"
+              size="md"
+              onClick={() => setPage("roadmap")}
+              icon={ArrowRight}
+              iconPosition="right"
+            >
+              See roadmap
             </Button>
           </div>
         </FadeIn>
