@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo, lazy, Suspense } from "react";
-import { ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles, Plus, Minus, ArrowRight, CalendarDays, Activity } from "lucide-react";
+import { ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles, Plus, Minus, ArrowRight, ArrowUpRight, CalendarDays, Activity } from "lucide-react";
 import { Button, FeatureCard, FadeIn } from "../components/ui";
 import { useToast } from "../components/Toast";
 import { prefersReducedMotion } from "../lib";
@@ -567,7 +567,7 @@ const Features = memo(() => (
 ));
 
 /* ── Plugin highlights ───────────────────────────────────────── */
-const Plugins = memo(() => (
+const Plugins = memo(({ setPage }: PageProps) => (
   <section className="py-24 sm:py-32 px-5 sm:px-6">
     <div className="max-w-6xl mx-auto">
       <FadeIn>
@@ -653,6 +653,20 @@ const Plugins = memo(() => (
         <p className="mt-8 text-center text-muted text-[14px] sm:text-[15px]">
           Plus <span className="text-fg font-medium">AestraDrift</span> and <span className="text-fg font-medium">AestraDelay</span> — both shipping through the beta period.
         </p>
+      </FadeIn>
+
+      <FadeIn delay={0.2}>
+        <div className="mt-10 flex justify-center">
+          <Button
+            variant="outline"
+            size="md"
+            onClick={() => setPage("plugins")}
+            icon={ArrowUpRight}
+            iconPosition="right"
+          >
+            See all plugins
+          </Button>
+        </div>
       </FadeIn>
     </div>
   </section>

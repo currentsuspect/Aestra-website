@@ -99,6 +99,7 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
 
   const navLinks = useMemo(() => [
     { name: "Features", id: "features" },
+    { name: "Plugins", id: "plugins" },
     { name: "Docs", id: "docs" },
     { name: "Pricing", id: "pricing" },
     { name: "Changelog", id: "changelog" },

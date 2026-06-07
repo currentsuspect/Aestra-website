@@ -53,6 +53,7 @@ export type PageId =
   | "changelog"
   | "docs"
   | "download"
+  | "plugins"
   | "login"
   | "account"
   | "privacy"
@@ -72,6 +73,7 @@ export const PAGE_PATHS = asSEO({
   changelog: "/changelog",
   docs: "/docs",
   download: "/download",
+  plugins: "/plugins",
   login: "/login",
   account: "/account",
   privacy: "/privacy",
@@ -88,6 +90,7 @@ export const PAGE_TITLES = asSEO({
   changelog: "Changelog — Aestra",
   docs: "Documentation — Aestra",
   download: "Download — Aestra",
+  plugins: "Plugins — Aestra",
   login: "Login — Aestra",
   account: "Account — Aestra",
   privacy: "Privacy Policy — Aestra",
@@ -104,6 +107,7 @@ export const PAGE_DESCRIPTIONS = asSEO({
   changelog: "Track Aestra's development progress. New features, bug fixes, and improvements across every release.",
   docs: "Aestra documentation: patch recipes, signal flow guides, persona tracks, troubleshooting, and command palette reference.",
   download: "Download Aestra DAW for Windows, macOS, and Linux. Free core, no strings attached.",
+  plugins: "Aestra's built-in plugin suite — AestraVerb, AestraEQ, AestraComp, AestraDrift, AestraDelay. Watch the AestraEQ intro.",
   login: "Sign in to your Aestra account.",
   account: "Manage your Aestra account, licenses, and plugins.",
   privacy: "Aestra privacy policy: how we handle your data, no cookies, transparent practices.",
@@ -120,6 +124,7 @@ export const PAGE_KEYWORDS = asSEO({
   changelog: "DAW changelog, release notes, Aestra updates, music software updates, version history",
   docs: "Aestra documentation, signal flow, patch recipes, command palette, troubleshooting, getting started",
   download: "download Aestra, free DAW download, Windows DAW, macOS DAW, Linux DAW, native audio workstation",
+  plugins: "AestraVerb, AestraEQ, AestraComp, AestraDrift, AestraDelay, free plugins, built-in plugins, native audio plugins, EQ plugin, reverb plugin, compressor plugin",
   login: "Aestra login, sign in, Aestra account",
   account: "Aestra account, manage subscription, license keys, plugins",
   privacy: "Aestra privacy policy, data handling, no telemetry, transparent practices",
@@ -136,6 +141,7 @@ export const PAGE_OG_TYPES = asSEO({
   changelog: "article",
   docs: "article",
   download: "website",
+  plugins: "website",
   login: "website",
   account: "website",
   privacy: "article",
@@ -152,6 +158,7 @@ export const PAGE_OG_IMAGES = asSEO({
   changelog: "/og-image.png",
   docs: "/og-image.png",
   download: "/og-image.png",
+  plugins: "/aestra-eq-intro.mp4",
   login: "/og-image.png",
   account: "/og-image.png",
   privacy: "/og-image.png",
@@ -168,6 +175,7 @@ export const PAGE_ROBOTS = asSEO({
   changelog: "index, follow, max-snippet:-1, max-image-preview:large",
   docs: "index, follow, max-snippet:-1",
   download: "index, follow",
+  plugins: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
   login: "noindex, nofollow",
   account: "noindex, nofollow",
   privacy: "index, follow, max-snippet:-1",
@@ -184,6 +192,7 @@ export const PAGE_SECTION_TITLES = asSEO({
   changelog: "Changelog",
   docs: "Documentation",
   download: "Download",
+  plugins: "Plugins",
   login: "Login",
   account: "Account",
   privacy: "Privacy Policy",

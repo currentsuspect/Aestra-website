@@ -32,6 +32,7 @@ const Privacy = lazy(() => import("./pages/Privacy").then(m => ({ default: m.Pri
 const Terms = lazy(() => import("./pages/Terms").then(m => ({ default: m.Terms })));
 const About = lazy(() => import("./pages/About").then(m => ({ default: m.About })));
 const Roadmap = lazy(() => import("./pages/Roadmap").then(m => ({ default: m.Roadmap })));
+const PluginsPage = lazy(() => import("./pages/Plugins").then(m => ({ default: m.Plugins })));
 const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.NotFound })));
 
 const PageLoader = () => <LoadingFallback />;
@@ -223,7 +224,7 @@ export const App = () => {
             <WhySection />
             <ChangelogTeaser setPage={handleSetPage} />
             <div id="features"><HomeFeatures /></div>
-            <Plugins />
+            <Plugins setPage={handleSetPage} />
             <FreeCore setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <HomeFAQ setPage={handleSetPage} />
             <FounderCountdown />
@@ -273,6 +274,8 @@ export const App = () => {
         return withShell(<LazyPage><About setPage={handleSetPage} /></LazyPage>, "");
       case "roadmap":
         return withShell(<LazyPage><Roadmap setPage={handleSetPage} /></LazyPage>, "roadmap");
+      case "plugins":
+        return withShell(<LazyPage><PluginsPage setPage={handleSetPage} /></LazyPage>, "plugins");
       default:
         return (
           <LazyPage>
