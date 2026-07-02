@@ -69,7 +69,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
           </div>
           <div className="flex items-center text-[13px] text-muted">
             <Activity className="w-3.5 h-3.5 mr-2" aria-hidden="true" />
-            <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-2" aria-hidden="true" />
+            <span className="led led-pulse text-emerald-400 mr-2" aria-hidden="true" />
             Unreleased line actively moving
           </div>
         </div>
@@ -100,7 +100,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
               <div className="mb-5">
                 <div className="flex flex-wrap items-center gap-3 mb-2">
                   <h2 className="text-xl sm:text-2xl font-semibold text-fg tracking-tight">{release.ver}</h2>
-                  <span className={cn("text-[10px] uppercase tracking-wider font-medium px-2 py-0.5 rounded border", statusColors[release.status])}>
+                  <span className={cn("font-mono text-[10px] uppercase tracking-[0.14em] font-medium px-2 py-0.5 rounded border", statusColors[release.status])}>
                     {release.status}
                   </span>
                 </div>
@@ -111,7 +111,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
               <ul className="space-y-2.5">
                 {release.changes.map((change, j) => (
                   <li key={j} className="flex items-start gap-3 text-[14px] text-fg-muted leading-relaxed">
-                    <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider mt-1 shrink-0", typeColors[change.type])}>
+                    <span className={cn("font-mono text-[10px] font-medium px-1.5 py-0.5 rounded border uppercase tracking-[0.14em] mt-1 shrink-0", typeColors[change.type])}>
                       {change.type}
                     </span>
                     <span>{change.text}</span>

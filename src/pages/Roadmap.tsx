@@ -21,7 +21,7 @@ const COLUMNS: Column[] = [
       { title: "Native C++17 audio engine",     desc: "Stable callback loop, low latency, no JVM." },
       { title: "Pattern-first workflow",         desc: "Loops, takes, and patterns woven into one session model." },
       { title: "VST3 + CLAP plugin hosting",     desc: "Native host with plugin sandbox and crash isolation." },
-      { title: "Built-in plugin suite",          desc: "Aestra Verb, EQ, and Comp — all native, all shipping." },
+      { title: "Built-in plugin suite",          desc: "AestraVerb and AestraEQ — native, shipping, zero extra cost." },
       { title: "Live signal routing",            desc: "Animated, color-coded signal flow across the graph." },
       { title: "Audition (translation preview)", desc: "Hear your mix on phone, earbuds, car, laptop." },
       { title: "Takes & history",                desc: "Versioned project snapshots with named, recoverable takes." },
@@ -38,6 +38,7 @@ const COLUMNS: Column[] = [
       { title: "Piano Roll ↔ Sequencer",   desc: "Two-way sync between pattern clips and the piano roll." },
       { title: "Device resilience",        desc: "Hot-plug, health polling, RT-safe audio thread under failure." },
       { title: "ASIO driver support",      desc: "Native COM integration with dual-tier startup failover." },
+      { title: "AestraComp (ships next)",  desc: "RMS detection with parameter smoothing — finishes the built-in trio." },
     ],
   },
   {
@@ -49,6 +50,7 @@ const COLUMNS: Column[] = [
       { title: "MIDI learn & mapping",       desc: "Map any control to any parameter across plugins and the engine." },
       { title: "Arrangement view",           desc: "Linear timeline on top of patterns — sketches to song structure." },
       { title: "Cloud sync (Supporter tier)", desc: "Project-level sync with conflict resolution and take-level history." },
+      { title: "Native Suite — first drop",  desc: "Specialist plugins outside the free core. Monthly Supporter drops; individual purchase on the site." },
       { title: "Theme + accessibility pass", desc: "High-contrast theme, full keyboard nav, screen reader polish." },
     ],
   },
@@ -66,10 +68,10 @@ const COLUMNS: Column[] = [
 ];
 
 const statusStyles: Record<Status, { dot: string; badge: string; ring: string }> = {
-  shipped: { dot: "bg-emerald-400", badge: "text-emerald-300 border-emerald-500/20 bg-emerald-500/10", ring: "ring-emerald-500/10" },
-  active:  { dot: "bg-amber-400",   badge: "text-amber-300   border-amber-500/20   bg-amber-500/10",   ring: "ring-amber-500/10"   },
-  next:    { dot: "bg-violet-400",  badge: "text-violet-300  border-violet-500/20  bg-violet-500/10",  ring: "ring-violet-500/10"  },
-  later:   { dot: "bg-blue-400",    badge: "text-blue-300    border-blue-500/20    bg-blue-500/10",    ring: "ring-blue-500/10"    },
+  shipped: { dot: "text-emerald-400", badge: "text-emerald-300 border-emerald-500/20 bg-emerald-500/10", ring: "ring-emerald-500/10" },
+  active:  { dot: "text-amber-400",   badge: "text-amber-300   border-amber-500/20   bg-amber-500/10",   ring: "ring-amber-500/10"   },
+  next:    { dot: "text-violet-400",  badge: "text-violet-300  border-violet-500/20  bg-violet-500/10",  ring: "ring-violet-500/10"  },
+  later:   { dot: "text-blue-400",    badge: "text-blue-300    border-blue-500/20    bg-blue-500/10",    ring: "ring-blue-500/10"    },
 };
 
 const statusLabel: Record<Status, string> = {
@@ -98,11 +100,11 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {COLUMNS.map((col, i) => (
           <FadeIn key={col.status} delay={i * 0.05}>
-            <div className={`rounded-2xl border border-border/80 bg-bg overflow-hidden h-full flex flex-col`}>
+            <div className={`rounded-2xl border border-border/80 bg-bg panel-sheen overflow-hidden h-full flex flex-col`}>
               <div className="p-5 border-b border-border/80">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="inline-flex items-center gap-2 text-[12px] font-mono uppercase tracking-wider text-fg-muted">
-                    <span className={`h-1.5 w-1.5 rounded-full ${statusStyles[col.status].dot}`} aria-hidden="true" />
+                  <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-fg-muted">
+                    <span className={`led ${statusStyles[col.status].dot}`} aria-hidden="true" />
                     {statusLabel[col.status]}
                   </span>
                   <span className="text-[11px] text-dim font-mono">{col.items.length}</span>
@@ -127,7 +129,7 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
       </div>
 
       <FadeIn delay={0.1}>
-        <div className="mt-16 rounded-2xl border border-border/80 bg-bg p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <div className="mt-16 rounded-2xl border border-border/80 bg-bg panel-sheen p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <GitBranch className="w-4 h-4 text-violet-400" aria-hidden="true" />

@@ -27,7 +27,7 @@ const EngineVisual = memo(() => {
             className="flex items-center gap-3 cursor-default"
             onMouseEnter={() => setWidths((prev) => prev.map((x, j) => j === i ? Math.min(95, w + Math.random() * 12) : x))}
           >
-            <div className="w-14 text-[11px] text-muted uppercase tracking-wider shrink-0">{label}</div>
+            <div className="w-14 font-mono text-[10px] text-muted uppercase tracking-[0.14em] shrink-0">{label}</div>
             <div className="flex-1 h-1.5 bg-surface-2 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full ${c} transition-all duration-700 ease-out`}
@@ -46,7 +46,7 @@ const EngineVisual = memo(() => {
         ].map((s) => (
           <div key={s.l} className="text-center py-4">
             <div className={`text-xl font-semibold tracking-tight ${s.c}`}>{s.v}</div>
-            <div className="text-[10px] text-muted uppercase tracking-wider mt-1">{s.l}</div>
+            <div className="font-mono text-[10px] text-muted uppercase tracking-[0.14em] mt-1">{s.l}</div>
           </div>
         ))}
       </div>
@@ -271,7 +271,7 @@ const AuditionVisual = memo(() => {
   return (
     <div className="w-full max-w-xs space-y-3">
       <div className="rounded-lg border border-border/80 bg-bg p-3">
-        <div className="text-[10px] text-muted uppercase tracking-wider mb-2">Frequency response</div>
+        <div className="font-mono text-[10px] text-muted uppercase tracking-[0.14em] mb-2">Frequency response</div>
         <svg viewBox="0 0 200 50" className="w-full h-12" preserveAspectRatio="none">
           {activeDevice.eq.map((v, i) => {
             const x = (i / 7) * 200;
@@ -428,9 +428,12 @@ const FeatureBlock = memo(({ feature, index }: { feature: typeof sections[0]; in
     <section className="grid lg:grid-cols-2 border-t border-border/80">
       <div className={`p-8 sm:p-12 md:p-16 flex flex-col justify-center ${reverse ? "lg:order-2" : ""}`}>
         <FadeIn>
-          <div className="inline-flex items-center gap-2 mb-5">
-            <span className={`h-1.5 w-1.5 rounded-full ${tc.dot}`} />
-            <span className={`text-[12px] font-medium ${tc.text}`}>{feature.tag}</span>
+          <div className="inline-flex items-center gap-2.5 mb-5">
+            <span className="font-mono text-[10px] text-faint tabular-nums" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className={`led ${tc.text}`} aria-hidden="true" />
+            <span className={`font-mono text-[11px] font-medium uppercase tracking-[0.14em] ${tc.text}`}>{feature.tag}</span>
           </div>
           <h2 className="display-2 text-2xl sm:text-3xl md:text-4xl text-fg mb-4">
             {feature.title}
@@ -531,12 +534,12 @@ const ComparisonTable = () => {
           the four stack up on the things we care about most.
         </p>
 
-        <div className="rounded-2xl border border-border/80 bg-bg overflow-hidden">
+        <div className="rounded-2xl border border-border/80 bg-bg overflow-hidden panel-sheen">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-border/80">
-                  <th scope="col" className="px-4 sm:px-5 py-4 text-[12px] font-medium text-muted uppercase tracking-wider w-[42%] sm:w-[44%]">
+                  <th scope="col" className="px-4 sm:px-5 py-4 font-mono text-[10px] font-medium text-muted uppercase tracking-[0.14em] w-[42%] sm:w-[44%]">
                     Capability
                   </th>
                   {columns.map((c) => (

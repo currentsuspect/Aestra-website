@@ -100,7 +100,7 @@ export const Badge = memo(({ children, variant = "default", className }: BadgePr
 
 /* ── Card ─────────────────────────────────────────────────────── */
 export const Card = memo(({ children, className }: CardProps) => (
-  <div className={cn("rounded-xl bg-bg border border-border/80", className)}>
+  <div className={cn("rounded-xl bg-bg border border-border/80 panel-sheen", className)}>
     {children}
   </div>
 ));
@@ -145,10 +145,10 @@ export const FeatureCard = memo(({ label, title, description, visual, color = "b
   const c = colorStyles[color] || colorStyles.blue;
   return (
     <FadeIn delay={delay}>
-      <div className="rounded-xl bg-bg border border-border/80 p-5 sm:p-6 hover:border-border-2 transition-colors h-full flex flex-col">
+      <div className="rounded-xl bg-bg border border-border/80 panel-sheen p-5 sm:p-6 hover:border-border-2 transition-colors h-full flex flex-col">
         <div className="flex items-center justify-between mb-5">
-          <span className={cn("text-xs font-medium", c.text)}>{label}</span>
-          <span className={cn("h-1.5 w-1.5 rounded-full", c.bg)} aria-hidden="true" />
+          <span className={cn("font-mono text-[10px] font-medium uppercase tracking-[0.14em]", c.text)}>{label}</span>
+          <span className={cn("led", c.text)} aria-hidden="true" />
         </div>
         <div className="h-20 mb-5" aria-hidden="true">{visual}</div>
         <h3 className="text-[15px] font-semibold text-fg mb-1.5 tracking-tight">{title}</h3>

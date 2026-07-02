@@ -49,15 +49,15 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
   };
 
   return (
-    <section className="relative pt-[68px] sm:pt-20 lg:pt-[88px] pb-12 sm:pb-24 lg:pb-28 px-5 sm:px-6">
-      <div className="max-w-6xl mx-auto w-full">
+    <section className="relative beat-grid pt-[68px] sm:pt-20 lg:pt-[88px] pb-12 sm:pb-24 lg:pb-28 px-5 sm:px-6">
+      <div className="relative max-w-6xl mx-auto w-full">
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-center">
           <div>
             <FadeIn>
               <div className="flex items-center gap-2 mb-6">
-                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-surface-2 border border-border text-[12px] text-fg-muted">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" aria-hidden="true" />
-                  Alpha
+                <span className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-surface-2/80 border border-border readout text-fg-muted">
+                  <span className="led led-pulse text-amber-400" aria-hidden="true" />
+                  Alpha · v0.6.0 · Native engine
                 </span>
               </div>
             </FadeIn>
@@ -91,10 +91,11 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
             </FadeIn>
 
             <FadeIn delay={0.2}>
-              <ul className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-muted list-none">
-                <li className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Windows · macOS · Linux</li>
-                <li className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> VST3 &amp; CLAP</li>
-                <li className="inline-flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Source available</li>
+              <ul className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2.5 readout list-none">
+                <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Windows · macOS · Linux</li>
+                <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> VST3 &amp; CLAP</li>
+                <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> C++17 · No Electron</li>
+                <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Source available</li>
               </ul>
             </FadeIn>
           </div>
@@ -103,12 +104,15 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
             <div className="hidden lg:block">
               <ul
               aria-label="Core capabilities"
-              className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden"
+              className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden panel-sheen backdrop-blur-[2px]"
             >
-              {FEATURE_LIST.map((f) => {
+              {FEATURE_LIST.map((f, i) => {
                 const Icon = f.icon;
                 return (
                   <li key={f.name} className="flex items-center gap-4 px-3 py-2.5 sm:px-4 sm:py-3.5">
+                    <span className="font-mono text-[10px] text-faint tabular-nums shrink-0 w-5" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0" aria-hidden="true">
                       <Icon className="w-[18px] h-[18px] text-fg-muted" strokeWidth={1.5} />
                     </div>
@@ -116,7 +120,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-[14px] font-medium text-fg leading-snug">{f.name}</span>
                         {f.badge && (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium text-amber-400 border border-amber-500/20 bg-amber-500/10">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-amber-400 border border-amber-500/20 bg-amber-500/10">
                             {f.badge}
                           </span>
                         )}
@@ -138,12 +142,15 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
         <div className="lg:hidden mb-6">
           <ul
             aria-label="Core capabilities"
-            className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden"
+            className="rounded-2xl border border-border/80 bg-bg/40 divide-y divide-border/80 overflow-hidden panel-sheen backdrop-blur-[2px]"
           >
-            {FEATURE_LIST.map((f) => {
+            {FEATURE_LIST.map((f, i) => {
               const Icon = f.icon;
               return (
                 <li key={f.name} className="flex items-center gap-4 px-3 py-2.5 sm:px-4 sm:py-3.5">
+                  <span className="font-mono text-[10px] text-faint tabular-nums shrink-0 w-5" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0" aria-hidden="true">
                     <Icon className="w-[18px] h-[18px] text-fg-muted" strokeWidth={1.5} />
                   </div>
@@ -151,7 +158,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
                     <div className="flex items-center gap-2 mb-0.5">
                       <span className="text-[14px] font-medium text-fg leading-snug">{f.name}</span>
                       {f.badge && (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium text-amber-400 border border-amber-500/20 bg-amber-500/10">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-amber-400 border border-amber-500/20 bg-amber-500/10">
                           {f.badge}
                         </span>
                       )}
@@ -177,7 +184,7 @@ const WhySection = memo(() => (
   <section className="py-24 sm:py-32 px-5 sm:px-6">
     <div className="max-w-6xl mx-auto">
       <FadeIn>
-        <p className="kicker mb-4">Why Aestra</p>
+        <p className="kicker mb-4">01 · Why Aestra</p>
         <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-12 max-w-3xl">
           Existing DAWs are powerful.<br />
           <span className="text-muted">Producers still fight them.</span>
@@ -219,8 +226,8 @@ const FAQ = memo(({ setPage }: PageProps) => {
       q: "Is Aestra really free?",
       a: (
         <>
-          Yes. Aestra's core DAW is free forever with no feature gates, no export limits,
-          and no time limits. Optional <a href="/pricing" onClick={go("pricing")} className="text-fg underline underline-offset-4 hover:text-fg-muted">Supporter and Founder tiers</a> fund
+          Yes. The core DAW is free forever. No feature gates. No export limits.
+          No time limits. Optional <a href="/pricing" onClick={go("pricing")} className="text-fg underline underline-offset-4 hover:text-fg-muted">Supporter and Founder tiers</a> fund
           development without locking anything behind a paywall.
         </>
       ),
@@ -230,20 +237,14 @@ const FAQ = memo(({ setPage }: PageProps) => {
       a: (
         <div className="space-y-3">
           <p>
-            Aestra ships with a genuinely premium set of plugins out of the box — reverb, a
-            parametric EQ that holds its own against anything on the market, compressor, pitch
-            shifting, and delay. These are free, forever, no asterisk.
+            Aestra ships with a genuinely premium plugin set out of the box — reverb,
+            parametric EQ, compressor, pitch shifting, and delay. Free, forever, no asterisk.
           </p>
           <p>
-            The Native Suite is a separate collection of specialist plugins that would
-            individually cost you anywhere from $100–300 elsewhere. We can't give those away
-            and keep the project alive, so we bundled them into a $5/month Supporter tier —
-            which, frankly, is less than a single plugin costs anywhere else. If you'd rather
-            own than subscribe, individual plugins are available for one-time purchase on the site.
-          </p>
-          <p>
-            Nothing in the free tier is hobbled to nudge you toward paying. You can make a full
-            record with what comes included.
+            The Native Suite is a separate collection of specialist plugins that would cost
+            $100–300 each elsewhere. We bundled them into the $5/month Supporter tier — less than
+            a single plugin costs anywhere else. If you'd rather own than subscribe, individual
+            plugins are available for one-time purchase on the site.
           </p>
         </div>
       ),
@@ -254,7 +255,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "Does Aestra support VST3 and CLAP plugins?",
-      a: "Yes. Aestra hosts VST3 and CLAP plugins natively, with a plugin sandbox that isolates misbehaving instruments. The built-in suite (Aestra Verb, Aestra EQ, Aestra Comp) ships with the DAW so you can start making music without hunting for third-party plugins.",
+      a: "Yes. Aestra hosts VST3 and CLAP plugins natively, with a plugin sandbox that isolates misbehaving instruments. The built-in suite (AestraVerb, AestraEQ, AestraComp) ships with the DAW so you can start making music without hunting for third-party plugins.",
     },
     {
       q: "Can I use Aestra commercially?",
@@ -266,32 +267,30 @@ const FAQ = memo(({ setPage }: PageProps) => {
         <div className="space-y-3">
           <p>
             Source-available is the honest middle ground. You can read every line of the codebase,
-            audit what's running on your machine, and contribute back changes through a fork — but
-            we retain ownership and you can't redistribute or commercialize the source.
+            audit what's running on your machine, and contribute back through a fork — but we retain
+            ownership and you can't redistribute or commercialize the source.
           </p>
           <p>
-            Why? Because Aestra is a long-term project built by a small team, and going fully
-            open-source creates real risks: forks that undercut the product, commercial use of our
-            work without contribution, and loss of the ownership that lets us keep building. ASSAL
-            (the Aestra Source-Available Software License) is how we keep the source open while
-            keeping the project sustainable.
+            Going fully open-source creates real risks: forks that undercut the product, commercial
+            use without contribution, and loss of the ownership that lets us keep building. ASSAL
+            keeps the source open while keeping the project sustainable.
           </p>
           <p>
-            If you want to see something changed, fork it and send a PR. That's the deal.
+            See something worth changing? Fork it and send a PR. That's the deal.
           </p>
         </div>
       ),
     },
     {
       q: "When will Aestra be ready?",
-      a: "We're currently in alpha with a working native engine, pattern workflow, and built-in plugin suite. Public beta is targeted for late 2026. Join the early-access list to test builds as they ship.",
+      a: "We're in alpha with a working native engine, pattern workflow, and built-in plugin suite. Public beta is targeted for late 2026. Join the early-access list to test builds as they ship.",
     },
   ];
   return (
     <section className="py-24 sm:py-32 px-5 sm:px-6">
       <div className="max-w-3xl mx-auto">
         <FadeIn>
-          <p className="kicker mb-4">Questions</p>
+          <p className="kicker mb-4">06 · Questions</p>
           <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
             Frequently asked.
           </h2>
@@ -300,7 +299,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
           </p>
         </FadeIn>
 
-        <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80 overflow-hidden">
+        <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80 overflow-hidden panel-sheen">
           {faqs.map((item, i) => (
             <FadeIn key={item.q} delay={i * 0.04}>
               <details className="group">
@@ -344,20 +343,20 @@ const ChangelogTeaser = memo(({ setPage }: PageProps) => {
         <FadeIn>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
-              <p className="kicker mb-4">Changelog</p>
+              <p className="kicker mb-4">02 · Changelog</p>
               <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg">
                 Built in public.
               </h2>
             </div>
             <div className="flex items-center gap-2 text-[13px] text-muted">
               <Activity className="w-3.5 h-3.5" aria-hidden="true" />
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" aria-hidden="true" />
+              <span className="led led-pulse text-emerald-400" aria-hidden="true" />
               Unreleased line actively moving
             </div>
           </div>
         </FadeIn>
 
-        <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80 overflow-hidden">
+        <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80 overflow-hidden panel-sheen">
           {top.map((r) => (
             <FadeIn key={r.ver} delay={0}>
               <button
@@ -371,7 +370,7 @@ const ChangelogTeaser = memo(({ setPage }: PageProps) => {
                     {r.date}
                   </span>
                   {r.status === "active" && (
-                    <span className="text-[11px] uppercase tracking-wider text-emerald-300 border border-emerald-500/20 bg-emerald-500/10 rounded-md px-2 py-0.5">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-emerald-300 border border-emerald-500/20 bg-emerald-500/10 rounded-md px-2 py-0.5">
                       Active
                     </span>
                   )}
@@ -381,7 +380,7 @@ const ChangelogTeaser = memo(({ setPage }: PageProps) => {
                   {Array.from(new Set(r.changes.map((c) => c.type))).slice(0, 4).map((t) => (
                     <span
                       key={t}
-                      className={`text-[11px] uppercase tracking-wider rounded-md px-2 py-0.5 border ${typeColor[t]}`}
+                      className={`font-mono text-[10px] uppercase tracking-[0.14em] rounded-md px-2 py-0.5 border ${typeColor[t]}`}
                     >
                       {t}
                     </span>
@@ -425,7 +424,7 @@ const Features = memo(() => (
   <section id="features" className="py-24 sm:py-32 px-5 sm:px-6">
     <div className="max-w-6xl mx-auto">
       <FadeIn>
-        <p className="kicker mb-4">Core pillars</p>
+        <p className="kicker mb-4">03 · Core pillars</p>
         <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4 max-w-3xl">
           Built different. Literally.
         </h2>
@@ -571,7 +570,7 @@ const Plugins = memo(({ setPage }: PageProps) => (
   <section className="py-24 sm:py-32 px-5 sm:px-6">
     <div className="max-w-6xl mx-auto">
       <FadeIn>
-        <p className="kicker mb-4">Built-in tools</p>
+        <p className="kicker mb-4">04 · Built-in tools</p>
         <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4 max-w-3xl">
           Professional tools.<br />
           <span className="text-muted">Zero extra cost.</span>
@@ -621,26 +620,21 @@ const Plugins = memo(({ setPage }: PageProps) => (
                                    "bg-amber-500/10 border-amber-500/20 text-amber-400";
           return (
             <FadeIn key={p.name} delay={i * 0.05}>
-              <div className="rounded-xl bg-bg border border-border/80 p-6 sm:p-7 h-full hover:border-border-2 transition-colors flex flex-col">
+              <div className="rounded-xl bg-bg border border-border/80 panel-sheen p-6 sm:p-7 h-full hover:border-border-2 transition-colors flex flex-col">
                 <div className={`w-10 h-10 rounded-lg ${dotBg} border flex items-center justify-center mb-5`} aria-hidden="true">
                   <Icon className="w-5 h-5" />
                 </div>
-                <div className="text-[12px] text-muted mb-1.5">{p.kind}</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">{p.kind}</div>
                 <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-2">{p.name}</h3>
                 <p className="text-[14px] text-muted leading-relaxed mb-5 flex-1">{p.desc}</p>
                 <span
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium border ${
+                  className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-md font-mono text-[10px] font-medium uppercase tracking-[0.08em] border w-fit ${
                     p.statusColor === "emerald"
                       ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/5"
                       : "text-amber-400 border-amber-500/20 bg-amber-500/5"
                   }`}
                 >
-                  <span
-                    aria-hidden="true"
-                    className={`h-1.5 w-1.5 rounded-full ${
-                      p.statusColor === "emerald" ? "bg-emerald-400" : "bg-amber-400"
-                    }`}
-                  />
+                  <span aria-hidden="true" className="led" />
                   {p.status}
                  </span>
               </div>
@@ -678,7 +672,7 @@ const FreeCore = memo(({ setPage, onEarlyAccess }: PageProps) => (
     <div className="max-w-6xl mx-auto">
       <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
         <FadeIn>
-          <p className="kicker mb-4">Open access</p>
+          <p className="kicker mb-4">05 · Open access</p>
           <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-6">
             Free core.<br />
             <span className="text-muted">Pay what you want to go further.</span>
@@ -905,7 +899,7 @@ const FounderCountdown = () => {
       >
         {String(value).padStart(2, "0")}
       </div>
-      <div className="text-[10px] sm:text-[11px] text-muted uppercase tracking-wider">{label}</div>
+      <div className="font-mono text-[10px] sm:text-[11px] text-muted uppercase tracking-[0.14em]">{label}</div>
     </div>
   );
 
@@ -921,8 +915,8 @@ const FounderCountdown = () => {
           <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.03] p-6 sm:p-10 md:p-14">
             <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-14 items-start">
               <div>
-                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[12px] mb-6">
-                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                <span className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 font-mono text-[11px] font-medium uppercase tracking-[0.08em] mb-6">
+                  <span aria-hidden="true" className="led led-pulse" />
                   Founder window · 500 cards
                 </span>
                 <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-5">

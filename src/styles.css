@@ -41,6 +41,13 @@
   /* Typography */
   --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Radii — tighter than Tailwind defaults. Pro-audio UIs run sharp
+     corners; the softness of stock rounded-2xl reads consumer-SaaS. */
+  --radius-md:  5px;
+  --radius-lg:  7px;
+  --radius-xl:  9px;
+  --radius-2xl: 12px;
 }
 
 :root {
@@ -155,6 +162,23 @@ body {
 ::selection {
   background: var(--color-accent-soft);
   color: var(--color-fg);
+}
+
+/* ── Film grain — a fixed, tiled noise overlay over everything.
+   Kills the "flat template" look; reads like studio hardware finish.
+   Non-interactive and ~3% opacity, so it never fights content. ──── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.028;
+}
+[data-theme="light"] body::after {
+  opacity: 0.02;
 }
 
 /* ── Custom cursor ────────────────────────────────────────────── */
@@ -311,15 +335,83 @@ body.custom-cursor * {
   overflow-x: clip;
 }
 
-/* ── Eyebrow / kicker (lowercase, restrained) ─────────────────── */
+/* ── Eyebrow / kicker — track-label style: mono, uppercase, with a
+   short accent rule, like a channel name on a console strip. ───── */
 .kicker {
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
   color: var(--color-dim);
-  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.kicker::before {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: var(--color-accent);
+  flex-shrink: 0;
 }
 .kicker-accent {
   color: var(--color-accent);
+}
+
+/* ── Readout — small mono status text (specs, meters, versions) ── */
+.readout {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+
+/* ── LED — status dot that glows with its currentColor ──────────── */
+.led {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  flex-shrink: 0;
+}
+@keyframes ledPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+.led-pulse { animation: ledPulse 2.4s ease-in-out infinite; }
+
+/* ── Beat grid — faint vertical bar lines behind the hero, fading
+   out toward the bottom. Reads as a DAW timeline ruler. ────────── */
+.beat-grid {
+  position: relative;
+}
+.beat-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--color-border-2) 1px, transparent 1px),
+    linear-gradient(to right, var(--color-border) 1px, transparent 1px);
+  background-size: 288px 100%, 72px 100%;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent 72%);
+  opacity: 0.5;
+}
+[data-theme="light"] .beat-grid::before {
+  opacity: 0.6;
+}
+
+/* ── Panel sheen — 1px inner top highlight, machined-panel feel ── */
+.panel-sheen {
+  box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--color-fg) 4%, transparent);
 }
 
 /* ── Display headlines ────────────────────────────────────────── */

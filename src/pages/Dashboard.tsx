@@ -50,7 +50,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
             className="space-y-3"
           >
             <label className="block">
-              <span className="text-[11px] uppercase tracking-wider text-muted font-medium">Email</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted font-medium">Email</span>
                 <input
                   type="email"
                   required
@@ -60,7 +60,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
                 />
             </label>
             <label className="block">
-              <span className="text-[11px] uppercase tracking-wider text-muted font-medium">Password</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted font-medium">Password</span>
                 <input
                   type="password"
                   required
@@ -186,7 +186,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
           {activeTab === "overview" && (
             <div className="space-y-4">
               <Card className="p-6 border-border/80">
-                <h3 className="text-[12px] uppercase tracking-wider text-muted font-medium mb-3">Active license</h3>
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted font-medium mb-3">Active license</h3>
                 <div className="flex items-center gap-2 mb-4">
                   <Badge variant="outline" className="border-emerald-500/20 bg-emerald-500/5 text-emerald-300">Active</Badge>
                   <span className="text-muted text-sm">Alpha</span>
@@ -202,7 +202,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
               </Card>
 
               <Card className="p-6 border-border/80">
-                <h3 className="text-[12px] uppercase tracking-wider text-muted font-medium mb-3">Latest build</h3>
+                <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted font-medium mb-3">Latest build</h3>
                 <div className="flex items-center justify-between mb-4">
                   <div className="text-fg font-medium">Aestra Alpha</div>
                   <div className="text-xs text-muted">Released 2 days ago</div>
@@ -265,7 +265,7 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
 
           {activeTab === "licenses" && (
             <Card className="p-6 border-border/80">
-              <h3 className="text-[12px] uppercase tracking-wider text-muted font-medium mb-4">Your licenses</h3>
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted font-medium mb-4">Your licenses</h3>
               <div className="divide-y divide-border/80">
                 {[
                   ["Aestra Alpha", "Active", "Free core"],

@@ -532,7 +532,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                       : "border-border/80 bg-bg hover:border-border-2"
                   )}
                 >
-                  <div className="text-[11px] uppercase tracking-wider text-muted mb-1">Recipe</div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1">Recipe</div>
                   <div className="text-fg font-medium text-sm">{recipe.title}</div>
                   <div className="text-xs text-muted mt-1">{recipe.preset}</div>
                 </button>
@@ -743,7 +743,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
             <h3 className="text-lg text-fg font-semibold tracking-tight">{selectedSymptomData.symptom}</h3>
             <div className="grid md:grid-cols-2 gap-4 mt-5">
               <div className="rounded-lg border border-border/80 bg-bg p-4">
-                <div className="text-[11px] uppercase tracking-wider text-muted mb-3">Immediate fixes</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-3">Immediate fixes</div>
                 <ul className="space-y-2 text-sm text-fg-muted leading-relaxed">
                   {selectedSymptomData.immediate.map((line, index) => (
                     <li key={index}>• {line}</li>
@@ -751,7 +751,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 </ul>
               </div>
               <div className="rounded-lg border border-border/80 bg-bg p-4">
-                <div className="text-[11px] uppercase tracking-wider text-muted mb-3">Deep fixes</div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-3">Deep fixes</div>
                 <ul className="space-y-2 text-sm text-fg-muted leading-relaxed">
                   {selectedSymptomData.deep.map((line, index) => (
                     <li key={index}>• {line}</li>
@@ -899,11 +899,11 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 </div>
                 <div className="mt-4 grid md:grid-cols-2 gap-3">
                   <div className="rounded-md border border-border/80 bg-bg p-3">
-                    <div className="text-[11px] uppercase tracking-wider text-muted mb-1.5">Chain used</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">Chain used</div>
                     <div className="text-sm text-fg-muted leading-relaxed">{item.chain}</div>
                   </div>
                   <div className="rounded-md border border-border/80 bg-bg p-3">
-                    <div className="text-[11px] uppercase tracking-wider text-muted mb-1.5">Key takeaway</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">Key takeaway</div>
                     <div className="text-sm text-fg-muted leading-relaxed">{item.takeaway}</div>
                   </div>
                 </div>
@@ -936,7 +936,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
           <div className="space-y-7">
             {Object.entries(groupedSections).map(([group, sections]) => (
               <div key={group}>
-                <h3 className="text-[11px] font-medium text-muted uppercase tracking-wider mb-3">{group}</h3>
+                <h3 className="font-mono text-[10px] font-medium text-muted uppercase tracking-[0.14em] mb-3">{group}</h3>
                 <ul className="space-y-1">
                   {sections.map((section) => (
                     <li key={section.id}>
@@ -977,7 +977,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
             aria-haspopup="listbox"
           >
             <div className="min-w-0">
-              <div className="text-[10px] uppercase tracking-wider text-muted">{currentSection.group}</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{currentSection.group}</div>
               <div className="text-sm text-fg truncate mt-0.5">{currentSection.title}</div>
             </div>
             <ChevronDown className={cn("w-4 h-4 text-muted shrink-0 transition-transform", mobileNavOpen && "rotate-180")} />
@@ -999,7 +999,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                 </div>
                 {Object.entries(groupedSections).map(([group, sections]) => (
                   <div key={group} className="mb-2">
-                    <div className="text-[10px] uppercase tracking-wider text-muted px-3 py-1.5">{group}</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted px-3 py-1.5">{group}</div>
                     {sections.map((section) => (
                       <button
                         key={section.id}

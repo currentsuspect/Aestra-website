@@ -67,7 +67,7 @@ export const Downloads = ({ setPage }: PageProps) => {
           </p>
         </div>
 
-        <ul className="rounded-2xl border border-border/80 bg-bg overflow-hidden">
+        <ul className="rounded-2xl border border-border/80 bg-bg overflow-hidden panel-sheen">
           {builds.map((build, i) => {
             const Icon = build.icon;
             return (
@@ -84,7 +84,7 @@ export const Downloads = ({ setPage }: PageProps) => {
                     </span>
                     <div className="min-w-0">
                       <h2 className="text-fg text-[15px] font-medium">{build.os}</h2>
-                      <p className="text-muted text-[13px]">{build.arch}</p>
+                      <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-muted mt-0.5">{build.arch}</p>
                     </div>
                   </div>
                     <div className="flex items-center gap-3 shrink-0 flex-wrap justify-end">

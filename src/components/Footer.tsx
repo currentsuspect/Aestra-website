@@ -101,9 +101,18 @@ export const Footer = memo(({ setPage }: PageProps) => {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-border/80 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-3 text-xs text-muted">
-          <div>© 2026 Aestra Studios · Built by Dylan Makori</div>
-          <div className="text-dim">Native C++ · v0.6.0-alpha</div>
+        <div className="mt-12 pt-6 border-t border-border/80 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4">
+          <div className="text-xs text-muted">© 2026 Aestra Studios · Built by Dylan Makori</div>
+          <div className="readout flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-dim">
+            <span className="inline-flex items-center gap-2">
+              <span className="led text-emerald-400" aria-hidden="true" />
+              Engine ready
+            </span>
+            <span className="hidden sm:inline text-faint" aria-hidden="true">/</span>
+            <span>48kHz · 24-bit float</span>
+            <span className="hidden sm:inline text-faint" aria-hidden="true">/</span>
+            <span>v0.6.0-alpha</span>
+          </div>
         </div>
       </div>
     </footer>

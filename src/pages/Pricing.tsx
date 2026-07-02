@@ -157,7 +157,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
+      <section className="beat-grid text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
         <div className="max-w-3xl mx-auto">
           <p className="kicker mb-4">Pricing</p>
           <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-5">
@@ -179,12 +179,15 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
               <div
                 className={`rounded-2xl p-7 sm:p-8 h-full flex flex-col transition-all duration-300 ${
                   t.highlighted
-                    ? "border border-violet-500/30 bg-bg shadow-[0_0_0_0_rgba(139,92,246,0)] hover:border-violet-500/60 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-20px_rgba(139,92,246,0.45)]"
-                    : "border border-border/80 bg-bg"
+                    ? "border border-violet-500/30 bg-bg panel-sheen shadow-[0_0_0_0_rgba(139,92,246,0)] hover:border-violet-500/60 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-20px_rgba(139,92,246,0.45)]"
+                    : "border border-border/80 bg-bg panel-sheen"
                 }`}
               >
                 <div className="mb-6">
-                  <div className="text-[12px] uppercase tracking-wider text-muted mb-3">{t.name}</div>
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <span className={`led ${t.accent === "violet" ? "text-violet-400" : "text-emerald-400"}`} aria-hidden="true" />
+                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted">{t.name}</span>
+                  </div>
                   <div className="flex items-baseline gap-2 mb-2">
                     <span className="text-5xl font-semibold tracking-tight text-fg">{t.price}</span>
                     {t.sub && <span className="text-muted text-base">{t.sub}</span>}
@@ -226,15 +229,15 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-10">
             <div className="flex-1 h-px bg-surface-3/80" />
-            <span className="text-[12px] text-muted tracking-wider">Founder · 500 exist, ever</span>
+            <span className="readout">Founder · 500 exist, ever</span>
             <div className="flex-1 h-px bg-surface-3/80" />
           </div>
 
           <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.03] p-7 sm:p-10">
             <div className="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-14 items-start mb-10">
               <div>
-                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[12px] mb-5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                <span className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 font-mono text-[11px] font-medium uppercase tracking-[0.08em] mb-5">
+                  <span className="led led-pulse" aria-hidden="true" />
                   Limited to 500 — never reproduced
                 </span>
                 <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
@@ -293,7 +296,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-10">
             <div className="flex-1 h-px bg-surface-3/80" />
-            <span className="text-[12px] text-muted tracking-wider">What you get at each level</span>
+            <span className="readout">What you get at each level</span>
             <div className="flex-1 h-px bg-surface-3/80" />
           </div>
 
@@ -301,7 +304,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
           <div className="md:hidden space-y-6">
             {compareGroups.map((group) => (
               <div key={group.label} className="rounded-2xl border border-border/80 bg-bg overflow-hidden">
-                <div className="px-4 py-2.5 bg-surface-2/50 border-b border-border/80 text-[11px] uppercase tracking-wider text-muted font-medium">
+                <div className="px-4 py-2.5 bg-surface-2/50 border-b border-border/80 font-mono text-[10px] uppercase tracking-[0.14em] text-muted font-medium">
                   {group.label}
                 </div>
                 <ul>
@@ -332,7 +335,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
           {/* Desktop: full grid */}
           <div className="hidden md:block rounded-2xl border border-border/80 overflow-hidden">
             <div className="grid grid-cols-[1fr_140px_160px_160px] bg-surface-2/50 border-b border-border/80">
-              <div className="p-5 text-[11px] uppercase tracking-wider text-muted">Feature</div>
+              <div className="p-5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Feature</div>
               <div className="p-5 text-center">
                 <div className="text-fg-muted text-sm font-medium">Core</div>
                 <div className="text-muted text-[11px] font-mono mt-0.5">$0</div>
@@ -349,7 +352,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
 
             {compareGroups.map((group) => (
               <div key={group.label}>
-                <div className="px-5 py-2.5 bg-surface-2/30 border-y border-border/80 text-[11px] uppercase tracking-wider text-muted font-medium">
+                <div className="px-5 py-2.5 bg-surface-2/30 border-y border-border/80 font-mono text-[10px] uppercase tracking-[0.14em] text-muted font-medium">
                   {group.label}
                 </div>
                 {group.rows.map(([feat, core, sup, found], i) => (
