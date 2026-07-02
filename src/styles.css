@@ -387,26 +387,12 @@ body.custom-cursor * {
 }
 .led-pulse { animation: ledPulse 2.4s ease-in-out infinite; }
 
-/* ── Beat grid — faint vertical bar lines behind the hero, fading
-   out toward the bottom. Reads as a DAW timeline ruler. ────────── */
-.beat-grid {
-  position: relative;
-}
-.beat-grid::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, var(--color-border-2) 1px, transparent 1px),
-    linear-gradient(to right, var(--color-border) 1px, transparent 1px);
-  background-size: 288px 100%, 72px 100%;
-  mask-image: linear-gradient(to bottom, black, transparent 72%);
-  -webkit-mask-image: linear-gradient(to bottom, black, transparent 72%);
-  opacity: 0.5;
-}
-[data-theme="light"] .beat-grid::before {
+/* ── Piano grid — keyboard-lane hero background (PianoGrid.tsx) ── */
+.piano-grid {
   opacity: 0.6;
+}
+[data-theme="light"] .piano-grid {
+  opacity: 0.75;
 }
 
 /* ── Panel sheen — 1px inner top highlight, machined-panel feel ── */

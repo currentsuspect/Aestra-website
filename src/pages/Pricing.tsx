@@ -1,6 +1,7 @@
 import React, { useState, useEffect, memo } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
+import { PianoGrid } from "../components/PianoGrid";
 import type { PageProps } from "../types";
 
 const CheckIcon = ({ accent = "emerald" }: { accent?: "emerald" | "violet" | "amber" }) => {
@@ -157,8 +158,9 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="beat-grid text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
-        <div className="max-w-3xl mx-auto">
+      <section className="relative text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
+        <PianoGrid />
+        <div className="relative max-w-3xl mx-auto">
           <p className="kicker mb-4">Pricing</p>
           <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-5">
             Aestra is free to use.<br />

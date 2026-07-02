@@ -1,6 +1,7 @@
 import React, { useState, useEffect, memo, lazy, Suspense } from "react";
 import { ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles, Plus, Minus, ArrowRight, ArrowUpRight, CalendarDays, Activity } from "lucide-react";
 import { Button, FeatureCard, FadeIn } from "../components/ui";
+import { PianoGrid } from "../components/PianoGrid";
 import { useToast } from "../components/Toast";
 import { prefersReducedMotion } from "../lib";
 import { RELEASES } from "../changelogData";
@@ -49,7 +50,8 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
   };
 
   return (
-    <section className="relative beat-grid pt-[68px] sm:pt-20 lg:pt-[88px] pb-12 sm:pb-24 lg:pb-28 px-5 sm:px-6">
+    <section className="relative pt-[68px] sm:pt-20 lg:pt-[88px] pb-12 sm:pb-24 lg:pb-28 px-5 sm:px-6">
+      <PianoGrid />
       <div className="relative max-w-6xl mx-auto w-full">
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-center">
           <div>

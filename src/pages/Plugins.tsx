@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Play, Music2, Layers, Cpu, Wand2, Timer, ArrowUpRight } from "lucide-react";
 import { FadeIn, Button } from "../components/ui";
+import { PianoGrid } from "../components/PianoGrid";
 import { VideoModal } from "../components/VideoModal";
 import type { PageProps } from "../types";
 
@@ -80,8 +81,9 @@ export const Plugins = ({ setPage }: PageProps) => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="beat-grid text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
-        <div className="max-w-3xl mx-auto">
+      <section className="relative text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
+        <PianoGrid />
+        <div className="relative max-w-3xl mx-auto">
           <p className="kicker mb-4">Plugins</p>
           <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-5">
             Built into the engine.<br />
