@@ -50,10 +50,12 @@ const Ref = ({ d, dashed }: { d: string; dashed?: boolean }) => (
   />
 );
 
-/* Frequency response: a bell boost into a high shelf, one band node. */
+/* Frequency response, framed by the low/high axis rules of an EQ
+   display — the bare curve read as a squiggle without them. */
 export const EqIcon = memo((p: IconProps) => (
   <Plot {...p}>
-    <path d="M3 13.5c3 0 4-6.5 7-6.5s4 6.5 6 6.5c2 0 2.5-3.2 5-3.2" />
+    <Ref d="M3.5 5.5v13M20.5 5.5v13" />
+    <path d="M3.5 13.5c3 0 4-6.5 7-6.5s4 6.5 6 6.5c1.6 0 2.2-3.2 4-3.2" />
   </Plot>
 ));
 
@@ -122,11 +124,12 @@ export const LimitIcon = memo((p: IconProps) => (
   </Plot>
 ));
 
-/* Two voices leaving the source pitch by an interval each way. */
+/* The source pitch runs solid; the voices it drifts to are dotted,
+   so the shifted copies read as a separate line from the take. */
 export const DriftIcon = memo((p: IconProps) => (
   <Plot {...p}>
     <path d="M3 12h5.5" />
-    <path d="M8.5 12c3.5 0 3.5-5.5 7-5.5H21" />
-    <path d="M8.5 12c3.5 0 3.5 5.5 7 5.5H21" />
+    <path d="M8.5 12c3.5 0 3.5-5.5 7-5.5H21" strokeDasharray="2.2 2.2" />
+    <path d="M8.5 12c3.5 0 3.5 5.5 7 5.5H21" strokeDasharray="2.2 2.2" />
   </Plot>
 ));
