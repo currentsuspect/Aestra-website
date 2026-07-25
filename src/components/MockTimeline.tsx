@@ -1,17 +1,31 @@
 import React, { useState, useEffect, useRef, useCallback, memo } from "react";
 import { cn } from "../lib";
 
-/* ── Native Palette (from NUIThemeSystem.cpp) ───────────────────── */
+/* ── Native palette — mirrored 1:1 from the DAW ──────────────────
+   Source: AestraUI/Core/NUIThemeSystem.cpp (dark theme, July 2026).
+   These were previously blue-tinged (#0a0a0a / #191919 / #212121),
+   which reproduced a theme the DAW has since abandoned — see
+   "fix(ui): neutralize blue-tinged dark chrome to pure greys" and
+   "feat(ui): timeline visual pass — pure-black grid". Every surface
+   here is a pure grey now, and the timeline backdrop is #0a0a0a.
+   Keep this table in sync with NUIThemeSystem.cpp. ─────────────── */
 const C = {
-  bg: "#0d0d12",
-  bgSoft: "#111116",
-  surface: "#16161e",
-  raised: "#1e1e28",
-  border: "#1e1e28",
-  outline: "#2a2a36",
-  text: "rgba(255,255,255,0.90)",
-  textDim: "rgba(255,255,255,0.50)",
-  textMuted: "rgba(255,255,255,0.25)",
+  bg: "#0a0a0a",          // backgroundPrimary — "deeper void for timeline backdrop"
+  bgSoft: "#111111",      // backgroundSecondary
+  surface: "#191919",     // surfaceTertiary
+  raised: "#212121",      // surfaceRaised
+  border: "#2b2b2b",      // border / borderSubtle
+  outline: "#333333",     // outline
+  divider: "#252525",     // divider
+  meterBg: "#080808",     // meterBackground
+  mixerStrip: "#141414",  // mixerStripBg
+  buttonBg: "#111111",    // buttonBgDefault
+  buttonHover: "#171717", // buttonBgHover
+  sliderTrack: "#232323", // sliderTrack
+  text: "rgba(255,255,255,0.90)",     // textPrimary
+  textDim: "rgba(255,255,255,0.50)",  // textSecondary
+  textMuted: "rgba(255,255,255,0.38)",// textMuted
+  textOff: "rgba(255,255,255,0.25)",  // textDisabled
   primary: "#7c3aed",
   primaryHover: "#9257ff",
   primaryDim: "#6d28d9",
@@ -25,10 +39,21 @@ const C = {
   glassBorder: "rgba(255,255,255,0.08)",
 };
 
-const TRACK_COLORS = [
-  "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed",
-  "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed", "#7c3aed",
+/* The DAW's 8-entry track palette, cycled by (trackId - 1) % 8.
+   Source: AestraUI/Widgets/TrackColorPalette.h. The mock previously
+   pinned all 11 tracks to violet, which is exactly the bug fixed by
+   "fix(ui): restore per-track palette cycling for track colors". */
+const TRACK_PALETTE = [
+  "#00C9A7", // 0 — Aestra Teal
+  "#7B6FD4", // 1 — Soft Purple
+  "#F0A500", // 2 — Amber
+  "#FF5757", // 3 — Coral
+  "#4FB3FF", // 4 — Sky Blue
+  "#A3D977", // 5 — Sage Green
+  "#FF7AC6", // 6 — Pink
+  "#5C7CFA", // 7 — Indigo
 ];
+const TRACK_COLORS = TRACK_PALETTE;
 
 type Tool = "select" | "cut" | "loop" | "paint" | "arrow" | "erase";
 
@@ -160,9 +185,9 @@ const TBtn = memo(({ active, error: isError, onClick, children, title, className
     className={cn(
       "flex items-center justify-center rounded transition-colors duration-100",
       "w-7 h-7 text-[13px]",
-      active && !isError && "bg-zinc-800 text-zinc-100",
+      active && !isError && "bg-neutral-800 text-neutral-100",
       isError && "bg-rose-500/15 text-rose-400",
-      !active && !isError && "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60",
+      !active && !isError && "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60",
       className,
     )}
   >
@@ -176,7 +201,7 @@ const MSR = memo(({ label, active, color, onClick }: { label: string; active: bo
     onClick={onClick}
     className={cn(
       "flex items-center justify-center rounded text-[9px] font-semibold w-[18px] h-[16px] transition-colors border",
-      active ? "" : "border-zinc-800 text-zinc-400 hover:text-zinc-300"
+      active ? "" : "border-neutral-800 text-neutral-400 hover:text-neutral-300"
     )}
     style={active ? { background: `${color}1f`, borderColor: `${color}55`, color } : undefined}
   >
@@ -191,7 +216,7 @@ const ToolBtn = memo(({ active, onClick, children, title }: { active: boolean; o
     title={title}
     className={cn(
       "w-7 h-7 flex items-center justify-center rounded transition-colors",
-      active ? "bg-[rgba(124,58,237,0.18)] text-violet-300" : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60"
+      active ? "bg-[rgba(124,58,237,0.18)] text-violet-300" : "text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60"
     )}
   >
     {children}
@@ -327,21 +352,21 @@ export const MockTimeline = memo(() => {
   return (
     <div className="w-full max-w-7xl mx-auto relative px-0 sm:px-2">
       {/* Mobile fallback */}
-      <div className="md:hidden rounded-xl border border-zinc-800 bg-zinc-950 p-8 text-center">
-        <div className="flex items-center justify-center gap-2 mb-3 text-zinc-400">
+      <div className="md:hidden rounded-xl border border-neutral-800 bg-neutral-950 p-8 text-center">
+        <div className="flex items-center justify-center gap-2 mb-3 text-neutral-400">
           <Icon.Timeline />
           <span className="text-xs">Aestra preview</span>
         </div>
-        <p className="text-sm text-zinc-400">Interactive editor — open on tablet or desktop for the full experience.</p>
+        <p className="text-sm text-neutral-400">Interactive editor — open on tablet or desktop for the full experience.</p>
       </div>
 
       {/* Full DAW preview */}
       <div className="hidden md:block w-full">
-        <div className="relative w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-2xl">
+        <div className="relative w-full overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950 shadow-2xl">
           {/* ── Title Bar (File menu | Tabs | Account + Window) ── */}
-          <div className="h-10 border-b border-zinc-800 bg-zinc-900/60 px-3 flex items-center justify-between">
+          <div className="h-10 border-b border-neutral-800 bg-neutral-900/60 px-3 flex items-center justify-between">
             {/* Left: File menu (decorative — non-interactive) */}
-            <div className="flex items-center gap-3 text-[11px] text-zinc-400 min-w-[200px]" aria-hidden="true">
+            <div className="flex items-center gap-3 text-[11px] text-neutral-400 min-w-[200px]" aria-hidden="true">
               <span className="cursor-default">File</span>
               <span className="cursor-default">Edit</span>
               <span className="cursor-default">View</span>
@@ -363,7 +388,7 @@ export const MockTimeline = memo(() => {
                     "flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] transition-colors",
                     activeView === tab.id
                       ? "bg-violet-500/25 text-violet-200 border border-violet-500/35"
-                      : "text-zinc-400 hover:text-zinc-200 border border-transparent"
+                      : "text-neutral-400 hover:text-neutral-200 border border-transparent"
                   )}
                 >
                   <tab.icon />
@@ -374,16 +399,16 @@ export const MockTimeline = memo(() => {
 
             {/* Right: Account + Core + window controls */}
             <div className="flex items-center gap-2 text-[10px] min-w-[200px] justify-end">
-              <span className="text-zinc-400">Signed out</span>
+              <span className="text-neutral-400">Signed out</span>
               <span className="px-1.5 py-0.5 rounded bg-violet-500/20 border border-violet-500/30 text-violet-300 font-medium">Core</span>
               <div className="flex items-center gap-0.5 ml-2">
-                <button title="Minimize" aria-label="Minimize window" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
+                <button title="Minimize" aria-label="Minimize window" className="w-6 h-6 rounded text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60 flex items-center justify-center">
                   <Icon.Minimize />
                 </button>
-                <button title="Maximize" aria-label="Maximize window" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
+                <button title="Maximize" aria-label="Maximize window" className="w-6 h-6 rounded text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60 flex items-center justify-center">
                   <Icon.Maximize />
                 </button>
-                <button title="Close" className="w-6 h-6 rounded text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 flex items-center justify-center">
+                <button title="Close" className="w-6 h-6 rounded text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60 flex items-center justify-center">
                   <Icon.Close />
                 </button>
               </div>
@@ -394,16 +419,16 @@ export const MockTimeline = memo(() => {
           {activeView === "timeline" && (
             <div className="flex-1 flex flex-col min-h-0">
               {/* Row 1: Transport (centered) + view icons + master meters (right) — full width */}
-              <div className="h-9 border-b border-[#1e1e28] bg-[#0d0d12] px-2 flex items-center gap-2 shrink-0">
+              <div className="h-9 border-b border-[#212121] bg-[#0a0a0a] px-2 flex items-center gap-2 shrink-0">
                 {/* Leading spacer (centers the transport cluster) */}
                 <div className="flex-1" />
                 {/* Transport cluster */}
-                <div className="flex items-center h-7 gap-0.5 rounded-md border border-[#2a2a36] bg-[#0a0a0e] px-1.5">
+                <div className="flex items-center h-7 gap-0.5 rounded-md border border-[#2b2b2b] bg-[#080808] px-1.5">
                   <button
                     onClick={() => setIsPlaying(v => !v)}
                     className={cn(
                       "w-7 h-7 rounded flex items-center justify-center transition-colors",
-                      isPlaying ? "bg-violet-500 text-white" : "text-zinc-300 hover:bg-[rgba(255,255,255,0.06)]"
+                      isPlaying ? "bg-violet-500 text-white" : "text-neutral-300 hover:bg-[rgba(255,255,255,0.06)]"
                     )}
                     title="Play / Pause (Space)"
                   >
@@ -417,7 +442,7 @@ export const MockTimeline = memo(() => {
                       setTime(0);
                       if (playheadRef.current) playheadRef.current.style.transform = "translateX(190px)";
                     }}
-                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-300 hover:bg-[rgba(255,255,255,0.06)]"
+                    className="w-7 h-7 rounded flex items-center justify-center text-neutral-300 hover:bg-[rgba(255,255,255,0.06)]"
                     title="Stop"
                   >
                     <Icon.Stop />
@@ -426,21 +451,21 @@ export const MockTimeline = memo(() => {
                     onClick={() => setIsRecording(v => !v)}
                     className={cn(
                       "w-7 h-7 rounded flex items-center justify-center transition-colors",
-                      isRecording ? "bg-red-500 text-white" : "text-zinc-300 hover:bg-[rgba(255,255,255,0.06)]"
+                      isRecording ? "bg-red-500 text-white" : "text-neutral-300 hover:bg-[rgba(255,255,255,0.06)]"
                     )}
                     title="Record"
                   >
                     <Icon.Record />
                   </button>
-                  <div className="w-px h-4 bg-[#2a2a36] mx-1" />
+                  <div className="w-px h-4 bg-[#2b2b2b] mx-1" />
                   <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
+                    className="w-7 h-7 rounded flex items-center justify-center text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]"
                     title="More"
                   >
                     <Icon.Dots />
                   </button>
                   <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
+                    className="w-7 h-7 rounded flex items-center justify-center text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]"
                     title="Loop range"
                   >
                     <Icon.Hourglass />
@@ -449,14 +474,14 @@ export const MockTimeline = memo(() => {
                     onClick={() => setMetronomeOn(v => !v)}
                     className={cn(
                       "w-7 h-7 rounded flex items-center justify-center transition-colors",
-                      metronomeOn ? "bg-violet-500/20 text-violet-300" : "text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
+                      metronomeOn ? "bg-violet-500/20 text-violet-300" : "text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]"
                     )}
                     title="Loop"
                   >
                     <Icon.Loop />
                   </button>
                   <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]"
+                    className="w-7 h-7 rounded flex items-center justify-center text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]"
                     title="Metronome / Accent"
                   >
                     <Icon.Metronome />
@@ -464,13 +489,13 @@ export const MockTimeline = memo(() => {
                 </div>
 
                 {/* Time signature + BPM + position block */}
-                <div className="flex items-center h-7 gap-0 rounded-md border border-[#2a2a36] bg-[#0a0a0e] overflow-hidden ml-1">
+                <div className="flex items-center h-7 gap-0 rounded-md border border-[#2b2b2b] bg-[#080808] overflow-hidden ml-1">
                   <div className="flex items-center justify-center h-7 w-[48px] px-1">
-                    <span className="text-[11px] text-zinc-300 font-mono tabular-nums">4/4</span>
+                    <span className="text-[11px] text-neutral-300 font-mono tabular-nums">4/4</span>
                   </div>
-                  <div className="w-px h-5 bg-[#2a2a36]" />
+                  <div className="w-px h-5 bg-[#2b2b2b]" />
                   <div className="flex flex-col items-center justify-center h-7 w-[60px] px-1">
-                    <span className="text-[7px] text-zinc-500 font-mono uppercase tracking-wider leading-none">BPM</span>
+                    <span className="text-[7px] text-neutral-500 font-mono uppercase tracking-wider leading-none">BPM</span>
                     <input
                       type="number"
                       value={bpm}
@@ -478,12 +503,12 @@ export const MockTimeline = memo(() => {
                         const n = Number(e.target.value);
                         if (!Number.isNaN(n)) setBpm(String(Math.max(40, Math.min(300, n))));
                       }}
-                      className="w-full bg-transparent text-[11px] text-zinc-200 font-mono tabular-nums outline-none text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none leading-none mt-px"
+                      className="w-full bg-transparent text-[11px] text-neutral-200 font-mono tabular-nums outline-none text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none leading-none mt-px"
                     />
                   </div>
-                  <div className="w-px h-5 bg-[#2a2a36]" />
+                  <div className="w-px h-5 bg-[#2b2b2b]" />
                   <div className="flex items-center justify-center h-7 w-[72px] px-1">
-                    <span className="text-[12px] text-zinc-200 font-mono tabular-nums">0:00.00</span>
+                    <span className="text-[12px] text-neutral-200 font-mono tabular-nums">0:00.00</span>
                   </div>
                 </div>
 
@@ -492,13 +517,13 @@ export const MockTimeline = memo(() => {
 
                 {/* View switcher icons */}
                 <div className="flex items-center h-7 gap-0.5">
-                  <button onClick={() => setActiveView("mixer")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]" title="Mixer">
+                  <button onClick={() => setActiveView("mixer")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]" title="Mixer">
                     <Icon.Sliders />
                   </button>
-                  <button onClick={() => setActiveView("arsenal")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]" title="Arsenal">
+                  <button onClick={() => setActiveView("arsenal")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]" title="Arsenal">
                     <Icon.Grid />
                   </button>
-                  <button onClick={() => setActiveView("audition")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-zinc-400 hover:bg-[rgba(255,255,255,0.06)]" title="Audition">
+                  <button onClick={() => setActiveView("audition")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]" title="Audition">
                     <Icon.Monitor />
                   </button>
                   <button onClick={() => setActiveView("timeline")} className="w-7 h-7 rounded flex items-center justify-center transition-colors bg-violet-500/20 text-violet-300" title="Timeline">
@@ -509,7 +534,7 @@ export const MockTimeline = memo(() => {
                 {/* Master meters (top-right) */}
                 <div className="flex flex-col gap-1 ml-2 w-[140px] shrink-0">
                   {[0, 1].map(ch => (
-                    <div key={ch} className="h-1.5 rounded-full bg-[#16161e] relative overflow-hidden border border-[#1e1e28]">
+                    <div key={ch} className="h-1.5 rounded-full bg-[#191919] relative overflow-hidden border border-[#212121]">
                       <div
                         className="absolute inset-y-0 left-0 rounded-full transition-all duration-100"
                         style={{
@@ -523,38 +548,38 @@ export const MockTimeline = memo(() => {
               </div>
 
               {/* Row 2: Tool palette (full width) */}
-              <div className="h-8 border-b border-[#1e1e28] bg-[#0d0d12] px-2 flex items-center gap-1 shrink-0">
+              <div className="h-8 border-b border-[#212121] bg-[#0a0a0a] px-2 flex items-center gap-1 shrink-0">
                 <ToolBtn active={false} onClick={() => {}} title="Add"><Icon.Plus /></ToolBtn>
-                <div className="w-px h-4 bg-[#2a2a36] mx-0.5" />
+                <div className="w-px h-4 bg-[#2b2b2b] mx-0.5" />
                 <ToolBtn active={selectedTool === "select"} onClick={() => setSelectedTool("select")} title="Select (1)"><Icon.Cursor /></ToolBtn>
                 <ToolBtn active={selectedTool === "cut"}    onClick={() => setSelectedTool("cut")}    title="Cut (2)"><Icon.Scissors /></ToolBtn>
                 <ToolBtn active={selectedTool === "loop"}   onClick={() => setSelectedTool("loop")}   title="Marquee"><Icon.Marquee /></ToolBtn>
                 <ToolBtn active={selectedTool === "paint"}  onClick={() => setSelectedTool("paint")}  title="Paint (3)"><Icon.Pencil /></ToolBtn>
                 <ToolBtn active={selectedTool === "arrow"}  onClick={() => setSelectedTool("arrow")}  title="Arrow"><Icon.Arrow /></ToolBtn>
-                <div className="w-px h-4 bg-[#2a2a36] mx-0.5" />
+                <div className="w-px h-4 bg-[#2b2b2b] mx-0.5" />
                 <ToolBtn active={false} onClick={() => {}} title="Menu"><Icon.Menu /></ToolBtn>
               </div>
 
               {/* File browser + tracks row */}
               <div className="flex-1 flex min-h-0">
                 {/* File Browser Sidebar (Track Manager) */}
-                <div className="w-[220px] lg:w-[260px] border-r border-[#1e1e28] bg-[#0f0f14] flex flex-col shrink-0">
+                <div className="w-[220px] lg:w-[260px] border-r border-[#212121] bg-[#111111] flex flex-col shrink-0">
                 {/* Search */}
                 <div className="p-2">
-                  <label className="flex items-center gap-2 rounded-md border border-[#2a2a36] bg-[#0d0d12] px-2.5 py-1.5 text-[11px] text-zinc-400 focus-within:border-[#3a3a46] transition-colors">
+                  <label className="flex items-center gap-2 rounded-md border border-[#2b2b2b] bg-[#0a0a0a] px-2.5 py-1.5 text-[11px] text-neutral-400 focus-within:border-[#3a3a3a] transition-colors">
                     <Icon.Search />
                     <span>Search library...</span>
-                    <span className="ml-auto text-[9px] text-zinc-500 font-mono">⌘K</span>
+                    <span className="ml-auto text-[9px] text-neutral-500 font-mono">⌘K</span>
                   </label>
                 </div>
 
                 {/* Nav pane + File list split */}
                 <div className="flex flex-1 min-h-0">
                   {/* Navigation pane */}
-                  <div className="w-[88px] lg:w-[100px] border-r border-[rgba(30,30,40,0.36)] bg-[rgba(9,10,12,0.5)] overflow-y-auto">
+                  <div className="w-[88px] lg:w-[100px] border-r border-[rgba(43,43,43,0.36)] bg-[rgba(10,10,10,0.5)] overflow-y-auto">
                     {NAV_TREE.map(section => (
                       <div key={section.section}>
-                        <div className="px-2 pt-3 pb-1 text-[8px] uppercase tracking-[0.14em] text-zinc-500">{section.section}</div>
+                        <div className="px-2 pt-3 pb-1 text-[8px] uppercase tracking-[0.14em] text-neutral-500">{section.section}</div>
                         {section.items.map(item => {
                           const expanded = expandedFolders.has(item.name);
                           return (
@@ -565,13 +590,13 @@ export const MockTimeline = memo(() => {
                                 "w-full flex items-center gap-1.5 px-2 py-1.5 text-[10px] text-left transition-colors",
                                 selectedNav === item.name
                                   ? "bg-[rgba(124,58,237,0.10)] text-white"
-                                  : "text-zinc-400 hover:bg-[rgba(255,255,255,0.035)]"
+                                  : "text-neutral-400 hover:bg-[rgba(255,255,255,0.035)]"
                               )}
                             >
                               {item.type === "folder" ? (
                                 <Icon.ChevronRight />
                               ) : (
-                                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: item.color || "#52525b" }} />
+                                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: item.color || "#525252" }} />
                               )}
                               <span className="truncate">{item.name}</span>
                             </button>
@@ -583,17 +608,17 @@ export const MockTimeline = memo(() => {
 
                   {/* File list */}
                   <div className="flex-1 flex flex-col min-w-0">
-                    <div className="px-2.5 py-1.5 border-b border-[rgba(30,30,40,0.36)] flex items-center gap-1 text-[9px] text-zinc-400">
+                    <div className="px-2.5 py-1.5 border-b border-[rgba(43,43,43,0.36)] flex items-center gap-1 text-[9px] text-neutral-400">
                       <span>Aestra</span>
                       <Icon.ChevronRight />
-                      <span className="text-zinc-300">Current Project</span>
+                      <span className="text-neutral-300">Current Project</span>
                       <span className="ml-auto"><Icon.ChevronRight /></span>
                     </div>
-                    <div className="px-2.5 py-1 border-b border-[rgba(30,30,40,0.24)] text-[8px] uppercase tracking-[0.14em] text-zinc-500">Name</div>
+                    <div className="px-2.5 py-1 border-b border-[rgba(43,43,43,0.24)] text-[8px] uppercase tracking-[0.14em] text-neutral-500">Name</div>
                     <div className="flex-1 overflow-y-auto">
                       {/* Show folder children when expanded */}
                       {selectedNav === "Current Project" && (
-                        <div className="border-b border-[rgba(30,30,40,0.24)] py-1">
+                        <div className="border-b border-[rgba(43,43,43,0.24)] py-1">
                           {[
                             { name: "01. cycler sample pack", type: "folder" },
                             { name: "02. cycler elements.", type: "folder" },
@@ -607,7 +632,7 @@ export const MockTimeline = memo(() => {
                               <button
                                 key={sub.name}
                                 onClick={() => toggleFolder(sub.name)}
-                                className="w-full flex items-center gap-1.5 px-2.5 py-1 text-[10px] text-zinc-400 hover:bg-[rgba(255,255,255,0.04)] text-left"
+                                className="w-full flex items-center gap-1.5 px-2.5 py-1 text-[10px] text-neutral-400 hover:bg-[rgba(255,255,255,0.04)] text-left"
                               >
                                 <span className={cn("transition-transform", exp && "rotate-90")}><Icon.ChevronRight /></span>
                                 <Icon.Folder />
@@ -634,7 +659,7 @@ export const MockTimeline = memo(() => {
                             <div>
                               <button
                                 onClick={() => toggleFolder("User Library")}
-                                className="w-full flex items-center gap-1.5 pl-5 pr-2.5 py-1 text-[10px] text-zinc-300 hover:bg-[rgba(255,255,255,0.04)] text-left"
+                                className="w-full flex items-center gap-1.5 pl-5 pr-2.5 py-1 text-[10px] text-neutral-300 hover:bg-[rgba(255,255,255,0.04)] text-left"
                               >
                                 <span className={cn("transition-transform", expandedFolders.has("User Library") && "rotate-90")}><Icon.ChevronRight /></span>
                                 <Icon.Folder />
@@ -648,7 +673,7 @@ export const MockTimeline = memo(() => {
                                     "w-full flex items-center gap-2 pl-7 pr-2.5 py-1 text-[10px] text-left transition-colors truncate",
                                     selectedFile === i
                                       ? "bg-[rgba(124,58,237,0.14)] text-white"
-                                      : "text-zinc-400 hover:bg-[rgba(255,255,255,0.04)]",
+                                      : "text-neutral-400 hover:bg-[rgba(255,255,255,0.04)]",
                                   )}
                                 >
                                   <Icon.Audio />
@@ -667,30 +692,30 @@ export const MockTimeline = memo(() => {
                             "w-full flex items-center gap-2 px-2.5 py-1 text-[10px] text-left transition-colors truncate",
                             selectedFile === i
                               ? "bg-[rgba(124,58,237,0.14)] text-white"
-                              : "text-zinc-400 hover:bg-[rgba(255,255,255,0.04)]",
+                              : "text-neutral-400 hover:bg-[rgba(255,255,255,0.04)]",
                           )}
                         >
                           <Icon.Audio />
                           <span className="truncate flex-1">{file.name}</span>
-                          <span className="text-[8px] text-zinc-500 flex-shrink-0">{file.size}</span>
+                          <span className="text-[8px] text-neutral-500 flex-shrink-0">{file.size}</span>
                         </button>
                       ))}
                     </div>
                     {/* Now Playing card */}
-                    <div className="border-t border-[rgba(30,30,40,0.36)] p-2 bg-[#0a0a0e]">
+                    <div className="border-t border-[rgba(43,43,43,0.36)] p-2 bg-[#080808]">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setIsPlaying(v => !v)}
                           className={cn(
                             "w-7 h-7 rounded-full flex items-center justify-center shrink-0",
-                            isPlaying ? "bg-violet-500 text-white" : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                            isPlaying ? "bg-violet-500 text-white" : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
                           )}
                         >
                           {isPlaying ? <Icon.Pause /> : <Icon.Play />}
                         </button>
                         <div className="min-w-0 flex-1">
-                          <div className="text-[10px] text-zinc-200 truncate leading-tight">{FILES[selectedFile].name}</div>
-                          <div className="text-[8px] text-zinc-400 mt-0.5 font-mono">85 BPM · 0:00 / 0:00</div>
+                          <div className="text-[10px] text-neutral-200 truncate leading-tight">{FILES[selectedFile].name}</div>
+                          <div className="text-[8px] text-neutral-400 mt-0.5 font-mono">85 BPM · 0:00 / 0:00</div>
                         </div>
                       </div>
                       <div className="mt-1.5 rounded-md border border-[rgba(124,58,237,0.25)] bg-[rgba(124,58,237,0.06)] p-1.5">
@@ -709,7 +734,7 @@ export const MockTimeline = memo(() => {
               {/* Arrangement Area */}
               <div className="flex-1 flex flex-col min-w-0" ref={containerRef}>
                 {/* Selection / loop region bar (purple) */}
-                <div className="h-5 border-b border-[#1e1e28] bg-[#0a0a0e] px-0 relative">
+                <div className="h-5 border-b border-[#212121] bg-[#080808] px-0 relative">
                   <div className="absolute left-[190px] right-3 top-1 bottom-1">
                     <div
                       className="absolute h-full rounded-[2px] flex items-center"
@@ -728,7 +753,7 @@ export const MockTimeline = memo(() => {
                 </div>
 
                 {/* Ruler */}
-                <div className="relative h-7 border-b border-[rgba(30,30,40,0.64)] bg-[#0f0f14] px-0">
+                <div className="relative h-7 border-b border-[rgba(43,43,43,0.64)] bg-[#111111] px-0">
                   <div
                     onClick={onTimelineClick}
                     className="absolute left-[190px] right-3 top-0 bottom-0 flex items-end cursor-pointer"
@@ -741,7 +766,7 @@ export const MockTimeline = memo(() => {
                         )} style={{ background: i % 4 === 0 ? C.gridBar : C.gridBeat }} />
                         <span className={cn(
                           "absolute bottom-0.5 left-1 text-[9px] font-mono tabular-nums",
-                          i % 4 === 0 ? "text-zinc-400" : "text-zinc-500"
+                          i % 4 === 0 ? "text-neutral-400" : "text-neutral-500"
                         )}>{i + 1}</span>
                       </div>
                     ))}
@@ -749,7 +774,7 @@ export const MockTimeline = memo(() => {
                 </div>
 
                 {/* Tracks + Grid */}
-                <div ref={tracksContainerRef} className="flex-1 relative overflow-y-auto bg-[#0a0a0e]" onClick={onTimelineClick}>
+                <div ref={tracksContainerRef} className="flex-1 relative overflow-y-auto bg-[#080808]" onClick={onTimelineClick}>
                   {/* Grid lines */}
                   <div className="absolute inset-0 left-[190px] right-0 pointer-events-none">
                     {Array.from({ length: 80 }, (_, i) => (
@@ -768,13 +793,15 @@ export const MockTimeline = memo(() => {
                         {/* Track header */}
                         <div
                           onClick={(e) => { e.stopPropagation(); setSelectedTrack(idx); }}
-                          className="w-[190px] border-r border-[rgba(30,30,40,0.48)] border-b border-b-[rgba(30,30,40,0.36)] bg-[#111118] flex items-center relative flex-shrink-0 cursor-pointer transition-colors hover:bg-[#16161e]"
+                          className="w-[190px] border-r border-[rgba(43,43,43,0.48)] border-b border-b-[rgba(43,43,43,0.36)] bg-[#111111] flex items-center relative flex-shrink-0 cursor-pointer transition-colors hover:bg-[#191919]"
                           style={selectedTrack === idx ? { background: "rgba(124,58,237,0.08)" } : undefined}
                         >
                           <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: track.color, opacity: selectedTrack === idx ? 0.9 : 0.4 }} />
-                          <span className="w-5 text-center text-[10px] text-zinc-500 font-mono tabular-nums shrink-0 pl-1.5">{track.id}</span>
+                          <span className="w-5 text-center text-[10px] text-neutral-500 font-mono tabular-nums shrink-0 pl-1.5">{track.id}</span>
                           <div className="flex items-center justify-between flex-1 pr-2.5 pl-1">
-                            <span className="text-[11px] font-medium truncate" style={{ color: "#7c8cf8" }}>{track.name}</span>
+                            {/* Name takes the track's own palette colour, as in the
+                                DAW — it was pinned to a single indigo here. */}
+                            <span className="text-[11px] font-medium truncate" style={{ color: track.color }}>{track.name}</span>
                             <div className="flex items-center gap-0.5">
                               <MSR label="M" active={track.muted} color={C.warning} onClick={() => toggleMute(track.id)} />
                               <MSR label="S" active={track.soloed} color={C.success} onClick={() => toggleSolo(track.id)} />
@@ -791,7 +818,7 @@ export const MockTimeline = memo(() => {
                         </div>
 
                         {/* Clip area (empty timeline) */}
-                        <div className="flex-1 relative border-b border-[rgba(30,30,40,0.36)]" />
+                        <div className="flex-1 relative border-b border-[rgba(43,43,43,0.36)]" />
                       </div>
                     );
                   })}
@@ -809,8 +836,8 @@ export const MockTimeline = memo(() => {
 
           {/* ── Mixer View ───────────────────────────────────── */}
           {activeView === "mixer" && (
-            <div className="h-[440px] lg:h-[560px] bg-[#0d0d12] flex flex-col">
-              <div className="border-b border-[#1e1e28] bg-[#16161e] px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+            <div className="h-[440px] lg:h-[560px] bg-[#0a0a0a] flex flex-col">
+              <div className="border-b border-[#212121] bg-[#191919] px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-neutral-400">
                 Mixer
               </div>
               <div className="flex-1 flex overflow-x-auto p-3 gap-1.5">
@@ -819,38 +846,38 @@ export const MockTimeline = memo(() => {
                     key={track.id}
                     onClick={() => setSelectedTrack(i)}
                     className={cn(
-                      "flex flex-col rounded-[8px] border bg-[#13131a] w-[90px] lg:w-[100px] flex-shrink-0 transition-colors cursor-pointer",
-                      selectedTrack === i ? "border-[rgba(124,58,237,0.34)]" : "border-[#1e1e28] hover:border-[#2a2a36]",
+                      "flex flex-col rounded-[8px] border bg-[#141414] w-[90px] lg:w-[100px] flex-shrink-0 transition-colors cursor-pointer",
+                      selectedTrack === i ? "border-[rgba(124,58,237,0.34)]" : "border-[#212121] hover:border-[#2b2b2b]",
                     )}
                   >
                     <div className="h-1 rounded-t-[8px]" style={{ background: track.color }} />
                     <div className="px-2 py-1.5 text-center">
                       <div className="text-[10px] text-white truncate">{track.name}</div>
-                      <div className="text-[8px] text-zinc-400">Out: Master</div>
+                      <div className="text-[8px] text-neutral-400">Out: Master</div>
                     </div>
                     <div className="flex justify-center gap-1 px-2 py-1">
                       <MSR label="M" active={track.muted} color={C.warning} onClick={() => toggleMute(track.id)} />
                       <MSR label="S" active={track.soloed} color={C.success} onClick={() => toggleSolo(track.id)} />
                       <MSR label="R" active={track.recording} color={C.error} onClick={() => toggleRecord(track.id)} />
                     </div>
-                    <div className="mx-2 mb-1.5 rounded-md border border-[#2a2a36] bg-[#0d0d12] py-1 text-center text-[8px] text-zinc-400">
+                    <div className="mx-2 mb-1.5 rounded-md border border-[#2b2b2b] bg-[#0a0a0a] py-1 text-center text-[8px] text-neutral-400">
                       + Insert
                     </div>
                     <div className="flex justify-center py-1">
-                      <div className="w-6 h-6 rounded-full border border-[#2a2a36] bg-[#1e1e28] relative">
+                      <div className="w-6 h-6 rounded-full border border-[#2b2b2b] bg-[#212121] relative">
                         <div className="absolute top-0.5 left-1/2 w-px h-2 -translate-x-1/2 rounded-full" style={{ background: C.primary }} />
                       </div>
                     </div>
-                    <div className="text-center text-[7px] text-zinc-400">0.0</div>
+                    <div className="text-center text-[7px] text-neutral-400">0.0</div>
                     <div className="flex-1 flex items-end justify-center gap-2 px-2 pb-2 pt-3">
-                      <div className="text-[8px] text-zinc-400 self-end pb-1">{track.db}</div>
-                      <div className="relative w-4 h-[140px] rounded-sm overflow-hidden" style={{ background: "rgba(32,36,49,0.60)" }}>
+                      <div className="text-[8px] text-neutral-400 self-end pb-1">{track.db}</div>
+                      <div className="relative w-4 h-[140px] rounded-sm overflow-hidden" style={{ background: "rgba(35,35,35,0.60)" }}>
                         <div className="absolute bottom-0 left-0 right-0 rounded-sm transition-all duration-100" style={{
                           height: `${track.meter}%`,
                           background: `linear-gradient(180deg, ${track.meter > 85 ? C.error : track.meter > 60 ? C.warning : C.primary}, ${C.cyan})`,
                         }} />
                       </div>
-                      <div className="relative w-5 h-[140px] rounded-[3px]" style={{ background: "rgba(5,5,8,0.60)" }}>
+                      <div className="relative w-5 h-[140px] rounded-[3px]" style={{ background: "rgba(8,8,8,0.60)" }}>
                         <div
                           className="absolute left-0.5 right-0.5 rounded-sm transition-all"
                           style={{
@@ -865,31 +892,31 @@ export const MockTimeline = memo(() => {
                         </div>
                       </div>
                     </div>
-                    <div className="border-t border-[rgba(30,30,40,0.36)] py-1 text-center text-[8px] text-zinc-400">
+                    <div className="border-t border-[rgba(43,43,43,0.36)] py-1 text-center text-[8px] text-neutral-400">
                       {track.id}
                     </div>
                   </div>
                 ))}
 
                 {/* Master strip */}
-                <div className="flex flex-col rounded-[8px] border border-[rgba(124,58,237,0.34)] bg-[rgba(30,30,40,0.78)] w-[110px] lg:w-[120px] flex-shrink-0 ml-2">
+                <div className="flex flex-col rounded-[8px] border border-[rgba(124,58,237,0.34)] bg-[rgba(43,43,43,0.78)] w-[110px] lg:w-[120px] flex-shrink-0 ml-2">
                   <div className="h-1 rounded-t-[8px]" style={{ background: C.primary }} />
                   <div className="px-2 py-1.5 text-center">
                     <div className="text-[11px] font-semibold text-white">MASTER</div>
-                    <div className="text-[8px] text-zinc-400">Output</div>
+                    <div className="text-[8px] text-neutral-400">Output</div>
                   </div>
-                  <div className="mx-2 mb-1.5 rounded-md border border-[#2a2a36] bg-[#0d0d12] py-1 text-center text-[8px] text-zinc-400">
+                  <div className="mx-2 mb-1.5 rounded-md border border-[#2b2b2b] bg-[#0a0a0a] py-1 text-center text-[8px] text-neutral-400">
                     + Insert
                   </div>
                   <div className="flex-1 flex items-end justify-center gap-2 px-2 pb-2 pt-3">
-                    <div className="text-[8px] text-zinc-400 self-end pb-1">-8.0 dB</div>
-                    <div className="relative w-5 h-[160px] rounded-sm overflow-hidden" style={{ background: "rgba(32,36,49,0.60)" }}>
+                    <div className="text-[8px] text-neutral-400 self-end pb-1">-8.0 dB</div>
+                    <div className="relative w-5 h-[160px] rounded-sm overflow-hidden" style={{ background: "rgba(35,35,35,0.60)" }}>
                       <div className="absolute bottom-0 left-0 right-0 rounded-sm" style={{
                         height: "82%",
                         background: `linear-gradient(180deg, ${C.primary}, ${C.cyan})`,
                       }} />
                     </div>
-                    <div className="relative w-6 h-[160px] rounded-[3px]" style={{ background: "rgba(5,5,8,0.60)" }}>
+                    <div className="relative w-6 h-[160px] rounded-[3px]" style={{ background: "rgba(8,8,8,0.60)" }}>
                       <div className="absolute left-0.5 right-0.5 rounded-sm" style={{
                         bottom: "66%", height: 14, background: C.surface,
                         border: `1px solid ${C.outline}`, boxShadow: `0 0 4px ${C.primary}40`,
@@ -898,7 +925,7 @@ export const MockTimeline = memo(() => {
                       </div>
                     </div>
                   </div>
-                  <div className="border-t border-[rgba(30,30,40,0.36)] py-1 text-center text-[8px] text-zinc-400">M</div>
+                  <div className="border-t border-[rgba(43,43,43,0.36)] py-1 text-center text-[8px] text-neutral-400">M</div>
                 </div>
               </div>
             </div>
@@ -906,18 +933,18 @@ export const MockTimeline = memo(() => {
 
           {/* ── Arsenal View ─────────────────────────────────── */}
           {activeView === "arsenal" && (
-            <div className="h-[440px] lg:h-[560px] bg-[#0d0d12] flex items-center justify-center">
-              <div className="w-[90%] max-w-[480px] rounded-[12px] border border-[#2a2a36] bg-[#16161e] p-6 text-center">
+            <div className="h-[440px] lg:h-[560px] bg-[#0a0a0a] flex items-center justify-center">
+              <div className="w-[90%] max-w-[480px] rounded-[12px] border border-[#2b2b2b] bg-[#191919] p-6 text-center">
                 <div className="flex items-center justify-center gap-2 mb-3 text-white">
                   <Icon.Arsenal />
                   <span className="text-sm tracking-[0.22em] uppercase">Arsenal</span>
                 </div>
-                <p className="mx-auto mb-5 max-w-sm text-center text-[12px] text-zinc-400">
+                <p className="mx-auto mb-5 max-w-sm text-center text-[12px] text-neutral-400">
                   Pattern engines and source modules live here.
                 </p>
                 <div className="grid grid-cols-4 gap-2">
                   {["808", "Hats", "Clap", "Snare", "Keys", "Pad", "Lead", "FX"].map((name, i) => (
-                    <div key={name} className="rounded-lg border border-[#2a2a36] bg-[#0d0d12] p-2.5 text-center">
+                    <div key={name} className="rounded-lg border border-[#2b2b2b] bg-[#0a0a0a] p-2.5 text-center">
                       <div className="mb-1 text-[8px] uppercase tracking-[0.18em]" style={{ color: C.cyan }}>{i < 4 ? "Drum" : "Unit"}</div>
                       <div className="text-[11px] text-white">{name}</div>
                     </div>
@@ -929,17 +956,17 @@ export const MockTimeline = memo(() => {
 
           {/* ── Audition View ────────────────────────────────── */}
           {activeView === "audition" && (
-            <div className="h-[440px] lg:h-[560px] bg-[#0d0d12] flex flex-col">
+            <div className="h-[440px] lg:h-[560px] bg-[#0a0a0a] flex flex-col">
               <div className="flex-1 flex items-center justify-center px-4">
-                <div className="w-full max-w-[420px] rounded-[12px] border border-[#2a2a36] bg-[#16161e] p-6 text-center">
+                <div className="w-full max-w-[420px] rounded-[12px] border border-[#2b2b2b] bg-[#191919] p-6 text-center">
                   <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(124,58,237,0.34)] bg-[rgba(124,58,237,0.10)]">
                     <Icon.PianoRoll />
                   </div>
                   <div className="mb-1.5 text-sm text-white">Audition</div>
-                  <p className="mb-4 text-[11px] text-zinc-400">
+                  <p className="mb-4 text-[11px] text-neutral-400">
                     Translation listening — preview your mix through common listening profiles.
                   </p>
-                  <div className="rounded-lg border border-[#2a2a36] bg-[#0d0d12] p-3">
+                  <div className="rounded-lg border border-[#2b2b2b] bg-[#0a0a0a] p-3">
                     <svg className="h-10 w-full" viewBox="0 0 300 36" preserveAspectRatio="none">
                       <polyline
                         points={audioPoints(7, 100, 12)}
@@ -949,7 +976,7 @@ export const MockTimeline = memo(() => {
                   </div>
                   <div className="mt-3 flex flex-wrap justify-center gap-1.5">
                     {["Studio", "Spotify", "Apple Music", "AirPods", "Car", "Phone"].map(p => (
-                      <span key={p} className="rounded-full border border-[#2a2a36] bg-[#0d0d12] px-2.5 py-0.5 text-[9px] text-zinc-400">
+                      <span key={p} className="rounded-full border border-[#2b2b2b] bg-[#0a0a0a] px-2.5 py-0.5 text-[9px] text-neutral-400">
                         {p}
                       </span>
                     ))}
