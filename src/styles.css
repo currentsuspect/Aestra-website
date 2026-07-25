@@ -2,9 +2,16 @@
 
 /* ─────────────────────────────────────────────────────────────────
    Aestra — design tokens
-   - Single restrained accent (violet) on a neutral surface.
-   - Dark mode default; light mode activates via [data-theme="light"].
-   - No glassmorphism, no scanlines, no decorative gradients.
+
+   Colour policy (enforced, not aspirational):
+     violet  — the signal. Anything that represents audio moving.
+     neutral — the chassis. Everything else.
+     emerald / amber / rose — STATUS ONLY. They mean shipped /
+       in-progress / broken. Never use them to tell two cards apart;
+       a grid where every card is a different hue reads as a template,
+       not a console.
+
+   Dark mode default; light mode activates via [data-theme="light"].
    ───────────────────────────────────────────────────────────────── */
 @theme {
   /* Surfaces */
@@ -398,6 +405,61 @@ body.custom-cursor * {
 /* ── Panel sheen — 1px inner top highlight, machined-panel feel ── */
 .panel-sheen {
   box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--color-fg) 4%, transparent);
+}
+
+/* ── Section rhythm ───────────────────────────────────────────────
+   Three weights, deliberately. Every section carrying identical
+   padding is the single loudest "generated page" tell — it flattens
+   hierarchy so the FAQ shouts as loud as the pitch. Reach for:
+     .sec-lead  — the argument. Room to breathe.
+     .sec       — supporting material. The default.
+     .sec-aside — reference/scan material. Dense on purpose.
+   ───────────────────────────────────────────────────────────────── */
+.sec-lead,
+.sec,
+.sec-aside {
+  padding-inline: 1.25rem;
+}
+.sec-lead  { padding-block: 6rem; }
+.sec       { padding-block: 4.5rem; }
+.sec-aside { padding-block: 3.25rem; }
+
+@media (min-width: 640px) {
+  .sec-lead,
+  .sec,
+  .sec-aside {
+    padding-inline: 1.5rem;
+  }
+  .sec-lead  { padding-block: 9rem; }
+  .sec       { padding-block: 6.5rem; }
+  .sec-aside { padding-block: 4.5rem; }
+}
+
+/* ── Section marker — the console-strip divider. A hairline that
+   breaks for a tracklist-numbered label, so consecutive sections
+   read as channels on one strip rather than 8 detached cards. ──── */
+.sec-mark {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 2.5rem;
+}
+.sec-mark::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--color-border-2),
+    color-mix(in srgb, var(--color-border) 40%, transparent)
+  );
+}
+/* The kicker already draws its own accent dash; inside a marker the
+   hairline does that job, so suppress the duplicate. */
+.sec-mark .kicker { margin-bottom: 0; }
+.sec-mark .kicker::before {
+  width: 24px;
+  height: 2px;
 }
 
 /* ── Display headlines ────────────────────────────────────────── */

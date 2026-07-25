@@ -7,19 +7,22 @@ import { RELEASES } from "../changelogData";
 import type { ChangeType, Release } from "../changelogData";
 import type { PageProps } from "../types";
 
+/* Bare mono labels in a fixed-width column, not boxed chips. The
+   alignment gives the scanning affordance the box used to, and the
+   palette matches the home teaser: three semantic colours, then dim. */
 const typeColors: Record<ChangeType, string> = {
-  new:      "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
-  fix:      "bg-rose-500/10 text-rose-300 border-rose-500/20",
-  security: "bg-amber-500/10 text-amber-300 border-amber-500/20",
-  ci:       "bg-blue-500/10 text-blue-300 border-blue-500/20",
-  perf:     "bg-sky-500/10 text-sky-300 border-sky-500/20",
-  docs:     "bg-surface-3 text-fg-muted border-border-2",
+  new:      "text-emerald-300",
+  fix:      "text-rose-300",
+  security: "text-amber-300",
+  ci:       "text-dim",
+  perf:     "text-dim",
+  docs:     "text-dim",
 };
 
 const statusColors: Record<Release["status"], string> = {
-  active:   "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
-  landed:   "bg-violet-500/10 text-violet-300 border-violet-500/20",
-  released: "bg-surface-3 text-fg-muted border-border-2",
+  active:   "text-emerald-300",
+  landed:   "text-accent",
+  released: "text-dim",
 };
 
 export const Changelog = memo(({ setPage }: PageProps) => {
@@ -100,7 +103,8 @@ export const Changelog = memo(({ setPage }: PageProps) => {
               <div className="mb-5">
                 <div className="flex flex-wrap items-center gap-3 mb-2">
                   <h2 className="text-xl sm:text-2xl font-semibold text-fg tracking-tight">{release.ver}</h2>
-                  <span className={cn("font-mono text-[10px] uppercase tracking-[0.14em] font-medium px-2 py-0.5 rounded border", statusColors[release.status])}>
+                  <span className={cn("inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] font-medium", statusColors[release.status])}>
+                    <span aria-hidden="true" className="led" />
                     {release.status}
                   </span>
                 </div>
@@ -111,7 +115,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
               <ul className="space-y-2.5">
                 {release.changes.map((change, j) => (
                   <li key={j} className="flex items-start gap-3 text-[14px] text-fg-muted leading-relaxed">
-                    <span className={cn("font-mono text-[10px] font-medium px-1.5 py-0.5 rounded border uppercase tracking-[0.14em] mt-1 shrink-0", typeColors[change.type])}>
+                    <span className={cn("font-mono text-[10px] font-medium uppercase tracking-[0.14em] mt-[3px] shrink-0 w-16", typeColors[change.type])}>
                       {change.type}
                     </span>
                     <span>{change.text}</span>

@@ -74,7 +74,7 @@ export const buildPageStructuredData = (
       "@id": `${url}#product`,
       name: "Aestra",
       description:
-        "A native C++ digital audio workstation. Free core, optional Supporter and Founder tiers.",
+        "A free digital audio workstation for producers, with optional Supporter and Founder tiers.",
       brand: { "@id": "https://aestra.studio/#organization" },
       offers: [
         {

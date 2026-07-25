@@ -89,7 +89,7 @@ export const Badge = memo(({ children, variant = "default", className }: BadgePr
   const styles =
     variant === "outline"
       ? "border border-border text-fg-muted bg-surface-2/60"
-      : "bg-violet-500/10 border border-violet-500/20 text-violet-400";
+      : "bg-accent/10 border border-accent/20 text-accent";
 
   return (
     <span className={cn("inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium", styles, className)}>
@@ -131,30 +131,27 @@ export const FadeIn = memo(({ children, className, delay = 0 }: FadeInProps) => 
   );
 });
 
-/* ── FeatureCard (home grid) ─────────────────────────────────── */
-const colorStyles: Record<string, { dot: string; text: string; bg: string }> = {
-  teal:   { dot: "#14b8a6", text: "text-teal-400", bg: "bg-teal-500/10 border-teal-500/20" },
-  amber:  { dot: "#f59e0b", text: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
-  purple: { dot: "#8b5cf6", text: "text-violet-400", bg: "bg-violet-500/10 border-violet-500/20" },
-  blue:   { dot: "#3b82f6", text: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
-  green:  { dot: "#22c55e", text: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
-  coral:  { dot: "#f43f5e", text: "text-rose-400", bg: "bg-rose-500/10 border-rose-500/20" },
-};
-
-export const FeatureCard = memo(({ label, title, description, visual, color = "blue", delay }: FeatureCardProps) => {
-  const c = colorStyles[color] || colorStyles.blue;
-  return (
-    <FadeIn delay={delay}>
-      <div className="rounded-xl bg-bg border border-border/80 panel-sheen p-5 sm:p-6 hover:border-border-2 transition-colors h-full flex flex-col">
-        <div className="flex items-center justify-between mb-5">
-          <span className={cn("font-mono text-[10px] font-medium uppercase tracking-[0.14em]", c.text)}>{label}</span>
-          <span className={cn("led", c.text)} aria-hidden="true" />
-        </div>
-        <div className="h-20 mb-5" aria-hidden="true">{visual}</div>
-        <h3 className="text-[15px] font-semibold text-fg mb-1.5 tracking-tight">{title}</h3>
-        <p className="text-[13.5px] text-muted leading-relaxed">{description}</p>
+/* ── FeatureCard (home grid) ───────────────────────────────────
+   Deliberately monochrome. These cards previously carried one hue
+   each (teal/amber/purple/blue/green/coral) which made the grid read
+   as a colour swatch rather than a rack of modules. The only colour
+   that survives is the accent inside each visual, where it stands
+   for signal. Index numbers do the differentiating work instead. ── */
+export const FeatureCard = memo(({ label, title, description, visual, index, delay }: FeatureCardProps) => (
+  <FadeIn delay={delay}>
+    <div className="rounded-xl bg-bg border border-border/80 panel-sheen p-5 sm:p-6 hover:border-border-2 transition-colors h-full flex flex-col">
+      <div className="flex items-baseline justify-between gap-3 mb-5">
+        <span className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted">{label}</span>
+        {index !== undefined && (
+          <span className="font-mono text-[10px] text-faint tabular-nums" aria-hidden="true">
+            {String(index).padStart(2, "0")}
+          </span>
+        )}
       </div>
-    </FadeIn>
-  );
-});
+      <div className="h-20 mb-5" aria-hidden="true">{visual}</div>
+      <h3 className="text-[15px] font-semibold text-fg mb-1.5 tracking-tight">{title}</h3>
+      <p className="text-[13.5px] text-muted leading-relaxed">{description}</p>
+    </div>
+  </FadeIn>
+));
 

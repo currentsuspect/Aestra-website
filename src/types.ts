@@ -31,7 +31,8 @@ export interface FeatureCardProps {
   title: string;
   description: string;
   visual: React.ReactNode;
-  color?: "teal" | "amber" | "purple" | "blue" | "green" | "coral";
+  /** Tracklist position, rendered as a zero-padded readout. */
+  index?: number;
   delay?: number;
 }
 
@@ -101,18 +102,18 @@ export const PAGE_TITLES = asSEO({
 });
 
 export const PAGE_DESCRIPTIONS = asSEO({
-  home: "Aestra is an accessible, premium native digital audio workstation built around speed, stability, and producer-first workflow. Make music, not excuses.",
-  features: "Explore Aestra's core features: native performance, instant startup, pattern-first workflow, visual routing, audition mode, and version control.",
+  home: "A DAW that keeps up with your ideas — opens in about a second, stays smooth on the laptop you already own, and every feature is free. Make music, not excuses.",
+  features: "What Aestra does differently: opens instantly, stays smooth as the track grows, loop-first workflow, routing you can see, and a mix check for phone, earbuds and car.",
   pricing: "Aestra pricing: free core DAW, Supporter tier at $5/month, and Founder Gold Card at $129 one-time. Open access, no feature gates.",
   changelog: "Track Aestra's development progress. New features, bug fixes, and improvements across every release.",
   docs: "Aestra documentation: patch recipes, signal flow guides, persona tracks, troubleshooting, and command palette reference.",
   download: "Download Aestra DAW for Windows, macOS, and Linux. Free core, no strings attached.",
-  plugins: "Aestra's built-in plugin suite — AestraVerb, AestraEQ, AestraComp, AestraDrift, AestraDelay. Watch the AestraEQ intro.",
+  plugins: "Ten plugins free in every copy of Aestra — AestraEQ, AestraVerb, AestraComp, AestraDelay, AestraDrift, AestraFilter, AestraSat, AestraOTT, AestraLFO and AestraLimit. Watch the AestraEQ intro.",
   login: "Sign in to your Aestra account.",
   account: "Manage your Aestra account, licenses, and plugins.",
   privacy: "Aestra privacy policy: how we handle your data, no cookies, transparent practices.",
   terms: "Aestra terms of service: ASSAL v1.1 license, your music is yours, Supporter and Founder tier details.",
-  about: "About Aestra Studios: building a native DAW for producers who want flow, not friction.",
+  about: "About Aestra Studios: building a DAW that keeps up with producers instead of getting in their way.",
   roadmap: "Aestra's public roadmap. What's shipped, what's in progress, what we're targeting next, and what's on the radar.",
   "404": "Page not found — Aestra",
 });
@@ -124,7 +125,7 @@ export const PAGE_KEYWORDS = asSEO({
   changelog: "DAW changelog, release notes, Aestra updates, music software updates, version history",
   docs: "Aestra documentation, signal flow, patch recipes, command palette, troubleshooting, getting started",
   download: "download Aestra, free DAW download, Windows DAW, macOS DAW, Linux DAW, native audio workstation",
-  plugins: "AestraVerb, AestraEQ, AestraComp, AestraDrift, AestraDelay, free plugins, built-in plugins, native audio plugins, EQ plugin, reverb plugin, compressor plugin",
+  plugins: "AestraVerb, AestraEQ, AestraComp, AestraDrift, AestraDelay, AestraFilter, AestraSat, AestraOTT, AestraLFO, AestraLimit, free plugins, built-in plugins, native audio plugins, EQ plugin, reverb plugin, compressor plugin, saturation plugin, limiter plugin",
   login: "Aestra login, sign in, Aestra account",
   account: "Aestra account, manage subscription, license keys, plugins",
   privacy: "Aestra privacy policy, data handling, no telemetry, transparent practices",

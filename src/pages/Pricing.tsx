@@ -7,7 +7,7 @@ import type { PageProps } from "../types";
 const CheckIcon = ({ accent = "emerald" }: { accent?: "emerald" | "violet" | "amber" }) => {
   const ring =
     accent === "emerald" ? "bg-emerald-500/15 text-emerald-400" :
-    accent === "violet"  ? "bg-violet-500/15 text-violet-400"  :
+    accent === "violet"  ? "bg-accent/15 text-accent"  :
                            "bg-amber-500/15 text-amber-400";
   return (
     <span className={`mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full shrink-0 ${ring}`}>
@@ -149,7 +149,7 @@ const Cell = ({ on, accent }: { on: boolean; accent: "emerald" | "violet" | "amb
   if (!on) return <span className="text-dim" aria-label="Not included">—</span>;
   const color =
     accent === "emerald" ? "text-emerald-400" :
-    accent === "violet"  ? "text-violet-400"  :
+    accent === "violet"  ? "text-accent"  :
                            "text-amber-400";
   return <Check className={`w-4 h-4 ${color}`} aria-label="Included" role="img" />;
 };
@@ -181,13 +181,13 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
               <div
                 className={`rounded-2xl p-7 sm:p-8 h-full flex flex-col transition-all duration-300 ${
                   t.highlighted
-                    ? "border border-violet-500/30 bg-bg panel-sheen shadow-[0_0_0_0_rgba(139,92,246,0)] hover:border-violet-500/60 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-20px_rgba(139,92,246,0.45)]"
+                    ? "border border-accent/30 bg-bg panel-sheen hover:border-accent/60 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-20px_color-mix(in_srgb,var(--color-accent)_45%,transparent)]"
                     : "border border-border/80 bg-bg panel-sheen"
                 }`}
               >
                 <div className="mb-6">
                   <div className="flex items-center gap-2.5 mb-3">
-                    <span className={`led ${t.accent === "violet" ? "text-violet-400" : "text-emerald-400"}`} aria-hidden="true" />
+                    <span className={`led ${t.accent === "violet" ? "text-accent" : "text-emerald-400"}`} aria-hidden="true" />
                     <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted">{t.name}</span>
                   </div>
                   <div className="flex items-baseline gap-2 mb-2">
@@ -238,7 +238,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
           <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.03] p-7 sm:p-10">
             <div className="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-14 items-start mb-10">
               <div>
-                <span className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-300 font-mono text-[11px] font-medium uppercase tracking-[0.08em] mb-5">
+                <span className="inline-flex items-center gap-2.5 readout text-amber-300 mb-5">
                   <span className="led led-pulse" aria-hidden="true" />
                   Limited to 500 — never reproduced
                 </span>
@@ -270,7 +270,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
                 "Vote on feature priorities",
                 "No subscription. Ever.",
               ].map((f) => (
-                <span key={f} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-bg border border-border/80 text-fg-muted text-[13px]">
+                <span key={f} className="inline-flex items-center gap-2 text-fg-muted text-[13px]">
                   <Check className="w-3.5 h-3.5 text-amber-300 shrink-0" />
                   {f}
                 </span>
@@ -343,7 +343,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
                 <div className="text-muted text-[11px] font-mono mt-0.5">$0</div>
               </div>
               <div className="p-5 text-center">
-                <div className="text-violet-300 text-sm font-medium">Supporter</div>
+                <div className="text-accent text-sm font-medium">Supporter</div>
                 <div className="text-muted text-[11px] font-mono mt-0.5">$5/mo</div>
               </div>
               <div className="p-5 text-center">

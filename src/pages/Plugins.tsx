@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Play, Music2, Layers, Cpu, Wand2, Timer, ArrowUpRight } from "lucide-react";
+import { Play, Music2, Layers, Cpu, Wand2, Timer, ArrowUpRight, Waves, Flame, BarChart3, Activity, Gauge } from "lucide-react";
 import { FadeIn, Button } from "../components/ui";
 import { PianoGrid } from "../components/PianoGrid";
 import { VideoModal } from "../components/VideoModal";
 import type { PageProps } from "../types";
 
-type PluginStatus = "Available" | "Ships next" | "Coming soon";
+/* "Available" means it's in the current tagged release (v0.6.0-alpha).
+   "In alpha builds" means merged and running, but not yet in a tagged
+   release — early-access testers have it, everyone else doesn't yet. */
+type PluginStatus = "Available" | "In alpha builds" | "Coming soon";
 
 type Plugin = {
   name: string;
@@ -13,64 +16,85 @@ type Plugin = {
   desc: string;
   status: PluginStatus;
   icon: React.ComponentType<{ className?: string }>;
-  accent: "violet" | "blue" | "amber" | "emerald" | "rose";
 };
 
 const PLUGINS: Plugin[] = [
   {
     name: "AestraEQ",
     kind: "Equalizer",
-    desc: "Contextual inspector with ghost band preview and a floating toolbar. Surgical moves, transparent signal.",
+    desc: "Grab a frequency and hear it before you commit. Ghost bands preview the move, so you stop guessing and start carving.",
     status: "Available",
     icon: Layers,
-    accent: "blue",
   },
   {
     name: "AestraVerb",
     kind: "Reverb",
-    desc: "8-line modulated FDN with a Householder mixing matrix. Plate, hall, and room modes — character without the CPU tax.",
+    desc: "Plate, hall and room that put a vocal in a space without drowning it. Big tails, and your CPU meter barely moves.",
     status: "Available",
     icon: Music2,
-    accent: "violet",
   },
   {
     name: "AestraComp",
     kind: "Compressor",
-    desc: "RMS detection with parameter smoothing. Bus and channel compression with full visual gain reduction.",
-    status: "Ships next",
+    desc: "Glues a drum bus without pumping the life out of it. You can see exactly how hard it's working, in real time.",
+    status: "Available",
     icon: Cpu,
-    accent: "amber",
-  },
-  {
-    name: "AestraDrift",
-    kind: "Pitch Shifter",
-    desc: "Pitch-shifting effect with character. Two voices, modulation, and feedback for harmonizer and shimmer textures.",
-    status: "Coming soon",
-    icon: Wand2,
-    accent: "emerald",
   },
   {
     name: "AestraDelay",
     kind: "Delay",
-    desc: "Tempo-locked delay with filter feedback and ducking. Slap, tape, ping-pong — anything that repeats.",
-    status: "Coming soon",
+    desc: "Locks to your tempo and ducks under the vocal on its own. Slap, tape, ping-pong — anything that repeats.",
+    status: "Available",
     icon: Timer,
-    accent: "rose",
+  },
+  {
+    name: "AestraDrift",
+    kind: "Pitch Shifter",
+    desc: "Stacked harmonies off a single take, plus the shimmer you'd normally chase with three plugins and a bus.",
+    status: "Available",
+    icon: Wand2,
+  },
+  {
+    name: "AestraFilter",
+    kind: "Filter",
+    desc: "The cutoff chases how hard you hit it — up to four octaves either way. Auto-wah, reverse ducks, brightness that moves with the take.",
+    status: "Available",
+    icon: Waves,
+  },
+  {
+    name: "AestraSat",
+    kind: "Saturator",
+    desc: "Tape, tube, or hard clip. Push a lifeless sample until it has some grit — oversampled, so it dirties up without going brittle.",
+    status: "In alpha builds",
+    icon: Flame,
+  },
+  {
+    name: "AestraOTT",
+    kind: "Multiband",
+    desc: "The over-the-top squash. Pulls the loud parts down and the quiet parts up across three bands — instant density on drums and synths.",
+    status: "In alpha builds",
+    icon: BarChart3,
+  },
+  {
+    name: "AestraLFO",
+    kind: "Modulator",
+    desc: "Rhythmic gating, auto-pan, and filter wobble locked to your tempo. Drop it on a flat pad and it starts breathing in time.",
+    status: "In alpha builds",
+    icon: Activity,
+  },
+  {
+    name: "AestraLimit",
+    kind: "Limiter",
+    desc: "Brickwall for the master, with a release that reads how dense the material is. Catches the peaks without the pumping.",
+    status: "In alpha builds",
+    icon: Gauge,
   },
 ];
 
-const accentStyles = {
-  violet:  { ring: "border-violet-500/30",  bg: "bg-violet-500/10",  text: "text-violet-300",  dot: "bg-violet-400" },
-  blue:    { ring: "border-blue-500/30",    bg: "bg-blue-500/10",    text: "text-blue-300",    dot: "bg-blue-400" },
-  amber:   { ring: "border-amber-500/30",   bg: "bg-amber-500/10",   text: "text-amber-300",   dot: "bg-amber-400" },
-  emerald: { ring: "border-emerald-500/30", bg: "bg-emerald-500/10", text: "text-emerald-300", dot: "bg-emerald-400" },
-  rose:    { ring: "border-rose-500/30",    bg: "bg-rose-500/10",    text: "text-rose-300",    dot: "bg-rose-400" },
-};
-
 const statusStyles: Record<PluginStatus, string> = {
-  "Available":    "text-emerald-400 border-emerald-500/20 bg-emerald-500/5",
-  "Ships next":   "text-amber-400 border-amber-500/20 bg-amber-500/5",
-  "Coming soon":  "text-muted border-border bg-surface-2",
+  "Available":       "text-emerald-400",
+  "In alpha builds": "text-amber-400",
+  "Coming soon":     "text-dim",
 };
 
 const VIDEO_SRC = "/aestra-eq-intro.mp4";
@@ -86,11 +110,13 @@ export const Plugins = ({ setPage }: PageProps) => {
         <div className="relative max-w-3xl mx-auto">
           <p className="kicker mb-4">Plugins</p>
           <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-5">
-            Built into the engine.<br />
-            <span className="text-muted">Free with Aestra.</span>
+            You already own the good ones.
           </h1>
           <p className="text-muted text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-            Most DAWs give you the engine and leave you to find the fuel. Aestra ships with a full suite of studio-grade plugins — built natively, tuned for low-CPU machines.
+            Most DAWs hand you an empty rack and point at a plugin store. Aestra
+            comes with ten — EQ, reverb, compression, delay, pitch, filter,
+            saturation, multiband, modulation and a limiter — running light
+            enough that you can stack them.
           </p>
         </div>
       </section>
@@ -129,17 +155,17 @@ export const Plugins = ({ setPage }: PageProps) => {
                 </div>
               </div>
               <div className="p-5 sm:p-6 flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center shrink-0">
-                  <Layers className="w-5 h-5 text-blue-400" />
+                <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0">
+                  <Layers className="w-5 h-5 text-fg-muted" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">Equalizer</div>
                   <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-1.5">AestraEQ</h3>
                   <p className="text-[14px] text-muted leading-relaxed">
-                    Contextual inspector with ghost band preview and a floating toolbar. Surgical moves, transparent signal.
+                    Grab a frequency and hear it before you commit. Ghost bands preview the move, so you stop guessing and start carving.
                   </p>
                 </div>
-                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md font-mono text-[10px] font-medium uppercase tracking-[0.08em] border text-emerald-400 border-emerald-500/20 bg-emerald-500/5 shrink-0">
+                <span className="inline-flex items-center gap-2 readout text-emerald-400 shrink-0">
                   <span aria-hidden="true" className="led" />
                   Available
                 </span>
@@ -154,18 +180,17 @@ export const Plugins = ({ setPage }: PageProps) => {
         <div className="max-w-4xl mx-auto">
           <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
             {PLUGINS.filter((p) => p.name !== "AestraEQ").map((p, i) => {
-              const a = accentStyles[p.accent];
               const Icon = p.icon;
               return (
                 <FadeIn key={p.name} delay={i * 0.05}>
                   <div className="rounded-xl bg-bg border border-border/80 panel-sheen p-6 sm:p-7 h-full hover:border-border-2 transition-colors flex flex-col">
-                    <div className={`w-10 h-10 rounded-lg ${a.bg} border ${a.ring} flex items-center justify-center mb-5`} aria-hidden="true">
-                      <Icon className={`w-5 h-5 ${a.text}`} />
+                    <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center mb-5" aria-hidden="true">
+                      <Icon className="w-5 h-5 text-fg-muted" />
                     </div>
                     <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">{p.kind}</div>
                     <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-2">{p.name}</h3>
                     <p className="text-[14px] text-muted leading-relaxed mb-5 flex-1">{p.desc}</p>
-                    <span className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-md font-mono text-[10px] font-medium uppercase tracking-[0.08em] border w-fit ${statusStyles[p.status]}`}>
+                    <span className={`inline-flex items-center gap-2 readout w-fit ${statusStyles[p.status]}`}>
                       <span aria-hidden="true" className="led" />
                       {p.status}
                     </span>
@@ -207,7 +232,10 @@ export const Plugins = ({ setPage }: PageProps) => {
 
       <div className="px-5 sm:px-6 pb-24">
         <p className="text-center text-[13px] text-muted max-w-2xl mx-auto">
-          All built-in plugins ship with the free core. No add-on purchases required.
+          All built-in plugins ship with the free core — no add-on purchases required.
+          The four marked <span className="text-amber-400">in alpha builds</span> are
+          finished and running; they reach everyone at the next release, and early
+          access has them now.
         </p>
       </div>
 

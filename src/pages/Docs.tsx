@@ -644,7 +644,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
 
             <h3 className="text-lg font-semibold text-fg">{selectedFlowData.name}</h3>
             <p className="text-sm text-fg-muted mt-2 leading-relaxed">{flowMode === "before" ? selectedFlowData.before : selectedFlowData.after}</p>
-            <p className="text-sm text-violet-300 mt-3">Tip: {selectedFlowData.tip}</p>
+            <p className="text-sm text-accent mt-3">Tip: {selectedFlowData.tip}</p>
           </Card>
         );
 
@@ -806,7 +806,7 @@ export const Docs = memo(({ setPage }: PageProps) => {
                           onClick={() => togglePatternCell(row, idx)}
                           className={cn(
                             "h-5 rounded-sm border transition-colors",
-                            value ? "bg-violet-500 border-violet-400" : "bg-bg border-border hover:border-border-2"
+                            value ? "bg-accent border-accent-hover" : "bg-bg border-border hover:border-border-2"
                           )}
                         />
                       ))}
@@ -826,11 +826,11 @@ export const Docs = memo(({ setPage }: PageProps) => {
                     onClick={() => setRoutingToggles((prev) => ({ ...prev, [node]: !active }))}
                     className={cn(
                       "w-full rounded-md border px-3 py-3 text-left flex items-center justify-between transition-colors",
-                      active ? "border-violet-500/30 bg-violet-500/5" : "border-border/80 bg-bg hover:border-border-2"
+                      active ? "border-accent/30 bg-accent/5" : "border-border/80 bg-bg hover:border-border-2"
                     )}
                   >
                     <span className="text-sm text-fg-muted uppercase font-mono">{node}</span>
-                    <span className={cn("text-xs font-medium", active ? "text-violet-300" : "text-muted")}>{active ? "ON" : "OFF"}</span>
+                    <span className={cn("text-xs font-medium", active ? "text-accent" : "text-muted")}>{active ? "ON" : "OFF"}</span>
                   </button>
                 ))}
               </div>

@@ -128,12 +128,6 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
             className="w-7 h-7 rounded-md"
           />
           <span className="text-[15px] font-semibold text-fg tracking-tight">Aestra</span>
-          <span
-            className="hidden lg:inline-block font-mono text-[10px] font-medium tracking-[0.08em] text-dim border border-border rounded px-1.5 py-[3px] leading-none"
-            aria-hidden="true"
-          >
-            v0.6.0-α
-          </span>
         </button>
 
         <div className="hidden md:flex items-center gap-1">

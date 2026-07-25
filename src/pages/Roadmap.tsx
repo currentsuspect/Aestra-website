@@ -67,11 +67,15 @@ const COLUMNS: Column[] = [
   },
 ];
 
-const statusStyles: Record<Status, { dot: string; badge: string; ring: string }> = {
-  shipped: { dot: "text-emerald-400", badge: "text-emerald-300 border-emerald-500/20 bg-emerald-500/10", ring: "ring-emerald-500/10" },
-  active:  { dot: "text-amber-400",   badge: "text-amber-300   border-amber-500/20   bg-amber-500/10",   ring: "ring-amber-500/10"   },
-  next:    { dot: "text-violet-400",  badge: "text-violet-300  border-violet-500/20  bg-violet-500/10",  ring: "ring-violet-500/10"  },
-  later:   { dot: "text-blue-400",    badge: "text-blue-300    border-blue-500/20    bg-blue-500/10",    ring: "ring-blue-500/10"    },
+/* Only the LED colour is read — the `badge` and `ring` entries this map
+   used to carry were never rendered. Statuses run shipped → later as
+   emerald → amber → accent → dim, so the column reads as a progression
+   rather than four unrelated hues. */
+const statusStyles: Record<Status, { dot: string }> = {
+  shipped: { dot: "text-emerald-400" },
+  active:  { dot: "text-amber-400"   },
+  next:    { dot: "text-accent"      },
+  later:   { dot: "text-dim"         },
 };
 
 const statusLabel: Record<Status, string> = {
@@ -132,8 +136,8 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
         <div className="mt-16 rounded-2xl border border-border/80 bg-bg panel-sheen p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <GitBranch className="w-4 h-4 text-violet-400" aria-hidden="true" />
-              <span className="text-[12px] font-mono uppercase tracking-wider text-violet-300">Have a say</span>
+              <GitBranch className="w-4 h-4 text-accent" aria-hidden="true" />
+              <span className="text-[12px] font-mono uppercase tracking-wider text-accent">Have a say</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-semibold text-fg mb-2 tracking-tight">
               Vote on what ships next.
