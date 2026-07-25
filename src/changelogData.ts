@@ -22,7 +22,7 @@ export const RELEASES: Release[] = [
       "The biggest stretch since we started. Muse woke up, five new plugins moved in, and you can finally plug a keyboard in and play.",
     changes: [
       { type: "new", text: "Muse is awake. Ask for a groove and it writes one into the pattern. Ask it to mix and it moves real faders. Ask for the beat back and it renders you audio — no menu diving, just say the thing." },
-      { type: "new", text: "Five new plugins moved into the rack: AestraSat (tape and tube warmth), AestraOTT (the 3-band squash you know), AestraFilter (envelope-chasing multimode), AestraLFO (tempo-locked movement on anything), AestraLimit (brickwall with auto-release that reads the density of the material)." },
+      { type: "new", text: "Five new plugins moved into the free rack: AestraSat (tape and tube warmth), AestraOTT (the 3-band squash you know), AestraFilter (envelope-chasing multimode), AestraLFO (tempo-locked movement on anything), AestraLimit (brickwall with auto-release that reads the density of the material)." },
       { type: "new", text: "AestraRumble rebuilt from the ground up — the 808 that actually holds up on a phone speaker and in a car." },
       { type: "new", text: "Plug in a MIDI keyboard and play. Don't have one nearby? Your QWERTY row is now a keyboard — musical typing plays whatever instrument is loaded, live." },
       { type: "new", text: "Lights-on, lights-out. A full theme system that switches live, across the shell and every editor, without restarting the session." },
