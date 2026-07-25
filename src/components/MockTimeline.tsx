@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, memo } from "react";
-import { cn } from "../lib";
+import { cn, prefersReducedMotion } from "../lib";
 
 /* ── Native palette — mirrored 1:1 from the DAW ──────────────────
    Source: AestraUI/Core/NUIThemeSystem.cpp (dark theme, July 2026).
@@ -223,6 +223,188 @@ const ToolBtn = memo(({ active, onClick, children, title }: { active: boolean; o
   </button>
 ));
 
+/* ── Mobile timeline ────────────────────────────────────────────────
+   Phones used to get a placeholder card reading "open on tablet or
+   desktop", which put an apology where the product demo should be.
+   This is the same DAW, reduced to what still reads at 375px:
+   transport, ruler, and five colour-cycled tracks with clips. The
+   file browser, mixer strip and tool palette are dropped on purpose —
+   at this width they'd be illegible rather than informative. ─────── */
+const MOBILE_BARS = 8;
+
+/* [startBar, lengthBars] per lane, 0-indexed bars. */
+const MOBILE_CLIPS: [number, number][][] = [
+  [[0, 2], [3, 2]],
+  [[1, 3], [5, 2]],
+  [[0, 1], [2, 1], [4, 1], [6, 1]],
+  [[2, 4]],
+  [[0, 2], [6, 2]],
+];
+
+const MobileTimeline = memo(() => {
+  const [playing, setPlaying] = useState(false);
+  const laneRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(0);
+  const reduced = prefersReducedMotion();
+
+  useEffect(() => {
+    if (!playing || reduced) return;
+    let af = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      const width = laneRef.current?.clientWidth ?? 0;
+      if (width > 0) {
+        // 120 BPM, 4/4 -> one bar every 2s.
+        const perBar = width / MOBILE_BARS;
+        posRef.current = (posRef.current + (perBar / 2) * dt) % width;
+        if (headRef.current) {
+          headRef.current.style.transform = `translateX(${posRef.current}px)`;
+        }
+      }
+      af = requestAnimationFrame(tick);
+    };
+    af = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(af);
+  }, [playing, reduced]);
+
+  const stop = () => {
+    setPlaying(false);
+    posRef.current = 0;
+    if (headRef.current) headRef.current.style.transform = "translateX(0px)";
+  };
+
+  return (
+    <div
+      className="md:hidden rounded-xl border overflow-hidden"
+      style={{ borderColor: C.border, background: C.bg }}
+    >
+      {/* Transport */}
+      <div
+        className="flex items-center gap-2 px-3 h-11 border-b"
+        style={{ borderColor: C.border, background: C.bgSoft }}
+      >
+        <button
+          onClick={() => setPlaying((p) => !p)}
+          aria-label={playing ? "Pause preview" : "Play preview"}
+          className="w-8 h-8 rounded flex items-center justify-center transition-colors"
+          style={{
+            background: playing ? C.primary : C.buttonBg,
+            color: playing ? "#fff" : C.textDim,
+          }}
+        >
+          {playing ? <Icon.Pause /> : <Icon.Play />}
+        </button>
+        <button
+          onClick={stop}
+          aria-label="Stop preview"
+          className="w-8 h-8 rounded flex items-center justify-center"
+          style={{ background: C.buttonBg, color: C.textDim }}
+        >
+          <Icon.Stop />
+        </button>
+        <span
+          aria-hidden="true"
+          className="w-8 h-8 rounded flex items-center justify-center"
+          style={{ background: C.buttonBg, color: C.textOff }}
+        >
+          <Icon.Record />
+        </span>
+        <div className="ml-auto flex items-center gap-3 font-mono tabular-nums" style={{ color: C.textDim }}>
+          <span className="text-[11px]">4/4</span>
+          <span className="text-[11px]" style={{ color: C.text }}>120.00</span>
+        </div>
+      </div>
+
+      {/* Ruler */}
+      <div
+        className="flex h-6 border-b"
+        style={{ borderColor: C.border, background: C.bgSoft }}
+        aria-hidden="true"
+      >
+        <div className="w-[68px] shrink-0 border-r" style={{ borderColor: C.border }} />
+        <div className="flex-1 flex">
+          {Array.from({ length: MOBILE_BARS }, (_, i) => (
+            <div
+              key={i}
+              className="flex-1 text-[9px] font-mono flex items-center pl-1.5 border-r last:border-r-0"
+              style={{ color: C.textMuted, borderColor: C.divider }}
+            >
+              {i + 1}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Lanes */}
+      <div className="relative">
+        {MOBILE_CLIPS.map((clips, row) => {
+          const color = TRACK_PALETTE[row % TRACK_PALETTE.length];
+          return (
+            <div
+              key={row}
+              className="flex h-11 border-b last:border-b-0"
+              style={{ borderColor: C.divider }}
+            >
+              <div
+                className="w-[68px] shrink-0 flex items-center gap-1.5 pl-0 pr-1.5 border-r"
+                style={{ borderColor: C.border, background: C.bgSoft }}
+              >
+                <span className="w-[3px] self-stretch shrink-0" style={{ background: color, opacity: 0.85 }} />
+                <span className="text-[10px] font-medium truncate" style={{ color }}>
+                  Track {row + 1}
+                </span>
+              </div>
+              <div className="relative flex-1">
+                {/* bar grid */}
+                <div className="absolute inset-0 flex" aria-hidden="true">
+                  {Array.from({ length: MOBILE_BARS }, (_, i) => (
+                    <div
+                      key={i}
+                      className="flex-1 border-r last:border-r-0"
+                      style={{
+                        borderColor: C.gridBeat,
+                        background: i % 2 === 1 ? "rgba(255,255,255,0.018)" : "transparent",
+                      }}
+                    />
+                  ))}
+                </div>
+                {clips.map(([start, len], i) => (
+                  <div
+                    key={i}
+                    className="absolute top-1 bottom-1 rounded-[3px] overflow-hidden"
+                    style={{
+                      left: `${(start / MOBILE_BARS) * 100}%`,
+                      width: `${(len / MOBILE_BARS) * 100}%`,
+                      background: `${color}2e`,
+                      borderLeft: `2px solid ${color}`,
+                    }}
+                  >
+                    <div className="absolute inset-x-0 top-0 h-px" style={{ background: `${color}66` }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Playhead — spans the lane block, offset past the name column */}
+        <div className="absolute inset-y-0 left-[68px] right-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          <div ref={laneRef} className="relative w-full h-full">
+            <div
+              ref={headRef}
+              className="absolute top-0 bottom-0 w-px"
+              style={{ background: C.primaryHover, boxShadow: `0 0 6px ${C.primary}` }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+
 /* ── Main Component ─────────────────────────────────────────────── */
 export const MockTimeline = memo(() => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -351,14 +533,7 @@ export const MockTimeline = memo(() => {
 
   return (
     <div className="w-full max-w-7xl mx-auto relative px-0 sm:px-2">
-      {/* Mobile fallback */}
-      <div className="md:hidden rounded-xl border border-neutral-800 bg-neutral-950 p-8 text-center">
-        <div className="flex items-center justify-center gap-2 mb-3 text-neutral-400">
-          <Icon.Timeline />
-          <span className="text-xs">Aestra preview</span>
-        </div>
-        <p className="text-sm text-neutral-400">Interactive editor — open on tablet or desktop for the full experience.</p>
-      </div>
+      <MobileTimeline />
 
       {/* Full DAW preview */}
       <div className="hidden md:block w-full">
