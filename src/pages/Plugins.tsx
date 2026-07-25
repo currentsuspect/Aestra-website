@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Play, Music2, Layers, Cpu, Wand2, Timer, ArrowUpRight, Waves, Flame, BarChart3, Activity, Gauge } from "lucide-react";
+import { Play, ArrowUpRight } from "lucide-react";
+import { EqIcon, VerbIcon, CompIcon, DelayIcon, DriftIcon, FilterIcon, SatIcon, OttIcon, LfoIcon, LimitIcon } from "../components/PluginIcons";
 import { FadeIn, Button } from "../components/ui";
 import { PianoGrid } from "../components/PianoGrid";
 import { VideoModal } from "../components/VideoModal";
@@ -24,70 +25,70 @@ const PLUGINS: Plugin[] = [
     kind: "Equalizer",
     desc: "Grab a frequency and hear it before you commit. Ghost bands preview the move, so you stop guessing and start carving.",
     status: "Available",
-    icon: Layers,
+    icon: EqIcon,
   },
   {
     name: "AestraVerb",
     kind: "Reverb",
     desc: "Plate, hall and room that put a vocal in a space without drowning it. Big tails, and your CPU meter barely moves.",
     status: "Available",
-    icon: Music2,
+    icon: VerbIcon,
   },
   {
     name: "AestraComp",
     kind: "Compressor",
     desc: "Glues a drum bus without pumping the life out of it. You can see exactly how hard it's working, in real time.",
     status: "Available",
-    icon: Cpu,
+    icon: CompIcon,
   },
   {
     name: "AestraDelay",
     kind: "Delay",
     desc: "Locks to your tempo and ducks under the vocal on its own. Slap, tape, ping-pong — anything that repeats.",
     status: "Available",
-    icon: Timer,
+    icon: DelayIcon,
   },
   {
     name: "AestraDrift",
     kind: "Pitch Shifter",
     desc: "Stacked harmonies off a single take, plus the shimmer you'd normally chase with three plugins and a bus.",
     status: "Available",
-    icon: Wand2,
+    icon: DriftIcon,
   },
   {
     name: "AestraFilter",
     kind: "Filter",
     desc: "The cutoff chases how hard you hit it — up to four octaves either way. Auto-wah, reverse ducks, brightness that moves with the take.",
     status: "Available",
-    icon: Waves,
+    icon: FilterIcon,
   },
   {
     name: "AestraSat",
     kind: "Saturator",
     desc: "Tape, tube, or hard clip. Push a lifeless sample until it has some grit — oversampled, so it dirties up without going brittle.",
     status: "In alpha builds",
-    icon: Flame,
+    icon: SatIcon,
   },
   {
     name: "AestraOTT",
     kind: "Multiband",
     desc: "The over-the-top squash. Pulls the loud parts down and the quiet parts up across three bands — instant density on drums and synths.",
     status: "In alpha builds",
-    icon: BarChart3,
+    icon: OttIcon,
   },
   {
     name: "AestraLFO",
     kind: "Modulator",
     desc: "Rhythmic gating, auto-pan, and filter wobble locked to your tempo. Drop it on a flat pad and it starts breathing in time.",
     status: "In alpha builds",
-    icon: Activity,
+    icon: LfoIcon,
   },
   {
     name: "AestraLimit",
     kind: "Limiter",
     desc: "Brickwall for the master, with a release that reads how dense the material is. Catches the peaks without the pumping.",
     status: "In alpha builds",
-    icon: Gauge,
+    icon: LimitIcon,
   },
 ];
 
@@ -156,7 +157,7 @@ export const Plugins = ({ setPage }: PageProps) => {
               </div>
               <div className="p-5 sm:p-6 flex items-start gap-4">
                 <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0">
-                  <Layers className="w-5 h-5 text-fg-muted" />
+                  <EqIcon className="w-5 h-5 text-fg-muted" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">Equalizer</div>

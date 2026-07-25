@@ -1,5 +1,6 @@
 import React, { useState, useEffect, memo, lazy, Suspense } from "react";
-import { ChevronRight, Check, Music2, Cpu, Layers, Workflow, Headphones, Sparkles, Plus, Minus, ArrowRight, ArrowUpRight, CalendarDays, Activity } from "lucide-react";
+import { ChevronRight, Check, Workflow, Headphones, Sparkles, Plus, Minus, ArrowRight, ArrowUpRight, CalendarDays, Activity } from "lucide-react";
+import { EqIcon, VerbIcon, CompIcon } from "../components/PluginIcons";
 import { Button, FeatureCard, FadeIn } from "../components/ui";
 import { PianoGrid } from "../components/PianoGrid";
 import { useToast } from "../components/Toast";
@@ -567,7 +568,7 @@ const Plugins = memo(({ setPage }: PageProps) => (
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {[
           {
-            icon: Music2,
+            icon: VerbIcon,
             name: "AestraVerb",
             kind: "Reverb",
             desc: "Plate, hall and room that put a vocal in a space without drowning it. Big tails, and your CPU meter barely moves.",
@@ -575,7 +576,7 @@ const Plugins = memo(({ setPage }: PageProps) => (
             statusColor: "emerald",
           },
           {
-            icon: Layers,
+            icon: EqIcon,
             name: "AestraEQ",
             kind: "Equalizer",
             desc: "Grab a frequency and hear it before you commit. Ghost bands preview the move, so you stop guessing and start carving.",
@@ -583,7 +584,7 @@ const Plugins = memo(({ setPage }: PageProps) => (
             statusColor: "emerald",
           },
           {
-            icon: Cpu,
+            icon: CompIcon,
             name: "AestraComp",
             kind: "Compressor",
             desc: "Glues a drum bus without pumping the life out of it. You can see exactly how hard it's working, in real time.",
