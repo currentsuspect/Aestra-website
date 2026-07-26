@@ -82,11 +82,12 @@ export const Privacy = memo(({ setPage }: PageProps) => (
           <h2 className="text-[15px] font-medium text-fg mb-3">Your rights</h2>
           <p className="text-muted">
             You can request access to, correction of, or deletion of any personal data we hold about you.
-            Open an issue on{" "}
-            <a href="https://github.com/currentsuspect/Aestra" target="_blank" rel="noopener noreferrer" className="text-fg underline underline-offset-4 hover:text-fg">
-              GitHub
+            Email{" "}
+            <a href="mailto:legal@aestra.studio" className="text-fg underline underline-offset-4 hover:text-fg">
+              legal@aestra.studio
             </a>
-            {" "}or reach out through the community channels. We aim to respond to verified requests within 30 days.
+            {" "}— use email rather than a public issue tracker, since making the request usually means
+            telling us which address is yours. We aim to respond to verified requests within 30 days.
           </p>
         </section>
 
@@ -95,6 +96,21 @@ export const Privacy = memo(({ setPage }: PageProps) => (
           <p className="text-muted">
             This policy is provided in good faith. Where local consumer or data-protection law (such as the EU GDPR, UK GDPR, or California CCPA) grants you additional rights, those rights apply in addition to anything stated here.
             Disputes will be handled in the jurisdiction of Aestra Studios' registered place of business, without prejudice to your mandatory local protections.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Contact</h2>
+          <p className="text-muted">
+            Privacy questions, data requests, and anything else about this policy go to{" "}
+            <a href="mailto:legal@aestra.studio" className="text-fg underline underline-offset-4 hover:text-fg">
+              legal@aestra.studio
+            </a>
+            . Found a security problem? That has its own address —{" "}
+            <a href="mailto:security@aestra.studio" className="text-fg underline underline-offset-4 hover:text-fg">
+              security@aestra.studio
+            </a>
+            .
           </p>
         </section>
       </div>

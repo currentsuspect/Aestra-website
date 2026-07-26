@@ -104,6 +104,21 @@ export const Terms = memo(({ setPage }: PageProps) => (
             the law of your country of residence.
           </p>
         </section>
+
+        <section>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Questions about these terms</h2>
+          <p className="text-muted">
+            Anything contractual — these terms, refunds, licensing, or a takedown request — goes to{" "}
+            <a href="mailto:legal@aestra.studio" className="text-fg underline underline-offset-4 hover:text-fg">
+              legal@aestra.studio
+            </a>
+            . If you just need help with the software,{" "}
+            <a href="mailto:support@aestra.studio" className="text-fg underline underline-offset-4 hover:text-fg">
+              support@aestra.studio
+            </a>
+            {" "}will get you there faster.
+          </p>
+        </section>
       </div>
     </div>
   </div>
