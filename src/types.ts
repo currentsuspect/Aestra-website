@@ -61,6 +61,7 @@ export type PageId =
   | "terms"
   | "about"
   | "roadmap"
+  | "recovery"
   | "404";
 
 type SEOConstants = Record<PageId, string>;
@@ -81,6 +82,7 @@ export const PAGE_PATHS = asSEO({
   terms: "/terms",
   about: "/about",
   roadmap: "/roadmap",
+  recovery: "/recovery",
   "404": "/404",
 });
 
@@ -98,6 +100,7 @@ export const PAGE_TITLES = asSEO({
   terms: "Terms of Service — Aestra",
   about: "About — Aestra",
   roadmap: "Roadmap — Aestra",
+  recovery: "Recovery Center — Aestra",
   "404": "Not Found — Aestra",
 });
 
@@ -115,6 +118,7 @@ export const PAGE_DESCRIPTIONS = asSEO({
   terms: "Aestra terms of service: ASSAL v1.1 license, your music is yours, Supporter and Founder tier details.",
   about: "About Aestra Studios: building a DAW that keeps up with producers instead of getting in their way.",
   roadmap: "Aestra's public roadmap. What's shipped, what's in progress, what we're targeting next, and what's on the radar.",
+  recovery: "Report a bug, investigate it with a coding agent, contribute a fix upstream, or recover a damaged project. Aestra's debugging protocol, published and versioned.",
   "404": "Page not found — Aestra",
 });
 
@@ -132,6 +136,7 @@ export const PAGE_KEYWORDS = asSEO({
   terms: "Aestra terms of service, ASSAL license, source available, your music is yours",
   about: "about Aestra Studios, Dylan Makori, founder, mission, Aestra team",
   roadmap: "Aestra roadmap, Aestra public roadmap, upcoming features, DAW development, what we're building",
+  recovery: "Aestra bug report, DAW crash, corrupted project recovery, agent debugging protocol, contribute fix, Aestra support, project won't open",
   "404": "page not found, 404, Aestra",
 });
 
@@ -149,6 +154,7 @@ export const PAGE_OG_TYPES = asSEO({
   terms: "article",
   about: "profile",
   roadmap: "article",
+  recovery: "article",
   "404": "website",
 });
 
@@ -166,6 +172,7 @@ export const PAGE_OG_IMAGES = asSEO({
   terms: "/og-image.png",
   about: "/og-image.png",
   roadmap: "/og-image.png",
+  recovery: "/og-image.png",
   "404": "/og-image.png",
 });
 
@@ -183,6 +190,7 @@ export const PAGE_ROBOTS = asSEO({
   terms: "index, follow, max-snippet:-1",
   about: "index, follow",
   roadmap: "index, follow, max-snippet:-1",
+  recovery: "index, follow, max-snippet:-1",
   "404": "noindex, nofollow",
 });
 
@@ -200,5 +208,6 @@ export const PAGE_SECTION_TITLES = asSEO({
   terms: "Terms of Service",
   about: "About",
   roadmap: "Roadmap",
+  recovery: "Recovery Center",
   "404": "Not Found",
 });

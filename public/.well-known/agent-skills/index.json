@@ -14,6 +14,48 @@
       "description": "Aestra product documentation",
       "url": "https://aestra.studio/docs",
       "sha256": ""
+    },
+    {
+      "name": "aestra-agent-protocol",
+      "type": "skill",
+      "description": "Base protocol (aestra-agent-protocol/v1) governing every Aestra recovery skill: the public/private halt condition, real-time audio invariants, change discipline, report provenance, and case routing",
+      "url": "https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md",
+      "sha256": "0776d6fc1f2a256f543761f9fed98993f37abe5368c4d66dd703a65fe2f61b24"
+    },
+    {
+      "name": "investigate-bug",
+      "type": "skill",
+      "description": "Determine the root cause of an Aestra defect and produce the smallest correct fix, with a regression test and a stated-uncertainty report",
+      "url": "https://aestra.studio/.well-known/agent-skills/recovery/investigate-bug.md",
+      "sha256": "2cdc46a0693975948171c81b3b01a889be1ec6af75bda2728c57375c15723e8c"
+    },
+    {
+      "name": "reproduce-crash",
+      "type": "skill",
+      "description": "Turn an Aestra crash report into a deterministic reproduction, or establish precisely why it is not deterministic",
+      "url": "https://aestra.studio/.well-known/agent-skills/recovery/reproduce-crash.md",
+      "sha256": "3f5485a1f3e5cb9716bb05e897c540e1f6340422bbe880189e33c476acc7dc0a"
+    },
+    {
+      "name": "recover-project",
+      "type": "skill",
+      "description": "Salvage a damaged Aestra project against a copy, using the engine's own ProjectLoadReport model, reporting everything recovered, omitted, modified or uncertain",
+      "url": "https://aestra.studio/.well-known/agent-skills/recovery/recover-project.md",
+      "sha256": "f38a4d527d3c3da03fb4e52e9420b71337dacd657ffb9dc8e80a5d9e5221f996"
+    },
+    {
+      "name": "prepare-pr",
+      "type": "skill",
+      "description": "Get an Aestra fix into reviewable shape: issue first, topic branch off develop, scoped change, real verification, repository-canonical PR template",
+      "url": "https://aestra.studio/.well-known/agent-skills/recovery/prepare-pr.md",
+      "sha256": "93fb32b170bd33fce3868b7cac992df6596045a58c29efeebc0592243f0bdd48"
+    },
+    {
+      "name": "collect-diagnostics",
+      "type": "skill",
+      "description": "Assemble ground-truth Aestra and host diagnostics for an investigation, taking audio configuration from Aestra rather than inferring it from the browser",
+      "url": "https://aestra.studio/.well-known/agent-skills/recovery/collect-diagnostics.md",
+      "sha256": "8190a17c5e0d58bbe75f5340c9f2adacbe17243508685206a423222f56026735"
     }
   ]
 }

@@ -148,6 +148,20 @@ export const buildPageStructuredData = (
     });
   }
 
+  if (page === "recovery") {
+    base["@graph"].push({
+      "@type": "TechArticle",
+      "@id": `${url}#recovery`,
+      name: "Aestra Recovery Center",
+      headline: "Report. Investigate. Recover.",
+      description:
+        "How to report an Aestra bug, investigate it with a coding agent under a versioned protocol, contribute a fix upstream, or recover a damaged project.",
+      author: { "@id": "https://aestra.studio/#founder" },
+      publisher: { "@id": "https://aestra.studio/#organization" },
+      inLanguage: "en-US",
+    });
+  }
+
   if (page === "privacy" || page === "terms" || page === "404") {
     base["@graph"].push({
       "@type": "WebPage",

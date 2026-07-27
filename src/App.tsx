@@ -33,6 +33,7 @@ const Terms = lazy(() => import("./pages/Terms").then(m => ({ default: m.Terms }
 const About = lazy(() => import("./pages/About").then(m => ({ default: m.About })));
 const Roadmap = lazy(() => import("./pages/Roadmap").then(m => ({ default: m.Roadmap })));
 const PluginsPage = lazy(() => import("./pages/Plugins").then(m => ({ default: m.Plugins })));
+const Recovery = lazy(() => import("./pages/Recovery").then(m => ({ default: m.Recovery })));
 const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.NotFound })));
 
 const PageLoader = () => <LoadingFallback />;
@@ -276,6 +277,8 @@ export const App = () => {
         return withShell(<LazyPage><Roadmap setPage={handleSetPage} /></LazyPage>, "roadmap");
       case "plugins":
         return withShell(<LazyPage><PluginsPage setPage={handleSetPage} /></LazyPage>, "plugins");
+      case "recovery":
+        return withShell(<LazyPage><Recovery setPage={handleSetPage} /></LazyPage>, "");
       default:
         return (
           <LazyPage>

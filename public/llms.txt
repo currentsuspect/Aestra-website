@@ -34,6 +34,32 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 - [About](https://aestra.studio/about) — About Aestra Studios, founder, brand, and key terminology.
 - [Privacy Policy](https://aestra.studio/privacy) — How we handle data (we don't collect any by default).
 - [Terms of Service](https://aestra.studio/terms) — License (ASSAL v1.1), your music is yours, tier details.
+- [Recovery Center](https://aestra.studio/recovery) — Report a bug, investigate it with a coding agent, contribute a fix upstream, or recover a damaged project.
+
+## Agent Protocol
+
+Aestra publishes its debugging protocol as machine-discoverable skills, not just prose. If you are an
+agent investigating an Aestra defect, fetch these before you start:
+
+- Index: https://aestra.studio/.well-known/agent-skills/index.json
+- Base protocol: https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+
+Protocol identifier: `aestra-agent-protocol/v1`
+
+Skills: `investigate-bug`, `reproduce-crash`, `recover-project`, `prepare-pr`, `collect-diagnostics`
+(each at `https://aestra.studio/.well-known/agent-skills/recovery/<name>.md`).
+
+Two rules matter most:
+
+1. **Halt condition.** When investigation reaches code unavailable in the checked-out repository, stop
+   at that boundary. Record the last observable public operation, its inputs, expected behavior, actual
+   behavior, and diagnostics. Do not infer or recreate the unavailable implementation.
+2. **The repository is the source of truth.** The website orchestrates; bug report formats, PR
+   requirements, and contribution rules live in https://github.com/currentsuspect/Aestra and override
+   anything stated on the site.
+
+Routing: public defects go to GitHub issues; premium/private components go to support@aestra.studio;
+security vulnerabilities go to security@aestra.studio and never to a public issue.
 
 ## Product Positioning
 
