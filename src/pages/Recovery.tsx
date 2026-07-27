@@ -29,11 +29,10 @@ import type { PageProps } from "../types";
    ───────────────────────────────────────────────────────────────── */
 
 const REPO = "https://github.com/currentsuspect/Aestra";
-const SKILLS = "https://aestra.studio/.well-known/agent-skills/recovery";
+const SKILLS = "https://aestra.studio/.well-known/agent-skills/recovery/v1";
 const SUPPORT = "support@aestra.studio";
 const SECURITY = "security@aestra.studio";
 const PROTOCOL = "aestra-agent-protocol/v1";
-const PROTOCOL_REVISION = "2026-07-27";
 
 /* ── Signal path ──────────────────────────────────────────────────
    The triage tree as a patchbay rather than an ASCII block. Three
@@ -646,8 +645,8 @@ const PATHS: AgentPath[] = [
     prompt: `My Aestra project won't open properly and I'd like to recover as much of it as possible.
 
 Before you touch anything, read these and follow them exactly:
-https://aestra.studio/.well-known/agent-skills/recovery/recover-project.md
-https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+https://aestra.studio/.well-known/agent-skills/recovery/v1/recover-project/SKILL.md
+https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 The rules that matter most to me:
 - Make a copy first and work only on the copy. Never change my original file.
@@ -670,8 +669,8 @@ What happens when I open it: <e.g. Aestra freezes, then closes by itself>`,
     prompt: `I've hit a bug in Aestra and I'd like you to work out what's causing it.
 
 Read these first and follow them exactly:
-https://aestra.studio/.well-known/agent-skills/recovery/investigate-bug.md
-https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+https://aestra.studio/.well-known/agent-skills/recovery/v1/investigate-bug/SKILL.md
+https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 The rules that matter most:
 - Make the problem happen yourself before you change any code.
@@ -694,8 +693,8 @@ Here's what's happening:
     prompt: `I have a fix for an Aestra bug and I'd like to send it to the maintainers properly.
 
 Read these first and follow them exactly:
-https://aestra.studio/.well-known/agent-skills/recovery/prepare-pr.md
-https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+https://aestra.studio/.well-known/agent-skills/recovery/v1/prepare-pr/SKILL.md
+https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 Treat the files already in this folder as the authority — CONTRIBUTING.md and
 the pull request template override anything the web page says.
@@ -716,7 +715,8 @@ implementation.`;
 
 const PROVENANCE = `Protocol:        ${PROTOCOL}
 Skill:           <skill name>
-Skill revision:  ${PROTOCOL_REVISION}
+Artifact:        <the exact SKILL.md URL you fetched>
+Digest:          sha256:<the digest you verified from the index>
 Aestra version:  <from the build>
 Aestra commit:   <if known>
 Project version: <"version" field of the project file>`;
@@ -731,7 +731,7 @@ const AgentToolkit = memo(() => {
 
   const copyInvocation = useCallback(
     (name: string, title: string) => {
-      const text = `Please read the instructions at ${SKILLS}/${name}.md and the base rules at ${SKILLS}/aestra-agent-protocol.md, then follow them exactly for the task below. If the trail leads into code you don't have access to, stop there and write up what you found rather than guessing. Explain what you're doing in plain language as you go.
+      const text = `Please read the instructions at ${SKILLS}/${name}/SKILL.md and the base rules at ${SKILLS}/aestra-agent-protocol/SKILL.md, then follow them exactly for the task below. If the trail leads into code you don't have access to, stop there and write up what you found rather than guessing. Explain what you're doing in plain language as you go.
 
 My situation: `;
       navigator.clipboard.writeText(text).then(
@@ -911,7 +911,7 @@ My situation: `;
                       Copy
                     </Button>
                     <a
-                      href={`${SKILLS}/${name}.md`}
+                      href={`${SKILLS}/${name}/SKILL.md`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-[12.5px] text-muted hover:text-fg transition-colors"
@@ -931,7 +931,7 @@ My situation: `;
                   gets routed.
                 </p>
                 <a
-                  href={`${SKILLS}/aestra-agent-protocol.md`}
+                  href={`${SKILLS}/aestra-agent-protocol/SKILL.md`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-[12.5px] text-accent hover:text-accent-hover transition-colors"
@@ -949,7 +949,10 @@ My situation: `;
                 </h3>
                 <p className="text-[13.5px] text-muted leading-relaxed mb-4 max-w-prose">
                   Six months from now, when an agent-written investigation is attached to an
-                  issue, you can tell exactly which instructions that agent was working from.
+                  issue, anyone can fetch that exact artifact, hash it, and confirm they're
+                  reading the same instructions the agent followed. Versioned artifacts are
+                  frozen on publish, so the evidence stays reproducible rather than being a
+                  claim you have to take on trust.
                 </p>
                 <CopyBlock label="provenance header" text={PROVENANCE} />
               </div>
@@ -1242,7 +1245,7 @@ export const Recovery = memo((_: PageProps) => (
                   { icon: GitHubIcon, when: "Defect in public Aestra", to: "GitHub issue, then PR", href: `${REPO}/issues/new?template=bug_report.md` },
                   { icon: LifeBuoy, when: "Premium or private component", to: SUPPORT, href: `mailto:${SUPPORT}` },
                   { icon: ShieldAlert, when: "Security vulnerability", to: SECURITY, href: `mailto:${SECURITY}` },
-                  { icon: FileJson, when: "Damaged project file", to: "recover-project first", href: `${SKILLS}/recover-project.md` },
+                  { icon: FileJson, when: "Damaged project file", to: "recover-project first", href: `${SKILLS}/recover-project/SKILL.md` },
                 ].map(({ icon: Icon, when, to, href }) => (
                   <li key={when} className="px-4 py-3.5 flex items-start gap-3">
                     <Icon className="w-4 h-4 text-muted shrink-0 mt-0.5" aria-hidden="true" />

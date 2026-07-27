@@ -1,9 +1,21 @@
+---
+name: recover-project
+description: Salvage a damaged Aestra DAW project by working against a copy, using the engine's own load-report model, and reporting everything recovered, omitted, modified or uncertain. Use when an Aestra project will not open, crashes on load, or loads with missing content.
+license: Proprietary. See https://aestra.studio/terms
+metadata:
+  protocol: aestra-agent-protocol/v1
+  revision: "2026-07-27"
+  status: active
+  publisher: Aestra Studios
+---
+
 # Recover an Aestra project
 
     Protocol:       aestra-agent-protocol/v1
     Skill:          recover-project
-    Skill revision: 2026-07-27
-    Base protocol:  https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+    Artifact:       https://aestra.studio/.well-known/agent-skills/recovery/v1/recover-project/SKILL.md
+    Frozen:         2026-07-27 — this artifact is immutable
+    Base protocol:  https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 Your goal is **recovery, not repair of Aestra itself.** Preserve as much musical
 information as possible. Work against a copy. Never discard unknown data merely
@@ -123,7 +135,8 @@ PROJECT RECOVERY
 
 Protocol:        aestra-agent-protocol/v1
 Skill:           recover-project
-Skill revision:  2026-07-27
+Artifact:        .../recovery/v1/recover-project/SKILL.md
+Digest:          sha256:9f2c...  (verified against the index)
 Aestra version:  0.6.0-alpha
 Project version: 4
 

@@ -42,12 +42,17 @@ Aestra publishes its debugging protocol as machine-discoverable skills, not just
 agent investigating an Aestra defect, fetch these before you start:
 
 - Index: https://aestra.studio/.well-known/agent-skills/index.json
-- Base protocol: https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+- Base protocol: https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 Protocol identifier: `aestra-agent-protocol/v1`
 
-Skills: `investigate-bug`, `reproduce-crash`, `recover-project`, `prepare-pr`, `collect-diagnostics`
-(each at `https://aestra.studio/.well-known/agent-skills/recovery/<name>.md`).
+The index conforms to the Agent Skills discovery RFC v0.2.0; every entry is `type: skill-md` with a
+`digest` you should verify against the bytes you download. Skills: `investigate-bug`,
+`reproduce-crash`, `recover-project`, `prepare-pr`, `collect-diagnostics` (each at
+`https://aestra.studio/.well-known/agent-skills/recovery/v1/<name>/SKILL.md`).
+
+Artifacts under a version directory are immutable — `v1` is frozen and will never be edited. When
+v2 ships, the index repoints; v1 stays reachable forever so older reports remain verifiable.
 
 Two rules matter most:
 

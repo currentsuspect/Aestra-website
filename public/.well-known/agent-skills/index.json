@@ -1,61 +1,47 @@
 {
-  "$schema": "https://agentskills.io/schemas/skills-index/v0.2.0/schema.json",
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
   "skills": [
     {
-      "name": "api-catalog",
-      "type": "api-catalog",
-      "description": "Discover Aestra's API surface via RFC 9727 API catalog",
-      "url": "https://aestra.studio/.well-known/api-catalog",
-      "sha256": ""
-    },
-    {
-      "name": "docs",
-      "type": "service-doc",
-      "description": "Aestra product documentation",
-      "url": "https://aestra.studio/docs",
-      "sha256": ""
-    },
-    {
       "name": "aestra-agent-protocol",
-      "type": "skill",
-      "description": "Base protocol (aestra-agent-protocol/v1) governing every Aestra recovery skill: the public/private halt condition, real-time audio invariants, change discipline, report provenance, and case routing",
-      "url": "https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md",
-      "sha256": "0776d6fc1f2a256f543761f9fed98993f37abe5368c4d66dd703a65fe2f61b24"
-    },
-    {
-      "name": "investigate-bug",
-      "type": "skill",
-      "description": "Determine the root cause of an Aestra defect and produce the smallest correct fix, with a regression test and a stated-uncertainty report",
-      "url": "https://aestra.studio/.well-known/agent-skills/recovery/investigate-bug.md",
-      "sha256": "2cdc46a0693975948171c81b3b01a889be1ec6af75bda2728c57375c15723e8c"
-    },
-    {
-      "name": "reproduce-crash",
-      "type": "skill",
-      "description": "Turn an Aestra crash report into a deterministic reproduction, or establish precisely why it is not deterministic",
-      "url": "https://aestra.studio/.well-known/agent-skills/recovery/reproduce-crash.md",
-      "sha256": "3f5485a1f3e5cb9716bb05e897c540e1f6340422bbe880189e33c476acc7dc0a"
-    },
-    {
-      "name": "recover-project",
-      "type": "skill",
-      "description": "Salvage a damaged Aestra project against a copy, using the engine's own ProjectLoadReport model, reporting everything recovered, omitted, modified or uncertain",
-      "url": "https://aestra.studio/.well-known/agent-skills/recovery/recover-project.md",
-      "sha256": "f38a4d527d3c3da03fb4e52e9420b71337dacd657ffb9dc8e80a5d9e5221f996"
-    },
-    {
-      "name": "prepare-pr",
-      "type": "skill",
-      "description": "Get an Aestra fix into reviewable shape: issue first, topic branch off develop, scoped change, real verification, repository-canonical PR template",
-      "url": "https://aestra.studio/.well-known/agent-skills/recovery/prepare-pr.md",
-      "sha256": "93fb32b170bd33fce3868b7cac992df6596045a58c29efeebc0592243f0bdd48"
+      "type": "skill-md",
+      "description": "Base protocol governing every Aestra DAW recovery skill: the public/private halt condition, real-time audio-thread invariants, change discipline, report provenance, and case routing. Use this whenever investigating, fixing, or recovering anything in Aestra; the task-specific Aestra skills all assume it.",
+      "url": "/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md",
+      "digest": "sha256:aea902ffc2186effa946cc25df62a57338e54d15b0b99e9f7cda4d502932d4cf"
     },
     {
       "name": "collect-diagnostics",
-      "type": "skill",
-      "description": "Assemble ground-truth Aestra and host diagnostics for an investigation, taking audio configuration from Aestra rather than inferring it from the browser",
-      "url": "https://aestra.studio/.well-known/agent-skills/recovery/collect-diagnostics.md",
-      "sha256": "8190a17c5e0d58bbe75f5340c9f2adacbe17243508685206a423222f56026735"
+      "type": "skill-md",
+      "description": "Assemble ground-truth Aestra DAW and host diagnostics for an investigation, taking audio configuration from Aestra rather than inferring it from a browser or from assumptions. Use when a bug report or investigation needs accurate environment details.",
+      "url": "/.well-known/agent-skills/recovery/v1/collect-diagnostics/SKILL.md",
+      "digest": "sha256:cfd8e1a62414b9d7751a4600a9d8d915f1f94f5004bfc7a8e197699cfb721c78"
+    },
+    {
+      "name": "investigate-bug",
+      "type": "skill-md",
+      "description": "Determine the root cause of a bug in the Aestra DAW and produce the smallest correct fix, with a regression test and a report that states its remaining uncertainty. Use when a defect in Aestra needs diagnosing rather than merely reporting.",
+      "url": "/.well-known/agent-skills/recovery/v1/investigate-bug/SKILL.md",
+      "digest": "sha256:f0e6c9b3c521f90cb42786fc334013d4c7310312a40a4495c3aff8da4d3d5bbf"
+    },
+    {
+      "name": "prepare-pr",
+      "type": "skill-md",
+      "description": "Get a fix to the Aestra DAW into reviewable shape: issue first, topic branch off develop, scoped change, and verification against the original failure rather than a green build. Use when a working Aestra fix needs to reach the maintainers.",
+      "url": "/.well-known/agent-skills/recovery/v1/prepare-pr/SKILL.md",
+      "digest": "sha256:037768992bce6b19f1fa05b9d27a15c04620b029e889dee2c16905b317fd9a5f"
+    },
+    {
+      "name": "recover-project",
+      "type": "skill-md",
+      "description": "Salvage a damaged Aestra DAW project by working against a copy, using the engine's own load-report model, and reporting everything recovered, omitted, modified or uncertain. Use when an Aestra project will not open, crashes on load, or loads with missing content.",
+      "url": "/.well-known/agent-skills/recovery/v1/recover-project/SKILL.md",
+      "digest": "sha256:db9683af7ebaf11be5ae938fdd249a1768546228392ff8abe2a1ed940e654086"
+    },
+    {
+      "name": "reproduce-crash",
+      "type": "skill-md",
+      "description": "Turn an Aestra DAW crash report into a deterministic reproduction, or establish precisely why it is not deterministic. Use when Aestra crashes, freezes, or closes unexpectedly and the trigger is not yet pinned down.",
+      "url": "/.well-known/agent-skills/recovery/v1/reproduce-crash/SKILL.md",
+      "digest": "sha256:3f48942a01d1749fa44d2d07199c832a6d417c21c8392259a1fb46200ac6c185"
     }
   ]
 }

@@ -1,9 +1,21 @@
+---
+name: prepare-pr
+description: Get a fix to the Aestra DAW into reviewable shape: issue first, topic branch off develop, scoped change, and verification against the original failure rather than a green build. Use when a working Aestra fix needs to reach the maintainers.
+license: Proprietary. See https://aestra.studio/terms
+metadata:
+  protocol: aestra-agent-protocol/v1
+  revision: "2026-07-27"
+  status: active
+  publisher: Aestra Studios
+---
+
 # Prepare an Aestra pull request
 
     Protocol:       aestra-agent-protocol/v1
     Skill:          prepare-pr
-    Skill revision: 2026-07-27
-    Base protocol:  https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+    Artifact:       https://aestra.studio/.well-known/agent-skills/recovery/v1/prepare-pr/SKILL.md
+    Frozen:         2026-07-27 — this artifact is immutable
+    Base protocol:  https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 You have a fix. This skill gets it into a state a maintainer can review.
 

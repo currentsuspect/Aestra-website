@@ -1,9 +1,20 @@
+---
+name: aestra-agent-protocol
+description: Base protocol governing every Aestra DAW recovery skill: the public/private halt condition, real-time audio-thread invariants, change discipline, report provenance, and case routing. Use this whenever investigating, fixing, or recovering anything in Aestra; the task-specific Aestra skills all assume it.
+license: Proprietary. See https://aestra.studio/terms
+metadata:
+  protocol: aestra-agent-protocol/v1
+  revision: "2026-07-27"
+  status: active
+  publisher: Aestra Studios
+---
+
 # Aestra Agent Protocol
 
     Protocol:       aestra-agent-protocol/v1
     Skill:          aestra-agent-protocol
-    Skill revision: 2026-07-27
-    Canonical URL:  https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+    Artifact:       https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
+    Frozen:         2026-07-27 — this artifact is immutable
 
 This document defines the invariants that govern **every** Aestra recovery skill.
 The task skills (`investigate-bug`, `reproduce-crash`, `recover-project`,
@@ -108,11 +119,20 @@ that produced it:
 ```text
 Protocol:        aestra-agent-protocol/v1
 Skill:           <skill name>
-Skill revision:  <YYYY-MM-DD from the skill file>
+Artifact:        <the exact SKILL.md URL you fetched>
+Digest:          sha256:<the digest you verified from the index>
 Aestra version:  <from the build, or "unknown">
 Aestra commit:   <if known>
 Project version: <"version" field of the project file, if applicable>
 ```
+
+The `Artifact` and `Digest` lines are what make the report *reproducible
+evidence* rather than an assertion. Anyone reading it later can fetch that exact
+URL, hash the bytes, and confirm they are reading the same instructions the
+agent followed. Take the digest from the discovery index at
+<https://aestra.studio/.well-known/agent-skills/index.json> and verify it
+against the bytes you downloaded; if they disagree, stop and report the
+mismatch rather than proceeding.
 
 Then:
 
