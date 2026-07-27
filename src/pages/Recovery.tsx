@@ -583,31 +583,130 @@ const ReportBuilder = memo(() => {
 
 const TOOLKIT = [
   {
+    name: "recover-project",
+    title: "Rescue a damaged song",
+    icon: FileJson,
+    blurb: "Work on a copy, keep every note it can, and say plainly what survived and what didn't.",
+  },
+  {
     name: "investigate-bug",
+    title: "Find out what's breaking Aestra",
     icon: Bug,
-    blurb: "Root-cause a defect and produce the smallest correct fix, with a regression test that fails before and passes after.",
+    blurb: "Track the cause down properly, then make the smallest change that fixes it — and prove it's fixed.",
   },
   {
     name: "reproduce-crash",
+    title: "Pin down a crash",
     icon: AlertTriangle,
-    blurb: "Turn a crash report into a deterministic reproduction — or establish precisely why it isn't deterministic.",
-  },
-  {
-    name: "recover-project",
-    icon: FileJson,
-    blurb: "Salvage a damaged project against a copy, using the engine's own load-report model. Isolate damage; never reconstruct.",
-  },
-  {
-    name: "prepare-pr",
-    icon: GitHubIcon,
-    blurb: "Issue first, topic branch off develop, scoped change, real verification against the original failure.",
+    blurb: "Turn \"it crashes sometimes\" into exact steps that make it crash every time.",
   },
   {
     name: "collect-diagnostics",
+    title: "Gather the technical details",
     icon: Search,
-    blurb: "Assemble ground truth from Aestra and the host — never from the browser's idea of your audio setup.",
+    blurb: "Collect the version, audio setup and log info a bug report needs, so you don't have to hunt for it.",
+  },
+  {
+    name: "prepare-pr",
+    title: "Send a fix to Aestra",
+    icon: GitHubIcon,
+    blurb: "Package a working fix the way the Aestra maintainers need it in order to review and merge it.",
   },
 ] as const;
+
+/* ── Situations, not skills ───────────────────────────────────────
+   A producer doesn't arrive knowing which skill they want; they
+   arrive knowing their song won't open. Each path states plainly
+   what it costs to walk it — crucially, that rescuing a song needs
+   no source code at all — and hands over a prompt that is complete
+   on its own, URLs included. ─────────────────────────────────── */
+
+type PathId = "song" | "bug" | "fix";
+
+type AgentPath = {
+  id: PathId;
+  tab: string;
+  headline: string;
+  needsCode: boolean;
+  need: string;
+  where: string;
+  setup?: string;
+  prompt: string;
+};
+
+const PATHS: AgentPath[] = [
+  {
+    id: "song",
+    tab: "My song won't open",
+    headline: "You don't need Aestra's source code for this one.",
+    needsCode: false,
+    need: "Just the song file that's giving you trouble.",
+    where:
+      "Point the agent at the folder your song file is in. That's it — no downloading, no setup.",
+    prompt: `My Aestra project won't open properly and I'd like to recover as much of it as possible.
+
+Before you touch anything, read these and follow them exactly:
+https://aestra.studio/.well-known/agent-skills/recovery/recover-project.md
+https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+
+The rules that matter most to me:
+- Make a copy first and work only on the copy. Never change my original file.
+- Don't throw anything away just because it looks unfamiliar to you.
+- When you're done, tell me in plain language what you recovered, what you
+  couldn't, and anything you changed along the way.
+
+My song file: <drag the file in, or paste where it lives>
+What happens when I open it: <e.g. Aestra freezes, then closes by itself>`,
+  },
+  {
+    id: "bug",
+    tab: "Aestra is misbehaving",
+    headline: "This one needs a copy of Aestra's code on your machine.",
+    needsCode: true,
+    need: "A free GitHub account isn't required — but the agent needs Aestra's code to read.",
+    where:
+      "Run the command below, then point the agent at the Aestra folder it creates.",
+    setup: "git clone https://github.com/currentsuspect/Aestra.git",
+    prompt: `I've hit a bug in Aestra and I'd like you to work out what's causing it.
+
+Read these first and follow them exactly:
+https://aestra.studio/.well-known/agent-skills/recovery/investigate-bug.md
+https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+
+The rules that matter most:
+- Make the problem happen yourself before you change any code.
+- Don't assume my explanation of the cause is right — I'm guessing.
+- Aestra is a real-time audio app, so respect the audio-thread rules in the
+  base protocol.
+- If the trail leads into code that isn't in this folder, stop there and write
+  up what you found instead of guessing at the rest.
+
+Here's what's happening:
+<paste the report you built in step 1 of the Recovery Center>`,
+  },
+  {
+    id: "fix",
+    tab: "I have a fix to send",
+    headline: "The agent already found and fixed it. Now get it to the maintainers.",
+    needsCode: true,
+    need: "The same Aestra folder from the previous path, with your fix in it.",
+    where: "Point the agent at the Aestra folder containing your change.",
+    prompt: `I have a fix for an Aestra bug and I'd like to send it to the maintainers properly.
+
+Read these first and follow them exactly:
+https://aestra.studio/.well-known/agent-skills/recovery/prepare-pr.md
+https://aestra.studio/.well-known/agent-skills/recovery/aestra-agent-protocol.md
+
+Treat the files already in this folder as the authority — CONTRIBUTING.md and
+the pull request template override anything the web page says.
+
+Before you tell me it's ready, confirm the original problem actually stops
+happening. Tests passing is not the same thing as the bug being fixed.
+
+Explain each step to me in plain language as you go — I'm a producer, not a
+developer, and I want to understand what I'm sending.`,
+  },
+];
 
 const HALT = `When investigation reaches code or implementation unavailable in the
 checked-out repository, stop at that boundary. Record the last observable
@@ -622,14 +721,21 @@ Aestra version:  <from the build>
 Aestra commit:   <if known>
 Project version: <"version" field of the project file>`;
 
+const STEP_LABEL = "font-mono text-[10px] uppercase tracking-[0.16em] text-faint mb-1.5";
+
 const AgentToolkit = memo(() => {
   const { success, error } = useToast();
+  const [pathId, setPathId] = useState<PathId>("song");
+  const [showRef, setShowRef] = useState(false);
+  const path = PATHS.find((p) => p.id === pathId)!;
 
   const copyInvocation = useCallback(
-    (name: string) => {
-      const text = `Follow the Aestra agent skill at ${SKILLS}/${name}.md, and the base protocol it references at ${SKILLS}/aestra-agent-protocol.md. Operate under ${PROTOCOL}. Honour the public/private halt condition and report with the provenance header the protocol specifies.`;
+    (name: string, title: string) => {
+      const text = `Please read the instructions at ${SKILLS}/${name}.md and the base rules at ${SKILLS}/aestra-agent-protocol.md, then follow them exactly for the task below. If the trail leads into code you don't have access to, stop there and write up what you found rather than guessing. Explain what you're doing in plain language as you go.
+
+My situation: `;
       navigator.clipboard.writeText(text).then(
-        () => success("Copied", `${name} — paste into your agent`),
+        () => success("Copied", `${title} — paste into your agent`),
         () => error("Couldn't copy", "Your browser blocked clipboard access.")
       );
     },
@@ -638,92 +744,232 @@ const AgentToolkit = memo(() => {
 
   return (
     <>
-      <div className="rounded-xl border border-accent/30 bg-accent-soft p-5 sm:p-6 mb-10">
-        <div className="flex items-start gap-3 mb-4">
-          <Lock className="w-4 h-4 text-accent shrink-0 mt-0.5" aria-hidden="true" />
-          <div>
-            <p className="text-[13px] font-medium text-fg mb-1">The halt condition</p>
-            <p className="text-[13px] text-muted leading-relaxed max-w-prose">
-              Every skill carries this. It's what makes an outside agent safe to point at
-              Aestra at all — a deterministic stopping point instead of hallucinating through
-              code it cannot see.
-            </p>
-          </div>
-        </div>
-        <CopyBlock label="halt condition" text={HALT} />
-      </div>
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-        {TOOLKIT.map(({ name, icon: Icon, blurb }) => (
-          <div
-            key={name}
-            className="rounded-xl bg-bg border border-border/80 panel-sheen p-5 flex flex-col hover:border-border-2 transition-colors"
-          >
-            <div className="flex items-center gap-2.5 mb-3">
-              <Icon className="w-4 h-4 text-accent" aria-hidden="true" />
-              <span className="font-mono text-[12.5px] text-fg tracking-tight">{name}</span>
-            </div>
-            <p className="text-[13px] text-muted leading-relaxed flex-1 mb-4">{blurb}</p>
-            <div className="flex items-center gap-2">
-              <Button size="sm" variant="outline" icon={Copy} onClick={() => copyInvocation(name)}>
-                Copy
-              </Button>
-              <a
-                href={`${SKILLS}/${name}.md`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-[12.5px] text-muted hover:text-fg transition-colors"
-              >
-                Read
-                <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
-              </a>
-            </div>
+      {/* Primer — the questions a producer actually has first. */}
+      <div className="grid sm:grid-cols-3 gap-4 mb-10">
+        {[
+          {
+            q: "Do I need to know how to code?",
+            a: "No. You copy a prompt, paste it, and read what comes back in plain English.",
+          },
+          {
+            q: "What counts as an agent?",
+            a: "An AI assistant that can open files on your computer — Claude Code, Cursor, and similar tools.",
+          },
+          {
+            q: "Can it wreck my song?",
+            a: "The instructions tell it to copy your file first and work on the copy. Your original is never touched.",
+          },
+        ].map(({ q, a }) => (
+          <div key={q} className="rounded-xl bg-surface/50 border border-border/80 p-5">
+            <p className="text-[13.5px] font-medium text-fg mb-1.5">{q}</p>
+            <p className="text-[13px] text-muted leading-relaxed">{a}</p>
           </div>
         ))}
+      </div>
 
-        <div className="rounded-xl bg-surface border border-border/80 panel-sheen p-5 flex flex-col">
-          <p className="kicker mb-3">Base protocol</p>
-          <p className="text-[13px] text-muted leading-relaxed flex-1 mb-4">
-            Real-time audio invariants, change discipline, report format, and case routing.
-            Every skill above assumes it.
-          </p>
-          <a
-            href={`${SKILLS}/aestra-agent-protocol.md`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[12.5px] text-accent hover:text-accent-hover transition-colors"
+      {/* Path picker */}
+      <div className="rounded-xl bg-bg border border-border/80 panel-sheen overflow-hidden mb-10">
+        <div className="px-5 sm:px-6 pt-5 sm:pt-6">
+          <p className={STEP_LABEL}>Step 1 — which of these is you?</p>
+          <div
+            className="flex flex-wrap gap-1.5 mb-6"
+            role="tablist"
+            aria-label="Choose your situation"
           >
-            {PROTOCOL}
-            <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
-          </a>
+            {PATHS.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                role="tab"
+                aria-selected={p.id === pathId}
+                onClick={() => setPathId(p.id)}
+                className={cn(
+                  "px-4 h-9 text-[13.5px] rounded-lg border transition-colors",
+                  p.id === pathId
+                    ? "bg-surface-3 text-fg border-border-2"
+                    : "bg-transparent text-muted border-border hover:text-fg hover:border-border-2"
+                )}
+              >
+                {p.tab}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="px-5 sm:px-6 pb-6 sm:pb-7">
+          <h3 className="text-[16px] font-semibold text-fg tracking-tight mb-4">
+            {path.headline}
+          </h3>
+
+          <div className="grid sm:grid-cols-2 gap-5 mb-6">
+            <div className="rounded-lg bg-surface/60 border border-border/80 p-4">
+              <p className={STEP_LABEL}>What you need</p>
+              <p className="text-[13px] text-muted leading-relaxed mb-2">{path.need}</p>
+              <span
+                className={cn(
+                  "readout inline-flex items-center gap-2",
+                  path.needsCode ? "text-amber-400" : "text-emerald-400"
+                )}
+              >
+                <span className="led" aria-hidden="true" />
+                {path.needsCode ? "Some setup" : "No setup"}
+              </span>
+            </div>
+            <div className="rounded-lg bg-surface/60 border border-border/80 p-4">
+              <p className={STEP_LABEL}>Step 2 — where to point it</p>
+              <p className="text-[13px] text-muted leading-relaxed">{path.where}</p>
+            </div>
+          </div>
+
+          {path.setup && (
+            <div className="mb-6">
+              <p className={STEP_LABEL}>Run this first</p>
+              <CopyBlock label="clone command" text={path.setup} />
+              <p className="text-[12.5px] text-dim leading-relaxed mt-2">
+                Don't have <span className="font-mono text-[12px]">git</span>? Ask the agent to
+                do it for you — pasting that line and saying "run this for me" is enough.
+              </p>
+            </div>
+          )}
+
+          <div>
+            <p className={STEP_LABEL}>Step 3 — copy this, paste it to your agent</p>
+            <p className="text-[12.5px] text-dim leading-relaxed mb-3">
+              Fill in anything inside <span className="font-mono text-[12px]">&lt;angle
+              brackets&gt;</span>. Everything else is written for you — including the links the
+              agent needs to read.
+            </p>
+            <CopyBlock label={`${path.tab} prompt`} text={path.prompt} />
+          </div>
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8 items-start">
-        <div>
-          <h3 className="text-[15px] font-semibold text-fg mb-2 tracking-tight">
-            Every report says what produced it
-          </h3>
-          <p className="text-[13.5px] text-muted leading-relaxed mb-4 max-w-prose">
-            Six months from now, when an agent-generated investigation is attached to an
-            issue, you can tell exactly which instructions that agent was operating under.
-          </p>
-          <CopyBlock label="provenance header" text={PROVENANCE} />
+      {/* Why this is safe — the halt condition, in plain language first. */}
+      <div className="rounded-xl border border-accent/30 bg-accent-soft p-5 sm:p-6 mb-10">
+        <div className="flex items-start gap-3">
+          <Lock className="w-4 h-4 text-accent shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="min-w-0">
+            <p className="text-[14px] font-medium text-fg mb-1.5">
+              The agent knows where to stop
+            </p>
+            <p className="text-[13.5px] text-muted leading-relaxed max-w-prose mb-4">
+              Parts of Aestra aren't public. When the trail runs into one, these instructions
+              tell the agent to stop and write down what it found — rather than inventing an
+              explanation for code it can't see. That's the difference between a report we can
+              act on and a confident guess that wastes everyone's afternoon. You send us what it
+              found; we take it from there.
+            </p>
+            <details className="group">
+              <summary className="readout text-dim hover:text-fg cursor-pointer list-none inline-flex items-center gap-2 transition-colors">
+                <ArrowUpRight className="w-3 h-3 group-open:rotate-90 transition-transform" aria-hidden="true" />
+                Read the exact wording
+              </summary>
+              <div className="mt-4">
+                <CopyBlock label="halt condition" text={HALT} />
+              </div>
+            </details>
+          </div>
         </div>
-        <div>
-          <h3 className="text-[15px] font-semibold text-fg mb-2 tracking-tight">
-            Machine-discoverable
-          </h3>
-          <p className="text-[13.5px] text-muted leading-relaxed mb-4 max-w-prose">
-            The toolkit isn't only copy-paste. Every skill is published, versioned and hashed
-            in Aestra's agent-skills index, so an agent can discover the protocol without a
-            human in the loop.
-          </p>
-          <CopyBlock
-            label="skills index"
-            text={`https://aestra.studio/.well-known/agent-skills/index.json`}
-          />
-        </div>
+      </div>
+
+      {/* Reference material — folded away by default. */}
+      <div className="rounded-xl border border-border/80 bg-surface/40 overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setShowRef((s) => !s)}
+          aria-expanded={showRef}
+          className="w-full px-5 sm:px-6 py-4 flex items-center justify-between gap-4 text-left hover:bg-surface/60 transition-colors"
+        >
+          <span>
+            <span className="block text-[14px] font-medium text-fg">
+              All five instruction sets
+            </span>
+            <span className="block text-[13px] text-muted mt-0.5">
+              The full toolkit, plus how the protocol is versioned. Useful if you're technical or
+              writing your own tooling.
+            </span>
+          </span>
+          <span className="readout text-dim shrink-0">{showRef ? "Hide" : "Show"}</span>
+        </button>
+
+        {showRef && (
+          <div className="px-5 sm:px-6 pb-6 pt-1 border-t border-border/80">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 my-6">
+              {TOOLKIT.map(({ name, title, icon: Icon, blurb }) => (
+                <div
+                  key={name}
+                  className="rounded-xl bg-bg border border-border/80 panel-sheen p-5 flex flex-col hover:border-border-2 transition-colors"
+                >
+                  <div className="flex items-start gap-2.5 mb-2">
+                    <Icon className="w-4 h-4 text-accent shrink-0 mt-0.5" aria-hidden="true" />
+                    <span className="text-[13.5px] font-medium text-fg tracking-tight">{title}</span>
+                  </div>
+                  <p className="font-mono text-[11px] text-faint mb-3">{name}</p>
+                  <p className="text-[13px] text-muted leading-relaxed flex-1 mb-4">{blurb}</p>
+                  <div className="flex items-center gap-2">
+                    <Button size="sm" variant="outline" icon={Copy} onClick={() => copyInvocation(name, title)}>
+                      Copy
+                    </Button>
+                    <a
+                      href={`${SKILLS}/${name}.md`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[12.5px] text-muted hover:text-fg transition-colors"
+                    >
+                      Read
+                      <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
+              ))}
+
+              <div className="rounded-xl bg-surface border border-border/80 panel-sheen p-5 flex flex-col">
+                <p className="kicker mb-3">Base protocol</p>
+                <p className="text-[13px] text-muted leading-relaxed flex-1 mb-4">
+                  The rules every set above assumes: what the audio engine can't tolerate, how
+                  small a fix should be, what a finished report contains, and where each case
+                  gets routed.
+                </p>
+                <a
+                  href={`${SKILLS}/aestra-agent-protocol.md`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[12.5px] text-accent hover:text-accent-hover transition-colors"
+                >
+                  {PROTOCOL}
+                  <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-8 items-start">
+              <div>
+                <h3 className="text-[15px] font-semibold text-fg mb-2 tracking-tight">
+                  Every report says what produced it
+                </h3>
+                <p className="text-[13.5px] text-muted leading-relaxed mb-4 max-w-prose">
+                  Six months from now, when an agent-written investigation is attached to an
+                  issue, you can tell exactly which instructions that agent was working from.
+                </p>
+                <CopyBlock label="provenance header" text={PROVENANCE} />
+              </div>
+              <div>
+                <h3 className="text-[15px] font-semibold text-fg mb-2 tracking-tight">
+                  Agents can find this on their own
+                </h3>
+                <p className="text-[13.5px] text-muted leading-relaxed mb-4 max-w-prose">
+                  The toolkit isn't only copy-paste. Every instruction set is published,
+                  versioned and checksummed in Aestra's skills index, so an agent can discover
+                  the procedure without a human pasting anything.
+                </p>
+                <CopyBlock
+                  label="skills index"
+                  text={`https://aestra.studio/.well-known/agent-skills/index.json`}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
@@ -781,31 +1027,42 @@ const RecoverPanel = memo(() => (
 
       <div className="mt-8 space-y-5">
         <div>
-          <p className="kicker mb-2">Then read what Aestra already told you</p>
+          <p className="kicker mb-2">Aestra has already done half the work</p>
           <p className="text-[13.5px] text-muted leading-relaxed max-w-prose">
-            The loader is non-destructive by design — it preserves objects it can't resolve
-            rather than dropping them, and it reports what it couldn't resolve. Most of the
-            diagnosis exists before you touch the file. Project files are plain JSON with a
-            versioned schema, so the structure is directly inspectable without Aestra running.
+            When Aestra can't make sense of part of a song, it doesn't quietly bin it — it keeps
+            it and tells you what it couldn't read. So most of the answer already exists before
+            anyone touches the file. And because Aestra saves songs in a readable text format,
+            an assistant can look inside without needing Aestra installed at all.
           </p>
         </div>
 
         <div>
-          <p className="kicker mb-2">Classify before you edit</p>
-          <pre className="rounded-lg bg-surface border border-border/80 panel-sheen p-4 overflow-x-auto text-[12.5px] leading-relaxed font-mono text-fg-muted">{`Does Aestra launch?
-  ├── No ──────────────────► environment path
+          <p className="kicker mb-2">Work out what kind of problem it is</p>
+          <pre className="rounded-lg bg-surface border border-border/80 panel-sheen p-4 overflow-x-auto text-[12.5px] leading-relaxed font-mono text-fg-muted">{`Does Aestra open at all?
+  ├── No ─────────────────────► it's Aestra, not your song
   └── Yes
-       ├── Every project fails ──► environment path
-       └── Only this one fails ──► project recovery`}</pre>
+       ├── Every song fails ──► it's Aestra, not your song
+       └── Only this one ─────► it's the song — rescue it`}</pre>
+        </div>
+
+        <div className="pt-1">
+          <a
+            href="#investigate"
+            className="inline-flex items-center gap-1.5 text-[13.5px] text-accent hover:text-accent-hover transition-colors"
+          >
+            Get the prompt for rescuing a song
+            <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+          </a>
         </div>
       </div>
     </div>
 
     <div>
-      <p className="kicker mb-3">The report an agent must produce</p>
+      <p className="kicker mb-3">What you get back</p>
       <p className="text-[13.5px] text-muted leading-relaxed mb-5 max-w-prose">
-        Same model in the engine, the diagnostics, the agent output, and here. A successful
-        recovery must never quietly mean <em>we made it open by deleting half of it</em>.
+        A rescue must never quietly mean <em>we made it open by deleting half of it</em>. So the
+        report spells out what came back, what didn't, and anything that got changed on the way
+        — in the same terms Aestra itself uses.
       </p>
 
       <Card className="overflow-hidden">
@@ -874,12 +1131,13 @@ export const Recovery = memo((_: PageProps) => (
             Something broke? Start here.
           </h1>
           <p className="text-base sm:text-lg text-muted leading-relaxed max-w-2xl mb-4">
-            Report the problem, investigate it yourself, hand it to a coding agent, contribute
-            a fix upstream, or salvage a damaged project. Pick how involved you want to be.
+            Tell us what went wrong, let an AI assistant dig into it for you, rescue a song that
+            won't open, or fix it yourself and send it to us. You choose how involved you want
+            to be — and doing nothing more than describing the problem is a perfectly good
+            answer.
           </p>
           <p className="text-[13.5px] text-dim leading-relaxed max-w-2xl">
-            This page orchestrates. The repository owns truth — bug formats, PR requirements
-            and contribution rules live there, and nothing here overrides them.
+            No account needed, and nothing here assumes you write code.
           </p>
         </FadeIn>
 
@@ -917,14 +1175,14 @@ export const Recovery = memo((_: PageProps) => (
         <FadeIn>
           <Mark n="02">Investigate</Mark>
           <h2 className="display text-2xl sm:text-3xl mb-3">
-            Point an agent at it — under a real engineering contract.
+            Let an AI assistant dig into it for you.
           </h2>
           <p className="text-[14.5px] text-muted leading-relaxed max-w-2xl mb-10">
-            Not "ask an AI to fix it." These are versioned operating procedures: what to
-            reproduce before touching code, which invariants the audio thread holds, where to
-            stop, and what a finished report must contain. You don't need to understand
-            Aestra's architecture first — the protocol teaches the agent how Aestra expects
-            bugs to be investigated.
+            You don't need to understand how Aestra is built, and you don't need to write a
+            line of code. Pick your situation below, copy the prompt, and paste it. The prompt
+            hands the assistant Aestra's own instructions — how to reproduce a problem before
+            changing anything, what it must never break, where to stop, and what to tell you at
+            the end.
           </p>
         </FadeIn>
         <FadeIn delay={0.05}>
@@ -961,18 +1219,17 @@ export const Recovery = memo((_: PageProps) => (
           <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 items-start">
             <div>
               <h2 className="display text-2xl sm:text-3xl mb-3">
-                Bring us the case. You don't need our private source for us to own the repair.
+                Bring us what you found. Fixing it is our job, not yours.
               </h2>
               <p className="text-[14.5px] text-muted leading-relaxed max-w-prose mb-4">
-                Some Aestra components aren't published in the public repository. Don't try to
-                reconstruct, reverse engineer, or publish private Aestra source as part of a
-                bug report — and don't let an agent do it either.
+                Some parts of Aestra aren't public, so there's a point past which nobody outside
+                the team can follow the trail. Don't try to rebuild those parts to get around it,
+                and don't let an assistant try either.
               </p>
               <p className="text-[14.5px] text-muted leading-relaxed max-w-prose">
-                You can still investigate right up to the boundary. Establishing that
-                <em> the failure occurs when the public host calls this entry point with this
-                valid payload</em> is a genuinely useful result, and a complete one. Past that
-                point, the team takes it.
+                Stopping there isn't failing. <em>"It breaks every time, right at this exact
+                point, and here's what I fed it"</em> is a genuinely useful result — often the
+                most useful one we get. Send it over and we'll take it from there.
               </p>
             </div>
 
