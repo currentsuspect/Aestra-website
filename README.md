@@ -21,14 +21,17 @@ The build runs the agent-skills validation, TypeScript checking for both fronten
 
 ## Waitlist email
 
-All waitlist forms post to `/api/waitlist`. The endpoint verifies the browser with Vercel BotID, rejects obvious bot submissions with a honeypot and same-origin check, persists the email as a Resend Contact, then queues an internal signup notification through Resend.
+All waitlist forms post to `/api/waitlist`. The endpoint verifies the browser with Vercel BotID, rejects obvious bot submissions with a honeypot and same-origin check, persists the email as a Resend Contact in the correct waitlist Segment, then queues an internal signup notification through Resend.
 
-The Resend API key is server-side only and must never use a `VITE_` prefix. Because the endpoint manages Contacts as well as sending email, use a Resend key with **Full access**, not a sending-only key.
+The Resend API key is server-side only and must never use a `VITE_` prefix. Because the endpoint manages Contacts and Segments as well as sending email, use a Resend key with **Full access**, not a sending-only key.
 
-Configure these environment variables in Vercel Project Settings:
+Create three Resend Segments — one each for Early Access, Supporter, and Founder — then configure their IDs with the API key in Vercel Project Settings:
 
 ```text
 RESEND_API_KEY=re_...
+RESEND_SEGMENT_EARLY_ACCESS=<segment UUID>
+RESEND_SEGMENT_SUPPORTER=<segment UUID>
+RESEND_SEGMENT_FOUNDER=<segment UUID>
 WAITLIST_NOTIFY_TO=hello@aestra.studio   # optional; this is the default
 RESEND_FROM=Aestra <hello@aestra.studio> # optional; this is the default
 ```
