@@ -17,7 +17,15 @@ The Vite dev server only serves the frontend. The waitlist endpoint lives at `ap
 npm run build
 ```
 
-The build runs the agent-skills validation, TypeScript checking for both frontend and `api/`, then the Vite production build.
+The build runs the agent-skills validation, an import guard for `api/`, TypeScript checking for both frontend and `api/`, then the Vite production build.
+
+Before merging anything that touches `api/`, also run:
+
+```bash
+npm run check:function
+```
+
+This builds the real Vercel Function output and imports and invokes it. `tsc` cannot substitute for it: tsconfig uses `moduleResolution: "bundler"`, so a relative import missing its file extension typechecks and builds cleanly, then throws `ERR_MODULE_NOT_FOUND` on every invocation — `package.json` sets `"type": "module"` and Vercel transpiles `api/` per-file instead of bundling it. `scripts/check-api-imports.mjs` catches that specific case on every build; `check:function` catches the general case. It is deliberately not part of `npm run build`, because Vercel's build runs `npm run build` and would recurse.
 
 ## Waitlist email
 
