@@ -38,7 +38,18 @@ RESEND_FROM=Aestra <hello@aestra.studio> # optional; this is the default
 
 `hello@aestra.studio` must remain a verified Resend sender/domain for the default configuration to work.
 
-BotID reduces automated abuse, but the production project should also keep a Vercel Firewall rate-limit rule on `POST /api/waitlist` as a quota guard.
+BotID reduces automated abuse. Rate limiting is a quota guard on top of it, and it lives on **Cloudflare**, not the Vercel WAF: `www.aestra.studio` is proxied by Cloudflare, so every request reaches Vercel from a Cloudflare edge IP. A Vercel rate-limit rule keyed on `ip` (or `ja4`, which fingerprints the Cloudflare-to-Vercel handshake) would count unrelated users against one another and throttle real traffic.
+
+The live rule is on `aestra.studio` under Security -> WAF -> Rate limiting rules: `POST` to `/api/waitlist` on host `www.aestra.studio`, 10 requests per 10 minutes per IP.
+
+## Routing
+
+`vercel.json` rewrites are evaluated **in array order, first match wins**, and that ordering is load-bearing:
+
+1. the two BotID proxy rewrites (the `/149e9513-.../2d206a39-...` paths)
+2. the SPA catch-all to `/index.html`
+
+The catch-all's negative-lookahead regex does not exclude the BotID paths, so it only stays out of their way because it is listed last. Move it above them and the bot-protection challenge script starts returning `index.html`, which disables BotID silently — the endpoint keeps working, so nothing fails loudly. Keep the catch-all last when editing `vercel.json`.
 
 ## Deploy
 
@@ -56,3 +67,4 @@ vercel deploy --prebuilt --prod
 - `src/components/*` contains shared UI and DAW mock components
 - `src/styles.css` is the active stylesheet entry
 - `api/waitlist.ts` is the server-side waitlist/Resend endpoint
+- `shared/*` is imported by both `src/` and `api/`; keep it dependency-free so the function bundle stays clean
