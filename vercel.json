@@ -1,8 +1,28 @@
 {
   "rewrites": [
-    { "source": "/((?!api/|assets/|\\.well-known/|auth\\.md|llms\\.txt|robots\\.txt|sitemap|humans\\.txt|manifest\\.webmanifest|browserconfig\\.xml|opensearch\\.xml).*)", "destination": "/index.html" }
+    {
+      "source": "/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/a-4-a/c.js",
+      "destination": "https://api.vercel.com/bot-protection/v1/challenge"
+    },
+    {
+      "source": "/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/:path*",
+      "destination": "https://api.vercel.com/bot-protection/v1/proxy/:path*"
+    },
+    {
+      "source": "/((?!api/|assets/|\\.well-known/|auth\\.md|llms\\.txt|robots\\.txt|sitemap|humans\\.txt|manifest\\.webmanifest|browserconfig\\.xml|opensearch\\.xml).*)",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
+    {
+      "source": "/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/:path*",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    },
     {
       "source": "/",
       "headers": [
@@ -15,35 +35,62 @@
     {
       "source": "/.well-known/api-catalog",
       "headers": [
-        { "key": "Content-Type", "value": "application/linkset+json" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        {
+          "key": "Content-Type",
+          "value": "application/linkset+json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
       ]
     },
     {
       "source": "/.well-known/agent-skills/:path*",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
       ]
     },
     {
       "source": "/.well-known/oauth-protected-resource",
       "headers": [
-        { "key": "Content-Type", "value": "application/json" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
       ]
     },
     {
       "source": "/.well-known/oauth-authorization-server",
       "headers": [
-        { "key": "Content-Type", "value": "application/json" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
       ]
     },
     {
       "source": "/.well-known/mcp/server-card.json",
       "headers": [
-        { "key": "Content-Type", "value": "application/json" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
       ]
     }
   ]

@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/agent-skills.mjs && vite build",
+    "build": "node scripts/agent-skills.mjs && tsc --noEmit && vite build",
     "preview": "vite preview",
     "changelog:draft": "node scripts/changelog-draft.mjs",
     "skills:check": "node scripts/agent-skills.mjs",
     "skills:write": "node scripts/agent-skills.mjs --write"
   },
   "dependencies": {
+    "@vercel/functions": "^3.7.6",
+    "botid": "^1.5.11",
     "lucide-react": "^0.400.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

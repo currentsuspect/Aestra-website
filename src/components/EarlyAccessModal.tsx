@@ -52,6 +52,7 @@ export const EarlyAccessModal = ({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [daw, setDaw] = useState("");
+  const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
@@ -99,7 +100,7 @@ export const EarlyAccessModal = ({
                   const res = await fetch("/api/waitlist", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name, email, daw, source: copy.source }),
+                    body: JSON.stringify({ name, email, daw, website, source: copy.source }),
                   });
                   if (res.ok) {
                     setDone(true);
@@ -117,6 +118,17 @@ export const EarlyAccessModal = ({
               }}
               className="space-y-4"
             >
+              <label className="sr-only" aria-hidden="true">
+                Website
+                <input
+                  type="text"
+                  name="website"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </label>
               <div>
                 <label htmlFor="ea-name" className="block text-sm font-medium text-fg mb-1">Name</label>
                 <input

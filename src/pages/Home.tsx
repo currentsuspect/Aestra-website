@@ -21,8 +21,6 @@ const SingIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 /* ── Early Access modal ─────────────────────────────────────── */
-const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
-
 const EarlyAccessButton = ({ onEarlyAccess }: { onEarlyAccess?: () => void }) => {
   return (
     <Button size="lg" onClick={onEarlyAccess}>
@@ -745,6 +743,7 @@ const FounderCountdown = () => {
   const toast = useToast();
   const [timeLeft, setTimeLeft] = useState(computeTimeLeft);
   const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
@@ -770,10 +769,10 @@ const FounderCountdown = () => {
     setSubmitting(true);
     setError("");
     try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: "founder-waitlist" }),
+        body: JSON.stringify({ email, website, source: "founder-waitlist" }),
       });
       if (res.ok) {
         setSubmitted(true);
@@ -864,6 +863,17 @@ const FounderCountdown = () => {
                     aria-label="Founder waitlist signup"
                     noValidate
                   >
+                    <label className="sr-only" aria-hidden="true">
+                      Website
+                      <input
+                        type="text"
+                        name="website"
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </label>
                     <label htmlFor={formId} className="sr-only">Email address</label>
                     <input
                       id={formId}

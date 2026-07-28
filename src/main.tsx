@@ -2,6 +2,13 @@ import "./styles.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+import { initBotId } from "botid/client/core";
+
+if (import.meta.env.PROD) {
+  initBotId({
+    protect: [{ path: "/api/waitlist", method: "POST" }],
+  });
+}
 
 // WebMCP: expose site tools to AI agents via the browser
 // https://webmachinelearning.github.io/webmcp/
