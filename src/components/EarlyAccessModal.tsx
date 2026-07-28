@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Check, X } from "lucide-react";
 import { useToast } from "./Toast";
 
-const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID;
-
 export type EarlyAccessPurpose = "early-access" | "supporter-notify";
 
 const COPY: Record<EarlyAccessPurpose, {
@@ -98,7 +96,7 @@ export const EarlyAccessModal = ({
                 setSubmitting(true);
                 setError("");
                 try {
-                  const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+                  const res = await fetch("/api/waitlist", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ name, email, daw, source: copy.source }),
@@ -127,6 +125,7 @@ export const EarlyAccessModal = ({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
+                  maxLength={100}
                   className="w-full h-10 px-3 rounded-lg bg-surface-2 border border-border text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder="Your name"
                 />
@@ -139,6 +138,7 @@ export const EarlyAccessModal = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  maxLength={254}
                   autoComplete="email"
                   className="w-full h-10 px-3 rounded-lg bg-surface-2 border border-border text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder="you@studio.email"
@@ -151,6 +151,7 @@ export const EarlyAccessModal = ({
                   type="text"
                   value={daw}
                   onChange={(e) => setDaw(e.target.value)}
+                  maxLength={120}
                   className="w-full h-10 px-3 rounded-lg bg-surface-2 border border-border text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder="FL Studio, Ableton, etc."
                 />
