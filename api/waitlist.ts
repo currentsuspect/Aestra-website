@@ -17,6 +17,11 @@ const PURPOSES = new Set<WaitlistPurpose>([
   "supporter-notify",
   "founder-waitlist",
 ]);
+const SEGMENT_ENV: Record<WaitlistPurpose, string> = {
+  "early-access": "RESEND_SEGMENT_EARLY_ACCESS",
+  "supporter-notify": "RESEND_SEGMENT_SUPPORTER",
+  "founder-waitlist": "RESEND_SEGMENT_FOUNDER",
+};
 
 function text(value: unknown, maxLength: number, singleLine = false): string {
   if (typeof value !== "string") return "";
@@ -39,7 +44,7 @@ function json(body: unknown, status = 200, headers: HeadersInit = {}) {
 }
 
 async function resendFetch(apiKey: string, path: string, init: RequestInit = {}) {
-  const response = await fetch(`https://api.resend.com${path}`, {
+  return fetch(`https://api.resend.com${path}`, {
     ...init,
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -47,13 +52,37 @@ async function resendFetch(apiKey: string, path: string, init: RequestInit = {})
       ...Object.fromEntries(new Headers(init.headers)),
     },
   });
-  return response;
 }
 
-async function ensureContact(apiKey: string, email: string, name: string) {
+async function addContactToSegment(
+  apiKey: string,
+  email: string,
+  segmentId: string,
+) {
+  const response = await resendFetch(
+    apiKey,
+    `/contacts/${encodeURIComponent(email)}/segments/${encodeURIComponent(segmentId)}`,
+    { method: "POST" },
+  );
+  if (response.ok) return;
+
+  const detail = await response.text().catch(() => "");
+  throw new Error(`Resend segment assignment failed (${response.status}): ${detail.slice(0, 500)}`);
+}
+
+async function ensureContact(
+  apiKey: string,
+  email: string,
+  name: string,
+  segmentId: string,
+) {
   const contactPath = `/contacts/${encodeURIComponent(email)}`;
   const existing = await resendFetch(apiKey, contactPath);
-  if (existing.ok) return;
+
+  if (existing.ok) {
+    await addContactToSegment(apiKey, email, segmentId);
+    return;
+  }
   if (existing.status !== 404) {
     const detail = await existing.text().catch(() => "");
     throw new Error(`Resend contact lookup failed (${existing.status}): ${detail.slice(0, 500)}`);
@@ -65,13 +94,18 @@ async function ensureContact(apiKey: string, email: string, name: string) {
       email,
       ...(name ? { first_name: name } : {}),
       unsubscribed: false,
+      segments: [{ id: segmentId }],
     }),
   });
   if (created.ok) return;
 
-  // A concurrent duplicate submission can win the create race.
+  // A concurrent duplicate submission can win the create race. In that case,
+  // recover by locating the contact and assigning the intended segment.
   const raced = await resendFetch(apiKey, contactPath);
-  if (raced.ok) return;
+  if (raced.ok) {
+    await addContactToSegment(apiKey, email, segmentId);
+    return;
+  }
 
   const detail = await created.text().catch(() => "");
   throw new Error(`Resend contact create failed (${created.status}): ${detail.slice(0, 500)}`);
@@ -147,6 +181,13 @@ export default {
       return json({ error: "Name is required" }, 400);
     }
 
+    const segmentEnv = SEGMENT_ENV[source];
+    const segmentId = process.env[segmentEnv]?.trim();
+    if (!segmentId) {
+      console.error(`${segmentEnv} is not configured`);
+      return json({ error: "Waitlist service unavailable" }, 503);
+    }
+
     const notifyTo = process.env.WAITLIST_NOTIFY_TO || "hello@aestra.studio";
     const from = process.env.RESEND_FROM || "Aestra <hello@aestra.studio>";
     const label = source === "supporter-notify"
@@ -156,8 +197,8 @@ export default {
         : "Early access";
 
     try {
-      // This is the durable record. Email is only an operational alert.
-      await ensureContact(apiKey, email, name);
+      // Contact + Segment membership is the durable source of truth.
+      await ensureContact(apiKey, email, name, segmentId);
     } catch (error) {
       console.error("Waitlist contact persistence failed", error);
       return json({ error: "Could not save waitlist request" }, 502);
@@ -171,12 +212,12 @@ export default {
         reply_to: email,
         subject: `[Aestra] ${label}: ${name || email}`,
         text: [
-`${label} signup`,
-"",
-`Name: ${name || "Not provided"}`,
-`Email: ${email}`,
-`Current DAW: ${daw || "Not provided"}`,
-`Source: ${source}`,
+          `${label} signup`,
+          "",
+          `Name: ${name || "Not provided"}`,
+          `Email: ${email}`,
+          `Current DAW: ${daw || "Not provided"}`,
+          `Source: ${source}`,
         ].join("\n"),
       }, key);
     })().catch((error) => {
