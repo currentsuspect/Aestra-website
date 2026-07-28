@@ -17,9 +17,13 @@ The Vite dev server only serves the frontend. The waitlist endpoint lives at `ap
 npm run build
 ```
 
+The build runs the agent-skills validation, TypeScript checking for both frontend and `api/`, then the Vite production build.
+
 ## Waitlist email
 
-Waitlist submissions post to `/api/waitlist`, which sends mail through Resend. The Resend API key is server-side only and must never use a `VITE_` prefix.
+All waitlist forms post to `/api/waitlist`. The endpoint verifies the browser with Vercel BotID, rejects obvious bot submissions with a honeypot and same-origin check, persists the email as a Resend Contact, then queues an internal signup notification through Resend.
+
+The Resend API key is server-side only and must never use a `VITE_` prefix. Because the endpoint manages Contacts as well as sending email, use a Resend key with **Full access**, not a sending-only key.
 
 Configure these environment variables in Vercel Project Settings:
 
@@ -30,6 +34,8 @@ RESEND_FROM=Aestra <hello@aestra.studio> # optional; this is the default
 ```
 
 `hello@aestra.studio` must remain a verified Resend sender/domain for the default configuration to work.
+
+BotID reduces automated abuse, but the production project should also keep a Vercel Firewall rate-limit rule on `POST /api/waitlist` as a quota guard.
 
 ## Deploy
 
