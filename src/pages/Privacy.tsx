@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { ArrowRight } from "lucide-react";
 import type { PageProps } from "../types";
 
-const LAST_UPDATED = "2026-04-12";
+const LAST_UPDATED = "2026-07-28";
 const formattedDate = new Date(LAST_UPDATED).toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
@@ -28,7 +28,7 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">What we collect</h2>
           <ul className="space-y-2 list-disc list-inside text-muted">
-            <li><span className="text-fg-muted">Email address</span> — when you join the Founder waitlist via our form.</li>
+            <li><span className="text-fg-muted">Waitlist details</span> — your email address and, where the form asks for them, your name and current DAW.</li>
             <li><span className="text-fg-muted">Usage analytics</span> — anonymous, aggregated data about how the website is used (page views, referrers). No personal identification.</li>
           </ul>
         </section>
@@ -45,17 +45,17 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">Waitlist emails</h2>
           <p className="text-muted">
-            Emails collected via the Founder waitlist are stored by{" "}
+            Waitlist submissions go through our server-side endpoint and are stored as contacts by{" "}
             <a
-              href="https://formspree.io/legal/privacy-policy/"
+              href="https://resend.com/legal/privacy-policy"
               target="_blank"
               rel="noopener noreferrer"
               className="text-fg underline underline-offset-4 hover:text-fg"
             >
-              Formspree
+              Resend
             </a>
-            , our form processor. We use these emails solely to notify you when Founder cards become available.
-            We will not send marketing emails, share your email, or add you to any list you didn't sign up for.
+            , our email delivery and contact-management provider. We use those details solely for the list you joined and the related launch or access notifications.
+            We will not sell or share your email, or add you to an unrelated marketing list.
             You can request removal at any time.
           </p>
         </section>
