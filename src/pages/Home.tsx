@@ -4,6 +4,7 @@ import { EqIcon, VerbIcon, CompIcon } from "../components/PluginIcons";
 import { Button, FeatureCard, FadeIn } from "../components/ui";
 import { PianoGrid } from "../components/PianoGrid";
 import { useToast } from "../components/Toast";
+import { EMAIL_RE } from "../../shared/waitlist";
 import { prefersReducedMotion } from "../lib";
 import { RELEASES } from "../changelogData";
 import type { PageProps } from "../types";
@@ -761,7 +762,7 @@ const FounderCountdown = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !email.includes("@")) {
+    if (!EMAIL_RE.test(email)) {
       setError("Please enter a valid email address.");
       toast.error("Invalid email", "Please enter a valid email address.");
       return;

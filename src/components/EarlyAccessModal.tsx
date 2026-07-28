@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
 import { useToast } from "./Toast";
+import { EMAIL_RE } from "../../shared/waitlist";
 
 export type EarlyAccessPurpose = "early-access" | "supporter-notify";
 
@@ -93,7 +94,11 @@ export const EarlyAccessModal = ({
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
-                if (!email) return;
+                if (!EMAIL_RE.test(email)) {
+                  setError("Please enter a valid email address.");
+                  toast.error("Invalid email", "Please enter a valid email address.");
+                  return;
+                }
                 setSubmitting(true);
                 setError("");
                 try {

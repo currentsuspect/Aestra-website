@@ -1,5 +1,6 @@
 import { waitUntil } from "@vercel/functions";
 import { checkBotId } from "botid/server";
+import { EMAIL_RE } from "../shared/waitlist";
 
 type WaitlistPurpose = "early-access" | "supporter-notify" | "founder-waitlist";
 
@@ -11,7 +12,6 @@ type WaitlistPayload = {
   website?: unknown;
 };
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PURPOSES = new Set<WaitlistPurpose>([
   "early-access",
   "supporter-notify",
