@@ -28,7 +28,7 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">What we collect</h2>
           <ul className="space-y-2 list-disc list-inside text-muted">
-            <li><span className="text-fg-muted">Email address</span> — when you join the Founder waitlist via our form.</li>
+            <li><span className="text-fg-muted">Waitlist details</span> — your email address and, where the form asks for them, your name and current DAW.</li>
             <li><span className="text-fg-muted">Usage analytics</span> — anonymous, aggregated data about how the website is used (page views, referrers). No personal identification.</li>
           </ul>
         </section>
@@ -45,7 +45,7 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">Waitlist emails</h2>
           <p className="text-muted">
-            Waitlist submissions are sent to Aestra through our server-side endpoint and delivered using{" "}
+            Waitlist submissions go through our server-side endpoint and are stored as contacts by{" "}
             <a
               href="https://resend.com/legal/privacy-policy"
               target="_blank"
@@ -54,7 +54,7 @@ export const Privacy = memo(({ setPage }: PageProps) => (
             >
               Resend
             </a>
-            , our email delivery provider. We use these details solely for the list you signed up for and to send the related confirmation or launch notification.
+            , our email delivery and contact-management provider. We use those details solely for the list you joined and the related launch or access notifications.
             We will not sell or share your email, or add you to an unrelated marketing list.
             You can request removal at any time.
           </p>
