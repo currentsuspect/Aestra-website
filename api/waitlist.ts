@@ -1,6 +1,11 @@
 import { waitUntil } from "@vercel/functions";
 import { checkBotId } from "botid/server";
-import { EMAIL_RE } from "../shared/waitlist";
+// The .js extension is required, not optional. package.json sets
+// "type": "module" and Vercel transpiles this function per-file rather than
+// bundling it, so Node's ESM resolver needs an explicit extension at runtime.
+// tsconfig's "bundler" resolution accepts the extensionless form, so `tsc`
+// will not catch its absence - only invoking the built function will.
+import { EMAIL_RE } from "../shared/waitlist.js";
 
 type WaitlistPurpose = "early-access" | "supporter-notify" | "founder-waitlist";
 
