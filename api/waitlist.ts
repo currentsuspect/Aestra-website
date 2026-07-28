@@ -43,9 +43,15 @@ function json(body: unknown, status = 200, headers: HeadersInit = {}) {
   });
 }
 
+// Resend has no client-side deadline of its own, and ensureContact is awaited
+// before we answer the browser. Without this the request would hang until the
+// platform function timeout instead of failing fast.
+const RESEND_TIMEOUT_MS = 8000;
+
 async function resendFetch(apiKey: string, path: string, init: RequestInit = {}) {
   return fetch(`https://api.resend.com${path}`, {
     ...init,
+    signal: AbortSignal.timeout(RESEND_TIMEOUT_MS),
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
