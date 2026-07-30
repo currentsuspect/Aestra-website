@@ -190,7 +190,7 @@ export const PAGE_ROBOTS = asSEO({
   terms: "index, follow, max-snippet:-1",
   about: "index, follow",
   roadmap: "index, follow, max-snippet:-1",
-  recovery: "index, follow, max-snippet:-1",
+  recovery: "noindex, nofollow",
   "404": "noindex, nofollow",
 });
 

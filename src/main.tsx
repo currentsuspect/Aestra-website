@@ -12,8 +12,10 @@ if (import.meta.env.PROD) {
 
 // WebMCP: expose site tools to AI agents via the browser
 // https://webmachinelearning.github.io/webmcp/
-if ("modelContext" in navigator) {
-  (navigator as any).modelContext.provideContext({
+const modelContext =
+  (document as any).modelContext ?? (navigator as any).modelContext;
+if (typeof modelContext?.provideContext === "function") {
+  modelContext.provideContext({
     tools: [
       {
         name: "navigate",
@@ -48,6 +50,5 @@ if ("modelContext" in navigator) {
 
 const container = document.getElementById("root");
 if (container) {
-  const root = createRoot(container);
-  root.render(<App />);
+  createRoot(container).render(<App />);
 }

@@ -64,10 +64,10 @@ export const App = () => {
     const desc = PAGE_DESCRIPTIONS[pageId] || PAGE_DESCRIPTIONS["home"];
     const keywords = PAGE_KEYWORDS[pageId] || PAGE_KEYWORDS["home"];
     const path = PAGE_PATHS[pageId] || "/";
-    const url = `https://aestra.studio${path === "/" ? "/" : path}`;
+    const url = `https://www.aestra.studio${path === "/" ? "/" : path}`;
     const ogType = PAGE_OG_TYPES[pageId] || "website";
     const ogImage = PAGE_OG_IMAGES[pageId] || "/og-image.svg";
-    const ogImageAbs = `https://aestra.studio${ogImage}`;
+    const ogImageAbs = `https://www.aestra.studio${ogImage}`;
     const robots = PAGE_ROBOTS[pageId] || "index, follow";
     const sectionTitle = PAGE_SECTION_TITLES[pageId] || "Home";
 

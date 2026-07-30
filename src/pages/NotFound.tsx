@@ -13,10 +13,7 @@ export const NotFound = memo(({ setPage }: { setPage: (p: string) => void }) => 
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    const prev = document.title;
-    document.title = "404 — Aestra";
     headingRef.current?.focus();
-    return () => { document.title = prev; };
   }, []);
 
   const handleBack = () => {
