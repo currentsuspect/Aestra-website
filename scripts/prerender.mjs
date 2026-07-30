@@ -3,7 +3,8 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { extname, join, resolve, sep } from "node:path";
 import process from "node:process";
 
-import puppeteer from "puppeteer";
+import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core";
 
 const DIST_DIR = resolve("dist");
 const CANONICAL_ORIGIN = "https://www.aestra.studio";
@@ -25,6 +26,17 @@ const routes = [
 ];
 
 const excludedRoutes = ["/login", "/account", "/recovery"];
+
+const launchBrowser = async () =>
+  puppeteer.launch({
+    args: await puppeteer.defaultArgs({
+      args: chromium.args,
+      headless: "shell",
+    }),
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(),
+    headless: "shell",
+  });
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
@@ -177,7 +189,7 @@ const assertDownloadAnchors = async (page) => {
 
 const prerender = async () => {
   const server = await serveDist();
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await launchBrowser();
   const snapshots = [];
 
   try {
@@ -295,7 +307,7 @@ const hydrationWarningPattern =
 
 const assertHydration = async (snapshots) => {
   const server = await serveDist();
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await launchBrowser();
 
   try {
     for (const snapshot of snapshots) {
