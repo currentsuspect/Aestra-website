@@ -334,13 +334,13 @@ const ChangelogTeaser = memo(({ setPage }: PageProps) => {
 
         <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80 overflow-hidden panel-sheen">
           {top.map((r) => (
-            <FadeIn key={r.ver} delay={0}>
+            <FadeIn key={r.version} delay={0}>
               <button
                 onClick={() => setPage("changelog")}
                 className="w-full text-left p-5 sm:p-6 hover:bg-surface-2/40 transition-colors group"
               >
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-2">
-                  <span className="text-fg font-semibold text-[15px] tracking-tight">{r.ver}</span>
+                  <span className="text-fg font-semibold text-[15px] tracking-tight">{r.version}</span>
                   <span className="text-muted text-[12px] flex items-center gap-1.5">
                     <CalendarDays className="w-3 h-3" aria-hidden="true" />
                     {r.date}
@@ -354,7 +354,7 @@ const ChangelogTeaser = memo(({ setPage }: PageProps) => {
                 </div>
                 <p className="text-muted text-[14px] leading-relaxed mb-3">{r.summary}</p>
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                  {Array.from(new Set(r.changes.map((c) => c.type))).slice(0, 4).map((t) => (
+                  {Array.from(new Set(r.entries.map((c) => c.type))).slice(0, 4).map((t) => (
                     <span
                       key={t}
                       className={`font-mono text-[10px] uppercase tracking-[0.14em] ${typeColor[t]}`}

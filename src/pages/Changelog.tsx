@@ -34,9 +34,9 @@ export const Changelog = memo(({ setPage }: PageProps) => {
     return releases
       .map((release) => ({
         ...release,
-        changes: activeType === "all" ? release.changes : release.changes.filter((change) => change.type === activeType),
+        entries: activeType === "all" ? release.entries : release.entries.filter((change) => change.type === activeType),
       }))
-      .filter((release) => release.changes.length > 0);
+      .filter((release) => release.entries.length > 0);
   }, [activeType, releases]);
 
   const filters: { label: string; value: "all" | ChangeType }[] = [
@@ -97,12 +97,12 @@ export const Changelog = memo(({ setPage }: PageProps) => {
 
         <div className="relative border-l border-border ml-2 space-y-12">
           {visibleReleases.map((release, i) => (
-            <div key={`${release.ver}-${release.date}-${i}`} className="relative pl-8 sm:pl-10">
+            <div key={`${release.version}-${release.date}-${i}`} className="relative pl-8 sm:pl-10">
               <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-surface-3 ring-4 ring-bg" />
 
               <div className="mb-5">
                 <div className="flex flex-wrap items-center gap-3 mb-2">
-                  <h2 className="text-xl sm:text-2xl font-semibold text-fg tracking-tight">{release.ver}</h2>
+                  <h2 className="text-xl sm:text-2xl font-semibold text-fg tracking-tight">{release.version}</h2>
                   <span className={cn("inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] font-medium", statusColors[release.status])}>
                     <span aria-hidden="true" className="led" />
                     {release.status}
@@ -113,7 +113,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
               </div>
 
               <ul className="space-y-2.5">
-                {release.changes.map((change, j) => (
+                {release.entries.map((change, j) => (
                   <li key={j} className="flex items-start gap-3 text-[14px] text-fg-muted leading-relaxed">
                     <span className={cn("font-mono text-[10px] font-medium uppercase tracking-[0.14em] mt-[3px] shrink-0 w-16", typeColors[change.type])}>
                       {change.type}
