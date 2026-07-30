@@ -189,10 +189,11 @@ const assertDownloadAnchors = async (page) => {
 
 const prerender = async () => {
   const server = await serveDist();
-  const browser = await launchBrowser();
+  let browser;
   const snapshots = [];
 
   try {
+    browser = await launchBrowser();
     for (const route of routes) {
       const page = await browser.newPage();
       const errors = [];
@@ -297,7 +298,7 @@ const prerender = async () => {
 
     return snapshots;
   } finally {
-    await browser.close();
+    if (browser) await browser.close();
     await server.close();
   }
 };
@@ -307,9 +308,10 @@ const hydrationWarningPattern =
 
 const assertHydration = async (snapshots) => {
   const server = await serveDist();
-  const browser = await launchBrowser();
+  let browser;
 
   try {
+    browser = await launchBrowser();
     for (const snapshot of snapshots) {
       const page = await browser.newPage();
       const warnings = [];
@@ -352,7 +354,7 @@ const assertHydration = async (snapshots) => {
       console.log(`client ${snapshot.path}: 0 hydration warnings`);
     }
   } finally {
-    await browser.close();
+    if (browser) await browser.close();
     await server.close();
   }
 };
