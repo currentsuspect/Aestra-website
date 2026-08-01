@@ -107,7 +107,7 @@ export const PAGE_TITLES = asSEO({
 export const PAGE_DESCRIPTIONS = asSEO({
   home: "A DAW that keeps up with your ideas — built for modest machines, with a loop-first workflow and every core feature free. Make music, not excuses.",
   features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
-  pricing: "Aestra pricing: free core DAW, Supporter tier at $5/month, and Founder Gold Card at $129 one-time. Open access, no feature gates.",
+  pricing: "Aestra pricing: free core DAW, Supporter at $5/month or $50/year, and a fully digital $129 Founder offer with 24 months of Supporter. No feature gates.",
   changelog: "Track Aestra's development progress. New features, bug fixes, and improvements across every release.",
   docs: "Aestra documentation: patch recipes, signal flow guides, persona tracks, troubleshooting, and command palette reference.",
   download: "Download Aestra DAW for Windows, macOS, and Linux. Free core, no strings attached.",
@@ -115,7 +115,7 @@ export const PAGE_DESCRIPTIONS = asSEO({
   login: "Sign in to your Aestra account.",
   account: "Manage your Aestra account, licenses, and plugins.",
   privacy: "Aestra privacy policy: how we handle your data, no cookies, transparent practices.",
-  terms: "Aestra terms of service: ASSAL v1.1 license, your music is yours, Supporter and Founder tier details.",
+  terms: "Aestra terms of service: ASSAL v1.1 license, your music is yours, Supporter and Founder offer details.",
   about: "About Aestra Studios: building a DAW that keeps up with producers instead of getting in their way.",
   roadmap: "Aestra's public roadmap. What's shipped, what's in progress, what we're targeting next, and what's on the radar.",
   recovery: "Report a bug, investigate it with a coding agent, contribute a fix upstream, or recover a damaged project. Aestra's debugging protocol, published and versioned.",
@@ -125,7 +125,7 @@ export const PAGE_DESCRIPTIONS = asSEO({
 export const PAGE_KEYWORDS = asSEO({
   home: "DAW, digital audio workstation, free DAW, music production software, native DAW, producer workflow, VST3, CLAP, beat making, mixing, recording, Aestra",
   features: "DAW features, native audio engine, pattern workflow, signal routing, audition mode, version control, music production tools",
-  pricing: "DAW pricing, free DAW, music software subscription, lifetime license, founder edition, supporter tier",
+  pricing: "DAW pricing, free DAW, music software subscription, digital founder card, supporter plan",
   changelog: "DAW changelog, release notes, Aestra updates, music software updates, version history",
   docs: "Aestra documentation, signal flow, patch recipes, command palette, troubleshooting, getting started",
   download: "download Aestra, free DAW download, Windows DAW, macOS DAW, Linux DAW, native audio workstation",

@@ -57,11 +57,11 @@ export const Terms = memo(({ setPage }: PageProps) => (
         </section>
 
         <section>
-          <h2 className="text-[15px] font-medium text-fg mb-3">Supporter &amp; Founder tiers</h2>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Supporter &amp; Founder offers</h2>
           <ul className="space-y-2 list-disc list-inside text-muted">
-            <li><span className="text-fg-muted">Supporter ($5/mo):</span> Subscription can be cancelled anytime. Access to premium features continues until the end of the billing period.</li>
-            <li><span className="text-fg-muted">Founder ($129 one-time):</span> Lifetime access to Supporter features. Physical card shipping subject to availability. Founder tier is limited and will not be reopened after the window closes.</li>
-            <li><span className="text-fg-muted">Refunds:</span> Supporter subscriptions can be refunded within 7 days of first purchase. Founder purchases are non-refundable once the card is produced, subject to your local consumer protection rights (for example, EU 14-day right of withdrawal where applicable).</li>
+            <li><span className="text-fg-muted">Supporter ($5/mo or $50/yr):</span> Subscription can be cancelled anytime. Recurring Supporter benefits continue until the end of the paid billing period.</li>
+            <li><span className="text-fg-muted">Founder ($129 one-time):</span> A fully digital, limited offer including a numbered Founder card, the defined Founder Collection, 24 months of Supporter from public beta, and a permanent 25% Supporter discount thereafter. It does not include lifetime cloud storage or every future Supporter benefit.</li>
+            <li><span className="text-fg-muted">Refunds:</span> Refund eligibility is shown at checkout and remains subject to applicable consumer protection law.</li>
           </ul>
         </section>
 

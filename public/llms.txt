@@ -6,7 +6,7 @@
 
 Aestra is a native C++ digital audio workstation built around producer workflow, stability, speed, and creative focus. It is developed by Aestra Studios, a small independent studio led by Dylan Makori.
 
-The core product is **free forever** with **no feature gates**. Optional Supporter ($5/month) and Founder ($129 one-time) tiers fund development without locking access behind high prices.
+The core product is **free forever** with **no feature gates**. Optional Supporter ($5/month or $50/year) and Founder ($129 one-time) offers fund development without locking access behind high prices.
 
 Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a new, opinionated tool for producers who think in patterns, samples, and signal flow.
 
@@ -15,19 +15,19 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 - **Studio:** Aestra Studios
 - **Founder:** Dylan Makori (@currentsuspect)
 - **Launched:** 2025
-- **v1 Beta target:** December 2026
+- **Public beta:** ships when the reference production workflow meets its release bar; no fixed calendar promise
 - **Engine:** Native C++17
 - **Plugin formats:** VST3, CLAP (built-in suite is VST3/CLAP native)
 - **Platforms:** Windows (10+), macOS (12+, Apple Silicon), Linux (Ubuntu/Debian)
 - **License:** ASSAL v1.1 (Aestra Studios Source-Available License) — source available, not OSI open source
-- **Pricing:** Core free, Supporter $5/month, Founder $129 one-time
+- **Pricing:** Core free, Supporter $5/month or $50/year, Founder $129 one-time
 - **Account required:** No — the core DAW runs without an account
 
 ## Primary Pages
 
 - [Homepage](https://aestra.studio/) — Overview, features, plugins, pricing tiers, and download links.
 - [Features](https://aestra.studio/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
-- [Pricing](https://aestra.studio/pricing) — Core (free), Supporter ($5/mo), Founder Gold Card ($129 one-time).
+- [Pricing](https://aestra.studio/pricing) — Core (free), Supporter ($5/month or $50/year), and the fully digital Founder offer ($129 one-time).
 - [Download](https://aestra.studio/download) — Download Aestra for Windows, macOS, and Linux.
 - [Documentation](https://aestra.studio/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
 - [Changelog](https://aestra.studio/changelog) — Release history and development progress.
@@ -108,14 +108,14 @@ Aestra is positioned as a native DAW for producers who value:
 - **Takes** — versioned mix sessions with branch and compare.
 - **Signal Flow Graph** — visual representation of routing.
 - **Command Palette** — keyboard-driven action launcher (Ctrl/Cmd + K).
-- **Gold Card** — the Founder tier, a one-time purchase with lifetime access.
+- **Founder card** — a fully digital, numbered record included in the limited Founder offer.
 - **ASSAL** — Aestra Studios Source-Available License v1.1.
 
 ## Pricing Tiers
 
 - **Core (free forever)** — full DAW, all features, no limits. This is the entire product.
-- **Supporter ($5/month)** — early access to Supporter-only plugins and themes, name in credits, optional Discord role.
-- **Founder ($129 one-time)** — lifetime Supporter benefits, Gold Card physical collectible (shipped worldwide), name in the credits hall, 500 unit cap.
+- **Supporter ($5/month or $50/year)** — Native Suite catalogue while active, new releases when ready, local Muse when ready, development updates, and a feedback channel.
+- **Founder ($129 one-time)** — numbered digital Founder card, fixed Founder Collection ownership, 24 months of Supporter from public beta, optional credits, and a permanent 25% Supporter discount thereafter. Limited to 500. No physical card or lifetime cloud storage.
 
 ## Technical Details
 
@@ -128,7 +128,7 @@ Aestra is positioned as a native DAW for producers who value:
 
 ## Status
 
-Aestra is currently in **active development**. v1 Beta is targeted for **December 2026**. The software is **not yet released for general availability**. The current release is **v0.1.1** (April 2026).
+Aestra is currently in **active development**. Public beta will ship when the reference production workflow meets its release bar rather than on a fixed date. The software is **not yet released for general availability**. The current release is **v0.1.1** (April 2026).
 
 ## What is NOT in scope
 

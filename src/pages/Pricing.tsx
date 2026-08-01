@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React from "react";
 import { Check, ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
 import { PianoGrid } from "../components/PianoGrid";
@@ -21,6 +21,7 @@ const tiers = [
     name: "Core",
     price: "$0",
     sub: "forever",
+    annual: "",
     tagline: "Everything you need to make a full record.",
     cta: "Request early access",
     ctaVariant: "secondary" as const,
@@ -38,54 +39,22 @@ const tiers = [
     name: "Supporter",
     price: "$5",
     sub: "/ month",
-    tagline: "Everything — plus the reason we keep building.",
+    annual: "or $50 / year",
+    tagline: "A growing creative catalogue that also keeps Aestra moving.",
     cta: "Notify me when Supporter launches",
     ctaVariant: "primary" as const,
     accent: "violet" as const,
     highlighted: true,
     features: [
       "Everything in Core",
-      "Muse — your DAW, but it listens.",
-      "Native Suite plugins + monthly drops",
-      "100GB Aestra Cloud included",
-      "Monthly sound packs",
-      "Direct support from the team",
+      "Native Suite plugin catalogue while active",
+      "New releases included when they're ready",
+      "Muse — local on your machine, when ready",
+      "Supporter development updates",
+      "Supporter feedback channel",
     ],
   },
 ];
-
-const AnimatedCounter = ({ target = 31, total = 500 }: { target?: number; total?: number }) => {
-  const [count, setCount] = useState(0);
-  const [fillWidth, setFillWidth] = useState(0);
-
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    const timeout = setTimeout(() => {
-      setFillWidth((target / total) * 100);
-      let c = 0;
-      interval = setInterval(() => {
-        c = Math.min(target, c + 1);
-        setCount(c);
-        if (c >= target) clearInterval(interval);
-      }, 40);
-    }, 200);
-    return () => {
-      clearTimeout(timeout);
-      clearInterval(interval);
-    };
-  }, [target, total]);
-
-  return (
-    <div className="flex items-center gap-4">
-      <div className="progress-track flex-1">
-        <div className="progress-fill" style={{ width: `${fillWidth}%` }} />
-      </div>
-      <div className="text-[13px] text-muted whitespace-nowrap">
-        <span className="text-amber-300 font-mono font-semibold">{count}</span> / {total} claimed
-      </div>
-    </div>
-  );
-};
 
 const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][] }[] = [
   {
@@ -114,33 +83,30 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
     rows: [
       ["Built-in plugin suite",            true, true, true],
       ["AestraRumble (808 synth)",         false, true, true],
-      ["Premium plugins (monthly drops)",  false, true, true],
-      ["Monthly sound packs",              false, true, true],
+      ["Native Suite catalogue while active", false, true, true],
+      ["New releases when they're ready",  false, true, true],
+      ["Founder Collection, owned permanently", false, false, true],
     ],
   },
   {
-    label: "AI & cloud",
+    label: "Local assistance",
     rows: [
-      ["Muse AI (runs locally)",           false, true, true],
-      ["Cloud storage for Takes",          false, true, true],
-      ["Cross-device sync (future)",       false, true, true],
+      ["Muse (local, when ready)",         false, true, true],
     ],
   },
   {
-    label: "Identity & lifetime",
+    label: "Founder record",
     rows: [
-      ["100GB Aestra Cloud",               false, true, true],
-      ["Exclusive Founder card (digital)", false, false, true],
-      ["Name in app credits (permanent)",  false, false, true],
-      ["Beta access — mobile & tablet",    false, false, true],
-      ["Vote on feature priorities",       false, false, true],
-      ["Lifetime access — no subscription",false, false, true],
+      ["Numbered digital Founder card",    false, false, true],
+      ["Name in app credits (opt-in)",     false, false, true],
+      ["24 months of Supporter",           false, false, true],
+      ["25% Supporter discount thereafter", false, false, true],
     ],
   },
   {
     label: "Support",
     rows: [
-      ["Direct support from the team",     false, true, true],
+      ["Supporter updates & feedback channel", false, true, true],
     ],
   },
 ];
@@ -194,6 +160,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
                     <span className="text-5xl font-semibold tracking-tight text-fg">{t.price}</span>
                     {t.sub && <span className="text-muted text-base">{t.sub}</span>}
                   </div>
+                  {t.annual && <div className="font-mono text-[11px] text-accent mb-2">{t.annual}</div>}
                   <p className="text-muted text-sm leading-relaxed">{t.tagline}</p>
                 </div>
 
@@ -222,7 +189,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
 
       <div className="px-5 sm:px-6 pb-20">
         <p className="text-center text-[13px] text-muted max-w-2xl mx-auto">
-          No card required for Core. Cancel Supporter anytime. Founder is a one-time purchase, never restocked.
+          No card required for Core. Cancel Supporter anytime. Cloud sync will be priced separately if and when it ships.
         </p>
       </div>
 
@@ -231,7 +198,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-10">
             <div className="flex-1 h-px bg-surface-3/80" />
-            <span className="readout">Founder · 500 exist, ever</span>
+            <span className="readout">Founder · 500 digital cards, ever</span>
             <div className="flex-1 h-px bg-surface-3/80" />
           </div>
 
@@ -239,15 +206,15 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
             <div className="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-14 items-start mb-10">
               <div>
                 <span className="inline-flex items-center gap-2.5 readout text-amber-300 mb-5">
-                  <span className="led led-pulse" aria-hidden="true" />
-                  Limited to 500 — never reproduced
+                  <span className="led" aria-hidden="true" />
+                  Fully digital · limited to 500
                 </span>
                 <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
                   You believed <span className="text-amber-300">first.</span>
                 </h2>
                 <p className="text-muted text-base sm:text-lg leading-relaxed max-w-lg">
-                  Not a tier. A record. Your name ships inside every copy of Aestra, permanently.
-                  The card is your proof of being first.
+                  Not a permanent service tier. A numbered digital record of being early,
+                  plus a defined collection you own and two years of Supporter.
                 </p>
               </div>
               <div className="text-right">
@@ -256,19 +223,26 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
               </div>
             </div>
 
-            <div className="mb-8">
-              <AnimatedCounter target={31} total={500} />
+            <div className="grid sm:grid-cols-3 gap-px bg-amber-500/15 border border-amber-500/15 rounded-lg overflow-hidden mb-8">
+              {[
+                ["24 months", "Supporter included"],
+                ["25% off", "Supporter after that"],
+                ["Digital", "No shipping or physical card"],
+              ].map(([value, label]) => (
+                <div key={label} className="bg-bg/80 px-4 py-3">
+                  <div className="text-fg font-medium">{value}</div>
+                  <div className="text-[11px] text-muted mt-0.5">{label}</div>
+                </div>
+              ))}
             </div>
 
             <div className="flex flex-wrap gap-2 mb-10">
               {[
-                "Everything in Supporter, forever",
-                "100GB Aestra Cloud for life",
-                "Exclusive Founder card — your number forever",
-                "Name in app credits, permanent",
-                "Beta access — mobile & tablet",
-                "Vote on feature priorities",
-                "No subscription. Ever.",
+                "24 months of Supporter from public beta",
+                "Founder Collection — a fixed launch bundle you own",
+                "Numbered digital Founder card, permanent",
+                "Name in app credits, opt-in",
+                "25% off Supporter after the included period",
               ].map((f) => (
                 <span key={f} className="inline-flex items-center gap-2 text-fg-muted text-[13px]">
                   <Check className="w-3.5 h-3.5 text-amber-300 shrink-0" />
@@ -286,7 +260,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
                 Join the waitlist <ArrowRight className="w-4 h-4" />
               </Button>
               <p className="text-muted text-[13px] max-w-sm">
-                Founder access activates when beta launches in December 2026. Joining the waitlist holds your place in line.
+                Founder sales open at public beta. The waitlist sends launch notice; it does not sell or reserve a numbered card.
               </p>
             </div>
           </div>
@@ -298,7 +272,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-10">
             <div className="flex-1 h-px bg-surface-3/80" />
-            <span className="readout">What you get at each level</span>
+            <span className="readout">What each offer includes</span>
             <div className="flex-1 h-px bg-surface-3/80" />
           </div>
 
@@ -348,7 +322,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
               </div>
               <div className="p-5 text-center">
                 <div className="text-amber-300 text-sm font-medium">Founder</div>
-                <div className="text-muted text-[11px] font-mono mt-0.5">$129</div>
+                <div className="text-muted text-[11px] font-mono mt-0.5">$129 · 24mo</div>
               </div>
             </div>
 
@@ -368,6 +342,11 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
               </div>
             ))}
           </div>
+          <p className="text-muted text-[12px] mt-4 leading-relaxed">
+            Founder includes Supporter benefits for 24 months from public beta. After that,
+            those recurring benefits require an active Supporter plan at the permanent 25% Founder discount.
+            The Founder Collection and numbered digital card remain yours.
+          </p>
         </div>
       </div>
     </div>

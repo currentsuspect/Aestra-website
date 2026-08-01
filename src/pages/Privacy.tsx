@@ -70,11 +70,12 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         </section>
 
         <section>
-          <h2 className="text-[15px] font-medium text-fg mb-3">Muse AI (planned)</h2>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Muse</h2>
           <p className="text-muted">
-            Our current plan for Muse AI is to run all predictions locally on your machine.
-            Subject to change before launch, but our intent is: no audio, MIDI, or project data sent to the cloud.
-            Optional anonymous telemetry for model improvement, if introduced, would be opt-in and can be disabled without affecting Muse's functionality.
+            Muse currently runs locally on your machine. Its local workflow does not require
+            audio, MIDI, or project data to be sent to a hosted model. If Aestra later offers
+            model training or a hosted Muse service, that will be a separate opt-in service
+            with its data use and pricing disclosed before anything leaves your machine.
           </p>
         </section>
 

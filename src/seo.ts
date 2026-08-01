@@ -74,7 +74,7 @@ export const buildPageStructuredData = (
       "@id": `${url}#product`,
       name: "Aestra",
       description:
-        "A free digital audio workstation for producers, with optional Supporter and Founder tiers.",
+        "A free digital audio workstation for producers, with optional Supporter and Founder offers.",
       brand: { "@id": "https://aestra.studio/#organization" },
       offers: [
         {
@@ -93,8 +93,7 @@ export const buildPageStructuredData = (
           name: "Supporter",
           price: "5",
           priceCurrency: "USD",
-          priceValidUntil: "2027-12-31",
-          description: "Monthly subscription supporting development.",
+          description: "Monthly or annual subscription with the Native Suite catalogue and local Muse when ready.",
           url,
           availability: "https://schema.org/PreOrder",
         },
@@ -104,7 +103,7 @@ export const buildPageStructuredData = (
           name: "Founder",
           price: "129",
           priceCurrency: "USD",
-          description: "One-time Founder Gold Card. Lifetime access. Limited to 500 units.",
+          description: "One-time digital Founder card with a fixed Founder Collection, 24 months of Supporter, and an ongoing discount. Limited to 500.",
           url,
           availability: "https://schema.org/LimitedAvailability",
         },

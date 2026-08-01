@@ -214,7 +214,7 @@ export const Plugins = ({ setPage }: PageProps) => {
                   More on the way.
                 </h3>
                 <p className="text-muted text-[14px] leading-relaxed max-w-xl">
-                  A separate collection of specialist plugins, dropping monthly with Supporter. Individual plugins available for one-time purchase.
+                  A separate collection of specialist plugins, released when each one is ready. Supporters get the catalogue while active; individual plugins remain available for one-time purchase.
                 </p>
               </div>
               <Button

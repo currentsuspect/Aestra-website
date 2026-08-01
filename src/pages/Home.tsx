@@ -35,7 +35,7 @@ const FEATURE_LIST = [
   { icon: SingIcon,   name: "Takes",        desc: "Work freely. Nothing is lost." },
   { icon: Workflow,   name: "Node Routing", desc: "Every send visible on one graph." },
   { icon: Headphones, name: "Audition",     desc: "Reference across devices without leaving your session." },
-  { icon: Sparkles,   name: "Muse",         desc: "Ask for a groove. It writes one in.", alpha: true },
+  { icon: Sparkles,   name: "Muse",         desc: "Local help for grooves and session control.", alpha: true },
 ];
 
 /* Rendered once. This list previously existed as two identical copies
@@ -201,7 +201,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
       a: (
         <>
           Yes — the core DAW is free forever, with every feature unlocked and no
-          cap on exports or session length. Optional <a href="/pricing" onClick={go("pricing")} className="text-fg underline underline-offset-4 hover:text-fg-muted">Supporter and Founder tiers</a> fund
+          cap on exports or session length. Optional <a href="/pricing" onClick={go("pricing")} className="text-fg underline underline-offset-4 hover:text-fg-muted">Supporter and Founder offers</a> fund
           development instead of gating it.
         </>
       ),
@@ -646,8 +646,8 @@ const FreeCore = memo(({ setPage, onEarlyAccess }: PageProps) => (
           <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80">
             {[
               { tier: "Core",       price: "$0",     desc: "Full DAW. Forever free.",     accent: "emerald" },
-              { tier: "Supporter",  price: "$5/mo",  desc: "Priority builds + cloud sync.", accent: "violet" },
-              { tier: "Founder",    price: "$129",   desc: "One-time. Lifetime. Your name in the product.", accent: "amber" },
+              { tier: "Supporter",  price: "$5/mo",  desc: "Native Suite catalogue + local Muse when ready.", accent: "violet" },
+              { tier: "Founder",    price: "$129",   desc: "Digital record + 24 months of Supporter.", accent: "amber" },
             ].map(({ tier, price, desc, accent }) => (
               <div key={tier} className="flex items-center gap-5 p-5 sm:p-6">
                 <span aria-hidden="true" className={`h-2 w-2 rounded-full shrink-0 ${
@@ -699,45 +699,13 @@ const ClosingCTA = memo(({ setPage, onEarlyAccess }: PageProps) => (
   </section>
 ));
 
-/* ── Founder Countdown ───────────────────────────────────────── */
-const FOUNDER_TOTAL = 500;
-const FOUNDER_CLAIMED = 31;
-const FOUNDER_TARGET = new Date("2026-12-25T00:00:00").getTime();
-
-const isLaunched = () => Date.now() >= FOUNDER_TARGET;
-
-const computeTimeLeft = () => {
-  const now = Date.now();
-  const diff = Math.max(0, FOUNDER_TARGET - now);
-  const totalSeconds = Math.floor(diff / 1000);
-  const months = Math.floor(totalSeconds / (30.44 * 24 * 3600));
-  const remaining = totalSeconds - months * Math.floor(30.44 * 24 * 3600);
-  const days = Math.floor(remaining / (24 * 3600));
-  const hours = Math.floor((remaining % (24 * 3600)) / 3600);
-  const minutes = Math.floor((remaining % 3600) / 60);
-  const seconds = remaining % 60;
-  return { months, days, hours, minutes, seconds };
-};
-
 const FounderCountdown = () => {
   const toast = useToast();
-  const [timeLeft, setTimeLeft] = useState(computeTimeLeft);
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
-  const [launched, setLaunched] = useState(isLaunched);
-
-  useEffect(() => {
-    const update = () => {
-      setTimeLeft(computeTimeLeft());
-      if (Date.now() >= FOUNDER_TARGET) setLaunched(true);
-    };
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -756,7 +724,7 @@ const FounderCountdown = () => {
       });
       if (res.ok) {
         setSubmitted(true);
-        toast.success("Slot reserved.", "We'll email you when your Founder number is ready.");
+        toast.success("You're on the Founder list.", "We'll email you when the digital Founder window opens.");
       } else {
         setError("Something went wrong. Try again.");
         toast.error("Couldn't join waitlist", "Something went wrong. Try again.");
@@ -769,23 +737,6 @@ const FounderCountdown = () => {
     }
   };
 
-  const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
-    <div
-      className="flex-1 min-w-0 flex flex-col gap-1.5 px-2 first:pl-0 last:pr-0"
-      role="timer"
-      aria-label={`${value} ${label.toLowerCase()}`}
-    >
-      <div
-        className="text-2xl sm:text-[28px] font-semibold text-fg font-mono tabular-nums tracking-tight leading-none"
-        aria-live="off"
-      >
-        {String(value).padStart(2, "0")}
-      </div>
-      <div className="font-mono text-[10px] sm:text-[11px] text-muted uppercase tracking-[0.14em]">{label}</div>
-    </div>
-  );
-
-  const spotsLeft = FOUNDER_TOTAL - FOUNDER_CLAIMED;
   const formId = "founder-waitlist-email";
   const errorId = "founder-waitlist-error";
   const successId = "founder-waitlist-success";
@@ -798,45 +749,18 @@ const FounderCountdown = () => {
             <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-14 items-start">
               <div>
                 <span className="inline-flex items-center gap-2.5 readout text-amber-300 mb-6">
-                  <span aria-hidden="true" className="led led-pulse" />
-                  Founder window · 500 cards
+                  <span aria-hidden="true" className="led" />
+                  Founder window · 500 digital cards
                 </span>
                 <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-5">
                   Some things don't get a second run.
                 </h2>
                 <p className="text-muted text-base sm:text-lg max-w-xl leading-relaxed mb-8">
-                  Not a subscription. Not a tier. A piece of history — your name
-                  in the product, your Founder number forever, and lifetime access from day one.
+                  A numbered digital record, a fixed Founder Collection you own,
+                  and 24 months of Supporter from public beta. Everything is fully digital.
                 </p>
 
-                <div className="mb-8">
-                  <div className="flex items-center justify-between mb-3 text-sm">
-                    <span className="text-fg-muted">
-                      <span className="text-amber-300 font-mono font-semibold">{FOUNDER_CLAIMED}</span> / {FOUNDER_TOTAL} claimed
-                      <span className="text-dim ml-2">(illustrative)</span>
-                    </span>
-                    <span className="text-muted text-[13px]">{spotsLeft} spots left</span>
-                  </div>
-                  <div
-                    className="progress-track"
-                    role="progressbar"
-                    aria-valuenow={FOUNDER_CLAIMED}
-                    aria-valuemin={0}
-                    aria-valuemax={FOUNDER_TOTAL}
-                    aria-label="Founder cards claimed (illustrative)"
-                  >
-                    <div className="progress-fill" style={{ width: `${(FOUNDER_CLAIMED / FOUNDER_TOTAL) * 100}%` }} />
-                  </div>
-                </div>
-
-                {launched ? (
-                  <div className="rounded-lg border border-border bg-bg p-4 max-w-md">
-                    <p className="text-fg font-medium mb-1">The waitlist is closed.</p>
-                    <p className="text-muted text-sm leading-relaxed">
-                      Beta launched on December 25, 2026. Visit the <a href="/download" className="text-fg underline underline-offset-4 hover:text-fg-muted">download page</a> to get Aestra, or <a href="/pricing" className="text-fg underline underline-offset-4 hover:text-fg-muted">see pricing</a> for current tiers.
-                    </p>
-                  </div>
-                ) : !submitted ? (
+                {!submitted ? (
                   <form
                     onSubmit={handleSubmit}
                     className="flex flex-col sm:flex-row gap-2.5 max-w-md"
@@ -891,29 +815,22 @@ const FounderCountdown = () => {
                 )}
               </div>
 
-              <div className="lg:w-72" aria-live="polite">
-                <p className="kicker mb-4">Beta launch</p>
-                {launched ? (
-                  <p className="text-fg text-sm leading-relaxed border-y border-border/80 py-3">
-                    Beta launched. Time is up.
-                  </p>
-                ) : (
-                  <div
-                    className="flex items-stretch divide-x divide-border/80 border-y border-border/80 py-3"
-                    role="timer"
-                    aria-label={`Time until beta launch: ${timeLeft.months} months, ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes`}
-                  >
-                    <CountdownUnit value={timeLeft.months} label="Mo" />
-                    <CountdownUnit value={timeLeft.days} label="Days" />
-                    <CountdownUnit value={timeLeft.hours} label="Hrs" />
-                    <CountdownUnit value={timeLeft.minutes} label="Min" />
-                    <CountdownUnit value={timeLeft.seconds} label="Sec" />
-                  </div>
-                )}
+              <div className="lg:w-72">
+                <p className="kicker mb-4">The offer</p>
+                <div className="border-y border-border/80 divide-y divide-border/80">
+                  {[
+                    ["500", "digital cards, ever"],
+                    ["24 mo", "Supporter included"],
+                    ["25%", "Supporter discount after"],
+                  ].map(([value, label]) => (
+                    <div key={label} className="flex items-baseline justify-between gap-4 py-3">
+                      <span className="font-mono text-lg text-fg">{value}</span>
+                      <span className="text-[11px] text-muted text-right">{label}</span>
+                    </div>
+                  ))}
+                </div>
                 <p className="text-muted text-[12px] mt-4 leading-relaxed">
-                  {launched
-                    ? "Founder access is now active for all Founder card holders."
-                    : "Founder access activates when beta launches in December 2026. Joining the waitlist holds your place in line."}
+                  Sales open when public beta meets its release bar. The waitlist sends notice only; it does not reserve a card.
                 </p>
               </div>
             </div>
