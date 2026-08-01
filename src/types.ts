@@ -105,8 +105,8 @@ export const PAGE_TITLES = asSEO({
 });
 
 export const PAGE_DESCRIPTIONS = asSEO({
-  home: "A DAW that keeps up with your ideas — opens in about a second, stays smooth on the laptop you already own, and every feature is free. Make music, not excuses.",
-  features: "What Aestra does differently: opens instantly, stays smooth as the track grows, loop-first workflow, routing you can see, and a mix check for phone, earbuds and car.",
+  home: "A DAW that keeps up with your ideas — built for modest machines, with a loop-first workflow and every core feature free. Make music, not excuses.",
+  features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
   pricing: "Aestra pricing: free core DAW, Supporter tier at $5/month, and Founder Gold Card at $129 one-time. Open access, no feature gates.",
   changelog: "Track Aestra's development progress. New features, bug fixes, and improvements across every release.",
   docs: "Aestra documentation: patch recipes, signal flow guides, persona tracks, troubleshooting, and command palette reference.",

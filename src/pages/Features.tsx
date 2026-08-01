@@ -6,45 +6,36 @@ import { FadeIn } from "../components/ui";
 import type { PageProps } from "../types";
 
 const EngineVisual = memo(() => {
-  const ROWS: [string, number, string, string][] = [
-    ["CPU",      18, "bg-accent/70",   "18%"],
-    ["RAM",      22, "bg-accent/60",   "340mb"],
-    ["Latency",   8, "bg-accent/50",   "8ms"],
-    ["Dropouts",  0, "bg-emerald-500", "0"],
+  const rows = [
+    ["Engine", "Native C++17", "bg-accent/70"],
+    ["Audio", "Realtime path", "bg-accent/60"],
+    ["Source", "Available", "bg-accent/50"],
+    ["Projects", "Local files", "bg-emerald-500"],
   ];
-  const [widths, setWidths] = useState([0, 0, 0, 0]);
-  useEffect(() => {
-    const t = setTimeout(() => setWidths(ROWS.map((r) => r[1])), 100);
-    return () => clearTimeout(t);
-  }, []);
 
   return (
     <div className="w-full max-w-xs">
       <div className="space-y-2.5">
-        {ROWS.map(([label, w, c, v], i) => (
-          <div
-            key={label}
-            className="flex items-center gap-3 cursor-default"
-            onMouseEnter={() => setWidths((prev) => prev.map((x, j) => j === i ? Math.min(95, w + Math.random() * 12) : x))}
-          >
+        {rows.map(([label, value, color], index) => (
+          <div key={label} className="flex items-center gap-3">
             <div className="w-14 font-mono text-[10px] text-muted uppercase tracking-[0.14em] shrink-0">{label}</div>
             <div className="flex-1 h-1.5 bg-surface-2 rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full ${c} transition-all duration-700 ease-out`}
-                style={{ width: `${widths[i]}%` }}
+                className={`h-full rounded-full ${color}`}
+                style={{ width: `${82 - index * 9}%` }}
               />
             </div>
-            <div className="w-12 text-right text-[11px] font-mono text-fg-muted">{v}</div>
+            <div className="w-24 text-right text-[11px] font-mono text-fg-muted">{value}</div>
           </div>
         ))}
       </div>
       <div className="mt-6 grid grid-cols-3 divide-x divide-border/80 rounded-lg border border-border/80 bg-bg">
         {[
-          { v: "8ms",  l: "Latency",  c: "text-fg" },
-          { v: "0",    l: "Dropouts", c: "text-emerald-400" },
-          { v: "18%",  l: "CPU",      c: "text-fg" },
+          { v: "Win", l: "Desktop", c: "text-fg" },
+          { v: "macOS", l: "Desktop", c: "text-fg" },
+          { v: "Linux", l: "Desktop", c: "text-emerald-400" },
         ].map((s) => (
-          <div key={s.l} className="text-center py-4">
+          <div key={s.v} className="text-center py-4">
             <div className={`text-xl font-semibold tracking-tight ${s.c}`}>{s.v}</div>
             <div className="font-mono text-[10px] text-muted uppercase tracking-[0.14em] mt-1">{s.l}</div>
           </div>
@@ -55,26 +46,10 @@ const EngineVisual = memo(() => {
 });
 
 const TerminalVisual = memo(() => {
-  const [progress, setProgress] = useState(0);
-  const [tick, setTick] = useState(0);
-
-  useEffect(() => {
-    let raf = 0;
-    const start = performance.now();
-    const loop = (now: number) => {
-      const t = ((now - start) % 2400) / 2400;
-      setProgress(Math.min(100, t * 100));
-      setTick(Math.floor(t * 4));
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
   const checks = [
     "audio engine ready",
     "last session restored",
-    "plugins loaded",
+    "plugin index available",
   ];
 
   return (
@@ -91,10 +66,7 @@ const TerminalVisual = memo(() => {
         <div className="text-dim line-through">› negotiating audio device…</div>
         <div className="h-2" />
         {checks.map((c, i) => (
-          <div
-            key={c}
-            className={`transition-opacity ${tick > i ? "text-emerald-400 opacity-100" : "text-emerald-400/30"}`}
-          >
+          <div key={c} className="text-emerald-400">
             ✓ {c}
           </div>
         ))}
@@ -102,14 +74,11 @@ const TerminalVisual = memo(() => {
       </div>
       <div className="px-4 py-3 border-t border-border/80 space-y-1.5">
         <div className="h-1 bg-surface-2 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-accent rounded-full transition-none"
-            style={{ width: `${progress}%` }}
-          />
+          <div className="h-full w-full bg-accent rounded-full" />
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-xl font-semibold text-fg font-mono tracking-tight">1.4s</span>
-          <span className="text-[11px] text-muted">from launch to beat</span>
+          <span className="text-sm font-semibold text-fg tracking-tight">Straight into the session</span>
+          <span className="text-[11px] text-muted">without a full rescan</span>
         </div>
       </div>
     </div>
@@ -269,10 +238,10 @@ const RoutingVisual = memo(() => {
 const AuditionVisual = memo(() => {
   const [active, setActive] = useState(0);
   const devices: { name: string; sub: string; border: string; eq: number[] }[] = [
-    { name: "Laptop speaker",   sub: "The most unforgiving room you own", border: "border-accent/30 bg-accent/5", eq: [0, 0, 0, 0, 0, 0, 0, 0] },
-    { name: "AirPods Pro",      sub: "How most people will hear it",      border: "border-accent/30 bg-accent/5", eq: [-2, -1, 1, 3, 2, -1, -2, -3] },
-    { name: "Car audio",        sub: "Where the low end lies to you",     border: "border-accent/30 bg-accent/5", eq: [-4, -2, 4, 5, 2, -1, -3, -4] },
-    { name: "Spotify loudness", sub: "After streaming turns it down",     border: "border-accent/30 bg-accent/5", eq: [-3, -2, 0, 1, 1, 0, -2, -3] },
+    { name: "Spotify",     sub: "Streaming playback preview", border: "border-accent/30 bg-accent/5", eq: [-3, -2, 0, 1, 1, 0, -2, -3] },
+    { name: "Apple Music", sub: "Platform translation preview", border: "border-accent/30 bg-accent/5", eq: [-2, -1, 1, 2, 1, 0, -2, -3] },
+    { name: "Car speakers", sub: "Check the low-end balance", border: "border-accent/30 bg-accent/5", eq: [-4, -2, 4, 5, 2, -1, -3, -4] },
+    { name: "AirPods",     sub: "Compact wireless playback", border: "border-accent/30 bg-accent/5", eq: [-2, -1, 1, 3, 2, -1, -2, -3] },
   ];
   const activeDevice = devices[active];
   return (
@@ -346,13 +315,13 @@ const VersionVisual = memo(() => (
 
 const sections = [
   {
-    title: "Stays smooth when the track gets big",
+    title: "An engine built in the open",
     tag: "Engine",
-    desc: "Forty tracks in and the session still moves. Aestra is built so the project growing doesn't mean the DAW slowing down.",
+    desc: "Aestra's native desktop core, project handling and audio path are built as one system — and the source is available to inspect.",
     points: [
-      ["Timing you can play to", "Latency low enough to record parts without fighting the delay in your headphones."],
-      ["No mystery slowdowns", "Stacking tracks and drawing automation doesn't gradually choke the session."],
-      ["Built for the laptop you have", "Tuned for real machines, not a maxed-out studio desktop."],
+      ["Native desktop core", "The workstation and its audio engine are built together in C++."],
+      ["Realtime work stays focused", "The audio path is kept separate from UI and control work."],
+      ["Source you can inspect", "See what runs on your machine and how projects are handled."],
     ],
     Visual: EngineVisual,
   },
@@ -361,8 +330,8 @@ const sections = [
     tag: "Startup",
     desc: "The gap between wanting to make something and being able to is where ideas die. Aestra opens straight into the session.",
     points: [
-      ["Up in about a second", "Fast enough that you don't wander off to your phone while it loads."],
-      ["Plugins ready before you open", "Your library is sorted in the background, not scanned every launch."],
+      ["No full library rescan", "The plugin index is prepared ahead of launch instead of rebuilt every time."],
+      ["Session first", "The launch path is designed to put the project ahead of splash screens and ceremony."],
       ["Picks up where you left off", "Same session, same view, same place in the arrangement."],
     ],
     Visual: TerminalVisual,
@@ -394,8 +363,8 @@ const sections = [
     tag: "Monitoring",
     desc: "Your mix sounds great in your headphones. Check it against the places people will actually hear it, while you can still fix it.",
     points: [
-      ["Phone, earbuds, laptop, car", "Flip between them without leaving the session or bouncing a file."],
-      ["Hear what streaming does to it", "Preview the loudness drop before the platform makes the decision for you."],
+      ["Streaming, earbuds and car", "Switch among the built-in Spotify, Apple Music, AirPods and car-speaker previews."],
+      ["Hear the translation change", "Compare the tonal balance without leaving the session or bouncing a file."],
       ["Fix it now, not after release", "Catch the thin low end while the session is still open."],
     ],
     Visual: AuditionVisual,
@@ -410,6 +379,27 @@ const sections = [
       ["A/B and keep the winner", "Compare takes side by side and pull the best bits forward."],
     ],
     Visual: VersionVisual,
+  },
+];
+
+const chapters = [
+  {
+    name: "Create",
+    number: "01",
+    description: "Get from the first loop to a session you can keep shaping.",
+    featureIndexes: [1, 2],
+  },
+  {
+    name: "Understand",
+    number: "02",
+    description: "See the engine and signal flow that sit underneath the music.",
+    featureIndexes: [0, 3],
+  },
+  {
+    name: "Finish",
+    number: "03",
+    description: "Check how the mix translates, compare versions, and keep the winner.",
+    featureIndexes: [4, 5],
   },
 ];
 
@@ -464,14 +454,32 @@ export const Features = ({ setPage, topOffset = 0, onEarlyAccess }: PageProps) =
             <span className="text-muted">actually work.</span>
           </h1>
           <p className="text-muted text-base sm:text-lg max-w-2xl leading-relaxed">
-            Six things that separate Aestra from every other DAW you've rage-quit
-            at 2am.
+            Six working surfaces, organised around the job: create the idea,
+            understand the session, and finish with confidence.
           </p>
         </div>
 
         <div className="mt-16 sm:mt-20">
-          {sections.map((feature, index) => (
-            <FeatureBlock key={feature.title} feature={feature} index={index} />
+          {chapters.map((chapter, chapterIndex) => (
+            <div key={chapter.name}>
+              <div className="px-5 sm:px-6 py-10 sm:py-12 border-t border-border/80 bg-surface-2/20">
+                <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-[10px] text-faint">{chapter.number}</span>
+                    <span className="w-5 h-px bg-accent" aria-hidden="true" />
+                    <h2 className="display-2 text-2xl sm:text-3xl text-fg">{chapter.name}</h2>
+                  </div>
+                  <p className="text-sm text-muted max-w-md sm:text-right">{chapter.description}</p>
+                </div>
+              </div>
+              {chapter.featureIndexes.map((featureIndex, featureIndexWithinChapter) => (
+                <FeatureBlock
+                  key={sections[featureIndex].title}
+                  feature={sections[featureIndex]}
+                  index={chapterIndex * 2 + featureIndexWithinChapter}
+                />
+              ))}
+            </div>
           ))}
         </div>
 
@@ -494,13 +502,12 @@ const cellDisplay: Record<Cell, { mark: string; color: string; label: string }> 
 
 const COMPARISON_ROWS: { label: string; aestra: Cell; ableton: Cell; logic: Cell; fl: Cell; }[] = [
   { label: "Everything free, nothing gated", aestra: "yes", ableton: "limited", logic: "no",      fl: "limited" },
-  { label: "Runs light on an old laptop",   aestra: "yes",  ableton: "no",      logic: "yes",     fl: "no"      },
   { label: "Same DAW on Win / macOS / Linux", aestra: "yes", ableton: "limited", logic: "no",     fl: "limited" },
-  { label: "Brings your VST3 collection",   aestra: "yes",  ableton: "yes",     logic: "yes",     fl: "yes"     },
-  { label: "CLAP plugin support",           aestra: "yes",  ableton: "yes",     logic: "no",      fl: "no"      },
+  { label: "Third-party VST3 hosting",      aestra: "limited", ableton: "yes",  logic: "yes",     fl: "yes"     },
+  { label: "CLAP plugin hosting",           aestra: "limited", ableton: "yes",  logic: "no",      fl: "no"      },
   { label: "Loop-first, not timeline-first", aestra: "yes", ableton: "limited", logic: "no",      fl: "yes"     },
   { label: "See your routing as a graph",   aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
-  { label: "Check the mix on phone / car",  aestra: "yes",  ableton: "no",      logic: "limited", fl: "no"      },
+  { label: "Streaming / car mix previews",  aestra: "yes",  ableton: "no",      logic: "limited", fl: "no"      },
   { label: "Takes & mix history built in",  aestra: "yes",  ableton: "limited", logic: "limited", fl: "limited" },
   { label: "You can read the source",       aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
 ];

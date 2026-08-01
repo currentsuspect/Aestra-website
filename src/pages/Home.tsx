@@ -128,7 +128,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
               <ul className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2.5 readout list-none">
                 <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Free · no export limits</li>
                 <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Windows · macOS · Linux</li>
-                <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> VST3 &amp; CLAP</li>
+                <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Ten built-in effects</li>
               </ul>
             </FadeIn>
           </div>
@@ -143,6 +143,9 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
         <Suspense fallback={mockFallback}>
           <MockTimeline />
         </Suspense>
+        <p className="mt-3 px-5 sm:px-6 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-faint">
+          Interactive interface preview · based on the current desktop alpha
+        </p>
       </div>
     </section>
   );
@@ -164,7 +167,7 @@ const WhySection = memo(() => (
 
       <div className="grid sm:grid-cols-2 gap-px bg-surface-3/80 rounded-2xl overflow-hidden border border-border/80">
         {[
-          ["Crashes that take the session with them", "One bad plugin can't kill your project any more — Aestra keeps them walled off, so a dodgy VST drops out instead of taking the whole track down."],
+          ["Sessions you are afraid to change", "Named takes and branches let you preserve the mix that works before you try the version that might work better."],
           ["Waiting around to start", "You had an idea in the shower. Aestra opens straight into the session, so it's still there when you sit down."],
           ["Not knowing where your sound is going", "One look at the routing graph tells you what's feeding what — including the send you set up last week and forgot about."],
           ["Getting pulled out of the zone", "Nothing pops up mid-take. No dialogs, no scan bars, no 'are you sure' while you're chasing a part."],
@@ -227,7 +230,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "Does Aestra support VST3 and CLAP plugins?",
-      a: "Yes — bring your whole VST3 and CLAP collection. Each plugin runs walled off from the session, so the one that always crashes can't take your project down with it. AestraVerb, AestraEQ and AestraComp are already in the box if you'd rather just start.",
+      a: "Third-party VST3 and CLAP hosting is available in the alpha and is still being hardened, so compatibility can vary by platform and plugin. Ten native Aestra effects are included as the dependable baseline.",
     },
     {
       q: "Can I use Aestra commercially?",
@@ -418,7 +421,7 @@ const Features = memo(() => (
           label="Performance"
           index={1}
           title="Light on your machine"
-          description="Stack the plugins you actually want. Aestra stays smooth on a five-year-old laptop, so the CPU meter isn't what ends the session."
+          description="Aestra is designed around modest machines, with the audio path kept separate from interface and control work."
           visual={
             <div className="flex items-end gap-1.5 h-full">
               {[72, 55, 83, 60, 45, 70, 50, 65, 58, 75].map((h, i) => (
@@ -438,15 +441,15 @@ const Features = memo(() => (
           visual={
             <div className="flex flex-col justify-center h-full gap-2">
               <div className="flex items-center justify-between text-[11px] text-muted">
-                <span>Cold start</span>
-                <span className="font-mono text-fg">1.4s</span>
+                <span>Plugin index</span>
+                <span className="font-mono text-emerald-400">ready</span>
               </div>
               <div className="h-1.5 bg-surface-2 rounded-full overflow-hidden">
                 <div className="h-full bg-accent rounded-full" style={{ width: "92%" }} />
               </div>
               <div className="flex justify-between text-[10px] text-muted">
-                <span>vs. 12s typical</span>
-                <span>no plugin scan</span>
+                <span>prepared ahead of launch</span>
+                <span>no full rescan</span>
               </div>
             </div>
           }
@@ -506,10 +509,10 @@ const Features = memo(() => (
           label="Monitoring"
           index={5}
           title="Translation preview"
-          description="Hear the mix through phone speakers, earbuds, and car audio while you're still able to fix it."
+          description="Preview the mix through built-in streaming, AirPods, and car-speaker profiles while you're still able to fix it."
           visual={
             <div className="flex flex-wrap gap-1.5 content-center h-full">
-              {["Spotify", "AirPods", "Car", "Phone", "Laptop", "Earbuds"].map((p) => (
+              {["Spotify", "Apple Music", "YouTube", "SoundCloud", "Car speakers", "AirPods"].map((p) => (
                 <span key={p} className="bg-surface-2 border border-border rounded-md px-2 py-0.5 text-[11px] text-muted">
                   {p}
                 </span>

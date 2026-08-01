@@ -93,7 +93,7 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
     rows: [
       ["C++17 audio engine",               true, true, true],
       ["Unlimited tracks & patterns",      true, true, true],
-      ["VST3 & CLAP plugin hosting",       true, true, true],
+      ["VST3 & CLAP hosting (alpha)",      true, true, true],
       ["Routing visualizer",               true, true, true],
       ["Audition mode (all platforms)",    true, true, true],
       ["Offline export & rendering",       true, true, true],
