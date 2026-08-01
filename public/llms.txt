@@ -114,7 +114,7 @@ Aestra is positioned as a native DAW for producers who value:
 ## Pricing Tiers
 
 - **Core (free forever)** — full DAW, all features, no limits. This is the entire product.
-- **Supporter ($5/month or $50/year)** — Native Suite catalogue while active, new releases when ready, local Muse when ready, development updates, a feedback channel, and collaboration when available. Supporters create and own shared workspaces with 10 GB included; invited Core users can join and edit without subscribing. Additional storage is priced separately.
+- **Supporter ($5/month or $50/year)** — funds Aestra and provides the Native Suite, local Muse when ready, asynchronous versioned collaboration through Takes when available, 10 GB of cloud workspace storage, development updates, and a feedback channel. Invited Core users can participate without subscribing; additional storage is priced separately. If Supporter lapses, only the cloud workspace becomes read-only. Downloaded projects remain editable and exportable in free Core.
 - **Founder ($129 one-time)** — numbered digital Founder card, fixed Founder Collection ownership, 24 months of Supporter from public beta, optional credits, and a permanent 25% Supporter discount thereafter. Limited to 500. No physical card or lifetime cloud storage.
 
 ## Technical Details

@@ -226,7 +226,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "Will collaboration require everyone to subscribe?",
-      a: "No. When collaboration ships, Core users can join and edit projects they are invited to. A Supporter creates and owns the shared workspace, with 10 GB included; only additional storage costs extra.",
+      a: "No. When asynchronous collaboration through Takes ships, Core users can join and edit projects they are invited to. A Supporter creates and owns the shared workspace, with 10 GB included; only additional storage costs extra. If that Supporter lapses, the cloud workspace becomes read-only — downloaded projects and the music itself remain fully editable in free Core.",
     },
     {
       q: "What platforms does Aestra support?",
@@ -650,7 +650,7 @@ const FreeCore = memo(({ setPage, onEarlyAccess }: PageProps) => (
           <div className="rounded-2xl border border-border/80 bg-bg divide-y divide-border/80">
             {[
               { tier: "Core",       price: "$0",     desc: "Full DAW. Forever free.",     accent: "emerald" },
-              { tier: "Supporter",  price: "$5/mo",  desc: "Native Suite + local Muse + collaboration when ready.", accent: "violet" },
+              { tier: "Supporter",  price: "$5/mo",  desc: "Native Suite + local Muse + versioned collaboration when ready.", accent: "violet" },
               { tier: "Founder",    price: "$129",   desc: "Digital record + 24 months of Supporter.", accent: "amber" },
             ].map(({ tier, price, desc, accent }) => (
               <div key={tier} className="flex items-center gap-5 p-5 sm:p-6">

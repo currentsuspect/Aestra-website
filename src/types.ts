@@ -107,7 +107,7 @@ export const PAGE_TITLES = asSEO({
 export const PAGE_DESCRIPTIONS = asSEO({
   home: "A DAW that keeps up with your ideas — built for modest machines, with a loop-first workflow and every core feature free. Make music, not excuses.",
   features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
-  pricing: "Aestra pricing: free core DAW, Supporter at $5/month or $50/year with future collaboration and 10 GB shared storage, and a fully digital $129 Founder offer. No feature gates.",
+  pricing: "Aestra pricing: free core DAW, Supporter at $5/month or $50/year with future asynchronous Takes collaboration and 10 GB cloud storage, and a fully digital $129 Founder offer.",
   changelog: "Track Aestra's development progress. New features, bug fixes, and improvements across every release.",
   docs: "Aestra documentation: patch recipes, signal flow guides, persona tracks, troubleshooting, and command palette reference.",
   download: "Download Aestra DAW for Windows, macOS, and Linux. Free core, no strings attached.",

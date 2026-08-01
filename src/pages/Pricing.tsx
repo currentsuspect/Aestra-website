@@ -33,7 +33,7 @@ const tiers = [
       "Audition mode — preview without breaking flow",
       "Takes — git-style session versioning",
       "Built-in plugin suite — Verb, EQ, Comp, Drift, Delay",
-      "Join collaborative projects when invited — when available",
+      "Join invited, versioned projects through Takes — when available",
     ],
   },
   {
@@ -51,7 +51,7 @@ const tiers = [
       "Native Suite plugin catalogue while active",
       "New releases included when they're ready",
       "Muse — local on your machine, when ready",
-      "Create collaborative projects — when available",
+      "Create asynchronous Takes workspaces — when available",
       "10 GB shared-project storage included",
       "Supporter development updates",
       "Supporter feedback channel",
@@ -98,9 +98,9 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
     ],
   },
   {
-    label: "Collaboration — when available",
+    label: "Versioned collaboration — when available",
     rows: [
-      ["Join & edit an invited project",     true, true, true],
+      ["Join & edit an invited Takes project", true, true, true],
       ["Create & own shared workspaces",    false, true, true],
       ["10 GB shared-project storage",      false, true, true],
       ["Add more storage separately",       false, true, true],
@@ -145,8 +145,8 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
             <span className="text-muted">Fully.</span>
           </h1>
           <p className="text-muted text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-            No export lock. No time limits. No artificial walls.
-            Supporter keeps the project alive and unlocks the extras.
+            No export lock. No time limits. No artificial walls. Supporter funds Aestra
+            and adds creative tools, versioned collaboration, and a closer product relationship.
           </p>
         </div>
       </section>
@@ -357,8 +357,8 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
           <p className="text-muted text-[12px] mt-4 leading-relaxed">
             Founder includes Supporter benefits for 24 months from public beta. After that,
             those recurring benefits require an active Supporter plan at the permanent 25% Founder discount.
-            The Founder Collection and numbered digital card remain yours. If Supporter ends, shared workspaces become
-            read-only with at least 30 days to download or export them.
+            The Founder Collection and numbered digital card remain yours. If Supporter ends, only the cloud workspace becomes
+            read-only, with at least 30 days to download or transfer it. Downloaded projects remain editable and exportable in free Core.
           </p>
         </div>
       </div>

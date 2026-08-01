@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { ArrowRight } from "lucide-react";
 import type { PageProps } from "../types";
 
-const LAST_UPDATED = "2026-07-28";
+const LAST_UPDATED = "2026-08-01";
 const formattedDate = new Date(LAST_UPDATED).toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
@@ -84,8 +84,9 @@ export const Privacy = memo(({ setPage }: PageProps) => (
           <p className="text-muted">
             Collaboration is not available yet. When it ships, project files and account identifiers
             must be stored and transmitted to provide the shared workspace you choose to use. Invited
-            collaborators receive access only through that workspace. Retention, deletion, subprocessors,
-            and security details will be published before collaboration launches.
+            collaborators receive access only through that workspace. Cloud-workspace deletion never deletes
+            downloaded local copies. Retention, deletion, subprocessors, security, and version-history compaction
+            details will be published before collaboration launches.
           </p>
         </section>
 
