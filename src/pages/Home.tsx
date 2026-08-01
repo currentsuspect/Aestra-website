@@ -493,7 +493,7 @@ const Features = memo(() => (
               <line x1="92" y1="21" x2="130" y2="30" className="stroke-accent/40" strokeWidth="1"/>
               <line x1="92" y1="39" x2="130" y2="30" className="stroke-accent/40" strokeWidth="1"/>
               <line x1="170" y1="30" x2="190" y2="30" className="stroke-accent" strokeWidth="1.2"/>
-              <circle cx="16" cy="30" r="1.5" className="fill-accent">
+              <circle cx="20" cy="30" r="1.5" className="fill-accent">
                 {!prefersReducedMotion() && (
                   <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
                 )}
