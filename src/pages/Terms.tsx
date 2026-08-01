@@ -60,6 +60,8 @@ export const Terms = memo(({ setPage }: PageProps) => (
           <h2 className="text-[15px] font-medium text-fg mb-3">Supporter &amp; Founder offers</h2>
           <ul className="space-y-2 list-disc list-inside text-muted">
             <li><span className="text-fg-muted">Supporter ($5/mo or $50/yr):</span> Subscription can be cancelled anytime. Recurring Supporter benefits continue until the end of the paid billing period.</li>
+            <li><span className="text-fg-muted">Collaboration, when available:</span> Supporters can create and own shared workspaces with 10 GB of included project storage. Invited Core users can join and edit without subscribing. Storage belongs to the workspace owner; additional storage is priced separately.</li>
+            <li><span className="text-fg-muted">After Supporter ends:</span> Shared workspaces become read-only and remain available for download or export for at least 30 days. Aestra will provide notice before any later deletion under the storage policy then in force.</li>
             <li><span className="text-fg-muted">Founder ($129 one-time):</span> A fully digital, limited offer including a numbered Founder card, the defined Founder Collection, 24 months of Supporter from public beta, and a permanent 25% Supporter discount thereafter. It does not include lifetime cloud storage or every future Supporter benefit.</li>
             <li><span className="text-fg-muted">Refunds:</span> Refund eligibility is shown at checkout and remains subject to applicable consumer protection law.</li>
           </ul>

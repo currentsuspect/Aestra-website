@@ -49,7 +49,7 @@ const COLUMNS: Column[] = [
       { title: "Stem export & batch render", desc: "Per-track export with parallel offline render workers." },
       { title: "MIDI learn & mapping",       desc: "Map any control to any parameter across plugins and the engine." },
       { title: "Arrangement view",           desc: "Linear timeline on top of patterns — sketches to song structure." },
-      { title: "Cloud sync research", desc: "Optional project backup and sync with separate, usage-backed pricing if it proves sustainable." },
+      { title: "Supporter collaboration", desc: "Supporters create shared workspaces with 10 GB included; invited Core users can participate and extra storage is priced separately." },
       { title: "Native Suite — first drop",  desc: "Specialist plugins outside the free core, released when ready and also available for individual purchase." },
       { title: "Theme + accessibility pass", desc: "High-contrast theme, full keyboard nav, screen reader polish." },
     ],

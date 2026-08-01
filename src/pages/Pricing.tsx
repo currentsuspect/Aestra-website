@@ -33,6 +33,7 @@ const tiers = [
       "Audition mode — preview without breaking flow",
       "Takes — git-style session versioning",
       "Built-in plugin suite — Verb, EQ, Comp, Drift, Delay",
+      "Join collaborative projects when invited — when available",
     ],
   },
   {
@@ -50,6 +51,8 @@ const tiers = [
       "Native Suite plugin catalogue while active",
       "New releases included when they're ready",
       "Muse — local on your machine, when ready",
+      "Create collaborative projects — when available",
+      "10 GB shared-project storage included",
       "Supporter development updates",
       "Supporter feedback channel",
     ],
@@ -92,6 +95,15 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
     label: "Local assistance",
     rows: [
       ["Muse (local, when ready)",         false, true, true],
+    ],
+  },
+  {
+    label: "Collaboration — when available",
+    rows: [
+      ["Join & edit an invited project",     true, true, true],
+      ["Create & own shared workspaces",    false, true, true],
+      ["10 GB shared-project storage",      false, true, true],
+      ["Add more storage separately",       false, true, true],
     ],
   },
   {
@@ -189,7 +201,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
 
       <div className="px-5 sm:px-6 pb-20">
         <p className="text-center text-[13px] text-muted max-w-2xl mx-auto">
-          No card required for Core. Cancel Supporter anytime. Cloud sync will be priced separately if and when it ships.
+          No card required for Core. Cancel Supporter anytime. Collaboration includes 10 GB when it ships; only additional storage is priced separately.
         </p>
       </div>
 
@@ -345,7 +357,8 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
           <p className="text-muted text-[12px] mt-4 leading-relaxed">
             Founder includes Supporter benefits for 24 months from public beta. After that,
             those recurring benefits require an active Supporter plan at the permanent 25% Founder discount.
-            The Founder Collection and numbered digital card remain yours.
+            The Founder Collection and numbered digital card remain yours. If Supporter ends, shared workspaces become
+            read-only with at least 30 days to download or export them.
           </p>
         </div>
       </div>

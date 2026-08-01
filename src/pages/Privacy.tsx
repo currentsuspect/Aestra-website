@@ -80,6 +80,16 @@ export const Privacy = memo(({ setPage }: PageProps) => (
         </section>
 
         <section>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Future collaboration workspaces</h2>
+          <p className="text-muted">
+            Collaboration is not available yet. When it ships, project files and account identifiers
+            must be stored and transmitted to provide the shared workspace you choose to use. Invited
+            collaborators receive access only through that workspace. Retention, deletion, subprocessors,
+            and security details will be published before collaboration launches.
+          </p>
+        </section>
+
+        <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">Your rights</h2>
           <p className="text-muted">
             You can request access to, correction of, or deletion of any personal data we hold about you.
