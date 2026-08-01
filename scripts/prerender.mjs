@@ -229,7 +229,19 @@ const prerender = async () => {
         const head = await assertHead(page, route);
         if (route.path === "/download") await assertDownloadAnchors(page);
 
+        // The prerender browser's color preference is a build-machine detail,
+        // not a user preference. Leaving its data-theme attribute in the
+        // snapshot would force every visitor into that theme before React
+        // starts. The inline bootstrap restores a saved or OS-level choice
+        // when the static document is parsed in the visitor's browser.
+        await page.evaluate(() => {
+          document.documentElement.removeAttribute("data-theme");
+        });
+
         const html = await page.content();
+        if (/<html[^>]*\sdata-theme=/i.test(html)) {
+          throw new Error(`${route.path}: prerender leaked a build-time theme`);
+        }
         const textLength = normalizedTextLength(html);
         if (textLength < route.threshold) {
           throw new Error(
@@ -295,6 +307,12 @@ const prerender = async () => {
       await mkdir(resolve(outputPath, ".."), { recursive: true });
       await writeFile(outputPath, snapshot.html);
     }
+
+    // Vercel recognizes a root-level 404.html and serves it with an actual
+    // 404 status when no static route matches. Keep /404 itself available too.
+    const notFoundSnapshot = snapshots.find(({ path }) => path === "/404");
+    if (!notFoundSnapshot) throw new Error("Missing /404 snapshot");
+    await writeFile(join(DIST_DIR, "404.html"), notFoundSnapshot.html);
 
     return snapshots;
   } finally {

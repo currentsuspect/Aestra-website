@@ -23,7 +23,15 @@
       "destination": "https://api.vercel.com/bot-protection/v1/proxy/:path*"
     },
     {
-      "source": "/((?!api/|assets/|\\.well-known/|auth\\.md|llms\\.txt|robots\\.txt|sitemap|humans\\.txt|manifest\\.webmanifest|browserconfig\\.xml|opensearch\\.xml).*)",
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/account",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/recovery",
       "destination": "/index.html"
     }
   ],
@@ -34,6 +42,18 @@
         {
           "key": "X-Robots-Tag",
           "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
@@ -43,6 +63,18 @@
         {
           "key": "X-Robots-Tag",
           "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
@@ -52,6 +84,18 @@
         {
           "key": "X-Robots-Tag",
           "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
@@ -68,8 +112,54 @@
       "source": "/",
       "headers": [
         {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
           "key": "Link",
           "value": "</.well-known/api-catalog>; rel=\"api-catalog\", </docs>; rel=\"service-doc\", </.well-known/agent-skills/index.json>; rel=\"https://agentskills.io/rel/skills-index\""
+        }
+      ]
+    },
+    {
+      "source": "/(features|pricing|changelog|docs|download|plugins|privacy|terms|about|roadmap|404)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Vercel-CDN-Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     },
