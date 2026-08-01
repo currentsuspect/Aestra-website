@@ -187,6 +187,53 @@ const assertDownloadAnchors = async (page) => {
   }
 };
 
+const assertVisualGeometry = async (page, route) => {
+  const result = await page.evaluate(() => {
+    const flows = [...document.querySelectorAll("[data-signal-flow]")];
+    const problems = [];
+
+    for (const flow of flows) {
+      const nodes = [...flow.querySelectorAll("[data-signal-node-id]")];
+      const indicators = [...flow.querySelectorAll("[data-signal-indicator-for]")];
+
+      for (const indicator of indicators) {
+        const id = indicator.getAttribute("data-signal-indicator-for");
+        const node = nodes.find((candidate) => candidate.getAttribute("data-signal-node-id") === id);
+        if (!node) {
+          problems.push(`${flow.getAttribute("data-signal-flow")}: missing node ${id}`);
+          continue;
+        }
+
+        const nodeX = Number(node.getAttribute("cx"));
+        const nodeY = Number(node.getAttribute("cy"));
+        const indicatorX = Number(indicator.getAttribute("cx"));
+        const indicatorY = Number(indicator.getAttribute("cy"));
+        if (nodeX !== indicatorX || nodeY !== indicatorY) {
+          problems.push(
+            `${flow.getAttribute("data-signal-flow")}:${id} node(${nodeX},${nodeY}) indicator(${indicatorX},${indicatorY})`,
+          );
+        }
+      }
+    }
+
+    return {
+      flowCount: flows.length,
+      indicatorCount: document.querySelectorAll("[data-signal-indicator-for]").length,
+      problems,
+    };
+  });
+
+  if (["/", "/features"].includes(route.path) && result.flowCount === 0) {
+    throw new Error(`${route.path}: expected a signal-flow diagram`);
+  }
+  if (route.path === "/" && result.indicatorCount === 0) {
+    throw new Error("/: expected a centered signal-flow input indicator");
+  }
+  if (result.problems.length > 0) {
+    throw new Error(`${route.path}: signal-flow geometry mismatch: ${result.problems.join(" | ")}`);
+  }
+};
+
 const prerender = async () => {
   const server = await serveDist();
   let browser;
@@ -228,6 +275,7 @@ const prerender = async () => {
 
         const head = await assertHead(page, route);
         if (route.path === "/download") await assertDownloadAnchors(page);
+        await assertVisualGeometry(page, route);
 
         // The prerender browser's color preference is a build-machine detail,
         // not a user preference. Leaving its data-theme attribute in the

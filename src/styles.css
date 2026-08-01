@@ -51,10 +51,10 @@
 
   /* Radii — tighter than Tailwind defaults. Pro-audio UIs run sharp
      corners; the softness of stock rounded-2xl reads consumer-SaaS. */
-  --radius-md:  5px;
-  --radius-lg:  7px;
-  --radius-xl:  9px;
-  --radius-2xl: 12px;
+  --radius-md:  3px;
+  --radius-lg:  5px;
+  --radius-xl:  7px;
+  --radius-2xl: 10px;
 }
 
 :root {
@@ -188,62 +188,6 @@ body::after {
   opacity: 0.02;
 }
 
-/* ── Custom cursor ────────────────────────────────────────────── */
-body.custom-cursor,
-body.custom-cursor * {
-  cursor: none !important;
-}
-
-.cursor-dot,
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  will-change: transform;
-}
-
-.cursor-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: var(--color-fg);
-  transition: opacity 0.15s ease, width 0.15s ease, height 0.15s ease;
-  mix-blend-mode: difference;
-}
-
-.cursor-ring {
-  width: 28px;
-  height: 28px;
-  border-radius: 9999px;
-  border: 1.5px solid var(--color-accent);
-  background: transparent;
-  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.25s ease,
-              opacity 0.25s ease;
-  opacity: 0.7;
-}
-
-.cursor-ring.is-hover {
-  width: 44px;
-  height: 44px;
-  border-color: var(--color-accent-hover);
-  opacity: 0.4;
-}
-
-@media (pointer: coarse) {
-  body.custom-cursor,
-  body.custom-cursor * {
-    cursor: auto !important;
-  }
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
-}
-
 /* ── Reduced motion ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -253,10 +197,6 @@ body.custom-cursor * {
   }
   html { scroll-behavior: auto; }
   .fade-in { opacity: 1; transform: none; }
-  /* SMIL animations (Home page bouncing circles, feature card live routing)
-     aren't affected by CSS animation-* rules. JS in components checks the
-     same media query before mounting or rendering <animate> elements. */
-  .animate-bounce-down { animation: none !important; }
 }
 
 /* ── Reveal-on-scroll ─────────────────────────────────────────── */
@@ -266,15 +206,15 @@ body.custom-cursor * {
   transform: none;
 }
 .fade-in {
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.fade-in-delay-1 { transition-delay: 0.06s; }
-.fade-in-delay-2 { transition-delay: 0.12s; }
-.fade-in-delay-3 { transition-delay: 0.18s; }
-.fade-in-delay-4 { transition-delay: 0.24s; }
-.fade-in-delay-5 { transition-delay: 0.30s; }
-.fade-in-delay-6 { transition-delay: 0.36s; }
+.fade-in-delay-1 { transition-delay: 0.04s; }
+.fade-in-delay-2 { transition-delay: 0.08s; }
+.fade-in-delay-3 { transition-delay: 0.12s; }
+.fade-in-delay-4 { transition-delay: 0.16s; }
+.fade-in-delay-5 { transition-delay: 0.20s; }
+.fade-in-delay-6 { transition-delay: 0.24s; }
 
 .page-enter { animation: pageIn 0.24s ease forwards; }
 @keyframes pageIn {
@@ -287,12 +227,6 @@ body.custom-cursor * {
   to   { opacity: 1; transform: none; }
 }
 .toast-enter { animation: toastIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
-@keyframes bounceDown {
-  0%, 100% { transform: translateY(0); opacity: 0.6; }
-  50%      { transform: translateY(4px); opacity: 1; }
-}
-.animate-bounce-down { animation: bounceDown 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
 
 /* ── Scrollbar ────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 10px; height: 10px; }

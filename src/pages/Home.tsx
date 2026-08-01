@@ -3,9 +3,9 @@ import { ChevronRight, Check, Workflow, Headphones, Sparkles, Plus, Minus, Arrow
 import { EqIcon, VerbIcon, CompIcon } from "../components/PluginIcons";
 import { Button, FeatureCard, FadeIn } from "../components/ui";
 import { PianoGrid } from "../components/PianoGrid";
+import { SignalFlowDiagram } from "../components/SignalFlowDiagram";
 import { useToast } from "../components/Toast";
 import { EMAIL_RE } from "../../shared/waitlist";
-import { prefersReducedMotion } from "../lib";
 import { RELEASES } from "../changelogData";
 import type { PageProps } from "../types";
 
@@ -478,31 +478,7 @@ const Features = memo(() => (
           index={4}
           title="Live routing"
           description="A graph of where your sound actually goes, lit up while it plays. Sends stop being something you have to remember."
-          visual={
-            <svg
-              className="w-full h-full routing-svg"
-              viewBox="0 0 220 60"
-              preserveAspectRatio="xMidYMid meet"
-              role="img"
-              aria-label="Live routing diagram: input splits to two processors, joins a bus, then to master output"
-            >
-              <circle cx="20" cy="30" r="6" className="fill-accent/15 stroke-accent" strokeWidth="1.2"/>
-              <rect x="60" y="14" width="32" height="14" rx="3" className="fill-accent/10 stroke-accent/40" strokeWidth="1"/>
-              <rect x="60" y="32" width="32" height="14" rx="3" className="fill-accent/10 stroke-accent/40" strokeWidth="1"/>
-              <rect x="130" y="22" width="40" height="16" rx="3" className="fill-accent/20 stroke-accent" strokeWidth="1.2"/>
-              <circle cx="195" cy="30" r="5" className="fill-accent/15 stroke-accent" strokeWidth="1.2"/>
-              <line x1="26" y1="30" x2="60" y2="21" className="stroke-accent/40" strokeWidth="1"/>
-              <line x1="26" y1="30" x2="60" y2="39" className="stroke-accent/40" strokeWidth="1"/>
-              <line x1="92" y1="21" x2="130" y2="30" className="stroke-accent/40" strokeWidth="1"/>
-              <line x1="92" y1="39" x2="130" y2="30" className="stroke-accent/40" strokeWidth="1"/>
-              <line x1="170" y1="30" x2="190" y2="30" className="stroke-accent" strokeWidth="1.2"/>
-              <circle cx="20" cy="30" r="1.5" className="fill-accent">
-                {!prefersReducedMotion() && (
-                  <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
-                )}
-              </circle>
-            </svg>
-          }
+          visual={<SignalFlowDiagram />}
           delay={0.15}
         />
         <FeatureCard

@@ -2,6 +2,7 @@ import React, { useState, useEffect, memo } from "react";
 import { Check } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import { SignalFlowDiagram } from "../components/SignalFlowDiagram";
 import { FadeIn } from "../components/ui";
 import type { PageProps } from "../types";
 
@@ -167,73 +168,7 @@ const PatternVisual = memo(() => {
   );
 });
 
-/* One signal colour, three opacities. Routing graphs read by shape and
-   motion, not by hue — three unrelated colours only made it noisier. */
 const SIG = "var(--color-accent)";
-
-const RoutingVisual = memo(() => {
-  const [hovered, setHovered] = useState<number | null>(null);
-  const sources: { id: number; cx: number; cy: number; label: string; path: string }[] = [
-    { id: 0, cx: 40, cy: 50,  label: "KICK",  path: "M 54 50 C 100 50 110 90 145 90" },
-    { id: 1, cx: 40, cy: 90,  label: "808",   path: "M 54 90 L 145 90" },
-    { id: 2, cx: 40, cy: 130, label: "SYNTH", path: "M 54 130 C 100 130 110 90 145 90" },
-  ];
-  return (
-    <div className="w-full max-w-md aspect-[16/9]">
-      <svg viewBox="0 0 320 180" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
-        {sources.map((s) => (
-          <path
-            key={s.id}
-            d={s.path}
-            stroke={SIG}
-            strokeWidth={hovered === s.id ? 2.5 : 1.5}
-            strokeOpacity={hovered === null ? 0.25 : hovered === s.id ? 1 : 0.1}
-            fill="none"
-            className="transition-all"
-          />
-        ))}
-        <path d="M 195 90 L 240 90" stroke={SIG} strokeOpacity="0.3" strokeWidth="2" fill="none"/>
-        {hovered === null && (
-          <>
-            <circle r="3" fill={SIG} opacity="0.8">
-              <animateMotion dur="2s" repeatCount="indefinite" path="M 54 50 C 100 50 110 90 145 90" />
-            </circle>
-            <circle r="3" fill={SIG} opacity="0.5">
-              <animateMotion dur="2.4s" repeatCount="indefinite" begin="0.8s" path="M 54 130 C 100 130 110 90 145 90" />
-            </circle>
-            <circle r="3" fill={SIG} opacity="0.65">
-              <animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s" path="M 54 90 L 145 90" />
-            </circle>
-          </>
-        )}
-        {hovered !== null && (
-          <circle r="4" fill={SIG}>
-            <animateMotion dur="1.4s" repeatCount="indefinite" path={sources[hovered].path} />
-          </circle>
-        )}
-        <circle r="4" fill={SIG} opacity="0.9">
-          <animateMotion dur="1.5s" repeatCount="indefinite" begin="0.5s" path="M 195 90 L 240 90" />
-        </circle>
-        {sources.map((s) => (
-          <g key={s.id} onMouseEnter={() => setHovered(s.id)} onMouseLeave={() => setHovered(null)} style={{ cursor: "pointer" }}>
-            <circle cx={s.cx} cy={s.cy} r="18" fill={SIG} fillOpacity={hovered === s.id ? 0.25 : 0.08} stroke={SIG} strokeOpacity={hovered === s.id ? 0.9 : 0.3} strokeWidth="1" className="transition-all"/>
-            <text x={s.cx} y={s.cy + 3} textAnchor="middle" fontSize="8" fill={SIG} fontFamily="Geist Mono, monospace">{s.label}</text>
-          </g>
-        ))}
-        <path d="M 145 90 L 170 70 L 195 90 L 170 110 Z" fill={SIG} fillOpacity="0.08" stroke={SIG} strokeOpacity="0.45" strokeWidth="1"/>
-        <text x="170" y="88" textAnchor="middle" fontSize="8" fill={SIG} fontFamily="Geist Mono, monospace">FX BUS</text>
-        <text x="170" y="100" textAnchor="middle" fontSize="7" fill={SIG} fillOpacity="0.7" fontFamily="Geist Mono, monospace">EQ + VERB</text>
-        <rect x="240" y="68" width="60" height="44" rx="8" fill={SIG} fillOpacity="0.14" stroke={SIG} strokeOpacity="0.55" strokeWidth="1"/>
-        <text x="270" y="88" textAnchor="middle" fontSize="8" fill={SIG} fontFamily="Geist Mono, monospace">MASTER</text>
-        <text x="270" y="102" textAnchor="middle" fontSize="7" fill={SIG} fillOpacity="0.7" fontFamily="Geist Mono, monospace">−3.2 dB</text>
-        <circle cx="260" cy="160" r="3" fill="var(--color-success)">
-          <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
-        </circle>
-        <text x="270" y="163" fontSize="8" fill="var(--color-success)" fontFamily="Geist Mono, monospace">LIVE</text>
-      </svg>
-    </div>
-  );
-});
 
 const AuditionVisual = memo(() => {
   const [active, setActive] = useState(0);
@@ -356,7 +291,7 @@ const sections = [
       ["Read it at a glance", "Instruments, buses and outputs stay easy to tell apart in a busy session."],
       ["Rewire by dragging", "Change routing on the map instead of digging through nested menus."],
     ],
-    Visual: RoutingVisual,
+    Visual: () => <SignalFlowDiagram variant="detailed" />,
   },
   {
     title: "Know how it lands before you post it",
