@@ -60,7 +60,7 @@ export const Terms = memo(({ setPage }: PageProps) => (
           <h2 className="text-[15px] font-medium text-fg mb-3">Supporter &amp; Founder offers</h2>
           <ul className="space-y-2 list-disc list-inside text-muted">
             <li><span className="text-fg-muted">Supporter ($5/mo or $50/yr):</span> Subscription can be cancelled anytime. Recurring Supporter benefits continue until the end of the paid billing period.</li>
-            <li><span className="text-fg-muted">Collaboration, when available:</span> Collaboration begins as asynchronous, versioned project sharing through Takes. Supporters can create and own shared workspaces with 10 GB of included project storage. Invited Core users can join as editors or viewers without subscribing. Storage and deletion controls belong to the workspace owner; additional storage is priced separately.</li>
+            <li><span className="text-fg-muted">Collaboration, when available:</span> Collaboration begins as asynchronous, versioned project sharing through Takes. No collaboration service exists today, and no storage allowance is offered or implied until one does. The intended shape: Supporters create and own shared workspaces, invited Core users join as editors or viewers without subscribing, and storage and deletion controls belong to the workspace owner. Any included allowance and the price of additional storage are published before the service launches.</li>
             <li><span className="text-fg-muted">After Supporter ends:</span> Only the cloud workspace becomes read-only: no uploads, new invitations, or cloud-history changes. Existing members can inspect history and download or export for at least 30 days, with warnings and an ownership-transfer option before later deletion.</li>
             <li><span className="text-fg-muted">Your local projects remain yours:</span> Lapsing never prevents anyone from opening or editing a downloaded project locally, exporting audio or stems, duplicating it as a local-only project, or using any free-Core functionality.</li>
             <li><span className="text-fg-muted">Founder ($129 one-time):</span> A fully digital, limited offer including a numbered Founder card, the defined Founder Collection, 24 months of Supporter from public beta, and a permanent 25% Supporter discount thereafter. It does not include lifetime cloud storage or every future Supporter benefit.</li>
@@ -82,7 +82,9 @@ export const Terms = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">Third-party plugins</h2>
           <p className="text-muted">
-            Aestra supports VST3 and CLAP plugins. We are not responsible for third-party plugin behavior,
+            Aestra's VST3 and CLAP hosting is unfinished: it runs on Linux only, parts of the CLAP host
+            interface are not implemented, and Windows does not load third-party plugins at all today.
+            We are not responsible for third-party plugin behavior,
             stability, or licensing. Plugin crashes are sandboxed where possible, but we cannot
             guarantee isolation for all plugin formats. You install third-party plugins at your own risk;
             Aestra does not endorse or audit them.

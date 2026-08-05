@@ -214,9 +214,9 @@ export const Dashboard = memo(({ setPage }: PageProps) => {
                 <h3 className="text-[15px] font-medium text-fg mb-3">Installation history</h3>
                 <div className="rounded-xl border border-border/80 bg-bg overflow-hidden">
                   {[
-                    ["macOS Installer (Apple Silicon)", "v0.7", "Mar 27, 2026"],
-                    ["Windows installer (x64)",        "v0.6", "Mar 14, 2026"],
-                    ["Linux AppImage (Ubuntu)",        "v0.5", "Feb 28, 2026"],
+                    ["Linux build (x86_64)",           "v0.7", "Mar 27, 2026"],
+                    ["Linux build (x86_64)",           "v0.6", "Mar 14, 2026"],
+                    ["Linux build (x86_64)",           "v0.5", "Feb 28, 2026"],
                   ].map(([name, ver, date], i) => (
                     <div key={i} className="flex items-center justify-between p-4 border-b border-border/80 last:border-b-0 hover:bg-surface-2/30 transition-colors">
                       <div className="flex items-center gap-3 min-w-0">
