@@ -52,7 +52,6 @@ const tiers = [
       "New releases included when they're ready",
       "Muse — local on your machine, when ready",
       "Create asynchronous Takes workspaces — when available",
-      "10 GB shared-project storage included",
       "Supporter development updates",
       "Supporter feedback channel",
     ],
@@ -65,7 +64,7 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
     rows: [
       ["C++17 audio engine",               true, true, true],
       ["Unlimited tracks & patterns",      true, true, true],
-      ["VST3 & CLAP hosting (alpha)",      true, true, true],
+      ["VST3 & CLAP hosting (Linux, unfinished)", true, true, true],
       ["Routing visualizer",               true, true, true],
       ["Audition mode (all platforms)",    true, true, true],
       ["Offline export & rendering",       true, true, true],
@@ -102,8 +101,6 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
     rows: [
       ["Join & edit an invited Takes project", true, true, true],
       ["Create & own shared workspaces",    false, true, true],
-      ["10 GB shared-project storage",      false, true, true],
-      ["Add more storage separately",       false, true, true],
     ],
   },
   {
@@ -201,7 +198,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
 
       <div className="px-5 sm:px-6 pb-20">
         <p className="text-center text-[13px] text-muted max-w-2xl mx-auto">
-          No card required for Core. Cancel Supporter anytime. Collaboration includes 10 GB when it ships; only additional storage is priced separately.
+          No card required for Core. Cancel Supporter anytime. Collaboration is not built yet — no storage amount is promised until it is, and nothing cloud-based ever affects the projects on your own disk.
         </p>
       </div>
 

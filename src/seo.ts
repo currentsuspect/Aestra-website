@@ -116,7 +116,7 @@ export const buildPageStructuredData = (
       "@type": "SoftwareApplication",
       "@id": `${url}#download`,
       name: "Aestra",
-      operatingSystem: "Windows 10+, macOS 12+, Linux",
+      operatingSystem: "Linux, Windows 10+",
       applicationCategory: "MultimediaApplication",
       softwareVersion: "0.1.1",
       downloadUrl: url,

@@ -30,11 +30,10 @@ const EngineVisual = memo(() => {
           </div>
         ))}
       </div>
-      <div className="mt-6 grid grid-cols-3 divide-x divide-border/80 rounded-lg border border-border/80 bg-bg">
+      <div className="mt-6 grid grid-cols-2 divide-x divide-border/80 rounded-lg border border-border/80 bg-bg">
         {[
-          { v: "Win", l: "Desktop", c: "text-fg" },
-          { v: "macOS", l: "Desktop", c: "text-fg" },
-          { v: "Linux", l: "Desktop", c: "text-emerald-400" },
+          { v: "Linux", l: "Builds today", c: "text-emerald-400" },
+          { v: "Win", l: "Core only", c: "text-fg" },
         ].map((s) => (
           <div key={s.v} className="text-center py-4">
             <div className={`text-xl font-semibold tracking-tight ${s.c}`}>{s.v}</div>
@@ -437,7 +436,7 @@ const cellDisplay: Record<Cell, { mark: string; color: string; label: string }> 
 
 const COMPARISON_ROWS: { label: string; aestra: Cell; ableton: Cell; logic: Cell; fl: Cell; }[] = [
   { label: "Everything free, nothing gated", aestra: "yes", ableton: "limited", logic: "no",      fl: "limited" },
-  { label: "Same DAW on Win / macOS / Linux", aestra: "yes", ableton: "limited", logic: "no",     fl: "limited" },
+  { label: "Same DAW on Windows / Linux",   aestra: "limited", ableton: "limited", logic: "no",  fl: "limited" },
   { label: "Third-party VST3 hosting",      aestra: "limited", ableton: "yes",  logic: "yes",     fl: "yes"     },
   { label: "CLAP plugin hosting",           aestra: "limited", ableton: "yes",  logic: "no",      fl: "no"      },
   { label: "Loop-first, not timeline-first", aestra: "yes", ableton: "limited", logic: "no",      fl: "yes"     },

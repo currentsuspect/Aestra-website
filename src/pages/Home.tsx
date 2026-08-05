@@ -127,7 +127,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
             <FadeIn delay={0.2}>
               <ul className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2.5 readout list-none">
                 <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Free · no export limits</li>
-                <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Windows · macOS · Linux</li>
+                <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Linux today · Windows next</li>
                 <li className="inline-flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" aria-hidden="true" /> Ten built-in effects</li>
               </ul>
             </FadeIn>
@@ -226,15 +226,15 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "Will collaboration require everyone to subscribe?",
-      a: "No. When asynchronous collaboration through Takes ships, Core users can join and edit projects they are invited to. A Supporter creates and owns the shared workspace, with 10 GB included; only additional storage costs extra. If that Supporter lapses, the cloud workspace becomes read-only — downloaded projects and the music itself remain fully editable in free Core.",
+      a: "Collaboration does not exist yet — there is no server, no account system and no sync, and no storage amount is promised until there is. The intent when it ships: Core users can join and edit projects they are invited to, a Supporter owns the shared workspace, and if that Supporter lapses only the cloud copy goes read-only. Your local projects are yours regardless, always.",
     },
     {
       q: "What platforms does Aestra support?",
-      a: "Windows, macOS (Apple Silicon), and Linux (Ubuntu / Debian / Fedora). It's the same Aestra on all three — your projects open anywhere, and it's built to stay responsive on modest machines rather than demanding a new one.",
+      a: "Linux is the platform Aestra is built and tested on today. Windows is a committed beta platform — the audio core compiles and passes tests there, but the desktop application does not build on Windows yet. macOS is not supported and is deferred to 2027. Note that no platform has a downloadable build yet: Aestra is source-available and pre-alpha.",
     },
     {
       q: "Does Aestra support VST3 and CLAP plugins?",
-      a: "Third-party VST3 and CLAP hosting is available in the alpha and is still being hardened, so compatibility can vary by platform and plugin. Ten native Aestra effects are included as the dependable baseline.",
+      a: "Partly, and only on Linux. The host compiles, loads plugins and runs sandbox isolation tests in CI, but it is unfinished — some CLAP host callbacks are still no-ops, and on Windows no third-party plugin loads at all today. Ten native Aestra effects are the dependable baseline. Full hosting on both platforms is a requirement before public beta, not something you can rely on now.",
     },
     {
       q: "Can I use Aestra commercially?",
