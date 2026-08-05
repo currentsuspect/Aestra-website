@@ -159,19 +159,27 @@ const assertHead = async (page, route) => {
   return head;
 };
 
+/* Three rows — Linux, Windows, Source — since macOS was cut and no platform
+   has a published artefact to link at. Bump this deliberately when a real
+   download lands; a page that silently loses its actions should still fail. */
+const DOWNLOAD_ANCHOR_COUNT = 3;
+const DOWNLOAD_CTA_LABELS = ["Build from source", "View source"];
+
 const assertDownloadAnchors = async (page) => {
-  const actions = await page.evaluate(() =>
+  const actions = await page.evaluate((labels) =>
     [...document.querySelectorAll("a")].flatMap((anchor) => {
       const text = anchor.textContent?.replace(/\s+/g, " ").trim() ?? "";
-      if (!text.includes("Find build in CI") && !text.includes("View source")) {
+      if (!labels.some((label) => text.includes(label))) {
         return [];
       }
       return [{ text, href: anchor.getAttribute("href") ?? "" }];
     }),
-  );
+  DOWNLOAD_CTA_LABELS);
 
-  if (actions.length !== 4) {
-    throw new Error(`/download: expected 4 download anchors, found ${actions.length}`);
+  if (actions.length !== DOWNLOAD_ANCHOR_COUNT) {
+    throw new Error(
+      `/download: expected ${DOWNLOAD_ANCHOR_COUNT} download anchors, found ${actions.length}`,
+    );
   }
 
   for (const action of actions) {
