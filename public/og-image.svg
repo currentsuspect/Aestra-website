@@ -150,7 +150,7 @@
       <tspan fill="#fafafa">not </tspan><tspan fill="url(#violet)">excuses</tspan><tspan fill="#a78bfa">.</tspan>
     </text>
     <text x="0" y="148" font-size="20" fill="#a1a1aa" font-weight="500">A native C++ digital audio workstation.</text>
-    <text x="0" y="174" font-size="20" fill="#a1a1aa" font-weight="500">Free core. Cross-platform. No feature gates.</text>
+    <text x="0" y="174" font-size="20" fill="#a1a1aa" font-weight="500">Free core. Source-available. No feature gates.</text>
   </g>
 
   <g transform="translate(80 530)" font-family="ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
@@ -159,7 +159,7 @@
       <text x="180" y="0" opacity="0.5">·</text>
       <text x="200" y="0">v0.1.1</text>
       <text x="260" y="0" opacity="0.5">·</text>
-      <text x="280" y="0">Windows · macOS · Linux</text>
+      <text x="280" y="0">Linux · Windows</text>
     </g>
   </g>
 </svg>

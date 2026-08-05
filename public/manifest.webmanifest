@@ -9,7 +9,7 @@
   "orientation": "any",
   "background_color": "#09090b",
   "theme_color": "#09090b",
-  "description": "A native C++ digital audio workstation for producers. Free core, no feature gates, cross-platform.",
+  "description": "A native C++ digital audio workstation for producers. Free core, no feature gates, source-available.",
   "long_name": "Aestra — Make music, not excuses.",
   "lang": "en-US",
   "dir": "ltr",
@@ -78,7 +78,7 @@
     {
       "name": "Download",
       "url": "/download",
-      "description": "Get Aestra for Windows, macOS, or Linux",
+      "description": "Build Aestra from source on Linux or Windows",
       "icons": [{ "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {

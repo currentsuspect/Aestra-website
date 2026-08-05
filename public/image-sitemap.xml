@@ -8,7 +8,7 @@
     <image:image>
       <image:loc>https://aestra.studio/og-image.png</image:loc>
       <image:title>Aestra — Make music, not excuses.</image:title>
-      <image:caption>Native C++ DAW for producers. Free core, no feature gates, cross-platform.</image:caption>
+      <image:caption>Native C++ DAW for producers. Free core, no feature gates, source-available.</image:caption>
       <image:license>https://aestra.studio/terms</image:license>
     </image:image>
     <image:image>

@@ -18,7 +18,8 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 - **Public beta:** ships when the reference production workflow meets its release bar; no fixed calendar promise
 - **Engine:** Native C++17
 - **Plugin formats:** VST3, CLAP (built-in suite is VST3/CLAP native)
-- **Platforms:** Windows (10+), macOS (12+, Apple Silicon), Linux (Ubuntu/Debian)
+- **Platforms:** Linux (builds and tested in CI today), Windows (10+, audio core only — the desktop app does not build there yet). macOS is not supported and is deferred to 2027
+- **Availability:** Pre-alpha. Source-available, no published binaries on any platform
 - **License:** ASSAL v1.1 (Aestra Studios Source-Available License) — source available, not OSI open source
 - **Pricing:** Core free, Supporter $5/month or $50/year, Founder $129 one-time
 - **Account required:** No — the core DAW runs without an account
@@ -28,7 +29,7 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 - [Homepage](https://aestra.studio/) — Overview, features, plugins, pricing tiers, and download links.
 - [Features](https://aestra.studio/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
 - [Pricing](https://aestra.studio/pricing) — Core (free), Supporter ($5/month or $50/year), and the fully digital Founder offer ($129 one-time).
-- [Download](https://aestra.studio/download) — Download Aestra for Windows, macOS, and Linux.
+- [Download](https://aestra.studio/download) — Build Aestra from source on Linux or Windows. No published binaries yet.
 - [Documentation](https://aestra.studio/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
 - [Changelog](https://aestra.studio/changelog) — Release history and development progress.
 - [About](https://aestra.studio/about) — About Aestra Studios, founder, brand, and key terminology.
@@ -85,10 +86,10 @@ Aestra is positioned as a native DAW for producers who value:
 - **Visual signal routing** — see the audio path on a real-time graph
 - **Audition mode** — translation preview that adapts to your speakers and headphones
 - **Version control (Takes)** — fork a mix session, compare, restore
-- **VST3 + CLAP hosting** — bring your own plugins
+- **VST3 + CLAP hosting (unfinished)** — Linux only; parts of the CLAP host interface are not implemented and Windows loads no third-party plugins today
 - **Built-in plugin suite** — Aestra Verb, Aestra EQ, Aestra Comp ship with the DAW
 - **Offline export** — render to WAV, FLAC, MP3 with no cloud round-trip
-- **Cross-platform** — Windows, macOS, Linux (Apple Silicon + Intel)
+- **Linux today, Windows next** — macOS is not supported and is deferred to 2027
 - **No telemetry, no accounts required** — the core runs locally, fully offline
 
 ## Built-in Plugin Suite
@@ -114,17 +115,17 @@ Aestra is positioned as a native DAW for producers who value:
 ## Pricing Tiers
 
 - **Core (free forever)** — full DAW, all features, no limits. This is the entire product.
-- **Supporter ($5/month or $50/year)** — funds Aestra and provides the Native Suite, local Muse when ready, asynchronous versioned collaboration through Takes when available, 10 GB of cloud workspace storage, development updates, and a feedback channel. Invited Core users can participate without subscribing; additional storage is priced separately. If Supporter lapses, only the cloud workspace becomes read-only. Downloaded projects remain editable and exportable in free Core.
+- **Supporter ($5/month or $50/year)** — funds Aestra and provides the Native Suite, local Muse when ready, asynchronous versioned collaboration through Takes when available, development updates, and a feedback channel. No collaboration service exists yet — there is no backend, no accounts and no sync — and no storage allowance is offered or implied until one does. Invited Core users will be able to participate without subscribing. If Supporter lapses, only the cloud workspace becomes read-only. Downloaded projects remain editable and exportable in free Core.
 - **Founder ($129 one-time)** — numbered digital Founder card, fixed Founder Collection ownership, 24 months of Supporter from public beta, optional credits, and a permanent 25% Supporter discount thereafter. Limited to 500. No physical card or lifetime cloud storage.
 
 ## Technical Details
 
 - Engine: C++17, no garbage collector, lock-free audio thread
-- Plugin hosting: VST3, CLAP
-- Audio backends: CoreAudio, WASAPI, ASIO, ALSA, PulseAudio, JACK
-- Project format: `.aeproj` (JSON, human-readable)
+- Plugin hosting: VST3, CLAP — Linux only, unfinished
+- Audio backends: ALSA, PulseAudio, JACK, WASAPI, ASIO (CoreAudio is present in the tree but unreachable — macOS is unsupported)
+- Project format: `.aes` (JSON, human-readable)
 - Plugin suite format: VST3, CLAP
-- Built with: JUCE (for some plugin components), custom DAW core
+- Built with: custom NUI and platform layer. **No JUCE** — the UI, windowing and audio device layers are first-party
 
 ## Status
 
