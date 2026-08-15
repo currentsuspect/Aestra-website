@@ -19,7 +19,7 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -36,17 +36,26 @@ const REPO = arg("repo", "currentsuspect/Aestra");
 const LIMIT = arg("limit", "400");
 
 /* ── Where to start from ──────────────────────────────────────────
-   The newest *released* entry in changelogData.ts is the boundary:
-   anything merged after it belongs to the next release. */
+   The newest *released* entry is the boundary: anything merged after it
+   belongs to the next release. Entries live as markdown files under
+   src/content/changelog/ with frontmatter (version/date/status); the
+   changelogData.ts module is just the parser. */
 function lastReleaseDate() {
-  const src = readFileSync(CHANGELOG, "utf8");
-  const re = /date:\s*"([^"]+)"[\s\S]{0,80}?status:\s*"released"/g;
-  let m, newest = null;
-  while ((m = re.exec(src))) {
-    const d = new Date(m[1]);
+  const dir = resolve(HERE, "../src/content/changelog");
+  const files = readdirSync(dir).filter((f) => f.endsWith(".md"));
+  const dateRe = /^date:\s*(.+)$/m;
+  const statusRe = /^status:\s*(.+)$/m;
+  let newest = null;
+  for (const file of files) {
+    const src = readFileSync(resolve(dir, file), "utf8");
+    const status = (src.match(statusRe) || [])[1]?.trim();
+    if (status !== "released") continue;
+    const rawDate = (src.match(dateRe) || [])[1]?.trim();
+    if (!rawDate) continue;
+    const d = new Date(rawDate);
     if (!isNaN(d) && (!newest || d > newest)) newest = d;
   }
-  if (!newest) throw new Error("No released entry found in changelogData.ts");
+  if (!newest) throw new Error("No released entry found in src/content/changelog/");
   // Format from local parts. toISOString() would shift a locally-parsed
   // date back a day in western timezones and widen the window silently.
   const pad = (n) => String(n).padStart(2, "0");
@@ -80,7 +89,16 @@ function producerNote(body = "") {
     .filter(Boolean)
     .join(" ")
     .trim();
-  if (!text || /^none\.?$/i.test(text)) return null;
+  // Reject "None" and its variants ("n/a", "-", "None for …"), which are
+  // placeholders, not producer notes. Anything beginning with these is
+  // junk that would otherwise ship into the changelog (e.g. "None for
+  // 0.5.0-min side of things.").
+  if (!text) return null;
+  const lowered = text.toLowerCase();
+  if (/^none(\b|$)/.test(lowered) || /^n\/?a(\b|$)/.test(lowered) ||
+      /^(tbd|todo)(\b|$)/.test(lowered) || /^[-–—…]/.test(text)) {
+    return null;
+  }
   return text;
 }
 
