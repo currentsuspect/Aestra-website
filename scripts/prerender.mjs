@@ -307,12 +307,11 @@ const prerender = async () => {
 
         if (route.path === "/changelog") {
           const required = [
-            "Muse is awake",
-            "AestraSat",
-            "AestraOTT",
-            "AestraFilter",
-            "AestraLFO",
-            "musical typing",
+            "coherence milestone",
+            "Routing audio through a mixer channel",
+            "Piano Roll harmony choices",
+            "Soloing a track now silences",
+            "The Piano Roll view no longer follows",
           ];
           for (const substring of required) {
             if (!html.includes(substring)) {
