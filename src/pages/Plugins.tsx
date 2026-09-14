@@ -115,6 +115,7 @@ const PLUGINS: Plugin[] = [
     since: "v0.7.0",
     desc: "A resonant low, band or high pass whose cutoff can follow the audio, for auto-wah sweeps, ducking filters and brightness that moves with the performance.",
     facts: [["Types", "Low · Band · High pass"], ["Envelope", "Up to ±4 octaves"], ["Latency", "Zero"]],
+    shot: shot("aestra-filter", 700, 420),
   },
   {
     id: "drift",
