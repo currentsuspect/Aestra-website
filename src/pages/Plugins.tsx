@@ -1,250 +1,282 @@
 import React, { useState } from "react";
-import { Play, ArrowUpRight } from "lucide-react";
-import { EqIcon, VerbIcon, CompIcon, DelayIcon, DriftIcon, FilterIcon, SatIcon, OttIcon, LfoIcon, LimitIcon } from "../components/PluginIcons";
-import { FadeIn, Button } from "../components/ui";
-import { PianoGrid } from "../components/PianoGrid";
+import { ArrowRight } from "lucide-react";
+import { FadeIn } from "../components/ui";
 import { VideoModal } from "../components/VideoModal";
 import type { PageProps } from "../types";
 
-/* "Available" means it's in the current tagged release (v0.6.0-alpha).
-   "In alpha builds" means merged and running, but not yet in a tagged
-   release — early-access testers have it, everyone else doesn't yet. */
-type PluginStatus = "Available" | "In alpha builds" | "Coming soon";
+/* ─────────────────────────────────────────────────────────────────
+   Plugins — the eleven built-in effects, shown as they are.
+
+   Sources of truth (keep in sync when an effect ships or changes):
+   - The list: BuiltInPlugins::registerCoreBuiltIns() in
+     ~/Dev/Aestra/AestraAudio/src/Plugin/BuiltInPlugins.cpp.
+   - "Since": the first release tag whose BuiltInPlugins.cpp registers
+     the effect (v0.4.0-alpha is the oldest tag that has the file).
+   - Descriptions and facts: each effect's header comment in
+     AestraAudio/include/Plugin/Aestra*.h plus what its editor shows.
+   - Screenshots: captured from the running app (Sep 2026), cropped to
+     the editor window's exact border and masked to its 14px corners
+     (AestraPanelWindow::kRadius) so the page adds no frame of its own.
+     Files live in public/plugins/; w/h below are their pixel sizes.
+   A plugin with no `shot` renders as text until it's captured.
+   ───────────────────────────────────────────────────────────────── */
+
+type Shot = { src: string; w: number; h: number };
 
 type Plugin = {
+  id: string;
   name: string;
   kind: string;
+  since: string;
   desc: string;
-  status: PluginStatus;
-  icon: React.ComponentType<{ className?: string }>;
+  facts: [string, string][];
+  shot?: Shot;
 };
+
+const shot = (file: string, w: number, h: number): Shot => ({ src: `/plugins/${file}`, w, h });
 
 const PLUGINS: Plugin[] = [
   {
-    name: "AestraEQ",
+    id: "eq",
+    name: "Aestra EQ",
     kind: "Equalizer",
-    desc: "Grab a frequency and hear it before you commit. Ghost bands preview the move, so you stop guessing and start carving.",
-    status: "Available",
-    icon: EqIcon,
+    since: "v0.4.0",
+    desc: "A parametric EQ with a live analyzer behind the curve. Add bands where you need them, drag them on the graph, and compare two settings with A/B.",
+    facts: [["Compare", "A / B"], ["Analyzer", "Live"], ["Polarity", "Flip"]],
+    shot: shot("aestra-eq", 820, 500),
   },
   {
-    name: "AestraVerb",
+    id: "comp",
+    name: "Aestra Compressor",
+    kind: "Dynamics",
+    since: "v0.4.0",
+    desc: "Feed-forward compression drawn as a transfer curve over the live spectrum, with input, output and gain-reduction meters alongside.",
+    facts: [["Modes", "Clean · Classic · Optical"], ["Latency", "Zero, oversampling off"], ["Detector", "High-pass filter"]],
+    shot: shot("aestra-comp", 680, 555),
+  },
+  {
+    id: "verb",
+    name: "Aestra Verb",
     kind: "Reverb",
-    desc: "Plate, hall and room that put a vocal in a space without drowning it. Big tails, and your CPU meter barely moves.",
-    status: "Available",
-    icon: VerbIcon,
+    since: "v0.4.0",
+    desc: "A modulated stereo reverb with predelay and pre-diffusion. Start from the preset library, then shape decay, size, tone and motion.",
+    facts: [["Spaces", "Room · Hall · Plate"], ["Engine", "Modulated FDN"], ["Freeze", "Yes"]],
+    shot: shot("aestra-verb", 880, 600),
   },
   {
-    name: "AestraComp",
-    kind: "Compressor",
-    desc: "Glues a drum bus without pumping the life out of it. You can see exactly how hard it's working, in real time.",
-    status: "Available",
-    icon: CompIcon,
-  },
-  {
-    name: "AestraDelay",
+    id: "delay",
+    name: "Aestra Delay",
     kind: "Delay",
-    desc: "Locks to your tempo and ducks under the vocal on its own. Slap, tape, ping-pong — anything that repeats.",
-    status: "Available",
-    icon: DelayIcon,
+    since: "v0.4.0",
+    desc: "Echoes in stereo or ping-pong, free or locked to tempo, with damping, low cut and gentle modulation on the repeats.",
+    facts: [["Time", "Free · Sync"], ["Routing", "Stereo · Ping-pong"], ["Divisions", "Straight · Dotted · Triplet"]],
+    shot: shot("aestra-delay", 760, 480),
   },
   {
-    name: "AestraDrift",
-    kind: "Pitch Shifter",
-    desc: "Stacked harmonies off a single take, plus the shimmer you'd normally chase with three plugins and a bus.",
-    status: "Available",
-    icon: DriftIcon,
-  },
-  {
-    name: "AestraFilter",
-    kind: "Filter",
-    desc: "The cutoff chases how hard you hit it — up to four octaves either way. Auto-wah, reverse ducks, brightness that moves with the take.",
-    status: "Available",
-    icon: FilterIcon,
-  },
-  {
-    name: "AestraSat",
-    kind: "Saturator",
-    desc: "Tape, tube, or hard clip. Push a lifeless sample until it has some grit — oversampled, so it dirties up without going brittle.",
-    status: "In alpha builds",
-    icon: SatIcon,
-  },
-  {
-    name: "AestraOTT",
-    kind: "Multiband",
-    desc: "The over-the-top squash. Pulls the loud parts down and the quiet parts up across three bands — instant density on drums and synths.",
-    status: "In alpha builds",
-    icon: OttIcon,
-  },
-  {
-    name: "AestraLFO",
-    kind: "Modulator",
-    desc: "Rhythmic gating, auto-pan, and filter wobble locked to your tempo. Drop it on a flat pad and it starts breathing in time.",
-    status: "In alpha builds",
-    icon: LfoIcon,
-  },
-  {
-    name: "AestraLimit",
+    id: "limit",
+    name: "Aestra Limit",
     kind: "Limiter",
-    desc: "Brickwall for the master, with a release that reads how dense the material is. Catches the peaks without the pumping.",
-    status: "In alpha builds",
-    icon: LimitIcon,
+    since: "v0.7.0",
+    desc: "A brickwall limiter for the end of the chain. Its automatic release follows how dense the material is, or you can set it yourself.",
+    facts: [["Release", "Auto · Manual"], ["Ceiling", "Adjustable"], ["Meters", "In · Out · GR"]],
+    shot: shot("aestra-limit", 520, 400),
+  },
+  {
+    id: "ott",
+    name: "Aestra OTT",
+    kind: "Multiband",
+    since: "v0.7.0",
+    desc: "Upward and downward compression across three bands at once. Loud parts come down, quiet parts come up, and everything gets denser.",
+    facts: [["Bands", "3"], ["Crossovers", "Adjustable"], ["Depth", "0–100%"]],
+    shot: shot("aestra-ott", 560, 340),
+  },
+  {
+    id: "transient",
+    name: "Aestra Transient",
+    kind: "Transient shaper",
+    since: "v0.7.1",
+    desc: "Turn the attack of a hit up or down, and the body after it, independently. The sketch between the knobs shows the envelope you're making.",
+    facts: [["Controls", "Attack · Sustain"], ["Latency", "Zero"], ["Mix", "0–100%"]],
+    shot: shot("aestra-transient", 560, 360),
+  },
+  {
+    id: "sat",
+    name: "Aestra Sat",
+    kind: "Saturator",
+    since: "v0.7.0",
+    desc: "Drive a sound into tape, tube or hard clipping. The distortion runs oversampled, and the dry signal is time-aligned so the mix control stays clean.",
+    facts: [["Modes", "Tape · Tube · Hard"], ["Oversampling", "4×"], ["Mix", "Latency-aligned dry"]],
+    shot: shot("aestra-sat", 480, 300),
+  },
+  {
+    id: "filter",
+    name: "Aestra Filter",
+    kind: "Filter",
+    since: "v0.7.0",
+    desc: "A resonant low, band or high pass whose cutoff can follow the audio, for auto-wah sweeps, ducking filters and brightness that moves with the performance.",
+    facts: [["Types", "Low · Band · High pass"], ["Envelope", "Up to ±4 octaves"], ["Latency", "Zero"]],
+  },
+  {
+    id: "drift",
+    name: "Aestra Drift",
+    kind: "Pitch shifter",
+    since: "v0.4.0",
+    desc: "Real-time pitch shifting by semitone or cent, with grain, texture and spread controls for anything from clean shifts to wide, moving layers.",
+    facts: [["Intervals", "−12 to +12"], ["Fine", "Cents"], ["Blend", "0–100%"]],
+    shot: shot("aestra-drift", 720, 440),
+  },
+  {
+    id: "lfo",
+    name: "Aestra LFO",
+    kind: "Modulation",
+    since: "v0.7.0",
+    desc: "Tempo-synced movement for the audio passing through: rhythmic volume, auto-pan, or a filter that opens and closes in time.",
+    facts: [["Targets", "Volume · Pan · Cutoff"], ["Shapes", "Sine · Tri · Saw · Ramp · Square · S&H"], ["Rate", "Free · Sync"]],
+    shot: shot("aestra-lfo", 560, 320),
   },
 ];
 
-const statusStyles: Record<PluginStatus, string> = {
-  "Available":       "text-emerald-400",
-  "In alpha builds": "text-amber-400",
-  "Coming soon":     "text-dim",
-};
-
 const VIDEO_SRC = "/aestra-eq-intro.mp4";
+
+const PluginShot = ({ plugin }: { plugin: Plugin }) => {
+  if (!plugin.shot) return null;
+  const { src, w, h } = plugin.shot;
+  return (
+    <figure className="plugin-shot mx-auto" style={{ maxWidth: w }}>
+      <picture>
+        <source srcSet={`${src}.webp`} type="image/webp" />
+        <img
+          src={`${src}.png`}
+          width={w}
+          height={h}
+          loading="lazy"
+          decoding="async"
+          alt={`${plugin.name} editor in Aestra`}
+          className="block w-full h-auto"
+        />
+      </picture>
+    </figure>
+  );
+};
 
 export const Plugins = ({ setPage }: PageProps) => {
   const [videoOpen, setVideoOpen] = useState(false);
 
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
-        <PianoGrid />
-        <div className="relative max-w-3xl mx-auto">
-          <p className="kicker mb-4">Plugins</p>
-          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-5">
-            You already own the good ones.
+    <div className="min-h-screen px-5 sm:px-6 pt-32 sm:pt-40 pb-24 sm:pb-32">
+      <div className="max-w-6xl mx-auto">
+        {/* Intro */}
+        <FadeIn>
+          <p className="kicker mb-6">Plugins</p>
+          <h1 className="display hero-title text-fg max-w-[13ch] text-balance">
+            Eleven effects, in the box.
           </h1>
-          <p className="text-muted text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-            Most DAWs hand you an empty rack and point at a plugin store. Aestra
-            comes with ten — EQ, reverb, compression, delay, pitch, filter,
-            saturation, multiband, modulation and a limiter — running light
-            enough that you can stack them.
+          <p className="mt-8 max-w-[34rem] text-[17px] sm:text-lg leading-relaxed text-muted">
+            Every one comes with Aestra, free. The pictures below are the editors
+            as they look in the current build.
           </p>
-        </div>
-      </section>
+        </FadeIn>
 
-      {/* EQ hero card with embedded video */}
-      <section className="px-5 sm:px-6 pb-12">
-        <div className="max-w-4xl mx-auto">
-          <FadeIn>
-            <button
-              onClick={() => setVideoOpen(true)}
-              className="group block w-full text-left rounded-2xl border border-border/80 bg-bg overflow-hidden hover:border-border-2 transition-all"
-              aria-label="Play AestraEQ intro video"
+        {/* Index */}
+        <FadeIn delay={0.05}>
+          <nav aria-label="Plugin list" className="mt-14 sm:mt-16">
+            <ol className="ledger grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 list-none">
+              {PLUGINS.map((p, i) => (
+                <li key={p.id} className="border-b border-border">
+                  <a href={`#${p.id}`} className="group flex items-baseline gap-3 py-3">
+                    <span className="font-mono text-[11px] text-faint tabular-nums w-5">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-fg text-[15px] group-hover:underline underline-offset-4 decoration-border-3">{p.name}</span>
+                    <span className="ml-auto readout !text-[10px] text-dim">{p.kind}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </FadeIn>
+
+        {/* Plugins */}
+        <div className="mt-16 sm:mt-24">
+          {PLUGINS.map((p, i) => (
+            <article
+              key={p.id}
+              id={p.id}
+              className="scroll-mt-28 grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] gap-8 lg:gap-14 items-center py-14 sm:py-20 border-t border-border/70"
             >
-              <div className="relative aspect-video bg-black">
-                <video
-                  src={VIDEO_SRC}
-                  muted
-                  playsInline
-                  loop
-                  autoPlay
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Play className="w-7 h-7 sm:w-8 sm:h-8 text-white fill-white ml-1" />
+              <FadeIn className={p.shot ? "" : "lg:order-last"}>
+                {p.shot ? (
+                  <PluginShot plugin={p} />
+                ) : (
+                  <div className="plugin-shot-pending">
+                    <span className="readout">Screenshot coming</span>
                   </div>
-                </div>
-                <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-4">
-                  <div>
-                    <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/60 mb-1">Intro · 30s</div>
-                    <div className="text-white text-lg sm:text-xl font-semibold tracking-tight">AestraEQ</div>
-                  </div>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/80 border border-white/15 bg-white/5 rounded px-2 py-1">
-                    Click to play
-                  </span>
-                </div>
-              </div>
-              <div className="p-5 sm:p-6 flex items-start gap-4">
-                <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center shrink-0">
-                  <EqIcon className="w-5 h-5 text-fg-muted" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">Equalizer</div>
-                  <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-1.5">AestraEQ</h3>
-                  <p className="text-[14px] text-muted leading-relaxed">
-                    Grab a frequency and hear it before you commit. Ghost bands preview the move, so you stop guessing and start carving.
-                  </p>
-                </div>
-                <span className="inline-flex items-center gap-2 readout text-emerald-400 shrink-0">
-                  <span aria-hidden="true" className="led" />
-                  Available
-                </span>
-              </div>
-            </button>
-          </FadeIn>
-        </div>
-      </section>
+                )}
+              </FadeIn>
 
-      {/* Other plugins grid */}
-      <section className="px-5 sm:px-6 pb-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
-            {PLUGINS.filter((p) => p.name !== "AestraEQ").map((p, i) => {
-              const Icon = p.icon;
-              return (
-                <FadeIn key={p.name} delay={i * 0.05}>
-                  <div className="rounded-xl bg-bg border border-border/80 panel-sheen p-6 sm:p-7 h-full hover:border-border-2 transition-colors flex flex-col">
-                    <div className="w-10 h-10 rounded-lg bg-surface-2 border border-border flex items-center justify-center mb-5" aria-hidden="true">
-                      <Icon className="w-5 h-5 text-fg-muted" />
-                    </div>
-                    <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-1.5">{p.kind}</div>
-                    <h3 className="text-[17px] font-semibold text-fg tracking-tight mb-2">{p.name}</h3>
-                    <p className="text-[14px] text-muted leading-relaxed mb-5 flex-1">{p.desc}</p>
-                    <span className={`inline-flex items-center gap-2 readout w-fit ${statusStyles[p.status]}`}>
-                      <span aria-hidden="true" className="led" />
-                      {p.status}
-                    </span>
-                  </div>
-                </FadeIn>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Native Suite teaser */}
-      <section className="px-5 sm:px-6 pb-20">
-        <div className="max-w-4xl mx-auto">
-          <FadeIn>
-            <div className="rounded-xl border border-border/80 bg-bg panel-sheen p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6">
-              <div className="flex-1 min-w-0">
-                <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted mb-2">Native Suite</div>
-                <h3 className="text-fg text-lg sm:text-xl font-semibold tracking-tight mb-1.5">
-                  More on the way.
-                </h3>
-                <p className="text-muted text-[14px] leading-relaxed max-w-xl">
-                  A separate collection of specialist plugins, released when each one is ready. Supporters get the catalogue while active; individual plugins remain available for one-time purchase.
+              <FadeIn delay={0.05}>
+                <p className="readout mb-3">
+                  <span className="text-faint tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="mx-2 text-faint">·</span>
+                  {p.kind}
                 </p>
-              </div>
-              <Button
-                variant="secondary"
-                size="md"
-                onClick={() => setPage("pricing")}
-                icon={ArrowUpRight}
-                iconPosition="right"
-              >
-                See pricing
-              </Button>
-            </div>
-          </FadeIn>
+                <h2 className="display-2 text-3xl sm:text-4xl text-fg">{p.name}</h2>
+                <p className="mt-5 text-muted text-base sm:text-[17px] leading-relaxed">{p.desc}</p>
+                <dl className="mt-8">
+                  <div className="ledger">
+                    {[["Since", p.since] as [string, string], ...p.facts].map(([k, v]) => (
+                      <div key={k} className="flex items-baseline justify-between gap-6 py-2.5 border-b border-border">
+                        <dt className="readout">{k}</dt>
+                        <dd className="text-fg text-[14px] text-right">{v}</dd>
+                      </div>
+                    ))}
+                  </div>
+                </dl>
+              </FadeIn>
+            </article>
+          ))}
         </div>
-      </section>
 
-      <div className="px-5 sm:px-6 pb-24">
-        <p className="text-center text-[13px] text-muted max-w-2xl mx-auto">
-          All built-in plugins ship with the free core — no add-on purchases required.
-          The four marked <span className="text-amber-400">in alpha builds</span> are
-          finished and running; they reach everyone at the next release, and early
-          access has them now.
-        </p>
+        {/* Closing notes */}
+        <FadeIn>
+          <div className="pt-12 sm:pt-16 border-t border-border/70 grid md:grid-cols-2 gap-10 md:gap-16">
+            <div>
+              <h2 className="text-fg text-[19px] font-semibold tracking-tight mb-3">More plugins, separately</h2>
+              <p className="text-muted text-[15px] leading-relaxed max-w-md">
+                The Native Suite is a separate collection of specialist plugins,
+                released one at a time. Supporters get the catalogue while active,
+                and each plugin can also be bought outright.
+              </p>
+              <div className="mt-5 text-[14px]">
+                <a
+                  href="/pricing"
+                  onClick={(e) => { e.preventDefault(); setPage("pricing"); }}
+                  className="quiet-link inline-flex items-center gap-2"
+                >
+                  Pricing
+                  <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-fg text-[19px] font-semibold tracking-tight mb-3">Aestra EQ in motion</h2>
+              <p className="text-muted text-[15px] leading-relaxed max-w-md">
+                A 30-second look at the EQ being used on a real track.
+              </p>
+              <div className="mt-5 text-[14px]">
+                <button onClick={() => setVideoOpen(true)} className="quiet-link inline-flex items-center gap-2">
+                  Play the intro
+                  <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </FadeIn>
       </div>
 
       <VideoModal
         open={videoOpen}
         onClose={() => setVideoOpen(false)}
         src={VIDEO_SRC}
-        title="AestraEQ — Intro"
+        title="Aestra EQ — Intro"
       />
     </div>
   );

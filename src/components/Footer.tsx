@@ -38,7 +38,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
               <span className="text-[15px] font-semibold text-fg tracking-tight">Aestra</span>
             </div>
             <p className="text-sm text-muted max-w-sm leading-relaxed mb-6">
-              A native digital audio workstation built for producers who want flow. Free, fast, and stable.
+              A native digital audio workstation for the person with something to say. Free, in alpha, and honest about both.
             </p>
             <div className="flex items-center gap-2">
               <a
@@ -104,16 +104,6 @@ export const Footer = memo(({ setPage }: PageProps) => {
 
         <div className="mt-12 pt-6 border-t border-border/80 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4">
           <div className="text-xs text-muted">© 2026 Aestra Studios · Built by Dylan Makori</div>
-          <div className="readout flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-dim">
-            <span className="inline-flex items-center gap-2">
-              <span className="led text-emerald-400" aria-hidden="true" />
-              Engine ready
-            </span>
-            <span className="hidden sm:inline text-faint" aria-hidden="true">/</span>
-            <span>48kHz · 24-bit float</span>
-            <span className="hidden sm:inline text-faint" aria-hidden="true">/</span>
-            <span>v0.6.0-alpha</span>
-          </div>
         </div>
       </div>
     </footer>

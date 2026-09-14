@@ -111,7 +111,7 @@ export const PAGE_DESCRIPTIONS = asSEO({
   changelog: "Track Aestra's development progress. New features, bug fixes, and improvements across every release.",
   docs: "Aestra documentation: patch recipes, signal flow guides, persona tracks, troubleshooting, and command palette reference.",
   download: "Build Aestra from source on Linux or Windows. Pre-alpha, source-available, no published binaries yet.",
-  plugins: "Ten plugins free in every copy of Aestra — AestraEQ, AestraVerb, AestraComp, AestraDelay, AestraDrift, AestraFilter, AestraSat, AestraOTT, AestraLFO and AestraLimit. Watch the AestraEQ intro.",
+  plugins: "Eleven effects free in every copy of Aestra: EQ, Compressor, Verb, Delay, Limit, OTT, Transient, Sat, Filter, Drift and LFO, shown as they look in the current build.",
   login: "Sign in to your Aestra account.",
   account: "Manage your Aestra account, licenses, and plugins.",
   privacy: "Aestra privacy policy: how we handle your data, no cookies, transparent practices.",

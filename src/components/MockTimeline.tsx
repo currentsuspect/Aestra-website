@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback, memo } from "react";
 import { cn, prefersReducedMotion } from "../lib";
+import { SessionLanes } from "./mock/SessionLanes";
+import { SESSION_TRACKS, SESSION_LANES_HEIGHT } from "./mock/session";
+import { TitleBar, TransportBar, LibraryPanel, ToolRow, TrackButtons } from "./mock/Chrome";
 
 /* ── Native palette — mirrored 1:1 from the DAW ──────────────────
    Source: AestraUI/Core/NUIThemeSystem.cpp (dark theme, July 2026).
@@ -57,19 +60,8 @@ const TRACK_COLORS = TRACK_PALETTE;
 
 type Tool = "select" | "cut" | "loop" | "paint" | "arrow" | "erase";
 
-const TRACK_LAYOUT: { name: string; kind: "pattern" | "audio" }[] = [
-  { name: "Track 1",  kind: "pattern" },
-  { name: "Track 2",  kind: "pattern" },
-  { name: "Track 3",  kind: "pattern" },
-  { name: "Track 4",  kind: "pattern" },
-  { name: "Track 5",  kind: "pattern" },
-  { name: "Track 6",  kind: "pattern" },
-  { name: "Track 7",  kind: "pattern" },
-  { name: "Track 8",  kind: "pattern" },
-  { name: "Track 9",  kind: "pattern" },
-  { name: "Track 10", kind: "pattern" },
-  { name: "Track 11", kind: "pattern" },
-];
+/* A session with music in it (see ./mock/session.ts), not an empty project. */
+const TRACK_LAYOUT = SESSION_TRACKS.map((name) => ({ name }));
 
 const NAV_TREE: { section: string; items: { name: string; color?: string; type?: "leaf" | "folder" }[] }[] = [
   { section: "Collections", items: [
@@ -410,7 +402,6 @@ export const MockTimeline = memo(() => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [metronomeOn, setMetronomeOn] = useState(false);
-  const [time, setTime] = useState(0);
   const [bpm, setBpm] = useState("120.00");
   const [activeView, setActiveView] = useState<"timeline" | "mixer" | "arsenal" | "audition">("timeline");
   const [selectedFile, setSelectedFile] = useState(6);
@@ -420,13 +411,29 @@ export const MockTimeline = memo(() => {
   const [tracks, setTracks] = useState(initialTracks);
   const [faders, setFaders] = useState<number[]>([66, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [selectedTool, setSelectedTool] = useState<Tool>("arrow");
-  const playheadRef = useRef<HTMLDivElement>(null);
-  const playheadPos = useRef(190);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const tracksContainerRef = useRef<HTMLDivElement>(null);
-  const timeRef = useRef(0);
+  const [resetToken, setResetToken] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const timeTextRef = useRef<HTMLSpanElement>(null);
+  const masterRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const scopeRef = useRef<SVGPolylineElement>(null);
+  /* Set once the visitor pauses or stops, so scrolling back into view
+     doesn't restart playback they deliberately ended. */
+  const userPaused = useRef(false);
   const tracksRef = useRef(tracks);
   tracksRef.current = tracks;
+
+  const togglePlay = useCallback(() => {
+    setIsPlaying((p) => {
+      userPaused.current = p;
+      return !p;
+    });
+  }, []);
+
+  const stopTransport = useCallback(() => {
+    setIsPlaying(false);
+    userPaused.current = true;
+    setResetToken((n) => n + 1);
+  }, []);
 
   const toggleMute = useCallback((id: number) => {
     setTracks(prev => prev.map(t => t.id === id ? { ...t, muted: !t.muted } : t));
@@ -447,44 +454,28 @@ export const MockTimeline = memo(() => {
     });
   }, []);
 
-  // Playhead animation — moves at BPM-synced rate
+  // Play while the preview is on screen, pause when it leaves, and never
+  // override a visitor who paused it themselves.
   useEffect(() => {
-    let af = 0;
-    let last = 0;
-    let lastStateUpdate = 0;
-    const tick = (ts: number) => {
-      if (!last) last = ts;
-      const dt = (ts - last) / 1000;
-      last = ts;
-      if (containerRef.current && isPlaying) {
-        const w = containerRef.current.offsetWidth;
-        const maxX = w - 80;
-        // ~94px/s at 120bpm scaled to actual bpm
-        const bpmNum = parseFloat(bpm) || 120;
-        const speed = 94 * (bpmNum / 120);
-        const next = playheadPos.current + speed * dt;
-        if (next > maxX) {
-          playheadPos.current = 190;
-          timeRef.current = 0;
+    const el = rootRef.current;
+    if (!el || prefersReducedMotion() || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!userPaused.current) setIsPlaying(true);
         } else {
-          playheadPos.current = next;
-          timeRef.current += dt;
+          setIsPlaying(false);
         }
-        if (playheadRef.current) playheadRef.current.style.transform = `translateX(${playheadPos.current}px)`;
-        if (ts - lastStateUpdate > 100) {
-          lastStateUpdate = ts;
-          setTime(timeRef.current);
-        }
-        af = requestAnimationFrame(tick);
-      }
-    };
-    if (isPlaying) af = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(af);
-  }, [isPlaying, bpm]);
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
-  // Meter animation when playing
+  // Mixer view meters (the timeline drives its own from the session)
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || activeView !== "mixer") return;
     const interval = setInterval(() => {
       setTracks(prev => prev.map((t, i) => {
         const isLead = t.soloed || (i === 0 && !prev.some(p => p.soloed));
@@ -494,14 +485,14 @@ export const MockTimeline = memo(() => {
       }));
     }, 120);
     return () => clearInterval(interval);
-  }, [isPlaying]);
+  }, [isPlaying, activeView]);
 
   // Keyboard shortcuts
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") return;
-      if (e.code === "Space") { e.preventDefault(); setIsPlaying(p => !p); }
+      if (e.code === "Space") { e.preventDefault(); togglePlay(); }
       else if (e.key === "r" || e.key === "R") setIsRecording(v => !v);
       else if (e.key === "m" || e.key === "M") {
         const t = tracksRef.current[selectedTrack];
@@ -515,496 +506,64 @@ export const MockTimeline = memo(() => {
       else if (e.key === "2") setSelectedTool("cut");
       else if (e.key === "3") setSelectedTool("paint");
       else if (e.key === "4") setSelectedTool("erase");
-      else if (e.key === "Escape") { setIsPlaying(false); timeRef.current = 0; setTime(0); playheadPos.current = 190; if (playheadRef.current) playheadRef.current.style.transform = "translateX(190px)"; }
+      else if (e.key === "Escape") stopTransport();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [selectedTrack, toggleMute, toggleSolo]);
-
-  // Click on ruler/timeline to move playhead
-  const onTimelineClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!tracksContainerRef.current) return;
-    const rect = tracksContainerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left + tracksContainerRef.current.scrollLeft;
-    const newX = Math.max(190, Math.min(rect.width - 80, x));
-    playheadPos.current = newX;
-    if (playheadRef.current) playheadRef.current.style.transform = `translateX(${newX}px)`;
-  }, []);
+  }, [selectedTrack, toggleMute, toggleSolo, togglePlay, stopTransport]);
 
   return (
-    <div className="w-full max-w-7xl mx-auto relative px-0 sm:px-2">
+    <div ref={rootRef} className="w-full max-w-7xl mx-auto relative px-0 sm:px-2">
       <MobileTimeline />
 
       {/* Full DAW preview */}
       <div className="hidden md:block w-full">
-        <div className="relative w-full overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950 shadow-2xl">
-          {/* ── Title Bar (File menu | Tabs | Account + Window) ── */}
-          <div className="h-10 border-b border-neutral-800 bg-neutral-900/60 px-3 flex items-center justify-between">
-            {/* Left: File menu (decorative — non-interactive) */}
-            <div className="flex items-center gap-3 text-[11px] text-neutral-400 min-w-[200px]" aria-hidden="true">
-              <span className="cursor-default">File</span>
-              <span className="cursor-default">Edit</span>
-              <span className="cursor-default">View</span>
-              <span className="cursor-default">Help</span>
-            </div>
+        <div className="relative w-full overflow-hidden rounded-xl border border-[rgba(124,58,237,0.28)] bg-[#050505] shadow-2xl">
+          {/* ── Title bar ── */}
+          <TitleBar view={activeView} onView={setActiveView} />
 
-            {/* Center: Tabs (Arsenal / Timeline / Audition) */}
-            <div className="flex items-center gap-0.5">
-              {([
-                { id: "arsenal"  as const, label: "Arsenal",  icon: Icon.Arsenal,    key: "F6" },
-                { id: "timeline" as const, label: "Timeline", icon: Icon.Timeline,   key: "F5" },
-                { id: "audition" as const, label: "Audition", icon: Icon.PianoRoll,  key: "" },
-              ]).map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveView(tab.id)}
-                  title={`${tab.label}${tab.key ? ` (${tab.key})` : ""}`}
-                  className={cn(
-                    "flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] transition-colors",
-                    activeView === tab.id
-                      ? "bg-violet-500/25 text-violet-200 border border-violet-500/35"
-                      : "text-neutral-400 hover:text-neutral-200 border border-transparent"
-                  )}
-                >
-                  <tab.icon />
-                  <span>{tab.label}</span>
-                </button>
-              ))}
-            </div>
-
-            {/* Right: Account + Core + window controls */}
-            <div className="flex items-center gap-2 text-[10px] min-w-[200px] justify-end">
-              <span className="text-neutral-400">Signed out</span>
-              <span className="px-1.5 py-0.5 rounded bg-violet-500/20 border border-violet-500/30 text-violet-300 font-medium">Core</span>
-              <div className="flex items-center gap-0.5 ml-2">
-                <button title="Minimize" aria-label="Minimize window" className="w-6 h-6 rounded text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60 flex items-center justify-center">
-                  <Icon.Minimize />
-                </button>
-                <button title="Maximize" aria-label="Maximize window" className="w-6 h-6 rounded text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60 flex items-center justify-center">
-                  <Icon.Maximize />
-                </button>
-                <button title="Close" className="w-6 h-6 rounded text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/60 flex items-center justify-center">
-                  <Icon.Close />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* ── Main Content ─────────────────────────────────── */}
+          {/* ── Timeline view: transport, library, lanes ── */}
           {activeView === "timeline" && (
-            <div className="flex-1 flex flex-col min-h-0">
-              {/* Row 1: Transport (centered) + view icons + master meters (right) — full width */}
-              <div className="h-9 border-b border-[#212121] bg-[#0a0a0a] px-2 flex items-center gap-2 shrink-0">
-                {/* Leading spacer (centers the transport cluster) */}
-                <div className="flex-1" />
-                {/* Transport cluster */}
-                <div className="flex items-center h-7 gap-0.5 rounded-md border border-[#2b2b2b] bg-[#080808] px-1.5">
-                  <button
-                    onClick={() => setIsPlaying(v => !v)}
-                    className={cn(
-                      "w-7 h-7 rounded flex items-center justify-center transition-colors",
-                      isPlaying ? "bg-violet-500 text-white" : "text-neutral-300 hover:bg-[rgba(255,255,255,0.06)]"
-                    )}
-                    title="Play / Pause (Space)"
-                  >
-                    {isPlaying ? <Icon.Pause /> : <Icon.Play />}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsPlaying(false);
-                      playheadPos.current = 190;
-                      timeRef.current = 0;
-                      setTime(0);
-                      if (playheadRef.current) playheadRef.current.style.transform = "translateX(190px)";
-                    }}
-                    className="w-7 h-7 rounded flex items-center justify-center text-neutral-300 hover:bg-[rgba(255,255,255,0.06)]"
-                    title="Stop"
-                  >
-                    <Icon.Stop />
-                  </button>
-                  <button
-                    onClick={() => setIsRecording(v => !v)}
-                    className={cn(
-                      "w-7 h-7 rounded flex items-center justify-center transition-colors",
-                      isRecording ? "bg-red-500 text-white" : "text-neutral-300 hover:bg-[rgba(255,255,255,0.06)]"
-                    )}
-                    title="Record"
-                  >
-                    <Icon.Record />
-                  </button>
-                  <div className="w-px h-4 bg-[#2b2b2b] mx-1" />
-                  <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]"
-                    title="More"
-                  >
-                    <Icon.Dots />
-                  </button>
-                  <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]"
-                    title="Loop range"
-                  >
-                    <Icon.Hourglass />
-                  </button>
-                  <button
-                    onClick={() => setMetronomeOn(v => !v)}
-                    className={cn(
-                      "w-7 h-7 rounded flex items-center justify-center transition-colors",
-                      metronomeOn ? "bg-violet-500/20 text-violet-300" : "text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]"
-                    )}
-                    title="Loop"
-                  >
-                    <Icon.Loop />
-                  </button>
-                  <button
-                    className="w-7 h-7 rounded flex items-center justify-center text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]"
-                    title="Metronome / Accent"
-                  >
-                    <Icon.Metronome />
-                  </button>
-                </div>
-
-                {/* Time signature + BPM + position block */}
-                <div className="flex items-center h-7 gap-0 rounded-md border border-[#2b2b2b] bg-[#080808] overflow-hidden ml-1">
-                  <div className="flex items-center justify-center h-7 w-[48px] px-1">
-                    <span className="text-[11px] text-neutral-300 font-mono tabular-nums">4/4</span>
-                  </div>
-                  <div className="w-px h-5 bg-[#2b2b2b]" />
-                  <div className="flex flex-col items-center justify-center h-7 w-[60px] px-1">
-                    <span className="text-[7px] text-neutral-500 font-mono uppercase tracking-wider leading-none">BPM</span>
-                    <input
-                      type="number"
-                      value={bpm}
-                      onChange={e => {
-                        const n = Number(e.target.value);
-                        if (!Number.isNaN(n)) setBpm(String(Math.max(40, Math.min(300, n))));
-                      }}
-                      className="w-full bg-transparent text-[11px] text-neutral-200 font-mono tabular-nums outline-none text-center [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none leading-none mt-px"
-                    />
-                  </div>
-                  <div className="w-px h-5 bg-[#2b2b2b]" />
-                  <div className="flex items-center justify-center h-7 w-[72px] px-1">
-                    <span className="text-[12px] text-neutral-200 font-mono tabular-nums">0:00.00</span>
-                  </div>
-                </div>
-
-                {/* Spacer */}
-                <div className="flex-1" />
-
-                {/* View switcher icons */}
-                <div className="flex items-center h-7 gap-0.5">
-                  <button onClick={() => setActiveView("mixer")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]" title="Mixer">
-                    <Icon.Sliders />
-                  </button>
-                  <button onClick={() => setActiveView("arsenal")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]" title="Arsenal">
-                    <Icon.Grid />
-                  </button>
-                  <button onClick={() => setActiveView("audition")} className="w-7 h-7 rounded flex items-center justify-center transition-colors text-neutral-400 hover:bg-[rgba(255,255,255,0.06)]" title="Audition">
-                    <Icon.Monitor />
-                  </button>
-                  <button onClick={() => setActiveView("timeline")} className="w-7 h-7 rounded flex items-center justify-center transition-colors bg-violet-500/20 text-violet-300" title="Timeline">
-                    <Icon.TimelineView />
-                  </button>
-                </div>
-
-                {/* Master meters (top-right) */}
-                <div className="flex flex-col gap-1 ml-2 w-[140px] shrink-0">
-                  {[0, 1].map(ch => (
-                    <div key={ch} className="h-1.5 rounded-full bg-[#191919] relative overflow-hidden border border-[#212121]">
-                      <div
-                        className="absolute inset-y-0 left-0 rounded-full transition-all duration-100"
-                        style={{
-                          width: isPlaying ? `${40 + (ch === 0 ? tracks[0].meter : tracks[1].meter) * 0.5}%` : "0%",
-                          background: "linear-gradient(90deg, #3dbb6e 0%, #3dbb6e 55%, #e8a838 78%, #e85454 100%)",
-                        }}
+            <div className="flex flex-col">
+              <TransportBar
+                playing={isPlaying}
+                recording={isRecording}
+                onPlay={togglePlay}
+                onStop={stopTransport}
+                onRecord={() => setIsRecording((v) => !v)}
+                bpm={bpm}
+                onBpm={setBpm}
+                onView={setActiveView}
+                timeTextRef={timeTextRef}
+                masterRefs={masterRefs}
+                scopeRef={scopeRef}
+              />
+              <div className="flex" style={{ height: SESSION_LANES_HEIGHT }}>
+                <LibraryPanel />
+                <div className="flex-1 min-w-0">
+                  <SessionLanes
+                    playing={isPlaying}
+                    bpm={parseFloat(bpm) || 120}
+                    tracks={tracks}
+                    selectedTrack={selectedTrack}
+                    onSelectTrack={setSelectedTrack}
+                    resetToken={resetToken}
+                    timeTextRef={timeTextRef}
+                    masterRefs={masterRefs}
+                    scopeRef={scopeRef}
+                    toolbar={<ToolRow tool={selectedTool} onTool={setSelectedTool} />}
+                    headerControls={(track) => (
+                      <TrackButtons
+                        muted={track.muted}
+                        soloed={track.soloed}
+                        armed={!!tracks.find((t) => t.id === track.id)?.recording}
+                        onMute={() => toggleMute(track.id)}
+                        onSolo={() => toggleSolo(track.id)}
+                        onArm={() => toggleRecord(track.id)}
                       />
-                    </div>
-                  ))}
+                    )}
+                  />
                 </div>
-              </div>
-
-              {/* Row 2: Tool palette (full width) */}
-              <div className="h-8 border-b border-[#212121] bg-[#0a0a0a] px-2 flex items-center gap-1 shrink-0">
-                <ToolBtn active={false} onClick={() => {}} title="Add"><Icon.Plus /></ToolBtn>
-                <div className="w-px h-4 bg-[#2b2b2b] mx-0.5" />
-                <ToolBtn active={selectedTool === "select"} onClick={() => setSelectedTool("select")} title="Select (1)"><Icon.Cursor /></ToolBtn>
-                <ToolBtn active={selectedTool === "cut"}    onClick={() => setSelectedTool("cut")}    title="Cut (2)"><Icon.Scissors /></ToolBtn>
-                <ToolBtn active={selectedTool === "loop"}   onClick={() => setSelectedTool("loop")}   title="Marquee"><Icon.Marquee /></ToolBtn>
-                <ToolBtn active={selectedTool === "paint"}  onClick={() => setSelectedTool("paint")}  title="Paint (3)"><Icon.Pencil /></ToolBtn>
-                <ToolBtn active={selectedTool === "arrow"}  onClick={() => setSelectedTool("arrow")}  title="Arrow"><Icon.Arrow /></ToolBtn>
-                <div className="w-px h-4 bg-[#2b2b2b] mx-0.5" />
-                <ToolBtn active={false} onClick={() => {}} title="Menu"><Icon.Menu /></ToolBtn>
-              </div>
-
-              {/* File browser + tracks row */}
-              <div className="flex-1 flex min-h-0">
-                {/* File Browser Sidebar (Track Manager) */}
-                <div className="w-[220px] lg:w-[260px] border-r border-[#212121] bg-[#111111] flex flex-col shrink-0">
-                {/* Search */}
-                <div className="p-2">
-                  <label className="flex items-center gap-2 rounded-md border border-[#2b2b2b] bg-[#0a0a0a] px-2.5 py-1.5 text-[11px] text-neutral-400 focus-within:border-[#3a3a3a] transition-colors">
-                    <Icon.Search />
-                    <span>Search library...</span>
-                    <span className="ml-auto text-[9px] text-neutral-500 font-mono">⌘K</span>
-                  </label>
-                </div>
-
-                {/* Nav pane + File list split */}
-                <div className="flex flex-1 min-h-0">
-                  {/* Navigation pane */}
-                  <div className="w-[88px] lg:w-[100px] border-r border-[rgba(43,43,43,0.36)] bg-[rgba(10,10,10,0.5)] overflow-y-auto">
-                    {NAV_TREE.map(section => (
-                      <div key={section.section}>
-                        <div className="px-2 pt-3 pb-1 text-[8px] uppercase tracking-[0.14em] text-neutral-500">{section.section}</div>
-                        {section.items.map(item => {
-                          const expanded = expandedFolders.has(item.name);
-                          return (
-                            <button
-                              key={item.name}
-                              onClick={() => { setSelectedNav(item.name); if (item.type === "folder") toggleFolder(item.name); }}
-                              className={cn(
-                                "w-full flex items-center gap-1.5 px-2 py-1.5 text-[10px] text-left transition-colors",
-                                selectedNav === item.name
-                                  ? "bg-[rgba(124,58,237,0.10)] text-white"
-                                  : "text-neutral-400 hover:bg-[rgba(255,255,255,0.035)]"
-                              )}
-                            >
-                              {item.type === "folder" ? (
-                                <Icon.ChevronRight />
-                              ) : (
-                                <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: item.color || "#525252" }} />
-                              )}
-                              <span className="truncate">{item.name}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* File list */}
-                  <div className="flex-1 flex flex-col min-w-0">
-                    <div className="px-2.5 py-1.5 border-b border-[rgba(43,43,43,0.36)] flex items-center gap-1 text-[9px] text-neutral-400">
-                      <span>Aestra</span>
-                      <Icon.ChevronRight />
-                      <span className="text-neutral-300">Current Project</span>
-                      <span className="ml-auto"><Icon.ChevronRight /></span>
-                    </div>
-                    <div className="px-2.5 py-1 border-b border-[rgba(43,43,43,0.24)] text-[8px] uppercase tracking-[0.14em] text-neutral-500">Name</div>
-                    <div className="flex-1 overflow-y-auto">
-                      {/* Show folder children when expanded */}
-                      {selectedNav === "Current Project" && (
-                        <div className="border-b border-[rgba(43,43,43,0.24)] py-1">
-                          {[
-                            { name: "01. cycler sample pack", type: "folder" },
-                            { name: "02. cycler elements.", type: "folder" },
-                            { name: "03. textures + acou...", type: "folder" },
-                            { name: "04. midi", type: "folder" },
-                            { name: "05. vocals", type: "folder" },
-                            { name: "06. percloops", type: "folder" },
-                          ].map(sub => {
-                            const exp = expandedFolders.has(sub.name);
-                            return (
-                              <button
-                                key={sub.name}
-                                onClick={() => toggleFolder(sub.name)}
-                                className="w-full flex items-center gap-1.5 px-2.5 py-1 text-[10px] text-neutral-400 hover:bg-[rgba(255,255,255,0.04)] text-left"
-                              >
-                                <span className={cn("transition-transform", exp && "rotate-90")}><Icon.ChevronRight /></span>
-                                <Icon.Folder />
-                                <span className="truncate">{sub.name}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      )}
-                      {selectedNav === "Sounds" && (
-                        <div className="py-1">
-                          <button
-                            onClick={() => toggleFolder("Packs")}
-                            className={cn(
-                              "w-full flex items-center gap-1.5 px-2.5 py-1 text-[10px] text-left transition-colors",
-                              "bg-[rgba(124,58,237,0.18)] text-white"
-                            )}
-                          >
-                            <span className={cn("transition-transform", expandedFolders.has("Packs") && "rotate-90")}><Icon.ChevronRight /></span>
-                            <Icon.Folder />
-                            <span className="truncate">Packs</span>
-                          </button>
-                          {expandedFolders.has("Packs") && (
-                            <div>
-                              <button
-                                onClick={() => toggleFolder("User Library")}
-                                className="w-full flex items-center gap-1.5 pl-5 pr-2.5 py-1 text-[10px] text-neutral-300 hover:bg-[rgba(255,255,255,0.04)] text-left"
-                              >
-                                <span className={cn("transition-transform", expandedFolders.has("User Library") && "rotate-90")}><Icon.ChevronRight /></span>
-                                <Icon.Folder />
-                                <span className="truncate">User Library</span>
-                              </button>
-                              {expandedFolders.has("User Library") && FILES.map((file, i) => (
-                                <button
-                                  key={file.name}
-                                  onClick={() => setSelectedFile(i)}
-                                  className={cn(
-                                    "w-full flex items-center gap-2 pl-7 pr-2.5 py-1 text-[10px] text-left transition-colors truncate",
-                                    selectedFile === i
-                                      ? "bg-[rgba(124,58,237,0.14)] text-white"
-                                      : "text-neutral-400 hover:bg-[rgba(255,255,255,0.04)]",
-                                  )}
-                                >
-                                  <Icon.Audio />
-                                  <span className="truncate flex-1">{file.name}</span>
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                      {selectedNav !== "Current Project" && selectedNav !== "Sounds" && FILES.map((file, i) => (
-                        <button
-                          key={file.name}
-                          onClick={() => setSelectedFile(i)}
-                          className={cn(
-                            "w-full flex items-center gap-2 px-2.5 py-1 text-[10px] text-left transition-colors truncate",
-                            selectedFile === i
-                              ? "bg-[rgba(124,58,237,0.14)] text-white"
-                              : "text-neutral-400 hover:bg-[rgba(255,255,255,0.04)]",
-                          )}
-                        >
-                          <Icon.Audio />
-                          <span className="truncate flex-1">{file.name}</span>
-                          <span className="text-[8px] text-neutral-500 flex-shrink-0">{file.size}</span>
-                        </button>
-                      ))}
-                    </div>
-                    {/* Now Playing card */}
-                    <div className="border-t border-[rgba(43,43,43,0.36)] p-2 bg-[#080808]">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setIsPlaying(v => !v)}
-                          className={cn(
-                            "w-7 h-7 rounded-full flex items-center justify-center shrink-0",
-                            isPlaying ? "bg-violet-500 text-white" : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
-                          )}
-                        >
-                          {isPlaying ? <Icon.Pause /> : <Icon.Play />}
-                        </button>
-                        <div className="min-w-0 flex-1">
-                          <div className="text-[10px] text-neutral-200 truncate leading-tight">{FILES[selectedFile].name}</div>
-                          <div className="text-[8px] text-neutral-400 mt-0.5 font-mono">85 BPM · 0:00 / 0:00</div>
-                        </div>
-                      </div>
-                      <div className="mt-1.5 rounded-md border border-[rgba(124,58,237,0.25)] bg-[rgba(124,58,237,0.06)] p-1.5">
-                        <svg className="h-7 w-full" viewBox="0 0 200 28" preserveAspectRatio="none">
-                          <polyline
-                            points={audioPoints(selectedFile, 80)}
-                            fill="none" stroke={C.primary} strokeWidth="1.4" vectorEffect="non-scaling-stroke"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Arrangement Area */}
-              <div className="flex-1 flex flex-col min-w-0" ref={containerRef}>
-                {/* Selection / loop region bar (purple) */}
-                <div className="h-5 border-b border-[#212121] bg-[#080808] px-0 relative">
-                  <div className="absolute left-[190px] right-3 top-1 bottom-1">
-                    <div
-                      className="absolute h-full rounded-[2px] flex items-center"
-                      style={{
-                        left: "0%",
-                        width: "76%",
-                        background: "linear-gradient(180deg, rgba(124,58,237,0.55) 0%, rgba(124,58,237,0.32) 100%)",
-                        border: "1px solid rgba(167,139,250,0.6)",
-                        boxShadow: "0 0 8px rgba(124,58,237,0.30), inset 0 1px 0 rgba(255,255,255,0.10)",
-                      }}
-                    >
-                      <span className="absolute -left-0.5 top-1/2 -translate-y-1/2 w-1 h-3 rounded-[1px] bg-violet-200/90" />
-                      <span className="absolute -right-0.5 top-1/2 -translate-y-1/2 w-1 h-3 rounded-[1px] bg-violet-200/90" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Ruler */}
-                <div className="relative h-7 border-b border-[rgba(43,43,43,0.64)] bg-[#111111] px-0">
-                  <div
-                    onClick={onTimelineClick}
-                    className="absolute left-[190px] right-3 top-0 bottom-0 flex items-end cursor-pointer"
-                  >
-                    {Array.from({ length: 13 }, (_, i) => (
-                      <div key={i} className="flex-1 relative">
-                        <div className={cn(
-                          "absolute bottom-0 w-px",
-                          i % 4 === 0 ? "h-full" : "h-2"
-                        )} style={{ background: i % 4 === 0 ? C.gridBar : C.gridBeat }} />
-                        <span className={cn(
-                          "absolute bottom-0.5 left-1 text-[9px] font-mono tabular-nums",
-                          i % 4 === 0 ? "text-neutral-400" : "text-neutral-500"
-                        )}>{i + 1}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Tracks + Grid */}
-                <div ref={tracksContainerRef} className="flex-1 relative overflow-y-auto bg-[#080808]" onClick={onTimelineClick}>
-                  {/* Grid lines */}
-                  <div className="absolute inset-0 left-[190px] right-0 pointer-events-none">
-                    {Array.from({ length: 80 }, (_, i) => (
-                      <div key={i} className="absolute top-0 bottom-0 w-px" style={{
-                        left: `${(i / 80) * 100}%`,
-                        background: i % 4 === 0 ? C.gridBar : C.gridBeat,
-                      }} />
-                    ))}
-                  </div>
-
-                      {/* Track rows */}
-                  {tracks.map((track, idx) => {
-                    const y = idx * 36;
-                    return (
-                      <div key={track.id} className="absolute inset-x-0 flex" style={{ top: y, height: 36 }}>
-                        {/* Track header */}
-                        <div
-                          onClick={(e) => { e.stopPropagation(); setSelectedTrack(idx); }}
-                          className="w-[190px] border-r border-[rgba(43,43,43,0.48)] border-b border-b-[rgba(43,43,43,0.36)] bg-[#111111] flex items-center relative flex-shrink-0 cursor-pointer transition-colors hover:bg-[#191919]"
-                          style={selectedTrack === idx ? { background: "rgba(124,58,237,0.08)" } : undefined}
-                        >
-                          <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: track.color, opacity: selectedTrack === idx ? 0.9 : 0.4 }} />
-                          <span className="w-5 text-center text-[10px] text-neutral-500 font-mono tabular-nums shrink-0 pl-1.5">{track.id}</span>
-                          <div className="flex items-center justify-between flex-1 pr-2.5 pl-1">
-                            {/* Name takes the track's own palette colour, as in the
-                                DAW — it was pinned to a single indigo here. */}
-                            <span className="text-[11px] font-medium truncate" style={{ color: track.color }}>{track.name}</span>
-                            <div className="flex items-center gap-0.5">
-                              <MSR label="M" active={track.muted} color={C.warning} onClick={() => toggleMute(track.id)} />
-                              <MSR label="S" active={track.soloed} color={C.success} onClick={() => toggleSolo(track.id)} />
-                              <MSR label="R" active={track.recording} color={C.error} onClick={() => toggleRecord(track.id)} />
-                              <button
-                                className="w-[18px] h-[16px] rounded flex items-center justify-center transition-colors"
-                                style={{ color: C.primary }}
-                                title="Track controls"
-                              >
-                                <Icon.Knob />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Clip area (empty timeline) */}
-                        <div className="flex-1 relative border-b border-[rgba(43,43,43,0.36)]" />
-                      </div>
-                    );
-                  })}
-
-                  {/* Playhead */}
-                  <div ref={playheadRef} className="absolute bottom-0 top-0 z-20 w-px pointer-events-none" style={{ transform: "translateX(190px)" }}>
-                    <div className="absolute bottom-0 top-0 w-px" style={{ background: C.primary, boxShadow: `0 0 8px ${C.primary}cc` }} />
-                    <div className="absolute -top-1 -left-[5px] w-2.5 h-2.5 rotate-45" style={{ background: C.primary }} />
-                  </div>
-                </div>
-              </div>
               </div>
             </div>
           )}

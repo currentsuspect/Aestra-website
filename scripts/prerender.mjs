@@ -231,11 +231,12 @@ const assertVisualGeometry = async (page, route) => {
     };
   });
 
-  if (["/", "/features"].includes(route.path) && result.flowCount === 0) {
+  // The home page used to carry the compact diagram (the only variant with an
+  // input indicator). The redesigned home shows the timeline instead, so the
+  // presence requirement now lives on /features alone; the geometry check below
+  // still runs on every diagram that renders anywhere.
+  if (route.path === "/features" && result.flowCount === 0) {
     throw new Error(`${route.path}: expected a signal-flow diagram`);
-  }
-  if (route.path === "/" && result.indicatorCount === 0) {
-    throw new Error("/: expected a centered signal-flow input indicator");
   }
   if (result.problems.length > 0) {
     throw new Error(`${route.path}: signal-flow geometry mismatch: ${result.problems.join(" | ")}`);

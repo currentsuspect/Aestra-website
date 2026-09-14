@@ -330,7 +330,7 @@ body::after {
 
 /* ── Piano grid — keyboard-lane hero background (PianoGrid.tsx) ── */
 .piano-grid {
-  opacity: 0.6;
+  opacity: 0.42;
 }
 [data-theme="light"] .piano-grid {
   opacity: 0.75;
@@ -410,6 +410,333 @@ body::after {
   color: var(--color-fg);
 }
 
+/* ── Hero title — one fluid size instead of five breakpoint jumps,
+   so the line breaks are decided by the measure, not by luck. ──── */
+.hero-title {
+  font-size: clamp(2.5rem, 1.2rem + 5.4vw, 5.75rem);
+  line-height: 1.0;
+  letter-spacing: -0.045em;
+}
+
+/* ── Quiet link — underline sits low and brightens on hover. No
+   arrows-for-arrows'-sake, no colour change to accent. ──────────── */
+.quiet-link {
+  color: var(--color-fg-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-3);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+.quiet-link:hover {
+  color: var(--color-fg);
+  text-decoration-color: var(--color-fg);
+}
+.quiet-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Ledger — hairline rows instead of cards. Used by the home
+   Details, Status, Cost and FAQ lists. A row is information, not a
+   container, so it gets a rule and no box. ───────────────────────── */
+.ledger {
+  border-top: 1px solid var(--color-border-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ledger-row,
+.status-row,
+.price-row,
+.faq-row {
+  border-bottom: 1px solid var(--color-border);
+}
+.ledger-row {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding-block: 1.15rem;
+}
+.ledger-index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-faint);
+  font-variant-numeric: tabular-nums;
+}
+.ledger-line {
+  color: var(--color-fg);
+  font-size: 16px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.ledger-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--color-dim);
+  white-space: nowrap;
+}
+
+.status-row {
+  display: grid;
+  grid-template-columns: minmax(7rem, 10rem) 6rem minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+  align-items: baseline;
+  padding-block: 1rem;
+}
+.status-note {
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.status-dot-off {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  border: 1px solid currentColor;
+  flex-shrink: 0;
+}
+
+.price-row {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding-block: 1.1rem;
+}
+
+@media (max-width: 639px) {
+  .status-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .status-note { grid-column: 1 / -1; }
+  .price-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .price-row > dd:first-of-type { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* Live ledger — on wide screens the row driving the Specimen is lit
+   and the rest step back. Below lg there is no specimen, so nothing
+   dims. */
+.ledger-row { position: relative; }
+.ledger-row .ledger-index,
+.ledger-row .ledger-line,
+.ledger-row .ledger-tag { transition: color 0.25s ease; }
+@media (min-width: 1024px) {
+  .ledger-live .ledger-row .ledger-line { color: var(--color-muted); }
+  .ledger-live .ledger-row[data-active] .ledger-line { color: var(--color-fg); }
+  .ledger-live .ledger-row[data-active] .ledger-index,
+  .ledger-live .ledger-row[data-active] .ledger-tag { color: var(--color-accent); }
+  .ledger-live .ledger-row::before {
+    content: "";
+    position: absolute;
+    left: -1.25rem;
+    top: 1.4rem;
+    width: 2px;
+    height: 0.9rem;
+    background: var(--color-accent);
+    transform: scaleY(0);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ledger-live .ledger-row[data-active]::before { transform: scaleY(1); }
+}
+
+/* Tonal step — one section per page sits a shade off the ground so
+   the scroll has rhythm without adding a single decoration. */
+.sec-tone {
+  background: color-mix(in srgb, var(--color-fg) 2.5%, var(--color-bg));
+}
+
+/* ── Specimen (components/Specimen.tsx) ─────────────────────────────
+   A DAW display: dark in both themes, DAW palette, mono labels. ──── */
+.specimen {
+  margin: 0;
+  border: 1px solid #262626;
+  border-radius: var(--radius-xl);
+  background: #0a0a0a;
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 60px -30px rgba(0, 0, 0, 0.6);
+}
+.specimen-bar,
+.specimen-cap {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 9px 14px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  background: #111111;
+}
+.specimen-bar { border-bottom: 1px solid #1f1f1f; }
+.specimen-cap {
+  border-top: 1px solid #1f1f1f;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  animation: specCap 0.35s ease both;
+}
+@keyframes specCap { from { opacity: 0; } to { opacity: 1; } }
+.specimen-scene { display: block; width: 100%; height: auto; animation: specCap 0.3s ease both; }
+.specimen-scene text {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: rgba(255, 255, 255, 0.42);
+}
+.specimen-scene .t-strong { fill: rgba(255, 255, 255, 0.88); }
+
+/* 01 stop */
+.sp1-ph   { animation: sp1-ph 3.6s linear infinite; }
+.sp1-stop { animation: sp1-stop 3.6s linear infinite; }
+@keyframes sp1-ph {
+  0%   { transform: translateX(0); }
+  62%  { transform: translateX(232px); }
+  68%  { transform: translateX(232px); }
+  69%  { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+@keyframes sp1-stop {
+  0%, 62%   { fill: rgba(255,255,255,0.5); }
+  63%, 70%  { fill: #ffffff; }
+  72%, 100% { fill: rgba(255,255,255,0.5); }
+}
+
+/* 02 latency */
+.sp2-take  { animation: sp2-take 3.6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.sp2-ghost { opacity: 0.45; animation: sp2-ghost 3.6s ease infinite; }
+.sp2-on    { animation: sp2-on 3.6s ease infinite; }
+@keyframes sp2-take {
+  0%, 32%   { transform: translateX(24px); }
+  52%, 100% { transform: translateX(0); }
+}
+@keyframes sp2-ghost {
+  0%, 32%   { opacity: 0; }
+  52%, 100% { opacity: 0.45; }
+}
+@keyframes sp2-on {
+  0%, 45%   { opacity: 0; }
+  60%, 100% { opacity: 1; }
+}
+
+/* 03 live edit */
+.sp3-ph  { animation: sp3-ph 3.2s linear infinite; }
+.sp3-hit { opacity: 0; animation: sp3-hit 3.2s linear infinite; }
+.sp3-del { opacity: 0; animation: sp3-del 3.2s linear infinite; }
+.sp3-mark { animation: sp3-mark 3.2s linear infinite; }
+@keyframes sp3-ph  { from { transform: translateX(0); } to { transform: translateX(312px); } }
+@keyframes sp3-hit { 0% { opacity: 0.6; } 9% { opacity: 0; } 100% { opacity: 0; } }
+@keyframes sp3-del { 0%, 30% { opacity: 1; } 31%, 100% { opacity: 0; } }
+@keyframes sp3-mark { 0%, 30% { opacity: 0; } 31%, 100% { opacity: 1; } }
+
+/* 04 gain — both meters share one animation, exactly. */
+.sp4-level { transform: scaleY(0.72); animation: sp4 1.9s ease-in-out infinite; }
+@keyframes sp4 {
+  0%   { transform: scaleY(0.62); }
+  22%  { transform: scaleY(0.8); }
+  45%  { transform: scaleY(0.58); }
+  70%  { transform: scaleY(0.76); }
+  100% { transform: scaleY(0.62); }
+}
+
+/* 05 bounce */
+.sp-flow  { stroke-dasharray: 3 5; animation: spFlow 0.9s linear infinite; }
+.sp5-fill { animation: sp5 3.6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes spFlow { to { stroke-dashoffset: -16; } }
+@keyframes sp5 {
+  0%        { transform: scaleX(0); }
+  60%, 100% { transform: scaleX(1); }
+}
+
+/* 06 cycle */
+.sp6-try   { opacity: 0.5; animation: sp6-try 3.6s ease infinite; }
+.sp6-x, .sp6-label { animation: sp6-x 3.6s ease infinite; }
+@keyframes sp6-try {
+  0%        { opacity: 0; stroke-dashoffset: 320; stroke-dasharray: 320 320; }
+  40%       { opacity: 1; stroke-dashoffset: 0; stroke-dasharray: 320 320; }
+  46%       { opacity: 1; stroke-dasharray: 4 4; }
+  60%, 100% { opacity: 0.5; stroke-dasharray: 4 4; }
+}
+@keyframes sp6-x {
+  0%, 42%   { opacity: 0; }
+  50%, 100% { opacity: 1; }
+}
+
+/* 07 relink */
+.sp7-bad  { opacity: 0; animation: sp7-bad 4s ease infinite; }
+.sp7-good { animation: sp7-good 4s ease infinite; }
+.sp7-btn  { animation: sp7-btn 4s ease infinite; }
+@keyframes sp7-bad  { 0%, 45% { opacity: 1; } 55%, 100% { opacity: 0; } }
+@keyframes sp7-good { 0%, 45% { opacity: 0; } 55%, 100% { opacity: 1; } }
+@keyframes sp7-btn  { 0%, 40% { fill: #7c3aed; } 45% { fill: #9257ff; } 52%, 100% { fill: #7c3aed; } }
+
+/* 08 compiler */
+.sp8-squig { animation: sp8-squig 3.6s ease infinite; }
+.sp8-err   { animation: sp8-err 3.6s ease infinite; }
+@keyframes sp8-squig { 0%, 25% { opacity: 0; } 35%, 100% { opacity: 1; } }
+@keyframes sp8-err   { 0%, 38% { opacity: 0; } 50%, 100% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .specimen *, .specimen-scene, .specimen-cap { animation: none !important; }
+}
+
+/* ── Plugin screenshots (pages/Plugins.tsx) — real editor captures,
+   shown no wider than their pixels so they never upscale soft. ──── */
+/* The PNG/WebP already carries the editor window's own 14px rounded
+   corners (AestraPanelWindow::kRadius) as transparency and its own 1px
+   border, so the page adds no frame. drop-shadow follows the alpha edge;
+   box-shadow would draw a square, or a mismatched radius once the image
+   scales down. */
+.plugin-shot {
+  margin: 0;
+}
+.plugin-shot img {
+  filter: drop-shadow(0 22px 40px rgba(0, 0, 0, 0.5));
+}
+[data-theme="light"] .plugin-shot img {
+  filter: drop-shadow(0 18px 34px rgba(24, 24, 27, 0.28));
+}
+.plugin-shot-pending {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  border: 1px dashed var(--color-border-2);
+  border-radius: var(--radius-xl);
+}
+
+/* FAQ disclosure mark — a drawn plus that becomes a minus. */
+.faq-row summary::-webkit-details-marker { display: none; }
+.faq-toggle {
+  position: relative;
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  color: var(--color-dim);
+}
+.faq-toggle::before,
+.faq-toggle::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.faq-toggle::before { left: 0; right: 0; top: 5px; height: 1px; }
+.faq-toggle::after  { top: 0; bottom: 0; left: 5px; width: 1px; }
+.faq-row[open] .faq-toggle::after { transform: scaleY(0); }
+.faq-row summary:hover .faq-toggle { color: var(--color-fg); }
+.faq-row summary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
 /* ── Subtle progress ──────────────────────────────────────────── */
 .progress-track {
   height: 4px;
@@ -447,3 +774,8 @@ body::after {
    still respect the user theme to avoid invisible black boxes on
    light mode. We use the .mock-bg / .mock-fg classes internally. ── */
 .mock-bg { background: var(--mock-bg, #0d0d12); color: var(--mock-fg, #fafafa); }
+
+/* MockTimeline clips under the playhead lift slightly while they sound.
+   Toggled from SessionLanes' animation frame, not React state. */
+.mt-clip { transition: filter 0.16s ease; }
+.mt-clip[data-hot] { filter: brightness(1.1); }
