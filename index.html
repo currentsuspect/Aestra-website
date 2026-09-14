@@ -7,7 +7,7 @@
   <!-- ===== Primary SEO ===== -->
   <title>Aestra — Make music, not excuses.</title>
   <meta name="title" content="Aestra — Make music, not excuses.">
-  <meta name="description" content="Aestra is an accessible, premium native digital audio workstation built around speed, stability, and producer-first workflow. Free core, no feature gates. Cross-platform: Windows, macOS, Linux.">
+  <meta name="description" content="Aestra is a native digital audio workstation for the person with something to say and a machine that isn't new. The whole DAW is free, eleven effects come in the box, and it's in alpha on Linux.">
   <meta name="keywords" content="DAW, digital audio workstation, free DAW, music production software, native DAW, producer workflow, VST3, CLAP, beat making, mixing software, recording software, music production, pattern sequencer, Aestra">
   <meta name="subject" content="Aestra — Native digital audio workstation">
   <meta name="abstract" content="A free digital audio workstation for producers. Fast to open, light on your laptop, every feature unlocked.">
@@ -62,7 +62,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Aestra">
   <meta property="og:title" content="Aestra — Make music, not excuses.">
-  <meta property="og:description" content="A DAW that keeps up with your ideas. Opens in a second, stays smooth on the laptop you own, and every feature is free. Windows, macOS, Linux.">
+  <meta property="og:description" content="Less distance between an idea and its sound. A native DAW with eleven effects in the box. Free, and in alpha on Linux.">
   <meta property="og:url" content="https://www.aestra.studio/">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="en_GB">
@@ -79,7 +79,7 @@
   <meta name="twitter:site" content="@aestrastudios">
   <meta name="twitter:creator" content="@aestrastudios">
   <meta name="twitter:title" content="Aestra — Make music, not excuses.">
-  <meta name="twitter:description" content="A DAW that keeps up with your ideas. Fast to open, light on your machine, free with nothing gated.">
+  <meta name="twitter:description" content="Less distance between an idea and its sound. A native DAW with eleven effects in the box. Free, and in alpha on Linux.">
   <meta name="twitter:image" content="https://www.aestra.studio/og-image.png">
   <meta name="twitter:image:alt" content="Aestra — a native digital audio workstation for producers">
   <meta name="twitter:image:width" content="1200">
@@ -118,7 +118,7 @@
 
   <!-- ===== Microsoft ===== -->
   <meta name="msapplication-config" content="/browserconfig.xml">
-  <meta name="msapplication-tooltip" content="Aestra — a DAW that keeps up with your ideas">
+  <meta name="msapplication-tooltip" content="Aestra — less distance between an idea and its sound">
   <meta name="msapplication-starturl" content="/">
   <meta name="msapplication-task" content="name=Pricing;action-uri=/pricing;icon-uri=/favicon-32.png">
   <meta name="msapplication-task" content="name=Download;action-uri=/download;icon-uri=/favicon-32.png">
@@ -208,26 +208,26 @@
         "url": "https://aestra.studio/",
         "applicationCategory": "MultimediaApplication",
         "applicationSubCategory": "Digital Audio Workstation",
-        "operatingSystem": "Windows, macOS, Linux",
-        "softwareVersion": "0.1.0",
+        "operatingSystem": "Linux",
+        "softwareVersion": "0.7.1-alpha",
         "datePublished": "2025-12-23",
         "dateModified": "2026-04-11",
         "downloadUrl": "https://aestra.studio/download",
-        "softwareRequirements": "Windows 10+, macOS 12+, or modern Linux",
+        "softwareRequirements": "Modern Linux. Windows is a committed beta platform; macOS is not supported before 2027. No installers yet: Aestra is source-available and builds from source during alpha.",
         "memoryRequirements": "4 GB RAM minimum, 8 GB recommended",
-        "processorRequirements": "x64 or Apple Silicon",
+        "processorRequirements": "x64",
         "storageRequirements": "500 MB available space",
         "screenshot": "https://aestra.studio/og-image.png",
         "featureList": [
           "Runs light on modest hardware",
           "Pattern-first workflow",
-          "VST3 & CLAP plugin hosting",
+          "VST3 & CLAP plugin hosting (partial, Linux only during alpha)",
           "Visual signal routing",
           "Audition mode (translation preview)",
           "Version control (Takes)",
           "Offline export & rendering",
-          "Built-in plugins: AestraEQ, AestraVerb, AestraComp, AestraDelay, AestraDrift, AestraFilter, AestraSat, AestraOTT, AestraLFO, AestraLimit",
-          "Cross-platform: Windows, macOS, Linux"
+          "Eleven built-in effects: Aestra EQ, Compressor, Verb, Delay, Limit, OTT, Transient, Sat, Filter, Drift and LFO",
+          "Built and tested on Linux; Windows is a committed beta platform"
         ],
         "offers": [
           {
@@ -281,7 +281,7 @@
               "name": "Aestra Verb",
               "description": "Algorithmic reverb with plate, hall, and room modes.",
               "applicationCategory": "MultimediaApplication",
-              "operatingSystem": "Windows, macOS, Linux",
+              "operatingSystem": "Linux",
               "isPartOf": { "@id": "https://aestra.studio/#software" }
             }
           },
@@ -293,7 +293,7 @@
               "name": "Aestra EQ",
               "description": "Parametric EQ with spectrum analyzer.",
               "applicationCategory": "MultimediaApplication",
-              "operatingSystem": "Windows, macOS, Linux",
+              "operatingSystem": "Linux",
               "isPartOf": { "@id": "https://aestra.studio/#software" }
             }
           },
@@ -305,7 +305,7 @@
               "name": "Aestra Comp",
               "description": "Bus and channel compression with visual gain reduction metering.",
               "applicationCategory": "MultimediaApplication",
-              "operatingSystem": "Windows, macOS, Linux",
+              "operatingSystem": "Linux",
               "isPartOf": { "@id": "https://aestra.studio/#software" }
             }
           }
@@ -343,7 +343,7 @@
             "name": "What platforms does Aestra support?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Aestra runs on Windows, macOS (Apple Silicon), and Linux (Ubuntu/Debian). It is the same DAW on all three, and it is built to stay responsive on modest machines rather than demanding a new one."
+              "text": "Linux is the platform Aestra is built and tested on today. Windows is a committed beta platform — the audio core compiles and passes tests there, but the desktop application does not build on Windows yet. macOS is not supported and is deferred to 2027. No platform has a downloadable build yet: Aestra is source-available and in alpha."
             }
           },
           {

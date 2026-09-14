@@ -105,7 +105,7 @@ export const PAGE_TITLES = asSEO({
 });
 
 export const PAGE_DESCRIPTIONS = asSEO({
-  home: "A DAW that keeps up with your ideas — built for modest machines, with a loop-first workflow and every core feature free. Make music, not excuses.",
+  home: "Less distance between an idea and its sound. Aestra is a native DAW for modest machines: the whole DAW is free, eleven effects come in the box, and it's in alpha on Linux. Make music, not excuses.",
   features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
   pricing: "Aestra pricing: free core DAW, Supporter at $5/month or $50/year funding the Native Suite and planned asynchronous Takes collaboration, and a fully digital $129 Founder offer.",
   changelog: "Track Aestra's development progress. New features, bug fixes, and improvements across every release.",
