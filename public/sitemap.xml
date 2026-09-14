@@ -17,7 +17,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://aestra.studio/"/>
     <image:image>
       <image:loc>https://aestra.studio/og-image.png</image:loc>
-      <image:title>Aestra — Make music, not excuses.</image:title>
+      <image:title>Aestra — A free, native DAW</image:title>
       <image:caption>Native C++ DAW for producers — free core, source-available</image:caption>
     </image:image>
   </url>

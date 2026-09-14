@@ -10,7 +10,7 @@
   "background_color": "#09090b",
   "theme_color": "#09090b",
   "description": "A native C++ digital audio workstation for producers. Free core, no feature gates, source-available.",
-  "long_name": "Aestra — Make music, not excuses.",
+  "long_name": "Aestra — A free, native DAW",
   "lang": "en-US",
   "dir": "ltr",
   "categories": ["music", "productivity", "utilities", "creativity", "entertainment"],

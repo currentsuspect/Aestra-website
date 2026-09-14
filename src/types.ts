@@ -87,7 +87,7 @@ export const PAGE_PATHS = asSEO({
 });
 
 export const PAGE_TITLES = asSEO({
-  home: "Aestra — Make music, not excuses.",
+  home: "Aestra — A free, native DAW",
   features: "Features — Aestra",
   pricing: "Pricing — Aestra",
   changelog: "Changelog — Aestra",

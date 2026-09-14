@@ -148,8 +148,8 @@ const assertHead = async (page, route) => {
     );
   }
 
-  if (route.path === "/" && !head.title.includes("Make music, not excuses.")) {
-    throw new Error("/: homepage title lost the required tagline");
+  if (route.path === "/" && !head.title.includes("A free, native DAW")) {
+    throw new Error("/: homepage title lost the required \"A free, native DAW\" title");
   }
 
   if (route.path === "/404" && head.robots !== "noindex, nofollow") {
