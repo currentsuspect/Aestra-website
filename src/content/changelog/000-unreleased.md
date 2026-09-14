@@ -1,9 +1,9 @@
 ---
 version: Unreleased
-date: Aug 2026 – present
+date: Sep 2026 – present
 status: active
 order: 0
 ---
-The next release's notes collect here as PRs merge.
+The next cycle is V8 UI groundwork so far: typed layout foundations going in beneath the panels, with one visible fix riding along.
 
-- **new**: Nothing tracked for this cycle yet.
+- **fix**: The EQ response reads as a real curve now, and the analyzer stops shouting.
