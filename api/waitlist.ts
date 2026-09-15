@@ -1,5 +1,4 @@
 import { waitUntil } from "@vercel/functions";
-import { checkBotId } from "botid/server";
 // The .js extension is required, not optional. package.json sets
 // "type": "module" and Vercel transpiles this function per-file rather than
 // bundling it, so Node's ESM resolver needs an explicit extension at runtime.
@@ -150,11 +149,6 @@ export default {
   async fetch(request: Request) {
     if (request.method !== "POST") {
       return json({ error: "Method not allowed" }, 405, { Allow: "POST" });
-    }
-
-    const verification = await checkBotId();
-    if (verification.isBot) {
-      return json({ error: "Access denied" }, 403);
     }
 
     const origin = request.headers.get("Origin");

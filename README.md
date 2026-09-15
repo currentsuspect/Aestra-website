@@ -29,7 +29,7 @@ This builds the real Vercel Function output and imports and invokes it. `tsc` ca
 
 ## Waitlist email
 
-All waitlist forms post to `/api/waitlist`. The endpoint verifies the browser with Vercel BotID, rejects obvious bot submissions with a honeypot and same-origin check, persists the email as a Resend Contact in the correct waitlist Segment, then queues an internal signup notification through Resend.
+All waitlist forms post to `/api/waitlist`. The endpoint rejects obvious bot submissions with a honeypot and same-origin check, persists the email as a Resend Contact in the correct waitlist Segment, then queues an internal signup notification through Resend.
 
 The Resend API key is server-side only and must never use a `VITE_` prefix. Because the endpoint manages Contacts and Segments as well as sending email, use a Resend key with **Full access**, not a sending-only key.
 
@@ -46,18 +46,13 @@ RESEND_FROM=Aestra <hello@aestra.studio> # optional; this is the default
 
 `hello@aestra.studio` must remain a verified Resend sender/domain for the default configuration to work.
 
-BotID reduces automated abuse. Rate limiting is a quota guard on top of it, and it lives on **Cloudflare**, not the Vercel WAF: `www.aestra.studio` is proxied by Cloudflare, so every request reaches Vercel from a Cloudflare edge IP. A Vercel rate-limit rule keyed on `ip` (or `ja4`, which fingerprints the Cloudflare-to-Vercel handshake) would count unrelated users against one another and throttle real traffic.
+Abuse protection is the honeypot + same-origin check in the function plus rate limiting, which lives on **Cloudflare**, not the Vercel WAF: `www.aestra.studio` is proxied by Cloudflare, so every request reaches Vercel from a Cloudflare edge IP. A Vercel rate-limit rule keyed on `ip` (or `ja4`, which fingerprints the Cloudflare-to-Vercel handshake) would count unrelated users against one another and throttle real traffic. (Vercel BotID was removed 2026-09-15 for the same reason: its server-side verdict fingerprints the connection Vercel sees, which is Cloudflare's — not the visitor's — so it rejected every signup, human or bot.)
 
 The live rule is on `aestra.studio` under Security -> WAF -> Rate limiting rules: `POST` to `/api/waitlist` on host `www.aestra.studio`, 10 requests per 10 minutes per IP.
 
 ## Routing
 
-`vercel.json` rewrites are evaluated **in array order, first match wins**, and that ordering is load-bearing:
-
-1. the two BotID proxy rewrites (the `/149e9513-.../2d206a39-...` paths)
-2. the SPA catch-all to `/index.html`
-
-The catch-all's negative-lookahead regex does not exclude the BotID paths, so it only stays out of their way because it is listed last. Move it above them and the bot-protection challenge script starts returning `index.html`, which disables BotID silently — the endpoint keeps working, so nothing fails loudly. Keep the catch-all last when editing `vercel.json`.
+`vercel.json` rewrites are evaluated **in array order, first match wins**. The `/login`, `/account`, and `/recovery` entries map SPA routes to `/index.html`; keep route-specific rewrites above any future catch-all.
 
 ## Deploy
 
