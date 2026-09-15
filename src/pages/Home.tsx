@@ -145,8 +145,8 @@ const Details = memo(({ setPage }: PageProps) => {
                 Small things, done correctly.
               </h2>
               <p className="mt-6 text-muted text-base sm:text-[17px] leading-relaxed max-w-md">
-                Nobody lists these on a feature page. They're the difference between
-                software you trust and software you work around.
+                Thoughtful behaviors that keep your session flowing, so the DAW
+                stays out of your way.
               </p>
               <div className="hidden lg:block mt-10">
                 <Specimen index={active} tag={DETAILS[active].where} />
