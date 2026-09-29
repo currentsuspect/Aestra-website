@@ -56,7 +56,26 @@ const git = (...args) => {
 /* A lastmod is only worth sending when it is true. A shallow clone (as on
    some CI) dates every file to the tip commit, so there we omit it rather
    than tell crawlers everything changed today. */
+const REPO_URL = "https://github.com/currentsuspect/Aestra-website.git";
+let historyChecked = false;
+const ensureHistory = () => {
+  if (historyChecked) return;
+  historyChecked = true;
+  if (git("rev-parse", "--is-shallow-repository") !== "true") return;
+  // Hosted builds clone shallow. Commit and tree history is enough for
+  // `git log -- path`, so fetch that without file contents.
+  try {
+    execFileSync("git", ["fetch", "--quiet", "--unshallow", "--filter=blob:none", REPO_URL], {
+      stdio: "ignore",
+      timeout: 60_000,
+    });
+  } catch {
+    /* no network or no git: lastmod is omitted below */
+  }
+};
+
 const lastModified = (route) => {
+  ensureHistory();
   if (git("rev-parse", "--is-shallow-repository") !== "false") return null;
   const date = git("log", "-1", "--format=%cI", "--", ...(ROUTE_SOURCES[route] ?? []));
   return date ? date.slice(0, 10) : null;
