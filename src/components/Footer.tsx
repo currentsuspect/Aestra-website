@@ -18,6 +18,7 @@ const InternalLink = ({
   <a
     href={to}
     onClick={(e) => {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
       setPage(stripLeading(to));
     }}
@@ -80,6 +81,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
             <nav aria-label="Product links">
               <ul className="space-y-2 text-sm text-muted">
                 <li><InternalLink to="/features" setPage={setPage} className="hover:text-fg transition-colors">Features</InternalLink></li>
+                <li><InternalLink to="/plugins" setPage={setPage} className="hover:text-fg transition-colors">Plugins</InternalLink></li>
                 <li><InternalLink to="/pricing" setPage={setPage} className="hover:text-fg transition-colors">Pricing</InternalLink></li>
                 <li><InternalLink to="/changelog" setPage={setPage} className="hover:text-fg transition-colors">Changelog</InternalLink></li>
                 <li><InternalLink to="/download" setPage={setPage} className="hover:text-fg transition-colors">Download</InternalLink></li>

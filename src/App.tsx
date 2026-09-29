@@ -119,24 +119,18 @@ export const App = () => {
     }
     canonical.setAttribute("href", url);
 
-    // Only inject per-page structured data when not on the home page,
-    // because index.html already provides the full home graph (@graph).
-    // This avoids the duplicate BreadcrumbList / WebPage that previously
-    // appeared on the home page.
-    if (pageId !== "home") {
-      const pageStructuredData = buildPageStructuredData(pageId, sectionTitle, url);
-      let ldScript = document.getElementById("page-structured-data") as HTMLScriptElement | null;
-      if (!ldScript) {
-        ldScript = document.createElement("script");
-        ldScript.type = "application/ld+json";
-        ldScript.id = "page-structured-data";
-        document.head.appendChild(ldScript);
-      }
-      ldScript.textContent = JSON.stringify(pageStructuredData);
-    } else {
-      const existing = document.getElementById("page-structured-data");
-      if (existing) existing.remove();
+    // Every page, home included, gets its own graph: the static graph in
+    // index.html carries only what is true on every page (site, studio,
+    // founder), so nothing here repeats it.
+    const pageStructuredData = buildPageStructuredData(pageId, sectionTitle, url);
+    let ldScript = document.getElementById("page-structured-data") as HTMLScriptElement | null;
+    if (!ldScript) {
+      ldScript = document.createElement("script");
+      ldScript.type = "application/ld+json";
+      ldScript.id = "page-structured-data";
+      document.head.appendChild(ldScript);
     }
+    ldScript.textContent = JSON.stringify(pageStructuredData);
   }, [page]);
 
   // Track whether the next page change is the result of a popstate (back/forward).

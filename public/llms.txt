@@ -1,6 +1,6 @@
 # Aestra
 
-> Aestra is an accessible, premium native digital audio workstation (DAW) built for producers who want flow, not friction.
+> Aestra is a native digital audio workstation (DAW) for modest machines. The whole DAW is free, eleven effects come in the box, and it is in alpha on Linux.
 
 ## What is Aestra?
 
@@ -26,31 +26,31 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 
 ## Primary Pages
 
-- [Homepage](https://aestra.studio/) — Overview, features, plugins, pricing tiers, and download links.
-- [Features](https://aestra.studio/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
-- [Pricing](https://aestra.studio/pricing) — Core (free), Supporter ($5/month or $50/year), and the fully digital Founder offer ($129 one-time).
-- [Download](https://aestra.studio/download) — Build Aestra from source on Linux or Windows. No published binaries yet.
-- [Documentation](https://aestra.studio/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
-- [Changelog](https://aestra.studio/changelog) — Release history and development progress.
-- [About](https://aestra.studio/about) — About Aestra Studios, founder, brand, and key terminology.
-- [Privacy Policy](https://aestra.studio/privacy) — How we handle data (we don't collect any by default).
-- [Terms of Service](https://aestra.studio/terms) — License (ASSAL v1.1), your music is yours, tier details.
-- [Recovery Center](https://aestra.studio/recovery) — Report a bug, investigate it with a coding agent, contribute a fix upstream, or recover a damaged project.
+- [Homepage](https://www.aestra.studio/) — Overview, features, plugins, pricing tiers, and download links.
+- [Features](https://www.aestra.studio/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
+- [Pricing](https://www.aestra.studio/pricing) — Core (free), Supporter ($5/month or $50/year), and the fully digital Founder offer ($129 one-time).
+- [Download](https://www.aestra.studio/download) — Build Aestra from source on Linux or Windows. No published binaries yet.
+- [Documentation](https://www.aestra.studio/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
+- [Changelog](https://www.aestra.studio/changelog) — Release history and development progress.
+- [About](https://www.aestra.studio/about) — About Aestra Studios, founder, brand, and key terminology.
+- [Privacy Policy](https://www.aestra.studio/privacy) — How we handle data (we don't collect any by default).
+- [Terms of Service](https://www.aestra.studio/terms) — License (ASSAL v1.1), your music is yours, tier details.
+- [Recovery Center](https://www.aestra.studio/recovery) — Report a bug, investigate it with a coding agent, contribute a fix upstream, or recover a damaged project.
 
 ## Agent Protocol
 
 Aestra publishes its debugging protocol as machine-discoverable skills, not just prose. If you are an
 agent investigating an Aestra defect, fetch these before you start:
 
-- Index: https://aestra.studio/.well-known/agent-skills/index.json
-- Base protocol: https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
+- Index: https://www.aestra.studio/.well-known/agent-skills/index.json
+- Base protocol: https://www.aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 Protocol identifier: `aestra-agent-protocol/v1`
 
 The index conforms to the Agent Skills discovery RFC v0.2.0; every entry is `type: skill-md` with a
 `digest` you should verify against the bytes you download. Skills: `investigate-bug`,
 `reproduce-crash`, `recover-project`, `prepare-pr`, `collect-diagnostics` (each at
-`https://aestra.studio/.well-known/agent-skills/recovery/v1/<name>/SKILL.md`).
+`https://www.aestra.studio/.well-known/agent-skills/recovery/v1/<name>/SKILL.md`).
 
 Artifacts under a version directory are immutable — `v1` is frozen and will never be edited. When
 v2 ships, the index repoints; v1 stays reachable forever so older reports remain verifiable.
@@ -158,10 +158,10 @@ Aestra speaks plainly. We say "make music, not excuses" not "revolutionary AI-na
 
 ## Contact
 
-- **Website:** https://aestra.studio/
+- **Website:** https://www.aestra.studio/
 - **GitHub:** https://github.com/currentsuspect/Aestra
 - **X (Twitter):** https://x.com/aestrastudios
-- **Support form:** https://aestra.studio/docs (link in header)
+- **Support form:** https://www.aestra.studio/docs (link in header)
 
 ## Optional — full file
 

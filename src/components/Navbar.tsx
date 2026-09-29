@@ -8,6 +8,14 @@ import type { NavbarProps } from "../types";
 
 const MENU_ID = "mobile-menu";
 
+/* Real links, so crawlers and middle-clicks can follow them; a plain left
+   click still navigates in place without a reload. */
+const spaNavigate = (e: React.MouseEvent<HTMLAnchorElement>, go: () => void) => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  go();
+};
+
 export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -117,8 +125,9 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
       aria-label="Main navigation"
     >
       <div className="max-w-[1320px] mx-auto px-5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-6">
-        <button
-          onClick={() => setPage("home")}
+        <a
+          href="/"
+          onClick={(e) => spaNavigate(e, () => setPage("home"))}
           className="flex items-center gap-2.5 group"
           aria-label="Aestra — home"
         >
@@ -128,23 +137,24 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
             className="w-6 h-6"
           />
           <span className="text-[16px] font-extrabold text-fg lowercase tracking-[-0.01em] [font-stretch:125%]">aestra</span>
-        </button>
+        </a>
 
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
-            <button
+            <a
               key={link.id}
-              onClick={() => setPage(link.id)}
+              href={`/${link.id}`}
+              onClick={(e) => spaNavigate(e, () => setPage(link.id))}
               aria-current={activePage === link.id ? "page" : undefined}
               className={cn(
-                "px-3 h-8 font-mono text-[11px] uppercase tracking-[0.06em] transition-colors border-b",
+                "px-3 h-8 inline-flex items-center font-mono text-[11px] uppercase tracking-[0.06em] transition-colors border-b",
                 activePage === link.id
                   ? "text-fg border-fg"
                   : "text-muted border-transparent hover:text-fg"
               )}
             >
               {link.name}
-            </button>
+            </a>
           ))}
         </div>
 
@@ -204,9 +214,11 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
       >
         <div className="px-5 py-3 space-y-1">
           {navLinks.map((link) => (
-            <button
+            <a
               key={link.id}
-              onClick={() => { setPage(link.id); closeMobile(false); }}
+              href={`/${link.id}`}
+              tabIndex={mobileOpen ? undefined : -1}
+              onClick={(e) => spaNavigate(e, () => { setPage(link.id); closeMobile(false); })}
               aria-current={activePage === link.id ? "page" : undefined}
               className={cn(
                 "w-full text-left px-3 py-2.5 rounded-md text-sm transition-colors min-h-[40px] flex items-center",
@@ -216,7 +228,7 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
               )}
             >
               {link.name}
-            </button>
+            </a>
           ))}
           <div className="flex pt-3">
             <Button size="md" onClick={() => { onEarlyAccess?.(); closeMobile(false); }} className="w-full">

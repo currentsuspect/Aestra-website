@@ -108,7 +108,7 @@ export const PAGE_DESCRIPTIONS = asSEO({
   home: "Less distance between an idea and its sound. Aestra is a native DAW for modest machines: the whole DAW is free, eleven effects come in the box, and it's in alpha on Linux. Make music, not excuses.",
   features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
   pricing: "Aestra pricing: free core DAW, Supporter at $5/month or $50/year funding the Native Suite and planned asynchronous Takes collaboration, and a fully digital $129 Founder offer.",
-  changelog: "Track Aestra's development progress. New features, bug fixes, and improvements across every release.",
+  changelog: "Every Aestra release laid out like a session: what's new, fixed and faster in each version, with an animated preview of every change since v0.7.0.",
   docs: "Aestra documentation: patch recipes, signal flow guides, persona tracks, troubleshooting, and command palette reference.",
   download: "Build Aestra from source on Linux or Windows. Pre-alpha, source-available, no published binaries yet.",
   plugins: "Eleven effects free in every copy of Aestra: EQ, Compressor, Verb, Delay, Limit, OTT, Transient, Sat, Filter, Drift and LFO, shown as they look in the current build.",
@@ -190,7 +190,7 @@ export const PAGE_ROBOTS = asSEO({
   terms: "index, follow, max-snippet:-1",
   about: "index, follow",
   roadmap: "index, follow, max-snippet:-1",
-  recovery: "noindex, nofollow",
+  recovery: "index, follow, max-snippet:-1",
   "404": "noindex, nofollow",
 });
 
