@@ -14,47 +14,54 @@
    Dark mode default; light mode activates via [data-theme="light"].
    ───────────────────────────────────────────────────────────────── */
 @theme {
-  /* Surfaces */
-  --color-bg:           #0a0a0b;
-  --color-bg-elev:      #0f0f12;
-  --color-surface:      #131316;
-  --color-surface-2:    #18181c;
-  --color-surface-3:    #1f1f24;
+  /* Ember — the same warm black the DAW ships (NUIThemeSystem.cpp). The
+     site's ground sits one step above the app's timeline bed. */
+  --color-bg:           #100e0d;
+  --color-bg-elev:      #141210;
+  --color-surface:      #1a1815;
+  --color-surface-2:    #1f1c19;
+  --color-surface-3:    #25221f;
 
   /* Borders */
-  --color-border:       #1f1f24;
-  --color-border-2:     #2a2a31;
-  --color-border-3:     #3a3a42;
+  --color-border:       #2c2824;
+  --color-border-2:     #3d3833;
+  --color-border-3:     #57514a;
 
-  /* Foreground / text */
-  --color-fg:           #fafafa;
-  --color-fg-muted:     #d4d4d8;
-  --color-muted:        #a1a1aa;
-  --color-dim:          #888892;
-  --color-faint:        #52525b;
-  --color-on-accent:    #0a0a0b;
+  /* Foreground / text — the DAW's text tiers */
+  --color-fg:           #eee9e1;
+  --color-fg-muted:     #d5cfc5;
+  --color-muted:        #aca397;
+  --color-dim:          #9e968b;
+  --color-faint:        #6e675e;
+  --color-on-accent:    #100e0d;  /* ink on the light fg fill (primary button) and on violet */
 
-  /* Brand accent (unchanged in both themes) */
+  /* Brand violet: the one cool colour on a warm ground */
   --color-accent:       #8b5cf6;
-  --color-accent-hover: #a78bfa;
-  --color-accent-soft:  #8b5cf61a;
+  --color-accent-hover: #a88dfb;
+  --color-accent-soft:  #8b5cf61f;
   --color-accent-2:     #7c3aed;
 
-  /* Semantic */
-  --color-success:      #22c55e;
-  --color-warn:         #f59e0b;
-  --color-error:        #ef4444;
+  /* Semantic (status only) — Ember's success / warning / error */
+  --color-success:      #5cc98a;
+  --color-warn:         #f3a93b;
+  --color-error:        #ff6b4f;
 
-  /* Typography */
-  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* The DAW itself: the mock and specimens stay in the app's own world in
+     both site themes. */
+  --color-daw-bed:      #0c0b0a;
+  --color-daw-panel:    #141210;
+
+  /* Typography: Archivo carries the site (condensed caps for display, the
+     normal width for reading); JetBrains Mono labels and readouts. */
+  --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Radii — tighter than Tailwind defaults. Pro-audio UIs run sharp
      corners; the softness of stock rounded-2xl reads consumer-SaaS. */
   --radius-md:  3px;
-  --radius-lg:  5px;
-  --radius-xl:  7px;
-  --radius-2xl: 10px;
+  --radius-lg:  4px;
+  --radius-xl:  5px;
+  --radius-2xl: 7px;
 }
 
 :root {
@@ -65,36 +72,36 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  /* Surfaces — warm off-white with subtle warmth */
-  --color-bg:           #fafaf7;
-  --color-bg-elev:      #ffffff;
-  --color-surface:      #f4f4f0;
-  --color-surface-2:    #ececea;
-  --color-surface-3:    #e4e4df;
+  /* Paper — a cool manual grey, not cream */
+  --color-bg:           #e3e4e6;
+  --color-bg-elev:      #eceef0;
+  --color-surface:      #d8d9dc;
+  --color-surface-2:    #cfd1d4;
+  --color-surface-3:    #c5c7cb;
 
-  /* Borders — soft, low contrast */
-  --color-border:       #e4e4df;
-  --color-border-2:     #d4d4cf;
-  --color-border-3:     #a1a1aa;
+  /* Borders */
+  --color-border:       #c2c4c8;
+  --color-border-2:     #b3b5ba;
+  --color-border-3:     #8a8c92;
 
-  /* Foreground / text */
-  --color-fg:           #18181b;
-  --color-fg-muted:     #3f3f46;
-  --color-muted:        #52525b;
-  --color-dim:          #5a5a62;
-  --color-faint:        #a1a1aa;
+  /* Ink */
+  --color-fg:           #121315;
+  --color-fg-muted:     #2d2f33;
+  --color-muted:        #4a4c52;
+  --color-dim:          #55575d;
+  --color-faint:        #7b7d83;
   --color-on-accent:    #ffffff;
 
-  /* Accent — slightly darker in light for better text contrast */
-  --color-accent:       #7c3aed;
-  --color-accent-hover: #6d28d9;
-  --color-accent-soft:  #7c3aed1a;
+  /* Accent — deeper on paper for text contrast */
+  --color-accent:       #6a4de4;
+  --color-accent-hover: #5638cf;
+  --color-accent-soft:  #6a4de41f;
   --color-accent-2:     #5b21b6;
 
-  /* Semantic — darker variants for AA contrast on warm off-white */
-  --color-success:      #15803d;
-  --color-warn:         #b45309;
-  --color-error:        #b91c1c;
+  /* Semantic — darker variants for AA on paper */
+  --color-success:      #0f7a4d;
+  --color-warn:         #9a5c00;
+  --color-error:        #b3261e;
 
   /* Light-mode color contrast overrides for Tailwind utilities.
      On #fafaf7, the -300/-400 shades are too light to meet WCAG AA.
@@ -182,10 +189,10 @@ body::after {
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 160px 160px;
-  opacity: 0.028;
+  opacity: 0.018;
 }
 [data-theme="light"] body::after {
-  opacity: 0.02;
+  opacity: 0.012;
 }
 
 /* ── Reduced motion ───────────────────────────────────────────── */
@@ -397,25 +404,32 @@ body::after {
 }
 
 /* ── Display headlines ────────────────────────────────────────── */
-.display {
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
+/* Display type is the Manual's: Archivo at its narrowest width, heavy and
+   upper-case, set tight. It carries the personality; everything else reads
+   in Archivo at normal width. */
+.display,
+.display-2 {
+  font-stretch: 62%;
+  font-weight: 800;
+  text-transform: uppercase;
   color: var(--color-fg);
+  text-wrap: balance;
+}
+.display {
+  letter-spacing: -0.02em;
+  line-height: 0.86;
 }
 .display-2 {
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  color: var(--color-fg);
+  letter-spacing: -0.012em;
+  line-height: 0.9;
 }
 
 /* ── Hero title — one fluid size instead of five breakpoint jumps,
    so the line breaks are decided by the measure, not by luck. ──── */
 .hero-title {
-  font-size: clamp(2.5rem, 1.2rem + 5.4vw, 5.75rem);
-  line-height: 1.0;
-  letter-spacing: -0.045em;
+  font-size: clamp(3.4rem, 1.4rem + 8.6vw, 10.5rem);
+  line-height: 0.84;
+  letter-spacing: -0.02em;
 }
 
 /* ── Quiet link — underline sits low and brightens on hover. No
@@ -520,171 +534,10 @@ body::after {
   .price-row > dd:first-of-type { grid-column: 1 / -1; grid-row: 2; }
 }
 
-/* Live ledger — on wide screens the row driving the Specimen is lit
-   and the rest step back. Below lg there is no specimen, so nothing
-   dims. */
-.ledger-row { position: relative; }
-.ledger-row .ledger-index,
-.ledger-row .ledger-line,
-.ledger-row .ledger-tag { transition: color 0.25s ease; }
-@media (min-width: 1024px) {
-  .ledger-live .ledger-row .ledger-line { color: var(--color-muted); }
-  .ledger-live .ledger-row[data-active] .ledger-line { color: var(--color-fg); }
-  .ledger-live .ledger-row[data-active] .ledger-index,
-  .ledger-live .ledger-row[data-active] .ledger-tag { color: var(--color-accent); }
-  .ledger-live .ledger-row::before {
-    content: "";
-    position: absolute;
-    left: -1.25rem;
-    top: 1.4rem;
-    width: 2px;
-    height: 0.9rem;
-    background: var(--color-accent);
-    transform: scaleY(0);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .ledger-live .ledger-row[data-active]::before { transform: scaleY(1); }
-}
-
 /* Tonal step — one section per page sits a shade off the ground so
    the scroll has rhythm without adding a single decoration. */
 .sec-tone {
   background: color-mix(in srgb, var(--color-fg) 2.5%, var(--color-bg));
-}
-
-/* ── Specimen (components/Specimen.tsx) ─────────────────────────────
-   A DAW display: dark in both themes, DAW palette, mono labels. ──── */
-.specimen {
-  margin: 0;
-  border: 1px solid #262626;
-  border-radius: var(--radius-xl);
-  background: #0a0a0a;
-  overflow: hidden;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 60px -30px rgba(0, 0, 0, 0.6);
-}
-.specimen-bar,
-.specimen-cap {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 9px 14px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  background: #111111;
-}
-.specimen-bar { border-bottom: 1px solid #1f1f1f; }
-.specimen-cap {
-  border-top: 1px solid #1f1f1f;
-  text-transform: none;
-  letter-spacing: 0.01em;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-  animation: specCap 0.35s ease both;
-}
-@keyframes specCap { from { opacity: 0; } to { opacity: 1; } }
-.specimen-scene { display: block; width: 100%; height: auto; animation: specCap 0.3s ease both; }
-.specimen-scene text {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  fill: rgba(255, 255, 255, 0.42);
-}
-.specimen-scene .t-strong { fill: rgba(255, 255, 255, 0.88); }
-
-/* 01 stop */
-.sp1-ph   { animation: sp1-ph 3.6s linear infinite; }
-.sp1-stop { animation: sp1-stop 3.6s linear infinite; }
-@keyframes sp1-ph {
-  0%   { transform: translateX(0); }
-  62%  { transform: translateX(232px); }
-  68%  { transform: translateX(232px); }
-  69%  { transform: translateX(0); }
-  100% { transform: translateX(0); }
-}
-@keyframes sp1-stop {
-  0%, 62%   { fill: rgba(255,255,255,0.5); }
-  63%, 70%  { fill: #ffffff; }
-  72%, 100% { fill: rgba(255,255,255,0.5); }
-}
-
-/* 02 latency */
-.sp2-take  { animation: sp2-take 3.6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
-.sp2-ghost { opacity: 0.45; animation: sp2-ghost 3.6s ease infinite; }
-.sp2-on    { animation: sp2-on 3.6s ease infinite; }
-@keyframes sp2-take {
-  0%, 32%   { transform: translateX(24px); }
-  52%, 100% { transform: translateX(0); }
-}
-@keyframes sp2-ghost {
-  0%, 32%   { opacity: 0; }
-  52%, 100% { opacity: 0.45; }
-}
-@keyframes sp2-on {
-  0%, 45%   { opacity: 0; }
-  60%, 100% { opacity: 1; }
-}
-
-/* 03 live edit */
-.sp3-ph  { animation: sp3-ph 3.2s linear infinite; }
-.sp3-hit { opacity: 0; animation: sp3-hit 3.2s linear infinite; }
-.sp3-del { opacity: 0; animation: sp3-del 3.2s linear infinite; }
-.sp3-mark { animation: sp3-mark 3.2s linear infinite; }
-@keyframes sp3-ph  { from { transform: translateX(0); } to { transform: translateX(312px); } }
-@keyframes sp3-hit { 0% { opacity: 0.6; } 9% { opacity: 0; } 100% { opacity: 0; } }
-@keyframes sp3-del { 0%, 30% { opacity: 1; } 31%, 100% { opacity: 0; } }
-@keyframes sp3-mark { 0%, 30% { opacity: 0; } 31%, 100% { opacity: 1; } }
-
-/* 04 gain — both meters share one animation, exactly. */
-.sp4-level { transform: scaleY(0.72); animation: sp4 1.9s ease-in-out infinite; }
-@keyframes sp4 {
-  0%   { transform: scaleY(0.62); }
-  22%  { transform: scaleY(0.8); }
-  45%  { transform: scaleY(0.58); }
-  70%  { transform: scaleY(0.76); }
-  100% { transform: scaleY(0.62); }
-}
-
-/* 05 bounce */
-.sp-flow  { stroke-dasharray: 3 5; animation: spFlow 0.9s linear infinite; }
-.sp5-fill { animation: sp5 3.6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
-@keyframes spFlow { to { stroke-dashoffset: -16; } }
-@keyframes sp5 {
-  0%        { transform: scaleX(0); }
-  60%, 100% { transform: scaleX(1); }
-}
-
-/* 06 cycle */
-.sp6-try   { opacity: 0.5; animation: sp6-try 3.6s ease infinite; }
-.sp6-x, .sp6-label { animation: sp6-x 3.6s ease infinite; }
-@keyframes sp6-try {
-  0%        { opacity: 0; stroke-dashoffset: 320; stroke-dasharray: 320 320; }
-  40%       { opacity: 1; stroke-dashoffset: 0; stroke-dasharray: 320 320; }
-  46%       { opacity: 1; stroke-dasharray: 4 4; }
-  60%, 100% { opacity: 0.5; stroke-dasharray: 4 4; }
-}
-@keyframes sp6-x {
-  0%, 42%   { opacity: 0; }
-  50%, 100% { opacity: 1; }
-}
-
-/* 07 relink */
-.sp7-bad  { opacity: 0; animation: sp7-bad 4s ease infinite; }
-.sp7-good { animation: sp7-good 4s ease infinite; }
-.sp7-btn  { animation: sp7-btn 4s ease infinite; }
-@keyframes sp7-bad  { 0%, 45% { opacity: 1; } 55%, 100% { opacity: 0; } }
-@keyframes sp7-good { 0%, 45% { opacity: 0; } 55%, 100% { opacity: 1; } }
-@keyframes sp7-btn  { 0%, 40% { fill: #7c3aed; } 45% { fill: #9257ff; } 52%, 100% { fill: #7c3aed; } }
-
-/* 08 compiler */
-.sp8-squig { animation: sp8-squig 3.6s ease infinite; }
-.sp8-err   { animation: sp8-err 3.6s ease infinite; }
-@keyframes sp8-squig { 0%, 25% { opacity: 0; } 35%, 100% { opacity: 1; } }
-@keyframes sp8-err   { 0%, 38% { opacity: 0; } 50%, 100% { opacity: 1; } }
-
-@media (prefers-reduced-motion: reduce) {
-  .specimen *, .specimen-scene, .specimen-cap { animation: none !important; }
 }
 
 /* ── Plugin screenshots (pages/Plugins.tsx) — real editor captures,
@@ -769,13 +622,65 @@ body::after {
 .flow-svg .fill-fg         { fill: var(--color-fg); }
 .flow-svg .fill-fg-muted   { fill: var(--color-fg-muted); }
 
-/* ── MockTimeline: theme-aware hardcoded colors. The DAW is a
-   dark-styled component on purpose, but the deepest surface must
-   still respect the user theme to avoid invisible black boxes on
-   light mode. We use the .mock-bg / .mock-fg classes internally. ── */
-.mock-bg { background: var(--mock-bg, #0d0d12); color: var(--mock-fg, #fafafa); }
+/* ── Ember mock (the DAW, recreated) ─────────────────────────────
+   Numbered badges mark the parts the Home list describes; hovering a
+   part in that list lights its region with the brand violet. The mock
+   is the DAW's own dark world in both site themes. */
+.ember-mock .mock-badge {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 5;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  display: grid;
+  place-items: center;
+  font: 600 9px/1 var(--font-mono);
+  color: #0c0b0a;
+  background: #eee9e1;
+  box-shadow: 0 0 0 2px #0c0b0a;
+  pointer-events: none;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.ember-mock [data-part][data-hot] {
+  outline: 2px solid #a88dfb;
+  outline-offset: 1px;
+  border-radius: 3px;
+  z-index: 4;
+}
+.ember-mock [data-part][data-hot] > .mock-badge,
+.ember-mock [data-part][data-hot] .mock-badge-in {
+  background: #a88dfb;
+  transform: scale(1.15);
+}
+.ember-mock .mock-pos i { font-style: normal; color: #857d72; margin: 0 1px; }
 
-/* MockTimeline clips under the playhead lift slightly while they sound.
-   Toggled from SessionLanes' animation frame, not React state. */
-.mt-clip { transition: filter 0.16s ease; }
-.mt-clip[data-hot] { filter: brightness(1.1); }
+/* ── Changelog arrangement ──────────────────────────────────────── */
+.clx-wrap { overflow-x: auto; border: 1px solid var(--color-fg); background: #000; }
+.clx { min-width: 980px; display: grid; grid-template-columns: 124px 1fr; color: #d9d3c9; }
+.clx-compact { min-width: 680px; }
+.clx-lanes { background: #0c0b0a; border-right: 1px solid #2e2a26; }
+.clx-lanes-head { height: 50px; display: flex; align-items: center; padding: 0 12px; font: 500 10px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: #6e675e; border-bottom: 1px solid #1a1714; }
+.clx-lane-name { position: relative; height: 44px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; border-bottom: 1px solid #1a1714; }
+.clx-lane-name::before { content: ""; position: absolute; left: 0; top: 3px; bottom: 3px; width: 2px; background: var(--c); }
+.clx-cols { display: flex; min-width: 0; }
+.clx-col { flex: 3 1 0; min-width: 0; border-right: 1px solid #221e1b; }
+.clx-col[data-sel] { background: rgba(139, 92, 246, 0.07); }
+.clx-loc { all: unset; box-sizing: border-box; cursor: pointer; display: block; width: 100%; height: 50px; padding: 6px 8px 0; border-bottom: 1px solid #7c3aed; background: #0e0c0b; }
+.clx-loc:focus-visible { outline: 2px solid #a88dfb; outline-offset: -2px; }
+.clx-loc span { display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 1px 5px; background: #8b5cf6; color: #0b0714; font: 600 10px var(--font-mono); }
+.clx-col[data-sel] .clx-loc span { background: #e6e0ff; }
+.clx-loc small { display: block; margin-top: 5px; font: 400 10px var(--font-mono); color: #6e675e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.clx-cell { height: 44px; padding: 2px 1px; border-bottom: 1px solid #1a1714; }
+.clx-clip { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; width: 100%; height: 100%; background: var(--c); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2); outline: 0 solid #eee9e1; outline-offset: -1px; }
+.clx-clip:hover { filter: brightness(1.12); }
+.clx-clip:focus-visible, .clx-clip[data-sel] { outline-width: 2px; }
+.clx-h { display: flex; align-items: center; gap: 5px; padding: 2px 5px; font: 600 10px var(--font-sans); color: var(--ink); white-space: nowrap; overflow: hidden; }
+.clx-h::before { content: ""; flex: none; width: 8px; height: 6px; background: repeating-linear-gradient(var(--ink) 0 1.2px, transparent 1.2px 2.4px); opacity: 0.85; }
+.clx-w { position: relative; flex: 1; margin: 0 4px 3px; }
+.clx-w::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--ink); opacity: 0.35; }
+.clx-w i { position: absolute; top: 12%; bottom: 12%; width: 2px; margin-left: -1px; background: var(--ink); opacity: 0.85; }
+.clx-rec .clx-h::before { width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d; animation: clxBlink 1.2s steps(2) infinite; }
+.clx-rec .clx-h::after { content: "REC"; margin-left: auto; font: 600 9px var(--font-mono); color: #ff8a7a; }
+@keyframes clxBlink { 50% { opacity: 0.25; } }

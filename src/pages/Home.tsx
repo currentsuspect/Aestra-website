@@ -1,45 +1,34 @@
-import React, { useState, useEffect, useRef, memo, lazy, Suspense } from "react";
+import React, { useState, memo, lazy, Suspense } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
-import { PianoGrid } from "../components/PianoGrid";
-import { Specimen } from "../components/Specimen";
 import { useToast } from "../components/Toast";
 import { EMAIL_RE } from "../../shared/waitlist";
 import { RELEASES } from "../changelogData";
+import { ChangelogArrangement, CHANGELOG_SELECT_KEY, type ArrangementSelection } from "../components/ChangelogArrangement";
+import type { MockPart } from "../components/mock/EmberMock";
 import type { PageProps } from "../types";
 
 /* ─────────────────────────────────────────────────────────────────
-   Home — the first encounter with Aestra.
+   Home — the first encounter with Aestra, set as a manual.
 
    The page does not describe care; it demonstrates it. Every section
-   is either the product itself (the timeline), something that shipped
-   and can be found in the changelog (the ledger), a principle quoted
+   is either the product itself (Fig. 1, the recreated timeline), something
+   that shipped and can be found in the changelog, a principle quoted
    from philosophy.md in ~/Dev/Aestra, or a plain statement of status.
    Nothing here should need an asterisk. If a line can't be traced to
    a commit, a release note or that document, it doesn't belong.
+   Sections are numbered because a manual's are: § 1 is the figure.
    ───────────────────────────────────────────────────────────────── */
 
-const MockTimeline = lazy(() =>
-  import("../components/MockTimeline").then((m) => ({ default: m.MockTimeline }))
-);
-
-const mockFallback = <div className="h-px" aria-hidden="true" />;
+const EmberMock = lazy(() => import("../components/mock/EmberMock").then((m) => ({ default: m.EmberMock })));
 
 /* The newest shipped release, not the in-progress "Unreleased" line. */
 const LATEST = RELEASES.find((r) => r.status !== "active") ?? RELEASES[0];
 
 /* Internal link that still behaves like a link (middle-click, copy). */
 const PageLink = ({
-  to,
-  setPage,
-  className = "",
-  children,
-}: {
-  to: string;
-  setPage: (p: string) => void;
-  className?: string;
-  children: React.ReactNode;
-}) => (
+  to, setPage, className = "", children,
+}: { to: string; setPage: (p: string) => void; className?: string; children: React.ReactNode }) => (
   <a
     href={to === "home" ? "/" : `/${to}`}
     onClick={(e) => {
@@ -53,54 +42,102 @@ const PageLink = ({
   </a>
 );
 
-/* ── Hero ─────────────────────────────────────────────────────── */
-const Hero = ({ setPage, onEarlyAccess }: PageProps) => (
-  <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-10 sm:pb-16 px-5 sm:px-6">
-    <PianoGrid />
-    <div className="relative max-w-6xl mx-auto w-full">
-      <FadeIn>
-        <h1 className="display hero-title text-fg max-w-[15ch] text-balance">
-          Less distance between an idea and its sound.
-        </h1>
-      </FadeIn>
+const Wrap = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <div className={`max-w-[1320px] mx-auto ${className}`}>{children}</div>
+);
 
-      <FadeIn delay={0.1}>
-        <p className="mt-8 sm:mt-10 max-w-[34rem] text-[17px] sm:text-lg leading-relaxed text-muted">
-          Aestra is a native digital audio workstation, made for the person with
-          something to say and a machine that isn't new. It's free, and it's in alpha.
-        </p>
+/* A manual section: number and title on the left, body under a heavy rule. */
+const Section = ({
+  n, title, id, aside, children,
+}: { n: string; title: React.ReactNode; id?: string; aside?: React.ReactNode; children: React.ReactNode }) => (
+  <section id={id} className="px-5 sm:px-6 pt-20 sm:pt-28 scroll-mt-20">
+    <Wrap className="grid lg:grid-cols-12 gap-8 lg:gap-6">
+      <FadeIn className="lg:col-span-4">
+        <p className="readout mb-4">§ {n}</p>
+        <h2 className="display-2 text-[clamp(2.2rem,1.2rem+3.2vw,4rem)]">{title}</h2>
+        {aside}
       </FadeIn>
-
-      <FadeIn delay={0.15}>
-        <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-7">
-          <Button size="lg" onClick={() => onEarlyAccess?.()}>
-            Request early access
-          </Button>
-          <PageLink to="changelog" setPage={setPage} className="text-[15px] inline-flex items-center gap-2">
-            Read what changed in {LATEST.version}
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </PageLink>
-        </div>
+      <FadeIn delay={0.05} className="lg:col-span-8 border-t-2 border-fg">
+        {children}
       </FadeIn>
-    </div>
-
-    <div className="mt-16 sm:mt-20 lg:mt-24">
-      <Suspense fallback={mockFallback}>
-        <MockTimeline />
-      </Suspense>
-      <p className="mt-4 px-5 sm:px-6 text-center readout text-faint !text-[10px]">
-        Interactive · reproduced from the current desktop alpha
-      </p>
-    </div>
+    </Wrap>
   </section>
 );
 
-/* ── 01 · Details ────────────────────────────────────────────────
-   The ledger. Behaviour nobody puts on a feature page, stated as
-   plainly as a release note, each tagged with where it shipped. ── */
+/* ── § 1 · Hero + Fig. 1 ────────────────────────────────────────── */
+const PARTS: { part: MockPart; title: string; body: string }[] = [
+  { part: "views", title: "Views", body: "Arsenal, Timeline, Audition. One window, three jobs." },
+  { part: "transport", title: "Transport", body: "Play, stop, record. Play turns violet while it plays; record turns red when armed." },
+  { part: "position", title: "Position", body: "Bars, beats and sixteenths first, clock time beside it. Stop once and it's back at the top." },
+  { part: "record", title: "Record", body: "Count-in, wait for input, loop record and the metronome, each with a lamp that shows it's on." },
+  { part: "output", title: "Output", body: "A live scope and stereo meter, in the transport where you can see them." },
+  { part: "library", title: "Library", body: "Your files one drag from the timeline. A pack's shared prefix drops off every row." },
+  { part: "tracks", title: "Tracks", body: "Mute, solo and arm as lettered keys on every lane, lit in their own colours." },
+  { part: "clip", title: "Clip", body: "Flat colour, a name, and the waveform you recorded." },
+];
+
+const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
+  const [part, setPart] = useState<MockPart | null>(null);
+  return (
+    <section className="px-5 sm:px-6 pt-24 sm:pt-28 lg:pt-32">
+      <Wrap>
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-6 items-end pb-10 sm:pb-12">
+          <FadeIn className="lg:col-span-8">
+            <h1 className="display hero-title">Less distance between an idea and its sound.</h1>
+          </FadeIn>
+          <FadeIn delay={0.1} className="lg:col-span-4 xl:col-span-3 xl:col-start-10 grid gap-5">
+            <p className="text-[16px] leading-relaxed text-muted max-w-[34rem]">
+              Aestra is a native digital audio workstation, made for the person with
+              something to say and a machine that isn't new. It's free, and it's in alpha.
+            </p>
+            <Button size="lg" onClick={() => onEarlyAccess?.()} className="justify-between">
+              Request early access <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Button>
+            <PageLink to="changelog" setPage={setPage} className="text-[14px] justify-self-start">
+              What changed in {LATEST.version}
+            </PageLink>
+          </FadeIn>
+        </div>
+
+        <figure className="m-0">
+          <div className="border border-fg" onMouseLeave={() => setPart(null)}>
+            <Suspense fallback={<div className="aspect-[1280/543] bg-[#000]" aria-hidden="true" />}>
+              <EmberMock activePart={part} />
+            </Suspense>
+          </div>
+          <figcaption className="readout flex flex-wrap justify-between gap-x-6 gap-y-1 py-3 border-b border-border">
+            <span>Fig. 1 — Timeline view · 15 tracks · 112 BPM</span>
+            <span>Recreated from the development build · press play, mute, solo</span>
+          </figcaption>
+        </figure>
+
+        <ul className="parts-list m-0 p-0 mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-border">
+          {PARTS.map((p, i) => (
+            <li
+              key={p.part}
+              tabIndex={0}
+              data-hot={part === p.part ? "" : undefined}
+              onMouseEnter={() => setPart(p.part)}
+              onMouseLeave={() => setPart(null)}
+              onFocus={() => setPart(p.part)}
+              onBlur={() => setPart(null)}
+              className="list-none grid grid-cols-[28px_1fr] gap-x-3 gap-y-1 px-4 py-4 border-r border-b border-border outline-none"
+            >
+              <span className="font-mono text-[11px] font-semibold text-accent pt-[3px]">{String(i + 1).padStart(2, "0")}</span>
+              <span className="text-fg text-[15px] font-semibold">{p.title}</span>
+              <span className="col-start-2 text-muted text-[14px] leading-relaxed">{p.body}</span>
+            </li>
+          ))}
+        </ul>
+      </Wrap>
+    </section>
+  );
+};
+
+/* ── § 2 · Operating notes — behaviour, stated as plainly as a release note ── */
 const DETAILS: { line: string; where: string }[] = [
   { line: "Press stop once. The playhead goes back to the top.", where: "v0.7.1" },
-  { line: "Recorded takes land on the grid — not late by your interface's latency.", where: "v0.7.1" },
+  { line: "Recorded takes land on the grid, not late by your interface's latency.", where: "v0.7.1" },
   { line: "Split, mute or delete while the loop is playing, and you hear the change immediately, not on the next pass.", where: "v0.7.1" },
   { line: "Routing through a mixer channel doesn't make anything quieter than sending it straight to the master.", where: "v0.7.0" },
   { line: "A solo bounce includes the track's send returns, exactly as they sound in the full mix.", where: "v0.7.0" },
@@ -109,246 +146,178 @@ const DETAILS: { line: string; where: string }[] = [
   { line: "Code marked realtime is checked by the compiler. An allocation or a lock inside it fails CI.", where: "engine" },
 ];
 
-const Details = memo(({ setPage }: PageProps) => {
-  const [active, setActive] = useState(0);
-  const listRef = useRef<HTMLOListElement>(null);
-  const pointerInside = useRef(false);
+const Details = memo(({ setPage }: PageProps) => (
+  <Section
+    n="2"
+    id="details"
+    title="Operating notes"
+    aside={
+      <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
+        Small things, done correctly. Each one shipped, and each one is in the changelog.
+      </p>
+    }
+  >
+    {/* Kept so old /#features anchors still land somewhere sensible. */}
+    <span id="features" className="block -translate-y-24" aria-hidden="true" />
+    <ol className="m-0 p-0">
+      {DETAILS.map((d, i) => (
+        <li key={d.line} className="list-none grid grid-cols-[40px_1fr_auto] gap-3 py-4 border-b border-border">
+          <span className="font-mono text-[11px] font-semibold text-accent pt-[5px]">{String(i + 1).padStart(2, "0")}</span>
+          <span className="text-fg text-[16px] sm:text-[18px] leading-snug">{d.line}</span>
+          <span className="readout pt-[5px]">{d.where}</span>
+        </li>
+      ))}
+    </ol>
+    <div className="mt-5 text-[14px]">
+      <PageLink to="changelog" setPage={setPage}>Full changelog</PageLink>
+    </div>
+  </Section>
+));
 
-  /* Scrolling lights the row crossing the middle of the viewport; the
-     pointer takes over while it is inside the list. */
-  useEffect(() => {
-    const list = listRef.current;
-    if (!list || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (pointerInside.current) return;
-        for (const e of entries) {
-          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.detail));
-        }
-      },
-      { rootMargin: "-50% 0px -50% 0px" }
-    );
-    list.querySelectorAll("[data-detail]").forEach((row) => io.observe(row));
-    return () => io.disconnect();
-  }, []);
-
+/* ── § 3 · Recent sessions — the changelog, arranged ── */
+const Sessions = memo(({ setPage }: PageProps) => {
+  const recent = [...RELEASES].reverse().slice(-3);
+  // Hand the selection to the changelog page, which opens it in the clip editor.
+  const open = (s: ArrangementSelection) => {
+    try { sessionStorage.setItem(CHANGELOG_SELECT_KEY, JSON.stringify(s)); } catch { /* opens on the latest */ }
+    setPage("changelog");
+  };
   return (
-    <section id="details" className="sec-lead">
-      {/* Kept so old /#features anchors still land somewhere sensible. */}
-      <span id="features" className="block -translate-y-24" aria-hidden="true" />
-      <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-12 lg:gap-20">
-          <FadeIn>
-            <div className="lg:sticky lg:top-28">
-              <p className="kicker mb-6">01 · Details</p>
-              <h2 className="display-2 text-3xl sm:text-4xl md:text-[44px] text-fg text-balance">
-                Small things, done correctly.
-              </h2>
-              <p className="mt-6 text-muted text-base sm:text-[17px] leading-relaxed max-w-md">
-                Thoughtful behaviors that keep your session flowing, so the DAW
-                stays out of your way.
-              </p>
-              <div className="hidden lg:block mt-10">
-                <Specimen index={active} tag={DETAILS[active].where} />
-              </div>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.05}>
-            <ol
-              ref={listRef}
-              className="ledger ledger-live"
-              onMouseEnter={() => { pointerInside.current = true; }}
-              onMouseLeave={() => { pointerInside.current = false; }}
-            >
-              {DETAILS.map((d, i) => (
-                <li
-                  key={d.line}
-                  className="ledger-row"
-                  data-detail={i}
-                  data-active={i === active ? "" : undefined}
-                  onMouseEnter={() => setActive(i)}
-                >
-                  <span className="ledger-index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="ledger-line">{d.line}</span>
-                  <span className="ledger-tag">{d.where}</span>
-                </li>
-              ))}
-            </ol>
-            <div className="mt-6 text-[14px]">
-              <PageLink to="changelog" setPage={setPage} className="inline-flex items-center gap-2">
-                Full changelog
-                <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-              </PageLink>
-            </div>
-          </FadeIn>
+    <Section
+      n="3"
+      title="Recent sessions"
+      aside={
+        <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
+          The last three cycles, laid out like an arrangement. Each lane is a kind of
+          change, each mark is one entry. The one on the right is still recording.
+        </p>
+      }
+    >
+      <div className="pt-6">
+        <ChangelogArrangement releases={recent} selection={null} onSelect={open} compact />
+        <div className="mt-5 text-[14px]">
+          <PageLink to="changelog" setPage={setPage}>Every release</PageLink>
         </div>
       </div>
-    </section>
+    </Section>
   );
 });
 
-/* ── 02 · Principles — quoted from philosophy.md, not invented ── */
-const PRINCIPLES = [
-  {
-    title: "Sound first.",
-    body: "Stable timing, deterministic rendering, accurate latency, realtime-safe execution. An export should sound like the session, every time.",
-  },
-  {
-    title: "Flow over features.",
-    body: "A fast, incomplete idea is worth more than a perfect, interrupted one. Good defaults, few dialogs, quick recovery from mistakes.",
-  },
-  {
-    title: "Work doesn't disappear.",
-    body: "Your work is kept safe. Projects made in an older version open in a newer one, and recovery is built in.",
-  },
-];
-
-const Principles = memo(() => (
-  <section className="sec sec-tone border-y border-border/70">
-    <div className="max-w-6xl mx-auto">
-      <FadeIn>
-        <p className="kicker mb-6">02 · Principles</p>
-        <blockquote className="max-w-4xl">
-          <p className="display-2 text-2xl sm:text-3xl md:text-[40px] leading-[1.18] text-fg text-balance">
-            The producer on a 4&nbsp;GB laptop. The artist working late in a city
-            where gear costs a month's salary.{" "}
-            <span className="text-muted">
-              Aestra doesn't assume a studio. It assumes a person with something to say.
-            </span>
-          </p>
-          <footer className="mt-6 readout">
-            From{" "}
-            <a
-              href="https://github.com/currentsuspect/Aestra/blob/main/philosophy.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="quiet-link normal-case tracking-normal"
-            >
-              philosophy.md
-            </a>
-            , in the Aestra repository
-          </footer>
-        </blockquote>
-      </FadeIn>
-
-      <div className="mt-16 sm:mt-24 grid md:grid-cols-3 gap-10 md:gap-8 lg:gap-12">
-        {PRINCIPLES.map((p, i) => (
-          <FadeIn key={p.title} delay={i * 0.05}>
-            <div className="pt-6 border-t border-border-2 h-full flex flex-col">
-              <h3 className="text-fg text-[17px] font-semibold tracking-tight mb-3">{p.title}</h3>
-              <p className="text-muted text-[15px] leading-relaxed flex-1">{p.body}</p>
-            </div>
-          </FadeIn>
-        ))}
-      </div>
-    </div>
-  </section>
-));
-
-/* ── 03 · Status — the honest table. Mirrors the FAQ and the
-   5 Aug truth pass (835a2af); update both together. ───────────── */
+/* ── § 4 · Specifications — the honest table. Mirrors the FAQ and the
+   5 Aug truth pass (835a2af); update both together. ── */
 type State = "ready" | "partial" | "absent";
 const STATUS: { area: string; state: State; note: React.ReactNode }[] = [
   { area: "Linux", state: "ready", note: "Built and tested here. This is the platform to use today." },
   { area: "Windows", state: "partial", note: "The audio core compiles and passes tests. The desktop app doesn't build yet." },
   { area: "macOS", state: "absent", note: "Not supported. Deferred to 2027." },
-  { area: "VST3 · CLAP", state: "partial", note: "Loads on Linux, unfinished — some CLAP host callbacks are still stubs." },
+  { area: "VST3 · CLAP", state: "partial", note: "Loads on Linux, unfinished. Some CLAP host callbacks are still stubs." },
   { area: "Built-in effects", state: "ready", note: "Reverb, EQ, delay, filter, a transient shaper and more, free with the DAW." },
   { area: "Installers", state: "absent", note: "None yet. Aestra is source-available; you can build it today." },
   { area: "Collaboration", state: "absent", note: "Doesn't exist yet. No server, no accounts, no sync." },
 ];
-
-const STATE_LABEL: Record<State, { label: string; cls: string }> = {
-  ready: { label: "Works", cls: "text-emerald-400" },
-  partial: { label: "Partial", cls: "text-amber-400" },
+const STATE_TAG: Record<State, { label: string; cls: string }> = {
+  ready: { label: "Works", cls: "text-success" },
+  partial: { label: "Partial", cls: "text-warn" },
   absent: { label: "Not yet", cls: "text-faint" },
 };
 
 const Status = memo(({ setPage }: PageProps) => (
-  <section className="sec border-t border-border/70">
-    <div className="max-w-6xl mx-auto">
-      <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-12 lg:gap-20">
-        <FadeIn>
-          <p className="kicker mb-6">03 · Status</p>
-          <h2 className="display-2 text-3xl sm:text-4xl md:text-[44px] text-fg text-balance">
-            Where it stands.
-          </h2>
-
-          <div className="mt-10 pt-6 border-t border-border/70 max-w-md">
-            <p className="readout mb-3">
-              Latest · {LATEST.version} · {LATEST.date}
-            </p>
-            <p className="text-[15px] text-fg-muted leading-relaxed">{LATEST.summary}</p>
-            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[14px]">
-              <PageLink to="changelog" setPage={setPage}>Changelog</PageLink>
-              <PageLink to="roadmap" setPage={setPage}>Roadmap</PageLink>
-              <PageLink to="download" setPage={setPage}>Build from source</PageLink>
-            </div>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={0.05}>
-          <dl className="ledger">
-            {STATUS.map((s) => (
-              <div key={s.area} className="status-row">
-                <dt className="text-fg text-[15px] font-medium">{s.area}</dt>
-                {/* Colour sits on inner spans: .readout is unlayered CSS and
-                    would otherwise beat the text-* utility on the same node. */}
-                <dd className="readout inline-flex items-center gap-2">
-                  <span className={`${s.state === "absent" ? "status-dot-off" : "led"} ${STATE_LABEL[s.state].cls}`} aria-hidden="true" />
-                  <span className={STATE_LABEL[s.state].cls}>{STATE_LABEL[s.state].label}</span>
-                </dd>
-                <dd className="status-note">{s.note}</dd>
-              </div>
-            ))}
-          </dl>
-        </FadeIn>
+  <Section
+    n="4"
+    title="Specifications"
+    aside={
+      <div className="mt-6 max-w-sm">
+        <p className="readout mb-2">Latest · {LATEST.version} · {LATEST.date}</p>
+        <p className="text-[15px] text-muted leading-relaxed">{LATEST.summary}</p>
+        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[14px]">
+          <PageLink to="roadmap" setPage={setPage}>Roadmap</PageLink>
+          <PageLink to="download" setPage={setPage}>Build from source</PageLink>
+        </div>
       </div>
-    </div>
-  </section>
+    }
+  >
+    <dl className="m-0">
+      {STATUS.map((s) => (
+        <div key={s.area} className="grid grid-cols-[1fr_auto] sm:grid-cols-[170px_1fr_auto] gap-x-4 gap-y-1 py-3.5 border-b border-border items-baseline">
+          <dt className="text-muted text-[15px]">{s.area}</dt>
+          <dd className="m-0 col-span-2 sm:col-span-1 row-start-2 sm:row-start-auto text-fg text-[15px] leading-relaxed">{s.note}</dd>
+          <dd className="m-0 row-start-1 col-start-2 sm:col-start-auto sm:row-start-auto">
+            <span className={`font-mono text-[10.5px] tracking-[0.06em] uppercase px-1.5 py-0.5 border border-current whitespace-nowrap ${STATE_TAG[s.state].cls}`}>
+              {STATE_TAG[s.state].label}
+            </span>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </Section>
 ));
 
-/* ── 04 · Cost ───────────────────────────────────────────────── */
+/* ── § 5 · Principles — quoted from philosophy.md, not invented ── */
+const PRINCIPLES = [
+  { title: "Sound first.", body: "Stable timing, deterministic rendering, accurate latency, realtime-safe execution. An export should sound like the session, every time." },
+  { title: "Flow over features.", body: "A fast, incomplete idea is worth more than a perfect, interrupted one. Good defaults, few dialogs, quick recovery from mistakes." },
+  { title: "Work doesn't disappear.", body: "Your work is kept safe. Projects made in an older version open in a newer one, and recovery is built in." },
+];
+
+const Principles = memo(() => (
+  <Section n="5" title="Principles">
+    <blockquote className="m-0 pt-6">
+      <p className="text-fg text-[clamp(1.35rem,1rem+1.4vw,2.25rem)] leading-[1.22] text-balance max-w-[46rem]">
+        The producer on a 4&nbsp;GB laptop. The artist working late in a city
+        where gear costs a month's salary.{" "}
+        <span className="text-muted">Aestra doesn't assume a studio. It assumes a person with something to say.</span>
+      </p>
+      <footer className="mt-5 readout">
+        From{" "}
+        <a href="https://github.com/currentsuspect/Aestra/blob/main/philosophy.md" target="_blank" rel="noopener noreferrer" className="quiet-link normal-case tracking-normal">
+          philosophy.md
+        </a>
+        , in the Aestra repository
+      </footer>
+    </blockquote>
+    <div className="mt-12 grid md:grid-cols-3 border-t border-border">
+      {PRINCIPLES.map((p, i) => (
+        <div key={p.title} className={`py-5 md:pr-6 ${i > 0 ? "md:pl-6 md:border-l border-border" : ""} ${i < 2 ? "border-b md:border-b-0 border-border" : ""}`}>
+          <h3 className="text-fg text-[16px] font-semibold mb-2">{p.title}</h3>
+          <p className="text-muted text-[14.5px] leading-relaxed m-0">{p.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+));
+
+/* ── § 6 · Cost ─────────────────────────────────────────────────── */
 const Cost = memo(({ setPage }: PageProps) => (
-  <section className="sec border-t border-border/70">
-    <div className="max-w-6xl mx-auto">
-      <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-12 lg:gap-20 items-start">
-        <FadeIn>
-          <p className="kicker mb-6">04 · Cost</p>
-          <h2 className="display-2 text-3xl sm:text-4xl md:text-[44px] text-fg text-balance">
-            The whole DAW is the free version.
-          </h2>
-          <p className="mt-6 text-muted text-base sm:text-[17px] leading-relaxed max-w-md">
-            Every feature, no export limits, no watermark. What you make is yours,
-            with no royalties. Paying funds the work; it doesn't unlock it.
-          </p>
-          <div className="mt-6 text-[14px]">
-            <PageLink to="pricing" setPage={setPage}>How pricing works</PageLink>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={0.05}>
-          <dl className="ledger">
-            {[
-              ["Core", "The full DAW.", "$0"],
-              ["Supporter", "The Native Suite, local Muse, and collaboration once it exists.", "$5 / mo"],
-              ["Founder", "A numbered digital record and 24 months of Supporter.", "$129"],
-            ].map(([tier, desc, price]) => (
-              <div key={tier} className="price-row">
-                <dt className="text-fg text-[15px] font-medium">{tier}</dt>
-                <dd className="text-muted text-[14px] leading-relaxed">{desc}</dd>
-                <dd className="font-mono text-[14px] text-fg tabular-nums text-right whitespace-nowrap">{price}</dd>
-              </div>
-            ))}
-          </dl>
-        </FadeIn>
-      </div>
+  <Section
+    n="6"
+    title="Cost"
+    aside={
+      <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
+        The whole DAW is the free version. Every feature, no export limits, no watermark.
+        What you make is yours, with no royalties. Paying funds the work; it doesn't unlock it.
+      </p>
+    }
+  >
+    <div className="grid sm:grid-cols-3">
+      {[
+        ["Core", "$0", "The full DAW."],
+        ["Supporter", "$5/mo", "The Native Suite, local Muse, and collaboration once it exists."],
+        ["Founder", "$129", "A numbered digital record and 24 months of Supporter."],
+      ].map(([tier, price, desc], i) => (
+        <div key={tier} className={`py-5 sm:pr-5 grid gap-2 content-start border-b sm:border-b-0 border-border ${i > 0 ? "sm:pl-5 sm:border-l" : ""}`}>
+          <span className="readout">{tier}</span>
+          <strong className="display text-[3.4rem] leading-none">{price}</strong>
+          <p className="m-0 text-muted text-[14px] leading-relaxed">{desc}</p>
+        </div>
+      ))}
     </div>
-  </section>
+    <div className="mt-5 text-[14px]">
+      <PageLink to="pricing" setPage={setPage}>How pricing works</PageLink>
+    </div>
+  </Section>
 ));
 
-/* ── FAQ ───────────────────────────────────────────────────────── */
+/* ── § 7 · Questions ────────────────────────────────────────────── */
 const FAQ = memo(({ setPage }: PageProps) => {
   const faqs: { q: string; a: React.ReactNode }[] = [
     {
@@ -417,36 +386,23 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
   ];
   return (
-    <section className="sec border-t border-border/70">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-12 lg:gap-20">
-          <FadeIn>
-            <p className="kicker mb-6">05 · Questions</p>
-            <h2 className="display-2 text-3xl sm:text-4xl md:text-[44px] text-fg">
-              Asked often.
-            </h2>
-          </FadeIn>
-
-          <div className="ledger">
-            {faqs.map((item) => (
-              <details key={item.q} className="group faq-row">
-                <summary className="flex items-start justify-between gap-6 cursor-pointer list-none py-5">
-                  <span className="text-fg text-[15px] sm:text-base font-medium">{item.q}</span>
-                  <span aria-hidden="true" className="faq-toggle mt-1.5" />
-                </summary>
-                <div className="pb-6 -mt-1 max-w-2xl text-muted text-[15px] leading-relaxed">
-                  {item.a}
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
+    <Section n="7" title="Questions">
+      <div>
+        {faqs.map((item) => (
+          <details key={item.q} className="group faq-row border-b border-border">
+            <summary className="flex items-start justify-between gap-6 cursor-pointer list-none py-4">
+              <span className="text-fg text-[15px] sm:text-base font-medium">{item.q}</span>
+              <span aria-hidden="true" className="faq-toggle mt-1.5" />
+            </summary>
+            <div className="pb-6 -mt-1 max-w-2xl text-muted text-[15px] leading-relaxed">{item.a}</div>
+          </details>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 });
 
-/* ── Founder waitlist ─────────────────────────────────────────── */
+/* ── § 8 · Founder waitlist ─────────────────────────────────────── */
 const FounderCountdown = () => {
   const toast = useToast();
   const [email, setEmail] = useState("");
@@ -490,106 +446,74 @@ const FounderCountdown = () => {
   const successId = "founder-waitlist-success";
 
   return (
-    <section id="founder-section" className="sec border-t border-border/70">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-12 lg:gap-20">
-          <FadeIn>
-            <p className="kicker mb-6">06 · Founder</p>
-            <h2 className="display-2 text-3xl sm:text-4xl md:text-[44px] text-fg text-balance">
-              Five hundred, once.
-            </h2>
-          </FadeIn>
-
-          <FadeIn delay={0.05}>
-            <p className="text-muted text-base sm:text-[17px] leading-relaxed max-w-xl">
-              A numbered digital record, a fixed Founder Collection you own, and
-              24 months of Supporter from public beta. Sales open when public beta
-              meets its release bar. This list sends notice only; it doesn't reserve a card.
-            </p>
-
-            {!submitted ? (
-              <form
-                onSubmit={handleSubmit}
-                className="mt-8 flex flex-col sm:flex-row gap-2.5 max-w-md"
-                aria-label="Founder waitlist signup"
-                noValidate
-              >
-                <label className="sr-only" aria-hidden="true">
-                  Website
-                  <input
-                    type="text"
-                    name="website"
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </label>
-                <label htmlFor={formId} className="sr-only">Email address</label>
-                <input
-                  id={formId}
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => { setEmail(e.target.value); if (error) setError(""); }}
-                  placeholder="you@studio.email"
-                  required
-                  autoComplete="email"
-                  inputMode="email"
-                  aria-invalid={Boolean(error)}
-                  aria-describedby={error ? errorId : undefined}
-                  className="w-full sm:flex-1 h-11 shrink-0 px-3.5 rounded-lg bg-bg border border-border-2 text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors"
-                />
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  aria-busy={submitting}
-                  className="h-11 px-5 rounded-lg border border-border-2 text-fg font-medium text-sm hover:bg-surface-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                >
-                  {submitting ? "Joining..." : "Notify me"}
-                </button>
-                {error && (
-                  <p id={errorId} role="alert" className="text-rose-400 text-sm mt-2 sm:basis-full">
-                    {error}
-                  </p>
-                )}
-              </form>
-            ) : (
-              <div id={successId} role="status" aria-live="polite" className="mt-8 flex items-center gap-2 text-fg">
-                <Check className="w-4 h-4 text-emerald-400" aria-hidden="true" />
-                <span className="font-medium">You're on the list.</span>
-              </div>
-            )}
-          </FadeIn>
-        </div>
+    <Section n="8" id="founder-section" title="Five hundred, once.">
+      <div className="pt-6">
+        <p className="m-0 text-muted text-base sm:text-[17px] leading-relaxed max-w-xl">
+          A numbered digital record, a fixed Founder Collection you own, and
+          24 months of Supporter from public beta. Sales open when public beta
+          meets its release bar. This list sends notice only; it doesn't reserve a card.
+        </p>
+        {!submitted ? (
+          <form onSubmit={handleSubmit} className="mt-8 flex flex-col sm:flex-row gap-2.5 max-w-md" aria-label="Founder waitlist signup" noValidate>
+            <label className="sr-only" aria-hidden="true">
+              Website
+              <input type="text" name="website" value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" />
+            </label>
+            <label htmlFor={formId} className="sr-only">Email address</label>
+            <input
+              id={formId}
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); if (error) setError(""); }}
+              placeholder="you@studio.email"
+              required
+              autoComplete="email"
+              inputMode="email"
+              aria-invalid={Boolean(error)}
+              aria-describedby={error ? errorId : undefined}
+              className="w-full sm:flex-1 h-11 shrink-0 px-3.5 rounded-md bg-bg border border-border-2 text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors"
+            />
+            <button
+              type="submit"
+              disabled={submitting}
+              aria-busy={submitting}
+              className="h-11 px-5 rounded-md border border-fg text-fg font-medium text-sm hover:bg-fg hover:text-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+            >
+              {submitting ? "Joining..." : "Notify me"}
+            </button>
+            {error && <p id={errorId} role="alert" className="text-error text-sm mt-2 sm:basis-full">{error}</p>}
+          </form>
+        ) : (
+          <div id={successId} role="status" aria-live="polite" className="mt-8 flex items-center gap-2 text-fg">
+            <Check className="w-4 h-4 text-success" aria-hidden="true" />
+            <span className="font-medium">You're on the list.</span>
+          </div>
+        )}
       </div>
-    </section>
+    </Section>
   );
 };
 
-/* ── Close ────────────────────────────────────────────────────── */
+/* ── Close ────────────────────────────────────────────────────────── */
 const ClosingCTA = memo(({ setPage, onEarlyAccess }: PageProps) => (
-  <section className="sec-lead border-t border-border/70">
-    <div className="max-w-6xl mx-auto">
+  <section className="px-5 sm:px-6 pt-28 sm:pt-36 pb-10">
+    <Wrap className="border-t-2 border-fg pt-10">
       <FadeIn>
-        <h2 className="display text-4xl sm:text-6xl md:text-7xl text-fg max-w-[16ch] text-balance">
-          Come break it before everyone else does.
-        </h2>
+        <h2 className="display text-[clamp(3rem,1.5rem+6vw,8rem)] max-w-[14ch]">Come break it before everyone else does.</h2>
         <p className="mt-8 text-muted text-base sm:text-lg max-w-lg leading-relaxed">
           Early access gets you the builds as they ship, and a direct line for
           telling us what's wrong with them. We read all of it.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-7">
-          <Button size="lg" onClick={() => onEarlyAccess?.()}>
-            Request early access
-          </Button>
+          <Button size="lg" onClick={() => onEarlyAccess?.()}>Request early access</Button>
           <PageLink to="recovery" setPage={setPage} className="text-[15px]">
             Found a bug already? Report it properly
           </PageLink>
         </div>
       </FadeIn>
-    </div>
+    </Wrap>
   </section>
 ));
 
-export { Hero, Details, Principles, Status, Cost, FAQ, FounderCountdown, ClosingCTA };
+export { Hero, Details, Sessions, Principles, Status, Cost, FAQ, FounderCountdown, ClosingCTA };

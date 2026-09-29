@@ -78,20 +78,20 @@ const DetailedDiagram = () => {
               strokeWidth="1"
               className="transition-all duration-150"
             />
-            <text x={source.cx} y={source.cy + 3} textAnchor="middle" fontSize="8" fill={SIGNAL} fontFamily="Geist Mono, monospace">
+            <text x={source.cx} y={source.cy + 3} textAnchor="middle" fontSize="8" fill={SIGNAL} style={{ fontFamily: "var(--font-mono)" }}>
               {source.label}
             </text>
           </g>
         ))}
 
         <path d="M 145 90 L 170 70 L 195 90 L 170 110 Z" fill={SIGNAL} fillOpacity="0.08" stroke={SIGNAL} strokeOpacity="0.45" strokeWidth="1" />
-        <text x="170" y="88" textAnchor="middle" fontSize="8" fill={SIGNAL} fontFamily="Geist Mono, monospace">FX BUS</text>
-        <text x="170" y="100" textAnchor="middle" fontSize="7" fill={SIGNAL} fillOpacity="0.7" fontFamily="Geist Mono, monospace">EQ + VERB</text>
+        <text x="170" y="88" textAnchor="middle" fontSize="8" fill={SIGNAL} style={{ fontFamily: "var(--font-mono)" }}>FX BUS</text>
+        <text x="170" y="100" textAnchor="middle" fontSize="7" fill={SIGNAL} fillOpacity="0.7" style={{ fontFamily: "var(--font-mono)" }}>EQ + VERB</text>
         <rect x="240" y="68" width="60" height="44" rx="5" fill={SIGNAL} fillOpacity="0.14" stroke={SIGNAL} strokeOpacity="0.55" strokeWidth="1" />
-        <text x="270" y="88" textAnchor="middle" fontSize="8" fill={SIGNAL} fontFamily="Geist Mono, monospace">MASTER</text>
-        <text x="270" y="102" textAnchor="middle" fontSize="7" fill={SIGNAL} fillOpacity="0.7" fontFamily="Geist Mono, monospace">−3.2 dB</text>
+        <text x="270" y="88" textAnchor="middle" fontSize="8" fill={SIGNAL} style={{ fontFamily: "var(--font-mono)" }}>MASTER</text>
+        <text x="270" y="102" textAnchor="middle" fontSize="7" fill={SIGNAL} fillOpacity="0.7" style={{ fontFamily: "var(--font-mono)" }}>−3.2 dB</text>
         <circle cx="260" cy="160" r="3" fill="var(--color-success)" />
-        <text x="270" y="163" fontSize="8" fill="var(--color-success)" fontFamily="Geist Mono, monospace">LIVE</text>
+        <text x="270" y="163" fontSize="8" fill="var(--color-success)" style={{ fontFamily: "var(--font-mono)" }}>LIVE</text>
       </svg>
     </div>
   );

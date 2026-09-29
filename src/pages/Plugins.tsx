@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { FadeIn } from "../components/ui";
 import { VideoModal } from "../components/VideoModal";
@@ -162,85 +162,97 @@ const PluginShot = ({ plugin }: { plugin: Plugin }) => {
 
 export const Plugins = ({ setPage }: PageProps) => {
   const [videoOpen, setVideoOpen] = useState(false);
+  // A liner-notes tracklist: one plugin open at a time, its real editor on the
+  // sleeve. Deep links (/plugins#eq) open that track.
+  const [openId, setOpenId] = useState(() => {
+    const hash = typeof window !== "undefined" ? window.location.hash.slice(1) : "";
+    return PLUGINS.some((p) => p.id === hash) ? hash : PLUGINS[0].id;
+  });
+  useEffect(() => {
+    const onHash = () => {
+      const h = window.location.hash.slice(1);
+      if (PLUGINS.some((p) => p.id === h)) setOpenId(h);
+    };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+  const openIndex = Math.max(0, PLUGINS.findIndex((p) => p.id === openId));
+  const current = PLUGINS[openIndex];
 
   return (
-    <div className="min-h-screen px-5 sm:px-6 pt-32 sm:pt-40 pb-24 sm:pb-32">
-      <div className="max-w-6xl mx-auto">
-        {/* Intro */}
-        <FadeIn>
-          <p className="kicker mb-6">Plugins</p>
-          <h1 className="display hero-title text-fg max-w-[13ch] text-balance">
-            Eleven effects, in the box.
-          </h1>
-          <p className="mt-8 max-w-[34rem] text-[17px] sm:text-lg leading-relaxed text-muted">
-            Every one comes with Aestra, free. The pictures below are the editors
-            as they look in the current build.
-          </p>
-        </FadeIn>
+    <div className="min-h-screen px-5 sm:px-6 pt-28 sm:pt-32 pb-24 sm:pb-32">
+      <div className="max-w-[1320px] mx-auto">
+        <div className="grid lg:grid-cols-12 gap-6 items-end">
+          <FadeIn className="lg:col-span-8">
+            <p className="readout mb-5">Plugins · {PLUGINS.length} tracks</p>
+            <h1 className="display text-[clamp(3rem,1.6rem+5vw,7rem)] m-0">Eleven effects, in the box.</h1>
+          </FadeIn>
+          <FadeIn delay={0.05} className="lg:col-span-4">
+            <p className="m-0 text-muted text-[16px] leading-relaxed max-w-[34rem]">
+              Every one comes with Aestra, free. The pictures are the editors as
+              they look in the current build. Pick one from the list.
+            </p>
+          </FadeIn>
+        </div>
 
-        {/* Index */}
-        <FadeIn delay={0.05}>
-          <nav aria-label="Plugin list" className="mt-14 sm:mt-16">
-            <ol className="ledger grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-x-10 list-none">
-              {PLUGINS.map((p, i) => (
-                <li key={p.id} className="border-b border-border">
-                  <a href={`#${p.id}`} className="group flex items-baseline gap-3 py-3">
-                    <span className="font-mono text-[11px] text-faint tabular-nums w-5">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="text-fg text-[15px] group-hover:underline underline-offset-4 decoration-border-3">{p.name}</span>
-                    <span className="ml-auto readout !text-[10px] text-dim">{p.kind}</span>
-                  </a>
+        <div className="mt-14 sm:mt-16 grid lg:grid-cols-12 gap-10 lg:gap-6 items-start">
+          {/* The sleeve: the open plugin's editor on black (desktop). */}
+          <div className="hidden lg:block lg:col-span-6 lg:sticky lg:top-24">
+            <div className="aspect-square bg-black border border-fg grid place-items-center p-[7%]">
+              {current.shot ? <PluginShot plugin={current} key={current.id} /> : <span className="readout">Screenshot coming</span>}
+            </div>
+            <div className="readout flex justify-between gap-4 py-3 border-b border-border">
+              <span>Fig. {String(openIndex + 1).padStart(2, "0")} — {current.name} · {current.kind}</span>
+              <span>Captured from the running alpha</span>
+            </div>
+          </div>
+
+          {/* The tracklist. */}
+          <ol className="lg:col-span-5 lg:col-start-8 m-0 p-0 border-t-2 border-fg list-none">
+            {PLUGINS.map((p, i) => {
+              const open = p.id === openId;
+              return (
+                <li key={p.id} id={p.id} className="scroll-mt-28 border-b border-border">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpenId(p.id);
+                      window.history.replaceState(null, "", `#${p.id}`);
+                    }}
+                    aria-expanded={open}
+                    aria-controls={`${p.id}-notes`}
+                    className="w-full grid grid-cols-[32px_1fr_auto] gap-3 items-baseline py-3.5 text-left group"
+                  >
+                    <span className={`font-mono text-[11px] font-semibold ${open ? "text-accent" : "text-dim"}`}>{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-[17px] font-semibold text-fg group-hover:text-accent transition-colors">
+                      {p.name.replace("Aestra ", "")}
+                      <span className="ml-2 text-[14px] font-normal text-muted">{p.kind}</span>
+                    </span>
+                    <span className="readout">{p.since}</span>
+                  </button>
+                  <div id={`${p.id}-notes`} hidden={!open} className="pb-6 pl-[44px]">
+                    <div className="lg:hidden mb-5 bg-black p-4">{p.shot && <PluginShot plugin={p} />}</div>
+                    <p className="m-0 mb-4 text-muted text-[15px] leading-relaxed">{p.desc}</p>
+                    <dl className="m-0 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {p.facts.map(([k, v]) => (
+                        <div key={k} className="grid gap-1 content-start">
+                          <dt className="readout !text-[10px]">{k}</dt>
+                          <dd className="m-0 text-fg text-[13.5px]">{v}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
                 </li>
-              ))}
-            </ol>
-          </nav>
-        </FadeIn>
-
-        {/* Plugins */}
-        <div className="mt-16 sm:mt-24">
-          {PLUGINS.map((p, i) => (
-            <article
-              key={p.id}
-              id={p.id}
-              className="scroll-mt-28 grid lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] gap-8 lg:gap-14 items-center py-14 sm:py-20 border-t border-border/70"
-            >
-              <FadeIn className={p.shot ? "" : "lg:order-last"}>
-                {p.shot ? (
-                  <PluginShot plugin={p} />
-                ) : (
-                  <div className="plugin-shot-pending">
-                    <span className="readout">Screenshot coming</span>
-                  </div>
-                )}
-              </FadeIn>
-
-              <FadeIn delay={0.05}>
-                <p className="readout mb-3">
-                  <span className="text-faint tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="mx-2 text-faint">·</span>
-                  {p.kind}
-                </p>
-                <h2 className="display-2 text-3xl sm:text-4xl text-fg">{p.name}</h2>
-                <p className="mt-5 text-muted text-base sm:text-[17px] leading-relaxed">{p.desc}</p>
-                <dl className="mt-8">
-                  <div className="ledger">
-                    {[["Since", p.since] as [string, string], ...p.facts].map(([k, v]) => (
-                      <div key={k} className="flex items-baseline justify-between gap-6 py-2.5 border-b border-border">
-                        <dt className="readout">{k}</dt>
-                        <dd className="text-fg text-[14px] text-right">{v}</dd>
-                      </div>
-                    ))}
-                  </div>
-                </dl>
-              </FadeIn>
-            </article>
-          ))}
+              );
+            })}
+          </ol>
         </div>
 
         {/* Closing notes */}
         <FadeIn>
-          <div className="pt-12 sm:pt-16 border-t border-border/70 grid md:grid-cols-2 gap-10 md:gap-16">
+          <div className="mt-20 pt-10 border-t-2 border-fg grid md:grid-cols-2 gap-10 md:gap-16">
             <div>
-              <h2 className="text-fg text-[19px] font-semibold tracking-tight mb-3">More plugins, separately</h2>
+              <h2 className="display-2 text-[1.9rem] mb-3">More plugins, separately</h2>
               <p className="text-muted text-[15px] leading-relaxed max-w-md">
                 The Native Suite is a separate collection of specialist plugins,
                 released one at a time. Supporters get the catalogue while active,
@@ -258,7 +270,7 @@ export const Plugins = ({ setPage }: PageProps) => {
               </div>
             </div>
             <div>
-              <h2 className="text-fg text-[19px] font-semibold tracking-tight mb-3">Aestra EQ in motion</h2>
+              <h2 className="display-2 text-[1.9rem] mb-3">Aestra EQ in motion</h2>
               <p className="text-muted text-[15px] leading-relaxed max-w-md">
                 A 30-second look at the EQ being used on a real track.
               </p>
