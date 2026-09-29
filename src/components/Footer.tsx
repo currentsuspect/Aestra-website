@@ -30,12 +30,12 @@ const InternalLink = ({
 export const Footer = memo(({ setPage }: PageProps) => {
   return (
     <footer className="border-t border-border/80 bg-bg">
-      <div className="max-w-6xl mx-auto px-5 sm:px-6 py-14">
+      <div className="max-w-[1320px] mx-auto px-5 sm:px-6 py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
               <img src="/logo.png" alt="Aestra logo" width="28" height="28" className="w-7 h-7 rounded-md" />
-              <span className="text-[15px] font-semibold text-fg tracking-tight">Aestra</span>
+              <span className="text-[16px] font-extrabold text-fg lowercase tracking-[-0.01em] [font-stretch:125%]">aestra</span>
             </div>
             <p className="text-sm text-muted max-w-sm leading-relaxed mb-6">
               A native digital audio workstation for the person with something to say. Free, in alpha, and honest about both.

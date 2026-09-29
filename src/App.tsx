@@ -4,7 +4,7 @@ import { EarlyAccessModal } from "./components/EarlyAccessModal";
 import { ToastProvider } from "./components/Toast";
 import { Footer } from "./components/Footer";
 import { LoadingFallback } from "./components/ui";
-import { Hero, Details, Principles, Status, Cost, FAQ as HomeFAQ, FounderCountdown, ClosingCTA } from "./pages/Home";
+import { Hero, Details, Sessions, Principles, Status, Cost, FAQ as HomeFAQ, FounderCountdown, ClosingCTA } from "./pages/Home";
 import { Features } from "./pages/Features";
 import { resolvePage, prefersReducedMotion } from "./lib";
 import type { PageProps } from "./types";
@@ -222,8 +222,9 @@ export const App = () => {
             <Navbar activePage="home" setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <Hero setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
             <Details setPage={handleSetPage} />
-            <Principles />
+            <Sessions setPage={handleSetPage} />
             <Status setPage={handleSetPage} />
+            <Principles />
             <Cost setPage={handleSetPage} />
             <HomeFAQ setPage={handleSetPage} />
             <FounderCountdown />

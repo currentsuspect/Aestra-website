@@ -110,13 +110,13 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
       className={cn(
         "fixed left-0 right-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-200",
         isScrolled
-          ? "bg-bg/80 backdrop-blur-md border-b border-border/80"
-          : "border-b border-transparent"
+          ? "bg-bg/90 backdrop-blur-md border-b border-fg"
+          : "bg-bg/0 border-b border-transparent"
       )}
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="max-w-6xl mx-auto px-5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-6">
+      <div className="max-w-[1320px] mx-auto px-5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-6">
         <button
           onClick={() => setPage("home")}
           className="flex items-center gap-2.5 group"
@@ -124,10 +124,10 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
         >
           <img
             src="/logo.png"
-            alt="Aestra logo"
-            className="w-7 h-7 rounded-md"
+            alt=""
+            className="w-6 h-6"
           />
-          <span className="text-[15px] font-semibold text-fg tracking-tight">Aestra</span>
+          <span className="text-[16px] font-extrabold text-fg lowercase tracking-[-0.01em] [font-stretch:125%]">aestra</span>
         </button>
 
         <div className="hidden md:flex items-center gap-1">
@@ -137,10 +137,10 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
               onClick={() => setPage(link.id)}
               aria-current={activePage === link.id ? "page" : undefined}
               className={cn(
-                "px-3 h-8 text-sm rounded-md transition-colors",
+                "px-3 h-8 font-mono text-[11px] uppercase tracking-[0.06em] transition-colors border-b",
                 activePage === link.id
-                  ? "text-fg bg-surface-2"
-                  : "text-muted hover:text-fg"
+                  ? "text-fg border-fg"
+                  : "text-muted border-transparent hover:text-fg"
               )}
             >
               {link.name}
@@ -160,8 +160,8 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
           </a>
           <ThemeToggle />
           <div className="w-px h-5 bg-surface-3 mx-1" />
-          <Button size="sm" onClick={() => onEarlyAccess?.()}>
-            Request early access
+          <Button size="sm" onClick={() => onEarlyAccess?.()} className="font-mono text-[11px] uppercase tracking-[0.06em] rounded-[3px]">
+            Early access
           </Button>
         </div>
 
