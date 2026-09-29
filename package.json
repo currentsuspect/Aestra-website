@@ -9,6 +9,7 @@
     "check:function": "node scripts/check-function.mjs",
     "preview": "vite preview",
     "changelog:draft": "node scripts/changelog-draft.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
     "skills:check": "node scripts/agent-skills.mjs",
     "skills:write": "node scripts/agent-skills.mjs --write"
   },

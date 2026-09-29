@@ -1,16 +1,91 @@
+import { useEffect } from "react";
+import { RELEASES } from "./changelogData";
+
+/** The one public origin. The apex redirects here; every absolute URL we emit uses it. */
+export const ORIGIN = "https://www.aestra.studio";
+export const ORG_ID = `${ORIGIN}/#organization`;
+export const SOFTWARE_ID = `${ORIGIN}/#software`;
+
 export const SITE = {
   name: "Aestra",
-  url: "https://aestra.studio",
+  url: ORIGIN,
   description:
-    "Aestra is an accessible, premium native digital audio workstation built around speed, stability, and producer-first workflow.",
+    "Aestra is a native digital audio workstation for modest machines: the whole DAW is free, eleven effects come in the box, and it's in alpha on Linux.",
   twitter: "@aestrastudios",
   twitterUrl: "https://x.com/aestrastudios",
   github: "https://github.com/currentsuspect/Aestra",
   organization: {
     "@context": "https://schema.org",
-    "@id": "https://aestra.studio/#organization",
+    "@id": ORG_ID,
     name: "Aestra Studios",
   },
+};
+
+const LATEST = RELEASES.find((r) => r.status !== "active") ?? RELEASES[0];
+/** "Sep 12, 2026" → "2026-09-12", read as a calendar date (no timezone shift). */
+const isoDate = (d: string) => {
+  const t = new Date(d);
+  if (Number.isNaN(t.getTime())) return undefined;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${t.getFullYear()}-${pad(t.getMonth() + 1)}-${pad(t.getDate())}`;
+};
+
+/** Aestra itself, with its version and date taken from the newest shipped release. */
+export const softwareApplication = () => ({
+  "@type": "SoftwareApplication",
+  "@id": SOFTWARE_ID,
+  name: "Aestra",
+  alternateName: "Aestra DAW",
+  description: SITE.description,
+  url: `${ORIGIN}/`,
+  applicationCategory: "MultimediaApplication",
+  applicationSubCategory: "Digital Audio Workstation",
+  operatingSystem: "Linux",
+  softwareVersion: LATEST.version.replace(/^v/, ""),
+  datePublished: "2025-12-23",
+  dateModified: isoDate(LATEST.date),
+  downloadUrl: `${ORIGIN}/download`,
+  softwareRequirements:
+    "Linux, built from source during alpha. Windows is a committed beta platform; macOS is not supported before 2027.",
+  screenshot: `${ORIGIN}/og-image.png`,
+  featureList: [
+    "Runs light on modest hardware",
+    "Loop-first workflow with patterns and an Arsenal step sequencer",
+    "Visual signal routing",
+    "Eleven built-in effects: EQ, Compressor, Verb, Delay, Limit, OTT, Transient, Sat, Filter, Drift and LFO",
+    "VST3 and CLAP plugin hosting (partial, Linux only during alpha)",
+  ],
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    description: "The whole DAW, free. No feature gates.",
+    url: `${ORIGIN}/pricing`,
+    availability: "https://schema.org/InStock",
+  },
+  author: { "@id": `${ORIGIN}/#founder` },
+  publisher: { "@id": ORG_ID },
+});
+
+/**
+ * Puts one JSON-LD block in <head> while the calling page is mounted.
+ * Pages own their structured data so it always describes what the page
+ * shows; the prerender snapshots it into the static HTML.
+ */
+export const useStructuredData = (id: string, data: object | null) => {
+  const json = data ? JSON.stringify(data) : "";
+  useEffect(() => {
+    if (!json) return;
+    let el = document.getElementById(id) as HTMLScriptElement | null;
+    if (!el) {
+      el = document.createElement("script");
+      el.type = "application/ld+json";
+      el.id = id;
+      document.head.appendChild(el);
+    }
+    el.textContent = json;
+    return () => { document.getElementById(id)?.remove(); };
+  }, [id, json]);
 };
 
 export const setMeta = (selector: string, attr: string, value: string) => {
@@ -48,7 +123,7 @@ export const buildPageStructuredData = (
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://aestra.studio/",
+        item: `${ORIGIN}/`,
       },
     ],
   };
@@ -61,7 +136,7 @@ export const buildPageStructuredData = (
     });
   }
 
-  base["@graph"].push(breadcrumb);
+  if (page !== "home") base["@graph"].push(breadcrumb);
 
   // Note: the changelog ItemList was previously pushed empty (no
   // itemListElement), which Google drops. The full release data lives
@@ -75,7 +150,7 @@ export const buildPageStructuredData = (
       name: "Aestra",
       description:
         "A free digital audio workstation for producers, with optional Supporter and Founder offers.",
-      brand: { "@id": "https://aestra.studio/#organization" },
+      brand: { "@id": ORG_ID },
       offers: [
         {
           "@type": "Offer",
@@ -111,16 +186,8 @@ export const buildPageStructuredData = (
     });
   }
 
-  if (page === "download") {
-    base["@graph"].push({
-      "@type": "SoftwareApplication",
-      "@id": `${url}#download`,
-      name: "Aestra",
-      operatingSystem: "Linux, Windows 10+",
-      applicationCategory: "MultimediaApplication",
-      softwareVersion: "0.1.1",
-      downloadUrl: url,
-    });
+  if (page === "home" || page === "download") {
+    base["@graph"].push(softwareApplication());
   }
 
   if (page === "about") {
@@ -129,7 +196,7 @@ export const buildPageStructuredData = (
       "@id": `${url}#about`,
       name: "About Aestra Studios",
       url,
-      mainEntity: { "@id": "https://aestra.studio/#organization" },
+      mainEntity: { "@id": ORG_ID },
     });
   }
 
@@ -141,8 +208,8 @@ export const buildPageStructuredData = (
       headline: "Aestra documentation",
       description:
         "Documentation for the Aestra DAW: patch recipes, signal flow, troubleshooting, and command palette reference.",
-      author: { "@id": "https://aestra.studio/#founder" },
-      publisher: { "@id": "https://aestra.studio/#organization" },
+      author: { "@id": `${ORIGIN}/#founder` },
+      publisher: { "@id": ORG_ID },
       inLanguage: "en-US",
     });
   }
@@ -155,8 +222,8 @@ export const buildPageStructuredData = (
       headline: "Report. Investigate. Recover.",
       description:
         "How to report an Aestra bug, investigate it with a coding agent under a versioned protocol, contribute a fix upstream, or recover a damaged project.",
-      author: { "@id": "https://aestra.studio/#founder" },
-      publisher: { "@id": "https://aestra.studio/#organization" },
+      author: { "@id": `${ORIGIN}/#founder` },
+      publisher: { "@id": ORG_ID },
       inLanguage: "en-US",
     });
   }
@@ -167,7 +234,7 @@ export const buildPageStructuredData = (
       "@id": url,
       name: sectionTitle,
       url,
-      isPartOf: { "@id": "https://aestra.studio/#website" },
+      isPartOf: { "@id": `${ORIGIN}/#website` },
       inLanguage: "en-US",
     });
   }

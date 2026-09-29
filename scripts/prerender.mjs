@@ -2,6 +2,7 @@ import { createServer } from "node:http";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { extname, join, resolve, sep } from "node:path";
 import process from "node:process";
+import { execFileSync } from "node:child_process";
 
 import chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer-core";
@@ -22,10 +23,78 @@ const routes = [
   { path: "/terms", output: "terms/index.html", threshold: 500 },
   { path: "/about", output: "about/index.html", threshold: 500 },
   { path: "/roadmap", output: "roadmap/index.html", threshold: 500 },
+  { path: "/recovery", output: "recovery/index.html", threshold: 500 },
   { path: "/404", output: "404/index.html", threshold: 500 },
 ];
 
-const excludedRoutes = ["/login", "/account", "/recovery"];
+const excludedRoutes = ["/login", "/account"];
+
+/* Where each indexable route's content comes from, for its sitemap lastmod. */
+const ROUTE_SOURCES = {
+  "/": ["src/pages/Home.tsx", "src/components/mock", "index.html"],
+  "/features": ["src/pages/Features.tsx"],
+  "/pricing": ["src/pages/Pricing.tsx"],
+  "/changelog": ["src/pages/Changelog.tsx", "src/content/changelog"],
+  "/docs": ["src/pages/Docs.tsx"],
+  "/download": ["src/pages/Downloads.tsx"],
+  "/plugins": ["src/pages/Plugins.tsx", "public/plugins"],
+  "/privacy": ["src/pages/Privacy.tsx"],
+  "/terms": ["src/pages/Terms.tsx"],
+  "/about": ["src/pages/About.tsx"],
+  "/roadmap": ["src/pages/Roadmap.tsx"],
+  "/recovery": ["src/pages/Recovery.tsx"],
+};
+
+const git = (...args) => {
+  try {
+    return execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+  } catch {
+    return "";
+  }
+};
+
+/* A lastmod is only worth sending when it is true. A shallow clone (as on
+   some CI) dates every file to the tip commit, so there we omit it rather
+   than tell crawlers everything changed today. */
+const lastModified = (route) => {
+  if (git("rev-parse", "--is-shallow-repository") !== "false") return null;
+  const date = git("log", "-1", "--format=%cI", "--", ...(ROUTE_SOURCES[route] ?? []));
+  return date ? date.slice(0, 10) : null;
+};
+
+const xmlEscape = (v) => v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/* The sitemap is written from the pages that were actually prerendered, so
+   it cannot list a route that does not exist or miss one that does. Images
+   are the same-origin raster images each page really shows. */
+const writeSitemap = async (snapshots) => {
+  const entries = snapshots
+    .filter(({ path, head }) => path !== "/404" && !/noindex/.test(head.robots))
+    .map(({ path, html }) => {
+      const images = [...new Set(
+        [...html.matchAll(/<img[^>]+src="(\/[^"]+\.(?:png|jpe?g|webp))"/g)]
+          .map((m) => m[1])
+          .filter((src) => src !== "/logo.png"),
+      )];
+      const lastmod = lastModified(path);
+      return [
+        "  <url>",
+        `    <loc>${xmlEscape(canonicalFor(path))}</loc>`,
+        ...(lastmod ? [`    <lastmod>${lastmod}</lastmod>`] : []),
+        ...images.map((src) => `    <image:image><image:loc>${xmlEscape(CANONICAL_ORIGIN + src)}</image:loc></image:image>`),
+        "  </url>",
+      ].join("\n");
+    });
+  const xml = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
+    ...entries,
+    "</urlset>",
+    "",
+  ].join("\n");
+  await writeFile(join(DIST_DIR, "sitemap.xml"), xml);
+  console.log(`sitemap: ${entries.length} URLs`);
+};
 
 const launchBrowser = async () =>
   puppeteer.launch({
@@ -436,6 +505,7 @@ const assertHydration = async (snapshots) => {
 try {
   const snapshots = await prerender();
   await assertHydration(snapshots);
+  await writeSitemap(snapshots);
 } catch (error) {
   console.error(`Prerender failed: ${error?.stack ?? error}`);
   process.exitCode = 1;

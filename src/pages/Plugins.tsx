@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { FadeIn } from "../components/ui";
 import { VideoModal } from "../components/VideoModal";
 import type { PageProps } from "../types";
+import { ORIGIN, SOFTWARE_ID, useStructuredData } from "../seo";
 
 /* ─────────────────────────────────────────────────────────────────
    Plugins — the eleven built-in effects, shown as they are.
@@ -137,6 +138,32 @@ const PLUGINS: Plugin[] = [
   },
 ];
 
+/* The suite as a list search engines can read: each effect, what it is and
+   its editor as it looks in the current build. */
+const PLUGINS_LD = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${ORIGIN}/plugins#suite`,
+  name: "Effects included with Aestra",
+  numberOfItems: PLUGINS.length,
+  itemListElement: PLUGINS.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `${ORIGIN}/plugins#${p.id}`,
+    item: {
+      "@type": "SoftwareApplication",
+      name: p.name,
+      applicationCategory: "MultimediaApplication",
+      applicationSubCategory: p.kind,
+      operatingSystem: "Linux",
+      description: p.desc,
+      isPartOf: { "@id": SOFTWARE_ID },
+      ...(p.shot ? { image: `${ORIGIN}${p.shot.src}.png` } : {}),
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+  })),
+};
+
 const VIDEO_SRC = "/aestra-eq-intro.mp4";
 
 const PluginShot = ({ plugin }: { plugin: Plugin }) => {
@@ -161,6 +188,7 @@ const PluginShot = ({ plugin }: { plugin: Plugin }) => {
 };
 
 export const Plugins = ({ setPage }: PageProps) => {
+  useStructuredData("plugins-structured-data", PLUGINS_LD);
   const [videoOpen, setVideoOpen] = useState(false);
   // A liner-notes tracklist: one plugin open at a time, its real editor on the
   // sleeve. Deep links (/plugins#eq) open that track.

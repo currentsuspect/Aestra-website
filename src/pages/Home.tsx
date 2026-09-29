@@ -1,4 +1,4 @@
-import React, { useState, memo, lazy, Suspense } from "react";
+import React, { useState, useEffect, useRef, memo, lazy, Suspense } from "react";
 import { Check, ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
 import { useToast } from "../components/Toast";
@@ -7,6 +7,7 @@ import { RELEASES } from "../changelogData";
 import { ChangelogArrangement, CHANGELOG_SELECT_KEY, type ArrangementSelection } from "../components/ChangelogArrangement";
 import type { MockPart } from "../components/mock/EmberMock";
 import type { PageProps } from "../types";
+import { useStructuredData } from "../seo";
 
 /* ─────────────────────────────────────────────────────────────────
    Home — the first encounter with Aestra, set as a manual.
@@ -385,9 +386,28 @@ const FAQ = memo(({ setPage }: PageProps) => {
       a: "You can make a track in it today — the engine, the pattern workflow, and the built-in plugins all work. It's alpha, so expect rough edges. Public beta lands late 2026; join early access and you'll get the builds as they ship.",
     },
   ];
+  // FAQ markup is read back from the rendered answers, so it always says
+  // exactly what a visitor can read here, links and all flattened to text.
+  const list = useRef<HTMLDivElement>(null);
+  const [faqData, setFaqData] = useState<object | null>(null);
+  useEffect(() => {
+    const rows = [...(list.current?.querySelectorAll("details") ?? [])];
+    const text = (el: Element | null) => el?.textContent?.replace(/\s+/g, " ").trim() ?? "";
+    setFaqData({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "@id": "https://www.aestra.studio/#faq",
+      mainEntity: rows.map((row) => ({
+        "@type": "Question",
+        name: text(row.querySelector("summary")),
+        acceptedAnswer: { "@type": "Answer", text: text(row.querySelector("summary + div")) },
+      })),
+    });
+  }, []);
+  useStructuredData("faq-structured-data", faqData);
   return (
     <Section n="7" title="Questions">
-      <div>
+      <div ref={list}>
         {faqs.map((item) => (
           <details key={item.q} className="group faq-row border-b border-border">
             <summary className="flex items-start justify-between gap-6 cursor-pointer list-none py-4">

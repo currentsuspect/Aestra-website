@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": false,
   "redirects": [
     {
       "source": "/(.*)",
@@ -11,6 +12,26 @@
           "value": "aestra.studio"
         }
       ]
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/:page(features|pricing|changelog|docs|download|plugins|privacy|terms|about|roadmap|recovery)/index.html",
+      "destination": "/:page",
+      "statusCode": 301
+    },
+    {
+      "source": "/image-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "statusCode": 301
+    },
+    {
+      "source": "/sitemap-news.xml",
+      "destination": "/sitemap.xml",
+      "statusCode": 301
     }
   ],
   "rewrites": [
@@ -20,10 +41,6 @@
     },
     {
       "source": "/account",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/recovery",
       "destination": "/index.html"
     }
   ],
@@ -71,27 +88,6 @@
       ]
     },
     {
-      "source": "/recovery",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        },
-        {
-          "key": "CDN-Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        },
-        {
-          "key": "Vercel-CDN-Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
       "source": "/",
       "headers": [
         {
@@ -113,7 +109,7 @@
       ]
     },
     {
-      "source": "/(features|pricing|changelog|docs|download|plugins|privacy|terms|about|roadmap|404)",
+      "source": "/(features|pricing|changelog|docs|download|plugins|privacy|terms|about|roadmap|recovery|404)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -200,6 +196,19 @@
         {
           "key": "Content-Type",
           "value": "application/json"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)\\.woff2",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         },
         {
           "key": "Access-Control-Allow-Origin",
