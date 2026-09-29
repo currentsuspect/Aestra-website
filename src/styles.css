@@ -711,7 +711,7 @@ body::after {
 .cle-group::before { content: ""; width: 7px; height: 7px; background: var(--c); }
 .cle-group:first-child { padding-top: 0; }
 .cle-row { position: relative; }
-.cle-row:first-child { padding-top: 0; }
+
 .cle-hit { position: absolute; inset: 0 -10px; background: var(--c); opacity: 0; pointer-events: none; }
 .cle[data-armed] [data-cle-row], .cle[data-armed] [data-cle-lane] { opacity: 0; }
 @media (max-width: 640px) {
@@ -719,3 +719,22 @@ body::after {
   .cle-name, .cle-ruler-name { padding: 0 8px; }
   .cle-name { font-size: 12px; }
 }
+
+/* ── Entry previews ───────────────────────────────────────────── */
+.cle-entry { display: grid; grid-template-columns: 84px 1fr; gap: 12px; padding: 10px 0; width: 100%; text-align: left; }
+.cle-row:first-child .cle-entry, .cle-group + .cle-row .cle-entry { padding-top: 10px; }
+.cle-entry-btn { cursor: pointer; }
+.cle-entry-btn:hover > span:last-child { color: var(--color-fg); text-decoration: underline; text-decoration-color: var(--c); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.cle-entry-btn:focus-visible { outline: 2px solid var(--color-accent, #8b5cf6); outline-offset: 2px; }
+.cle-play { color: var(--c); letter-spacing: .06em; font-size: 9.5px; }
+.cle-row[data-open] { border-bottom-color: var(--color-fg); }
+.pvs { margin: 2px 0 16px; border: 1px solid #2e2a26; background: #000; animation: pvsIn .42s cubic-bezier(.2,.8,.1,1) both; transform-origin: top; }
+@keyframes pvsIn { from { clip-path: inset(0 0 100% 0); opacity: .4; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
+.pvs-bar { display: flex; align-items: center; gap: 10px; padding: 6px 10px; background: #141210; border-bottom: 1px solid #2e2a26; font: 500 10px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: #aca397; }
+.pvs-title { color: #eee9e1; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pvs-note { color: #57514a; }
+.pvs-replay { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: 1px solid #3d3833; border-radius: 3px; color: #aca397; }
+.pvs-replay:hover { color: #eee9e1; border-color: #857d72; }
+.pvs-svg { display: block; width: 100%; height: auto; }
+.pvs-progress { height: 2px; background: #1c1a17; }
+.pvs-progress i { display: block; height: 100%; background: var(--c, #a88dfb); transform-origin: left; }

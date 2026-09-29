@@ -1,7 +1,9 @@
-import React, { memo, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { Change, Release } from "../changelogData";
 import { LANES, laneOf, clipVars, type LaneKey } from "./ChangelogArrangement";
 import { tone } from "./mock/emberSession";
+import { previewFor } from "./previews";
+import { PreviewStage } from "./previews/PreviewStage";
 
 /* ── ClipEditor ──────────────────────────────────────────────────────
    Opening a clip works the way it does in the DAW: the clip leaves the
@@ -64,6 +66,8 @@ export const ClipEditor = memo(({
   const root = useRef<HTMLElement>(null);
   const readout = useRef<HTMLSpanElement>(null);
   const [hot, setHot] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | null>(null);
+  useEffect(() => setOpen(null), [release.version, lane]);
   const recording = release.status === "active";
 
   const groups = useMemo<Group[]>(() => {
@@ -263,23 +267,55 @@ export const ClipEditor = memo(({
                   {g.name} · {g.rows.length}
                 </li>
               )}
-              {g.rows.map((r) => (
-                <li
-                  key={r.key}
-                  data-cle-row={r.mark}
-                  onMouseEnter={() => setHot(r.mark)}
-                  onMouseLeave={() => setHot(null)}
-                  className="cle-row grid grid-cols-[84px_1fr] gap-3 py-2.5 border-b border-border text-[15px] leading-relaxed text-fg"
-                  style={{ ["--c" as string]: tone(g.slot).lane }}
-                >
-                  <span className="cle-hit" aria-hidden="true" />
-                  <span className="font-mono text-[10.5px] uppercase tracking-[0.05em] text-muted pt-1 flex items-baseline gap-2">
-                    <span className="w-[7px] h-[7px] shrink-0 self-center" style={{ background: "var(--c)" }} />
-                    {r.e.type}
-                  </span>
-                  <span>{r.e.text}</span>
-                </li>
-              ))}
+              {g.rows.map((r) => {
+                const scene = previewFor(release.version, r.e.text);
+                const isOpen = open === r.key;
+                const body = (
+                  <>
+                    <span className="font-mono text-[10.5px] uppercase tracking-[0.05em] text-muted pt-1 flex flex-col gap-1.5">
+                      <span className="flex items-baseline gap-2">
+                        <span className="w-[7px] h-[7px] shrink-0 self-center" style={{ background: "var(--c)" }} />
+                        {r.e.type}
+                      </span>
+                      {scene && <span className="cle-play">{isOpen ? "■ Close" : "▶ Preview"}</span>}
+                    </span>
+                    <span>{r.e.text}</span>
+                  </>
+                );
+                return (
+                  <li
+                    key={r.key}
+                    data-cle-row={r.mark}
+                    data-open={isOpen ? "" : undefined}
+                    onMouseEnter={() => setHot(r.mark)}
+                    onMouseLeave={() => setHot(null)}
+                    className="cle-row border-b border-border text-[15px] leading-relaxed text-fg"
+                    style={{ ["--c" as string]: tone(g.slot).lane }}
+                  >
+                    <span className="cle-hit" aria-hidden="true" />
+                    {scene ? (
+                      <button
+                        type="button"
+                        className="cle-entry cle-entry-btn"
+                        aria-expanded={isOpen}
+                        aria-controls={isOpen ? `pv-${r.mark}` : undefined}
+                        onClick={(ev) => {
+                          setOpen(isOpen ? null : r.key);
+                          if (!isOpen) {
+                            const li = (ev.currentTarget as HTMLElement).parentElement;
+                            requestAnimationFrame(() => li?.scrollIntoView({ block: "nearest", behavior: "smooth" }));
+                          }
+                        }}
+                      >
+                        {body}
+                      </button>
+                    ) : (
+                      <div className="cle-entry">{body}</div>
+                    )}
+                    {isOpen && scene && <PreviewStage scene={scene} id={`pv-${r.mark}`} />}
+                  </li>
+                );
+              })}
             </React.Fragment>
           ))}
         </ul>
