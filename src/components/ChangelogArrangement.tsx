@@ -30,6 +30,12 @@ export const CHANGELOG_SELECT_KEY = "aestra-changelog-select";
 
 const shortVersion = (v: string) => v.replace("-alpha", "");
 
+/** Clip colours, shared with the clip editor so a clip and its zoomed view match. */
+export const clipVars = (recording: boolean, slot: number) => {
+  const t = tone(slot);
+  return { ["--c" as string]: recording ? "#7a1f24" : t.body, ["--ink" as string]: recording ? "#ffd9d2" : t.label };
+};
+
 export const ChangelogArrangement = memo(({
   releases, selection, onSelect, compact = false,
 }: {
@@ -55,6 +61,7 @@ export const ChangelogArrangement = memo(({
             <div
               key={r.version}
               className="clx-col"
+              data-clx-v={r.version}
               data-sel={selected && !selection?.lane ? "" : undefined}
               style={{ flexGrow: Math.max(recording ? 5 : 0, 3 + r.entries.length * 0.35) }}
             >
@@ -70,7 +77,6 @@ export const ChangelogArrangement = memo(({
               </button>
               {LANES.map((l) => {
                 const entries = r.entries.filter((e) => laneOf(e.type) === l.key);
-                const t = tone(l.slot);
                 return (
                   <div key={l.key} className="clx-cell">
                     {entries.length > 0 && (
@@ -78,9 +84,11 @@ export const ChangelogArrangement = memo(({
                         type="button"
                         className={recording ? "clx-clip clx-rec" : "clx-clip"}
                         data-sel={selected && selection?.lane === l.key ? "" : undefined}
+                        data-clx-v={r.version}
+                        data-clx-lane={l.key}
                         onClick={() => onSelect({ version: r.version, lane: l.key })}
                         aria-label={`${r.version}: ${entries.length} ${l.name.toLowerCase()}`}
-                        style={{ ["--c" as string]: recording ? "#7a1f24" : t.body, ["--ink" as string]: recording ? "#ffd9d2" : t.label }}
+                        style={clipVars(recording, l.slot)}
                       >
                         <span className="clx-h">{entries.length} {l.name.toLowerCase()}</span>
                         <span className="clx-w" aria-hidden="true">

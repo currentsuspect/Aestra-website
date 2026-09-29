@@ -1,13 +1,13 @@
-import React, { memo, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 import { Button, FadeIn } from "../components/ui";
 import { RELEASES } from "../changelogData";
 import type { Release } from "../changelogData";
 import {
-  ChangelogArrangement, LANES, laneOf, CHANGELOG_SELECT_KEY, type ArrangementSelection, type LaneKey,
+  ChangelogArrangement, CHANGELOG_SELECT_KEY, type ArrangementSelection, type LaneKey,
 } from "../components/ChangelogArrangement";
-import { tone } from "../components/mock/emberSession";
+import { ClipEditor, type Take } from "../components/ClipEditor";
 import type { PageProps } from "../types";
 
 /* ─────────────────────────────────────────────────────────────────
@@ -23,29 +23,37 @@ export const releaseAnchor = (version: string) =>
 
 const LATEST = RELEASES.find((r) => r.status !== "active") ?? RELEASES[0];
 
-const laneColor = (k: LaneKey) => tone(LANES.find((l) => l.key === k)!.slot).lane;
-
-const initialSelection = (releases: Release[]): ArrangementSelection => {
+/** Where the page opens: a clip handed over from Home (which then plays), a shared link, or the latest release. */
+const initialSelection = (releases: Release[]): { sel: ArrangementSelection; handoff: boolean } => {
   try {
     const raw = sessionStorage.getItem(CHANGELOG_SELECT_KEY);
     if (raw) {
       sessionStorage.removeItem(CHANGELOG_SELECT_KEY);
       const s = JSON.parse(raw) as ArrangementSelection;
-      if (releases.some((r) => r.version === s.version)) return s;
+      if (releases.some((r) => r.version === s.version)) return { sel: s, handoff: true };
     }
   } catch { /* storage may be unavailable; fall through */ }
   const hash = typeof window !== "undefined" ? window.location.hash.slice(1) : "";
   const byHash = releases.find((r) => releaseAnchor(r.version) === hash);
-  return { version: (byHash ?? LATEST).version, lane: null };
+  return { sel: { version: (byHash ?? LATEST).version, lane: null }, handoff: false };
 };
 
 export const Changelog = memo(({ setPage }: PageProps) => {
   const oldestFirst = useMemo<Release[]>(() => [...RELEASES].reverse(), []);
-  const [sel, setSel] = useState<ArrangementSelection>(() => initialSelection(oldestFirst));
+  const [initial] = useState(() => initialSelection(oldestFirst));
+  const [sel, setSel] = useState<ArrangementSelection>(initial.sel);
+  // Arriving from Home, give the page a moment to land before the clip moves.
+  const [take, setTake] = useState<Take>({ n: 0, motion: initial.handoff, wait: 320 });
+  const arrangement = useRef<HTMLDivElement>(null);
 
   const release = oldestFirst.find((r) => r.version === sel.version) ?? LATEST;
-  const entries = sel.lane ? release.entries.filter((e) => laneOf(e.type) === sel.lane) : release.entries;
-  const counts = LANES.map((l) => ({ ...l, n: release.entries.filter((e) => laneOf(e.type) === l.key).length })).filter((l) => l.n > 0);
+
+  const open = useCallback((s: ArrangementSelection) => {
+    setSel(s);
+    setTake((t) => ({ n: t.n + 1, motion: true }));
+    try { window.history.replaceState(null, "", `#${releaseAnchor(s.version)}`); } catch { /* cosmetic */ }
+  }, []);
+  const onLane = useCallback((lane: LaneKey | null) => open({ version: release.version, lane }), [open, release.version]);
 
   return (
     <div className="pt-28 sm:pt-32 pb-24 sm:pb-32 px-5 sm:px-6 min-h-screen">
@@ -58,58 +66,16 @@ export const Changelog = memo(({ setPage }: PageProps) => {
           <FadeIn delay={0.05} className="lg:col-span-4 lg:col-start-9">
             <p className="m-0 text-muted text-[16px] leading-relaxed">
               Every release, laid out like a session. Lanes are kinds of change,
-              marks are entries. Select a clip or a locator to open it below.
+              marks are entries. Open a clip or a locator and it plays below.
             </p>
           </FadeIn>
         </div>
 
         <FadeIn delay={0.08} className="mt-12">
-          <ChangelogArrangement releases={oldestFirst} selection={sel} onSelect={setSel} />
-
-          {/* Clip editor */}
-          <section className="border border-t-0 border-fg" aria-live="polite" aria-label={`${release.version} release notes`}>
-            <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-surface border-b border-border">
-              <span className="readout !text-fg">
-                Clip editor — {release.version}
-                {sel.lane ? ` · ${LANES.find((l) => l.key === sel.lane)?.name}` : ""} · {release.date}
-              </span>
-              <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter this release by kind of change">
-                <button
-                  type="button"
-                  aria-pressed={!sel.lane}
-                  onClick={() => setSel({ version: release.version, lane: null })}
-                  className="font-mono text-[10.5px] uppercase tracking-[0.05em] px-2 py-1 border border-border aria-pressed:bg-fg aria-pressed:text-bg aria-pressed:border-fg"
-                >
-                  All {release.entries.length}
-                </button>
-                {counts.map((l) => (
-                  <button
-                    key={l.key}
-                    type="button"
-                    aria-pressed={sel.lane === l.key}
-                    onClick={() => setSel({ version: release.version, lane: l.key })}
-                    className="font-mono text-[10.5px] uppercase tracking-[0.05em] px-2 py-1 border border-border aria-pressed:bg-fg aria-pressed:text-bg aria-pressed:border-fg"
-                  >
-                    {l.name} {l.n}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="grid lg:grid-cols-12 gap-6 px-4 py-6">
-              <p className="lg:col-span-4 m-0 text-muted text-[15px] leading-relaxed">{release.summary}</p>
-              <ul className="lg:col-span-8 m-0 p-0 list-none">
-                {entries.map((e, i) => (
-                  <li key={i} className="grid grid-cols-[84px_1fr] gap-3 py-2.5 border-b border-border first:pt-0 text-[15px] leading-relaxed text-fg">
-                    <span className="font-mono text-[10.5px] uppercase tracking-[0.05em] text-muted pt-1 flex items-baseline gap-2">
-                      <span className="w-[7px] h-[7px] shrink-0 self-center" style={{ background: laneColor(laneOf(e.type)) }} />
-                      {e.type}
-                    </span>
-                    <span>{e.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
+          <div ref={arrangement}>
+            <ChangelogArrangement releases={oldestFirst} selection={sel} onSelect={open} />
+          </div>
+          <ClipEditor release={release} lane={sel.lane} take={take} arrangement={arrangement} onLane={onLane} />
         </FadeIn>
 
         {/* Archive: every release, as text */}

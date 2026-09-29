@@ -684,3 +684,38 @@ body::after {
 .clx-rec .clx-h::before { width: 7px; height: 7px; border-radius: 50%; background: #ff4d4d; animation: clxBlink 1.2s steps(2) infinite; }
 .clx-rec .clx-h::after { content: "REC"; margin-left: auto; font: 600 9px var(--font-mono); color: #ff8a7a; }
 @keyframes clxBlink { 50% { opacity: 0.25; } }
+
+/* ── Clip editor: the opened clip, zoomed, and its entries ─────── */
+.cle-chip { font: 500 10.5px var(--font-mono); text-transform: uppercase; letter-spacing: .05em; padding: 4px 8px; border: 1px solid var(--color-border); color: var(--color-fg-muted); transition: background-color .15s, color .15s, border-color .15s; }
+.cle-chip:hover { color: var(--color-fg); border-color: var(--color-border-2); }
+.cle-chip[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+.cle-strip { --row: 30px; display: grid; grid-template-columns: 124px 1fr; background: #000; color: #d9d3c9; border-bottom: 1px solid var(--color-border); }
+.cle-strip[data-single] { --row: 56px; }
+.cle-names { background: #0c0b0a; border-right: 1px solid #2e2a26; }
+.cle-ruler-name { height: 24px; display: flex; align-items: center; padding: 0 12px; font: 500 10px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: #857d72; border-bottom: 1px solid #1a1714; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cle-name { position: relative; height: var(--row); display: flex; align-items: center; padding: 0 12px; font-size: 13px; border-bottom: 1px solid #1a1714; }
+.cle-name::before { content: ""; position: absolute; left: 0; top: 3px; bottom: 3px; width: 2px; background: var(--c); }
+.cle-track { position: relative; min-width: 0; }
+.cle-ruler { height: 24px; border-bottom: 1px solid #1a1714; background:
+  repeating-linear-gradient(90deg, #57514a 0 1px, transparent 1px 25%) left bottom / 100% 12px no-repeat,
+  repeating-linear-gradient(90deg, #2e2a26 0 1px, transparent 1px 6.25%) left bottom / 100% 6px no-repeat; }
+.cle-cell { height: var(--row); padding: 2px 1px; border-bottom: 1px solid #1a1714; }
+.cle-clip { cursor: default; }
+.cle-clip:hover { filter: none; }
+.cle-clip .clx-w i { transition: background-color .15s, box-shadow .15s; }
+.cle-clip .clx-w i[data-hot] { background: #fff; opacity: 1; box-shadow: 0 0 8px 1px rgba(255, 255, 255, .5); }
+.cle-ph { position: absolute; top: 0; bottom: 0; left: 0; width: 1px; margin-left: -.5px; background: #eee9e1; opacity: 0; pointer-events: none; z-index: 2; }
+.cle-ph::before { content: ""; position: absolute; top: 0; left: -5px; border: 5px solid transparent; border-top: 7px solid #eee9e1; border-bottom: 0; }
+.cle-ghost { position: fixed !important; z-index: 60; pointer-events: none; margin: 0; }
+.cle-group { display: flex; align-items: center; gap: 8px; padding: 18px 0 8px; font: 500 10.5px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--color-fg); border-bottom: 2px solid var(--color-fg); }
+.cle-group::before { content: ""; width: 7px; height: 7px; background: var(--c); }
+.cle-group:first-child { padding-top: 0; }
+.cle-row { position: relative; }
+.cle-row:first-child { padding-top: 0; }
+.cle-hit { position: absolute; inset: 0 -10px; background: var(--c); opacity: 0; pointer-events: none; }
+.cle[data-armed] [data-cle-row], .cle[data-armed] [data-cle-lane] { opacity: 0; }
+@media (max-width: 640px) {
+  .cle-strip { grid-template-columns: 76px 1fr; }
+  .cle-name, .cle-ruler-name { padding: 0 8px; }
+  .cle-name { font-size: 12px; }
+}
