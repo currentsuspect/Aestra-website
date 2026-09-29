@@ -129,7 +129,8 @@ export const buildPageStructuredData = (
   };
 
   if (page !== "home") {
-    (breadcrumb.itemListElement as { position: number; name: string; item: string }[]).push({
+    (breadcrumb.itemListElement as { "@type": string; position: number; name: string; item: string }[]).push({
+      "@type": "ListItem",
       position: 2,
       name: sectionTitle,
       item: url,
