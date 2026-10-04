@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "node scripts/agent-skills.mjs && node scripts/check-api-imports.mjs && node scripts/check-previews.mjs && tsc --noEmit && vite build && node scripts/prerender.mjs",
     "check:previews": "node scripts/check-previews.mjs",
+    "audit:previews": "node scripts/audit-previews.mjs",
     "previews:write": "node scripts/check-previews.mjs --write",
     "check:function": "node scripts/check-function.mjs",
     "preview": "vite preview",
