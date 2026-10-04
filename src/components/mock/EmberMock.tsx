@@ -134,7 +134,8 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
   const overviewHeadRef = useRef<HTMLDivElement>(null);
   const posRef = useRef<HTMLSpanElement>(null);
   const clockRef = useRef<HTMLSpanElement>(null);
-  const scopeRef = useRef<SVGPolylineElement>(null);
+  const scopeOuterRef = useRef<SVGPathElement>(null);
+  const scopeInnerRef = useRef<SVGPathElement>(null);
   const meterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const meterLevel = useRef([0, 0]);
 
@@ -163,31 +164,61 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
     if (clockRef.current) clockRef.current.textContent = clockTime(b);
 
     const { playing: isPlaying, audible: isAudible } = live.current;
-    let energy = 0;
-    if (isPlaying) {
+    const mixAt = (at: number) => {
+      let energy = 0;
       CLIPS.forEach((c, i) => {
         if (!isAudible(c.track)) return;
-        const l = levelAt(c, waves[i].peaks, b);
+        const l = levelAt(c, waves[i].peaks, at);
         energy += l * l;
       });
-    }
-    const level = Math.min(1, Math.sqrt(energy) * 0.42);
+      return Math.min(1, Math.sqrt(energy) * 0.42);
+    };
+    const level = isPlaying ? mixAt(b) : 0;
     for (let ch = 0; ch < 2; ch++) {
       const target = ch === 0 ? level : level * 0.95;
       meterLevel.current[ch] = isPlaying ? Math.max(target, meterLevel.current[ch] * 0.86) : 0;
       const el = meterRefs.current[ch];
       if (el) el.style.transform = `scaleY(${meterLevel.current[ch].toFixed(3)})`;
     }
-    const scope = scopeRef.current;
-    if (scope) {
-      const a = meterLevel.current[0] * 11;
-      const phase = b * 23;
-      let pts = "";
-      for (let i = 0; i <= 60; i++) {
-        const y = 14 + Math.sin(i * 0.55 + phase) * a * (0.55 + 0.45 * Math.sin(i * 0.15 + phase * 0.4));
-        pts += `${((i * 150) / 60).toFixed(1)},${y.toFixed(1)} `;
+    /* The output scope draws what just played as a waveform scrolling left, in the
+       same outer-envelope and inner-RMS shape as a clip. Columns are the clips' own. */
+    const outer = scopeOuterRef.current;
+    const inner = scopeInnerRef.current;
+    if (outer && inner) {
+      if (!isPlaying) {
+        outer.setAttribute("d", "");
+        inner.setAttribute("d", "");
+      } else {
+        const COL_W = 2.5;
+        const cols = Math.ceil(150 / COL_W) + 1;
+        const colBars = 1 / (4 * 3);
+        const pos = b / colBars;
+        const base = Math.floor(pos);
+        const frac = pos - base;
+        const xs: number[] = [];
+        const hs: number[] = [];
+        for (let j = cols - 1; j >= 0; j--) {
+          xs.push(150 - (frac + j) * COL_W);
+          hs.push(mixAt((base - j) * colBars));
+        }
+        let top = "";
+        let bot = "";
+        let topIn = "";
+        let botIn = "";
+        xs.forEach((x, i) => {
+          const h = hs[i] * 12;
+          const hi = h * RMS_SCALE;
+          top += `${i ? "L" : "M"}${x.toFixed(1)} ${(14 - h).toFixed(1)}`;
+          topIn += `${i ? "L" : "M"}${x.toFixed(1)} ${(14 - hi).toFixed(1)}`;
+        });
+        for (let i = xs.length - 1; i >= 0; i--) {
+          const h = hs[i] * 12;
+          bot += `L${xs[i].toFixed(1)} ${(14 + h).toFixed(1)}`;
+          botIn += `L${xs[i].toFixed(1)} ${(14 + h * RMS_SCALE).toFixed(1)}`;
+        }
+        outer.setAttribute("d", `${top}${bot}Z`);
+        inner.setAttribute("d", `${topIn}${botIn}Z`);
       }
-      scope.setAttribute("points", pts);
     }
   }, [waves]);
 
@@ -370,11 +401,12 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
             <div className="flex gap-[6px] mt-[3px]">
               <svg width="150" height="28" viewBox="0 0 150 28" aria-hidden="true" style={{ background: D.bed, borderRadius: 3 }}>
                 <line x1="0" x2="150" y1="14" y2="14" stroke={D.meter} strokeOpacity="0.22" />
-                <polyline ref={scopeRef} points="0,14 150,14" fill="none" stroke={D.meter} strokeOpacity="0.85" strokeWidth="1.2" />
+                <path ref={scopeOuterRef} d="" fill={D.meter} fillOpacity="0.5" />
+                <path ref={scopeInnerRef} d="" fill={D.meter} fillOpacity="0.95" />
               </svg>
-              <div className="w-[60px] h-[28px] flex gap-[3px] justify-center rounded-[3px] py-[2px]" style={{ background: D.bed }}>
+              <div className="w-[60px] h-[28px] flex gap-[2px] rounded-[3px] p-[2px]" style={{ background: D.bed }}>
                 {[0, 1].map((ch) => (
-                  <div key={ch} className="relative w-[7px] h-full overflow-hidden rounded-[1px]" style={{ background: "#090807" }}>
+                  <div key={ch} className="relative flex-1 h-full overflow-hidden rounded-[1px]" style={{ background: "#090807" }}>
                     <div
                       ref={(el) => { meterRefs.current[ch] = el; }}
                       className="absolute inset-0 origin-bottom"
