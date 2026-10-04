@@ -113,7 +113,7 @@ export const ClipEditor = memo(({
 
       <div className="grid lg:grid-cols-12 gap-6 px-4 py-6">
         <p className="lg:col-span-4 m-0 text-muted text-[15px] leading-relaxed">{release.summary}</p>
-        <ul className="lg:col-span-8 m-0 p-0 list-none">
+        <ul className="lg:col-span-8 m-0 p-0 list-none min-w-0">
           {groups.map((g) => (
             <React.Fragment key={g.key}>
               {!single && (
