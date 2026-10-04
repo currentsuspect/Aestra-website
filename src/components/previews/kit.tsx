@@ -48,6 +48,8 @@ export const path2 = (t: number, frames: [number, number, number][]) => ({
   x: keys(t, frames.map(([a, x]) => [a, x] as [number, number])),
   y: keys(t, frames.map(([a, , y]) => [a, y] as [number, number])),
 });
+/** Bar → x for a timeline of `bars` bars spanning (x, w); bar 1 sits at x. */
+export const grid = (bars: number, x = 20, w = 560) => (bar: number) => x + ((bar - 1) / bars) * w;
 /** True inside [a, b). */
 export const within = (t: number, a: number, b: number) => t >= a && t < b;
 
