@@ -10,7 +10,7 @@ export const SITE = {
   name: "Aestra",
   url: ORIGIN,
   description:
-    "Aestra is a native digital audio workstation for modest machines: the whole DAW is free, eleven effects come in the box, and it's in alpha on Linux.",
+    "Aestra is a free app for making music, built for old and modest machines: the whole DAW is free, eleven effects come in the box, and it's in alpha on Linux.",
   twitter: "@aestrastudios",
   twitterUrl: "https://x.com/aestrastudios",
   github: "https://github.com/currentsuspect/Aestra",

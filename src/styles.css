@@ -641,6 +641,8 @@ body::after {
   background: #eee9e1;
   box-shadow: 0 0 0 2px #0c0b0a;
   cursor: help;
+  /* The Tracks overlay is pointer-events: none so the lane keys beneath it stay clickable; the badge opts back in. */
+  pointer-events: auto;
   transition: background-color 0.15s ease, transform 0.15s ease;
 }
 /* A larger target than the 16px dot, so the numbers are easy to hit. */
