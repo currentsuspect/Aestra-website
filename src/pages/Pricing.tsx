@@ -1,10 +1,13 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
+import { SleeveArt } from "../components/SleeveArt";
 import type { PageProps } from "../types";
 
-/* Pricing, set like the rest of the site: heavy rules, ledger rows, no cards.
-   The data below is the single source for the tiers and the comparison. */
+/* Pricing, set as a record: the sleeve up top, Side A (Core), Side B
+   (Supporter), a numbered limited pressing (Founder) and the credits
+   (what each offer includes). The tiers and comparison data below are
+   the single source; the layout is only dressing. */
 
 const tiers = [
   {
@@ -112,108 +115,156 @@ const Mark = ({ on }: { on: boolean }) =>
 
 const GRID = "grid grid-cols-[minmax(0,1fr)_64px_84px_72px] sm:grid-cols-[minmax(0,1fr)_110px_130px_130px]";
 
-export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
-  <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 min-h-screen px-5 sm:px-6">
-    <div className="max-w-[1320px] mx-auto">
-      {/* Header */}
-      <FadeIn className="grid lg:grid-cols-12 gap-8 lg:gap-6 items-end">
-        <div className="lg:col-span-8">
-          <p className="readout mb-5">Pricing</p>
-          <h1 className="display text-[clamp(3rem,1.6rem+5vw,7rem)]">The whole DAW is free.</h1>
-        </div>
-        <p className="lg:col-span-4 m-0 text-muted text-[16px] leading-relaxed max-w-[34rem]">
-          No export limit, no time limit, no watermark, and you don't need a plugin to make
-          music. Supporter is for people who want to pay for the ecosystem around Aestra
-          and the work that keeps it going.
-        </p>
-      </FadeIn>
+const SIDE = { Core: "A", Supporter: "B" } as const;
 
-      {/* Tiers */}
-      <section className="mt-16 sm:mt-24 grid md:grid-cols-2 border-t-2 border-fg">
-        {tiers.map((t, i) => (
-          <FadeIn key={t.name} delay={i * 0.05} className={`py-8 grid gap-6 content-start ${i > 0 ? "md:pl-10 md:border-l border-border border-t md:border-t-0" : "md:pr-10"}`}>
-            <div>
-              <span className="readout">{t.name}</span>
-              <div className="flex items-baseline gap-3 mt-2">
-                <strong className="display text-[4.5rem] leading-none">{t.price}</strong>
-                <span className="text-muted text-[15px]">{t.sub}</span>
+/* A record sliding out of the sleeve: grooves, and a label with the two sides. */
+const Record = () => (
+  <div
+    aria-hidden="true"
+    className="hidden lg:block absolute z-0 top-[4%] -right-[50%] w-[92%] aspect-square rounded-full border border-fg"
+    style={{ background: "repeating-radial-gradient(circle at center, #0c0b0a 0 2px, #1a171d 2px 3px)" }}
+  >
+    <div className="absolute left-[34%] top-[34%] w-[32%] h-[32%] rounded-full bg-accent font-mono text-[10px] font-semibold leading-[1.6] uppercase tracking-[0.1em] text-[#0c0b0a]">
+      <span className="hidden xl:block absolute left-1/2 top-1/2 -translate-y-1/2 pl-2.5 whitespace-nowrap">Side A<br />Side B</span>
+    </div>
+    <span className="absolute left-1/2 top-1/2 w-[6px] h-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0c0b0a] ring-1 ring-[#eee9e1]/50" />
+  </div>
+);
+
+export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
+  <div className="pt-28 sm:pt-32 pb-24 sm:pb-32 min-h-screen px-5 sm:px-6">
+    <div className="max-w-[1320px] mx-auto">
+      {/* Sleeve */}
+      <div className="grid lg:grid-cols-12 gap-10 lg:gap-6 items-end">
+        <FadeIn className="lg:col-span-4 relative">
+          <Record />
+          <div className="relative z-10">
+            <SleeveArt label="Pricing · 2 sides" />
+          </div>
+        </FadeIn>
+        <FadeIn delay={0.08} className="lg:col-span-6 lg:col-start-7 grid gap-6 pb-2">
+          <p className="readout m-0">Pricing</p>
+          <h1 className="display text-[clamp(3rem,1.6rem+5vw,7rem)] m-0">The whole DAW is free.</h1>
+          <p className="m-0 text-muted text-[17px] leading-relaxed max-w-[46ch]">
+            No export limit, no time limit, no watermark, and you don't need a plugin to make
+            music. Side A is the app. Side B is for people who want to pay for the ecosystem
+            around it and the work that keeps it going.
+          </p>
+        </FadeIn>
+      </div>
+
+      {/* Sides */}
+      {tiers.map((t) => {
+        const side = SIDE[t.name as keyof typeof SIDE];
+        return (
+          <section key={t.name} className="pt-20 sm:pt-24" aria-labelledby={`side-${side}`}>
+            <div className="border-t-2 border-fg grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 border-b border-border items-baseline">
+              <span className="readout lg:col-span-2 !text-accent">Side {side}</span>
+              <h2 id={`side-${side}`} className="display-2 lg:col-span-4 text-[clamp(1.8rem,1.2rem+1.8vw,2.6rem)] m-0">{t.name}</h2>
+              <p className="lg:col-span-6 m-0 text-muted text-[15px] leading-relaxed">{t.tagline}</p>
+            </div>
+
+            <FadeIn className="grid lg:grid-cols-12 gap-x-6 gap-y-8 py-8">
+              <div className="lg:col-span-5">
+                <div className="flex items-baseline gap-3">
+                  <strong className="display text-[5.5rem] leading-none">{t.price}</strong>
+                  <span className="text-muted text-[15px]">{t.sub}</span>
+                </div>
+                {t.annual && <p className="readout mt-2 !text-accent">{t.annual}</p>}
+                <div className="mt-7">
+                  <Button
+                    size="lg"
+                    variant={t.name === "Supporter" ? "primary" : "secondary"}
+                    onClick={() => onEarlyAccess?.(t.name === "Supporter" ? "supporter-notify" : "early-access")}
+                    className="justify-between w-full sm:w-auto sm:min-w-[19rem]"
+                  >
+                    {t.cta} <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                  </Button>
+                </div>
               </div>
-              {t.annual && <p className="readout mt-2 !text-accent">{t.annual}</p>}
-              <p className="mt-4 mb-0 text-muted text-[15px] leading-relaxed max-w-md">{t.tagline}</p>
-            </div>
-            <ul className="m-0 p-0 border-t border-border">
-              {t.features.map((f) => (
-                <li key={f} className="list-none py-3 border-b border-border text-fg text-[15px] leading-snug">{f}</li>
-              ))}
-            </ul>
-            <div>
-              <p className="readout mb-2">Not built yet</p>
-              <ul className="m-0 p-0">
-                {t.planned.map((f) => (
-                  <li key={f} className="list-none py-1.5 text-muted text-[14.5px]">{f}</li>
+
+              <ol className="lg:col-span-7 m-0 p-0 list-none border-t border-border">
+                {t.features.map((f, i) => (
+                  <li key={f} className="grid grid-cols-[44px_1fr_auto] gap-3 py-3.5 border-b border-border items-baseline">
+                    <span className="font-mono text-[11px] font-semibold text-dim">{side}{i + 1}</span>
+                    <span className="text-fg text-[16px] leading-snug">{f}</span>
+                    <span className="readout">On the record</span>
+                  </li>
                 ))}
-              </ul>
-            </div>
-            <div>
-              <Button
-                size="lg"
-                variant={t.name === "Supporter" ? "primary" : "secondary"}
-                onClick={() => onEarlyAccess?.(t.name === "Supporter" ? "supporter-notify" : "early-access")}
-                className="justify-between w-full sm:w-auto sm:min-w-[19rem]"
-              >
-                {t.cta} <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Button>
-            </div>
-          </FadeIn>
-        ))}
-      </section>
+                {t.planned.map((f, i) => (
+                  <li key={f} className="grid grid-cols-[44px_1fr_auto] gap-3 py-3.5 border-b border-border items-baseline">
+                    <span className="font-mono text-[11px] font-semibold text-faint">{side}{t.features.length + i + 1}</span>
+                    <span className="text-muted text-[16px] leading-snug">{f}</span>
+                    <span className="readout !text-faint">Not built yet</span>
+                  </li>
+                ))}
+              </ol>
+            </FadeIn>
+          </section>
+        );
+      })}
       <p className="mt-2 mb-0 text-muted text-[13.5px] leading-relaxed max-w-2xl">
         Core needs no card. Supporter isn't on sale yet. Collaboration isn't built yet, so there's no storage
         amount to promise, and nothing online will ever touch the projects on your own computer.
       </p>
 
-      {/* Founder */}
-      <section className="mt-20 sm:mt-28 grid lg:grid-cols-12 gap-8 lg:gap-6" id="founder">
-        <FadeIn className="lg:col-span-4">
-          <p className="readout mb-4">Founder · 500 cards, ever</p>
-          <h2 className="display-2 text-[clamp(2.2rem,1.2rem+3.2vw,4rem)]">Five hundred, once.</h2>
-          <div className="mt-6 flex items-baseline gap-3">
-            <strong className="display text-[3.4rem] leading-none">$129</strong>
-            <span className="text-muted text-[15px]">one-time, digital</span>
-          </div>
-        </FadeIn>
-        <FadeIn delay={0.05} className="lg:col-span-8 border-t-2 border-fg">
-          <p className="m-0 pt-6 text-muted text-base sm:text-[17px] leading-relaxed max-w-xl">
-            A numbered digital card for the first 500 people, a plugin bundle you keep, and two
-            years of Supporter. Nothing is shipped.
+      {/* Limited pressing */}
+      <section className="mt-24 sm:mt-32" id="founder" aria-labelledby="pressing">
+        <div className="border-t-2 border-fg grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 border-b border-border items-baseline">
+          <span className="readout lg:col-span-2 !text-accent">Limited pressing</span>
+          <h2 id="pressing" className="display-2 lg:col-span-4 text-[clamp(1.8rem,1.2rem+1.8vw,2.6rem)] m-0">Five hundred, once.</h2>
+          <p className="lg:col-span-6 m-0 text-muted text-[15px] leading-relaxed">
+            A numbered digital card for the first 500 people, a plugin bundle you keep, and two years of Supporter. Nothing is shipped.
           </p>
-          <ul className="m-0 p-0 mt-6 border-t border-border">
+        </div>
+        <FadeIn className="grid lg:grid-cols-12 gap-x-6 gap-y-8 py-8">
+          <div className="lg:col-span-5">
+            {/* The card itself: a numbered sleeve sticker. */}
+            <div className="border-2 border-fg bg-black text-[#eee9e1] p-6 sm:p-7 max-w-[26rem]" role="img" aria-label="A Founder card, numbered out of 500">
+              <div className="flex items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.12em] text-[#857d72]">
+                <span>aestra · founder</span>
+                <span>digital</span>
+              </div>
+              <div className="mt-10 whitespace-nowrap font-mono text-[clamp(1.5rem,1rem+1.6vw,2.25rem)] font-semibold tracking-tight leading-none">
+                No. <span className="text-accent">001</span><span className="text-[#857d72]"> / 500</span>
+              </div>
+              <div className="mt-10 flex items-end justify-between gap-4">
+                <strong className="display text-[3.2rem] leading-none" style={{ color: "#eee9e1" }}>$129</strong>
+                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#857d72] pb-1">one-time</span>
+              </div>
+            </div>
+            <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
+              <Button
+                size="lg"
+                onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
+                className="justify-between"
+              >
+                Join the waitlist <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Button>
+              <p className="m-0 text-muted text-[13.5px] leading-relaxed max-w-xs">
+                Cards go on sale at public beta. The waitlist only emails you when they do. It doesn't hold a card for you.
+              </p>
+            </div>
+          </div>
+          <ol className="lg:col-span-7 m-0 p-0 list-none border-t border-border self-start">
             {FOUNDER_POINTS.map((f, i) => (
-              <li key={f} className="list-none grid grid-cols-[40px_1fr] gap-3 py-3.5 border-b border-border">
-                <span className="font-mono text-[11px] font-semibold text-accent pt-[4px]">{String(i + 1).padStart(2, "0")}</span>
+              <li key={f} className="grid grid-cols-[44px_1fr] gap-3 py-3.5 border-b border-border items-baseline">
+                <span className="font-mono text-[11px] font-semibold text-dim">L{i + 1}</span>
                 <span className="text-fg text-[16px] leading-snug">{f}</span>
               </li>
             ))}
-          </ul>
-          <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-4">
-            <Button
-              size="lg"
-              onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
-              className="justify-between"
-            >
-              Join the waitlist <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Button>
-            <p className="m-0 text-muted text-[13.5px] leading-relaxed max-w-sm">
-              Founder cards go on sale at public beta. The waitlist only emails you when they do. It doesn't hold a card for you.
-            </p>
-          </div>
+          </ol>
         </FadeIn>
       </section>
 
-      {/* Comparison */}
-      <section className="mt-20 sm:mt-28">
-        <p className="readout mb-4">What each offer includes</p>
-        <div className="border-t-2 border-fg">
+      {/* Credits */}
+      <section className="mt-24 sm:mt-32">
+        <div className="border-t-2 border-fg grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 items-baseline">
+          <span className="readout lg:col-span-2 !text-accent">Credits</span>
+          <h2 className="display-2 lg:col-span-4 text-[clamp(1.8rem,1.2rem+1.8vw,2.6rem)] m-0">Who gets what</h2>
+          <p className="lg:col-span-6 m-0 text-muted text-[15px] leading-relaxed">Every offer side by side.</p>
+        </div>
+        <div className="border-t border-border">
           <div className={`${GRID} border-b border-border py-3 items-baseline`}>
             <span className="readout">Feature</span>
             <span className="text-center"><span className="block text-fg text-[14px] font-semibold">Core</span><span className="readout !text-[10px]">$0</span></span>
