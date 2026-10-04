@@ -52,16 +52,19 @@ const PlayScene = memo(({ scene, id }: { scene?: Scene; id: string }) => {
       <div className="pvs-bar">
         <span className="pvs-title">Preview{scene ? ` · ${scene.title}` : ""}</span>
         <span className="pvs-note">Illustration</span>
+        <span className="pvs-swipe" aria-hidden="true">swipe ↔</span>
         {scene && !still && (
           <button type="button" className="pvs-replay" onClick={replay} aria-label="Replay preview">
             <RotateCcw className="w-3 h-3" aria-hidden="true" />
           </button>
         )}
       </div>
+      <div className="pvs-view">
       <svg viewBox={`0 0 ${W} ${H}`} className="pvs-svg" role={scene ? "img" : undefined} aria-hidden={scene ? undefined : true}
         aria-label={scene ? `Animated illustration: ${scene.title}` : undefined} style={{ background: D.bed }}>
         {scene?.draw(t)}
       </svg>
+      </div>
       <div className="pvs-progress" aria-hidden="true">
         <i style={{ transform: `scaleX(${scene ? (still ? 1 : t / scene.dur) : 0})` }} />
       </div>
