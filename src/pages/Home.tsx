@@ -18,7 +18,7 @@ import { useStructuredData } from "../seo";
    from philosophy.md in ~/Dev/Aestra, or a plain statement of status.
    Nothing here should need an asterisk. If a line can't be traced to
    a commit, a release note or that document, it doesn't belong.
-   Sections are numbered because a manual's are: § 1 is the figure.
+   Sections are numbered because a manual's are: 01 is the figure.
    ───────────────────────────────────────────────────────────────── */
 
 const EmberMock = lazy(() => import("../components/mock/EmberMock").then((m) => ({ default: m.EmberMock })));
@@ -54,7 +54,7 @@ const Section = ({
   <section id={id} className="px-5 sm:px-6 pt-20 sm:pt-28 scroll-mt-20">
     <Wrap className="grid lg:grid-cols-12 gap-8 lg:gap-6">
       <FadeIn className="lg:col-span-4">
-        <p className="readout mb-4">§ {n}</p>
+        <p className="readout mb-4">{n.padStart(2, "0")}</p>
         <h2 className="display-2 text-[clamp(2.2rem,1.2rem+3.2vw,4rem)]">{title}</h2>
         {aside}
       </FadeIn>
@@ -65,7 +65,7 @@ const Section = ({
   </section>
 );
 
-/* ── § 1 · Hero + Fig. 1 ────────────────────────────────────────── */
+/* ── 1 · Hero + Fig. 1 ────────────────────────────────────────── */
 const PARTS: { part: MockPart; title: string; body: string }[] = [
   { part: "views", title: "Views", body: "Arsenal for loops, Timeline for the song, Audition for checking the mix. One window." },
   { part: "transport", title: "Transport", body: "Play, stop, record. Play lights up while it plays, record goes red when armed." },
@@ -79,6 +79,19 @@ const PARTS: { part: MockPart; title: string; body: string }[] = [
 
 const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
   const [part, setPart] = useState<MockPart | null>(null);
+  const [tip, setTip] = useState<{ part: MockPart; x: number; y: number; w: number } | null>(null);
+  const figure = useRef<HTMLDivElement>(null);
+  // Badges on the mock report hover/focus/tap; the tooltip is drawn here, in page
+  // coordinates, so the mock's own overflow clipping can't cut it off.
+  const onPartHover = (p: MockPart | null, el: HTMLElement | null) => {
+    setPart(p);
+    const box = figure.current;
+    if (!p || !el || !box) { setTip(null); return; }
+    const a = el.getBoundingClientRect();
+    const b = box.getBoundingClientRect();
+    setTip({ part: p, x: a.left - b.left + a.width / 2, y: a.bottom - b.top + 8, w: b.width });
+  };
+  const tipPart = tip ? PARTS.find((p) => p.part === tip.part) : null;
   return (
     <section className="px-5 sm:px-6 pt-24 sm:pt-28 lg:pt-32">
       <Wrap>
@@ -104,41 +117,34 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
         </div>
 
         <figure className="m-0">
-          <div className="border border-fg" onMouseLeave={() => setPart(null)}>
+          <div ref={figure} className="relative border border-fg" onMouseLeave={() => onPartHover(null, null)} onClick={() => onPartHover(null, null)}>
             <Suspense fallback={<div className="aspect-[1280/543] bg-[#000]" aria-hidden="true" />}>
-              <EmberMock activePart={part} />
+              <EmberMock activePart={part} onPartHover={onPartHover} />
             </Suspense>
+            {tip && tipPart && (
+              <div
+                role="tooltip"
+                className="absolute z-20 pointer-events-none w-[250px] max-w-[calc(100%-16px)] px-3.5 py-3 bg-[#eee9e1] text-[#121110] text-[13.5px] leading-snug shadow-[0_8px_24px_rgba(0,0,0,0.45)]"
+                style={{ left: Math.min(Math.max(tip.x - 125, 8), tip.w - 258), top: tip.y }}
+              >
+                <span className="block font-mono text-[10.5px] font-semibold uppercase tracking-[0.08em] mb-1 text-[#6a4de4]">
+                  {String(PARTS.indexOf(tipPart) + 1).padStart(2, "0")} · {tipPart.title}
+                </span>
+                {tipPart.body}
+              </div>
+            )}
           </div>
           <figcaption className="readout flex flex-wrap justify-between gap-x-6 gap-y-1 py-3 border-b border-border">
             <span>Fig. 1 — Timeline view · 15 tracks · 112 BPM</span>
-            <span>Recreated from the development build · press play, mute, solo</span>
+            <span>Recreated from the development build · hover the numbers · press play, mute, solo</span>
           </figcaption>
         </figure>
-
-        <ul className="parts-list m-0 p-0 mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-border">
-          {PARTS.map((p, i) => (
-            <li
-              key={p.part}
-              tabIndex={0}
-              data-hot={part === p.part ? "" : undefined}
-              onMouseEnter={() => setPart(p.part)}
-              onMouseLeave={() => setPart(null)}
-              onFocus={() => setPart(p.part)}
-              onBlur={() => setPart(null)}
-              className="list-none grid grid-cols-[28px_1fr] gap-x-3 gap-y-1 px-4 py-4 border-r border-b border-border outline-none"
-            >
-              <span className="font-mono text-[11px] font-semibold text-accent pt-[3px]">{String(i + 1).padStart(2, "0")}</span>
-              <span className="text-fg text-[15px] font-semibold">{p.title}</span>
-              <span className="col-start-2 text-muted text-[14px] leading-relaxed">{p.body}</span>
-            </li>
-          ))}
-        </ul>
       </Wrap>
     </section>
   );
 };
 
-/* ── § 2 · Operating notes — behaviour, stated as plainly as a release note ── */
+/* ── 2 · Operating notes — behaviour, stated as plainly as a release note ── */
 const DETAILS: { line: string; where: string }[] = [
   { line: "Press stop once and the playhead goes back to the start.", where: "v0.7.1" },
   { line: "Recordings line up with the grid. They're not late by your audio interface's delay.", where: "v0.7.1" },
@@ -178,7 +184,7 @@ const Details = memo(({ setPage }: PageProps) => (
   </Section>
 ));
 
-/* ── § 3 · Recent sessions — the changelog, arranged ── */
+/* ── 3 · Recent sessions — the changelog, arranged ── */
 const Sessions = memo(({ setPage }: PageProps) => {
   const recent = [...RELEASES].reverse().slice(-3);
   // Hand the selection to the changelog page, which opens it in the clip editor.
@@ -207,7 +213,7 @@ const Sessions = memo(({ setPage }: PageProps) => {
   );
 });
 
-/* ── § 4 · Specifications — the honest table. Mirrors the FAQ and the
+/* ── 4 · Specifications — the honest table. Mirrors the FAQ and the
    5 Aug truth pass (835a2af); update both together. ── */
 type State = "ready" | "partial" | "absent";
 const STATUS: { area: string; state: State; note: React.ReactNode }[] = [
@@ -256,7 +262,7 @@ const Status = memo(({ setPage }: PageProps) => (
   </Section>
 ));
 
-/* ── § 5 · Principles — quoted from philosophy.md, not invented ── */
+/* ── 5 · Principles — quoted from philosophy.md, not invented ── */
 const PRINCIPLES = [
   { title: "Sound first.", body: "Steady timing, and an export that sounds like what you heard in the session. Every time." },
   { title: "Flow over features.", body: "A quick, rough idea beats a perfect one you got interrupted on. So: good defaults, few pop-ups, easy undo." },
@@ -290,7 +296,7 @@ const Principles = memo(() => (
   </Section>
 ));
 
-/* ── § 6 · Cost ─────────────────────────────────────────────────── */
+/* ── 6 · Cost ─────────────────────────────────────────────────── */
 const Cost = memo(({ setPage }: PageProps) => (
   <Section
     n="6"
@@ -322,7 +328,7 @@ const Cost = memo(({ setPage }: PageProps) => (
   </Section>
 ));
 
-/* ── § 7 · Questions ────────────────────────────────────────────── */
+/* ── 7 · Questions ────────────────────────────────────────────── */
 const FAQ = memo(({ setPage }: PageProps) => {
   const faqs: { q: string; a: React.ReactNode }[] = [
     {
@@ -424,7 +430,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
   );
 });
 
-/* ── § 8 · Founder waitlist ─────────────────────────────────────── */
+/* ── 8 · Founder waitlist ─────────────────────────────────────── */
 const FounderCountdown = () => {
   const toast = useToast();
   const [email, setEmail] = useState("");

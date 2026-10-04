@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
   D, TRACKS, CLIPS, FILES, BARS, BPM, tone, waveform, RMS_SCALE, levelAt, barBeatSixteenth, clockTime,
 } from "./emberSession";
@@ -80,15 +80,35 @@ const Lamp = ({ on }: { on: boolean }) => (
   />
 );
 
-const Badge = ({ n }: { n: number }) => (
-  <span className="mock-badge" aria-hidden="true">{n}</span>
-);
+/* Badges are the tooltip anchors: hovering, focusing or tapping one reports
+   its part and screen rect, and the page draws the tooltip. */
+export type PartHover = (part: MockPart | null, anchor: HTMLElement | null) => void;
+const HoverCtx = createContext<PartHover | null>(null);
+
+const Badge = ({ n, part, inside = false }: { n: number; part: MockPart; inside?: boolean }) => {
+  const hover = useContext(HoverCtx);
+  return (
+    <span
+      className={inside ? "mock-badge mock-badge-in" : "mock-badge"}
+      role="button"
+      tabIndex={0}
+      aria-label={`Part ${n}`}
+      onMouseEnter={(e) => hover?.(part, e.currentTarget)}
+      onMouseLeave={() => hover?.(null, null)}
+      onFocus={(e) => hover?.(part, e.currentTarget)}
+      onBlur={() => hover?.(null, null)}
+      onClick={(e) => { e.stopPropagation(); hover?.(part, e.currentTarget); }}
+    >
+      {n}
+    </span>
+  );
+};
 
 type PartProps = { part: MockPart; active?: MockPart | null; n?: number; className?: string; style?: React.CSSProperties; children: React.ReactNode };
 const Part = ({ part, active, n, className = "", style, children }: PartProps) => (
   <div data-part={part} data-hot={active === part ? "" : undefined} className={`relative ${className}`} style={style}>
     {children}
-    {n !== undefined && <Badge n={n} />}
+    {n !== undefined && <Badge n={n} part={part} />}
   </div>
 );
 
@@ -97,7 +117,7 @@ export const PART_NUMBER: Record<MockPart, number> = {
 };
 
 /* ── The mock ─────────────────────────────────────────────────────── */
-export const EmberMock = memo(({ activePart = null, showBadges = true }: { activePart?: MockPart | null; showBadges?: boolean }) => {
+export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHover = null }: { activePart?: MockPart | null; showBadges?: boolean; onPartHover?: PartHover | null }) => {
   const frameRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [playing, setPlaying] = useState(false);
@@ -231,6 +251,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
   const clipPart = CLIPS.findIndex((c) => c.track === 4 && c.start === 8);
 
   return (
+    <HoverCtx.Provider value={onPartHover}>
     <div
       ref={frameRef}
       className="ember-mock relative w-full overflow-hidden select-none"
@@ -516,7 +537,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
                               <use href={`#wv${ci}`} fill={toneT.ink} fillOpacity="0.95"
                                 transform={`matrix(1 0 0 ${RMS_SCALE} 0 ${50 * (1 - RMS_SCALE)})`} />
                             </svg>
-                            {isPart && showBadges && <span className="mock-badge mock-badge-in" aria-hidden="true">{PART_NUMBER.clip}</span>}
+                            {isPart && showBadges && <Badge n={PART_NUMBER.clip} part="clip" inside />}
                           </div>
                         );
                       })}
@@ -540,5 +561,6 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
         </div>
       </div>
     </div>
+    </HoverCtx.Provider>
   );
 });

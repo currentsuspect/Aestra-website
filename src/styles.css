@@ -623,8 +623,8 @@ body::after {
 .flow-svg .fill-fg-muted   { fill: var(--color-fg-muted); }
 
 /* ── Ember mock (the DAW, recreated) ─────────────────────────────
-   Numbered badges mark the parts the Home list describes; hovering a
-   part in that list lights its region with the brand violet. The mock
+   Numbered badges mark the parts of the DAW; hovering one shows a tooltip
+   and lights its region with the brand violet. The mock
    is the DAW's own dark world in both site themes. */
 .ember-mock .mock-badge {
   position: absolute;
@@ -640,9 +640,12 @@ body::after {
   color: #0c0b0a;
   background: #eee9e1;
   box-shadow: 0 0 0 2px #0c0b0a;
-  pointer-events: none;
+  cursor: help;
   transition: background-color 0.15s ease, transform 0.15s ease;
 }
+/* A larger target than the 16px dot, so the numbers are easy to hit. */
+.ember-mock .mock-badge::after { content: ""; position: absolute; inset: -6px; border-radius: 9999px; }
+.ember-mock .mock-badge:focus-visible { outline: 2px solid #a88dfb; outline-offset: 3px; }
 .ember-mock [data-part][data-hot] {
   outline: 2px solid #a88dfb;
   outline-offset: 1px;
