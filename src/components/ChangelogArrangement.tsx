@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import type { Release, ChangeType } from "../changelogData";
 import { tone } from "./mock/emberSession";
 
@@ -44,8 +44,22 @@ export const ChangelogArrangement = memo(({
   selection: ArrangementSelection | null;
   onSelect: (s: ArrangementSelection) => void;
   compact?: boolean;
-}) => (
-  <div className="clx-wrap" role="group" aria-label="Releases arranged as a session: lanes are kinds of change, marks are entries">
+}) => {
+  const wrap = useRef<HTMLDivElement>(null);
+  const first = useRef(true);
+  // Where the arrangement scrolls sideways (phones), keep the selected release in view.
+  useEffect(() => {
+    const el = wrap.current;
+    const col = selection && el?.querySelector<HTMLElement>(`.clx-col[data-clx-v="${selection.version}"]`);
+    if (!el || !col || el.scrollWidth <= el.clientWidth) return;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const lanes = el.querySelector<HTMLElement>(".clx-lanes")?.offsetWidth ?? 0;
+    const left = col.offsetLeft - lanes - (el.clientWidth - lanes - col.offsetWidth) / 2;
+    el.scrollTo({ left: Math.max(0, left), behavior: first.current || reduce ? "auto" : "smooth" });
+    first.current = false;
+  }, [selection?.version]); // eslint-disable-line react-hooks/exhaustive-deps
+  return (
+  <div ref={wrap} className="clx-wrap" role="group" aria-label="Releases arranged as a session: lanes are kinds of change, marks are entries">
     <div className={compact ? "clx clx-compact" : "clx"}>
       <div className="clx-lanes" aria-hidden="true">
         <div className="clx-lanes-head">Lanes</div>
@@ -107,4 +121,5 @@ export const ChangelogArrangement = memo(({
       </div>
     </div>
   </div>
-));
+);
+});

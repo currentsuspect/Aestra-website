@@ -657,9 +657,21 @@ body::after {
 .ember-mock .mock-pos i { font-style: normal; color: #857d72; margin: 0 1px; }
 
 /* ── Changelog arrangement ──────────────────────────────────────── */
-.clx-wrap { overflow-x: auto; border: 1px solid var(--color-fg); background: #000; }
+.clx-wrap { position: relative; overflow-x: auto; border: 1px solid var(--color-fg); background: #000; }
 .clx { min-width: 980px; display: grid; grid-template-columns: 124px 1fr; color: #d9d3c9; }
 .clx-compact { min-width: 680px; }
+/* Phones: a narrower lane column that stays put while the releases scroll under it, and a
+   shorter minimum width so the selected release and its neighbours share the screen. */
+@media (max-width: 640px) {
+  .clx { min-width: 640px; grid-template-columns: 76px 1fr; }
+  .clx-compact { min-width: 560px; }
+  .clx-lanes { position: sticky; left: 0; z-index: 3; }
+  .clx-lanes-head, .clx-lane-name { padding: 0 8px; }
+  .clx-lane-name { font-size: 12px; white-space: nowrap; }
+  .clx-loc small { display: none; }
+  .clx-loc { height: 40px; }
+  .clx-lanes-head { height: 40px; }
+}
 .clx-lanes { background: #0c0b0a; border-right: 1px solid #2e2a26; }
 .clx-lanes-head { height: 50px; display: flex; align-items: center; padding: 0 12px; font: 500 10px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: #6e675e; border-bottom: 1px solid #1a1714; }
 .clx-lane-name { position: relative; height: 44px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; border-bottom: 1px solid #1a1714; }
@@ -715,6 +727,7 @@ body::after {
 .cle-hit { position: absolute; inset: 0 -10px; background: var(--c); opacity: 0; pointer-events: none; }
 .cle[data-armed] [data-cle-row], .cle[data-armed] [data-cle-lane] { opacity: 0; }
 @media (max-width: 640px) {
+  .cle-chip { padding: 9px 12px; }
   .cle-strip { grid-template-columns: 76px 1fr; }
   .cle-name, .cle-ruler-name { padding: 0 8px; }
   .cle-name { font-size: 12px; }
@@ -738,3 +751,4 @@ body::after {
 .pvs-svg { display: block; width: 100%; height: auto; }
 .pvs-progress { height: 2px; background: #1c1a17; }
 .pvs-progress i { display: block; height: 100%; background: var(--c, #a88dfb); transform-origin: left; }
+@media (max-width: 640px) { .pvs { margin-left: -16px; margin-right: -16px; } }
