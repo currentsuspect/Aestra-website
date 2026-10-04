@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
-  Engine, ROWS, cloneGrid, defaultGrid, defaultSession,
-  type Grid, type Row, type SessionState,
+  CUSTOM, Engine, ROWS, VOICE_BANK, cloneGrid, defaultGrid, defaultSession, defaultVoices, voiceLabel,
+  type Grid, type Row, type SessionState, type Voices,
 } from "./engine";
 
 /* ─────────────────────────────────────────────────────────────────
@@ -30,12 +30,21 @@ type Persisted = {
 
 const mainBranch: Branch = { id: "main", name: "Main", color: BRANCH_COLORS[0] };
 
+/* A saved session may predate newer fields, and a dropped-in sample can't survive a reload,
+   so merge onto the defaults and fall back to a built-in sound where a sample is gone. */
+const sanitizeVoices = (v: Partial<Voices> | undefined): Voices => {
+  const out = defaultVoices();
+  for (const r of ROWS) if (v?.[r] && VOICE_BANK[r].some((x) => x.id === v[r])) out[r] = v[r]!;
+  return out;
+};
+
 const load = (): Persisted | null => {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const p = JSON.parse(raw) as Persisted;
     if (!p?.state?.grid || !ROWS.every((r) => Array.isArray(p.state.grid[r]) && p.state.grid[r].length === 16)) return null;
+    p.state = { ...defaultSession(), ...p.state, voices: sanitizeVoices(p.state.voices), ab: "mix", refTrimDb: 0 };
     return p;
   } catch {
     return null;
@@ -64,6 +73,14 @@ type Ctx = {
   restoreVersion: (id: number) => void;
   setClosed: (v: boolean) => void;
   reset: (grid: Grid, bpm: number, label: string) => void;
+  /** Names of samples dropped into rows, and the reference file, for display. */
+  sampleNames: Partial<Record<Row, string>>;
+  refName: string | null;
+  notice: string;
+  setVoice: (row: Row, id: string) => void;
+  loadSample: (row: Row, file: File) => Promise<void>;
+  loadReference: (file: File) => Promise<void>;
+  clearReference: () => void;
 };
 
 const SessionCtx = createContext<Ctx | null>(null);
@@ -89,6 +106,9 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
   const [branches, setBranches] = useState<Branch[]>([mainBranch]);
   const [savedAt, setSavedAt] = useState(0);
   const [closed, setClosed] = useState(false);
+  const [sampleNames, setSampleNames] = useState<Partial<Record<Row, string>>>({});
+  const [refName, setRefName] = useState<string | null>(null);
+  const [notice, setNotice] = useState("");
   const hydrated = useRef(false);
 
   // Restore the last visit once, after hydration, so server and client markup match.
@@ -125,6 +145,8 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
 
   const stateRef = useRef(state);
   stateRef.current = state;
+  const sampleNamesRef = useRef(sampleNames);
+  sampleNamesRef.current = sampleNames;
   const stepsRef = useRef({ steps, cursor });
   stepsRef.current = { steps, cursor };
 
@@ -157,6 +179,15 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
   }, [eng]);
 
   useEffect(() => () => eng.stop(), [eng]);
+
+  // A hidden tab throttles timers, which would make the loop stutter: stop it, and save the work.
+  useEffect(() => {
+    const onHide = () => {
+      if (document.hidden && eng.playing) { eng.stop(); setPlaying(false); }
+    };
+    document.addEventListener("visibilitychange", onHide);
+    return () => document.removeEventListener("visibilitychange", onHide);
+  }, [eng]);
 
   const goToStep = useCallback((i: number) => {
     const s = stepsRef.current.steps[i];
@@ -198,10 +229,36 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
     record(label, next);
   }, [record]);
 
+  const setVoice = useCallback((row: Row, id: string) => {
+    const names = sampleNamesRef.current;
+    change((s) => ({ ...s, voices: { ...s.voices, [row]: id } }), `Swapped ${row} to ${voiceLabel(row, id, names[row])}`);
+    eng.preview(row, id);
+  }, [change, eng]);
+
+  const loadSample = useCallback(async (row: Row, file: File) => {
+    setNotice("");
+    const err = await eng.loadSample(row, file);
+    if (err) { setNotice(err); return; }
+    const name = file.name.replace(/\.[^.]+$/, "").slice(0, 18);
+    setSampleNames((n) => ({ ...n, [row]: name }));
+    change((s) => ({ ...s, voices: { ...s.voices, [row]: CUSTOM } }), `Dropped ${name} into ${row}`);
+    eng.preview(row, CUSTOM);
+  }, [change, eng]);
+
+  const loadReference = useCallback(async (file: File) => {
+    setNotice("");
+    const err = await eng.loadReference(file);
+    if (err) { setNotice(err); return; }
+    setRefName(file.name.replace(/\.[^.]+$/, "").slice(0, 28));
+  }, [eng]);
+
+  const clearReference = useCallback(() => { eng.clearReference(); setRefName(null); }, [eng]);
+
   const value = useMemo<Ctx>(() => ({
     state, playing, audio, engine: eng, steps, cursor, versions, branches, savedAt, closed,
     change, toggle, goToStep, saveVersion, newBranch, restoreVersion, setClosed, reset,
-  }), [state, playing, audio, eng, steps, cursor, versions, branches, savedAt, closed, change, toggle, goToStep, saveVersion, newBranch, restoreVersion, reset]);
+    sampleNames, refName, notice, setVoice, loadSample, loadReference, clearReference,
+  }), [state, playing, audio, eng, steps, cursor, versions, branches, savedAt, closed, change, toggle, goToStep, saveVersion, newBranch, restoreVersion, reset, sampleNames, refName, notice, setVoice, loadSample, loadReference, clearReference]);
 
   return <SessionCtx.Provider value={value}>{children}</SessionCtx.Provider>;
 };

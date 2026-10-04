@@ -27,6 +27,9 @@ export const Turntable = ({ children }: { children?: React.ReactNode }) => {
       const span = Math.max(1, r.height - window.innerHeight);
       const p = Math.min(1, Math.max(0, -r.top / span));
       s.style.setProperty("--p", p.toFixed(4));
+      // Once you're deep in the record, stop painting the parts that are no longer visible.
+      const deep = p > 0.3 ? "1" : "0";
+      if (s.dataset.deep !== deep) s.dataset.deep = deep;
     };
     const onScroll = () => { if (!af) af = requestAnimationFrame(update); };
     update();
@@ -41,14 +44,30 @@ export const Turntable = ({ children }: { children?: React.ReactNode }) => {
 
   return (
     <div ref={wrap} className="tt-wrap">
-      <div ref={stage} className="tt-sticky">
-        <div className="tt-fade w-full max-w-[1320px] mx-auto px-1 sm:px-5">
-          {children}
+      <div ref={stage} className="tt-sticky" data-deep="0">
+        <div className="tt-top tt-fade tt-chrome">
+          <div className="tt-head">{children}</div>
+          <div className="tt-ctl">
+            <button
+              type="button"
+              onClick={() => { void toggle(); }}
+              aria-pressed={playing}
+              className="dbtn pri"
+              style={{ minHeight: 44, padding: "0 20px", fontSize: 14 }}
+            >
+              {playing ? "Lift the needle" : "Drop the needle"}
+            </button>
+            <p className="m-0 text-[13px] text-muted max-w-[30ch]">
+              {audio === "unavailable"
+                ? "This browser can't make sound here, but everything below still works to look at."
+                : playing ? "That's a real loop, made in your browser. Keep scrolling to go inside." : "Press it for sound, then keep scrolling to go inside the record."}
+            </p>
+          </div>
         </div>
 
         <div className="tt-zoom">
           {/* plinth */}
-          <div className="absolute inset-0 tt-fade" style={{ background: "#0c0b0a", border: "1px solid #3d3833", borderRadius: 14, boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }} aria-hidden="true">
+          <div className="absolute inset-0 tt-fade tt-chrome" style={{ background: "#0c0b0a", border: "1px solid #3d3833", borderRadius: 14, boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }} aria-hidden="true">
             <div className="absolute" style={{ right: "3.2%", bottom: "5%", width: "7%", aspectRatio: "1", borderRadius: "50%", background: "#1c1a17", border: "1px solid #3d3833" }}>
               <span className="absolute inset-[34%] rounded-full" style={{ background: playing ? "#3fd6ad" : "#57514a", boxShadow: playing ? "0 0 12px #3fd6ad" : "none", transition: "all .3s" }} />
             </div>
@@ -57,13 +76,13 @@ export const Turntable = ({ children }: { children?: React.ReactNode }) => {
 
           {/* platter + record */}
           <div className="absolute" style={{ left: "10%", top: "7.14%", width: "60%", aspectRatio: "1" }} aria-hidden="true">
-            <div className="absolute inset-0 rounded-full tt-fade" style={{ background: "#141210", border: "1px solid #3d3833" }} />
+            <div className="absolute inset-0 rounded-full tt-fade tt-chrome" style={{ background: "#141210", border: "1px solid #3d3833" }} />
             <div className="absolute rec-spin rec-grooves rounded-full" data-on={playing} style={{ inset: "3.2%", border: "1px solid #25221f" }}>
               <div className="absolute rounded-full" style={{ inset: "33.5%", background: "#7c3aed", boxShadow: "inset 0 0 0 3px rgba(0,0,0,0.25)" }}>
                 <div className="absolute inset-0 grid place-items-center text-center" style={{ color: "#0c0b0a", fontFamily: "Archivo, sans-serif" }}>
                   <div>
                     <div style={{ fontWeight: 800, fontStretch: "125%", fontSize: "clamp(8px,1.5vw,19px)", letterSpacing: "-0.01em", textTransform: "lowercase" }}>aestra</div>
-                    <div className="font-mono" style={{ fontSize: "clamp(5px,0.7vw,9px)", letterSpacing: "0.14em", marginTop: 3 }}>FEATURES · SIDE A</div>
+                    <div className="font-mono whitespace-nowrap" style={{ fontSize: "clamp(5px,0.7vw,9px)", letterSpacing: "0.14em", marginTop: 3 }}>SIDE A</div>
                   </div>
                 </div>
               </div>
@@ -73,7 +92,7 @@ export const Turntable = ({ children }: { children?: React.ReactNode }) => {
           </div>
 
           {/* tonearm */}
-          <svg className="absolute inset-0 w-full h-full tt-fade" viewBox="0 0 1000 700" aria-hidden="true">
+          <svg className="absolute inset-0 w-full h-full tt-fade tt-chrome" viewBox="0 0 1000 700" aria-hidden="true">
             <circle cx="880" cy="120" r="46" fill="#1c1a17" stroke="#3d3833" />
             <g className="arm" style={{ transformOrigin: "880px 120px", transform: `rotate(${playing ? PLAY : REST}deg)` }}>
               <line x1="880" y1="120" x2="882" y2="120" stroke="none" />
@@ -88,22 +107,6 @@ export const Turntable = ({ children }: { children?: React.ReactNode }) => {
           <div className="tt-cover" aria-hidden="true" />
         </div>
 
-        <div className="tt-fade flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
-          <button
-            type="button"
-            onClick={() => { void toggle(); }}
-            aria-pressed={playing}
-            className="dbtn pri"
-            style={{ minHeight: 44, padding: "0 20px", fontSize: 14 }}
-          >
-            {playing ? "Lift the needle" : "Drop the needle"}
-          </button>
-          <p className="m-0 text-[13px] text-muted max-w-[34ch] text-center sm:text-left">
-            {audio === "unavailable"
-              ? "This browser can't make sound here, but everything below still works to look at."
-              : playing ? "That's a real loop, made in your browser. Keep scrolling to go inside." : "Press it for sound, then keep scrolling to go inside the record."}
-          </p>
-        </div>
       </div>
     </div>
   );

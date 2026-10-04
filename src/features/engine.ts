@@ -3,11 +3,14 @@
    Web Audio API, so every demo on the page touches the same, real sound.
 
    Nothing here is Aestra's engine. It is a browser stand-in used to show
-   ideas (a step grid, a routing map, listening profiles, named takes), and
-   the page says so wherever a demo leans on it.
+   ideas (a step grid, swappable sounds, a routing map, listening profiles,
+   an A/B reference, named versions), and the page says so where a demo
+   leans on it.
 
    The AudioContext is only created after a click, which browsers require
    before they will make sound. Nothing here touches `window` at import.
+   Any sample a visitor drops in is decoded in their browser and never
+   leaves it.
    ───────────────────────────────────────────────────────────────── */
 
 export const STEPS = 16;
@@ -16,6 +19,20 @@ export type Row = (typeof ROWS)[number];
 export type Grid = Record<Row, boolean[]>;
 export type Route = "drums" | "master";
 export type Profile = "studio" | "streaming" | "car" | "earbuds" | "phone";
+export type AB = "mix" | "ref";
+
+/* The sounds each row can play. "custom" is a sample the visitor dropped in. */
+export const VOICE_BANK: Record<Row, { id: string; label: string }[]> = {
+  kick: [{ id: "punch", label: "Punch" }, { id: "808", label: "808" }, { id: "soft", label: "Soft" }],
+  snare: [{ id: "snare", label: "Snare" }, { id: "clap", label: "Clap" }, { id: "rim", label: "Rim" }],
+  hat: [{ id: "closed", label: "Closed" }, { id: "open", label: "Open" }, { id: "shaker", label: "Shaker" }],
+  bass: [{ id: "saw", label: "Saw" }, { id: "sub", label: "Sub" }, { id: "pluck", label: "Pluck" }],
+};
+export const CUSTOM = "custom";
+export type Voices = Record<Row, string>;
+export const defaultVoices = (): Voices => ({ kick: "punch", snare: "snare", hat: "closed", bass: "saw" });
+export const voiceLabel = (row: Row, id: string, sample?: string) =>
+  id === CUSTOM ? sample ?? "Your sound" : VOICE_BANK[row].find((v) => v.id === id)?.label ?? id;
 
 export type SessionState = {
   grid: Grid;
@@ -24,6 +41,9 @@ export type SessionState = {
   muted: Row[];
   busLevel: number;
   profile: Profile;
+  voices: Voices;
+  ab: AB;
+  refTrimDb: number;
 };
 
 const on = (...steps: number[]) => Array.from({ length: STEPS }, (_, i) => steps.includes(i));
@@ -50,7 +70,19 @@ export const defaultSession = (): SessionState => ({
   muted: [],
   busLevel: 0.85,
   profile: "studio",
+  voices: defaultVoices(),
+  ab: "mix",
+  refTrimDb: 0,
 });
+
+/* The built-in reference: a different, tighter groove to flip against. */
+const REF_GRID: Grid = {
+  kick: on(0, 4, 8, 12),
+  snare: on(4, 12),
+  hat: on(2, 6, 10, 14),
+  bass: on(0, 3, 8, 11),
+};
+const REF_VOICES: Voices = { kick: "punch", snare: "clap", hat: "open", bass: "sub" };
 
 /* ── Listening profiles ──────────────────────────────────────────────
    Plain filter chains that suggest how a mix changes on other speakers,
@@ -119,75 +151,75 @@ export const profileCurve = (profile: Profile, freqs: Float32Array): Float32Arra
   return out;
 };
 
-/* ── The engine ──────────────────────────────────────────────────────── */
+/* ── Voices ──────────────────────────────────────────────────────────── */
 type Voice = (ctx: AudioContext, out: AudioNode, t: number, noise: AudioBuffer) => void;
 
-const VOICES: Record<Row, Voice> = {
-  kick(ctx, out, t) {
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.frequency.setValueAtTime(150, t);
-    o.frequency.exponentialRampToValueAtTime(42, t + 0.13);
-    g.gain.setValueAtTime(1, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
-    o.connect(g).connect(out);
-    o.start(t);
-    o.stop(t + 0.4);
-  },
-  snare(ctx, out, t, noise) {
-    const n = ctx.createBufferSource();
-    n.buffer = noise;
-    const hp = ctx.createBiquadFilter();
-    hp.type = "highpass";
-    hp.frequency.value = 1100;
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0.7, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
-    n.connect(hp).connect(g).connect(out);
-    n.start(t);
-    n.stop(t + 0.25);
-    const o = ctx.createOscillator();
-    o.type = "triangle";
-    o.frequency.setValueAtTime(190, t);
-    const og = ctx.createGain();
-    og.gain.setValueAtTime(0.45, t);
-    og.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
-    o.connect(og).connect(out);
-    o.start(t);
-    o.stop(t + 0.15);
-  },
-  hat(ctx, out, t, noise) {
-    const n = ctx.createBufferSource();
-    n.buffer = noise;
-    const hp = ctx.createBiquadFilter();
-    hp.type = "highpass";
-    hp.frequency.value = 7200;
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0.28, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
-    n.connect(hp).connect(g).connect(out);
-    n.start(t);
-    n.stop(t + 0.07);
-  },
-  bass(ctx, out, t) {
-    const o = ctx.createOscillator();
-    o.type = "sawtooth";
-    o.frequency.value = 55;
+const tone = (ctx: AudioContext, out: AudioNode, t: number, o: { type?: OscillatorType; f0: number; f1?: number; sweep?: number; peak: number; decay: number; lp?: [number, number] }) => {
+  const osc = ctx.createOscillator();
+  osc.type = o.type ?? "sine";
+  osc.frequency.setValueAtTime(o.f0, t);
+  if (o.f1) osc.frequency.exponentialRampToValueAtTime(o.f1, t + (o.sweep ?? 0.12));
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(o.peak, t);
+  g.gain.exponentialRampToValueAtTime(0.001, t + o.decay);
+  let node: AudioNode = osc;
+  if (o.lp) {
     const lp = ctx.createBiquadFilter();
     lp.type = "lowpass";
-    lp.frequency.setValueAtTime(700, t);
-    lp.frequency.exponentialRampToValueAtTime(140, t + 0.28);
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0.55, t);
-    g.gain.exponentialRampToValueAtTime(0.001, t + 0.34);
-    o.connect(lp).connect(g).connect(out);
-    o.start(t);
-    o.stop(t + 0.36);
+    lp.frequency.setValueAtTime(o.lp[0], t);
+    lp.frequency.exponentialRampToValueAtTime(o.lp[1], t + o.decay * 0.8);
+    osc.connect(lp);
+    node = lp;
+  }
+  node.connect(g).connect(out);
+  osc.start(t);
+  osc.stop(t + o.decay + 0.03);
+};
+
+const burst = (ctx: AudioContext, out: AudioNode, t: number, noise: AudioBuffer, o: { type: BiquadFilterType; f: number; q?: number; peak: number; decay: number; attack?: number }) => {
+  const n = ctx.createBufferSource();
+  n.buffer = noise;
+  const filt = ctx.createBiquadFilter();
+  filt.type = o.type;
+  filt.frequency.value = o.f;
+  if (o.q) filt.Q.value = o.q;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(o.attack ? 0.001 : o.peak, t);
+  if (o.attack) g.gain.linearRampToValueAtTime(o.peak, t + o.attack);
+  g.gain.exponentialRampToValueAtTime(0.001, t + (o.attack ?? 0) + o.decay);
+  n.connect(filt).connect(g).connect(out);
+  n.start(t);
+  n.stop(t + (o.attack ?? 0) + o.decay + 0.03);
+};
+
+const VOICES: Record<string, Voice> = {
+  "kick:punch": (c, o, t) => tone(c, o, t, { f0: 150, f1: 42, sweep: 0.13, peak: 1, decay: 0.38 }),
+  "kick:808": (c, o, t) => tone(c, o, t, { f0: 110, f1: 38, sweep: 0.22, peak: 1, decay: 0.95 }),
+  "kick:soft": (c, o, t) => tone(c, o, t, { f0: 95, f1: 52, sweep: 0.09, peak: 0.8, decay: 0.26 }),
+  "snare:snare": (c, o, t, n) => {
+    burst(c, o, t, n, { type: "highpass", f: 1100, peak: 0.7, decay: 0.2 });
+    tone(c, o, t, { type: "triangle", f0: 190, peak: 0.45, decay: 0.12 });
   },
+  "snare:clap": (c, o, t, n) => {
+    for (const d of [0, 0.011, 0.023]) burst(c, o, t + d, n, { type: "bandpass", f: 1500, q: 0.9, peak: 0.55, decay: 0.03 });
+    burst(c, o, t + 0.03, n, { type: "bandpass", f: 1400, q: 0.8, peak: 0.5, decay: 0.2 });
+  },
+  "snare:rim": (c, o, t, n) => {
+    tone(c, o, t, { type: "square", f0: 480, peak: 0.28, decay: 0.05 });
+    burst(c, o, t, n, { type: "bandpass", f: 3200, q: 1.2, peak: 0.4, decay: 0.05 });
+  },
+  "hat:closed": (c, o, t, n) => burst(c, o, t, n, { type: "highpass", f: 7200, peak: 0.28, decay: 0.05 }),
+  "hat:open": (c, o, t, n) => burst(c, o, t, n, { type: "highpass", f: 6200, peak: 0.26, decay: 0.24 }),
+  "hat:shaker": (c, o, t, n) => burst(c, o, t, n, { type: "bandpass", f: 5600, q: 0.7, peak: 0.3, decay: 0.09, attack: 0.012 }),
+  "bass:saw": (c, o, t) => tone(c, o, t, { type: "sawtooth", f0: 55, peak: 0.55, decay: 0.34, lp: [700, 140] }),
+  "bass:sub": (c, o, t) => tone(c, o, t, { f0: 55, peak: 0.85, decay: 0.42 }),
+  "bass:pluck": (c, o, t) => tone(c, o, t, { type: "square", f0: 110, peak: 0.32, decay: 0.16, lp: [1800, 220] }),
 };
 
 const LOOKAHEAD = 0.28; // seconds scheduled ahead, so a stalled screen never starves the audio
 const TICK_MS = 25;
+const MAX_SAMPLE_SECONDS = 2.5;
+const MAX_FILE_BYTES = 12 * 1024 * 1024;
 
 export class Engine {
   ctx: AudioContext | null = null;
@@ -197,18 +229,37 @@ export class Engine {
   private rowGain = {} as Record<Row, GainNode>;
   private rowTap = {} as Record<Row, AnalyserNode>;
   private bus: GainNode | null = null;
+  private mixSum: GainNode | null = null;
+  private mixGain: GainNode | null = null;
+  private mixTap: AnalyserNode | null = null;
+  private refSum: GainNode | null = null;
+  private refTrim: GainNode | null = null;
+  private refGain: GainNode | null = null;
+  private refTap: AnalyserNode | null = null;
   private masterIn: GainNode | null = null;
   private chainNodes: AudioNode[] = [];
+  private chainEnd: AudioNode | null = null;
+  private outGain: GainNode | null = null;
   private masterTap: AnalyserNode | null = null;
   private noise: AudioBuffer | null = null;
+  private samples: Partial<Record<Row, AudioBuffer>> = {};
+  private refBuffer: AudioBuffer | null = null;
+  private refSource: AudioBufferSourceNode | null = null;
   private timer: ReturnType<typeof setInterval> | null = null;
   private nextStep = 0;
   private nextTime = 0;
   private queue: { step: number; time: number }[] = [];
   private scratch = new Uint8Array(256);
+  private floats = new Float32Array(2048);
 
   get available() {
     return typeof window !== "undefined" && (typeof AudioContext !== "undefined" || "webkitAudioContext" in window);
+  }
+  get hasReferenceFile() {
+    return this.refBuffer !== null;
+  }
+  hasSample(row: Row) {
+    return Boolean(this.samples[row]);
   }
 
   /** Create the audio graph. Must be called from a click or key press. */
@@ -225,9 +276,27 @@ export class Engine {
       for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
       this.noise = buf;
 
+      const tap = (size: number) => {
+        const a = ctx.createAnalyser();
+        a.fftSize = size;
+        return a;
+      };
+
       this.masterIn = ctx.createGain();
       this.bus = ctx.createGain();
-      this.bus.connect(this.masterIn);
+      this.mixSum = ctx.createGain();
+      this.mixGain = ctx.createGain();
+      this.mixTap = tap(2048);
+      this.refSum = ctx.createGain();
+      this.refTrim = ctx.createGain();
+      this.refGain = ctx.createGain();
+      this.refTap = tap(2048);
+
+      this.bus.connect(this.mixSum);
+      this.mixSum.connect(this.mixTap);
+      this.mixSum.connect(this.mixGain).connect(this.masterIn);
+      this.refSum.connect(this.refTap);
+      this.refSum.connect(this.refTrim).connect(this.refGain).connect(this.masterIn);
 
       const comp = ctx.createDynamicsCompressor();
       comp.threshold.value = -14;
@@ -247,20 +316,18 @@ export class Engine {
 
       for (const row of ROWS) {
         const g = ctx.createGain();
-        const tap = ctx.createAnalyser();
-        tap.fftSize = 256;
-        g.connect(tap);
+        const t = tap(256);
+        g.connect(t);
         this.rowGain[row] = g;
-        this.rowTap[row] = tap;
+        this.rowTap[row] = t;
       }
       this.applyRouting();
       this.applyProfile();
+      this.applyAB(true);
     }
     if (this.ctx.state === "suspended") await this.ctx.resume();
     return true;
   }
-  private chainEnd: AudioNode | null = null;
-  private outGain: GainNode | null = null;
 
   /** Push a new session state into the running graph. */
   update(next: SessionState) {
@@ -269,20 +336,29 @@ export class Engine {
     if (!this.ctx) return;
     if (prev.routes !== next.routes || prev.muted !== next.muted || prev.busLevel !== next.busLevel) this.applyRouting();
     if (prev.profile !== next.profile) this.applyProfile();
+    if (prev.ab !== next.ab || prev.refTrimDb !== next.refTrimDb) this.applyAB(false);
   }
 
   private applyRouting() {
     const ctx = this.ctx;
-    if (!ctx || !this.bus || !this.masterIn) return;
+    if (!ctx || !this.bus || !this.mixSum) return;
     const { routes, muted, busLevel } = this.state;
     this.bus.gain.setTargetAtTime(busLevel, ctx.currentTime, 0.02);
     for (const row of ROWS) {
-      const g = this.rowGain[row];
       const tap = this.rowTap[row];
       tap.disconnect();
-      tap.connect(routes[row] === "drums" ? this.bus : this.masterIn);
-      g.gain.setTargetAtTime(muted.includes(row) ? 0 : 1, ctx.currentTime, 0.015);
+      tap.connect(routes[row] === "drums" ? this.bus : this.mixSum);
+      this.rowGain[row].gain.setTargetAtTime(muted.includes(row) ? 0 : 1, ctx.currentTime, 0.015);
     }
+  }
+
+  private applyAB(immediate: boolean) {
+    const ctx = this.ctx;
+    if (!ctx || !this.mixGain || !this.refGain || !this.refTrim) return;
+    const t = immediate ? 0.001 : 0.015;
+    this.mixGain.gain.setTargetAtTime(this.state.ab === "mix" ? 1 : 0, ctx.currentTime, t);
+    this.refGain.gain.setTargetAtTime(this.state.ab === "ref" ? 1 : 0, ctx.currentTime, t);
+    this.refTrim.gain.setTargetAtTime(10 ** (this.state.refTrimDb / 20), ctx.currentTime, 0.02);
   }
 
   private applyProfile() {
@@ -306,12 +382,96 @@ export class Engine {
     if (this.outGain) this.outGain.gain.setTargetAtTime(0.7 * 10 ** (PROFILES[this.state.profile].gainDb / 20), ctx.currentTime, 0.03);
   }
 
+  /* ── Samples and reference files (decoded locally, never uploaded) ── */
+  private async decode(data: ArrayBuffer): Promise<AudioBuffer | null> {
+    if (!(await this.ensure()) || !this.ctx) return null;
+    try {
+      return await this.ctx.decodeAudioData(data.slice(0));
+    } catch {
+      return null;
+    }
+  }
+
+  /** Use an audio file as the sound for one row. Returns an error message or null. */
+  async loadSample(row: Row, file: File): Promise<string | null> {
+    if (file.size > MAX_FILE_BYTES) return "That file is too big for the demo (12 MB max).";
+    const buf = await this.decode(await file.arrayBuffer());
+    if (!buf || !this.ctx) return "That doesn't look like an audio file this browser can play.";
+    const frames = Math.min(buf.length, Math.floor(MAX_SAMPLE_SECONDS * buf.sampleRate));
+    const out = this.ctx.createBuffer(1, frames, buf.sampleRate);
+    const dst = out.getChannelData(0);
+    for (let c = 0; c < buf.numberOfChannels; c++) {
+      const src = buf.getChannelData(c);
+      for (let i = 0; i < frames; i++) dst[i] += src[i] / buf.numberOfChannels;
+    }
+    let peak = 0;
+    for (let i = 0; i < frames; i++) peak = Math.max(peak, Math.abs(dst[i]));
+    const k = peak > 0 ? 0.85 / peak : 1;
+    for (let i = 0; i < frames; i++) dst[i] *= k;
+    const fade = Math.min(frames, 220);
+    for (let i = 0; i < fade; i++) dst[frames - 1 - i] *= i / fade;
+    this.samples[row] = out;
+    return null;
+  }
+
+  /** Use an audio file as the reference track to flip against. */
+  async loadReference(file: File): Promise<string | null> {
+    if (file.size > MAX_FILE_BYTES) return "That file is too big for the demo (12 MB max).";
+    const buf = await this.decode(await file.arrayBuffer());
+    if (!buf) return "That doesn't look like an audio file this browser can play.";
+    this.refBuffer = buf;
+    if (this.playing) this.startRefSource(this.ctx!.currentTime + 0.05);
+    return null;
+  }
+
+  clearReference() {
+    this.refBuffer = null;
+    this.stopRefSource();
+  }
+
+  private startRefSource(at: number) {
+    this.stopRefSource();
+    if (!this.ctx || !this.refBuffer || !this.refSum) return;
+    const src = this.ctx.createBufferSource();
+    src.buffer = this.refBuffer;
+    src.loop = true;
+    src.connect(this.refSum);
+    src.start(at);
+    this.refSource = src;
+  }
+  private stopRefSource() {
+    try { this.refSource?.stop(); } catch { /* already stopped */ }
+    this.refSource?.disconnect();
+    this.refSource = null;
+  }
+
+  /** Play one hit of a row's current sound, so a swap can be heard straight away. */
+  preview(row: Row, voice: string = this.state.voices[row]) {
+    const ctx = this.ctx;
+    if (!ctx || !this.noise) return;
+    this.hit(row, voice, this.rowGain[row], ctx.currentTime + 0.01);
+  }
+
+  private hit(row: Row, voice: string, out: AudioNode, t: number) {
+    const ctx = this.ctx;
+    if (!ctx || !this.noise) return;
+    if (voice === CUSTOM && this.samples[row]) {
+      const s = ctx.createBufferSource();
+      s.buffer = this.samples[row]!;
+      s.connect(out);
+      s.start(t);
+      return;
+    }
+    (VOICES[`${row}:${voice}`] ?? VOICES[`${row}:${VOICE_BANK[row][0].id}`])(ctx, out, t, this.noise);
+  }
+
   async start() {
     if (!(await this.ensure()) || !this.ctx || this.playing) return;
     this.playing = true;
     this.nextStep = 0;
     this.nextTime = this.ctx.currentTime + 0.06;
     this.queue = [];
+    if (this.refBuffer) this.startRefSource(this.nextTime);
     this.timer = setInterval(() => this.pump(), TICK_MS);
     this.pump();
   }
@@ -321,16 +481,18 @@ export class Engine {
     if (this.timer) clearInterval(this.timer);
     this.timer = null;
     this.queue = [];
+    this.stopRefSource();
   }
 
   private pump() {
     const ctx = this.ctx;
-    if (!ctx || !this.playing || !this.noise) return;
+    if (!ctx || !this.playing || !this.noise || !this.refSum) return;
     const stepLen = 60 / this.state.bpm / 4;
     while (this.nextTime < ctx.currentTime + LOOKAHEAD) {
       const step = this.nextStep;
       for (const row of ROWS) {
-        if (this.state.grid[row][step]) VOICES[row](ctx, this.rowGain[row], this.nextTime, this.noise);
+        if (this.state.grid[row][step]) this.hit(row, this.state.voices[row], this.rowGain[row], this.nextTime);
+        if (!this.refBuffer && REF_GRID[row][step]) this.hit(row, REF_VOICES[row], this.refSum, this.nextTime);
       }
       this.queue.push({ step, time: this.nextTime });
       this.nextStep = (step + 1) % STEPS;
@@ -356,6 +518,16 @@ export class Engine {
     let peak = 0;
     for (let i = 0; i < tap.fftSize; i++) peak = Math.max(peak, Math.abs(this.scratch[i] - 128));
     return Math.min(1, peak / 90);
+  }
+
+  /** RMS of the mix or the reference, before the A/B switch, as a linear value. */
+  rms(which: AB): number {
+    const tap = which === "mix" ? this.mixTap : this.refTap;
+    if (!tap || !this.playing) return 0;
+    tap.getFloatTimeDomainData(this.floats);
+    let sum = 0;
+    for (let i = 0; i < this.floats.length; i++) sum += this.floats[i] * this.floats[i];
+    return Math.sqrt(sum / this.floats.length);
   }
 
   /** Spectrum of what comes out of the speakers, as 0..255 values. */

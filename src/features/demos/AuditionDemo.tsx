@@ -21,8 +21,13 @@ const ICON: Record<Profile, React.ReactNode> = {
 };
 
 export const AuditionDemo = () => {
-  const { state, change, engine, playing } = useSession();
+  const { state, change, engine, playing, refName, loadReference, clearReference, notice } = useSession();
   const profile = state.profile;
+  const { ab, refTrimDb } = state;
+  const picker = useRef<HTMLInputElement>(null);
+  const hist = useRef<{ t: number; m: number; r: number }[]>([]);
+  const tick = useRef(0);
+  const [levels, setLevels] = useState<{ mix: number; ref: number } | null>(null);
   const box = useRef<HTMLDivElement>(null);
   const cv = useRef<HTMLCanvasElement>(null);
   const visible = useVisible(box);
@@ -45,6 +50,24 @@ export const AuditionDemo = () => {
   }, [freqs]);
 
   const draw = () => {
+    // Loudness is the average power over exactly one bar of the loop, so it doesn't swing with each hit.
+    const now = performance.now();
+    const m = engine.rms("mix");
+    const r = engine.rms("ref");
+    const h = hist.current;
+    h.push({ t: now, m: m * m, r: r * r });
+    const win = (4 * 60 / state.bpm) * 1000;
+    while (h.length > 1 && now - h[0].t > win) h.shift();
+    if (now - tick.current > 250) {
+      tick.current = now;
+      const settled = h.length > 20 && now - h[0].t > win * 0.92;
+      if (!settled) { setLevels(null); }
+      else {
+        const am = h.reduce((a, x) => a + x.m, 0) / h.length;
+        const ar = h.reduce((a, x) => a + x.r, 0) / h.length;
+        setLevels(am > 1e-10 && ar > 1e-10 ? { mix: 10 * Math.log10(am), ref: 10 * Math.log10(ar) } : null);
+      }
+    }
     const c = cv.current;
     const g = c?.getContext("2d");
     if (!c || !g) return;
@@ -69,12 +92,48 @@ export const AuditionDemo = () => {
     }
   };
   useFrame(draw, visible && playing);
-  useEffect(() => { if (!playing) cv.current?.getContext("2d")?.clearRect(0, 0, CW * 2, CH * 2); }, [playing]);
+  useEffect(() => { if (!playing) { cv.current?.getContext("2d")?.clearRect(0, 0, CW * 2, CH * 2); setLevels(null); hist.current = []; } }, [playing]);
 
   const pick = (p: Profile) => change((s) => ({ ...s, profile: p }));
+  const setAB = (v: "mix" | "ref") => change((s) => ({ ...s, ab: v }));
+  const match = () => {
+    if (!levels) return;
+    // The reference is measured before its trim, so the gap between the two is the trim to apply.
+    const gap = Math.max(-18, Math.min(18, levels.mix - levels.ref));
+    change((s) => ({ ...s, refTrimDb: Math.round(gap * 10) / 10 }));
+  };
+  const fmt = (v: number) => `${v.toFixed(1).replace("-", "−")} dB`;
 
   return (
     <Panel title="Audition · listen on" tag="Design preview">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 px-3 sm:px-4 py-3" style={{ background: "#0c0b0a", borderBottom: "1px solid #2e2a26" }}>
+        <div className="flex overflow-hidden" style={{ border: "1px solid #2e2a26", borderRadius: 2 }} role="group" aria-label="Compare your mix with a reference">
+          <button type="button" aria-pressed={ab === "mix"} onClick={() => setAB("mix")}
+            style={{ all: "unset", cursor: "pointer", padding: "7px 14px", fontSize: 11, fontWeight: 700, background: ab === "mix" ? "#7c3aed" : "transparent", color: ab === "mix" ? "#fff" : "#857d72" }}>
+            A · Mix
+          </button>
+          <button type="button" aria-pressed={ab === "ref"} onClick={() => setAB("ref")}
+            style={{ all: "unset", cursor: "pointer", padding: "7px 14px", fontSize: 11, fontWeight: 700, background: ab === "ref" ? "#f3a93b" : "transparent", color: ab === "ref" ? "#0c0b0a" : "#857d72" }}>
+            B · Ref
+          </button>
+        </div>
+        <span className="text-[12px]" style={{ color: "#aca397", minWidth: 150 }} aria-live="off">
+          <b style={{ color: "#eee9e1" }}>{levels ? fmt(ab === "mix" ? levels.mix : levels.ref + refTrimDb) : playing ? "measuring…" : "—"}</b> level
+          {levels && Math.abs(levels.mix - (levels.ref + refTrimDb)) > 0.5 && (
+            <span style={{ color: "#f3a93b" }}> · B is {fmt(Math.abs(levels.ref + refTrimDb - levels.mix)).replace(" dB", "")} dB {levels.ref + refTrimDb > levels.mix ? "louder" : "quieter"}</span>
+          )}
+        </span>
+        <span className="flex-1" />
+        <button type="button" className="dbtn" onClick={match} disabled={!levels}>Match levels</button>
+        {refTrimDb !== 0 && <button type="button" className="dbtn" onClick={() => change((s) => ({ ...s, refTrimDb: 0 }))}>Reset {fmt(refTrimDb)}</button>}
+        <span className="text-[12px]" style={{ color: "#857d72" }}>
+          Reference: <b style={{ color: "#aca397", fontWeight: 600 }}>{refName ?? "built-in loop"}</b>
+        </span>
+        <button type="button" className="dbtn" onClick={() => picker.current?.click()}>{refName ? "Swap track…" : "Use your own track…"}</button>
+        {refName && <button type="button" className="dbtn" onClick={clearReference}>Remove</button>}
+        <input ref={picker} type="file" accept="audio/*" hidden tabIndex={-1} onChange={(e) => { const f = e.target.files?.[0]; if (f) void loadReference(f); e.target.value = ""; }} />
+      </div>
+      {notice && <p className="m-0 px-4 pt-3 text-[12px]" role="status" style={{ color: "#ff6b4f" }}>{notice}</p>}
       <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <div className="p-2 sm:p-3" role="group" aria-label="Listen on">
           {PROFILE_ORDER.map((p) => {
@@ -117,9 +176,9 @@ export const AuditionDemo = () => {
             </svg>
           </div>
           <p className="dnote mt-3 mb-0">
-            {playing ? "Green is what's coming out of your speakers. Switch the list and watch it change." : "Press play, then switch the list to hear the same loop on a phone, in earbuds or in a car."}
+            {playing ? "Green is what's coming out of your speakers. Switch the list, or flip A and B, and watch it change." : "Press play, then flip A and B, and switch the list to hear it on a phone, in earbuds or in a car."}
           </p>
-          <p className="dnote mt-2 mb-0" style={{ color: "#57514a" }}>These filters are an illustration of the idea, not a model of real devices.</p>
+          <p className="dnote mt-2 mb-0" style={{ color: "#57514a" }}>A and B both go through the same Listen on setting. A track you add stays in your browser. These filters illustrate the idea; they aren't a model of real devices.</p>
         </div>
       </div>
     </Panel>

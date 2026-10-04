@@ -1,26 +1,38 @@
 /* ── Features: inside the record ────────────────────────────────────
    The hero is a turntable that you zoom into; the rest of the page is the
    inside of the record, always in the DAW's own dark world, whatever the
-   site theme. */
+   site theme. Sizes come from the height that's actually available, so the
+   turntable and its controls fit a short laptop window too. */
 
 .tt-wrap { position: relative; height: 320vh; }
 .tt-sticky {
   position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 1.25rem; padding: 4.5rem 1.25rem 1.5rem; --p: 0;
+  display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
+  gap: clamp(0.5rem, 2vh, 1.25rem);
+  padding: calc(4.25rem + 0.9rem) clamp(1rem, 3vw, 2.5rem) 1rem;
+  --p: 0;
 }
+.tt-top {
+  width: 100%; max-width: 1320px; margin: 0 auto;
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.75rem 2rem;
+}
+.tt-head { min-width: 0; }
+.tt-h1 { font-size: clamp(2rem, min(1rem + 4.4vw, 9.2vh), 5.6rem); line-height: 0.92; margin: 0; }
+.tt-ctl { display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem 1rem; }
 .tt-zoom {
-  position: relative; width: min(94vw, calc(56vh * 10 / 7), 1100px); aspect-ratio: 10 / 7;
+  position: relative; margin: auto;
+  width: min(94vw, calc((100svh - 14.5rem) * 10 / 7), 1100px); aspect-ratio: 10 / 7;
   transform-origin: 57.8% 59.3%;
-  transform: scale(calc(1 + var(--p) * 11));
+  transform: scale(calc(1 + var(--p) * 10));
   will-change: transform;
 }
 .tt-fade { opacity: max(0, calc(1 - var(--p) * 3.5)); }
 .tt-cover {
-  position: absolute; inset: 0; pointer-events: none;
-  background: #0c0b0a repeating-radial-gradient(circle at 112% 40%, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px);
+  position: absolute; inset: 0; pointer-events: none; background: #0c0b0a;
   opacity: clamp(0, calc((var(--p) - 0.74) * 4.5), 1);
 }
+.tt-sticky[data-deep="1"] .tt-chrome { visibility: hidden; }
+.tt-sticky[data-deep="1"] .rec-spin { animation-play-state: paused; }
 
 .rec-grooves { background: repeating-radial-gradient(circle at center, #0c0b0a 0 2px, #1b181e 2px 3px); }
 .rec-spin { animation: tt-spin 1.8s linear infinite; animation-play-state: paused; }
@@ -32,9 +44,13 @@
 .arm { transition: transform 1.3s cubic-bezier(.4, .1, .2, 1); }
 
 .inside {
-  position: relative; color: #eee9e1; background-color: #0c0b0a;
-  background-image: repeating-radial-gradient(circle at 112% 40%, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px);
+  position: relative; isolation: isolate; clip-path: inset(0); color: #eee9e1; background-color: #0c0b0a;
   font-family: Archivo, ui-sans-serif, system-ui, sans-serif;
+}
+/* One fixed layer for the grooves, painted once, instead of a gradient across the whole page. */
+.inside::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: repeating-radial-gradient(circle at 112% 40%, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px);
 }
 .inside .readout { color: #857d72; }
 
@@ -64,3 +80,13 @@
   .rec-spin { animation: none; }
   .arm { transition: none; }
 }
+
+.dsel {
+  all: unset; box-sizing: border-box; max-width: 100%; cursor: pointer; font-size: 11px; line-height: 1.2; color: #aca397;
+  padding: 2px 16px 2px 0; border-bottom: 1px dotted #57514a;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23857d72' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right 2px center;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.dsel:hover { color: #eee9e1; border-bottom-color: #a88dfb; }
+.dsel:focus-visible { outline: 2px solid #a88dfb; outline-offset: 2px; }
+.dsel option { background: #1c1a17; color: #eee9e1; }

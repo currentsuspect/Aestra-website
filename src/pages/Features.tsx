@@ -58,7 +58,7 @@ const TRACKS: Track[] = [
     points: [
       ["Reuse a loop anywhere", "Copy it, change one copy, drop it into the second verse."],
       ["Sketch first", "Get the idea down in the loop view before you think about song structure."],
-      ["Notes are one click away", "Open a loop and its notes are right there. No digging through the timeline."],
+      ["Use the sounds you want", "Swap any sound for another, or drag your own samples in. The loop is yours, not a fixed kit."],
     ],
     demo: <LoopDemo />,
   },
@@ -87,7 +87,7 @@ const TRACKS: Track[] = [
     desc: "A mix that sounds great in your headphones can fall apart on a phone. Audition lets you hear it the way other people will, while you can still fix it.",
     points: [
       ["Phone, earbuds, car", "Switch between listening profiles for the places people actually listen."],
-      ["Hear the difference", "Compare how the balance changes without leaving the project or exporting a file."],
+      ["Compare to a reference", "Flip between your mix and a track you love, at the same level, without leaving the project."],
       ["Fix it now", "Catch a thin low end while the project is still open."],
     ],
     demo: <AuditionDemo />,
@@ -182,8 +182,8 @@ export const Features = ({ setPage, topOffset = 0, onEarlyAccess }: PageProps) =
       <Navbar activePage="features" setPage={setPage} topOffset={topOffset} onEarlyAccess={onEarlyAccess} />
       <SessionProvider>
         <Turntable>
-          <p className="readout m-0 mb-3">Features · 3 sides, 6 tracks</p>
-          <h1 className="display m-0 text-[clamp(2.6rem,1.4rem+4.4vw,6.2rem)] max-w-[14ch]">Step inside the record.</h1>
+          <p className="readout m-0 mb-2">Features · 3 sides, 6 tracks</p>
+          <h1 className="display tt-h1">Step inside the record.</h1>
         </Turntable>
 
         <div className="inside">
