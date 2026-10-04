@@ -105,7 +105,7 @@ export const PAGE_TITLES = asSEO({
 });
 
 export const PAGE_DESCRIPTIONS = asSEO({
-  home: "Less distance between an idea and its sound. Aestra is a free app for making music on a laptop that isn't new. Eleven effects come in the box. It's in alpha, on Linux.",
+  home: "Less distance between an idea and its sound. Aestra is a free app for making music, built to run well on old laptops and machines never meant for music production. Eleven effects come in the box. It's in alpha, on Linux.",
   features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
   pricing: "Aestra pricing: free core DAW, Supporter at $5/month or $50/year funding the Native Suite and planned asynchronous Takes collaboration, and a fully digital $129 Founder offer.",
   changelog: "Every Aestra release laid out like a session: what's new, fixed and faster in each version, with an animated preview of every change since v0.7.0.",

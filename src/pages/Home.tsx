@@ -101,8 +101,9 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
           </FadeIn>
           <FadeIn delay={0.1} className="lg:col-span-4 xl:col-span-3 xl:col-start-10 grid gap-5">
             <p className="text-[16px] leading-relaxed text-muted max-w-[34rem]">
-              Aestra is a free app for making music. Record, sequence and mix beats and
-              songs on a laptop that isn't new. It's in alpha, and it runs on Linux today.
+              Aestra is a free app for making music, built to run well on old laptops and
+              machines that were never meant for music production. Record, sequence and mix
+              beats and songs. It's in alpha, and it runs on Linux today.
             </p>
             <Button size="lg" onClick={() => onEarlyAccess?.()} className="justify-between">
               Request early access <ArrowRight className="w-4 h-4" aria-hidden="true" />
