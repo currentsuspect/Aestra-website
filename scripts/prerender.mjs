@@ -32,7 +32,7 @@ const excludedRoutes = ["/login", "/account"];
 /* Where each indexable route's content comes from, for its sitemap lastmod. */
 const ROUTE_SOURCES = {
   "/": ["src/pages/Home.tsx", "src/components/mock", "index.html"],
-  "/features": ["src/pages/Features.tsx"],
+  "/features": ["src/pages/Features.tsx", "src/features"],
   "/pricing": ["src/pages/Pricing.tsx"],
   "/changelog": ["src/pages/Changelog.tsx", "src/content/changelog"],
   "/docs": ["src/pages/Docs.tsx"],
@@ -315,16 +315,17 @@ const assertVisualGeometry = async (page, route) => {
     return {
       flowCount: flows.length,
       indicatorCount: document.querySelectorAll("[data-signal-indicator-for]").length,
+      turntable: document.querySelectorAll(".tt-wrap").length,
+      tracks: ["a1", "a2", "b1", "b2", "c1", "c2"].filter((id) => document.getElementById(id)?.querySelector("h3")).length,
       problems,
     };
   });
 
-  // The home page used to carry the compact diagram (the only variant with an
-  // input indicator). The redesigned home shows the timeline instead, so the
-  // presence requirement now lives on /features alone; the geometry check below
-  // still runs on every diagram that renders anywhere.
-  if (route.path === "/features" && result.flowCount === 0) {
-    throw new Error(`${route.path}: expected a signal-flow diagram`);
+  // The geometry check below runs on every signal-flow diagram that renders anywhere.
+  // /features is the inside of a record: a turntable hero and six tracks, each with its copy
+  // in the prerendered HTML (the demos hydrate on top of it).
+  if (route.path === "/features" && (result.turntable !== 1 || result.tracks !== 6)) {
+    throw new Error(`${route.path}: expected the turntable and 6 tracks, found ${result.turntable} and ${result.tracks}`);
   }
   if (result.problems.length > 0) {
     throw new Error(`${route.path}: signal-flow geometry mismatch: ${result.problems.join(" | ")}`);

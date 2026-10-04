@@ -1,0 +1,66 @@
+/* ── Features: inside the record ────────────────────────────────────
+   The hero is a turntable that you zoom into; the rest of the page is the
+   inside of the record, always in the DAW's own dark world, whatever the
+   site theme. */
+
+.tt-wrap { position: relative; height: 320vh; }
+.tt-sticky {
+  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1.25rem; padding: 4.5rem 1.25rem 1.5rem; --p: 0;
+}
+.tt-zoom {
+  position: relative; width: min(94vw, calc(56vh * 10 / 7), 1100px); aspect-ratio: 10 / 7;
+  transform-origin: 57.8% 59.3%;
+  transform: scale(calc(1 + var(--p) * 11));
+  will-change: transform;
+}
+.tt-fade { opacity: max(0, calc(1 - var(--p) * 3.5)); }
+.tt-cover {
+  position: absolute; inset: 0; pointer-events: none;
+  background: #0c0b0a repeating-radial-gradient(circle at 112% 40%, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px);
+  opacity: clamp(0, calc((var(--p) - 0.74) * 4.5), 1);
+}
+
+.rec-grooves { background: repeating-radial-gradient(circle at center, #0c0b0a 0 2px, #1b181e 2px 3px); }
+.rec-spin { animation: tt-spin 1.8s linear infinite; animation-play-state: paused; }
+.rec-spin[data-on="true"] { animation-play-state: running; }
+@keyframes tt-spin { to { transform: rotate(360deg); } }
+.rec-sheen {
+  background: conic-gradient(from 18deg, transparent 0 34deg, rgba(255,255,255,0.075) 48deg, transparent 66deg, transparent 196deg, rgba(255,255,255,0.06) 224deg, transparent 244deg);
+}
+.arm { transition: transform 1.3s cubic-bezier(.4, .1, .2, 1); }
+
+.inside {
+  position: relative; color: #eee9e1; background-color: #0c0b0a;
+  background-image: repeating-radial-gradient(circle at 112% 40%, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px);
+  font-family: Archivo, ui-sans-serif, system-ui, sans-serif;
+}
+.inside .readout { color: #857d72; }
+
+/* Demo panels use the DAW's own surfaces (Ember). */
+.dpanel { background: #141210; border: 1px solid #2e2a26; color: #eee9e1; }
+.dpanel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 10px 14px; border-bottom: 1px solid #2e2a26; background: #0c0b0a; }
+.dbtn {
+  all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 32px; padding: 0 12px; font-size: 12px; font-weight: 600; color: #eee9e1; cursor: pointer;
+  background: #1c1a17; border: 1px solid #2e2a26; border-radius: 2px; white-space: nowrap;
+}
+.dbtn:hover { border-color: #57514a; }
+.dbtn:focus-visible { outline: 2px solid #a88dfb; outline-offset: 2px; }
+.dbtn[aria-pressed="true"], .dbtn.on { background: #25221f; border-color: #eee9e1; }
+.dbtn.pri { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+.dbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.dcap { font: 500 10px/1 var(--font-mono, ui-monospace, monospace); letter-spacing: 0.14em; text-transform: uppercase; color: #857d72; }
+.dnote { font-size: 12px; line-height: 1.5; color: #857d72; }
+
+.pad { all: unset; box-sizing: border-box; cursor: pointer; border-radius: 2px; transition: transform .06s; }
+.pad:focus-visible { outline: 2px solid #a88dfb; outline-offset: 1px; }
+.pad:active { transform: scale(0.92); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tt-wrap { height: 100svh; }
+  .tt-zoom { transform: none !important; }
+  .rec-spin { animation: none; }
+  .arm { transition: none; }
+}
