@@ -35,7 +35,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <img src="/logo.png" alt="Aestra logo" width="28" height="28" className="w-7 h-7 rounded-md" />
+              <img src="/favicon.svg" alt="Aestra logo" width="28" height="28" className="w-7 h-7" />
               <span className="text-[16px] font-extrabold text-fg lowercase tracking-[-0.01em] [font-stretch:125%]">aestra</span>
             </div>
             <p className="text-sm text-muted max-w-sm leading-relaxed mb-6">

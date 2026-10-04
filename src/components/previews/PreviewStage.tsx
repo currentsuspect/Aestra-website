@@ -1,6 +1,9 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
-import { W, H, D, type Scene } from "./kit";
+import { D } from "../mock/emberSession";
+import type { Scene } from "./kit";
+import { loadPreview } from ".";
+import { W, H } from "./size";
 
 /* ── PreviewStage ────────────────────────────────────────────────────
    Plays one changelog scene: it runs while on screen, holds on its last
@@ -11,14 +14,16 @@ const HOLD = 1.6;
 const reduced = () =>
   typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-export const PreviewStage = memo(({ scene, id }: { scene: Scene; id: string }) => {
+/** Plays `scene`; until it has loaded, holds the same box so opening a row never shifts the page. */
+const PlayScene = memo(({ scene, id }: { scene?: Scene; id: string }) => {
   const still = reduced();
-  const [t, setT] = useState(() => (still ? scene.still ?? scene.dur : 0));
+  const [t, setT] = useState(0);
   const box = useRef<HTMLDivElement>(null);
   const origin = useRef(0);
 
   useEffect(() => {
-    if (still) return;
+    if (!scene) return;
+    if (still) { setT(scene.still ?? scene.dur); return; }
     let raf = 0;
     let running = false;
     let elapsed = 0;
@@ -43,23 +48,34 @@ export const PreviewStage = memo(({ scene, id }: { scene: Scene; id: string }) =
   const replay = () => { origin.current = performance.now(); setT(0); };
 
   return (
-    <div ref={box} className="pvs" id={id}>
+    <div ref={box} className="pvs" id={id} aria-busy={scene ? undefined : true}>
       <div className="pvs-bar">
-        <span className="pvs-title">Preview · {scene.title}</span>
+        <span className="pvs-title">Preview{scene ? ` · ${scene.title}` : ""}</span>
         <span className="pvs-note">Illustration</span>
-        {!still && (
+        {scene && !still && (
           <button type="button" className="pvs-replay" onClick={replay} aria-label="Replay preview">
             <RotateCcw className="w-3 h-3" aria-hidden="true" />
           </button>
         )}
       </div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="pvs-svg" role="img" aria-label={`Animated illustration: ${scene.title}`}
-        style={{ background: D.bed }}>
-        {scene.draw(t)}
+      <svg viewBox={`0 0 ${W} ${H}`} className="pvs-svg" role={scene ? "img" : undefined} aria-hidden={scene ? undefined : true}
+        aria-label={scene ? `Animated illustration: ${scene.title}` : undefined} style={{ background: D.bed }}>
+        {scene?.draw(t)}
       </svg>
       <div className="pvs-progress" aria-hidden="true">
-        <i style={{ transform: `scaleX(${still ? 1 : t / scene.dur})` }} />
+        <i style={{ transform: `scaleX(${scene ? (still ? 1 : t / scene.dur) : 0})` }} />
       </div>
     </div>
   );
 });
+
+/** The stage for one changelog entry: opens at once, and plays when the scene's code has arrived. */
+export const EntryPreview = ({ version, text, id }: { version: string; text: string; id: string }) => {
+  const [scene, setScene] = useState<Scene>();
+  useEffect(() => {
+    let live = true;
+    loadPreview(version, text).then((s) => live && setScene(s)).catch(() => {});
+    return () => { live = false; };
+  }, [version, text]);
+  return <PlayScene scene={scene} id={id} />;
+};

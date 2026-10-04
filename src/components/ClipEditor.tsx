@@ -2,8 +2,8 @@ import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 import type { Change, Release } from "../changelogData";
 import { LANES, laneOf, clipVars, type LaneKey } from "./ChangelogArrangement";
 import { tone } from "./mock/emberSession";
-import { previewFor } from "./previews";
-import { PreviewStage } from "./previews/PreviewStage";
+import { hasPreview } from "./previews";
+import { EntryPreview } from "./previews/PreviewStage";
 import { useOpenTake, type Take } from "./useOpenTake";
 
 export type { Take };
@@ -122,7 +122,7 @@ export const ClipEditor = memo(({
                 </li>
               )}
               {g.rows.map((r) => {
-                const scene = previewFor(release.version, r.e.text);
+                const previewable = hasPreview(release.version, r.e.text);
                 const isOpen = open === r.key;
                 const body = (
                   <>
@@ -131,7 +131,7 @@ export const ClipEditor = memo(({
                         <span className="w-[7px] h-[7px] shrink-0 self-center" style={{ background: "var(--c)" }} />
                         {r.e.type}
                       </span>
-                      {scene && <span className="cle-play">{isOpen ? "■ Close" : "▶ Preview"}</span>}
+                      {previewable && <span className="cle-play">{isOpen ? "■ Close" : "▶ Preview"}</span>}
                     </span>
                     <span>{r.e.text}</span>
                   </>
@@ -147,7 +147,7 @@ export const ClipEditor = memo(({
                     style={{ ["--c" as string]: tone(g.slot).lane }}
                   >
                     <span className="cle-hit" aria-hidden="true" />
-                    {scene ? (
+                    {previewable ? (
                       <button
                         type="button"
                         className="cle-entry cle-entry-btn"
@@ -166,7 +166,7 @@ export const ClipEditor = memo(({
                     ) : (
                       <div className="cle-entry">{body}</div>
                     )}
-                    {isOpen && scene && <PreviewStage scene={scene} id={`pv-${r.mark}`} />}
+                    {isOpen && previewable && <EntryPreview version={release.version} text={r.e.text} id={`pv-${r.mark}`} />}
                   </li>
                 );
               })}

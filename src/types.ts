@@ -165,7 +165,7 @@ export const PAGE_OG_IMAGES = asSEO({
   changelog: "/og-image.png",
   docs: "/og-image.png",
   download: "/og-image.png",
-  plugins: "/aestra-eq-intro.mp4",
+  plugins: "/og-image.png",
   login: "/og-image.png",
   account: "/og-image.png",
   privacy: "/og-image.png",

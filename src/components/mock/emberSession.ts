@@ -139,7 +139,8 @@ const amp = (shape: Shape, beat: number, r: number) => {
 const COLS_PER_BEAT = 3;
 
 /** Envelope + RMS body, mirrored about the lane centre (drawChannelWaveform's grammar).
-    ViewBox: `0 0 cols 100`, centre at 50. */
+    ViewBox: `0 0 cols 100`, centre at 50. The RMS body is the envelope squashed about the centre
+    (RMS_SCALE), so it is drawn from the same path rather than a second one. */
 export const waveform = (clip: Clip, seed: number) => {
   const beats = (clip.end - clip.start) * 4;
   const cols = Math.max(2, Math.round(beats * COLS_PER_BEAT));
@@ -151,14 +152,15 @@ export const waveform = (clip: Clip, seed: number) => {
     smooth = a > smooth ? a : smooth * 0.8 + a * 0.2;
     env.push(Math.min(1, smooth));
   }
-  const strip = (k: number) => {
-    let d = `M0 50`;
-    env.forEach((a, i) => { d += `L${i} ${(50 - a * k).toFixed(1)}`; });
-    for (let i = cols - 1; i >= 0; i--) d += `L${i} ${(50 + env[i] * k).toFixed(1)}`;
-    return `${d}Z`;
-  };
-  return { cols, env: strip(46), rms: strip(25), peaks: env };
+  const y = (v: number) => +v.toFixed(1);
+  let d = `M0 50`;
+  env.forEach((a, i) => { d += `L${i} ${y(50 - a * 46)}`; });
+  for (let i = cols - 1; i >= 0; i--) d += `L${i} ${y(50 + env[i] * 46)}`;
+  return { cols, env: `${d}Z`, peaks: env };
 };
+
+/** Envelope-to-RMS height ratio, applied about the lane centre. */
+export const RMS_SCALE = 25 / 46;
 
 /** Level of a clip at a timeline bar position, 0..1, for the live meters. */
 export const levelAt = (clip: Clip, peaks: number[], bar: number) => {

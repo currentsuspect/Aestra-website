@@ -65,7 +65,7 @@ export const App = () => {
     const path = PAGE_PATHS[pageId] || "/";
     const url = `https://www.aestra.studio${path === "/" ? "/" : path}`;
     const ogType = PAGE_OG_TYPES[pageId] || "website";
-    const ogImage = PAGE_OG_IMAGES[pageId] || "/og-image.svg";
+    const ogImage = PAGE_OG_IMAGES[pageId] || "/og-image.png";
     const ogImageAbs = `https://www.aestra.studio${ogImage}`;
     const robots = PAGE_ROBOTS[pageId] || "index, follow";
     const sectionTitle = PAGE_SECTION_TITLES[pageId] || "Home";

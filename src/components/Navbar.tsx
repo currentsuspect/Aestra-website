@@ -132,8 +132,10 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
           aria-label="Aestra — home"
         >
           <img
-            src="/logo.png"
+            src="/favicon.svg"
             alt=""
+            width={24}
+            height={24}
             className="w-6 h-6"
           />
           <span className="text-[16px] font-extrabold text-fg lowercase tracking-[-0.01em] [font-stretch:125%]">aestra</span>
