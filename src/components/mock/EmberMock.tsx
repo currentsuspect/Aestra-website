@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  D, TRACKS, CLIPS, FILES, BARS, BPM, tone, waveform, levelAt, barBeatSixteenth, clockTime,
+  D, TRACKS, CLIPS, FILES, BARS, BPM, tone, waveform, RMS_SCALE, levelAt, barBeatSixteenth, clockTime,
 } from "./emberSession";
 
 /* ── EmberMock ───────────────────────────────────────────────────────
@@ -512,8 +512,9 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
                             <span className="absolute left-[4px] top-[3px] w-[7px] h-[5px]" style={{ background: `repeating-linear-gradient(${toneT.label} 0 1px, transparent 1px 2px)` }} />
                             <span className="absolute left-[15px] right-[3px] top-[1px] text-[8.5px] font-semibold leading-[10px] truncate" style={{ color: toneT.label }}>{t.name}</span>
                             <svg className="absolute left-0 right-0 bottom-[1px]" style={{ height: ROW_H - 13, width: "100%" }} viewBox={`0 0 ${wv.cols} 100`} preserveAspectRatio="none" aria-hidden="true">
-                              <path d={wv.env} fill={toneT.ink} fillOpacity="0.5" />
-                              <path d={wv.rms} fill={toneT.ink} fillOpacity="0.95" />
+                              <path id={`wv${ci}`} d={wv.env} fill={toneT.ink} fillOpacity="0.5" />
+                              <use href={`#wv${ci}`} fill={toneT.ink} fillOpacity="0.95"
+                                transform={`matrix(1 0 0 ${RMS_SCALE} 0 ${50 * (1 - RMS_SCALE)})`} />
                             </svg>
                             {isPart && showBadges && <span className="mock-badge mock-badge-in" aria-hidden="true">{PART_NUMBER.clip}</span>}
                           </div>

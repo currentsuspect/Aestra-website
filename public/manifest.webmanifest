@@ -16,16 +16,16 @@
   "categories": ["music", "productivity", "utilities", "creativity", "entertainment"],
   "screenshots": [
     {
-      "src": "/screenshot-wide.png",
+      "src": "/screenshot-wide.webp",
       "sizes": "1920x1080",
-      "type": "image/png",
+      "type": "image/webp",
       "form_factor": "wide",
       "label": "Aestra DAW interface — full timeline view"
     },
     {
-      "src": "/screenshot-mobile.png",
-      "sizes": "750x1334",
-      "type": "image/png",
+      "src": "/screenshot-mobile.webp",
+      "sizes": "780x1688",
+      "type": "image/webp",
       "form_factor": "narrow",
       "label": "Aestra website on mobile"
     }

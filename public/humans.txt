@@ -30,7 +30,7 @@ Design & brand:
 - Icons: lucide-react (ISC license)
 
 Asset attributions:
-- favicon.svg, og-image.svg, aestra_prism.svg: © Aestra Studios
+- favicon.svg, logo-bimi.svg: © Aestra Studios
 - All brand marks and audio engine code: © Aestra Studios
 - ASSAL v1.1 license covers all source-available components
 

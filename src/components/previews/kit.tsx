@@ -11,8 +11,8 @@ import { D, PALETTE, tone } from "../mock/emberSession";
 
 export { D, PALETTE, tone };
 
-export const W = 600;
-export const H = 240;
+import { W, H } from "./size";
+export { W, H };
 
 export type Scene = {
   /** Panel title shown above the stage. */
