@@ -216,8 +216,15 @@ const VOICES: Record<string, Voice> = {
   "bass:pluck": (c, o, t) => tone(c, o, t, { type: "square", f0: 110, peak: 0.32, decay: 0.16, lp: [1800, 220] }),
 };
 
+/* Master chain: gentle compression for body, makeup gain, then a fast limiter so nothing
+   leaves the page above the ceiling, whichever sounds or reference are in use. Measured
+   on the live page: the unlimited chain let the reference reach +0.7 dBFS. */
+const OUT_CEILING = 0.89;            // about -1 dBFS, applied after the limiter
+const MAKEUP = 1.45;                 // about +3 dB after the compressor
+const REF_BUILTIN_GAIN = 0.53;       // the built-in reference measured about 5.6 dB hotter than the mix, ungained
+
 const LOOKAHEAD = 0.28; // seconds scheduled ahead, so a stalled screen never starves the audio
-const TICK_MS = 25;
+const TICK_MS = 50;      // wakes half as often; the 0.28 s lookahead covers more than five ticks
 const MAX_SAMPLE_SECONDS = 2.5;
 const MAX_FILE_BYTES = 12 * 1024 * 1024;
 
@@ -299,17 +306,30 @@ export class Engine {
       this.refSum.connect(this.refTrim).connect(this.refGain).connect(this.masterIn);
 
       const comp = ctx.createDynamicsCompressor();
-      comp.threshold.value = -14;
-      comp.ratio.value = 6;
+      comp.threshold.value = -18;
+      comp.knee.value = 8;
+      comp.ratio.value = 3.5;
+      comp.attack.value = 0.004;
+      comp.release.value = 0.16;
+      const makeup = ctx.createGain();
+      makeup.gain.value = MAKEUP;
+      const limiter = ctx.createDynamicsCompressor();
+      limiter.threshold.value = -4;
+      limiter.knee.value = 0;
+      limiter.ratio.value = 20;
+      limiter.attack.value = 0.001;
+      limiter.release.value = 0.08;
       const out = ctx.createGain();
-      out.gain.value = 0.7;
+      out.gain.value = OUT_CEILING;
       this.outGain = out;
       this.masterTap = ctx.createAnalyser();
       this.masterTap.fftSize = 2048;
       this.masterTap.minDecibels = -78;
       this.masterTap.maxDecibels = -8;
       this.masterTap.smoothingTimeConstant = 0.8;
-      comp.connect(out);
+      comp.connect(makeup);
+      makeup.connect(limiter);
+      limiter.connect(out);
       out.connect(this.masterTap);
       this.masterTap.connect(ctx.destination);
       this.chainEnd = comp;
@@ -324,6 +344,7 @@ export class Engine {
       this.applyRouting();
       this.applyProfile();
       this.applyAB(true);
+      this.setRefBase();
     }
     if (this.ctx.state === "suspended") await this.ctx.resume();
     return true;
@@ -379,7 +400,7 @@ export class Engine {
       node = f;
     }
     node.connect(this.chainEnd);
-    if (this.outGain) this.outGain.gain.setTargetAtTime(0.7 * 10 ** (PROFILES[this.state.profile].gainDb / 20), ctx.currentTime, 0.03);
+    if (this.outGain) this.outGain.gain.setTargetAtTime(OUT_CEILING * 10 ** (PROFILES[this.state.profile].gainDb / 20), ctx.currentTime, 0.03);
   }
 
   /* ── Samples and reference files (decoded locally, never uploaded) ── */
@@ -420,13 +441,22 @@ export class Engine {
     const buf = await this.decode(await file.arrayBuffer());
     if (!buf) return "That doesn't look like an audio file this browser can play.";
     this.refBuffer = buf;
+    this.setRefBase();
     if (this.playing) this.startRefSource(this.ctx!.currentTime + 0.05);
     return null;
   }
 
   clearReference() {
     this.refBuffer = null;
+    this.setRefBase();
     this.stopRefSource();
+  }
+
+  /** The built-in reference is pre-levelled to sit with the mix; a loaded track is left as it is. */
+  private setRefBase() {
+    const ctx = this.ctx;
+    if (!ctx || !this.refSum) return;
+    this.refSum.gain.setTargetAtTime(this.refBuffer ? 1 : REF_BUILTIN_GAIN, ctx.currentTime, 0.01);
   }
 
   private startRefSource(at: number) {
@@ -493,7 +523,7 @@ export class Engine {
     const ctx = this.ctx;
     if (!ctx || !this.outGain) return;
     this.outGain.gain.cancelScheduledValues(ctx.currentTime);
-    this.outGain.gain.setValueAtTime(0.7 * 10 ** (PROFILES[this.state.profile].gainDb / 20), ctx.currentTime);
+    this.outGain.gain.setValueAtTime(OUT_CEILING * 10 ** (PROFILES[this.state.profile].gainDb / 20), ctx.currentTime);
   }
 
   stop() {

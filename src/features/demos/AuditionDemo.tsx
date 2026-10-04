@@ -91,7 +91,7 @@ export const AuditionDemo = () => {
       g.fillRect(fx(f0) + 0.5, CH - h, Math.max(1, fx(f1) - fx(f0) - 1.5), h);
     }
   };
-  useFrame(draw, visible && playing);
+  useFrame(draw, visible && playing, 30);
   useEffect(() => { if (!playing) { cv.current?.getContext("2d")?.clearRect(0, 0, CW * 2, CH * 2); setLevels(null); hist.current = []; } }, [playing]);
 
   const pick = (p: Profile) => change((s) => ({ ...s, profile: p }));

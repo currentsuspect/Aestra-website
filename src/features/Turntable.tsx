@@ -9,18 +9,27 @@ import "./inside.css";
 
 const REST = -46;   // degrees: needle parked off the record
 const PLAY = -27;   // needle in the groove
+const ZOOM = 7;      // how far the view pushes in; the cover hides the rest well before the end
 
 export const Turntable = ({ children, mode = "in", controls }: { children?: React.ReactNode; mode?: "in" | "out"; controls?: React.ReactNode }) => {
   const { playing, toggle, audio, engine, stopSoft } = useSession();
   const reduced = useReducedMotion();
   const wrap = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
+  const zoom = useRef<HTMLDivElement>(null);
+  const cover = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const w = wrap.current;
     const s = stage.current;
-    if (!w || !s) return;
-    if (reduced) { s.style.setProperty("--p", "0"); return; }
+    const z = zoom.current;
+    const c = cover.current;
+    if (!w || !s || !z || !c) return;
+    if (reduced) return;
+    // Opacity and transform are set straight on the few elements that move. Driving them
+    // through a CSS variable on the container made the browser re-resolve styles for the
+    // whole turntable on every scroll frame (about a quarter of the main thread).
+    const fades = Array.from(s.querySelectorAll<HTMLElement>(".tt-fade"));
     let af = 0;
     let lifted = false; // the needle lifts once per pass through the outro, not on every scroll
     const update = () => {
@@ -34,10 +43,15 @@ export const Turntable = ({ children, mode = "in", controls }: { children?: Reac
         if (raw <= 0.3) lifted = false;
         else if (!lifted) { lifted = true; if (engine.playing) stopSoft(); }
       }
-      s.style.setProperty("--p", p.toFixed(4));
+      z.style.transform = `scale(${(1 + p * ZOOM).toFixed(3)})`;
+      const fade = Math.max(0, 1 - p * 3.5).toFixed(3);
+      for (const f of fades) f.style.opacity = fade;
+      c.style.opacity = String(Math.min(1, Math.max(0, (p - 0.74) * 4.5)).toFixed(3));
       // Once you're deep in the record, stop painting the parts that are no longer visible.
       const deep = p > 0.3 ? "1" : "0";
       if (s.dataset.deep !== deep) s.dataset.deep = deep;
+      const covered = p > 0.97 ? "1" : "0";
+      if (s.dataset.covered !== covered) s.dataset.covered = covered;
     };
     const onScroll = () => { if (!af) af = requestAnimationFrame(update); };
     update();
@@ -77,7 +91,7 @@ export const Turntable = ({ children, mode = "in", controls }: { children?: Reac
           </div>
         </div>
 
-        <div className="tt-zoom">
+        <div ref={zoom} className="tt-zoom">
           {/* plinth */}
           <div className="absolute inset-0 tt-fade tt-chrome" style={{ background: "#0c0b0a", border: "1px solid #3d3833", borderRadius: 14, boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }} aria-hidden="true">
             <div className="absolute" style={{ right: "3.2%", bottom: "5%", width: "7%", aspectRatio: "1", borderRadius: "50%", background: "#1c1a17", border: "1px solid #3d3833" }}>
@@ -116,8 +130,8 @@ export const Turntable = ({ children, mode = "in", controls }: { children?: Reac
             </g>
           </svg>
 
-          <div className="tt-cover" aria-hidden="true" />
         </div>
+        <div ref={cover} className="tt-cover" aria-hidden="true" />
 
       </div>
     </div>
