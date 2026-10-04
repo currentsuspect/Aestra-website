@@ -1,20 +1,10 @@
 import React from "react";
-import { Check, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
-import { PianoGrid } from "../components/PianoGrid";
 import type { PageProps } from "../types";
 
-const CheckIcon = ({ accent = "emerald" }: { accent?: "emerald" | "violet" | "amber" }) => {
-  const ring =
-    accent === "emerald" ? "bg-emerald-500/15 text-emerald-400" :
-    accent === "violet"  ? "bg-accent/15 text-accent"  :
-                           "bg-amber-500/15 text-amber-400";
-  return (
-    <span className={`mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full shrink-0 ${ring}`}>
-      <Check className="w-2.5 h-2.5" />
-    </span>
-  );
-};
+/* Pricing, set like the rest of the site: heavy rules, ledger rows, no cards.
+   The data below is the single source for the tiers and the comparison. */
 
 const tiers = [
   {
@@ -24,8 +14,6 @@ const tiers = [
     annual: "",
     tagline: "The whole DAW. Nothing is locked.",
     cta: "Request early access",
-    ctaVariant: "secondary" as const,
-    accent: "emerald" as const,
     features: [
       "Unlimited tracks and loops",
       "Loop-based sequencer and piano roll",
@@ -41,11 +29,8 @@ const tiers = [
     price: "$5",
     sub: "/ month",
     annual: "or $50 / year",
-    tagline: "Optional extra plugins, and you help fund the work.",
+    tagline: "Pay for the ecosystem around the DAW: extra plugins, new tools and the work behind them.",
     cta: "Notify me when Supporter launches",
-    ctaVariant: "primary" as const,
-    accent: "violet" as const,
-    highlighted: true,
     features: [
       "Everything in Core",
       "The Native Suite: extra plugins, while you're subscribed",
@@ -111,254 +96,151 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
   },
 ];
 
-const Cell = ({ on, accent }: { on: boolean; accent: "emerald" | "violet" | "amber" }) => {
-  if (!on) return <span className="text-dim" aria-label="Not included">—</span>;
-  const color =
-    accent === "emerald" ? "text-emerald-400" :
-    accent === "violet"  ? "text-accent"  :
-                           "text-amber-400";
-  return <Check className={`w-4 h-4 ${color}`} aria-label="Included" role="img" />;
-};
 
-export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
-  return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative text-center pt-32 sm:pt-40 pb-14 px-5 sm:px-6">
-        <PianoGrid />
-        <div className="relative max-w-3xl mx-auto">
-          <p className="kicker mb-4">Pricing</p>
-          <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-5">
-            The whole DAW is free.<br />
-            <span className="text-muted">Plugins are extra.</span>
-          </h1>
-          <p className="text-muted text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-            No export limit, no time limit, no watermark. You don't need plugins to make music.
-            Supporter is for when you want more, and it pays for the work.
-          </p>
+const FOUNDER_POINTS = [
+  "24 months of Supporter from public beta",
+  "A plugin bundle (the Founder Collection) that you keep",
+  "A numbered digital Founder card, yours permanently",
+  "Your name in the app credits, if you want it",
+  "25% off Supporter after the 24 months",
+];
+
+const Mark = ({ on }: { on: boolean }) =>
+  on
+    ? <span className="font-mono text-[13px] font-semibold text-fg" aria-label="Included">Yes</span>
+    : <span className="font-mono text-[13px] text-faint" aria-label="Not included">—</span>;
+
+const GRID = "grid grid-cols-[minmax(0,1fr)_64px_84px_72px] sm:grid-cols-[minmax(0,1fr)_110px_130px_130px]";
+
+export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
+  <div className="pt-32 sm:pt-40 pb-24 sm:pb-32 min-h-screen px-5 sm:px-6">
+    <div className="max-w-[1320px] mx-auto">
+      {/* Header */}
+      <FadeIn className="grid lg:grid-cols-12 gap-8 lg:gap-6 items-end">
+        <div className="lg:col-span-8">
+          <p className="readout mb-5">Pricing</p>
+          <h1 className="display text-[clamp(3rem,1.6rem+5vw,7rem)]">The whole DAW is free.</h1>
         </div>
-      </section>
-
-      {/* Tier cards */}
-      <div className="px-5 sm:px-6 pb-8">
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-4">
-          {tiers.map((t, i) => (
-            <FadeIn key={t.name} delay={i * 0.05}>
-              <div
-                className={`rounded-2xl p-7 sm:p-8 h-full flex flex-col transition-all duration-300 ${
-                  t.highlighted
-                    ? "border border-accent/30 bg-bg panel-sheen hover:border-accent/60 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-20px_color-mix(in_srgb,var(--color-accent)_45%,transparent)]"
-                    : "border border-border/80 bg-bg panel-sheen"
-                }`}
-              >
-                <div className="mb-6">
-                  <div className="flex items-center gap-2.5 mb-3">
-                    <span className={`led ${t.accent === "violet" ? "text-accent" : "text-emerald-400"}`} aria-hidden="true" />
-                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted">{t.name}</span>
-                  </div>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl font-semibold tracking-tight text-fg">{t.price}</span>
-                    {t.sub && <span className="text-muted text-base">{t.sub}</span>}
-                  </div>
-                  {t.annual && <div className="font-mono text-[11px] text-accent mb-2">{t.annual}</div>}
-                  <p className="text-muted text-sm leading-relaxed">{t.tagline}</p>
-                </div>
-
-                <ul className="space-y-3 mb-6">
-                  {t.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-[14px] text-fg-muted">
-                      <CheckIcon accent={t.accent} />
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mb-8 flex-1">
-                  <p className="readout mb-2">Planned, not built yet</p>
-                  <ul className="space-y-2 m-0 p-0">
-                    {t.planned.map((f) => (
-                      <li key={f} className="list-none text-[14px] text-muted">{f}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <Button
-                  variant={t.ctaVariant}
-                  size="md"
-                  className="w-full"
-                  onClick={() => onEarlyAccess?.(t.name === "Supporter" ? "supporter-notify" : "early-access")}
-                >
-                  {t.cta}
-                </Button>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-
-      <div className="px-5 sm:px-6 pb-20">
-        <p className="text-center text-[13px] text-muted max-w-2xl mx-auto">
-          Core needs no card. Supporter isn't on sale yet. Collaboration isn't built yet, so there's no storage amount
-          to promise, and nothing online will ever touch the projects on your own computer.
+        <p className="lg:col-span-4 m-0 text-muted text-[16px] leading-relaxed max-w-[34rem]">
+          No export limit, no time limit, no watermark, and you don't need a plugin to make
+          music. Supporter is for people who want to pay for the ecosystem around Aestra
+          and the work that keeps it going.
         </p>
-      </div>
+      </FadeIn>
 
-      {/* Founder section */}
-      <div className="px-5 sm:px-6 pb-20">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-4 mb-10">
-            <div className="flex-1 h-px bg-surface-3/80" />
-            <span className="readout">Founder · 500 digital cards, ever</span>
-            <div className="flex-1 h-px bg-surface-3/80" />
-          </div>
-
-          <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.03] p-7 sm:p-10">
-            <div className="grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-14 items-start mb-10">
-              <div>
-                <span className="inline-flex items-center gap-2.5 readout text-amber-300 mb-5">
-                  <span className="led" aria-hidden="true" />
-                  Fully digital · limited to 500
-                </span>
-                <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
-                  Five hundred, <span className="text-amber-300">once.</span>
-                </h2>
-                <p className="text-muted text-base sm:text-lg leading-relaxed max-w-lg">
-                  A numbered digital card for the first 500 people, a plugin bundle you keep,
-                  and two years of Supporter.
-                </p>
+      {/* Tiers */}
+      <section className="mt-16 sm:mt-24 grid md:grid-cols-2 border-t-2 border-fg">
+        {tiers.map((t, i) => (
+          <FadeIn key={t.name} delay={i * 0.05} className={`py-8 grid gap-6 content-start ${i > 0 ? "md:pl-10 md:border-l border-border border-t md:border-t-0" : "md:pr-10"}`}>
+            <div>
+              <span className="readout">{t.name}</span>
+              <div className="flex items-baseline gap-3 mt-2">
+                <strong className="display text-[4.5rem] leading-none">{t.price}</strong>
+                <span className="text-muted text-[15px]">{t.sub}</span>
               </div>
-              <div className="text-right">
-                <div className="text-5xl font-semibold text-fg tracking-tight">$129</div>
-                <div className="text-muted text-sm mt-1">one-time</div>
-              </div>
+              {t.annual && <p className="readout mt-2 !text-accent">{t.annual}</p>}
+              <p className="mt-4 mb-0 text-muted text-[15px] leading-relaxed max-w-md">{t.tagline}</p>
             </div>
-
-            <div className="grid sm:grid-cols-3 gap-px bg-amber-500/15 border border-amber-500/15 rounded-lg overflow-hidden mb-8">
-              {[
-                ["24 months", "of Supporter included"],
-                ["25% off", "Supporter after that, for good"],
-                ["Digital", "Nothing is shipped"],
-              ].map(([value, label]) => (
-                <div key={label} className="bg-bg/80 px-4 py-3">
-                  <div className="text-fg font-medium">{value}</div>
-                  <div className="text-[11px] text-muted mt-0.5">{label}</div>
-                </div>
+            <ul className="m-0 p-0 border-t border-border">
+              {t.features.map((f) => (
+                <li key={f} className="list-none py-3 border-b border-border text-fg text-[15px] leading-snug">{f}</li>
               ))}
+            </ul>
+            <div>
+              <p className="readout mb-2">Not built yet</p>
+              <ul className="m-0 p-0">
+                {t.planned.map((f) => (
+                  <li key={f} className="list-none py-1.5 text-muted text-[14.5px]">{f}</li>
+                ))}
+              </ul>
             </div>
-
-            <div className="flex flex-wrap gap-2 mb-10">
-              {[
-                "24 months of Supporter from public beta",
-                "A plugin bundle (the Founder Collection) that you keep",
-                "A numbered digital Founder card, yours permanently",
-                "Your name in the app credits, if you want it",
-                "25% off Supporter after the 24 months",
-              ].map((f) => (
-                <span key={f} className="inline-flex items-center gap-2 text-fg-muted text-[13px]">
-                  <Check className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-                  {f}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div>
               <Button
                 size="lg"
-                onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
-                className="bg-amber-400 text-on-accent hover:bg-amber-300"
+                variant={t.name === "Supporter" ? "primary" : "secondary"}
+                onClick={() => onEarlyAccess?.(t.name === "Supporter" ? "supporter-notify" : "early-access")}
+                className="justify-between w-full sm:w-auto sm:min-w-[19rem]"
               >
-                Join the waitlist <ArrowRight className="w-4 h-4" />
+                {t.cta} <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Button>
-              <p className="text-muted text-[13px] max-w-sm">
-                Founder cards go on sale at public beta. The waitlist only emails you when they do. It doesn't hold a card for you.
-              </p>
             </div>
-          </div>
-        </div>
-      </div>
+          </FadeIn>
+        ))}
+      </section>
+      <p className="mt-2 mb-0 text-muted text-[13.5px] leading-relaxed max-w-2xl">
+        Core needs no card. Supporter isn't on sale yet. Collaboration isn't built yet, so there's no storage
+        amount to promise, and nothing online will ever touch the projects on your own computer.
+      </p>
 
-      {/* Comparison table */}
-      <div className="px-5 sm:px-6 pb-32">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-4 mb-10">
-            <div className="flex-1 h-px bg-surface-3/80" />
-            <span className="readout">What each offer includes</span>
-            <div className="flex-1 h-px bg-surface-3/80" />
+      {/* Founder */}
+      <section className="mt-20 sm:mt-28 grid lg:grid-cols-12 gap-8 lg:gap-6" id="founder">
+        <FadeIn className="lg:col-span-4">
+          <p className="readout mb-4">Founder · 500 cards, ever</p>
+          <h2 className="display-2 text-[clamp(2.2rem,1.2rem+3.2vw,4rem)]">Five hundred, once.</h2>
+          <div className="mt-6 flex items-baseline gap-3">
+            <strong className="display text-[3.4rem] leading-none">$129</strong>
+            <span className="text-muted text-[15px]">one-time, digital</span>
           </div>
-
-          {/* Mobile: stacked cards per group */}
-          <div className="md:hidden space-y-6">
-            {compareGroups.map((group) => (
-              <div key={group.label} className="rounded-2xl border border-border/80 bg-bg overflow-hidden">
-                <div className="px-4 py-2.5 bg-surface-2/50 border-b border-border/80 font-mono text-[10px] uppercase tracking-[0.14em] text-muted font-medium">
-                  {group.label}
-                </div>
-                <ul>
-                  {group.rows.map(([feat, core, sup, found], i) => (
-                    <li key={i} className="px-4 py-3 border-b border-border/80 last:border-b-0">
-                      <div className="text-[13.5px] text-fg-muted mb-2.5">{feat}</div>
-                      <div className="grid grid-cols-3 gap-2 text-[11px] text-muted">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-muted">Core</span>
-                          <Cell on={core} accent="emerald" />
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-muted">Supporter</span>
-                          <Cell on={sup} accent="violet" />
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-muted">Founder</span>
-                          <Cell on={found} accent="amber" />
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop: full grid */}
-          <div className="hidden md:block rounded-2xl border border-border/80 overflow-hidden">
-            <div className="grid grid-cols-[1fr_140px_160px_160px] bg-surface-2/50 border-b border-border/80">
-              <div className="p-5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">Feature</div>
-              <div className="p-5 text-center">
-                <div className="text-fg-muted text-sm font-medium">Core</div>
-                <div className="text-muted text-[11px] font-mono mt-0.5">$0</div>
-              </div>
-              <div className="p-5 text-center">
-                <div className="text-accent text-sm font-medium">Supporter</div>
-                <div className="text-muted text-[11px] font-mono mt-0.5">$5/mo</div>
-              </div>
-              <div className="p-5 text-center">
-                <div className="text-amber-300 text-sm font-medium">Founder</div>
-                <div className="text-muted text-[11px] font-mono mt-0.5">$129 · 24mo</div>
-              </div>
-            </div>
-
-            {compareGroups.map((group) => (
-              <div key={group.label}>
-                <div className="px-5 py-2.5 bg-surface-2/30 border-y border-border/80 font-mono text-[10px] uppercase tracking-[0.14em] text-muted font-medium">
-                  {group.label}
-                </div>
-                {group.rows.map(([feat, core, sup, found], i) => (
-                  <div key={i} className="grid grid-cols-[1fr_140px_160px_160px] border-b border-border/80 last:border-b-0 hover:bg-surface-2/30 transition-colors">
-                    <div className="p-4 text-[13.5px] text-fg-muted">{feat}</div>
-                    <div className="p-4 flex items-center justify-center"><Cell on={core} accent="emerald" /></div>
-                    <div className="p-4 flex items-center justify-center"><Cell on={sup} accent="violet" /></div>
-                    <div className="p-4 flex items-center justify-center"><Cell on={found} accent="amber" /></div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-          <p className="text-muted text-[12px] mt-4 leading-relaxed">
-            Founder includes Supporter for 24 months from public beta. After that you keep the Founder
-            Collection and your numbered card, and Supporter extras need a Supporter plan at 25% off for good.
-            If Supporter ends, only an online shared project becomes read-only, and you get at least 30 days to
-            download it. Projects on your computer stay editable and exportable in free Core.
+        </FadeIn>
+        <FadeIn delay={0.05} className="lg:col-span-8 border-t-2 border-fg">
+          <p className="m-0 pt-6 text-muted text-base sm:text-[17px] leading-relaxed max-w-xl">
+            A numbered digital card for the first 500 people, a plugin bundle you keep, and two
+            years of Supporter. Nothing is shipped.
           </p>
+          <ul className="m-0 p-0 mt-6 border-t border-border">
+            {FOUNDER_POINTS.map((f, i) => (
+              <li key={f} className="list-none grid grid-cols-[40px_1fr] gap-3 py-3.5 border-b border-border">
+                <span className="font-mono text-[11px] font-semibold text-accent pt-[4px]">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-fg text-[16px] leading-snug">{f}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-4">
+            <Button
+              size="lg"
+              onClick={() => { setPage("home"); setTimeout(() => { document.getElementById("founder-section")?.scrollIntoView({ behavior: "smooth" }); }, 100); }}
+              className="justify-between"
+            >
+              Join the waitlist <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Button>
+            <p className="m-0 text-muted text-[13.5px] leading-relaxed max-w-sm">
+              Founder cards go on sale at public beta. The waitlist only emails you when they do. It doesn't hold a card for you.
+            </p>
+          </div>
+        </FadeIn>
+      </section>
+
+      {/* Comparison */}
+      <section className="mt-20 sm:mt-28">
+        <p className="readout mb-4">What each offer includes</p>
+        <div className="border-t-2 border-fg">
+          <div className={`${GRID} border-b border-border py-3 items-baseline`}>
+            <span className="readout">Feature</span>
+            <span className="text-center"><span className="block text-fg text-[14px] font-semibold">Core</span><span className="readout !text-[10px]">$0</span></span>
+            <span className="text-center"><span className="block text-fg text-[14px] font-semibold">Supporter</span><span className="readout !text-[10px]">$5/mo</span></span>
+            <span className="text-center"><span className="block text-fg text-[14px] font-semibold">Founder</span><span className="readout !text-[10px]">$129</span></span>
+          </div>
+          {compareGroups.map((group) => (
+            <div key={group.label}>
+              <div className="readout !text-accent pt-6 pb-2 border-b border-border">{group.label}</div>
+              {group.rows.map(([feat, core, sup, found]) => (
+                <div key={feat} className={`${GRID} py-3 border-b border-border items-baseline`}>
+                  <span className="text-fg text-[14.5px] leading-snug pr-3">{feat}</span>
+                  <span className="text-center"><Mark on={core} /></span>
+                  <span className="text-center"><Mark on={sup} /></span>
+                  <span className="text-center"><Mark on={found} /></span>
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
-      </div>
+        <p className="text-muted text-[13px] mt-5 leading-relaxed max-w-3xl">
+          Founder includes Supporter for 24 months from public beta. After that you keep the Founder
+          Collection and your numbered card, and Supporter extras need a Supporter plan at 25% off for good.
+          If Supporter ends, only an online shared project becomes read-only, and you get at least 30 days to
+          download it. Projects on your computer stay editable and exportable in free Core.
+        </p>
+      </section>
     </div>
-  );
-};
+  </div>
+);

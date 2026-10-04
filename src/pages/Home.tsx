@@ -305,8 +305,8 @@ const Cost = memo(({ setPage }: PageProps) => (
     aside={
       <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
         The whole DAW is free: no export limits, no watermark, no time limit. What you make
-        is yours, with no royalties. You don't need to pay to make music. Paying gets you extra
-        plugins you may want later, and helps fund the work.
+        is yours, with no royalties. You don't need to pay to make music. Paying is for the
+        ecosystem around Aestra: extra plugins, new tools, and the work behind them.
       </p>
     }
   >
@@ -352,8 +352,8 @@ const FAQ = memo(({ setPage }: PageProps) => {
           </p>
           <p>
             The Native Suite is a separate set of extra plugins, released one at a time. You don't
-            need them to make music. They're there if you want more, and they come with Supporter
-            ($5/month) or you can buy them one by one.
+            need them to make music. Supporter ($5/month) is how you pay for that ecosystem, or you
+            can buy the plugins one by one.
           </p>
         </div>
       ),
