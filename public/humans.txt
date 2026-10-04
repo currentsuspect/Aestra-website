@@ -25,7 +25,7 @@ Software & standards:
 
 Design & brand:
 - Brand identity: Aestra Studios
-- Logo & prism: Aestra Studios
+- Logo: Aestra Studios
 - Type system: Archivo (Omnibus-Type, OFL) & JetBrains Mono (JetBrains, OFL)
 - Icons: lucide-react (ISC license)
 

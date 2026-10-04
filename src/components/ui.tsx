@@ -2,40 +2,54 @@ import React, { memo } from "react";
 import { cn, useInView, prefersReducedMotion } from "../lib";
 import type { ButtonProps, BadgeProps, CardProps, FeatureCardProps, FadeInProps } from "../types";
 
-/* ── Loading fallback ─────────────────────────────────────────── */
-const prismSpin = `
-@keyframes prismSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+/* ── Loading fallback ───────────────────────────────────────────
+   The Aestra mark, animated the way the logo sting draws it (aestra-studio,
+   src/templates/LogoSting.tsx): a hairline outline draws on, the violet floods
+   in, a light travels along the cut, and the shard slides into the gap. The
+   geometry is the sting's own traced path, and the beats keep its timing
+   (outline 0.3-1.1s, fill 0.9-1.3s, cut light 1.25-1.7s, shard 1.45s), run about
+   1.6x faster and looped with a short rest, because a loading screen is only seen
+   for a moment. Reduced motion shows the finished mark. */
+const MAIN = "M270.4 106.5 L313.2 240.2 L390.5 251.6 C231.7 310.9 284.0 279.1 151.0 403.2 L191.2 289.8 L120.8 252.2 L214.0 239.2 Z";
+const SHARD = "M304.6 306.2 L276.0 328.0 L345.2 403.4 Z";
+const CUT = "M390.5 251.6 C231.7 310.9 284.0 279.1 151.0 403.2";
+
+const loaderCss = `
+.ald-outline { stroke-dasharray: 1 1; stroke-dashoffset: 0; opacity: 0.12; }
+.ald-fill { opacity: 1; }
+.ald-shard { opacity: 1; }
+.ald-cut { opacity: 0; stroke-dasharray: 0.18 1; stroke-dashoffset: 0.18; }
+@media (prefers-reduced-motion: no-preference) {
+  .ald-mark { transform-box: fill-box; transform-origin: center; animation: ald-settle 2s ease-in-out infinite; }
+  .ald-outline { animation: ald-outline 2s cubic-bezier(.65,0,.35,1) infinite; }
+  .ald-fill { animation: ald-fill 2s ease-in-out infinite; }
+  .ald-shard { animation: ald-shard 2s cubic-bezier(.22,.8,.3,1) infinite; }
+  .ald-cut { animation: ald-cut 2s cubic-bezier(.65,0,.35,1) infinite; }
+}
+@keyframes ald-outline { 0% { stroke-dashoffset: 1; opacity: 1; } 25% { stroke-dashoffset: 0; opacity: 1; } 31% { stroke-dashoffset: 0; opacity: .12; } 76% { stroke-dashoffset: 0; opacity: .12; } 90% { stroke-dashoffset: 0; opacity: 0; } 100% { stroke-dashoffset: 1; opacity: 0; } }
+@keyframes ald-fill { 0%, 19% { opacity: 0; } 31% { opacity: 1; } 76% { opacity: 1; } 90%, 100% { opacity: 0; } }
+@keyframes ald-shard { 0%, 34% { opacity: 0; transform: translate(26px, 30px); } 50% { opacity: 1; transform: translate(0, 0); } 76% { opacity: 1; transform: translate(0, 0); } 90%, 100% { opacity: 0; transform: translate(0, 0); } }
+@keyframes ald-cut { 0%, 28% { opacity: 0; stroke-dashoffset: .18; } 30% { opacity: 1; stroke-dashoffset: .18; } 46% { opacity: 1; stroke-dashoffset: -.82; } 55%, 100% { opacity: 0; stroke-dashoffset: -.82; } }
+@keyframes ald-settle { 0%, 30% { transform: scale(1); } 80%, 100% { transform: scale(1.03); } }
 `;
 
 export const LoadingFallback = () => (
-  <div className="flex items-center justify-center min-h-[60vh]">
-    <style>{prismSpin}</style>
-    <svg width="48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={{ animation: "prismSpin 3s linear infinite" }}>
+  <div className="flex items-center justify-center min-h-[60vh] text-fg" role="status" aria-live="polite">
+    <style>{loaderCss}</style>
+    <span className="sr-only">Loading</span>
+    <svg width="56" height="61" viewBox="104 90 304 330" aria-hidden="true" style={{ overflow: "visible" }}>
       <defs>
-        <linearGradient id="pf" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#2a2840"/><stop offset="50%" stopColor="#1a1830"/><stop offset="100%" stopColor="#12101e"/>
-        </linearGradient>
-        <linearGradient id="pe" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#4a4070"/><stop offset="100%" stopColor="#2a2450"/>
-        </linearGradient>
-        <linearGradient id="bi" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#ffffff20"/><stop offset="100%" stopColor="#ffffff90"/>
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
+        <filter id="ald-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" /></filter>
       </defs>
-      <polygon points="100,28 168,152 32,152" fill="url(#pf)" stroke="url(#pe)" strokeWidth="1.5" strokeLinejoin="round"/>
-      <polygon points="100,28 168,152 32,152" fill="none" stroke="#8f82df30" strokeWidth="0.5"/>
-      <line x1="10" y1="100" x2="66" y2="100" stroke="url(#bi)" strokeWidth="2.5" strokeLinecap="round"/>
-      <line x1="134" y1="100" x2="170" y2="72" stroke="#ff4a6e" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.9"/>
-      <line x1="134" y1="100" x2="178" y2="82" stroke="#ff8a4a" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.85"/>
-      <line x1="134" y1="100" x2="186" y2="94" stroke="#ffd04a" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.8"/>
-      <line x1="134" y1="100" x2="190" y2="106" stroke="#4aff8a" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.8"/>
-      <line x1="134" y1="100" x2="184" y2="118" stroke="#4a9eff" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.85"/>
-      <line x1="134" y1="100" x2="174" y2="130" stroke="#8f82df" strokeWidth="2" strokeLinecap="round" filter="url(#glow)" opacity="0.9"/>
-      <circle cx="66" cy="100" r="3" fill="#ffffff" opacity="0.6"/>
+      <g className="ald-mark">
+        <path className="ald-outline" d={MAIN} pathLength={1} fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+        <path className="ald-fill" d={MAIN} fill="#7B53E8" stroke="#7B53E8" strokeWidth="1" strokeLinejoin="round" />
+        <path className="ald-shard" d={SHARD} fill="#7B53E8" stroke="#7B53E8" strokeWidth="1" strokeLinejoin="round" />
+        <g>
+          <path className="ald-cut" d={CUT} pathLength={1} fill="none" stroke="#FFFFFF" strokeWidth="6" strokeLinecap="round" filter="url(#ald-glow)" />
+          <path className="ald-cut" d={CUT} pathLength={1} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+        </g>
+      </g>
     </svg>
   </div>
 );
