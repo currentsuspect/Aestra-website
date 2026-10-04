@@ -1,22 +1,14 @@
 # auth.md
 
-Aestra does not currently expose protected APIs. This file is published for forward-compatibility so agents can discover the authentication protocol when APIs launch.
+Aestra does not currently expose protected APIs, so there is nothing to authenticate against and no
+credentials to obtain. Public content and documentation need no credentials.
 
 ## Identity
 
 - Site: https://www.aestra.studio
 - Contact: hello@aestra.studio
 
-## Authentication
+## When this changes
 
-No credentials are required to access public Aestra content or documentation.
-
-When protected APIs are available, agents should follow this discovery flow:
-
-1. `GET /.well-known/oauth-protected-resource` — find the authorization server
-2. `GET /.well-known/oauth-authorization-server` — read the `agent_auth` block
-3. `POST` to `register_uri` with `{ type: "anonymous" }` to obtain credentials
-
-## agent_auth
-
-See `/.well-known/oauth-authorization-server` for the `agent_auth` block with `register_uri`, supported identity types, and credential types.
+OAuth discovery metadata (`/.well-known/oauth-protected-resource` and
+`/.well-known/oauth-authorization-server`) will be published at the same time as the first protected API, not before.
