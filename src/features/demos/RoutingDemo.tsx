@@ -49,7 +49,7 @@ export const RoutingDemo = () => {
     const b = lines.current.bus;
     if (b) { b.style.strokeOpacity = String(0.25 + drums * 0.75); b.style.strokeWidth = String(1.5 + drums * 2); }
     meters.current.forEach((m, i) => { if (m) m.style.height = `${Math.min(100, (all * (i ? 0.92 : 1) * 100))}%`; });
-  }, visible && playing);
+  }, visible && playing, 30);
 
   const send = (row: Row, to: Route) => {
     setMsg("");
@@ -110,7 +110,7 @@ export const RoutingDemo = () => {
                 background: "#1c1a17", border: "1px solid " + (sel === "bus" ? "#7c3aed" : "#2e2a26"), boxShadow: sel === "bus" ? "0 0 0 1px #7c3aed" : "none", borderRadius: 2, opacity: rowNames.length ? 1 : 0.45,
               }}
             >
-              <span style={{ width: 10, height: 10, background: "oklch(0.73 0.18 60)" }} />
+              <span style={{ width: 10, height: 10, background: ROW_META.snare.color }} />
               Drum Bus
               <span style={{ marginLeft: "auto", fontSize: 9, letterSpacing: "0.12em", color: "#857d72" }}>BUS</span>
             </button>

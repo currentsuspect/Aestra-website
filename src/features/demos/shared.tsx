@@ -1,13 +1,16 @@
 import React from "react";
 import type { Row } from "../engine";
 
-export const ROW_META: Record<Row, { name: string; hue: number }> = {
-  kick: { name: "Kick", hue: 25 },
-  snare: { name: "Snare", hue: 60 },
-  hat: { name: "Hats", hue: 95 },
-  bass: { name: "Bass", hue: 250 },
+/* Row colours are the Ember track hues (OKLCH L 0.73, C 0.18). That chroma is outside sRGB, and
+   browsers clip it differently (Firefox rendered the kick as dark red where Chrome showed coral),
+   so these are the gamut-mapped sRGB values, which look the same everywhere. */
+export const ROW_META: Record<Row, { name: string; color: string }> = {
+  kick: { name: "Kick", color: "#ff7871" },
+  snare: { name: "Snare", color: "#f38900" },
+  hat: { name: "Hats", color: "#c5a500" },
+  bass: { name: "Bass", color: "#59adff" },
 };
-export const rowColor = (r: Row, l = 0.73) => `oklch(${l} 0.18 ${ROW_META[r].hue})`;
+export const rowColor = (r: Row) => ROW_META[r].color;
 
 export const Panel = ({
   title, tag, children, right,
