@@ -467,6 +467,7 @@ export class Engine {
 
   async start() {
     if (!(await this.ensure()) || !this.ctx || this.playing) return;
+    this.restoreOut();
     this.playing = true;
     this.nextStep = 0;
     this.nextTime = this.ctx.currentTime + 0.06;
@@ -474,6 +475,25 @@ export class Engine {
     if (this.refBuffer) this.startRefSource(this.nextTime);
     this.timer = setInterval(() => this.pump(), TICK_MS);
     this.pump();
+  }
+
+  /** Fade out, then stop: the needle lifting at the end of a side. */
+  stopSoft(ms = 500) {
+    const ctx = this.ctx;
+    if (!this.playing || !ctx || !this.outGain) { this.stop(); return; }
+    const g = this.outGain.gain;
+    const t = ctx.currentTime;
+    g.cancelScheduledValues(t);
+    g.setValueAtTime(g.value, t);
+    g.linearRampToValueAtTime(0.0001, t + ms / 1000);
+    setTimeout(() => { this.stop(); this.restoreOut(); }, ms + 30);
+  }
+
+  private restoreOut() {
+    const ctx = this.ctx;
+    if (!ctx || !this.outGain) return;
+    this.outGain.gain.cancelScheduledValues(ctx.currentTime);
+    this.outGain.gain.setValueAtTime(0.7 * 10 ** (PROFILES[this.state.profile].gainDb / 20), ctx.currentTime);
   }
 
   stop() {

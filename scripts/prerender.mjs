@@ -316,16 +316,17 @@ const assertVisualGeometry = async (page, route) => {
       flowCount: flows.length,
       indicatorCount: document.querySelectorAll("[data-signal-indicator-for]").length,
       turntable: document.querySelectorAll(".tt-wrap").length,
+      finale: document.querySelectorAll("#end").length,
       tracks: ["a1", "a2", "b1", "b2", "c1", "c2"].filter((id) => document.getElementById(id)?.querySelector("h3")).length,
       problems,
     };
   });
 
   // The geometry check below runs on every signal-flow diagram that renders anywhere.
-  // /features is the inside of a record: a turntable hero and six tracks, each with its copy
-  // in the prerendered HTML (the demos hydrate on top of it).
-  if (route.path === "/features" && (result.turntable !== 1 || result.tracks !== 6)) {
-    throw new Error(`${route.path}: expected the turntable and 6 tracks, found ${result.turntable} and ${result.tracks}`);
+  // /features is the inside of a record: a turntable hero, six tracks, a finale, and a turntable outro,
+  // each with its copy in the prerendered HTML (the demos hydrate on top of it).
+  if (route.path === "/features" && (result.turntable !== 2 || result.finale !== 1 || result.tracks !== 6)) {
+    throw new Error(`${route.path}: expected 2 turntables (hero and outro), the finale and 6 tracks, found ${result.turntable}, ${result.finale} and ${result.tracks}`);
   }
   if (result.problems.length > 0) {
     throw new Error(`${route.path}: signal-flow geometry mismatch: ${result.problems.join(" | ")}`);

@@ -67,6 +67,8 @@ type Ctx = {
   /** Change the session. Pass a label to record it as a step. */
   change: (fn: (s: SessionState) => SessionState, label?: string) => void;
   toggle: () => Promise<void>;
+  /** Fade the loop out and stop it, as the record ends. */
+  stopSoft: () => void;
   goToStep: (i: number) => void;
   saveVersion: (name: string, branch?: string) => void;
   newBranch: (name: string) => void;
@@ -178,6 +180,12 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
     setPlaying(eng.playing);
   }, [eng]);
 
+  const stopSoft = useCallback(() => {
+    if (!eng.playing) return;
+    eng.stopSoft();
+    setPlaying(false);
+  }, [eng]);
+
   useEffect(() => () => eng.stop(), [eng]);
 
   // A hidden tab throttles timers, which would make the loop stutter: stop it, and save the work.
@@ -256,9 +264,9 @@ export const SessionProvider = ({ children }: { children: React.ReactNode }) => 
 
   const value = useMemo<Ctx>(() => ({
     state, playing, audio, engine: eng, steps, cursor, versions, branches, savedAt, closed,
-    change, toggle, goToStep, saveVersion, newBranch, restoreVersion, setClosed, reset,
+    change, toggle, stopSoft, goToStep, saveVersion, newBranch, restoreVersion, setClosed, reset,
     sampleNames, refName, notice, setVoice, loadSample, loadReference, clearReference,
-  }), [state, playing, audio, eng, steps, cursor, versions, branches, savedAt, closed, change, toggle, goToStep, saveVersion, newBranch, restoreVersion, reset, sampleNames, refName, notice, setVoice, loadSample, loadReference, clearReference]);
+  }), [state, playing, audio, eng, steps, cursor, versions, branches, savedAt, closed, change, toggle, stopSoft, goToStep, saveVersion, newBranch, restoreVersion, reset, sampleNames, refName, notice, setVoice, loadSample, loadReference, clearReference]);
 
   return <SessionCtx.Provider value={value}>{children}</SessionCtx.Provider>;
 };

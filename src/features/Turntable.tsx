@@ -3,14 +3,15 @@ import { useSession } from "./session";
 import { useReducedMotion } from "./hooks";
 import "./inside.css";
 
-/* The hero: a record on a turntable. Dropping the needle plays the loop,
-   and scrolling zooms into the record's grooves, which become the page. */
+/* A record on a turntable. As the hero ("in"), dropping the needle plays the loop and
+   scrolling zooms into the grooves, which become the page. As the finale ("out"), the
+   same record is reached from inside, the view pulls back, and the needle lifts by itself. */
 
 const REST = -46;   // degrees: needle parked off the record
 const PLAY = -27;   // needle in the groove
 
-export const Turntable = ({ children }: { children?: React.ReactNode }) => {
-  const { playing, toggle, audio } = useSession();
+export const Turntable = ({ children, mode = "in", controls }: { children?: React.ReactNode; mode?: "in" | "out"; controls?: React.ReactNode }) => {
+  const { playing, toggle, audio, engine, stopSoft } = useSession();
   const reduced = useReducedMotion();
   const wrap = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -25,7 +26,10 @@ export const Turntable = ({ children }: { children?: React.ReactNode }) => {
       af = 0;
       const r = w.getBoundingClientRect();
       const span = Math.max(1, r.height - window.innerHeight);
-      const p = Math.min(1, Math.max(0, -r.top / span));
+      const raw = Math.min(1, Math.max(0, -r.top / span));
+      // Going in: zoomed out to zoomed in. Coming out: the reverse, then a held view to read it.
+      const p = mode === "in" ? raw : Math.max(0, 1 - raw / 0.62);
+      if (mode === "out" && raw > 0.3 && engine.playing) stopSoft();
       s.style.setProperty("--p", p.toFixed(4));
       // Once you're deep in the record, stop painting the parts that are no longer visible.
       const deep = p > 0.3 ? "1" : "0";
@@ -40,28 +44,32 @@ export const Turntable = ({ children }: { children?: React.ReactNode }) => {
       window.removeEventListener("resize", onScroll);
       if (af) cancelAnimationFrame(af);
     };
-  }, [reduced]);
+  }, [reduced, mode, engine, stopSoft]);
 
   return (
-    <div ref={wrap} className="tt-wrap">
-      <div ref={stage} className="tt-sticky" data-deep="0">
+    <div ref={wrap} className="tt-wrap" data-mode={mode}>
+      <div ref={stage} className="tt-sticky" data-deep={mode === "out" ? "1" : "0"} data-mode={mode}>
         <div className="tt-top tt-fade tt-chrome">
           <div className="tt-head">{children}</div>
           <div className="tt-ctl">
-            <button
-              type="button"
-              onClick={() => { void toggle(); }}
-              aria-pressed={playing}
-              className="dbtn pri"
-              style={{ minHeight: 44, padding: "0 20px", fontSize: 14 }}
-            >
-              {playing ? "Lift the needle" : "Drop the needle"}
-            </button>
-            <p className="m-0 text-[13px] text-muted max-w-[30ch]">
-              {audio === "unavailable"
-                ? "This browser can't make sound here, but everything below still works to look at."
-                : playing ? "That's a real loop, made in your browser. Keep scrolling to go inside." : "Press it for sound, then keep scrolling to go inside the record."}
-            </p>
+            {controls ?? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => { void toggle(); }}
+                  aria-pressed={playing}
+                  className="dbtn pri"
+                  style={{ minHeight: 44, padding: "0 20px", fontSize: 14 }}
+                >
+                  {playing ? "Lift the needle" : "Drop the needle"}
+                </button>
+                <p className="m-0 text-[13px] text-muted max-w-[30ch]">
+                  {audio === "unavailable"
+                    ? "This browser can't make sound here, but everything below still works to look at."
+                    : playing ? "That's a real loop, made in your browser. Keep scrolling to go inside." : "Press it for sound, then keep scrolling to go inside the record."}
+                </p>
+              </>
+            )}
           </div>
         </div>
 
@@ -82,7 +90,7 @@ export const Turntable = ({ children }: { children?: React.ReactNode }) => {
                 <div className="absolute inset-0 grid place-items-center text-center" style={{ color: "#0c0b0a", fontFamily: "Archivo, sans-serif" }}>
                   <div>
                     <div style={{ fontWeight: 800, fontStretch: "125%", fontSize: "clamp(8px,1.5vw,19px)", letterSpacing: "-0.01em", textTransform: "lowercase" }}>aestra</div>
-                    <div className="font-mono whitespace-nowrap" style={{ fontSize: "clamp(5px,0.7vw,9px)", letterSpacing: "0.14em", marginTop: 3 }}>SIDE A</div>
+                    <div className="font-mono whitespace-nowrap" style={{ fontSize: "clamp(5px,0.7vw,9px)", letterSpacing: "0.14em", marginTop: 3 }}>{mode === "in" ? "SIDE A" : "SIDE C"}</div>
                   </div>
                 </div>
               </div>

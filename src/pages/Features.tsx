@@ -5,6 +5,8 @@ import { FadeIn } from "../components/ui";
 import { SessionProvider } from "../features/session";
 import { Turntable } from "../features/Turntable";
 import { NowPlaying } from "../features/NowPlaying";
+import { Finale } from "../features/Finale";
+import { useSession } from "../features/session";
 import { LoopDemo } from "../features/demos/LoopDemo";
 import { RoutingDemo } from "../features/demos/RoutingDemo";
 import { AuditionDemo } from "../features/demos/AuditionDemo";
@@ -175,6 +177,25 @@ const TrackSection = ({ t, first }: { t: Track; first: boolean }) => (
   </section>
 );
 
+/* The closing row under the pulled-back turntable: what to do next, and a way to play it again. */
+const OutroControls = ({ setPage, onEarlyAccess }: Pick<PageProps, "setPage" | "onEarlyAccess">) => {
+  const { toggle, playing } = useSession();
+  return (
+    <>
+      <button type="button" className="dbtn pri" style={{ minHeight: 44, padding: "0 20px", fontSize: 14 }} onClick={() => onEarlyAccess?.()}>Request early access</button>
+      <a
+        href="/download"
+        onClick={(e) => { if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; e.preventDefault(); setPage("download"); }}
+        className="dbtn" style={{ minHeight: 44, padding: "0 20px", fontSize: 14, textDecoration: "none" }}
+      >Build it from source</a>
+      <button type="button" className="dbtn" style={{ minHeight: 44, padding: "0 16px", fontSize: 14 }} aria-pressed={playing} onClick={() => { void toggle(); }}>
+        {playing ? "Lift the needle" : "Play it again"}
+      </button>
+      <p className="m-0 text-[13px] text-muted max-w-[28ch]">Free, in alpha, and on Linux today.</p>
+    </>
+  );
+};
+
 export const Features = ({ setPage, topOffset = 0, onEarlyAccess }: PageProps) => {
   const active = useActiveTrack();
   return (
@@ -195,8 +216,14 @@ export const Features = ({ setPage, topOffset = 0, onEarlyAccess }: PageProps) =
               ))}
             </div>
           </div>
+          <Finale />
           <NowPlaying />
         </div>
+
+        <Turntable mode="out" controls={<OutroControls setPage={setPage} onEarlyAccess={onEarlyAccess} />}>
+          <p className="readout m-0 mb-2">End of side C</p>
+          <h2 className="display tt-h1">Lift the needle.</h2>
+        </Turntable>
       </SessionProvider>
 
       <div className="pt-24 pb-20 sm:pb-28 px-5 sm:px-6">

@@ -5,6 +5,7 @@
    turntable and its controls fit a short laptop window too. */
 
 .tt-wrap { position: relative; height: 320vh; }
+.tt-wrap[data-mode="out"] { height: 260vh; }
 .tt-sticky {
   position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
   display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
@@ -33,6 +34,7 @@
 }
 .tt-sticky[data-deep="1"] .tt-chrome { visibility: hidden; }
 .tt-sticky[data-deep="1"] .rec-spin { animation-play-state: paused; }
+/* Coming back out, the parts reappear as soon as there is anything to see. */
 
 .rec-grooves { background: repeating-radial-gradient(circle at center, #0c0b0a 0 2px, #1b181e 2px 3px); }
 .rec-spin { animation: tt-spin 1.8s linear infinite; animation-play-state: paused; }
