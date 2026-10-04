@@ -28,8 +28,9 @@ export const Terms = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">The short version</h2>
           <p className="text-muted">
-            Aestra is free to use for personal and educational purposes. Use it to make music.
-            Aestra is in alpha, so expect rough edges. It's built in public, and I'm
+            Aestra is free to use. Everything you make with it is yours, including music you
+            release, sell or make for clients. The license below limits what you can do with the
+            Aestra software itself. Aestra is in alpha, so expect rough edges. It's built in public, and I'm
             committed to fixing what breaks.
           </p>
         </section>
@@ -38,8 +39,10 @@ export const Terms = memo(({ setPage }: PageProps) => (
           <h2 className="text-[15px] font-medium text-fg mb-3">License</h2>
           <p className="text-muted">
             Aestra is licensed under the Aestra Studios Source-Available License (ASSAL) v1.1.
-            You may use, modify, and distribute Aestra for personal and educational purposes.
-            Commercial use requires a separate agreement. See the full license text in the{" "}
+            The license covers the Aestra software and its source code. You may use, modify and share the
+            software for personal and educational purposes. Using the software itself commercially, such as
+            building it into a product or making a competing DAW, needs a separate agreement. Making
+            and selling music with Aestra is not commercial use of the software. See the full license text in the{" "}
             <a href="https://github.com/currentsuspect/Aestra/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="text-fg underline underline-offset-4 hover:text-fg">
               LICENSE file
             </a>{" "}

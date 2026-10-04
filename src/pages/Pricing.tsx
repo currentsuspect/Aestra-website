@@ -41,7 +41,7 @@ const tiers = [
     price: "$5",
     sub: "/ month",
     annual: "or $50 / year",
-    tagline: "Extra plugins, and you help fund the work.",
+    tagline: "Optional extra plugins, and you help fund the work.",
     cta: "Notify me when Supporter launches",
     ctaVariant: "primary" as const,
     accent: "violet" as const,
@@ -80,7 +80,7 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
     label: "Plugins & sound",
     rows: [
       ["Eleven built-in effects",            true, true, true],
-      ["AestraRumble (808 synth)",         false, true, true],
+      ["AestraRumble 808 synth (in development)", false, true, true],
       ["The Native Suite, while subscribed", false, true, true],
       ["New plugins as they're released",  false, true, true],
       ["Founder Collection plugin bundle, kept permanently", false, false, true],
@@ -133,8 +133,8 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
             <span className="text-muted">Plugins are extra.</span>
           </h1>
           <p className="text-muted text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-            No export limit, no time limit, no watermark. Supporter is optional: it gets you
-            extra plugins and pays for the work.
+            No export limit, no time limit, no watermark. You don't need plugins to make music.
+            Supporter is for when you want more, and it pays for the work.
           </p>
         </div>
       </section>

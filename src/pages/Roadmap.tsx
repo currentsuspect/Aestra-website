@@ -50,7 +50,7 @@ const COLUMNS: Column[] = [
       { title: "MIDI learn & mapping",       desc: "Link a knob on your controller to any control in Aestra." },
       { title: "Arrangement view",           desc: "A timeline on top of your loops, for turning sketches into songs." },
       { title: "Versioned collaboration", desc: "Share a project through Takes. A Supporter hosts it and invited free users can join. Projects on your computer stay editable. There's no server yet, and storage limits will be decided before it ships." },
-      { title: "Native Suite — first drop",  desc: "Extra plugins, released one at a time. Included with Supporter, or buy them individually." },
+      { title: "Native Suite — first drop",  desc: "Optional extra plugins, released one at a time, starting with the Rumble 808 synth. Included with Supporter, or buy them individually." },
       { title: "Theme + accessibility pass", desc: "A high-contrast theme, full keyboard control and better screen reader support." },
     ],
   },

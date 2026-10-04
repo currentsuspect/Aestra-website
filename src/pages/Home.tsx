@@ -298,7 +298,8 @@ const Cost = memo(({ setPage }: PageProps) => (
     aside={
       <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
         The whole DAW is free: no export limits, no watermark, no time limit. What you make
-        is yours, with no royalties. Paying is optional and gets you extra plugins and helps fund the work.
+        is yours, with no royalties. You don't need to pay to make music. Paying gets you extra
+        plugins you may want later, and helps fund the work.
       </p>
     }
   >
@@ -343,8 +344,9 @@ const FAQ = memo(({ setPage }: PageProps) => {
             filter, saturation and more. They're free.
           </p>
           <p>
-            The Native Suite is a separate set of extra plugins, released one at a time. They're
-            included with Supporter ($5/month), or you can buy them one by one.
+            The Native Suite is a separate set of extra plugins, released one at a time. You don't
+            need them to make music. They're there if you want more, and they come with Supporter
+            ($5/month) or you can buy them one by one.
           </p>
         </div>
       ),
@@ -363,7 +365,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "Can I use Aestra commercially?",
-      a: "Yes, as far as what you make. Beats, mixes, stems and full projects are yours, with no royalties, fees or credit required.",
+      a: "Yes. Beats, mixes, stems and full projects are yours to release, sell or make for clients, with no royalties, fees or credit required. The license only limits using the Aestra software itself commercially, for example repackaging it or building a competing DAW.",
     },
     {
       q: "Why not open source Aestra?",
