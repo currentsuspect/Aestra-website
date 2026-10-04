@@ -1,7 +1,7 @@
 ---
 name: investigate-bug
 description: Determine the root cause of a bug in the Aestra DAW and produce the smallest correct fix, with a regression test and a report that states its remaining uncertainty. Use when a defect in Aestra needs diagnosing rather than merely reporting.
-license: Proprietary. See https://aestra.studio/terms
+license: Proprietary. See https://www.aestra.studio/terms
 metadata:
   protocol: aestra-agent-protocol/v1
   revision: "2026-07-27"
@@ -13,9 +13,9 @@ metadata:
 
     Protocol:       aestra-agent-protocol/v1
     Skill:          investigate-bug
-    Artifact:       https://aestra.studio/.well-known/agent-skills/recovery/v1/investigate-bug/SKILL.md
+    Artifact:       https://www.aestra.studio/.well-known/agent-skills/recovery/v1/investigate-bug/SKILL.md
     Frozen:         2026-07-27 — this artifact is immutable
-    Base protocol:  https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
+    Base protocol:  https://www.aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 You are investigating a bug in the Aestra DAW. Your objective is to determine
 the root cause and produce the smallest correct fix.

@@ -32,10 +32,10 @@ if (typeof modelContext?.provideContext === "function") {
         execute: () => ({
           name: "Aestra",
           description: "A next-generation DAW with AI-native features",
-          url: "https://aestra.studio",
-          docs: "https://aestra.studio/docs",
-          pricing: "https://aestra.studio/pricing",
-          downloads: "https://aestra.studio/downloads"
+          url: "https://www.aestra.studio",
+          docs: "https://www.aestra.studio/docs",
+          pricing: "https://www.aestra.studio/pricing",
+          downloads: "https://www.aestra.studio/download"
         })
       }
     ]

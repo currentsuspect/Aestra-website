@@ -33,7 +33,7 @@ We follow coordinated disclosure. Please do not publicly disclose a vulnerabilit
 
 ## PGP key
 
-Available on request. A signed public key will be published at https://aestra.studio/.well-known/pgp-key.asc when available.
+Available on request. A signed public key will be published at https://www.aestra.studio/.well-known/pgp-key.asc when available.
 
 ## Acknowledgments
 

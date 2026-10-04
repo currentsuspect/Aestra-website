@@ -6,42 +6,42 @@
       "type": "skill-md",
       "description": "Base protocol governing every Aestra DAW recovery skill: the public/private halt condition, real-time audio-thread invariants, change discipline, report provenance, and case routing. Use this whenever investigating, fixing, or recovering anything in Aestra; the task-specific Aestra skills all assume it.",
       "url": "/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md",
-      "digest": "sha256:aea902ffc2186effa946cc25df62a57338e54d15b0b99e9f7cda4d502932d4cf"
+      "digest": "sha256:1817fbec450ac1bd1e953e95db91af82154616ff6b79ee4654c2c94a0c954848"
     },
     {
       "name": "collect-diagnostics",
       "type": "skill-md",
       "description": "Assemble ground-truth Aestra DAW and host diagnostics for an investigation, taking audio configuration from Aestra rather than inferring it from a browser or from assumptions. Use when a bug report or investigation needs accurate environment details.",
       "url": "/.well-known/agent-skills/recovery/v1/collect-diagnostics/SKILL.md",
-      "digest": "sha256:cfd8e1a62414b9d7751a4600a9d8d915f1f94f5004bfc7a8e197699cfb721c78"
+      "digest": "sha256:b07b388621f78f90d2911ad3929035f5eae477003eec7e36e0beaa1dcc0f94d8"
     },
     {
       "name": "investigate-bug",
       "type": "skill-md",
       "description": "Determine the root cause of a bug in the Aestra DAW and produce the smallest correct fix, with a regression test and a report that states its remaining uncertainty. Use when a defect in Aestra needs diagnosing rather than merely reporting.",
       "url": "/.well-known/agent-skills/recovery/v1/investigate-bug/SKILL.md",
-      "digest": "sha256:f0e6c9b3c521f90cb42786fc334013d4c7310312a40a4495c3aff8da4d3d5bbf"
+      "digest": "sha256:e3e62923e14b5cbfb5588c442b59ceec7025073af74a1f22fd14bd9a91f2a674"
     },
     {
       "name": "prepare-pr",
       "type": "skill-md",
       "description": "Get a fix to the Aestra DAW into reviewable shape: issue first, topic branch off develop, scoped change, and verification against the original failure rather than a green build. Use when a working Aestra fix needs to reach the maintainers.",
       "url": "/.well-known/agent-skills/recovery/v1/prepare-pr/SKILL.md",
-      "digest": "sha256:037768992bce6b19f1fa05b9d27a15c04620b029e889dee2c16905b317fd9a5f"
+      "digest": "sha256:ac63eadc719e6e599aa41a7fd7be331d71261aa7bf0def06a3e7db0e3a4de0af"
     },
     {
       "name": "recover-project",
       "type": "skill-md",
       "description": "Salvage a damaged Aestra DAW project by working against a copy, using the engine's own load-report model, and reporting everything recovered, omitted, modified or uncertain. Use when an Aestra project will not open, crashes on load, or loads with missing content.",
       "url": "/.well-known/agent-skills/recovery/v1/recover-project/SKILL.md",
-      "digest": "sha256:db9683af7ebaf11be5ae938fdd249a1768546228392ff8abe2a1ed940e654086"
+      "digest": "sha256:3ddc3fa0e7209c1b2c91b9b27953c77d702aa1c305d59c242832a936b4edb28f"
     },
     {
       "name": "reproduce-crash",
       "type": "skill-md",
       "description": "Turn an Aestra DAW crash report into a deterministic reproduction, or establish precisely why it is not deterministic. Use when Aestra crashes, freezes, or closes unexpectedly and the trigger is not yet pinned down.",
       "url": "/.well-known/agent-skills/recovery/v1/reproduce-crash/SKILL.md",
-      "digest": "sha256:3f48942a01d1749fa44d2d07199c832a6d417c21c8392259a1fb46200ac6c185"
+      "digest": "sha256:a30db452042b7428195979e35705918883eaeafb312577e587bd006b3f3e0206"
     }
   ]
 }

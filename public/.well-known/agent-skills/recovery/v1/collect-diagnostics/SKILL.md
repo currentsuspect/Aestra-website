@@ -1,7 +1,7 @@
 ---
 name: collect-diagnostics
 description: Assemble ground-truth Aestra DAW and host diagnostics for an investigation, taking audio configuration from Aestra rather than inferring it from a browser or from assumptions. Use when a bug report or investigation needs accurate environment details.
-license: Proprietary. See https://aestra.studio/terms
+license: Proprietary. See https://www.aestra.studio/terms
 metadata:
   protocol: aestra-agent-protocol/v1
   revision: "2026-07-27"
@@ -13,9 +13,9 @@ metadata:
 
     Protocol:       aestra-agent-protocol/v1
     Skill:          collect-diagnostics
-    Artifact:       https://aestra.studio/.well-known/agent-skills/recovery/v1/collect-diagnostics/SKILL.md
+    Artifact:       https://www.aestra.studio/.well-known/agent-skills/recovery/v1/collect-diagnostics/SKILL.md
     Frozen:         2026-07-27 — this artifact is immutable
-    Base protocol:  https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
+    Base protocol:  https://www.aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 Your objective is to assemble the ground truth an investigation needs, from
 Aestra and the host system — not from guesses, and not from the browser.
