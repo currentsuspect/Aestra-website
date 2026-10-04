@@ -4,7 +4,9 @@ import { Button, FadeIn } from "../components/ui";
 import { useToast } from "../components/Toast";
 import { EMAIL_RE } from "../../shared/waitlist";
 import { RELEASES } from "../changelogData";
-import { ChangelogArrangement, CHANGELOG_SELECT_KEY, type ArrangementSelection } from "../components/ChangelogArrangement";
+import { CHANGELOG_SELECT_KEY } from "../components/ChangelogArrangement";
+import { EntryPreview } from "../components/previews/PreviewStage";
+import { previewKey } from "../components/previews";
 import type { MockPart } from "../components/mock/EmberMock";
 import type { PageProps } from "../types";
 import { useStructuredData } from "../seo";
@@ -145,76 +147,97 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
   );
 };
 
-/* ── 2 · Operating notes — behaviour, stated as plainly as a release note ── */
-const DETAILS: { line: string; where: string }[] = [
-  { line: "Press stop once and the playhead goes back to the start.", where: "v0.7.1" },
-  { line: "Recordings line up with the grid. They're not late by your audio interface's delay.", where: "v0.7.1" },
-  { line: "Split, mute or delete while a loop is playing and you hear it straight away, not on the next pass.", where: "v0.7.1" },
-  { line: "Sending a track through a mixer channel doesn't make it quieter than sending it straight to the master.", where: "v0.7.0" },
-  { line: "Bounce a track on its own and its reverb and delay sends come with it, just like in the full mix.", where: "v0.7.0" },
-  { line: "Routing changes can be undone. If you patch a feedback loop, Aestra refuses it instead of breaking your audio.", where: "v0.7.0" },
-  { line: "Move your audio files and the project tells you which ones are missing, then lets you point it at the new place.", where: "v0.7.1" },
-  { line: "The code that runs the audio is checked automatically. If it tries to do something slow or blocking, the build fails.", where: "engine" },
+/* ── 2 · Small things — behaviours, each one a real changelog entry you can watch ──
+   Every line here points at an entry in a release; the preview is that entry's own
+   animated scene. A line whose entry can't be found is dropped rather than shown
+   without its proof. */
+const SMALL: { line: string; version: string; key: string }[] = [
+  { line: "Press stop once and the playhead goes back to the start.", version: "v0.7.1-alpha", key: "pressing-stop-once-now-returns-the" },
+  { line: "Recordings line up with the grid. They're not late by your audio interface's delay.", version: "v0.7.1-alpha", key: "recorded-takes-now-land-on-the" },
+  { line: "Split, mute or delete while a loop is playing and you hear it straight away, not on the next pass.", version: "v0.7.1-alpha", key: "splitting-clips-or-mutingunmuting-lanes-while" },
+  { line: "Sending a track through a mixer channel doesn't make it quieter than sending it straight to the master.", version: "v0.7.0-alpha", key: "routing-audio-through-a-mixer-channel" },
+  { line: "Bounce a track on its own and its reverb and delay sends come with it, just like in the full mix.", version: "v0.7.0-alpha", key: "solo-bouncing-a-track-now-includes" },
+  { line: "Routing changes can be undone. If you patch a feedback loop, Aestra refuses it instead of breaking your audio.", version: "v0.7.0-alpha", key: "routing-changes-are-now-undoable-ctrlz" },
+  { line: "Move your audio files and the project tells you which ones are missing, then lets you point it at the new place.", version: "v0.7.1-alpha", key: "opening-a-project-with-moved-audio" },
 ];
 
-const Details = memo(({ setPage }: PageProps) => (
-  <Section
-    n="2"
-    id="details"
-    title="Small things"
-    aside={
-      <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
-        The little behaviours that decide whether a DAW gets in your way. Each one has shipped, and each is in the changelog.
-      </p>
-    }
-  >
-    {/* Kept so old /#features anchors still land somewhere sensible. */}
-    <span id="features" className="block -translate-y-24" aria-hidden="true" />
-    <ol className="m-0 p-0">
-      {DETAILS.map((d, i) => (
-        <li key={d.line} className="list-none grid grid-cols-[40px_1fr_auto] gap-3 py-4 border-b border-border">
-          <span className="font-mono text-[11px] font-semibold text-accent pt-[5px]">{String(i + 1).padStart(2, "0")}</span>
-          <span className="text-fg text-[16px] sm:text-[18px] leading-snug">{d.line}</span>
-          <span className="readout pt-[5px]">{d.where}</span>
-        </li>
-      ))}
-    </ol>
-    <div className="mt-5 text-[14px]">
-      <PageLink to="changelog" setPage={setPage}>Full changelog</PageLink>
-    </div>
-  </Section>
-));
+const SMALL_ROWS = SMALL.flatMap((d) => {
+  const release = RELEASES.find((r) => r.version === d.version);
+  const entry = release?.entries.find((e) => previewKey(d.version, e.text) === `${d.version}:${d.key}`);
+  return release && entry ? [{ ...d, entry, shortVersion: d.version.replace("-alpha", "") }] : [];
+});
 
-/* ── 3 · Recent sessions — the changelog, arranged ── */
-const Sessions = memo(({ setPage }: PageProps) => {
-  const recent = [...RELEASES].reverse().slice(-3);
-  // Hand the selection to the changelog page, which opens it in the clip editor.
-  const open = (s: ArrangementSelection) => {
-    try { sessionStorage.setItem(CHANGELOG_SELECT_KEY, JSON.stringify(s)); } catch { /* opens on the latest */ }
+const Details = memo(({ setPage }: PageProps) => {
+  const [open, setOpen] = useState(0);
+  const [near, setNear] = useState(false);
+  const list = useRef<HTMLOListElement>(null);
+
+  // Fetch the preview scenes only once this section is close to the screen.
+  useEffect(() => {
+    const el = list.current;
+    if (!el || typeof IntersectionObserver === "undefined") { setNear(true); return; }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setNear(true); io.disconnect(); } }, { rootMargin: "400px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const toChangelog = (version: string, type: string) => {
+    try { sessionStorage.setItem(CHANGELOG_SELECT_KEY, JSON.stringify({ version, lane: type === "new" || type === "fix" ? type : null })); } catch { /* opens on the latest */ }
     setPage("changelog");
   };
+
   return (
     <Section
-      n="3"
-      title="Recent work"
+      n="2"
+      id="details"
+      title="Small things"
       aside={
         <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
-          The last three releases, laid out like a song. Each lane is a type of change and each
-          block is one change. Click one to see it play. The one on the right is still being made.
+          The little behaviours that decide whether a DAW gets in your way. Open one to watch it happen.
+          Each is a real line in the changelog.
         </p>
       }
     >
-      <div className="pt-6">
-        <ChangelogArrangement releases={recent} selection={null} onSelect={open} compact />
-        <div className="mt-5 text-[14px]">
-          <PageLink to="changelog" setPage={setPage}>Every release</PageLink>
-        </div>
+      {/* Kept so old /#features anchors still land somewhere sensible. */}
+      <span id="features" className="block -translate-y-24" aria-hidden="true" />
+      <ol ref={list} className="m-0 p-0">
+        {SMALL_ROWS.map((d, i) => {
+          const isOpen = open === i;
+          return (
+            <li key={d.key} className="list-none border-b border-border">
+              <button
+                type="button"
+                onClick={() => setOpen(isOpen ? -1 : i)}
+                aria-expanded={isOpen}
+                aria-controls={`small-${i}`}
+                className="w-full text-left grid grid-cols-[40px_1fr_auto] gap-3 py-4 group"
+              >
+                <span className="font-mono text-[11px] font-semibold text-accent pt-[5px]">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-fg text-[16px] sm:text-[18px] leading-snug group-hover:text-accent transition-colors">{d.line}</span>
+                <span className="readout pt-[5px] whitespace-nowrap">{d.shortVersion} · {isOpen ? "Hide" : "Watch"}</span>
+              </button>
+              <div id={`small-${i}`} hidden={!isOpen} className="pb-6 sm:pl-[52px]">
+                {isOpen && near && <EntryPreview version={d.version} text={d.entry.text} id={`small-scene-${i}`} />}
+                <p className="m-0 mt-3 text-[13.5px] leading-relaxed text-muted max-w-2xl">
+                  <span className="readout mr-2">Changelog · {d.shortVersion} · {d.entry.type}</span>
+                  {d.entry.text.split(/(?<=\.)\s/)[0]}
+                </p>
+                <button type="button" className="quiet-link mt-3 text-[14px]" onClick={() => toChangelog(d.version, d.entry.type)}>
+                  See it in the changelog
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+      <div className="mt-5 text-[14px]">
+        <PageLink to="changelog" setPage={setPage}>Every release</PageLink>
       </div>
     </Section>
   );
 });
 
-/* ── 4 · Specifications — the honest table. Mirrors the FAQ and the
+/* ── 3 · Specifications — the honest table. Mirrors the FAQ and the
    5 Aug truth pass (835a2af); update both together. ── */
 type State = "ready" | "partial" | "absent";
 const STATUS: { area: string; state: State; note: React.ReactNode }[] = [
@@ -234,7 +257,7 @@ const STATE_TAG: Record<State, { label: string; cls: string }> = {
 
 const Status = memo(({ setPage }: PageProps) => (
   <Section
-    n="4"
+    n="3"
     title="What works today"
     aside={
       <div className="mt-6 max-w-sm">
@@ -263,7 +286,7 @@ const Status = memo(({ setPage }: PageProps) => (
   </Section>
 ));
 
-/* ── 5 · Principles — quoted from philosophy.md, not invented ── */
+/* ── 4 · Principles — quoted from philosophy.md, not invented ── */
 const PRINCIPLES = [
   { title: "Sound first.", body: "Steady timing, and an export that sounds like what you heard in the session. Every time." },
   { title: "Flow over features.", body: "A quick, rough idea beats a perfect one you got interrupted on. So: good defaults, few pop-ups, easy undo." },
@@ -271,7 +294,7 @@ const PRINCIPLES = [
 ];
 
 const Principles = memo(() => (
-  <Section n="5" title="Principles">
+  <Section n="4" title="Principles">
     <blockquote className="m-0 pt-6">
       <p className="text-fg text-[clamp(1.35rem,1rem+1.4vw,2.25rem)] leading-[1.22] text-balance max-w-[46rem]">
         The producer on a 4&nbsp;GB laptop. The artist working late in a city
@@ -297,10 +320,10 @@ const Principles = memo(() => (
   </Section>
 ));
 
-/* ── 6 · Cost ─────────────────────────────────────────────────── */
+/* ── 5 · Cost ─────────────────────────────────────────────────── */
 const Cost = memo(({ setPage }: PageProps) => (
   <Section
-    n="6"
+    n="5"
     title="Cost"
     aside={
       <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
@@ -329,7 +352,7 @@ const Cost = memo(({ setPage }: PageProps) => (
   </Section>
 ));
 
-/* ── 7 · Questions ────────────────────────────────────────────── */
+/* ── 6 · Questions ────────────────────────────────────────────── */
 const FAQ = memo(({ setPage }: PageProps) => {
   const faqs: { q: string; a: React.ReactNode }[] = [
     {
@@ -415,7 +438,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
   }, []);
   useStructuredData("faq-structured-data", faqData);
   return (
-    <Section n="7" title="Questions">
+    <Section n="6" title="Questions">
       <div ref={list}>
         {faqs.map((item) => (
           <details key={item.q} className="group faq-row border-b border-border">
@@ -431,7 +454,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
   );
 });
 
-/* ── 8 · Founder waitlist ─────────────────────────────────────── */
+/* ── 7 · Founder waitlist ─────────────────────────────────────── */
 const FounderCountdown = () => {
   const toast = useToast();
   const [email, setEmail] = useState("");
@@ -475,7 +498,7 @@ const FounderCountdown = () => {
   const successId = "founder-waitlist-success";
 
   return (
-    <Section n="8" id="founder-section" title="Five hundred, once.">
+    <Section n="7" id="founder-section" title="Five hundred, once.">
       <div className="pt-6">
         <p className="m-0 text-muted text-base sm:text-[17px] leading-relaxed max-w-xl">
           500 Founder cards, and that's all there will ever be. Each one is numbered and
@@ -545,4 +568,4 @@ const ClosingCTA = memo(({ setPage, onEarlyAccess }: PageProps) => (
   </section>
 ));
 
-export { Hero, Details, Sessions, Principles, Status, Cost, FAQ, FounderCountdown, ClosingCTA };
+export { Hero, Details, Principles, Status, Cost, FAQ, FounderCountdown, ClosingCTA };
