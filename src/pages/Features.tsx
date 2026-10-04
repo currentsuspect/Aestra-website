@@ -15,63 +15,63 @@ import type { PageProps } from "../types";
 
 const sections = [
   {
-    title: "An engine built in the open",
+    title: "Written in C++, readable on GitHub",
     tag: "Engine",
-    desc: "Aestra's native desktop core, project handling and audio path are built as one system — and the source is available to inspect.",
+    desc: "The app and its audio engine are one program, written in C++. All the code is on GitHub, so you can see what runs on your computer.",
     points: [
-      ["Native desktop core", "The workstation and its audio engine are built together in C++."],
-      ["Realtime work stays focused", "The audio path is kept separate from UI and control work."],
-      ["Source you can inspect", "See what runs on your machine and how projects are handled."],
+      ["One native program", "No browser or Java layer underneath. The app and the audio engine are built together."],
+      ["Audio on its own thread", "Drawing the screen never gets in the way of playing sound."],
+      ["Source-available", "You can read it and build it. It's not open source, and the license says what you can do."],
     ],
   },
   {
-    title: "Open it and go",
+    title: "Opens into your project",
     tag: "Startup",
-    desc: "The gap between wanting to make something and being able to is where ideas die. Aestra opens straight into the session.",
+    desc: "The longer it takes to start, the more ideas you lose on the way. Aestra opens straight to your project.",
     points: [
-      ["No full library rescan", "The plugin index is prepared ahead of launch instead of rebuilt every time."],
-      ["Session first", "The launch path is designed to put the project ahead of splash screens and ceremony."],
-      ["Picks up where you left off", "Same session, same view, same place in the arrangement."],
+      ["No rescan every launch", "The plugin list is prepared ahead of time instead of rebuilt each time you open the app."],
+      ["Project first", "No splash screen to sit through."],
+      ["Back where you were", "Same project, same view, same spot in the song."],
     ],
   },
   {
-    title: "Loops first, arrangement second",
+    title: "Start with a loop",
     tag: "Workflow",
-    desc: "Nobody starts a beat at bar one of a timeline. You start with a loop that slaps, then figure out the song around it.",
+    desc: "Most beats start as a loop, not as bar one of a timeline. So Aestra starts there too, and you build the song around it.",
     points: [
-      ["Patterns you can reuse anywhere", "Duplicate a loop, twist one copy, drop it in the second verse."],
-      ["Sketch fast, commit later", "Get the idea down in pattern view before you think about structure."],
-      ["Every pattern has its own roll", "Open a loop and its notes are right there — no hunting the timeline."],
+      ["Reuse a loop anywhere", "Copy it, change one copy, drop it into the second verse."],
+      ["Sketch first", "Get the idea down in the loop view before you think about song structure."],
+      ["Notes are one click away", "Open a loop and its notes are right there. No digging through the timeline."],
     ],
   },
   {
-    title: "See where your sound is going",
+    title: "See where the sound goes",
     tag: "Mixing",
-    desc: "Most mix problems are routing problems you can't see. Aestra draws the whole signal path and lights it up while it plays.",
+    desc: "A lot of mix problems are really routing problems you can't see. Aestra draws the signal path and lights it up while the music plays.",
     points: [
-      ["Watch it move", "Follow the audio from each source through your buses to the master, live."],
-      ["Read it at a glance", "Instruments, buses and outputs stay easy to tell apart in a busy session."],
-      ["Rewire by dragging", "Change routing on the map instead of digging through nested menus."],
+      ["Watch it move", "Follow the sound from each track, through your buses, to the master."],
+      ["Easy to tell apart", "Instruments, buses and outputs have their own colours, even in a busy project."],
+      ["Change it on the map", "Re-route by dragging, instead of hunting through menus."],
     ],
   },
   {
-    title: "Know how it lands before you post it",
+    title: "Check the mix before you share it",
     tag: "Monitoring",
-    desc: "Your mix sounds great in your headphones. Check it against the places people will actually hear it, while you can still fix it.",
+    desc: "A mix that sounds great in your headphones can fall apart on a phone. Audition lets you hear it the way other people will, while you can still fix it.",
     points: [
-      ["Streaming, earbuds and car", "Switch among the built-in Spotify, Apple Music, AirPods and car-speaker previews."],
-      ["Hear the translation change", "Compare the tonal balance without leaving the session or bouncing a file."],
-      ["Fix it now, not after release", "Catch the thin low end while the session is still open."],
+      ["Phone, earbuds, car", "Switch between listening profiles for the places people actually listen."],
+      ["Hear the difference", "Compare how the balance changes without leaving the project or exporting a file."],
+      ["Fix it now", "Catch a thin low end while the project is still open."],
     ],
   },
   {
-    title: "Never lose the version that worked",
+    title: "Keep the version that worked",
     tag: "History",
-    desc: "Save a mix under a name you'll recognise next week, try something reckless on a branch, and A/B the two before you commit.",
+    desc: "Save checkpoints with names you'll recognise next week, try something risky, and go back if it doesn't work.",
     points: [
       ["Names, not final_final_v7", "Save checkpoints you can actually identify later."],
-      ["Go wild on a branch", "Try the weird idea without risking the mix you already like."],
-      ["A/B and keep the winner", "Compare takes side by side and pull the best bits forward."],
+      ["Try the weird idea", "Take the project somewhere new without losing the mix you already like."],
+      ["Compare and keep one", "Play two versions against each other and keep the better one."],
     ],
   },
 ];
@@ -80,19 +80,19 @@ const chapters = [
   {
     name: "Create",
     number: "01",
-    description: "Get from the first loop to a session you can keep shaping.",
+    description: "Go from a first loop to a project you can keep building on.",
     featureIndexes: [1, 2],
   },
   {
     name: "Understand",
     number: "02",
-    description: "See the engine and signal flow that sit underneath the music.",
+    description: "See what the engine and the signal path are doing underneath.",
     featureIndexes: [0, 3],
   },
   {
     name: "Finish",
     number: "03",
-    description: "Check how the mix translates, compare versions, and keep the winner.",
+    description: "Check how the mix sounds elsewhere, compare versions, keep the best one.",
     featureIndexes: [4, 5],
   },
 ];
@@ -139,8 +139,8 @@ export const Features = ({ setPage, topOffset = 0, onEarlyAccess }: PageProps) =
             <p className="readout m-0">Features</p>
             <h1 className="display text-[clamp(3rem,1.6rem+5vw,7rem)] m-0">Create. Understand. Finish.</h1>
             <p className="m-0 text-muted text-[17px] leading-relaxed max-w-[46ch]">
-              Six working surfaces, organised around the job: the first loop, the
-              engine underneath it, and the mix you keep.
+              Aestra is a music-making app. These are the six things it's built around,
+              in the order you'd use them: start a loop, see what's happening, finish the mix.
             </p>
           </FadeIn>
         </div>
@@ -197,15 +197,15 @@ const cellDisplay: Record<Cell, { mark: string; color: string; label: string }> 
 };
 
 const COMPARISON_ROWS: { label: string; aestra: Cell; ableton: Cell; logic: Cell; fl: Cell; }[] = [
-  { label: "Everything free, nothing gated", aestra: "yes", ableton: "limited", logic: "no",      fl: "limited" },
-  { label: "Same DAW on Windows / Linux",   aestra: "limited", ableton: "limited", logic: "no",  fl: "limited" },
+  { label: "The whole DAW is free",       aestra: "yes", ableton: "limited", logic: "no",      fl: "limited" },
+  { label: "Same DAW on Windows / Linux",   aestra: "no", ableton: "limited", logic: "no",  fl: "limited" },
   { label: "Third-party VST3 hosting",      aestra: "limited", ableton: "yes",  logic: "yes",     fl: "yes"     },
   { label: "CLAP plugin hosting",           aestra: "limited", ableton: "yes",  logic: "no",      fl: "no"      },
-  { label: "Loop-first, not timeline-first", aestra: "yes", ableton: "limited", logic: "no",      fl: "yes"     },
-  { label: "See your routing as a graph",   aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
-  { label: "Streaming / car mix previews",  aestra: "yes",  ableton: "no",      logic: "limited", fl: "no"      },
-  { label: "Takes & mix history built in",  aestra: "yes",  ableton: "limited", logic: "limited", fl: "limited" },
-  { label: "You can read the source",       aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
+  { label: "Starts from loops", aestra: "yes", ableton: "limited", logic: "no",      fl: "yes"     },
+  { label: "Routing drawn as a map",   aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
+  { label: "Hear your mix on phone / car",  aestra: "yes",  ableton: "no",      logic: "limited", fl: "no"      },
+  { label: "Named versions built in",  aestra: "yes",  ableton: "limited", logic: "limited", fl: "limited" },
+  { label: "You can read the code",       aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
 ];
 
 const ComparisonTable = () => {
@@ -223,9 +223,9 @@ const ComparisonTable = () => {
           Different bets. Same job.
         </h2>
         <p className="text-muted text-base sm:text-lg leading-relaxed max-w-2xl mb-10">
-          Ableton, Logic and FL have a twenty-year head start and we're not
-          pretending otherwise. We made different bets — free, loop-first,
-          light on your machine. Here's where those bets land.
+          Ableton, Logic and FL have a twenty-year head start, and Aestra is an alpha.
+          It's making different bets: free, loops first, light on your machine.
+          Here's how that looks today.
         </p>
 
         <div className="border-t-2 border-fg overflow-hidden">
@@ -288,8 +288,8 @@ const ComparisonTable = () => {
         </div>
 
         <p className="text-dim text-[12px] mt-4 leading-relaxed">
-          Comparison based on publicly documented features as of 2026.
-          Aestra is in alpha — feature availability may differ in current builds.
+          Based on publicly documented features as of 2026. Aestra is in alpha, so
+          check the changelog for what works in the current source.
         </p>
       </div>
     </section>

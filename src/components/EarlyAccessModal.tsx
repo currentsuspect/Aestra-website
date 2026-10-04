@@ -18,24 +18,24 @@ const COPY: Record<EarlyAccessPurpose, {
 }> = {
   "early-access": {
     title: "Request early access",
-    desc: "Aestra is in active development. Get in early.",
+    desc: "Aestra is in alpha and there's no installer yet. Leave your email and I'll write when there are builds to try. No newsletter.",
     aria: "Request early access",
-    cta: "Request access",
+    cta: "Send",
     successTitle: "You're on the list.",
-    successDesc: "We'll let you know when early access opens.",
+    successDesc: "I'll email you when there are builds to try.",
     successToast: "You're on the list.",
-    successToastDesc: "We'll reach out when early access opens.",
+    successToastDesc: "I'll email you when there are builds to try.",
     source: "early-access",
   },
   "supporter-notify": {
-    title: "Get notified",
-    desc: "Drop your email and we'll ping you the moment Supporter opens.",
+    title: "Supporter updates",
+    desc: "Supporter isn't on sale yet. Leave your email and I'll tell you the day it opens.",
     aria: "Get notified about Supporter launch",
-    cta: "Count me in",
+    cta: "Notify me",
     successTitle: "You're on the list.",
-    successDesc: "We'll let you know the moment Supporter opens.",
+    successDesc: "I'll email you when Supporter opens.",
     successToast: "You're on the list.",
-    successToastDesc: "We'll ping you when Supporter launches.",
+    successToastDesc: "I'll email you when Supporter opens.",
     source: "supporter-notify",
   },
 };
@@ -162,7 +162,7 @@ export const EarlyAccessModal = ({
                 />
               </div>
               <div>
-                <label htmlFor="ea-daw" className="block text-sm font-medium text-fg mb-1">What DAW do you use currently?</label>
+                <label htmlFor="ea-daw" className="block text-sm font-medium text-fg mb-1">What do you make music in now? (optional)</label>
                 <input
                   id="ea-daw"
                   type="text"
@@ -170,7 +170,7 @@ export const EarlyAccessModal = ({
                   onChange={(e) => setDaw(e.target.value)}
                   maxLength={120}
                   className="w-full h-10 px-3 rounded-lg bg-surface-2 border border-border text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent"
-                  placeholder="FL Studio, Ableton, etc."
+                  placeholder="FL Studio, Ableton, Reaper…"
                 />
               </div>
               {error && <p className="text-rose-400 text-sm">{error}</p>}

@@ -29,8 +29,8 @@ export const Terms = memo(({ setPage }: PageProps) => (
           <h2 className="text-[15px] font-medium text-fg mb-3">The short version</h2>
           <p className="text-muted">
             Aestra is free to use for personal and educational purposes. Use it to make music.
-            As with any beta software, expect rough edges. We're building this in public, and
-            we're committed to fixing what breaks.
+            Aestra is in alpha, so expect rough edges. It's built in public, and I'm
+            committed to fixing what breaks.
           </p>
         </section>
 
@@ -69,13 +69,12 @@ export const Terms = memo(({ setPage }: PageProps) => (
         </section>
 
         <section>
-          <h2 className="text-[15px] font-medium text-fg mb-3">Beta disclaimer</h2>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Alpha disclaimer</h2>
           <p className="text-muted">
             Aestra is in active development. Features may change, break, or be removed.
             We recommend saving your projects frequently and keeping backups.
             To the maximum extent permitted by law, we are not responsible for lost work, corrupted
-            projects, or audio dropouts during the beta period. This is software built by humans
-            who care deeply about it — but it is still beta software.
+            projects, or audio dropouts during the alpha period. Aestra is still alpha software.
           </p>
         </section>
 

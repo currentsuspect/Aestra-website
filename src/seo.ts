@@ -46,7 +46,7 @@ export const softwareApplication = () => ({
   dateModified: isoDate(LATEST.date),
   downloadUrl: `${ORIGIN}/download`,
   softwareRequirements:
-    "Linux, built from source during alpha. Windows is a committed beta platform; macOS is not supported before 2027.",
+    "Linux, built from source during alpha. Windows: the audio engine builds, the app doesn't yet. macOS is not supported before 2027.",
   screenshot: `${ORIGIN}/og-image.png`,
   featureList: [
     "Runs light on modest hardware",
@@ -59,7 +59,7 @@ export const softwareApplication = () => ({
     "@type": "Offer",
     price: "0",
     priceCurrency: "USD",
-    description: "The whole DAW, free. No feature gates.",
+    description: "The whole DAW is free. Extra plugins are optional.",
     url: `${ORIGIN}/pricing`,
     availability: "https://schema.org/InStock",
   },
@@ -159,7 +159,7 @@ export const buildPageStructuredData = (
           name: "Core",
           price: "0",
           priceCurrency: "USD",
-          description: "Full DAW. Forever free. No feature gates.",
+          description: "The whole DAW, free. Extra plugins are optional.",
           url,
           availability: "https://schema.org/InStock",
         },

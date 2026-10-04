@@ -22,39 +22,37 @@ const tiers = [
     price: "$0",
     sub: "forever",
     annual: "",
-    tagline: "Everything you need to make a full record.",
+    tagline: "The whole DAW. Nothing is locked.",
     cta: "Request early access",
     ctaVariant: "secondary" as const,
     accent: "emerald" as const,
     features: [
-      "Unlimited tracks & patterns",
-      "Pattern-based sequencer",
-      "Visual routing map",
-      "Audition mode — preview without breaking flow",
-      "Takes — git-style session versioning",
-      "Built-in plugin suite — Verb, EQ, Comp, Drift, Delay",
-      "Join invited, versioned projects through Takes — when available",
+      "Unlimited tracks and loops",
+      "Loop-based sequencer and piano roll",
+      "Routing drawn as a map",
+      "Audition: hear your mix on phone, earbuds and car",
+      "Takes: named versions of your project",
+      "Eleven built-in effects, including reverb, EQ, compressor and delay",
     ],
+    planned: ["Join projects you're invited to"],
   },
   {
     name: "Supporter",
     price: "$5",
     sub: "/ month",
     annual: "or $50 / year",
-    tagline: "A growing creative catalogue that also keeps Aestra moving.",
+    tagline: "Extra plugins, and you help fund the work.",
     cta: "Notify me when Supporter launches",
     ctaVariant: "primary" as const,
     accent: "violet" as const,
     highlighted: true,
     features: [
       "Everything in Core",
-      "Native Suite plugin catalogue while active",
-      "New releases included when they're ready",
-      "Muse — local on your machine, when ready",
-      "Create asynchronous Takes workspaces — when available",
-      "Supporter development updates",
-      "Supporter feedback channel",
+      "The Native Suite: extra plugins, while you're subscribed",
+      "New plugins as they're released",
+      "A feedback channel and development updates",
     ],
+    planned: ["Muse, local help that runs on your machine", "Host a shared project for others to join"],
   },
 ];
 
@@ -62,49 +60,42 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
   {
     label: "Engine",
     rows: [
-      ["C++17 audio engine",               true, true, true],
-      ["Unlimited tracks & patterns",      true, true, true],
-      ["VST3 & CLAP hosting (Linux, unfinished)", true, true, true],
-      ["Routing visualizer",               true, true, true],
-      ["Audition mode (all platforms)",    true, true, true],
-      ["Offline export & rendering",       true, true, true],
+      ["Use your own VST3 and CLAP plugins (Linux only, unfinished)", true, true, true],
+      ["Routing map",               true, true, true],
+      ["Audition (hear your mix on phone, earbuds, car)",    true, true, true],
+      ["Export to audio files",       true, true, true],
     ],
   },
   {
     label: "Workflow",
     rows: [
-      ["Pattern-first (Arsenal)",          true, true, true],
+      ["Loop-based sequencer (Arsenal)",          true, true, true],
       ["Piano Roll editor",                true, true, true],
-      ["Version control (Takes)",          true, true, true],
-      ["Multi-track recording",            true, true, true],
-      ["Mixer with sends & buses",         true, true, true],
+      ["Named versions (Takes)",          true, true, true],
+      ["Record multiple tracks",            true, true, true],
+      ["Mixer with sends and buses",         true, true, true],
     ],
   },
   {
     label: "Plugins & sound",
     rows: [
-      ["Built-in plugin suite",            true, true, true],
+      ["Eleven built-in effects",            true, true, true],
       ["AestraRumble (808 synth)",         false, true, true],
-      ["Native Suite catalogue while active", false, true, true],
-      ["New releases when they're ready",  false, true, true],
-      ["Founder Collection, owned permanently", false, false, true],
+      ["The Native Suite, while subscribed", false, true, true],
+      ["New plugins as they're released",  false, true, true],
+      ["Founder Collection plugin bundle, kept permanently", false, false, true],
     ],
   },
   {
-    label: "Local assistance",
+    label: "Planned: not built yet",
     rows: [
-      ["Muse (local, when ready)",         false, true, true],
+      ["Muse, local help on your machine",   false, true, true],
+      ["Join an invited shared project",    true, true, true],
+      ["Host a shared project",             false, true, true],
     ],
   },
   {
-    label: "Versioned collaboration — when available",
-    rows: [
-      ["Join & edit an invited Takes project", true, true, true],
-      ["Create & own shared workspaces",    false, true, true],
-    ],
-  },
-  {
-    label: "Founder record",
+    label: "Founder extras",
     rows: [
       ["Numbered digital Founder card",    false, false, true],
       ["Name in app credits (opt-in)",     false, false, true],
@@ -115,7 +106,7 @@ const compareGroups: { label: string; rows: [string, boolean, boolean, boolean][
   {
     label: "Support",
     rows: [
-      ["Supporter updates & feedback channel", false, true, true],
+      ["Development updates and feedback channel", false, true, true],
     ],
   },
 ];
@@ -138,12 +129,12 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
         <div className="relative max-w-3xl mx-auto">
           <p className="kicker mb-4">Pricing</p>
           <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-5">
-            Aestra is free to use.<br />
-            <span className="text-muted">Fully.</span>
+            The whole DAW is free.<br />
+            <span className="text-muted">Plugins are extra.</span>
           </h1>
           <p className="text-muted text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-            No export lock. No time limits. No artificial walls. Supporter funds Aestra
-            and adds creative tools, versioned collaboration, and a closer product relationship.
+            No export limit, no time limit, no watermark. Supporter is optional: it gets you
+            extra plugins and pays for the work.
           </p>
         </div>
       </section>
@@ -173,7 +164,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
                   <p className="text-muted text-sm leading-relaxed">{t.tagline}</p>
                 </div>
 
-                <ul className="space-y-3 mb-8 flex-1">
+                <ul className="space-y-3 mb-6">
                   {t.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 text-[14px] text-fg-muted">
                       <CheckIcon accent={t.accent} />
@@ -181,6 +172,14 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
                     </li>
                   ))}
                 </ul>
+                <div className="mb-8 flex-1">
+                  <p className="readout mb-2">Planned, not built yet</p>
+                  <ul className="space-y-2 m-0 p-0">
+                    {t.planned.map((f) => (
+                      <li key={f} className="list-none text-[14px] text-muted">{f}</li>
+                    ))}
+                  </ul>
+                </div>
 
                 <Button
                   variant={t.ctaVariant}
@@ -198,7 +197,8 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
 
       <div className="px-5 sm:px-6 pb-20">
         <p className="text-center text-[13px] text-muted max-w-2xl mx-auto">
-          No card required for Core. Cancel Supporter anytime. Collaboration is not built yet — no storage amount is promised until it is, and nothing cloud-based ever affects the projects on your own disk.
+          Core needs no card. Supporter isn't on sale yet. Collaboration isn't built yet, so there's no storage amount
+          to promise, and nothing online will ever touch the projects on your own computer.
         </p>
       </div>
 
@@ -219,11 +219,11 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
                   Fully digital · limited to 500
                 </span>
                 <h2 className="display-2 text-3xl sm:text-4xl md:text-5xl text-fg mb-4">
-                  You believed <span className="text-amber-300">first.</span>
+                  Five hundred, <span className="text-amber-300">once.</span>
                 </h2>
                 <p className="text-muted text-base sm:text-lg leading-relaxed max-w-lg">
-                  Not a permanent service tier. A numbered digital record of being early,
-                  plus a defined collection you own and two years of Supporter.
+                  A numbered digital card for the first 500 people, a plugin bundle you keep,
+                  and two years of Supporter.
                 </p>
               </div>
               <div className="text-right">
@@ -234,9 +234,9 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
 
             <div className="grid sm:grid-cols-3 gap-px bg-amber-500/15 border border-amber-500/15 rounded-lg overflow-hidden mb-8">
               {[
-                ["24 months", "Supporter included"],
-                ["25% off", "Supporter after that"],
-                ["Digital", "No shipping or physical card"],
+                ["24 months", "of Supporter included"],
+                ["25% off", "Supporter after that, for good"],
+                ["Digital", "Nothing is shipped"],
               ].map(([value, label]) => (
                 <div key={label} className="bg-bg/80 px-4 py-3">
                   <div className="text-fg font-medium">{value}</div>
@@ -248,10 +248,10 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
             <div className="flex flex-wrap gap-2 mb-10">
               {[
                 "24 months of Supporter from public beta",
-                "Founder Collection — a fixed launch bundle you own",
-                "Numbered digital Founder card, permanent",
-                "Name in app credits, opt-in",
-                "25% off Supporter after the included period",
+                "A plugin bundle (the Founder Collection) that you keep",
+                "A numbered digital Founder card, yours permanently",
+                "Your name in the app credits, if you want it",
+                "25% off Supporter after the 24 months",
               ].map((f) => (
                 <span key={f} className="inline-flex items-center gap-2 text-fg-muted text-[13px]">
                   <Check className="w-3.5 h-3.5 text-amber-300 shrink-0" />
@@ -269,7 +269,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
                 Join the waitlist <ArrowRight className="w-4 h-4" />
               </Button>
               <p className="text-muted text-[13px] max-w-sm">
-                Founder sales open at public beta. The waitlist sends launch notice; it does not sell or reserve a numbered card.
+                Founder cards go on sale at public beta. The waitlist only emails you when they do. It doesn't hold a card for you.
               </p>
             </div>
           </div>
@@ -352,10 +352,10 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => {
             ))}
           </div>
           <p className="text-muted text-[12px] mt-4 leading-relaxed">
-            Founder includes Supporter benefits for 24 months from public beta. After that,
-            those recurring benefits require an active Supporter plan at the permanent 25% Founder discount.
-            The Founder Collection and numbered digital card remain yours. If Supporter ends, only the cloud workspace becomes
-            read-only, with at least 30 days to download or transfer it. Downloaded projects remain editable and exportable in free Core.
+            Founder includes Supporter for 24 months from public beta. After that you keep the Founder
+            Collection and your numbered card, and Supporter extras need a Supporter plan at 25% off for good.
+            If Supporter ends, only an online shared project becomes read-only, and you get at least 30 days to
+            download it. Projects on your computer stay editable and exportable in free Core.
           </p>
         </div>
       </div>

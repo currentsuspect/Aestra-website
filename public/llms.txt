@@ -6,7 +6,7 @@
 
 Aestra is a native C++ digital audio workstation built around producer workflow, stability, speed, and creative focus. It is developed by Aestra Studios, a small independent studio led by Dylan Makori.
 
-The core product is **free forever** with **no feature gates**. Optional Supporter ($5/month or $50/year) and Founder ($129 one-time) offers fund development without locking access behind high prices.
+The whole DAW is free, with no export or time limits. Extra plugins (the Native Suite) are optional: Supporter ($5/month or $50/year) includes them, and the Founder offer ($129 one-time) includes a plugin bundle and 24 months of Supporter.
 
 Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a new, opinionated tool for producers who think in patterns, samples, and signal flow.
 
@@ -19,7 +19,7 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 - **Engine:** Native C++17
 - **Plugin formats:** VST3, CLAP (built-in suite is VST3/CLAP native)
 - **Platforms:** Linux (builds and tested in CI today), Windows (10+, audio core only — the desktop app does not build there yet). macOS is not supported and is deferred to 2027
-- **Availability:** Pre-alpha. Source-available, no published binaries on any platform
+- **Availability:** Alpha. Source-available, no published binaries on any platform
 - **License:** ASSAL v1.1 (Aestra Studios Source-Available License) — source available, not OSI open source
 - **Pricing:** Core free, Supporter $5/month or $50/year, Founder $129 one-time
 - **Account required:** No — the core DAW runs without an account
@@ -148,13 +148,12 @@ Aestra is currently in **active development**. Public beta will ship when the re
 
 ## Brand voice
 
-Aestra speaks plainly. We say "make music, not excuses" not "revolutionary AI-native audio platform". We say "free forever" not "freemium". We say "your music is yours" not "subject to license terms".
+Aestra speaks plainly, in short concrete sentences. It says "a free app for making music" rather than "revolutionary AI-native audio platform", "the whole DAW is free; plugins are extra" rather than "freemium", and "what you make is yours" rather than "subject to license terms".
 
 ## Marketing tagline
 
-- Primary: **Make music, not excuses.**
-- Secondary: **Free core. Forever. No feature gates.**
-- Tertiary: **A native DAW for producers who think in patterns.**
+- Primary: **Less distance between an idea and its sound.**
+- Plain description: **A free app for making music. It is in alpha and runs on Linux today.**
 
 ## Contact
 
