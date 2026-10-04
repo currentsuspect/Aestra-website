@@ -196,24 +196,26 @@ const cellDisplay: Record<Cell, { mark: string; color: string; label: string }> 
   na:      { mark: "—",  color: "text-dim",         label: "—" },
 };
 
+/* Only rows that can be checked against the other products' own documentation.
+   Checked Oct 2026: Ableton Live 12 hosts VST3 but not CLAP; Logic Pro hosts Audio Units only;
+   FL Studio hosts VST3 and CLAP (CLAP since 24.1) on Windows and macOS; Ableton, Logic and
+   FL all offer a time-limited or save-limited trial rather than a free product (Live and Logic:
+   90 days; FL: unlimited time but a trial can't reopen saved projects). */
 const COMPARISON_ROWS: { label: string; aestra: Cell; ableton: Cell; logic: Cell; fl: Cell; }[] = [
-  { label: "The whole DAW is free",       aestra: "yes", ableton: "limited", logic: "no",      fl: "limited" },
-  { label: "Same DAW on Windows / Linux",   aestra: "no", ableton: "limited", logic: "no",  fl: "limited" },
-  { label: "Third-party VST3 hosting",      aestra: "limited", ableton: "yes",  logic: "yes",     fl: "yes"     },
-  { label: "CLAP plugin hosting",           aestra: "limited", ableton: "yes",  logic: "no",      fl: "no"      },
-  { label: "Starts from loops", aestra: "yes", ableton: "limited", logic: "no",      fl: "yes"     },
-  { label: "Routing drawn as a map",   aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
-  { label: "Hear your mix on phone / car",  aestra: "yes",  ableton: "no",      logic: "limited", fl: "no"      },
-  { label: "Named versions built in",  aestra: "yes",  ableton: "limited", logic: "limited", fl: "limited" },
-  { label: "You can read the code",       aestra: "yes",  ableton: "no",      logic: "no",      fl: "no"      },
+  { label: "Free, with no trial limits",     aestra: "yes",     ableton: "no",  logic: "no", fl: "limited" },
+  { label: "Runs on Linux",                  aestra: "yes",     ableton: "no",  logic: "no", fl: "no"      },
+  { label: "Loop-based workflow",            aestra: "yes",     ableton: "yes", logic: "limited", fl: "yes" },
+  { label: "VST3 plugin hosting",            aestra: "limited", ableton: "yes", logic: "no", fl: "yes"     },
+  { label: "CLAP plugin hosting",            aestra: "limited", ableton: "no",  logic: "no", fl: "yes"     },
+  { label: "You can read the code",          aestra: "yes",     ableton: "no",  logic: "no", fl: "no"      },
 ];
 
 const ComparisonTable = () => {
   const columns: { key: keyof typeof COMPARISON_ROWS[0]; label: string; sub: string; highlight: boolean }[] = [
     { key: "aestra",  label: "Aestra",    sub: "Alpha",  highlight: true  },
-    { key: "ableton", label: "Live",      sub: "Suite",  highlight: false },
+    { key: "ableton", label: "Live",      sub: "Win · Mac", highlight: false },
     { key: "logic",   label: "Logic Pro", sub: "macOS",  highlight: false },
-    { key: "fl",      label: "FL Studio", sub: "All",    highlight: false },
+    { key: "fl",      label: "FL Studio", sub: "Win · Mac", highlight: false },
   ];
   return (
     <section className="mt-24 sm:mt-32 px-5 sm:px-6">
@@ -288,8 +290,10 @@ const ComparisonTable = () => {
         </div>
 
         <p className="text-dim text-[12px] mt-4 leading-relaxed">
-          Based on publicly documented features as of 2026. Aestra is in alpha, so
-          check the changelog for what works in the current source.
+          Based on each product's own documentation as of October 2026. "Limited" means
+          partly there: Aestra's plugin hosting is unfinished, Logic has Live Loops but is
+          timeline-first, and FL's free trial can't reopen saved projects. Aestra is in alpha, so
+          check the changelog for what works today.
         </p>
       </div>
     </section>
