@@ -22,6 +22,7 @@ export const Turntable = ({ children, mode = "in", controls }: { children?: Reac
     if (!w || !s) return;
     if (reduced) { s.style.setProperty("--p", "0"); return; }
     let af = 0;
+    let lifted = false; // the needle lifts once per pass through the outro, not on every scroll
     const update = () => {
       af = 0;
       const r = w.getBoundingClientRect();
@@ -29,7 +30,10 @@ export const Turntable = ({ children, mode = "in", controls }: { children?: Reac
       const raw = Math.min(1, Math.max(0, -r.top / span));
       // Going in: zoomed out to zoomed in. Coming out: the reverse, then a held view to read it.
       const p = mode === "in" ? raw : Math.max(0, 1 - raw / 0.62);
-      if (mode === "out" && raw > 0.3 && engine.playing) stopSoft();
+      if (mode === "out") {
+        if (raw <= 0.3) lifted = false;
+        else if (!lifted) { lifted = true; if (engine.playing) stopSoft(); }
+      }
       s.style.setProperty("--p", p.toFixed(4));
       // Once you're deep in the record, stop painting the parts that are no longer visible.
       const deep = p > 0.3 ? "1" : "0";
