@@ -749,6 +749,14 @@ body::after {
 .pvs-replay { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: 1px solid #3d3833; border-radius: 3px; color: #aca397; }
 .pvs-replay:hover { color: #eee9e1; border-color: #857d72; }
 .pvs-svg { display: block; width: 100%; height: auto; }
+.pvs-view { overflow-x: auto; overscroll-behavior-x: contain; }
+.pvs-swipe { display: none; color: #857d72; }
 .pvs-progress { height: 2px; background: #1c1a17; }
 .pvs-progress i { display: block; height: 100%; background: var(--c, #a88dfb); transform-origin: left; }
-@media (max-width: 640px) { .pvs { margin-left: -16px; margin-right: -16px; } }
+@media (max-width: 640px) {
+  .pvs { margin-left: -16px; margin-right: -16px; }
+  /* The scenes are 600 x 240 drawings; at phone width their labels shrink to ~6px, so the stage keeps a readable size and scrolls sideways. */
+  .pvs-svg { min-width: 500px; }
+  .pvs-swipe { display: inline; }
+  .pvs-note { display: none; }
+}
