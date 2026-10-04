@@ -237,17 +237,12 @@ export const App = () => {
       case "changelog":
         return withShell(<LazyPage><Changelog setPage={handleSetPage} /></LazyPage>, "changelog");
       case "docs":
-        return (
-          <>
-            <Navbar activePage="docs" setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
-            <LazyPage><Docs setPage={handleSetPage} /></LazyPage>
-          </>
-        );
+        return withShell(<LazyPage><Docs setPage={handleSetPage} /></LazyPage>, "docs");
       case "download":
         return withShell(<LazyPage><Downloads setPage={handleSetPage} /></LazyPage>, "download");
       case "login":
       case "account":
-        return <LazyPage><Dashboard setPage={handleSetPage} /></LazyPage>;
+        return withShell(<LazyPage><Dashboard setPage={handleSetPage} /></LazyPage>, "home");
       case "privacy":
         return (
           <>

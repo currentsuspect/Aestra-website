@@ -28,9 +28,10 @@ export const Terms = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">The short version</h2>
           <p className="text-muted">
-            Aestra is free to use for personal and educational purposes. Use it to make music.
-            As with any beta software, expect rough edges. We're building this in public, and
-            we're committed to fixing what breaks.
+            Aestra is free to use. Everything you make with it is yours, including music you
+            release, sell or make for clients. The license below limits what you can do with the
+            Aestra software itself. Aestra is in alpha, so expect rough edges. It's built in public, and I'm
+            committed to fixing what breaks.
           </p>
         </section>
 
@@ -38,8 +39,10 @@ export const Terms = memo(({ setPage }: PageProps) => (
           <h2 className="text-[15px] font-medium text-fg mb-3">License</h2>
           <p className="text-muted">
             Aestra is licensed under the Aestra Studios Source-Available License (ASSAL) v1.1.
-            You may use, modify, and distribute Aestra for personal and educational purposes.
-            Commercial use requires a separate agreement. See the full license text in the{" "}
+            The license covers the Aestra software and its source code. You may use, modify and share the
+            software for personal and educational purposes. Using the software itself commercially, such as
+            building it into a product or making a competing DAW, needs a separate agreement. Making
+            and selling music with Aestra is not commercial use of the software. See the full license text in the{" "}
             <a href="https://github.com/currentsuspect/Aestra/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="text-fg underline underline-offset-4 hover:text-fg">
               LICENSE file
             </a>{" "}
@@ -69,13 +72,12 @@ export const Terms = memo(({ setPage }: PageProps) => (
         </section>
 
         <section>
-          <h2 className="text-[15px] font-medium text-fg mb-3">Beta disclaimer</h2>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Alpha disclaimer</h2>
           <p className="text-muted">
             Aestra is in active development. Features may change, break, or be removed.
             We recommend saving your projects frequently and keeping backups.
             To the maximum extent permitted by law, we are not responsible for lost work, corrupted
-            projects, or audio dropouts during the beta period. This is software built by humans
-            who care deeply about it — but it is still beta software.
+            projects, or audio dropouts during the alpha period. Aestra is still alpha software.
           </p>
         </section>
 

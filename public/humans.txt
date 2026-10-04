@@ -34,4 +34,4 @@ Asset attributions:
 - All brand marks and audio engine code: © Aestra Studios
 - ASSAL v1.1 license covers all source-available components
 
-The humans behind Aestra are: humans who make music, not excuses.
+The humans behind Aestra are: one person who makes music and writes code.

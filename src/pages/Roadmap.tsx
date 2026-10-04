@@ -16,54 +16,53 @@ const COLUMNS: Column[] = [
   {
     status: "shipped",
     label: "Shipped",
-    blurb: "Live in current builds.",
+    blurb: "Works in the source today.",
     items: [
-      { title: "Native C++17 audio engine",     desc: "Stable callback loop, low latency, no JVM." },
-      { title: "Pattern-first workflow",         desc: "Loops, takes, and patterns woven into one session model." },
-      { title: "Built-in plugin suite",          desc: "AestraVerb and AestraEQ — native, shipping, zero extra cost." },
-      { title: "Live signal routing",            desc: "Animated, color-coded signal flow across the graph." },
-      { title: "Audition (translation preview)", desc: "Hear your mix on phone, earbuds, car, laptop." },
-      { title: "Takes & history",                desc: "Versioned project snapshots with named, recoverable takes." },
-      { title: "Offline export",                 desc: "16/24/32-bit, playlist-aware, sample-accurate position." },
+      { title: "Native audio engine",     desc: "Written in C++. Steady timing and low delay." },
+      { title: "Pattern-first workflow",         desc: "Start from a loop, then build the song around it." },
+      { title: "Eleven built-in effects",          desc: "Reverb, EQ, compressor, delay and more. Free." },
+      { title: "Live signal routing",            desc: "See the sound move through your project, colour-coded." },
+      { title: "Audition", desc: "Hear your mix on a phone, earbuds, a car or a laptop." },
+      { title: "Takes",                desc: "Save named versions of your project and go back to any of them." },
+      { title: "Offline export",                 desc: "16, 24 and 32-bit files, lined up exactly with the timeline." },
     ],
   },
   {
     status: "active",
     label: "Now",
-    blurb: "In progress for the next release.",
+    blurb: "Being built for the next release.",
     items: [
-      { title: "Multi-take recording",     desc: "Record, slice, and commit takes with snapshot manifest." },
-      { title: "Full clip editing",        desc: "Cut, copy, paste, split, undo/redo across the timeline." },
-      { title: "Piano Roll ↔ Sequencer",   desc: "Two-way sync between pattern clips and the piano roll." },
-      { title: "VST3 + CLAP plugin hosting", desc: "Hosts and sandboxes plugins on Linux; some CLAP callbacks are still stubs and Windows loads none yet. Required before public beta." },
-      { title: "Windows desktop build",    desc: "The audio core passes CI on Windows; the application itself does not build there yet." },
-      { title: "Device resilience",        desc: "Hot-plug, health polling, RT-safe audio thread under failure." },
-      { title: "ASIO driver support",      desc: "Native COM integration with dual-tier startup failover." },
-      { title: "AestraComp (ships next)",  desc: "RMS detection with parameter smoothing — finishes the built-in trio." },
-    ],
+      { title: "Multi-take recording",     desc: "Record several takes, slice them up and keep the best." },
+      { title: "Full clip editing",        desc: "Cut, copy, paste, split and undo on the timeline." },
+      { title: "Piano roll and sequencer in sync",   desc: "Edit a loop in either one and the other follows." },
+      { title: "VST3 + CLAP plugin hosting", desc: "Works partly on Linux. Some CLAP features aren't built, and nothing loads on Windows yet. Required before public beta." },
+      { title: "Windows desktop build",    desc: "The audio engine passes its tests on Windows. The app doesn't build there yet." },
+      { title: "Audio device recovery",        desc: "Unplug your interface and Aestra keeps running instead of crashing." },
+      { title: "ASIO driver support",      desc: "Low-delay audio on Windows." },
+          ],
   },
   {
     status: "next",
     label: "Next",
-    blurb: "Targeted for the next milestone.",
+    blurb: "Planned for after that.",
     items: [
-      { title: "Stem export & batch render", desc: "Per-track export with parallel offline render workers." },
-      { title: "MIDI learn & mapping",       desc: "Map any control to any parameter across plugins and the engine." },
-      { title: "Arrangement view",           desc: "Linear timeline on top of patterns — sketches to song structure." },
-      { title: "Versioned collaboration", desc: "Asynchronous sharing through Takes: Supporters own the shared workspace, invited Core users participate, and local projects always remain editable. No backend exists yet; storage limits are set before it ships, not before it is built." },
-      { title: "Native Suite — first drop",  desc: "Specialist plugins outside the free core, released when ready and also available for individual purchase." },
-      { title: "Theme + accessibility pass", desc: "High-contrast theme, full keyboard nav, screen reader polish." },
+      { title: "Stem export & batch render", desc: "Export every track as its own file, in one go." },
+      { title: "MIDI learn & mapping",       desc: "Link a knob on your controller to any control in Aestra." },
+      { title: "Arrangement view",           desc: "A timeline on top of your loops, for turning sketches into songs." },
+      { title: "Versioned collaboration", desc: "Share a project through Takes. A Supporter hosts it and invited free users can join. Projects on your computer stay editable. There's no server yet, and storage limits will be decided before it ships." },
+      { title: "Native Suite — first drop",  desc: "Optional extra plugins, released one at a time, starting with the Rumble 808 synth. Included with Supporter, or buy them individually." },
+      { title: "Theme + accessibility pass", desc: "A high-contrast theme, full keyboard control and better screen reader support." },
     ],
   },
   {
     status: "later",
     label: "Later",
-    blurb: "On the radar, not yet scoped.",
+    blurb: "Ideas, not planned in detail yet.",
     items: [
-      { title: "Muse — local assistance",     desc: "On-device help for session control, sound choices and finishing tracks." },
-      { title: "Mobile companion",            desc: "iOS / Android remote for transport, takes, and notes." },
-      { title: "Live performance mode",       desc: "Low-latency session view, scene launching, hands-on control." },
-      { title: "Plugin marketplace",          desc: "Vetted third-party plugins, native installer, no scan required." },
+      { title: "Muse — local assistance",     desc: "Help that runs on your computer: controlling the project, picking sounds, finishing tracks." },
+      { title: "Mobile companion",            desc: "A phone app to control playback, takes and notes." },
+      { title: "Live performance mode",       desc: "Launch loops live, with low delay and hands-on control." },
+      { title: "Plugin marketplace",          desc: "Checked third-party plugins you can install without a scan." },
     ],
   },
 ];
@@ -96,9 +95,8 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
           <span className="text-muted">What's next.</span>
         </h1>
         <p className="text-muted text-base sm:text-lg leading-relaxed max-w-2xl mb-14">
-          We build Aestra in public. This is the live plan — what we've
-          shipped, what we're working on now, what's targeted next, and
-          what's still on the radar.
+          Aestra is built in public. This is the plan: what works, what's being
+          built, what comes after, and what's still just an idea.
         </p>
       </FadeIn>
 
@@ -141,11 +139,11 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
               <span className="text-[12px] font-mono uppercase tracking-wider text-accent">Have a say</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-semibold text-fg mb-2 tracking-tight">
-              Vote on what ships next.
+              Tell me what's missing.
             </h2>
             <p className="text-muted text-[14px] sm:text-[15px] leading-relaxed max-w-xl">
-              Roadmaps change. The fastest way to influence what we build
-              is to file an issue on GitHub or join the mailing list.
+              Plans change. The best way to change this one is to open an
+              issue on GitHub and say what you need.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">

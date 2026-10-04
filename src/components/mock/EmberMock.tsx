@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
   D, TRACKS, CLIPS, FILES, BARS, BPM, tone, waveform, RMS_SCALE, levelAt, barBeatSixteenth, clockTime,
 } from "./emberSession";
@@ -80,15 +80,35 @@ const Lamp = ({ on }: { on: boolean }) => (
   />
 );
 
-const Badge = ({ n }: { n: number }) => (
-  <span className="mock-badge" aria-hidden="true">{n}</span>
-);
+/* Badges are the tooltip anchors: hovering, focusing or tapping one reports
+   its part and screen rect, and the page draws the tooltip. */
+export type PartHover = (part: MockPart | null, anchor: HTMLElement | null) => void;
+const HoverCtx = createContext<PartHover | null>(null);
+
+const Badge = ({ n, part, inside = false }: { n: number; part: MockPart; inside?: boolean }) => {
+  const hover = useContext(HoverCtx);
+  return (
+    <span
+      className={inside ? "mock-badge mock-badge-in" : "mock-badge"}
+      role="button"
+      tabIndex={0}
+      aria-label={`Part ${n}`}
+      onMouseEnter={(e) => hover?.(part, e.currentTarget)}
+      onMouseLeave={() => hover?.(null, null)}
+      onFocus={(e) => hover?.(part, e.currentTarget)}
+      onBlur={() => hover?.(null, null)}
+      onClick={(e) => { e.stopPropagation(); hover?.(part, e.currentTarget); }}
+    >
+      {n}
+    </span>
+  );
+};
 
 type PartProps = { part: MockPart; active?: MockPart | null; n?: number; className?: string; style?: React.CSSProperties; children: React.ReactNode };
 const Part = ({ part, active, n, className = "", style, children }: PartProps) => (
   <div data-part={part} data-hot={active === part ? "" : undefined} className={`relative ${className}`} style={style}>
     {children}
-    {n !== undefined && <Badge n={n} />}
+    {n !== undefined && <Badge n={n} part={part} />}
   </div>
 );
 
@@ -97,7 +117,7 @@ export const PART_NUMBER: Record<MockPart, number> = {
 };
 
 /* ── The mock ─────────────────────────────────────────────────────── */
-export const EmberMock = memo(({ activePart = null, showBadges = true }: { activePart?: MockPart | null; showBadges?: boolean }) => {
+export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHover = null }: { activePart?: MockPart | null; showBadges?: boolean; onPartHover?: PartHover | null }) => {
   const frameRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [playing, setPlaying] = useState(false);
@@ -114,7 +134,8 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
   const overviewHeadRef = useRef<HTMLDivElement>(null);
   const posRef = useRef<HTMLSpanElement>(null);
   const clockRef = useRef<HTMLSpanElement>(null);
-  const scopeRef = useRef<SVGPolylineElement>(null);
+  const scopeOuterRef = useRef<SVGPathElement>(null);
+  const scopeInnerRef = useRef<SVGPathElement>(null);
   const meterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const meterLevel = useRef([0, 0]);
 
@@ -143,31 +164,61 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
     if (clockRef.current) clockRef.current.textContent = clockTime(b);
 
     const { playing: isPlaying, audible: isAudible } = live.current;
-    let energy = 0;
-    if (isPlaying) {
+    const mixAt = (at: number) => {
+      let energy = 0;
       CLIPS.forEach((c, i) => {
         if (!isAudible(c.track)) return;
-        const l = levelAt(c, waves[i].peaks, b);
+        const l = levelAt(c, waves[i].peaks, at);
         energy += l * l;
       });
-    }
-    const level = Math.min(1, Math.sqrt(energy) * 0.42);
+      return Math.min(1, Math.sqrt(energy) * 0.42);
+    };
+    const level = isPlaying ? mixAt(b) : 0;
     for (let ch = 0; ch < 2; ch++) {
       const target = ch === 0 ? level : level * 0.95;
       meterLevel.current[ch] = isPlaying ? Math.max(target, meterLevel.current[ch] * 0.86) : 0;
       const el = meterRefs.current[ch];
       if (el) el.style.transform = `scaleY(${meterLevel.current[ch].toFixed(3)})`;
     }
-    const scope = scopeRef.current;
-    if (scope) {
-      const a = meterLevel.current[0] * 11;
-      const phase = b * 23;
-      let pts = "";
-      for (let i = 0; i <= 60; i++) {
-        const y = 14 + Math.sin(i * 0.55 + phase) * a * (0.55 + 0.45 * Math.sin(i * 0.15 + phase * 0.4));
-        pts += `${((i * 150) / 60).toFixed(1)},${y.toFixed(1)} `;
+    /* The output scope draws what just played as a waveform scrolling left, in the
+       same outer-envelope and inner-RMS shape as a clip. Columns are the clips' own. */
+    const outer = scopeOuterRef.current;
+    const inner = scopeInnerRef.current;
+    if (outer && inner) {
+      if (!isPlaying) {
+        outer.setAttribute("d", "");
+        inner.setAttribute("d", "");
+      } else {
+        const COL_W = 2.5;
+        const cols = Math.ceil(150 / COL_W) + 1;
+        const colBars = 1 / (4 * 3);
+        const pos = b / colBars;
+        const base = Math.floor(pos);
+        const frac = pos - base;
+        const xs: number[] = [];
+        const hs: number[] = [];
+        for (let j = cols - 1; j >= 0; j--) {
+          xs.push(150 - (frac + j) * COL_W);
+          hs.push(mixAt((base - j) * colBars));
+        }
+        let top = "";
+        let bot = "";
+        let topIn = "";
+        let botIn = "";
+        xs.forEach((x, i) => {
+          const h = hs[i] * 12;
+          const hi = h * RMS_SCALE;
+          top += `${i ? "L" : "M"}${x.toFixed(1)} ${(14 - h).toFixed(1)}`;
+          topIn += `${i ? "L" : "M"}${x.toFixed(1)} ${(14 - hi).toFixed(1)}`;
+        });
+        for (let i = xs.length - 1; i >= 0; i--) {
+          const h = hs[i] * 12;
+          bot += `L${xs[i].toFixed(1)} ${(14 + h).toFixed(1)}`;
+          botIn += `L${xs[i].toFixed(1)} ${(14 + h * RMS_SCALE).toFixed(1)}`;
+        }
+        outer.setAttribute("d", `${top}${bot}Z`);
+        inner.setAttribute("d", `${topIn}${botIn}Z`);
       }
-      scope.setAttribute("points", pts);
     }
   }, [waves]);
 
@@ -231,6 +282,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
   const clipPart = CLIPS.findIndex((c) => c.track === 4 && c.start === 8);
 
   return (
+    <HoverCtx.Provider value={onPartHover}>
     <div
       ref={frameRef}
       className="ember-mock relative w-full overflow-hidden select-none"
@@ -349,11 +401,12 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
             <div className="flex gap-[6px] mt-[3px]">
               <svg width="150" height="28" viewBox="0 0 150 28" aria-hidden="true" style={{ background: D.bed, borderRadius: 3 }}>
                 <line x1="0" x2="150" y1="14" y2="14" stroke={D.meter} strokeOpacity="0.22" />
-                <polyline ref={scopeRef} points="0,14 150,14" fill="none" stroke={D.meter} strokeOpacity="0.85" strokeWidth="1.2" />
+                <path ref={scopeOuterRef} d="" fill={D.meter} fillOpacity="0.5" />
+                <path ref={scopeInnerRef} d="" fill={D.meter} fillOpacity="0.95" />
               </svg>
-              <div className="w-[60px] h-[28px] flex gap-[3px] justify-center rounded-[3px] py-[2px]" style={{ background: D.bed }}>
+              <div className="w-[60px] h-[28px] flex gap-[2px] rounded-[3px] p-[2px]" style={{ background: D.bed }}>
                 {[0, 1].map((ch) => (
-                  <div key={ch} className="relative w-[7px] h-full overflow-hidden rounded-[1px]" style={{ background: "#090807" }}>
+                  <div key={ch} className="relative flex-1 h-full overflow-hidden rounded-[1px]" style={{ background: "#090807" }}>
                     <div
                       ref={(el) => { meterRefs.current[ch] = el; }}
                       className="absolute inset-0 origin-bottom"
@@ -516,7 +569,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
                               <use href={`#wv${ci}`} fill={toneT.ink} fillOpacity="0.95"
                                 transform={`matrix(1 0 0 ${RMS_SCALE} 0 ${50 * (1 - RMS_SCALE)})`} />
                             </svg>
-                            {isPart && showBadges && <span className="mock-badge mock-badge-in" aria-hidden="true">{PART_NUMBER.clip}</span>}
+                            {isPart && showBadges && <Badge n={PART_NUMBER.clip} part="clip" inside />}
                           </div>
                         );
                       })}
@@ -540,5 +593,6 @@ export const EmberMock = memo(({ activePart = null, showBadges = true }: { activ
         </div>
       </div>
     </div>
+    </HoverCtx.Provider>
   );
 });

@@ -1,14 +1,14 @@
 # Aestra
 
-> Aestra is a native digital audio workstation (DAW) for modest machines. The whole DAW is free, eleven effects come in the box, and it is in alpha on Linux.
+> Aestra is a free app for making music (a DAW), built to run well on old laptops and machines never meant for music production. The whole DAW is free, eleven effects come in the box, and it is in alpha on Linux.
 
 ## What is Aestra?
 
-Aestra is a native C++ digital audio workstation built around producer workflow, stability, speed, and creative focus. It is developed by Aestra Studios, a small independent studio led by Dylan Makori.
+Aestra is a native C++ digital audio workstation (DAW) built to run on modest hardware, around a loop-first workflow, stability and speed. It is developed by Aestra Studios, a small independent studio led by Dylan Makori.
 
-The core product is **free forever** with **no feature gates**. Optional Supporter ($5/month or $50/year) and Founder ($129 one-time) offers fund development without locking access behind high prices.
+The whole DAW is free, with no export or time limits. Extra plugins (the Native Suite) are optional: Supporter ($5/month or $50/year) includes them, and the Founder offer ($129 one-time) includes a plugin bundle and 24 months of Supporter.
 
-Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a new, opinionated tool for producers who think in patterns, samples, and signal flow.
+Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a new, opinionated tool for producers who start from loops and want to see their signal flow.
 
 ## Quick Facts
 
@@ -19,7 +19,7 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 - **Engine:** Native C++17
 - **Plugin formats:** VST3, CLAP (built-in suite is VST3/CLAP native)
 - **Platforms:** Linux (builds and tested in CI today), Windows (10+, audio core only — the desktop app does not build there yet). macOS is not supported and is deferred to 2027
-- **Availability:** Pre-alpha. Source-available, no published binaries on any platform
+- **Availability:** Alpha. Source-available, no published binaries on any platform
 - **License:** ASSAL v1.1 (Aestra Studios Source-Available License) — source available, not OSI open source
 - **Pricing:** Core free, Supporter $5/month or $50/year, Founder $129 one-time
 - **Account required:** No — the core DAW runs without an account
@@ -80,15 +80,15 @@ Aestra is positioned as a native DAW for producers who value:
 
 ## Key Features
 
-- **Native C++17 engine** — sub-millisecond latency, minimal CPU and memory footprint
-- **Instant startup** — cold start in under 600ms on M2 Pro
-- **Pattern-first workflow** — every track is a pattern, every pattern is a song
+- **Native C++17 engine** — written in C++, with the audio running on its own thread
+- **Opens into your project** — no plugin rescan on every launch
+- **Loop-first workflow** — start from a loop and build the song around it
 - **Visual signal routing** — see the audio path on a real-time graph
-- **Audition mode** — translation preview that adapts to your speakers and headphones
-- **Version control (Takes)** — fork a mix session, compare, restore
+- **Audition mode** — hear your mix on phone, earbuds and car profiles
+- **Takes** — save named versions of a project, compare them, go back
 - **VST3 + CLAP hosting (unfinished)** — Linux only; parts of the CLAP host interface are not implemented and Windows loads no third-party plugins today
-- **Built-in plugin suite** — Aestra Verb, Aestra EQ, Aestra Comp ship with the DAW
-- **Offline export** — render to WAV, FLAC, MP3 with no cloud round-trip
+- **Eleven built-in effects** — EQ, compressor, reverb, delay, limiter, filter, saturation and more, free with the DAW
+- **Offline export** — render to audio files (16, 24 and 32-bit) with no cloud round-trip
 - **Linux today, Windows next** — macOS is not supported and is deferred to 2027
 - **No telemetry, no accounts required** — the core runs locally, fully offline
 
@@ -114,7 +114,7 @@ Aestra is positioned as a native DAW for producers who value:
 
 ## Pricing Tiers
 
-- **Core (free forever)** — full DAW, all features, no limits. This is the entire product.
+- **Core ($0)** — the whole DAW, with no export or time limits. You do not need to pay to make music.
 - **Supporter ($5/month or $50/year)** — funds Aestra and provides the Native Suite, local Muse when ready, asynchronous versioned collaboration through Takes when available, development updates, and a feedback channel. No collaboration service exists yet — there is no backend, no accounts and no sync — and no storage allowance is offered or implied until one does. Invited Core users will be able to participate without subscribing. If Supporter lapses, only the cloud workspace becomes read-only. Downloaded projects remain editable and exportable in free Core.
 - **Founder ($129 one-time)** — numbered digital Founder card, fixed Founder Collection ownership, 24 months of Supporter from public beta, optional credits, and a permanent 25% Supporter discount thereafter. Limited to 500. No physical card or lifetime cloud storage.
 
@@ -129,7 +129,7 @@ Aestra is positioned as a native DAW for producers who value:
 
 ## Status
 
-Aestra is currently in **active development**. Public beta will ship when the reference production workflow meets its release bar rather than on a fixed date. The software is **not yet released for general availability**. The current release is **v0.1.1** (April 2026).
+Aestra is currently in **alpha**. Public beta will ship when the reference production workflow meets its release bar rather than on a fixed date. The software is **not yet released for general availability**. The current release is **v0.7.1-alpha** (September 2026). Public beta has no date.
 
 ## What is NOT in scope
 
@@ -148,13 +148,12 @@ Aestra is currently in **active development**. Public beta will ship when the re
 
 ## Brand voice
 
-Aestra speaks plainly. We say "make music, not excuses" not "revolutionary AI-native audio platform". We say "free forever" not "freemium". We say "your music is yours" not "subject to license terms".
+Aestra speaks plainly, in short concrete sentences. It says "a free app for making music" rather than "revolutionary AI-native audio platform", "the whole DAW is free; plugins are extra" rather than "freemium", and "what you make is yours" rather than "subject to license terms".
 
 ## Marketing tagline
 
-- Primary: **Make music, not excuses.**
-- Secondary: **Free core. Forever. No feature gates.**
-- Tertiary: **A native DAW for producers who think in patterns.**
+- Primary: **Less distance between an idea and its sound.**
+- Plain description: **A free app for making music. It is in alpha and runs on Linux today.**
 
 ## Contact
 

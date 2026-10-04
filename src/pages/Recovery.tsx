@@ -44,7 +44,7 @@ const SignalPath = memo(() => (
     viewBox="0 0 840 372"
     className="w-full h-auto"
     role="img"
-    aria-label="Routing diagram: Report, Investigate and Recover all feed a public–private boundary, which routes to either a GitHub issue or the Aestra team, and both resolve."
+    aria-label="Routing diagram: Report, Investigate and Recover all feed a public–private boundary, which routes to either a GitHub issue or the maintainer, and both resolve."
   >
     <defs>
       {/* userSpaceOnUse: a horizontal <line> has a zero-height bounding
@@ -59,9 +59,9 @@ const SignalPath = memo(() => (
 
     {/* sources */}
     {[
-      { x: 140, label: "REPORT", sub: "Something broke" },
-      { x: 420, label: "INVESTIGATE", sub: "Find the root cause" },
-      { x: 700, label: "RECOVER", sub: "Salvage a project" },
+      { x: 140, label: "REPORT", sub: "Say what broke" },
+      { x: 420, label: "INVESTIGATE", sub: "Find the cause" },
+      { x: 700, label: "RECOVER", sub: "Rescue a project" },
     ].map((s) => (
       <g key={s.label}>
         <rect
@@ -116,7 +116,7 @@ const SignalPath = memo(() => (
 
     {[
       { x: 240, label: "GITHUB", sub: "Issue → PR → review" },
-      { x: 600, label: "AESTRA TEAM", sub: "Private investigation" },
+      { x: 600, label: "MAINTAINER", sub: "Private investigation" },
     ].map((d) => (
       <g key={d.label}>
         <rect x={d.x - 96} y={250} width={192} height={52} rx={8} fill="var(--color-bg-elev)" stroke="var(--color-border-2)" />
@@ -337,7 +337,7 @@ const ReportBuilder = memo(() => {
   const premiumBody = useMemo(
     () =>
       [
-        `Premium component: ${f.component.trim() || "unknown"}`,
+        `Native Suite plugin: ${f.component.trim() || "unknown"}`,
         "",
         body,
       ].join("\n"),
@@ -355,7 +355,7 @@ const ReportBuilder = memo(() => {
     if (url.length > 7500) {
       navigator.clipboard.writeText(body).then(
         () => {
-          info("Report copied", "Too long to prefill — paste it into the issue.");
+          info("Report copied", "It's too long to prefill. Paste it into the issue.");
           window.open(`${REPO}/issues/new?template=bug_report.md`, "_blank", "noopener,noreferrer");
         },
         () => error("Report too long to prefill", "Copy it manually below.")
@@ -366,7 +366,7 @@ const ReportBuilder = memo(() => {
   }, [body, f.actual, info, error]);
 
   const emailSupport = useCallback(() => {
-    const subject = `Premium: ${f.component.trim() || "component"} — ${f.actual.trim().slice(0, 60) || "issue"}`;
+    const subject = `Native Suite: ${f.component.trim() || "plugin"} — ${f.actual.trim().slice(0, 60) || "issue"}`;
     const url = `mailto:${SUPPORT}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(premiumBody)}`;
     if (url.length > 1800) {
       navigator.clipboard.writeText(premiumBody).then(
@@ -397,7 +397,7 @@ const ReportBuilder = memo(() => {
           <div className="inline-flex rounded-lg border border-border bg-surface p-1 gap-1">
             {([
               ["public", "Public Aestra"],
-              ["premium", "Premium component"],
+              ["premium", "Native Suite"],
             ] as [Route, string][]).map(([id, label]) => (
               <button
                 key={id}
@@ -414,48 +414,47 @@ const ReportBuilder = memo(() => {
             ))}
           </div>
           <p className="text-[12.5px] text-dim mt-3 leading-relaxed max-w-prose">
-            You don't have to work out whether the underlying defect is public or private —
-            just name the feature you were using. The investigation goes as far as public
-            evidence allows, then the team inherits the case.
+            You don't need to know whether the problem is in the public code. Just say what
+            you were using. Public problems become a GitHub issue. Native Suite problems come
+            to me by email.
           </p>
         </fieldset>
 
         {route === "premium" && (
           <div className="mb-6">
             <Field
-              label="Premium component"
-              hint="Native Suite plugin, cloud sync, account or licensing — whichever you were using."
+              label="Which Native Suite plugin?"
+              hint="The plugin you were using when it went wrong."
             >
-              <input className={inputCls} value={f.component} onChange={set("component")} placeholder="e.g. Native Suite — <plugin name>" />
+              <input className={inputCls} value={f.component} onChange={set("component")} placeholder="e.g. AestraRumble" />
             </Field>
           </div>
         )}
 
         <div className="grid sm:grid-cols-2 gap-5 mb-6">
           <Field label="Aestra version">
-            <input className={inputCls} value={f.version} onChange={set("version")} placeholder="e.g. 0.6.0-alpha" />
+            <input className={inputCls} value={f.version} onChange={set("version")} placeholder="e.g. 0.7.1-alpha" />
           </Field>
           <Field label="Operating system">
-            <input className={inputCls} value={f.os} onChange={set("os")} placeholder="e.g. Windows 11 23H2" />
+            <input className={inputCls} value={f.os} onChange={set("os")} placeholder="e.g. Arch Linux" />
           </Field>
           <Field label="CPU">
-            <input className={inputCls} value={f.cpu} onChange={set("cpu")} placeholder="e.g. Ryzen 7 5800X" />
+            <input className={inputCls} value={f.cpu} onChange={set("cpu")} placeholder="e.g. Intel Core i5-6200U" />
           </Field>
           <Field label="RAM">
-            <input className={inputCls} value={f.ram} onChange={set("ram")} placeholder="e.g. 32 GB" />
+            <input className={inputCls} value={f.ram} onChange={set("ram")} placeholder="e.g. 4 GB" />
           </Field>
         </div>
 
         <div className="rounded-lg border border-border/80 bg-surface/50 p-4 mb-6">
           <p className="readout text-dim mb-1.5">Audio configuration</p>
           <p className="text-[12.5px] text-muted leading-relaxed mb-4 max-w-prose">
-            Read these off Aestra's audio settings. A browser can report its own sample rate,
-            but that is not necessarily the rate, device, or backend Aestra is running — so
-            this page won't guess them for you.
+            Copy these from Aestra's audio settings. Your browser can report its own sample
+            rate, but that isn't necessarily what Aestra is using, so this page doesn't guess.
           </p>
           <div className="grid sm:grid-cols-2 gap-5">
             <Field label="Audio backend">
-              <input className={inputCls} value={f.backend} onChange={set("backend")} placeholder="ASIO / WASAPI / CoreAudio / ALSA" />
+              <input className={inputCls} value={f.backend} onChange={set("backend")} placeholder="ALSA / ASIO / WASAPI" />
             </Field>
             <Field label="Audio device">
               <input className={inputCls} value={f.device} onChange={set("device")} placeholder="e.g. Focusrite Scarlett 2i2" />
@@ -480,7 +479,7 @@ const ReportBuilder = memo(() => {
             <textarea rows={2} className={inputCls} value={f.expected} onChange={set("expected")} />
           </Field>
           <Field label="What happened instead?">
-            <textarea rows={2} className={inputCls} value={f.actual} onChange={set("actual")} placeholder="Be specific — this becomes the issue title." />
+            <textarea rows={2} className={inputCls} value={f.actual} onChange={set("actual")} placeholder="Be specific. This becomes the issue title." />
           </Field>
 
           <fieldset>
@@ -503,10 +502,10 @@ const ReportBuilder = memo(() => {
             </div>
           </fieldset>
 
-          <Field label="Steps to reproduce" hint="Numbered, starting from a clean launch.">
+          <Field label="Steps to reproduce" hint="Numbered, starting from opening Aestra fresh.">
             <textarea rows={4} className={inputCls} value={f.steps} onChange={set("steps")} placeholder={"1.\n2.\n3."} />
           </Field>
-          <Field label="Logs, load report, or crash output">
+          <Field label="Logs, load report or crash output">
             <textarea rows={4} className={cn(inputCls, "font-mono text-[12.5px]")} value={f.logs} onChange={set("logs")} />
           </Field>
         </div>
@@ -515,7 +514,7 @@ const ReportBuilder = memo(() => {
           {route === "public" ? (
             <Button onClick={openIssue} icon={GitHubIcon}>Open a prefilled GitHub issue</Button>
           ) : (
-            <Button onClick={emailSupport} icon={LifeBuoy}>Send to Aestra Support</Button>
+            <Button onClick={emailSupport} icon={LifeBuoy}>Email the report</Button>
           )}
           <Button variant="outline" onClick={copyReport} icon={Copy}>Copy report</Button>
         </div>
@@ -523,7 +522,7 @@ const ReportBuilder = memo(() => {
 
       <div className="space-y-5 lg:sticky lg:top-24">
         <Card className="p-5">
-          <p className="kicker mb-3">What makes it excellent</p>
+          <p className="kicker mb-3">What a good report looks like</p>
           <div className="space-y-4 text-[13px] leading-relaxed">
             <div>
               <p className="text-dim mb-1">Weak</p>
@@ -532,14 +531,14 @@ const ReportBuilder = memo(() => {
             <div>
               <p className="text-emerald-400 mb-1">Strong</p>
               <p className="text-fg-muted">
-                "Opening this project consistently crashes Aestra after the loading dialog
+                "Opening this project crashes Aestra every time, once the loading dialog
                 reaches <span className="font-mono text-[12px]">Restoring mixer state</span>.
-                A blank project works. Removing section X of the project JSON prevents it."
+                A blank project opens fine. Removing section X of the project file stops it."
               </p>
             </div>
             <p className="text-dim pt-1 border-t border-border/80">
-              The difference is isolation. A report that names what <em>doesn't</em> fail is
-              worth more than one that only names what does.
+              The difference is narrowing it down. Saying what <em>doesn't</em> fail helps more
+              than only saying what does.
             </p>
           </div>
         </Card>
@@ -550,9 +549,9 @@ const ReportBuilder = memo(() => {
             <div className="text-[13px] leading-relaxed">
               <p className="text-fg-muted font-medium mb-1">Found a vulnerability?</p>
               <p className="text-muted">
-                Don't use this form and don't open a public issue. Report it privately to{" "}
-                <a href={`mailto:${SECURITY}`} className="text-accent hover:text-accent-hover">{SECURITY}</a>{" "}
-                — see{" "}
+                Don't use this form or open a public issue. Email it privately to{" "}
+                <a href={`mailto:${SECURITY}`} className="text-accent hover:text-accent-hover">{SECURITY}</a>.
+                More in{" "}
                 <a href="/.well-known/security.txt" className="text-accent hover:text-accent-hover">security.txt</a>.
               </p>
             </div>
@@ -569,7 +568,7 @@ const ReportBuilder = memo(() => {
           >
             bug_report.md
           </a>{" "}
-          in the repository. This form fills that template in — it doesn't replace it.
+          in the repository. This form fills that template in. It doesn't replace it.
         </p>
       </div>
     </div>
@@ -591,7 +590,7 @@ const TOOLKIT = [
     name: "investigate-bug",
     title: "Find out what's breaking Aestra",
     icon: Bug,
-    blurb: "Track the cause down properly, then make the smallest change that fixes it — and prove it's fixed.",
+    blurb: "Find the real cause, make the smallest change that fixes it, and show that it worked.",
   },
   {
     name: "reproduce-crash",
@@ -609,7 +608,7 @@ const TOOLKIT = [
     name: "prepare-pr",
     title: "Send a fix to Aestra",
     icon: GitHubIcon,
-    blurb: "Package a working fix the way the Aestra maintainers need it in order to review and merge it.",
+    blurb: "Package a working fix the way the maintainer needs it to review and merge it.",
   },
 ] as const;
 
@@ -641,7 +640,7 @@ const PATHS: AgentPath[] = [
     needsCode: false,
     need: "Just the song file that's giving you trouble.",
     where:
-      "Point the agent at the folder your song file is in. That's it — no downloading, no setup.",
+      "Point the agent at the folder your song file is in. No downloading, no setup.",
     prompt: `My Aestra project won't open properly and I'd like to recover as much of it as possible.
 
 Before you touch anything, read these and follow them exactly:
@@ -662,7 +661,7 @@ What happens when I open it: <e.g. Aestra freezes, then closes by itself>`,
     tab: "Aestra is misbehaving",
     headline: "This one needs a copy of Aestra's code on your machine.",
     needsCode: true,
-    need: "A free GitHub account isn't required — but the agent needs Aestra's code to read.",
+    need: "A copy of Aestra's code for the agent to read. You don't need a GitHub account.",
     where:
       "Run the command below, then point the agent at the Aestra folder it creates.",
     setup: "git clone https://github.com/currentsuspect/Aestra.git",
@@ -686,7 +685,7 @@ Here's what's happening:
   {
     id: "fix",
     tab: "I have a fix to send",
-    headline: "The agent already found and fixed it. Now get it to the maintainers.",
+    headline: "You have a fix. Now get it to the maintainer.",
     needsCode: true,
     need: "The same Aestra folder from the previous path, with your fix in it.",
     where: "Point the agent at the Aestra folder containing your change.",
@@ -753,7 +752,7 @@ My situation: `;
           },
           {
             q: "What counts as an agent?",
-            a: "An AI assistant that can open files on your computer — Claude Code, Cursor, and similar tools.",
+            a: "An AI assistant that can open files on your computer, like Claude Code or Cursor.",
           },
           {
             q: "Can it wreck my song?",
@@ -853,11 +852,11 @@ My situation: `;
               The agent knows where to stop
             </p>
             <p className="text-[13.5px] text-muted leading-relaxed max-w-prose mb-4">
-              Parts of Aestra aren't public. When the trail runs into one, these instructions
-              tell the agent to stop and write down what it found — rather than inventing an
-              explanation for code it can't see. That's the difference between a report we can
-              act on and a confident guess that wastes everyone's afternoon. You send us what it
-              found; we take it from there.
+              Some parts of Aestra aren't public. When the trail runs into one, the agent is
+              told to stop and write down what it found, instead of inventing an explanation for
+              code it can't see. That's the difference between a report I can act on and a
+              confident guess that wastes everyone's afternoon. You send me what it found and I
+              take it from there.
             </p>
             <details className="group">
               <summary className="readout text-dim hover:text-fg cursor-pointer list-none inline-flex items-center gap-2 transition-colors">
@@ -885,8 +884,8 @@ My situation: `;
               All five instruction sets
             </span>
             <span className="block text-[13px] text-muted mt-0.5">
-              The full toolkit, plus how the protocol is versioned. Useful if you're technical or
-              writing your own tooling.
+              The full toolkit and how the protocol is versioned. Useful if you're technical or
+              building your own tools.
             </span>
           </span>
           <span className="readout text-dim shrink-0">{showRef ? "Hide" : "Show"}</span>
@@ -948,11 +947,10 @@ My situation: `;
                   Every report says what produced it
                 </h3>
                 <p className="text-[13.5px] text-muted leading-relaxed mb-4 max-w-prose">
-                  Six months from now, when an agent-written investigation is attached to an
-                  issue, anyone can fetch that exact artifact, hash it, and confirm they're
-                  reading the same instructions the agent followed. Versioned artifacts are
-                  frozen on publish, so the evidence stays reproducible rather than being a
-                  claim you have to take on trust.
+                  When an agent's investigation is attached to an issue months later, anyone
+                  can fetch the exact instructions it followed, check their hash, and confirm
+                  they're the same. Published versions never change, so you don't have to take
+                  anyone's word for it.
                 </p>
                 <CopyBlock label="provenance header" text={PROVENANCE} />
               </div>
@@ -961,9 +959,9 @@ My situation: `;
                   Agents can find this on their own
                 </h3>
                 <p className="text-[13.5px] text-muted leading-relaxed mb-4 max-w-prose">
-                  The toolkit isn't only copy-paste. Every instruction set is published,
-                  versioned and checksummed in Aestra's skills index, so an agent can discover
-                  the procedure without a human pasting anything.
+                  It isn't only copy and paste. Every instruction set is published, versioned
+                  and checksummed in Aestra's skills index, so an agent can find the procedure
+                  without you pasting anything.
                 </p>
                 <CopyBlock
                   label="skills index"
@@ -1032,10 +1030,10 @@ const RecoverPanel = memo(() => (
         <div>
           <p className="kicker mb-2">Aestra has already done half the work</p>
           <p className="text-[13.5px] text-muted leading-relaxed max-w-prose">
-            When Aestra can't make sense of part of a song, it doesn't quietly bin it — it keeps
-            it and tells you what it couldn't read. So most of the answer already exists before
-            anyone touches the file. And because Aestra saves songs in a readable text format,
-            an assistant can look inside without needing Aestra installed at all.
+            When Aestra can't read part of a song, it doesn't throw it away. It keeps it and
+            tells you what it couldn't read. So most of the answer exists before anyone touches
+            the file. And because songs are saved as readable text, an assistant can look inside
+            without Aestra installed.
           </p>
         </div>
 
@@ -1063,9 +1061,9 @@ const RecoverPanel = memo(() => (
     <div>
       <p className="kicker mb-3">What you get back</p>
       <p className="text-[13.5px] text-muted leading-relaxed mb-5 max-w-prose">
-        A rescue must never quietly mean <em>we made it open by deleting half of it</em>. So the
-        report spells out what came back, what didn't, and anything that got changed on the way
-        — in the same terms Aestra itself uses.
+        A rescue must never mean <em>it opens now because half of it was deleted</em>. So the
+        report says what came back, what didn't, and anything that was changed, in the same
+        terms Aestra itself uses.
       </p>
 
       <Card className="overflow-hidden">
@@ -1134,13 +1132,11 @@ export const Recovery = memo((_: PageProps) => (
             Something broke? Start here.
           </h1>
           <p className="text-base sm:text-lg text-muted leading-relaxed max-w-2xl mb-4">
-            Tell us what went wrong, let an AI assistant dig into it for you, rescue a song that
-            won't open, or fix it yourself and send it to us. You choose how involved you want
-            to be — and doing nothing more than describing the problem is a perfectly good
-            answer.
+            Report a bug, rescue a song that won't open, or hand the problem to an AI
+            assistant. Describing what went wrong is enough. Do more only if you want to.
           </p>
           <p className="text-[13.5px] text-dim leading-relaxed max-w-2xl">
-            No account needed, and nothing here assumes you write code.
+            No account needed, and nothing here assumes you can code.
           </p>
         </FadeIn>
 
@@ -1162,8 +1158,8 @@ export const Recovery = memo((_: PageProps) => (
             <Badge variant="outline">No account needed</Badge>
           </div>
           <p className="text-[14.5px] text-muted leading-relaxed max-w-2xl mb-10">
-            Fill this in and it builds the report for you, in the shape the maintainers
-            actually use. For most people, this is the whole journey.
+            Fill this in and it builds the report in the shape the maintainer uses. For most
+            people, this is all you need.
           </p>
         </FadeIn>
         <FadeIn delay={0.05}>
@@ -1181,11 +1177,10 @@ export const Recovery = memo((_: PageProps) => (
             Let an AI assistant dig into it for you.
           </h2>
           <p className="text-[14.5px] text-muted leading-relaxed max-w-2xl mb-10">
-            You don't need to understand how Aestra is built, and you don't need to write a
-            line of code. Pick your situation below, copy the prompt, and paste it. The prompt
-            hands the assistant Aestra's own instructions — how to reproduce a problem before
-            changing anything, what it must never break, where to stop, and what to tell you at
-            the end.
+            You don't need to know how Aestra is built or write any code. Pick your situation,
+            copy the prompt and paste it. It gives the assistant Aestra's own instructions: how
+            to reproduce a problem before changing anything, what it must never break, where to
+            stop, and what to tell you at the end.
           </p>
         </FadeIn>
         <FadeIn delay={0.05}>
@@ -1200,12 +1195,12 @@ export const Recovery = memo((_: PageProps) => (
         <FadeIn>
           <Mark n="03">Recover</Mark>
           <h2 className="display text-2xl sm:text-3xl mb-3">
-            My project is damaged, crashes, or won't open.
+            My project is damaged, crashes or won't open.
           </h2>
           <p className="text-[14.5px] text-muted leading-relaxed max-w-2xl mb-10">
-            Recovery is not repair of Aestra. The goal is to preserve as much musical
-            information as possible, isolate the damage rather than rebuild around it, and
-            tell you exactly what survived.
+            Rescuing a song is different from fixing Aestra. The aim is to keep as much of your
+            music as possible, find the damaged part instead of rebuilding around it, and tell
+            you exactly what survived.
           </p>
         </FadeIn>
         <FadeIn delay={0.05}>
@@ -1222,17 +1217,17 @@ export const Recovery = memo((_: PageProps) => (
           <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 items-start">
             <div>
               <h2 className="display text-2xl sm:text-3xl mb-3">
-                Bring us what you found. Fixing it is our job, not yours.
+                Bring me what you found. Fixing it is my job, not yours.
               </h2>
               <p className="text-[14.5px] text-muted leading-relaxed max-w-prose mb-4">
-                Some parts of Aestra aren't public, so there's a point past which nobody outside
-                the team can follow the trail. Don't try to rebuild those parts to get around it,
-                and don't let an assistant try either.
+                Some parts of Aestra aren't public, so there's a point past which nobody else
+                can follow the trail. Don't try to rebuild those parts to get around it, and
+                don't let an assistant try either.
               </p>
               <p className="text-[14.5px] text-muted leading-relaxed max-w-prose">
-                Stopping there isn't failing. <em>"It breaks every time, right at this exact
-                point, and here's what I fed it"</em> is a genuinely useful result — often the
-                most useful one we get. Send it over and we'll take it from there.
+                Stopping there isn't failing. <em>"It breaks every time, at this exact point,
+                and here's what I fed it"</em> is a useful result, often the most useful one I
+                get. Send it over and I'll take it from there.
               </p>
             </div>
 
@@ -1243,7 +1238,7 @@ export const Recovery = memo((_: PageProps) => (
               <ul className="divide-y divide-border/60 text-[13.5px]">
                 {[
                   { icon: GitHubIcon, when: "Defect in public Aestra", to: "GitHub issue, then PR", href: `${REPO}/issues/new?template=bug_report.md` },
-                  { icon: LifeBuoy, when: "Premium or private component", to: SUPPORT, href: `mailto:${SUPPORT}` },
+                  { icon: LifeBuoy, when: "Native Suite or other non-public part", to: SUPPORT, href: `mailto:${SUPPORT}` },
                   { icon: ShieldAlert, when: "Security vulnerability", to: SECURITY, href: `mailto:${SECURITY}` },
                   { icon: FileJson, when: "Damaged project file", to: "recover-project first", href: `${SKILLS}/recover-project/SKILL.md` },
                 ].map(({ icon: Icon, when, to, href }) => (
@@ -1273,9 +1268,8 @@ export const Recovery = memo((_: PageProps) => (
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <p className="text-[13.5px] text-fg-muted leading-relaxed mb-3 max-w-prose">
-                  Open source normally hands you the materials and says good luck. Aestra hands
-                  you the materials <em>and</em> the procedure for responsibly operating on the
-                  system.
+                  Aestra is source-available, so you get the code and the procedure for working on
+                  it safely.
                 </p>
                 <div className="flex flex-wrap gap-x-6 gap-y-2 readout text-dim">
                   <a href={`${REPO}/blob/main/CONTRIBUTING.md`} target="_blank" rel="noopener noreferrer" className="hover:text-fg transition-colors">

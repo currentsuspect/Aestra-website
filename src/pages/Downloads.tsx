@@ -33,7 +33,7 @@ export const Downloads = ({ setPage }: PageProps) => {
       os: "Linux",
       arch: "x86_64",
       icon: LinuxIcon,
-      status: "The desktop app compiles and its tests run in CI on every push.",
+      status: "The app builds, and its tests run automatically on every change. This is the one to use.",
       href: BUILD_DOCS,
       cta: "Build from source",
     },
@@ -42,7 +42,7 @@ export const Downloads = ({ setPage }: PageProps) => {
       os: "Windows",
       arch: "x64",
       icon: WinIcon,
-      status: "The audio core compiles and its tests run in CI. The desktop app is not built on Windows yet.",
+      status: "The audio engine builds and passes its tests. The app itself doesn't build on Windows yet.",
       href: BUILD_DOCS,
       cta: "Build from source",
     },
@@ -51,7 +51,7 @@ export const Downloads = ({ setPage }: PageProps) => {
       os: "Source",
       arch: "GitHub",
       icon: GitHubIcon,
-      status: "Read it, build it, check the claims on this site against it.",
+      status: "Read the code, build it, and check this site's claims against it.",
       href: REPO,
       cta: "View source",
     },
@@ -72,19 +72,18 @@ export const Downloads = ({ setPage }: PageProps) => {
         <div className="mb-12">
           <p className="kicker mb-4">Downloads</p>
           <h1 className="display text-4xl sm:text-5xl md:text-6xl text-fg mb-4">
-            Get Aestra.
+            Build Aestra.
           </h1>
           <p className="text-muted text-base sm:text-lg max-w-xl leading-relaxed">
-            There are no published builds yet. Aestra is source-available and in
-            pre-alpha — you can build it today, but nothing here is packaged,
-            signed or installable. When that changes, it will change on this page.
+            There's no installer yet. Aestra is in alpha, and for now you build it
+            yourself from the source. When there's something to download, it will
+            appear on this page.
           </p>
           {currentOS === "macOS" && (
             <p className="mt-4 text-[13px] text-muted leading-relaxed max-w-xl">
-              You&rsquo;re on macOS. Aestra does not run on macOS — window creation
-              is unimplemented, and macOS is deferred to 2027. It is not a
-              supported platform and we would rather say so than let you find out
-              after a build.
+              You&rsquo;re on macOS. Aestra doesn&rsquo;t run on macOS: the app can&rsquo;t
+              open a window there yet, and macOS is planned for 2027. I&rsquo;d rather
+              tell you now than have you find out after a build.
             </p>
           )}
         </div>
@@ -114,7 +113,6 @@ export const Downloads = ({ setPage }: PageProps) => {
                       {isCurrent(build.id) && (
                         <Badge>Your platform</Badge>
                       )}
-                      <Badge variant="outline">Source</Badge>
                       <span className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-sm font-medium bg-surface-2 text-fg border border-border whitespace-nowrap">
                         {build.cta} <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                       </span>
@@ -126,10 +124,10 @@ export const Downloads = ({ setPage }: PageProps) => {
         </ul>
 
         <div className="mt-12 text-[13px] text-muted leading-relaxed max-w-2xl">
-          CI compiles and tests Aestra on every push, but it does not publish an
-          installable artifact — so there is nothing to download yet, on any
-          platform. Building from source needs CMake and a C++17 toolchain; the
-          repository README has the steps for both Linux and Windows.
+          Every change is built and tested automatically, but nothing gets packaged
+          into an installer, so there's nothing to download on any platform yet.
+          To build it you need CMake and a C++17 compiler. The README on GitHub has
+          the steps for Linux and Windows.
         </div>
       </div>
     </div>
