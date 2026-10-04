@@ -186,23 +186,35 @@ export const Cursor = ({ x, y, down = 0, hand = false }: { x: number; y: number;
   </g>
 );
 
-/** A popup menu. `hover` is the highlighted row; `open` 0..1 unfolds it. */
-export const Menu = ({ x, y, w = 150, items, hover = -1, open = 1 }: {
+/** Centre y of row `i` in a Menu at `y`; aim the cursor here so the highlight and the pointer agree. */
+export const menuRowY = (y: number, i: number, rowH = 20) => y + 4 + i * rowH + rowH / 2;
+/** Centre of a track header's M / S / R button. */
+export const trackBtn = (x: number, y: number, w: number, h: number, which: "M" | "S" | "R") =>
+  ({ x: x + w - 64 + ["M", "S", "R"].indexOf(which) * 21 + 9, y: y + h / 2 });
+
+/** A popup menu. The highlighted row is the one under `cursor` once it has opened, so the pointer
+    and the highlight cannot disagree; `hover` forces a row when there is no pointer. */
+export const Menu = ({ x, y, w = 150, items, hover = -1, open = 1, cursor, rowH = 20 }: {
   x: number; y: number; w?: number; items: (string | { label: string; dim?: boolean; hint?: string; danger?: boolean; head?: boolean })[];
-  hover?: number; open?: number;
+  hover?: number; open?: number; cursor?: { x: number; y: number }; rowH?: number;
 }) => {
   const rows = items.map((i) => (typeof i === "string" ? { label: i } : i));
-  const h = rows.length * 20 + 8;
+  const h = rows.length * rowH + 8;
+  if (cursor && open > 0.6 && cursor.x >= x && cursor.x <= x + w) {
+    const i = Math.floor((cursor.y - (y + 4)) / rowH);
+    hover = i >= 0 && i < rows.length && !rows[i].head ? i : -1;
+  }
+  const base = (i: number) => y + 4 + i * rowH + rowH / 2 + 4;
   return (
     <g opacity={clamp(open * 2)} transform={`translate(0 ${(1 - out(open)) * -4})`}>
       <Crop x={x - 1} y={y - 1} w={w + 2} h={(h + 2) * out(open)}>
         <rect x={x} y={y} width={w} height={h} rx={4} fill={D.raised} stroke={D.borderStrong} />
         {rows.map((r, i) => (
           <g key={i}>
-            {i === hover && <rect x={x + 3} y={y + 4 + i * 20} width={w - 6} height={20} rx={3} fill={D.primary} />}
-            <Label x={x + 10} y={y + 18 + i * 20} size={r.head ? 9.5 : 11} mono={r.head}
+            {i === hover && <rect x={x + 3} y={y + 4 + i * rowH} width={w - 6} height={rowH} rx={3} fill={D.primary} />}
+            <Label x={x + 10} y={base(i)} size={r.head ? 9.5 : 11} mono={r.head}
               color={i === hover ? "#fff" : r.head ? D.t3 : r.danger ? D.error : r.dim ? D.t3 : D.t1}>{r.label}</Label>
-            {r.hint && <Label x={x + w - 10} y={y + 18 + i * 20} size={10} anchor="end" mono color={i === hover ? "#e6e0ff" : D.t3}>{r.hint}</Label>}
+            {r.hint && <Label x={x + w - 10} y={base(i)} size={10} anchor="end" mono color={i === hover ? "#e6e0ff" : D.t3}>{r.hint}</Label>}
           </g>
         ))}
       </Crop>
@@ -280,10 +292,11 @@ export const Clip = ({ x, y, w, h, slot, label, shape = "vox", seed = 1, sel = f
     <g opacity={ghost ? 0.35 : 1 - dim * 0.6}>
       <rect x={x} y={y} width={w} height={h} fill={body} />
       <rect x={x} y={y} width={w} height={1} fill="#fff" opacity={0.18} />
-      {label && h >= 22 && w >= 48 && (
+      {label && h >= 22 && w >= 24 && (
         <g>
           <path d={`M${x + 5} ${y + 5}h6M${x + 5} ${y + 7.5}h6M${x + 5} ${y + 10}h6`} stroke={c.label} strokeWidth={1} />
-          <Label x={x + 15} y={y + 11} size={9.5} weight={600} color={c.label}>{label}</Label>
+          {/* the name only when it fits inside the clip (about 5.4px a letter at this size) */}
+          {w >= 22 + label.length * 5.4 && <Label x={x + 15} y={y + 11} size={9.5} weight={600} color={c.label}>{label}</Label>}
         </g>
       )}
       {notes ? (
@@ -357,6 +370,7 @@ export const Roll = ({ x, y, w, h, rows, beats, notes, rowNames, quiet = false, 
         return <line key={i} x1={bx(i / 4)} x2={bx(i / 4)} y1={y} y2={y + h}
           stroke={bar ? (quiet ? "#24211e" : "#34302b") : beat ? (quiet ? "#151311" : "#221f1c") : quiet ? "#0a0909" : "#141210"} />;
       })}
+      <Crop x={x + kw} y={y} w={w - kw} h={h}>
       {notes.map((n, i) => {
         const nx = bx(n.s);
         const nw = Math.max(3, bx(n.s + n.l) - nx - 1);
@@ -368,6 +382,7 @@ export const Roll = ({ x, y, w, h, rows, beats, notes, rowNames, quiet = false, 
           </g>
         );
       })}
+      </Crop>
       {children}
     </g>
   );
@@ -493,6 +508,14 @@ export const Strip = ({ x, y, h, name, slot, v = 0.72, level = 0, inserts = [], 
 
 export const Check = ({ x, y, color = D.success, p = 1 }: { x: number; y: number; color?: string; p?: number }) => (
   <path d={`M${x} ${y}l4 4l8 -9`} stroke={color} strokeWidth={2} fill="none" strokeDasharray={20} strokeDashoffset={20 * (1 - clamp(p))} strokeLinecap="round" />
+);
+
+/** A centred caption on its own plate, so it never sits loose over clips or notes. */
+export const Caption = ({ x, y, w = 200, opacity = 1, children }: { x: number; y: number; w?: number; opacity?: number; children: React.ReactNode }) => (
+  <g opacity={opacity}>
+    <rect x={x - w / 2} y={y - 16} width={w} height={26} rx={3} fill="#0b0a09" stroke={D.border} />
+    <Label x={x} y={y + 1} size={11} anchor="middle" mono color={D.t2}>{children}</Label>
+  </g>
 );
 
 /** A tag in the corner telling before from after. */

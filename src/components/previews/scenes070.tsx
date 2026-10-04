@@ -2,7 +2,7 @@ import React from "react";
 import {
   D, tone, type Scene, W, k, ek, keys, path2, lerp, clamp, within,
   Label, Panel, PluginWindow, Button, Keycap, Cursor, Menu, Ruler, Bed, Playhead, Clip, TrackHead,
-  Crop, Roll, rollX, grid, Meter, Strip, Check, Era, peaks, wavePath, type Note,
+  Crop, Roll, rollX, grid, menuRowY, Caption, Meter, Strip, Check, Era, peaks, wavePath, type Note,
 } from "./kit";
 import { EQ_ACCENT, EqGrid, curvePath, eqGeom, type Band } from "./eq";
 
@@ -86,7 +86,7 @@ const splitNote: Scene = {
       <Panel title="Piano Roll" right={<Label x={470} y={24} size={10} mono color={D.t3}>SNAP 1/8</Label>}>
         <Roll x={20} y={40} w={560} h={150} rows={10} beats={5} notes={notes} rowNames={{ 6: "E2" }} />
         <Keycap x={20} y={202} label="Split to snap" on={within(t, 1.6, 1.9)} />
-        <Label x={130} y={217} size={10.5} color={D.t3} opacity={k(t, 2.2, 2.6)}>One long note, eight snap-sized pieces.</Label>
+        <Label x={138} y={217} size={10.5} color={D.t3} opacity={k(t, 2.2, 2.6)}>One long note, eight snap-sized pieces.</Label>
       </Panel>
     );
   },
@@ -138,7 +138,7 @@ const pingPong: Scene = {
           <Button x={104} y={182} w={100} h={22} label="‹ Ping-pong ›" on color={D.primary} ink="#fff" />
           <Label x={220} y={196} size={10.5} color={D.t3}>{forward ? "forward" : "backward"}</Label>
         </g>
-        {reopen && <Label x={W / 2} y={120} size={12} anchor="middle" mono color={D.t2}>CLOSE · REOPEN</Label>}
+        {reopen && <Caption x={W / 2} y={120}>CLOSE · REOPEN</Caption>}
         {t > 5.2 && <Label x={330} y={196} size={10.5} color={D.meter}>Reopens in ping-pong.</Label>}
       </Panel>
     );
@@ -187,7 +187,7 @@ const harmonyStays: Scene = {
           <Button x={460} y={70} w={112} h={22} label={chosen ? "C minor" : "Off"} on={chosen} ink={chosen ? "#fff" : undefined} />
           {t > 3.4 && <g><Check x={462} y={112} p={k(t, 3.4, 3.8)} /><Label x={480} y={117} size={10.5} color={D.meter}>Still C minor</Label></g>}
         </g>
-        {reopen && <Label x={W / 2} y={130} size={12} anchor="middle" mono color={D.t2}>CLOSE · REOPEN</Label>}
+        {reopen && <Caption x={W / 2} y={130}>CLOSE · REOPEN</Caption>}
       </Panel>
     );
   },
@@ -401,8 +401,11 @@ const crispText: Scene = {
 const clipHeadroom: Scene = {
   title: "Audio clip editor: headroom and routing", dur: 5.6,
   draw: (t) => {
-    const open = t > 1.4 && t < 3.4 ? k(t, 1.4, 1.7) : 0;
-    const routed = t > 3.4;
+    const open = t > 1.4 && t < 2.8 ? k(t, 1.4, 1.7) : 0;
+    const routed = t > 2.8;
+    // The list opens upward from the button, so all four routes stay on the stage.
+    const MENU_Y = 52;
+    const c = path2(t, [[0, 300, 190], [1.2, 200, 155], [1.6, 200, 155], [2.3, 200, menuRowY(MENU_Y, 3)], [3.2, 200, menuRowY(MENU_Y, 3)], [3.8, 330, 200]]);
     return (
       <Panel title="Audio Clip · Vocal">
         <rect x={20} y={40} width={560} height={90} fill="#050505" />
@@ -412,8 +415,8 @@ const clipHeadroom: Scene = {
         <Label x={576} y={60} size={9} anchor="end" mono color={D.t3}>HEADROOM KEPT BY DEFAULT</Label>
         <Label x={20} y={158} size={10.5} color={D.t2}>Source output</Label>
         <Button x={120} y={144} w={160} h={22} label={routed ? "Insert 4 · Vocal Bus" : "Master"} on={routed} ink={routed ? "#fff" : undefined} />
-        <Menu x={120} y={170} w={160} open={open} hover={t > 2.4 ? 3 : -1} items={["Master", "Insert 1 · Drums", "Insert 2 · Bass", "Insert 4 · Vocal Bus"]} />
-        <Cursor x={t < 1.4 ? lerp(300, 200, k(t, 0, 1.4)) : 200} y={t < 2.4 ? 155 : 250 - 0 * t} />
+        <Menu x={120} y={MENU_Y} w={160} open={open} cursor={c} items={["Master", "Insert 1 · Drums", "Insert 2 · Bass", "Insert 4 · Vocal Bus"]} />
+        <Cursor x={c.x} y={c.y} down={within(t, 1.3, 1.6) ? k(t, 1.3, 1.6) : within(t, 2.5, 2.8) ? k(t, 2.5, 2.8) : 0} />
       </Panel>
     );
   },
@@ -484,7 +487,7 @@ const soloMaster: Scene = {
     const lvl = (on: boolean, s: number) => (on ? 0.55 + 0.25 * Math.abs(Math.sin(t * 7 + s)) : 0);
     return (
       <Panel title="Timeline">
-        {[["Drums", 3, "via Drums bus"], ["Keys", 1, "via Keys bus"], ["FX Riser", 5, "straight to Master"]].map(([n, slot, route], i) => {
+        {[["Drums", 3, "via Drums bus"], ["Keys", 1, "via Keys bus"], ["Riser", 5, "straight to Master"]].map(([n, slot, route], i) => {
           const y = 44 + i * 58;
           const live = !solo || i === 0;
           return (
@@ -644,7 +647,7 @@ const trimSurvives: Scene = {
             {t > 3.4 && <g><Check x={g(end) + 10} y={124} p={k(t, 3.4, 3.8)} /><Label x={g(end) + 30} y={130} size={10.5} color={D.meter}>still trimmed</Label></g>}
           </Panel>
         </g>
-        {reopen && <Label x={W / 2} y={120} size={12} anchor="middle" mono color={D.t2} opacity={1 - fade}>SAVE · CLOSE · REOPEN</Label>}
+        {reopen && <Caption x={W / 2} y={120} w={240} opacity={1 - fade}>SAVE · CLOSE · REOPEN</Caption>}
         {t < 2 && <Cursor x={g(end)} y={125} hand />}
       </g>
     );
@@ -675,18 +678,18 @@ const inputRouting: Scene = {
   title: "Input lands where you click", dur: 5.4,
   draw: (t) => {
     const g = grid(8, 20, 560);
-    const menu = t > 0.8 && t < 2.2 ? k(t, 0.8, 1.05) : 0;
-    const looped = t > 2.2;
-    const c = path2(t, [[0, 400, 220], [0.6, 260, 110], [0.8, 260, 110], [1.6, 300, 152], [2, 300, 152], [3, 100, 45], [3.3, 100, 45]]);
+    const menu = t > 0.8 && t < 2.4 ? k(t, 0.8, 1.05) : 0;
+    const looped = t > 2.4;
+    const c = path2(t, [[0, 400, 220], [0.6, 260, 110], [0.8, 260, 110], [1.6, 300, menuRowY(110, 2)], [2.3, 300, menuRowY(110, 2)], [3, 100, 45], [3.3, 100, 45]]);
     return (
       <Panel title="Timeline">
         <Ruler x={20} y={38} w={560} bars={8} />
         {looped && <rect x={g(2)} y={38} width={g(6) - g(2)} height={8} fill={D.primary} opacity={ek(t, 2.2, 2.6)} />}
         <Bed x={20} y={56} w={560} h={160} bars={8} />
         <Clip x={g(2)} y={90} w={g(6) - g(2)} h={40} slot={1} label="Keys" seed={2} shape="keys" sel={t > 0.8} />
-        <Menu x={260} y={110} w={160} open={menu} hover={t > 1.5 ? 2 : -1} items={["Split", "Duplicate", "Loop this clip", { label: "Delete", danger: true }]} />
+        <Menu x={260} y={110} w={160} open={menu} cursor={c} items={["Split", "Duplicate", "Loop this clip", { label: "Delete", danger: true }]} />
         <Label x={20} y={230} size={10.5} color={D.t3}>Right-click, pick, done: menus and dialogs take the click you gave them.</Label>
-        <Cursor x={c.x} y={c.y} down={within(t, 0.8, 1.1) ? k(t, 0.8, 1.1) : within(t, 2, 2.3) ? k(t, 2, 2.3) : 0} />
+        <Cursor x={c.x} y={c.y} down={within(t, 0.8, 1.1) ? k(t, 0.8, 1.1) : within(t, 2.1, 2.4) ? k(t, 2.1, 2.4) : 0} />
       </Panel>
     );
   },
@@ -698,11 +701,12 @@ const menusTooltips: Scene = {
     const open = t > 0.7 && t < 2.6 ? k(t, 0.7, 0.95) : 0;
     const items = ["44.1 kHz", "48 kHz", "88.2 kHz", "96 kHz", "176.4 kHz", "192 kHz"];
     const tipX = Math.min(578 - 150, 540 - 75);
+    const c = path2(t, [[0, 300, 120], [0.5, 190, 56], [1.1, 190, 56], [1.9, 190, menuRowY(70, 3)], [2.7, 190, menuRowY(70, 3)], [3.1, 548, 201], [5.4, 548, 201]]);
     return (
       <Panel title="Audio settings">
         <Label x={30} y={58} size={11} color={D.t2}>Sample rate</Label>
         <Button x={120} y={44} w={140} h={22} label={t > 2.4 ? "96 kHz  ▾" : "48 kHz  ▾"} />
-        <Menu x={120} y={70} w={140} open={open} hover={t > 1.8 ? 3 : 1} items={items} />
+        <Menu x={120} y={70} w={140} open={open} cursor={c} items={items} />
         <Label x={280} y={58} size={10} color={D.t3} opacity={open}>One click. Every option reachable.</Label>
         <Button x={520} y={190} w={56} h={22} label="Apply" />
         <g opacity={k(t, 3.4, 3.7)}>
@@ -710,7 +714,7 @@ const menusTooltips: Scene = {
           <Label x={tipX + 10} y={167} size={10.5} color={D.t1}>Apply and restart audio</Label>
         </g>
         <Label x={30} y={220} size={10} color={D.t3} opacity={k(t, 3.6, 4)}>Tooltips stay on screen and stop flickering.</Label>
-        <Cursor x={t < 3 ? 190 : 548} y={t < 3 ? (t > 1.8 ? 150 : 56) : 200} down={within(t, 0.7, 1) ? k(t, 0.7, 1) : 0} />
+        <Cursor x={c.x} y={c.y} down={within(t, 0.7, 1) ? k(t, 0.7, 1) : within(t, 2.3, 2.6) ? k(t, 2.3, 2.6) : 0} />
       </Panel>
     );
   },

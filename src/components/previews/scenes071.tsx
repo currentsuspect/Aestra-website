@@ -2,7 +2,7 @@ import React from "react";
 import {
   D, tone, type Scene, W, H, k, ek, keys, path2, lerp, clamp, within,
   Label, Panel, PluginWindow, Button, Keycap, Cursor, Menu, Toast, Ruler, Bed, Playhead, Clip, TrackHead,
-  Crop, Roll, rollX, grid, Unit, Knob, Meter, Fader, Strip, Check, Era, peaks, wavePath, type Note,
+  Crop, Roll, rollX, grid, Unit, menuRowY, trackBtn, Caption, Knob, Meter, Fader, Strip, Check, Era, peaks, wavePath, type Note,
 } from "./kit";
 
 /* v0.7.1-alpha, the trust sprint. One scene per entry. */
@@ -23,7 +23,7 @@ const fitToBars: Scene = {
     const p = ek(t, 2.6, 3.4);
     const len = lerp(3.4, 4, p);
     const menu = k(t, 1.1, 1.35) * (t < 2.5 ? 1 : 0);
-    const c = path2(t, [[0, 420, 200], [0.9, 250, 120], [1.1, 250, 120], [1.8, 300, 170], [2.4, 300, 170], [3.4, 420, 205]]);
+    const c = path2(t, [[0, 420, 200], [0.9, 250, 128], [1.1, 250, 128], [1.8, 300, menuRowY(128, 2)], [2.4, 300, menuRowY(128, 2)], [3.4, 420, 205]]);
     const speed = 3.4 / len;
     const st = 12 * Math.log2(speed);
     return (
@@ -32,10 +32,10 @@ const fitToBars: Scene = {
         <Bed x={TX} y={58} w={TW} h={120} bars={6} />
         <line x1={g(5)} x2={g(5)} y1={58} y2={178} stroke={D.violet} strokeOpacity={0.25 + 0.5 * k(t, 1.9, 2.4) * (1 - k(t, 3.6, 4.2))} strokeDasharray="3 3" />
         <Clip x={g(1)} y={84} w={g(1 + len) - g(1)} h={58} slot={2} label="Guitar loop" shape="keys" seed={12} cols={180} sel={t > 1 && t < 4} />
-        <Menu x={250} y={128} w={170} open={menu} hover={t > 1.8 ? 2 : -1}
+        <Menu x={250} y={128} w={170} open={menu} cursor={c}
           items={["Split at cursor", "Speed…", { label: "Fit to 4 bars", hint: "tempo-fit" }, { label: "Delete", danger: true }]} />
         <g opacity={k(t, 3.3, 3.7)}>
-          <rect x={TX} y={190} width={330} height={24} rx={3} fill={D.panel} stroke={D.border} />
+          <rect x={TX} y={190} width={350} height={24} rx={3} fill={D.panel} stroke={D.border} />
           <Label x={TX + 10} y={206} size={11} color={D.t2}>Varispeed</Label>
           <Label x={TX + 78} y={206} size={11} mono color={D.t1}>{speed.toFixed(3)}×</Label>
           <Label x={TX + 150} y={206} size={11} color={D.t2}>Pitch follows tempo</Label>
@@ -93,15 +93,14 @@ const pluginDropdown: Scene = {
   draw: (t) => {
     const open = t > 1.1 && t < 3.3 ? k(t, 1.1, 1.4) : 0;
     const placed = t >= 3.3;
-    const c = path2(t, [[0, 330, 220], [0.9, 176, 61], [1.1, 176, 61], [1.8, 230, 104], [2.4, 230, 104], [2.9, 230, 104], [3.8, 330, 200]]);
-    const hover = t > 1.8 ? 2 : t > 1.5 ? 1 : -1;
+    const c = path2(t, [[0, 330, 220], [0.9, 135, 90], [1.1, 135, 90], [1.9, 220, menuRowY(94, 2, 16)], [2.9, 220, menuRowY(94, 2, 16)], [3.8, 330, 200]]);
     return (
       <Panel title="Mixer">
         <Strip x={24} y={40} h={188} name="Drums" slot={3} level={0.6 + 0.1 * Math.sin(t * 9)} inserts={["EQ"]} />
         <Strip x={100} y={40} h={188} name="Kick" slot={3} level={0.7 + 0.15 * Math.sin(t * 12)} inserts={placed ? ["Comp", "Transient"] : ["Comp"]} sel={t > 1} />
         <Strip x={176} y={40} h={188} name="Bass" slot={4} level={0.5} inserts={[]} />
         {placed && <rect x={106} y={83} width={58} height={14} rx={2} fill="none" stroke={TRANSIENT} strokeOpacity={1 - k(t, 3.3, 4.3)} />}
-        <Menu x={176} y={66} w={190} open={open} hover={hover}
+        <Menu x={137} y={94} w={190} rowH={16} open={open} cursor={c}
           items={[{ label: "AESTRA", head: true }, "EQ", "Transient", "Comp · Verb · Delay …", { label: "VST3", head: true }, { label: "Every installed VST3", hint: "▸" }, { label: "CLAP", head: true }, { label: "Every installed CLAP", hint: "▸" }]} />
         <g opacity={k(t, 1.4, 1.8) * (1 - k(t, 3.2, 3.4))}>
           <Label x={390} y={84} size={10.5} color={D.t3}>Opens where you clicked,</Label>
@@ -144,7 +143,7 @@ const overview: Scene = {
           </Crop>
         </g>
         {t > 2.6 && <Cursor x={g(drag) + 30} y={186} hand />}
-        <Label x={W - 30} y={33} size={9.5} anchor="end" mono color={D.t3} opacity={show}>OVERVIEW · CROPPED TO TRACKS</Label>
+        <Label x={96} y={23} size={9.5} mono color={D.t3} opacity={show}>OVERVIEW · CROPPED TO TRACKS</Label>
       </Panel>
     );
   },
@@ -259,7 +258,8 @@ const takeLanes: Scene = {
     const armed = t > 2.4;
     const gone = t > 3.8 && t < 5 ? 1 - k(t, 3.8, 4.1) : 1;
     const lanes = t > 5 ? 3 : t > 4.1 ? 2 : 3;
-    const c = path2(t, [[0, 90, 38], [0.3, 90, 38], [2, 150, 76], [2.3, 157, 76], [3.4, 300, 160], [3.8, 300, 160], [4.4, 300, 200]]);
+    const R = trackBtn(20, 62, 168, 42, "R");
+    const c = path2(t, [[0, 90, 38], [0.3, 90, 38], [2, R.x, R.y], [2.6, R.x, R.y], [3.4, 300, 160], [3.8, 300, 160], [4.4, 300, 200]]);
     return (
       <Panel title="Timeline">
         <g transform="translate(24 32)">
@@ -397,7 +397,7 @@ const trimRemembers: Scene = {
             {lit && <Label x={g(5) + 6} y={140} size={10} color={D.meter}>plays on the first pass</Label>}
           </Panel>
         </g>
-        {reopen && <Label x={W / 2} y={H / 2} size={12} anchor="middle" mono color={D.t2} opacity={1 - fade}>SAVE · CLOSE · REOPEN</Label>}
+        {reopen && <Caption x={W / 2} y={H / 2} w={240} opacity={1 - fade}>SAVE · CLOSE · REOPEN</Caption>}
       </g>
     );
   },
@@ -427,7 +427,7 @@ const rightClickDelete: Scene = {
           {!dropped && (
             <g>
               <rect x={350} y={110} width={228} height={80} rx={4} fill="none" stroke={t > 2.4 ? D.violet : D.border} strokeDasharray="5 4" />
-              <Label x={464} y={154} size={11} anchor="middle" color={D.t3}>Empty · drop a sample</Label>
+              {t < 2.2 && <Label x={464} y={154} size={11} anchor="middle" color={D.t3}>Empty · drop a sample</Label>}
             </g>
           )}
           {dropped && <g opacity={ek(t, 3.5, 3.8)}><Unit x={346} y={110} w={236} name="Kick" n={1} color={tone(3).lane} steps={8} on={pattern("x...x...")} active /></g>}
@@ -455,7 +455,8 @@ const rescheduleLive: Scene = {
     const muted = t > 1.6;
     const split = t > 3.4;
     const lvl = (on: boolean, s: number) => (on ? 0.55 + 0.25 * Math.abs(Math.sin(t * 7 + s)) : 0);
-    const c = path2(t, [[0, 300, 220], [1.3, 124, 128], [1.6, 124, 128], [2.8, 300, 60], [3.4, 300, 60]]);
+    const M = trackBtn(20, 108, 128, 44, "M");
+    const c = path2(t, [[0, 300, 220], [1.3, M.x, M.y], [1.9, M.x, M.y], [2.8, 300, 60], [3.4, 300, 60]]);
     return (
       <Panel title="Timeline">
         <Ruler x={150} y={38} w={400} bars={8} />
@@ -678,7 +679,7 @@ const stepDelete: Scene = {
     const added = t > 2.2;
     const on = pattern("x...x...x...x...").map((v, s) => (s === 8 && removed ? false : v) || (s === 14 && added));
     const hit = on[i] ? [i] : [];
-    const c = path2(t, [[0, 300, 220], [0.6, 158 + 8.5 * 25.5, 106], [1.8, 158 + 14.5 * 25.5, 106], [2.6, 300, 220]]);
+    const c = path2(t, [[0, 300, 220], [0.6, 368, 117], [1.1, 368, 117], [1.7, 520, 117], [2.5, 520, 117], [3, 300, 220]]);
     return (
       <Panel title="Arsenal">
         <Unit x={24} y={60} w={540} name="Kick" n={1} color={tone(3).lane} steps={STEPS} on={pattern("x.......x.......")} playing={i} hit={pattern("x.......x.......")[i] ? [i] : []} />
@@ -690,7 +691,7 @@ const stepDelete: Scene = {
         <Label x={24} y={206} size={10} color={D.t3}>
           {t < 2 ? "Delete a step: it's silent from the next pass" : "Place a step: it waits for the playhead"}
         </Label>
-        {t < 2.6 && <Cursor x={c.x} y={c.y} down={within(t, 0.8, 1.1) ? k(t, 0.8, 1.1) : within(t, 2.2, 2.5) ? k(t, 2.2, 2.5) : 0} />}
+        {t < 3 && <Cursor x={c.x} y={c.y} down={within(t, 0.8, 1.1) ? k(t, 0.8, 1.1) : within(t, 2.2, 2.5) ? k(t, 2.2, 2.5) : 0} />}
       </Panel>
     );
   },
@@ -700,7 +701,8 @@ const armFresh: Scene = {
   title: "Record-arm on a new project", dur: 4.4,
   draw: (t) => {
     const armed = t > 1.6;
-    const c = path2(t, [[0, 300, 220], [1.3, 174, 90], [1.6, 174, 90], [2.4, 300, 210]]);
+    const R = trackBtn(20, 70, 200, 40, "R");
+    const c = path2(t, [[0, 300, 220], [1.3, R.x, R.y], [1.9, R.x, R.y], [2.6, 300, 210]]);
     return (
       <Panel title="Untitled · new project">
         <TrackHead x={20} y={70} w={200} h={40} n={1} name="Audio 1" slot={0} arm={armed} />
@@ -719,7 +721,7 @@ const monitorUndo: Scene = {
   draw: (t) => {
     const on = t > 1.2 && t < 3.2;
     const dirty = t > 1.2 && t < 3.2;
-    const c = path2(t, [[0, 300, 220], [1, 132, 207], [1.2, 132, 207], [2, 300, 150]]);
+    const c = path2(t, [[0, 300, 220], [1, 79, 206], [1.5, 79, 206], [2, 300, 150]]);
     return (
       <g>
         <rect x={0} y={0} width={W} height={26} fill={D.panel} />
@@ -749,7 +751,7 @@ const fadersWork: Scene = {
     const base = (0.7 + 0.12 * Math.sin(t * 11)) * (v / 0.75);
     const l = base * Math.min(1, 1 - pan * 0.8);
     const r = base * Math.min(1, 1 + pan * 0.2);
-    const c = t < 3 ? { x: 110, y: 126 + (1 - v) * 90 } : { x: 360, y: 96 };
+    const c = t < 3 ? { x: 96, y: 80 + 130 * (1 - v) } : { x: 360, y: 96 };
     return (
       <Panel title="Mixer">
         <rect x={60} y={40} width={100} height={188} fill={D.panel} stroke={D.border} />
@@ -797,8 +799,9 @@ const slicedPatterns: Scene = {
     const cut = ek(now ? t - 2.8 : t, 0.6, 1.1);
     const g = grid(8);
     const notes: [number, number, number][] = [[0.02, 0.08, 1], [0.15, 0.08, 4], [0.3, 0.1, 2], [0.45, 0.08, 5], [0.58, 0.1, 3], [0.72, 0.08, 1], [0.86, 0.1, 4]];
-    const left = notes.filter(([s]) => s < 0.5).map(([s, l, r]) => [s * 2, l * 2, r] as [number, number, number]);
-    const right = (now ? notes.filter(([s]) => s >= 0.5).map(([s, l, r]) => [(s - 0.5) * 2, l * 2, r]) : notes.slice(0, 4).map(([s, l, r]) => [s * 2, l * 2, r])) as [number, number, number][];
+    const fit = (s: number, l: number, r: number): [number, number, number] => [s, Math.min(l, 0.98 - s), r];
+    const left = notes.filter(([s]) => s < 0.5).map(([s, l, r]) => fit(s * 2, l * 2, r));
+    const right = (now ? notes.filter(([s]) => s >= 0.5).map(([s, l, r]) => fit((s - 0.5) * 2, l * 2, r)) : notes.slice(0, 4).map(([s, l, r]) => fit(s * 2, l * 2, r)));
     return (
       <Panel title="Timeline">
         <Era now={now} />
@@ -835,7 +838,7 @@ const recoveryNoDoubles: Scene = {
         <Panel title="Tracks">
           <Era now={now} />
           {list.map((n, i) => (
-            <TrackHead key={i} x={20} y={38 + i * 19} w={200} h={18} n={i + 1} name={n} slot={i % 5} />
+            <TrackHead key={i} x={20} y={38 + i * 18} w={200} h={18} n={i + 1} name={n} slot={i % 5} />
           ))}
           {restored && (
             <Label x={240} y={60} size={12} color={now ? D.meter : D.warn} weight={600}>{now ? `${list.length} tracks, as you left them` : `${list.length} tracks: every one twice`}</Label>
@@ -879,7 +882,7 @@ const quieterGrid: Scene = {
           )}
           {["Drum Loop.wav", "Noise.wav", "Pad.wav", "Vocal.wav"].map((f, i) => <Label key={f} x={24} y={96 + i * 22} size={10.5} color={D.t2}>{f}</Label>)}
         </Panel>
-        <Panel x={216} y={8} w={376} h={224} title="Piano Roll" right={<Era x={560} y={20} now={now} />}>
+        <Panel x={216} y={8} w={376} h={224} title="Piano Roll" right={<Era x={528} y={24} now={now} />}>
           <Roll x={224} y={40} w={360} h={184} rows={12} beats={4} notes={notes} quiet={now} />
         </Panel>
       </g>
