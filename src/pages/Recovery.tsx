@@ -29,7 +29,7 @@ import type { PageProps } from "../types";
    ───────────────────────────────────────────────────────────────── */
 
 const REPO = "https://github.com/currentsuspect/Aestra";
-const SKILLS = "https://aestra.studio/.well-known/agent-skills/recovery/v1";
+const SKILLS = "https://www.aestra.studio/.well-known/agent-skills/recovery/v1";
 const SUPPORT = "support@aestra.studio";
 const SECURITY = "security@aestra.studio";
 const PROTOCOL = "aestra-agent-protocol/v1";
@@ -645,8 +645,8 @@ const PATHS: AgentPath[] = [
     prompt: `My Aestra project won't open properly and I'd like to recover as much of it as possible.
 
 Before you touch anything, read these and follow them exactly:
-https://aestra.studio/.well-known/agent-skills/recovery/v1/recover-project/SKILL.md
-https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
+https://www.aestra.studio/.well-known/agent-skills/recovery/v1/recover-project/SKILL.md
+https://www.aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 The rules that matter most to me:
 - Make a copy first and work only on the copy. Never change my original file.
@@ -669,8 +669,8 @@ What happens when I open it: <e.g. Aestra freezes, then closes by itself>`,
     prompt: `I've hit a bug in Aestra and I'd like you to work out what's causing it.
 
 Read these first and follow them exactly:
-https://aestra.studio/.well-known/agent-skills/recovery/v1/investigate-bug/SKILL.md
-https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
+https://www.aestra.studio/.well-known/agent-skills/recovery/v1/investigate-bug/SKILL.md
+https://www.aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 The rules that matter most:
 - Make the problem happen yourself before you change any code.
@@ -693,8 +693,8 @@ Here's what's happening:
     prompt: `I have a fix for an Aestra bug and I'd like to send it to the maintainers properly.
 
 Read these first and follow them exactly:
-https://aestra.studio/.well-known/agent-skills/recovery/v1/prepare-pr/SKILL.md
-https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
+https://www.aestra.studio/.well-known/agent-skills/recovery/v1/prepare-pr/SKILL.md
+https://www.aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 Treat the files already in this folder as the authority — CONTRIBUTING.md and
 the pull request template override anything the web page says.
@@ -967,7 +967,7 @@ My situation: `;
                 </p>
                 <CopyBlock
                   label="skills index"
-                  text={`https://aestra.studio/.well-known/agent-skills/index.json`}
+                  text={`https://www.aestra.studio/.well-known/agent-skills/index.json`}
                 />
               </div>
             </div>

@@ -1,7 +1,7 @@
 ---
 name: reproduce-crash
 description: Turn an Aestra DAW crash report into a deterministic reproduction, or establish precisely why it is not deterministic. Use when Aestra crashes, freezes, or closes unexpectedly and the trigger is not yet pinned down.
-license: Proprietary. See https://aestra.studio/terms
+license: Proprietary. See https://www.aestra.studio/terms
 metadata:
   protocol: aestra-agent-protocol/v1
   revision: "2026-07-27"
@@ -13,9 +13,9 @@ metadata:
 
     Protocol:       aestra-agent-protocol/v1
     Skill:          reproduce-crash
-    Artifact:       https://aestra.studio/.well-known/agent-skills/recovery/v1/reproduce-crash/SKILL.md
+    Artifact:       https://www.aestra.studio/.well-known/agent-skills/recovery/v1/reproduce-crash/SKILL.md
     Frozen:         2026-07-27 — this artifact is immutable
-    Base protocol:  https://aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
+    Base protocol:  https://www.aestra.studio/.well-known/agent-skills/recovery/v1/aestra-agent-protocol/SKILL.md
 
 Your objective is to turn a crash report into a deterministic reproduction, or
 to establish precisely why it is not deterministic. You are not fixing anything

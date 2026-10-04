@@ -1,9 +1,9 @@
 {
   "linkset": [
     {
-      "anchor": "https://aestra.studio/",
+      "anchor": "https://www.aestra.studio/",
       "service-doc": [
-        { "href": "https://aestra.studio/docs", "type": "text/html" }
+        { "href": "https://www.aestra.studio/docs", "type": "text/html" }
       ]
     }
   ]

@@ -4,7 +4,7 @@ Aestra does not currently expose protected APIs. This file is published for forw
 
 ## Identity
 
-- Site: https://aestra.studio
+- Site: https://www.aestra.studio
 - Contact: hello@aestra.studio
 
 ## Authentication
