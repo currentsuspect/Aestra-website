@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { ArrowRight } from "lucide-react";
 import type { PageProps } from "../types";
 
-const LAST_UPDATED = "2026-08-01";
+const LAST_UPDATED = "2026-10-04";
 const formattedDate = new Date(LAST_UPDATED).toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
@@ -57,6 +57,16 @@ export const Privacy = memo(({ setPage }: PageProps) => (
             , our email delivery and contact-management provider. We use those details solely for the list you joined and the related launch or access notifications.
             We will not sell or share your email, or add you to an unrelated marketing list.
             You can request removal at any time.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-[15px] font-medium text-fg mb-3">What stays in your browser</h2>
+          <p className="text-muted">
+            The demos on the Features page keep the loop you make in your browser's local storage, on your own
+            device only, so it's there when you come back. If you drop an audio file into a demo, it's decoded in
+            your browser and is never uploaded. The site also remembers your light or dark theme the same way.
+            You can clear all of it by clearing this site's data in your browser.
           </p>
         </section>
 

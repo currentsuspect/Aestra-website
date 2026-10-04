@@ -65,8 +65,8 @@ export const Changelog = memo(({ setPage }: PageProps) => {
           </FadeIn>
           <FadeIn delay={0.05} className="lg:col-span-4 lg:col-start-9">
             <p className="m-0 text-muted text-[16px] leading-relaxed">
-              Every release, laid out like a session. Lanes are kinds of change,
-              marks are entries. Open a clip or a locator and it plays below.
+              Every release, laid out like a song. Each column is a release, each row is
+              a kind of change, and each block is one change. Open one to watch it below.
             </p>
           </FadeIn>
         </div>

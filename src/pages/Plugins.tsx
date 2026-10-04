@@ -282,9 +282,9 @@ export const Plugins = ({ setPage }: PageProps) => {
             <div>
               <h2 className="display-2 text-[1.9rem] mb-3">More plugins, separately</h2>
               <p className="text-muted text-[15px] leading-relaxed max-w-md">
-                The Native Suite is a separate collection of specialist plugins,
-                released one at a time. Supporters get the catalogue while active,
-                and each plugin can also be bought outright.
+                The Native Suite is a separate set of extra plugins, released one at a
+                time. You don't need them to make music. Supporter includes them, and
+                each one can also be bought outright.
               </p>
               <div className="mt-5 text-[14px]">
                 <a
