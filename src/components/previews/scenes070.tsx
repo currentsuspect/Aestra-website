@@ -2,13 +2,11 @@ import React from "react";
 import {
   D, tone, type Scene, W, k, ek, keys, path2, lerp, clamp, within,
   Label, Panel, PluginWindow, Button, Keycap, Cursor, Menu, Ruler, Bed, Playhead, Clip, TrackHead,
-  Crop, Roll, rollX, Meter, Strip, Check, Era, peaks, wavePath, type Note,
+  Crop, Roll, rollX, grid, Meter, Strip, Check, Era, peaks, wavePath, type Note,
 } from "./kit";
 import { EQ_ACCENT, EqGrid, curvePath, eqGeom, type Band } from "./eq";
 
 /* v0.7.0-alpha, the coherence milestone. One scene per entry. */
-
-const grid = (bars: number, x = 20, w = 560) => (bar: number) => x + ((bar - 1) / bars) * w;
 
 /* ── new ───────────────────────────────────────────────────────────── */
 

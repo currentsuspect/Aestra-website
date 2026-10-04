@@ -2,7 +2,7 @@ import React from "react";
 import {
   D, tone, type Scene, W, H, k, ek, keys, path2, lerp, clamp, within,
   Label, Panel, PluginWindow, Button, Keycap, Cursor, Menu, Toast, Ruler, Bed, Playhead, Clip, TrackHead,
-  Crop, Roll, rollX, Unit, Knob, Meter, Fader, Strip, Check, Era, peaks, wavePath, type Note,
+  Crop, Roll, rollX, grid, Unit, Knob, Meter, Fader, Strip, Check, Era, peaks, wavePath, type Note,
 } from "./kit";
 
 /* v0.7.1-alpha, the trust sprint. One scene per entry. */
@@ -10,7 +10,6 @@ import {
 /* Shared timeline geometry: a panel with a ruler and lanes, bars from 1. */
 const TX = 20;
 const TW = 560;
-const grid = (bars: number, x = TX, w = TW) => (bar: number) => x + ((bar - 1) / bars) * w;
 
 const TRANSIENT = "#4fb3e0";
 const pct = (v: number) => `${v >= 0 ? "+" : ""}${Math.round(v * 100)}%`;
