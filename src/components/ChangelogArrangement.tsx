@@ -59,10 +59,10 @@ export const ChangelogArrangement = memo(({
     first.current = false;
   }, [selection?.version]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
-  <div ref={wrap} className="clx-wrap" role="group" aria-label="Releases arranged as a session: lanes are kinds of change, marks are entries">
+  <div ref={wrap} className="clx-wrap" role="group" aria-label="Releases laid out like a song: columns are releases, rows are kinds of change, blocks are changes">
     <div className={compact ? "clx clx-compact" : "clx"}>
       <div className="clx-lanes" aria-hidden="true">
-        <div className="clx-lanes-head">Lanes</div>
+        <div className="clx-lanes-head">Type</div>
         {LANES.map((l) => (
           <div key={l.key} className="clx-lane-name" style={{ ["--c" as string]: tone(l.slot).lane }}>{l.name}</div>
         ))}

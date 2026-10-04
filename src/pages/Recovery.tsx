@@ -11,7 +11,7 @@ import {
   Search,
   ShieldAlert,
 } from "lucide-react";
-import { FadeIn, Button, Card, Badge } from "../components/ui";
+import { FadeIn, Button, Badge } from "../components/ui";
 import { GitHubIcon } from "../components/Icons";
 import { useToast } from "../components/Toast";
 import { cn, detectOS } from "../lib";
@@ -69,7 +69,7 @@ const SignalPath = memo(() => (
           y={18}
           width={192}
           height={54}
-          rx={8}
+          rx={2}
           fill="var(--color-bg-elev)"
           stroke="var(--color-border-2)"
         />
@@ -96,7 +96,7 @@ const SignalPath = memo(() => (
     <path d="M700 72 C700 110 420 108 420 140" fill="none" stroke="var(--color-border-3)" strokeWidth="1.5" />
 
     {/* the boundary */}
-    <rect x={252} y={140} width={336} height={48} rx={8} fill="var(--color-surface)" stroke="var(--color-accent)" strokeOpacity="0.45" />
+    <rect x={252} y={140} width={336} height={48} rx={2} fill="var(--color-surface)" stroke="var(--color-accent)" strokeOpacity="0.45" />
     <line x1={252} y1={188} x2={588} y2={188} stroke="url(#rc-bus)" strokeWidth="2" />
     <text
       x={420}
@@ -119,7 +119,7 @@ const SignalPath = memo(() => (
       { x: 600, label: "MAINTAINER", sub: "Private investigation" },
     ].map((d) => (
       <g key={d.label}>
-        <rect x={d.x - 96} y={250} width={192} height={52} rx={8} fill="var(--color-bg-elev)" stroke="var(--color-border-2)" />
+        <rect x={d.x - 96} y={250} width={192} height={52} rx={2} fill="var(--color-bg-elev)" stroke="var(--color-border-2)" />
         <text
           x={d.x - 78}
           y={274}
@@ -168,14 +168,14 @@ const CopyBlock = memo(({ label, text }: { label: string; text: string }) => {
 
   return (
     <div className="relative group">
-      <pre className="rounded-lg bg-surface border border-border/80 panel-sheen p-4 pr-12 overflow-x-auto text-[12.5px] leading-relaxed font-mono text-fg-muted">
+      <pre className="rounded-[2px] bg-surface border border-border/80 p-4 pr-12 overflow-x-auto text-[12.5px] leading-relaxed font-mono text-fg-muted">
         {text}
       </pre>
       <button
         type="button"
         onClick={onCopy}
         aria-label={`Copy ${label}`}
-        className="absolute top-2.5 right-2.5 h-8 w-8 inline-flex items-center justify-center rounded-md text-muted hover:text-fg hover:bg-surface-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        className="absolute top-2.5 right-2.5 h-8 w-8 inline-flex items-center justify-center rounded-[2px] text-muted hover:text-fg hover:bg-surface-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
         <Copy className="w-3.5 h-3.5" aria-hidden="true" />
       </button>
@@ -183,13 +183,22 @@ const CopyBlock = memo(({ label, text }: { label: string; text: string }) => {
   );
 });
 
-/* ── Section heading, console-strip style ─────────────────────── */
-const Mark = ({ n, children }: { n: string; children: React.ReactNode }) => (
-  <div className="sec-mark">
-    <p className="kicker">
-      <span className="text-faint tabular-nums">{n}</span>
-      <span>{children}</span>
-    </p>
+/* ── Flat panel, the site's own: a hairline border, no rounding ── */
+const Panel = ({ className, children }: { className?: string; children: React.ReactNode }) => (
+  <div className={cn("border border-border bg-surface/30", className)}>{children}</div>
+);
+
+/* ── Section head: a heavy rule, then number and label, title, and intro in a row ── */
+const SectionHead = ({
+  n, label, title, badge, children,
+}: { n: string; label: string; title: string; badge?: React.ReactNode; children: React.ReactNode }) => (
+  <div className="border-t-2 border-fg pt-5 mb-10 grid lg:grid-cols-12 gap-x-6 gap-y-4 items-baseline">
+    <div className="lg:col-span-2 grid gap-2 justify-items-start">
+      <p className="readout m-0 !text-accent">{n} · {label}</p>
+      {badge}
+    </div>
+    <h2 className="display-2 m-0 lg:col-span-6 text-[clamp(1.9rem,1.2rem+2.2vw,3rem)]">{title}</h2>
+    <p className="m-0 lg:col-span-4 text-[15px] text-muted leading-relaxed">{children}</p>
   </div>
 );
 
@@ -223,7 +232,7 @@ const Field = ({
 );
 
 const inputCls =
-  "w-full rounded-lg bg-surface border border-border px-3 py-2 text-[13.5px] text-fg placeholder:text-faint focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-border-2 transition-colors";
+  "w-full rounded-[2px] bg-surface border border-border px-3 py-2 text-[13.5px] text-fg placeholder:text-faint focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus:border-border-2 transition-colors";
 
 const ReportBuilder = memo(() => {
   const { success, error, info } = useToast();
@@ -390,11 +399,11 @@ const ReportBuilder = memo(() => {
 
   return (
     <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
-      <Card className="p-5 sm:p-7">
+      <Panel className="p-5 sm:p-7">
         {/* routing selector */}
         <fieldset className="mb-7">
           <legend className="readout text-dim mb-3">Which part of Aestra?</legend>
-          <div className="inline-flex rounded-lg border border-border bg-surface p-1 gap-1">
+          <div className="inline-flex rounded-[2px] border border-border bg-surface p-1 gap-1">
             {([
               ["public", "Public Aestra"],
               ["premium", "Native Suite"],
@@ -405,7 +414,7 @@ const ReportBuilder = memo(() => {
                 onClick={() => setRoute(id)}
                 aria-pressed={route === id}
                 className={cn(
-                  "px-3.5 h-8 text-[13px] rounded-md transition-colors",
+                  "px-3.5 h-8 text-[13px] rounded-[2px] transition-colors",
                   route === id ? "bg-surface-3 text-fg" : "text-muted hover:text-fg"
                 )}
               >
@@ -446,7 +455,7 @@ const ReportBuilder = memo(() => {
           </Field>
         </div>
 
-        <div className="rounded-lg border border-border/80 bg-surface/50 p-4 mb-6">
+        <div className="rounded-[2px] border border-border/80 bg-surface/50 p-4 mb-6">
           <p className="readout text-dim mb-1.5">Audio configuration</p>
           <p className="text-[12.5px] text-muted leading-relaxed mb-4 max-w-prose">
             Copy these from Aestra's audio settings. Your browser can report its own sample
@@ -484,7 +493,7 @@ const ReportBuilder = memo(() => {
 
           <fieldset>
             <legend className="block text-[13px] font-medium text-fg-muted mb-1.5">Can you reproduce it?</legend>
-            <div className="inline-flex rounded-lg border border-border bg-surface p-1 gap-1">
+            <div className="inline-flex rounded-[2px] border border-border bg-surface p-1 gap-1">
               {REPRO.map((r) => (
                 <button
                   key={r}
@@ -492,7 +501,7 @@ const ReportBuilder = memo(() => {
                   onClick={() => setF((prev) => ({ ...prev, repro: r }))}
                   aria-pressed={f.repro === r}
                   className={cn(
-                    "px-3.5 h-8 text-[13px] rounded-md transition-colors",
+                    "px-3.5 h-8 text-[13px] rounded-[2px] transition-colors",
                     f.repro === r ? "bg-surface-3 text-fg" : "text-muted hover:text-fg"
                   )}
                 >
@@ -518,11 +527,11 @@ const ReportBuilder = memo(() => {
           )}
           <Button variant="outline" onClick={copyReport} icon={Copy}>Copy report</Button>
         </div>
-      </Card>
+      </Panel>
 
       <div className="space-y-5 lg:sticky lg:top-24">
-        <Card className="p-5">
-          <p className="kicker mb-3">What a good report looks like</p>
+        <Panel className="p-5">
+          <p className="readout mb-3">What a good report looks like</p>
           <div className="space-y-4 text-[13px] leading-relaxed">
             <div>
               <p className="text-dim mb-1">Weak</p>
@@ -541,9 +550,9 @@ const ReportBuilder = memo(() => {
               than only saying what does.
             </p>
           </div>
-        </Card>
+        </Panel>
 
-        <Card className="p-5">
+        <Panel className="p-5">
           <div className="flex items-start gap-3">
             <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-[13px] leading-relaxed">
@@ -556,7 +565,7 @@ const ReportBuilder = memo(() => {
               </p>
             </div>
           </div>
-        </Card>
+        </Panel>
 
         <p className="text-[12.5px] text-dim leading-relaxed">
           The canonical bug format is{" "}
@@ -759,7 +768,7 @@ My situation: `;
             a: "The instructions tell it to copy your file first and work on the copy. Your original is never touched.",
           },
         ].map(({ q, a }) => (
-          <div key={q} className="rounded-xl bg-surface/50 border border-border/80 p-5">
+          <div key={q} className="rounded-none bg-surface/50 border border-border/80 p-5">
             <p className="text-[13.5px] font-medium text-fg mb-1.5">{q}</p>
             <p className="text-[13px] text-muted leading-relaxed">{a}</p>
           </div>
@@ -767,7 +776,7 @@ My situation: `;
       </div>
 
       {/* Path picker */}
-      <div className="rounded-xl bg-bg border border-border/80 panel-sheen overflow-hidden mb-10">
+      <div className="rounded-none bg-bg border border-border/80 overflow-hidden mb-10">
         <div className="px-5 sm:px-6 pt-5 sm:pt-6">
           <p className={STEP_LABEL}>Step 1 — which of these is you?</p>
           <div
@@ -783,7 +792,7 @@ My situation: `;
                 aria-selected={p.id === pathId}
                 onClick={() => setPathId(p.id)}
                 className={cn(
-                  "px-4 h-9 text-[13.5px] rounded-lg border transition-colors",
+                  "px-4 h-9 text-[13.5px] rounded-[2px] border transition-colors",
                   p.id === pathId
                     ? "bg-surface-3 text-fg border-border-2"
                     : "bg-transparent text-muted border-border hover:text-fg hover:border-border-2"
@@ -801,7 +810,7 @@ My situation: `;
           </h3>
 
           <div className="grid sm:grid-cols-2 gap-5 mb-6">
-            <div className="rounded-lg bg-surface/60 border border-border/80 p-4">
+            <div className="rounded-[2px] bg-surface/60 border border-border/80 p-4">
               <p className={STEP_LABEL}>What you need</p>
               <p className="text-[13px] text-muted leading-relaxed mb-2">{path.need}</p>
               <span
@@ -814,7 +823,7 @@ My situation: `;
                 {path.needsCode ? "Some setup" : "No setup"}
               </span>
             </div>
-            <div className="rounded-lg bg-surface/60 border border-border/80 p-4">
+            <div className="rounded-[2px] bg-surface/60 border border-border/80 p-4">
               <p className={STEP_LABEL}>Step 2 — where to point it</p>
               <p className="text-[13px] text-muted leading-relaxed">{path.where}</p>
             </div>
@@ -844,7 +853,7 @@ My situation: `;
       </div>
 
       {/* Why this is safe — the halt condition, in plain language first. */}
-      <div className="rounded-xl border border-accent/30 bg-accent-soft p-5 sm:p-6 mb-10">
+      <div className="rounded-none border border-accent/30 bg-accent-soft p-5 sm:p-6 mb-10">
         <div className="flex items-start gap-3">
           <Lock className="w-4 h-4 text-accent shrink-0 mt-0.5" aria-hidden="true" />
           <div className="min-w-0">
@@ -872,7 +881,7 @@ My situation: `;
       </div>
 
       {/* Reference material — folded away by default. */}
-      <div className="rounded-xl border border-border/80 bg-surface/40 overflow-hidden">
+      <div className="rounded-none border border-border/80 bg-surface/40 overflow-hidden">
         <button
           type="button"
           onClick={() => setShowRef((s) => !s)}
@@ -897,7 +906,7 @@ My situation: `;
               {TOOLKIT.map(({ name, title, icon: Icon, blurb }) => (
                 <div
                   key={name}
-                  className="rounded-xl bg-bg border border-border/80 panel-sheen p-5 flex flex-col hover:border-border-2 transition-colors"
+                  className="rounded-none bg-bg border border-border/80 p-5 flex flex-col hover:border-border-2 transition-colors"
                 >
                   <div className="flex items-start gap-2.5 mb-2">
                     <Icon className="w-4 h-4 text-accent shrink-0 mt-0.5" aria-hidden="true" />
@@ -922,8 +931,8 @@ My situation: `;
                 </div>
               ))}
 
-              <div className="rounded-xl bg-surface border border-border/80 panel-sheen p-5 flex flex-col">
-                <p className="kicker mb-3">Base protocol</p>
+              <div className="rounded-none bg-surface border border-border/80 p-5 flex flex-col">
+                <p className="readout mb-3">Base protocol</p>
                 <p className="text-[13px] text-muted leading-relaxed flex-1 mb-4">
                   The rules every set above assumes: what the audio engine can't tolerate, how
                   small a fix should be, what a finished report contains, and where each case
@@ -1004,7 +1013,7 @@ const sevStyle: Record<IssueRow["sev"], { mark: string; cls: string }> = {
 const RecoverPanel = memo(() => (
   <div className="grid lg:grid-cols-2 gap-8 items-start">
     <div>
-      <div className="rounded-xl border border-rose-500/25 bg-rose-500/5 p-5 mb-6">
+      <div className="rounded-none border border-rose-500/25 bg-rose-500/5 p-5 mb-6">
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" aria-hidden="true" />
           <div>
@@ -1028,7 +1037,7 @@ const RecoverPanel = memo(() => (
 
       <div className="mt-8 space-y-5">
         <div>
-          <p className="kicker mb-2">Aestra has already done half the work</p>
+          <p className="readout mb-2">Aestra has already done half the work</p>
           <p className="text-[13.5px] text-muted leading-relaxed max-w-prose">
             When Aestra can't read part of a song, it doesn't throw it away. It keeps it and
             tells you what it couldn't read. So most of the answer exists before anyone touches
@@ -1038,8 +1047,8 @@ const RecoverPanel = memo(() => (
         </div>
 
         <div>
-          <p className="kicker mb-2">Work out what kind of problem it is</p>
-          <pre className="rounded-lg bg-surface border border-border/80 panel-sheen p-4 overflow-x-auto text-[12.5px] leading-relaxed font-mono text-fg-muted">{`Does Aestra open at all?
+          <p className="readout mb-2">Work out what kind of problem it is</p>
+          <pre className="rounded-[2px] bg-surface border border-border/80 p-4 overflow-x-auto text-[12.5px] leading-relaxed font-mono text-fg-muted">{`Does Aestra open at all?
   ├── No ─────────────────────► it's Aestra, not your song
   └── Yes
        ├── Every song fails ──► it's Aestra, not your song
@@ -1059,14 +1068,14 @@ const RecoverPanel = memo(() => (
     </div>
 
     <div>
-      <p className="kicker mb-3">What you get back</p>
+      <p className="readout mb-3">What you get back</p>
       <p className="text-[13.5px] text-muted leading-relaxed mb-5 max-w-prose">
         A rescue must never mean <em>it opens now because half of it was deleted</em>. So the
         report says what came back, what didn't, and anything that was changed, in the same
         terms Aestra itself uses.
       </p>
 
-      <Card className="overflow-hidden">
+      <Panel className="overflow-hidden">
         <div className="px-4 py-3 border-b border-border/80 flex items-center justify-between gap-3">
           <span className="readout text-dim">Project recovery</span>
           <span className="readout text-faint">{PROTOCOL}</span>
@@ -1108,7 +1117,7 @@ const RecoverPanel = memo(() => (
             </div>
           </li>
         </ul>
-      </Card>
+      </Panel>
 
       <p className="text-[12.5px] text-dim leading-relaxed mt-4">
         Every entry falls into exactly one of: recovered, could not restore, modified by
@@ -1127,8 +1136,8 @@ export const Recovery = memo((_: PageProps) => (
     <section className="sec-lead">
       <div className="max-w-6xl mx-auto">
         <FadeIn>
-          <p className="kicker mb-5">Recovery Center</p>
-          <h1 className="display text-4xl sm:text-5xl lg:text-6xl mb-6 max-w-3xl">
+          <p className="readout mb-5">Recovery Center</p>
+          <h1 className="display text-[clamp(3rem,1.6rem+5vw,7rem)] mb-6 max-w-[16ch]">
             Something broke? Start here.
           </h1>
           <p className="text-base sm:text-lg text-muted leading-relaxed max-w-2xl mb-4">
@@ -1141,7 +1150,7 @@ export const Recovery = memo((_: PageProps) => (
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="mt-12 rounded-xl bg-bg border border-border/80 panel-sheen p-5 sm:p-8">
+          <div className="mt-12 rounded-none bg-bg border border-border/80 p-5 sm:p-8">
             <SignalPath />
           </div>
         </FadeIn>
@@ -1149,18 +1158,13 @@ export const Recovery = memo((_: PageProps) => (
     </section>
 
     {/* 1 — Report */}
-    <section className="sec border-t border-border/60" id="report">
+    <section className="sec" id="report">
       <div className="max-w-6xl mx-auto">
         <FadeIn>
-          <Mark n="01">Report</Mark>
-          <div className="flex flex-wrap items-center gap-3 mb-3">
-            <h2 className="display text-2xl sm:text-3xl">I found a bug. I just want it fixed.</h2>
-            <Badge variant="outline">No account needed</Badge>
-          </div>
-          <p className="text-[14.5px] text-muted leading-relaxed max-w-2xl mb-10">
+          <SectionHead n="01" label="Report" title="I found a bug. I just want it fixed." badge={<Badge variant="outline">No account needed</Badge>}>
             Fill this in and it builds the report in the shape the maintainer uses. For most
             people, this is all you need.
-          </p>
+          </SectionHead>
         </FadeIn>
         <FadeIn delay={0.05}>
           <ReportBuilder />
@@ -1169,19 +1173,15 @@ export const Recovery = memo((_: PageProps) => (
     </section>
 
     {/* 2 — Investigate */}
-    <section className="sec border-t border-border/60" id="investigate">
+    <section className="sec" id="investigate">
       <div className="max-w-6xl mx-auto">
         <FadeIn>
-          <Mark n="02">Investigate</Mark>
-          <h2 className="display text-2xl sm:text-3xl mb-3">
-            Let an AI assistant dig into it for you.
-          </h2>
-          <p className="text-[14.5px] text-muted leading-relaxed max-w-2xl mb-10">
+          <SectionHead n="02" label="Investigate" title="Let an AI assistant dig into it for you.">
             You don't need to know how Aestra is built or write any code. Pick your situation,
             copy the prompt and paste it. It gives the assistant Aestra's own instructions: how
             to reproduce a problem before changing anything, what it must never break, where to
             stop, and what to tell you at the end.
-          </p>
+          </SectionHead>
         </FadeIn>
         <FadeIn delay={0.05}>
           <AgentToolkit />
@@ -1190,18 +1190,14 @@ export const Recovery = memo((_: PageProps) => (
     </section>
 
     {/* 3 — Recover */}
-    <section className="sec border-t border-border/60" id="recover">
+    <section className="sec" id="recover">
       <div className="max-w-6xl mx-auto">
         <FadeIn>
-          <Mark n="03">Recover</Mark>
-          <h2 className="display text-2xl sm:text-3xl mb-3">
-            My project is damaged, crashes or won't open.
-          </h2>
-          <p className="text-[14.5px] text-muted leading-relaxed max-w-2xl mb-10">
+          <SectionHead n="03" label="Recover" title="My project is damaged, crashes or won't open.">
             Rescuing a song is different from fixing Aestra. The aim is to keep as much of your
             music as possible, find the damaged part instead of rebuilding around it, and tell
             you exactly what survived.
-          </p>
+          </SectionHead>
         </FadeIn>
         <FadeIn delay={0.05}>
           <RecoverPanel />
@@ -1210,28 +1206,24 @@ export const Recovery = memo((_: PageProps) => (
     </section>
 
     {/* Routing / premium */}
-    <section className="sec-aside border-t border-border/60" id="routing">
+    <section className="sec-aside" id="routing">
       <div className="max-w-6xl mx-auto">
         <FadeIn>
-          <Mark n="04">Where it goes</Mark>
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 items-start">
-            <div>
-              <h2 className="display text-2xl sm:text-3xl mb-3">
-                Bring me what you found. Fixing it is my job, not yours.
-              </h2>
-              <p className="text-[14.5px] text-muted leading-relaxed max-w-prose mb-4">
-                Some parts of Aestra aren't public, so there's a point past which nobody else
-                can follow the trail. Don't try to rebuild those parts to get around it, and
-                don't let an assistant try either.
-              </p>
-              <p className="text-[14.5px] text-muted leading-relaxed max-w-prose">
+          <SectionHead n="04" label="Where it goes" title="Bring me what you found. Fixing it is my job, not yours.">
+            Some parts of Aestra aren't public, so there's a point past which nobody else
+            can follow the trail. Don't try to rebuild those parts to get around it, and
+            don't let an assistant try either.
+          </SectionHead>
+          <div className="grid lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-5">
+              <p className="text-[15px] text-muted leading-relaxed max-w-prose m-0">
                 Stopping there isn't failing. <em>"It breaks every time, at this exact point,
                 and here's what I fed it"</em> is a useful result, often the most useful one I
                 get. Send it over and I'll take it from there.
               </p>
             </div>
 
-            <Card className="overflow-hidden">
+            <Panel className="overflow-hidden lg:col-span-7">
               <div className="px-4 py-3 border-b border-border/80">
                 <span className="readout text-dim">Routing</span>
               </div>
@@ -1258,12 +1250,12 @@ export const Recovery = memo((_: PageProps) => (
                   </li>
                 ))}
               </ul>
-            </Card>
+            </Panel>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.05}>
-          <div className="mt-10 rounded-xl bg-surface/50 border border-border/80 p-5 sm:p-6">
+          <div className="mt-10 rounded-none bg-surface/50 border border-border/80 p-5 sm:p-6">
             <div className="flex items-start gap-3">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" aria-hidden="true" />
               <div>
