@@ -16,6 +16,7 @@ export const previewKey = (version: string, text: string) =>
 const FILES: Record<SceneFile, () => Promise<Record<string, Scene>>> = {
   scenes070: () => import("./scenes070").then((m) => m.V070),
   scenes071: () => import("./scenes071").then((m) => m.V071),
+  scenes080: () => import("./scenes080").then((m) => m.V080),
   scenesNext: () => import("./scenesNext").then((m) => m.NEXT),
 };
 

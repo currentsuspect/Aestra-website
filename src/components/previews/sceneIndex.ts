@@ -58,6 +58,20 @@ export const SCENE_FILE = {
   "v0.7.1-alpha:toggling-input-monitoring-on-a-mixer": "scenes071",
   "v0.7.1-alpha:you-can-now-click-anywhere-on": "scenes071",
   "v0.7.1-alpha:your-timeline-overview-is-back-above": "scenes071",
+  "v0.8.0-alpha:a-volume-curve-with-no-points": "scenes080",
+  "v0.8.0-alpha:audio-memory-on-a-4-gb": "scenes080",
+  "v0.8.0-alpha:automation-clips-a-stretch-of-a": "scenes080",
+  "v0.8.0-alpha:bounce-in-place-right-click-an": "scenes080",
+  "v0.8.0-alpha:curve-tension-is-audible-now-older": "scenes080",
+  "v0.8.0-alpha:edit-any-curve-and-undo-any": "scenes080",
+  "v0.8.0-alpha:every-panel-can-be-docked-or": "scenes080",
+  "v0.8.0-alpha:fades-are-draggable-on-the-timeline": "scenes080",
+  "v0.8.0-alpha:fit-to-bars-now-suggests-the": "scenes080",
+  "v0.8.0-alpha:insert-slots-grow-past-ten-up": "scenes080",
+  "v0.8.0-alpha:left-trimmed-midi-clips-now-play": "scenes080",
+  "v0.8.0-alpha:stems-export-one-file-per-track": "scenes080",
+  "v0.8.0-alpha:the-loudness-reading-was-about-1": "scenes080",
+  "v0.8.0-alpha:the-plugin-browser-remembers-the-plugins": "scenes080",
 } as const;
 
 export type SceneFile = (typeof SCENE_FILE)[keyof typeof SCENE_FILE];
