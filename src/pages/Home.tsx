@@ -152,6 +152,9 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
    animated scene. A line whose entry can't be found is dropped rather than shown
    without its proof. */
 const SMALL: { line: string; version: string; key: string }[] = [
+  { line: "Trim a MIDI clip from the left and its notes still play where they are drawn.", version: "v0.8.0-alpha", key: "left-trimmed-midi-clips-now-play" },
+  { line: "Cut an automation clip in two and it sounds exactly the same.", version: "v0.8.0-alpha", key: "automation-clips-a-stretch-of-a" },
+  { line: "A volume curve with no points plays at the fader's level instead of going silent.", version: "v0.8.0-alpha", key: "a-volume-curve-with-no-points" },
   { line: "Press stop once and the playhead goes back to the start.", version: "v0.7.1-alpha", key: "pressing-stop-once-now-returns-the" },
   { line: "Recordings line up with the grid. They're not late by your audio interface's delay.", version: "v0.7.1-alpha", key: "recorded-takes-now-land-on-the" },
   { line: "Split, mute or delete while a loop is playing and you hear it straight away, not on the next pass.", version: "v0.7.1-alpha", key: "splitting-clips-or-mutingunmuting-lanes-while" },

@@ -20,11 +20,15 @@ const ACCEPT = [
   ["v0.7.0-alpha:select-menus", /^96 kHz$/, "row mid-unfold"],
   ["v0.7.1-alpha:the-mixers-plugin-dropdown", /^(Comp · Verb · Delay …|Every installed CLAP|▸)$/, "row under the menu while it unfolds"],
   ["v0.7.1-alpha:opening-a-project-with-moved-audio", /missing/, "dialog fades in over the placeholder"],
+  ["v0.8.0-alpha:insert-slots-grow", /.*/, "rows scroll out under the crop as the list grows"],
+  ["v0.8.0-alpha:every-panel-can-be-docked", /^(Docked|Floating|Contextual|Keep Open|✓)$/, "the menu opens over the panel it belongs to"],
+  ["v0.8.0-alpha:left-trimmed-midi", /^trimmed$/, "tag sits over the trimmed span of the clip"],
+  ["v0.8.0-alpha:bounce-in-place", /^Vox( \/ M)?$/, "track name sits beside its M S R keys"],
 ];
 const accepted = (key, txt) => ACCEPT.some(([k, re]) => key.startsWith(k) && re.test(txt));
 
 const sheetsDir = process.argv.includes("--sheets") ? resolve(process.argv[process.argv.indexOf("--sheets") + 1]) : null;
-const files = { scenesNext: "NEXT", scenes070: "V070", scenes071: "V071" };
+const files = { scenesNext: "NEXT", scenes070: "V070", scenes071: "V071", scenes080: "V080" };
 
 const vite = await createServer({ server: { middlewareMode: true }, appType: "custom", logLevel: "silent" });
 const scenes = [];
