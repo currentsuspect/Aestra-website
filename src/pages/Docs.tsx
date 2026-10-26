@@ -22,7 +22,7 @@ const GROUPS: Group[] = [
   {
     n: "01",
     title: "Build it",
-    lede: "There's no installer yet, so this is where you start.",
+    lede: "No public download yet (alpha builds go out by email on request), so to run it today, start here.",
     entries: [
       { title: "Building Aestra", note: "The build guide for Linux and Windows.", href: `${REPO}/docs/getting-started/building.md` },
       { title: "Quickstart", note: "Your first session, once it's built.", href: `${REPO}/docs/getting-started/quickstart.md` },

@@ -191,7 +191,7 @@ const OutroControls = ({ setPage, onEarlyAccess }: Pick<PageProps, "setPage" | "
       <button type="button" className="dbtn" style={{ minHeight: 44, padding: "0 16px", fontSize: 14 }} aria-pressed={playing} onClick={() => { void toggle(); }}>
         {playing ? "Lift the needle" : "Play it again"}
       </button>
-      <p className="m-0 text-[13px] text-muted max-w-[28ch]">Free, in alpha, and on Linux today.</p>
+      <p className="m-0 text-[13px] text-muted max-w-[28ch]">Free, in alpha, on Windows and Linux.</p>
     </>
   );
 };

@@ -18,13 +18,13 @@ const COPY: Record<EarlyAccessPurpose, {
 }> = {
   "early-access": {
     title: "Request early access",
-    desc: "Aestra is in alpha and there's no installer yet. Leave your email and I'll write when there are builds to try. No newsletter.",
+    desc: "Aestra is in a limited alpha for Windows and Linux. Leave your email and I'll send you a build in the next batch. No newsletter.",
     aria: "Request early access",
     cta: "Send",
     successTitle: "You're on the list.",
-    successDesc: "I'll email you when there are builds to try.",
+    successDesc: "I'll email you a build in the next batch.",
     successToast: "You're on the list.",
-    successToastDesc: "I'll email you when there are builds to try.",
+    successToastDesc: "I'll email you a build in the next batch.",
     source: "early-access",
   },
   "supporter-notify": {

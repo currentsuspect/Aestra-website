@@ -105,7 +105,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
             <p className="text-[16px] leading-relaxed text-muted max-w-[34rem]">
               Aestra is a free app for making music, built to run well on old laptops and
               machines that were never meant for music production. Record, sequence and mix
-              beats and songs. It's in alpha, and it runs on Linux today.
+              beats and songs. It's in alpha, on Windows and Linux: request a build and I'll send you one.
             </p>
             <Button size="lg" onClick={() => onEarlyAccess?.()} className="justify-between">
               Request early access <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -114,7 +114,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
               What changed in {LATEST.version}
             </PageLink>
             <PageLink to="download" setPage={setPage} className="text-[14px] justify-self-start">
-              Build it from source
+              Or build it from source
             </PageLink>
           </FadeIn>
         </div>
@@ -245,11 +245,11 @@ const Details = memo(({ setPage }: PageProps) => {
 type State = "ready" | "partial" | "absent";
 const STATUS: { area: string; state: State; note: React.ReactNode }[] = [
   { area: "Linux", state: "ready", note: "Built and tested here. Use this one." },
-  { area: "Windows", state: "partial", note: "The audio engine builds and passes its tests. The app itself doesn't build yet." },
+  { area: "Windows", state: "partial", note: "The app builds and runs. Alpha builds are newer here and have been on fewer machines." },
   { area: "macOS", state: "absent", note: "Not supported. Deferred to 2027." },
   { area: "VST3 · CLAP", state: "partial", note: "Loads on Linux, but unfinished. Some CLAP features aren't built yet." },
   { area: "Built-in effects", state: "ready", note: "Eleven effects, including reverb, EQ, compressor and delay. Free." },
-  { area: "Installers", state: "absent", note: "None yet. You build it yourself from the source." },
+  { area: "Installers", state: "partial", note: "No public download yet. Alpha builds for Windows and Linux go out by email on request." },
   { area: "Collaboration", state: "absent", note: "Doesn't exist yet. No server, no accounts." },
 ];
 const STATE_TAG: Record<State, { label: string; cls: string }> = {
@@ -390,7 +390,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "What platforms does Aestra support?",
-      a: "Linux, and only Linux for now. That's what Aestra is built and tested on. On Windows the audio engine builds and passes its tests, but the app doesn't build yet. macOS isn't supported and is planned for 2027. There's no installer on any platform yet: you build Aestra from the source.",
+      a: "Windows and Linux. Alpha builds for both go out by email in small batches: request one and I'll send it. You can also build Aestra from the source. Linux is where it's built and tested most; Windows builds are newer and have been on fewer machines. macOS isn't supported and is planned for 2027.",
     },
     {
       q: "Can I use my own VST3 and CLAP plugins?",
@@ -418,7 +418,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "When will Aestra be ready?",
-      a: "It's in alpha. If you can build it from source on Linux, you can make a track in it today, but expect rough edges. Public beta ships when the main workflow, making a track from start to finish, is solid. There's no date yet. Join early access and I'll email you when there are builds.",
+      a: "It's in alpha. You can make a track in it today, but expect rough edges. Request early access and I'll email you a build for Windows or Linux. Public beta ships when the main workflow, making a track from start to finish, is solid. There's no date yet.",
     },
   ];
   // FAQ markup is read back from the rendered answers, so it always says

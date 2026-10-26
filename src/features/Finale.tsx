@@ -67,7 +67,7 @@ export const Finale = () => {
               <Credit k="This visit">{changes === 0 ? "No changes yet" : `${changes === 1 ? "1 change" : `${changes} changes`}, each one a step you can go back to`}</Credit>
             </dl>
             <p className="dnote mt-5 mb-0 max-w-[60ch]">
-              These demos run in your browser, and some are previews of designs for v0.8.1. The real thing is a native app: free, in alpha, and on Linux today.
+              These demos run in your browser, and some are previews of designs for v0.8.1. The real thing is a native app: free, in alpha, on Windows and Linux.
             </p>
           </div>
         </div>

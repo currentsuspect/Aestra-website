@@ -39,7 +39,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
               <span className="text-[16px] font-extrabold text-fg lowercase tracking-[-0.01em] [font-stretch:125%]">aestra</span>
             </div>
             <p className="text-sm text-muted max-w-sm leading-relaxed mb-6">
-              A free app for making music, for the person with something to say and the old laptop they have to say it on. In alpha, on Linux for now.
+              A free app for making music, for the person with something to say and the old laptop they have to say it on. In alpha, on Windows and Linux.
             </p>
             <div className="flex items-center gap-2">
               <a

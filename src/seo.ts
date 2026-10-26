@@ -46,7 +46,7 @@ export const softwareApplication = () => ({
   dateModified: isoDate(LATEST.date),
   downloadUrl: `${ORIGIN}/download`,
   softwareRequirements:
-    "Linux, built from source during alpha. Windows: the audio engine builds, the app doesn't yet. macOS is not supported before 2027.",
+    "Windows or Linux. Alpha builds by email on request, or built from source. macOS is not supported before 2027.",
   screenshot: `${ORIGIN}/og-image.png`,
   featureList: [
     "Runs light on modest hardware",
