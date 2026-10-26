@@ -1,0 +1,29 @@
+name: changelog-discord
+# Posts a changelog entry to the Discord #changelog channel when it is
+# released on main. Run it by hand to (re)post one file.
+on:
+  push:
+    branches: [main]
+    paths: ["src/content/changelog/**"]
+  workflow_dispatch:
+    inputs:
+      file:
+        description: "Changelog file to post, e.g. src/content/changelog/003-v0.8.0-alpha.md"
+        required: true
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - if: github.event_name == 'push'
+        run: node scripts/changelog-discord.mjs --since "${{ github.event.before }}"
+        env:
+          DISCORD_CHANGELOG_WEBHOOK: ${{ secrets.DISCORD_CHANGELOG_WEBHOOK }}
+      - if: github.event_name == 'workflow_dispatch'
+        run: node scripts/changelog-discord.mjs "$FILE"
+        env:
+          FILE: ${{ inputs.file }}
+          DISCORD_CHANGELOG_WEBHOOK: ${{ secrets.DISCORD_CHANGELOG_WEBHOOK }}
