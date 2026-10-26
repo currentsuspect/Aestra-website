@@ -105,12 +105,12 @@ export const PAGE_TITLES = asSEO({
 });
 
 export const PAGE_DESCRIPTIONS = asSEO({
-  home: "Less distance between an idea and its sound. Aestra is a free app for making music, built to run well on old laptops and machines never meant for music production. Eleven effects come in the box. It's in alpha, on Linux.",
+  home: "Less distance between an idea and its sound. Aestra is a free app for making music, built to run well on old laptops and machines never meant for music production. Eleven effects come in the box. It's in alpha, on Windows and Linux.",
   features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
   pricing: "Aestra pricing: free core DAW, Supporter at $5/month or $50/year funding the Native Suite and planned asynchronous Takes collaboration, and a fully digital $129 Founder offer.",
   changelog: "Every Aestra release laid out like a session: what's new, fixed and faster in each version, with an animated preview of every change since v0.7.0.",
   docs: "Aestra's documentation lives in its repository. This page maps it: how to build Aestra, how it works, how to report a bug, and how to contribute.",
-  download: "Build Aestra from source on Linux or Windows. Alpha, source-available, no installer yet.",
+  download: "Get Aestra for Windows or Linux. Alpha builds by email on request, or build it from source.",
   plugins: "Eleven effects free in every copy of Aestra: EQ, Compressor, Verb, Delay, Limit, OTT, Transient, Sat, Filter, Drift and LFO, shown as they look in the current build.",
   login: "Aestra accounts aren't built yet. There is nothing to sign in to.",
   account: "Aestra accounts aren't built yet. There are no licenses or downloads to manage.",

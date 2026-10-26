@@ -29,7 +29,7 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 - [Homepage](https://www.aestra.studio/) — Overview, features, plugins, pricing tiers, and download links.
 - [Features](https://www.aestra.studio/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
 - [Pricing](https://www.aestra.studio/pricing) — Core (free), Supporter ($5/month or $50/year), and the fully digital Founder offer ($129 one-time).
-- [Download](https://www.aestra.studio/download) — Build Aestra from source on Linux or Windows. No published binaries yet.
+- [Download](https://www.aestra.studio/download) — Alpha builds for Windows and Linux by email on request (Early access), or build from source. No public download yet.
 - [Documentation](https://www.aestra.studio/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
 - [Changelog](https://www.aestra.studio/changelog) — Release history and development progress.
 - [About](https://www.aestra.studio/about) — About Aestra Studios, founder, brand, and key terminology.
@@ -153,7 +153,7 @@ Aestra speaks plainly, in short concrete sentences. It says "a free app for maki
 ## Marketing tagline
 
 - Primary: **Less distance between an idea and its sound.**
-- Plain description: **A free app for making music. It is in alpha and runs on Linux today.**
+- Plain description: **A free app for making music. It is in alpha, on Windows and Linux.**
 
 ## Contact
 

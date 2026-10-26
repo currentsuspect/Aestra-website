@@ -200,6 +200,12 @@ export const App = () => {
     setEarlyAccessOpen(true);
   }, []);
 
+  // A shared link can open the request form directly: aestra.studio/?alpha (or #early-access).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("alpha") || window.location.hash === "#early-access") handleEarlyAccess();
+  }, [handleEarlyAccess]);
+
   const withShell = (content: React.ReactNode, navPage: string) => (
     <>
       <Navbar activePage={navPage} setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />

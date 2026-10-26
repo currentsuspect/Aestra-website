@@ -33,7 +33,7 @@ export const Downloads = ({ setPage }: PageProps) => {
       os: "Linux",
       arch: "x86_64",
       icon: LinuxIcon,
-      status: "The app builds, and its tests run automatically on every change. This is the one to use.",
+      status: "The app builds, and its tests run automatically on every change. Built and tested most here.",
       href: BUILD_DOCS,
       cta: "Build from source",
     },
@@ -42,7 +42,7 @@ export const Downloads = ({ setPage }: PageProps) => {
       os: "Windows",
       arch: "x64",
       icon: WinIcon,
-      status: "The audio engine builds and passes its tests. The app itself doesn't build on Windows yet.",
+      status: "The app builds with MSVC. Alpha builds are newer here and have been on fewer machines.",
       href: BUILD_DOCS,
       cta: "Build from source",
     },
@@ -75,9 +75,10 @@ export const Downloads = ({ setPage }: PageProps) => {
             Build Aestra.
           </h1>
           <p className="text-muted text-base sm:text-lg max-w-xl leading-relaxed">
-            There's no installer yet. Aestra is in alpha, and for now you build it
-            yourself from the source. When there's something to download, it will
-            appear on this page.
+            Aestra is in alpha. There&rsquo;s no public download yet: builds for
+            Windows and Linux go out by email in small batches. Request one with
+            the Early access button and I&rsquo;ll send it. You can also build it
+            yourself from the source.
           </p>
           {currentOS === "macOS" && (
             <p className="mt-4 text-[13px] text-muted leading-relaxed max-w-xl">
