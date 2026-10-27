@@ -394,7 +394,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "Can I use my own VST3 and CLAP plugins?",
-      a: "Partly, and only on Linux. Plugins load, but it's unfinished: some CLAP features aren't built yet, and on Windows no outside plugin loads at all. Don't rely on it today. The built-in effects are the safe choice. Full plugin support on both systems is required before public beta.",
+      a: "Not in the current alpha (v0.8.1): there, plugins only partly load, and only on Linux. The next alpha brings VST3 and CLAP on Linux and Windows, loaded in a separate safe process with their own windows, parameters and automation. Until then, the built-in effects are the safe choice.",
     },
     {
       q: "Can I use Aestra commercially?",
@@ -418,7 +418,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "When will Aestra be ready?",
-      a: "It's in alpha. You can make a track in it today, but expect rough edges. Request early access and I'll email you a build for Windows or Linux. Public beta ships when the main workflow, making a track from start to finish, is solid. There's no date yet.",
+      a: "It's in alpha. You can make a track in it today, but expect rough edges. Request early access and I'll email you a build for Windows or Linux. The public beta is set for 25 December 2026, on Windows and Linux, once making a track from start to finish is solid.",
     },
   ];
   // FAQ markup is read back from the rendered answers, so it always says

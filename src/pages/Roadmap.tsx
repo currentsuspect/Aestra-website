@@ -16,53 +16,53 @@ const COLUMNS: Column[] = [
   {
     status: "shipped",
     label: "Shipped",
-    blurb: "Works in the source today.",
+    blurb: "In the current alpha, v0.8.1 (19 October 2026).",
     items: [
-      { title: "Native audio engine",     desc: "Written in C++. Steady timing and low delay." },
-      { title: "Pattern-first workflow",         desc: "Start from a loop, then build the song around it." },
-      { title: "Eleven built-in effects",          desc: "Reverb, EQ, compressor, delay and more. Free." },
-      { title: "Live signal routing",            desc: "See the sound move through your project, colour-coded." },
-      { title: "Audition", desc: "Hear your mix on a phone, earbuds, a car or a laptop." },
-      { title: "Takes",                desc: "Save named versions of your project and go back to any of them." },
-      { title: "Offline export",                 desc: "16, 24 and 32-bit files, lined up exactly with the timeline." },
+      { title: "Native audio engine",          desc: "Written in C++. Steady timing and low delay, built to run on old laptops." },
+      { title: "The Arsenal",                  desc: "A step sequencer you play: kits, swing, per-step chance and ratchets, sound sets, pattern scenes." },
+      { title: "Mixer",                        desc: "Meters first, grouped by output, with a loudness readout on the master." },
+      { title: "Routing graph",                desc: "See where every sound goes, and only the routes that matter." },
+      { title: "Audition",                     desc: "Compare your mix with a reference track, level-matched: tone, dynamics, stereo and sections." },
+      { title: "Versions",                     desc: "Your project's history as versions you can name, branch and go back to." },
+      { title: "Eleven built-in effects",      desc: "EQ, compressor, reverb, delay, saturation, OTT and more. Free." },
+      { title: "Automation and export",        desc: "Automation clips, bounce in place, and 16, 24 or 32-bit export." },
     ],
   },
   {
     status: "active",
     label: "Now",
-    blurb: "Being built for the next release.",
+    blurb: "Built and being finished for the next alpha, v0.8.2.",
     items: [
-      { title: "Multi-take recording",     desc: "Record several takes, slice them up and keep the best." },
-      { title: "Full clip editing",        desc: "Cut, copy, paste, split and undo on the timeline." },
-      { title: "Piano roll and sequencer in sync",   desc: "Edit a loop in either one and the other follows." },
-      { title: "VST3 + CLAP plugin hosting", desc: "Works partly on Linux. Some CLAP features aren't built, and nothing loads on Windows yet. Required before public beta." },
-      { title: "Windows desktop build",    desc: "The audio engine passes its tests on Windows. The app doesn't build there yet." },
-      { title: "Audio device recovery",        desc: "Unplug your interface and Aestra keeps running instead of crashing." },
-      { title: "ASIO driver support",      desc: "Low-delay audio on Windows." },
-          ],
+      { title: "VST3 and CLAP plugins",        desc: "Your own plugins load in a separate safe process on Linux and Windows, with their windows, parameters and automation." },
+      { title: "New timeline and piano roll",  desc: "Clips in track colours, clips that repeat their pattern, automation in a lane under its track, and an FL-style duplicate in the piano roll." },
+      { title: "In-app updates",               desc: "Aestra tells you when a new version is out and installs it for you." },
+      { title: "Lighter on old laptops",       desc: "An idle Aestra no longer redraws itself, and the audio code does less work per sample." },
+      { title: "Muse",                         desc: "An AI agent can drive Aestra with text commands: arrange, mix and master. You saw it in Made in Aestra 03." },
+    ],
   },
   {
     status: "next",
     label: "Next",
-    blurb: "Planned for after that.",
+    blurb: "Before 25 December.",
     items: [
-      { title: "Stem export & batch render", desc: "Export every track as its own file, in one go." },
-      { title: "MIDI learn & mapping",       desc: "Link a knob on your controller to any control in Aestra." },
-      { title: "Arrangement view",           desc: "A timeline on top of your loops, for turning sketches into songs." },
-      { title: "Versioned collaboration", desc: "Share a project through Takes. A Supporter hosts it and invited free users can join. Projects on your computer stay editable. There's no server yet, and storage limits will be decided before it ships." },
-      { title: "Native Suite — first drop",  desc: "Optional extra plugins, released one at a time, starting with the Rumble 808 synth. Included with Supporter, or buy them individually." },
-      { title: "Theme + accessibility pass", desc: "A high-contrast theme, full keyboard control and better screen reader support." },
+      { title: "Show Me",                      desc: "Ask how to do something and Aestra lights up the real control, in the real app." },
+      { title: "Collaboration, version 1",     desc: "Send a version of your project to someone over the network. Nothing is stored in the cloud." },
+      { title: "Finish-a-track pass",          desc: "Takes, automation and detailed export checked end to end, so you can always finish a song." },
+      { title: "Tested by producers",          desc: "Real producers make tracks in it on Windows and Linux before release." },
+      { title: "Public beta",                  desc: "25 December 2026, on Windows and Linux." },
     ],
   },
   {
     status: "later",
     label: "Later",
-    blurb: "Ideas, not planned in detail yet.",
+    blurb: "After the beta. Not planned in detail yet.",
     items: [
-      { title: "Muse — local assistance",     desc: "Help that runs on your computer: controlling the project, picking sounds, finishing tracks." },
-      { title: "Mobile companion",            desc: "A phone app to control playback, takes and notes." },
-      { title: "Live performance mode",       desc: "Launch loops live, with low delay and hands-on control." },
-      { title: "Plugin marketplace",          desc: "Checked third-party plugins you can install without a scan." },
+      { title: "Native Suite, first drop",     desc: "Optional extra plugins, starting with the Rumble 808 synth. You don't need them to make music." },
+      { title: "Muse as a creative partner",   desc: "Help with composing, mixing and mastering, once Show Me is out." },
+      { title: "macOS",                        desc: "Planned for 2027." },
+      { title: "Theme and accessibility",      desc: "A high-contrast theme, full keyboard control and better screen reader support." },
+      { title: "MIDI learn",                   desc: "Link a knob on your controller to any control in Aestra." },
+      { title: "Mobile companion",             desc: "A phone app to control playback and take notes." },
     ],
   },
 ];
@@ -98,6 +98,18 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
           Aestra is built in public. This is the plan: what works, what's being
           built, what comes after, and what's still just an idea.
         </p>
+      </FadeIn>
+
+      <FadeIn delay={0.03}>
+        <div className="mb-10 rounded-2xl border border-accent/40 bg-bg panel-sheen p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+          <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-accent">
+            <span className="led text-accent" aria-hidden="true" />
+            Public beta
+          </span>
+          <p className="text-fg text-[15px] sm:text-base leading-relaxed m-0">
+            <span className="font-semibold">25 December 2026</span>, on Windows and Linux. Free, like the rest of Aestra.
+          </p>
+        </div>
       </FadeIn>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
