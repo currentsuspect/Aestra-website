@@ -330,17 +330,17 @@ const Cost = memo(({ setPage }: PageProps) => (
     title="Cost"
     aside={
       <p className="mt-6 text-muted text-[15px] leading-relaxed max-w-sm">
-        The whole DAW is free: no export limits, no watermark, no time limit. What you make
-        is yours, with no royalties. You don't need to pay to make music. Paying is for the
-        ecosystem around Aestra: extra plugins, new tools, and the work behind them.
+        The whole DAW is free: no export limits, no watermark, no time limit, and every plugin
+        Aestra makes. What you make is yours, with no royalties. Paying is only for things that
+        cost us money each time they're used, like hosting a project you share.
       </p>
     }
   >
     <div className="grid sm:grid-cols-3">
       {[
         ["Core", "$0", "The whole DAW."],
-        ["Supporter", "$5/mo", "Extra plugins (the Native Suite), Muse when it's ready, and collaboration once it exists."],
-        ["Founder", "$129", "A numbered Founder card, your own plugin bundle, and 24 months of Supporter."],
+        ["Supporter", "$5/mo", "Hosting shared projects, your work kept online, and the work behind Aestra. KES 300 by M-Pesa."],
+        ["Founding", "500", "The first 500 Supporters get a numbered badge and their first year at the annual price."],
       ].map(([tier, price, desc], i) => (
         <div key={tier} className={`py-5 sm:pr-5 grid gap-2 content-start border-b sm:border-b-0 border-border ${i > 0 ? "sm:pl-5 sm:border-l" : ""}`}>
           <span className="readout">{tier}</span>
@@ -362,9 +362,10 @@ const FAQ = memo(({ setPage }: PageProps) => {
       q: "Is Aestra really free?",
       a: (
         <>
-          Yes. The whole DAW is free, with no limit on exports or session length. You can
-          also pay for extra plugins and to support the work. That's the{" "}
-          <PageLink to="pricing" setPage={setPage} className="text-fg">Supporter and Founder offers</PageLink>.
+          Yes. The whole DAW is free, with no limit on exports or session length, and so is
+          every plugin Aestra makes. You can pay for things that cost us money to run, like
+          hosting a shared project. That's{" "}
+          <PageLink to="pricing" setPage={setPage} className="text-fg">Supporter</PageLink>.
         </>
       ),
     },
@@ -377,9 +378,10 @@ const FAQ = memo(({ setPage }: PageProps) => {
             filter, saturation and more. They're free.
           </p>
           <p>
-            The Native Suite is a separate set of extra plugins, released one at a time. You don't
-            need them to make music. Supporter ($5/month) is how you pay for that ecosystem, or you
-            can buy the plugins one by one.
+            Every plugin Aestra makes is free, now and later, and so is Muse when it runs on your
+            computer. Supporter ($5/month, or KES 300 by M-Pesa) pays for what costs us money each
+            time it's used: hosting shared projects, keeping your work online, and the work on
+            Aestra. Muse running on our servers will be priced on its own.
           </p>
         </div>
       ),
@@ -483,7 +485,7 @@ const FounderCountdown = () => {
       });
       if (res.ok) {
         setSubmitted(true);
-        toast.success("You're on the Founder list.", "We'll email you when Founder cards go on sale.");
+        toast.success("You're on the Founding Supporter list.", "We'll email you when Supporter opens.");
       } else {
         setError("Something went wrong. Try again.");
         toast.error("Couldn't join waitlist", "Something went wrong. Try again.");
@@ -501,15 +503,15 @@ const FounderCountdown = () => {
   const successId = "founder-waitlist-success";
 
   return (
-    <Section n="7" id="founder-section" title="Five hundred, once.">
+    <Section n="7" id="founder-section" title="Founding Supporters.">
       <div className="pt-6">
         <p className="m-0 text-muted text-base sm:text-[17px] leading-relaxed max-w-xl">
-          500 Founder cards, and that's all there will ever be. Each one is numbered and
-          digital, and comes with a plugin bundle you keep and 24 months of Supporter from public
-          beta. Sales open at public beta. This list only emails you when they do. It doesn't hold a card for you.
+          The first 500 Supporters get a numbered Founding Supporter badge and their first
+          year at the annual price. If you joined the Founder list, you're on this one, and you
+          hear first. This list only emails you when Supporter opens. It doesn't hold a number for you.
         </p>
         {!submitted ? (
-          <form onSubmit={handleSubmit} className="mt-8 flex flex-col sm:flex-row gap-2.5 max-w-md" aria-label="Founder waitlist signup" noValidate>
+          <form onSubmit={handleSubmit} className="mt-8 flex flex-col sm:flex-row gap-2.5 max-w-md" aria-label="Founding Supporter waitlist signup" noValidate>
             <label className="sr-only" aria-hidden="true">
               Website
               <input type="text" name="website" value={website} onChange={(e) => setWebsite(e.target.value)} tabIndex={-1} autoComplete="off" />

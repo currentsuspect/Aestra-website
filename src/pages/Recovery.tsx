@@ -346,7 +346,7 @@ const ReportBuilder = memo(() => {
   const premiumBody = useMemo(
     () =>
       [
-        `Native Suite plugin: ${f.component.trim() || "unknown"}`,
+        `Aestra plugin: ${f.component.trim() || "unknown"}`,
         "",
         body,
       ].join("\n"),
@@ -375,7 +375,7 @@ const ReportBuilder = memo(() => {
   }, [body, f.actual, info, error]);
 
   const emailSupport = useCallback(() => {
-    const subject = `Native Suite: ${f.component.trim() || "plugin"} — ${f.actual.trim().slice(0, 60) || "issue"}`;
+    const subject = `Aestra plugin: ${f.component.trim() || "plugin"} — ${f.actual.trim().slice(0, 60) || "issue"}`;
     const url = `mailto:${SUPPORT}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(premiumBody)}`;
     if (url.length > 1800) {
       navigator.clipboard.writeText(premiumBody).then(
@@ -406,7 +406,7 @@ const ReportBuilder = memo(() => {
           <div className="inline-flex rounded-[2px] border border-border bg-surface p-1 gap-1">
             {([
               ["public", "Public Aestra"],
-              ["premium", "Native Suite"],
+              ["premium", "An Aestra plugin"],
             ] as [Route, string][]).map(([id, label]) => (
               <button
                 key={id}
@@ -424,15 +424,15 @@ const ReportBuilder = memo(() => {
           </div>
           <p className="text-[12.5px] text-dim mt-3 leading-relaxed max-w-prose">
             You don't need to know whether the problem is in the public code. Just say what
-            you were using. Public problems become a GitHub issue. Native Suite problems come
-            to me by email.
+            you were using. Public problems become a GitHub issue. Problems in an Aestra plugin
+            whose code isn't public come to me by email.
           </p>
         </fieldset>
 
         {route === "premium" && (
           <div className="mb-6">
             <Field
-              label="Which Native Suite plugin?"
+              label="Which Aestra plugin?"
               hint="The plugin you were using when it went wrong."
             >
               <input className={inputCls} value={f.component} onChange={set("component")} placeholder="e.g. AestraRumble" />
@@ -1230,7 +1230,7 @@ export const Recovery = memo((_: PageProps) => (
               <ul className="divide-y divide-border/60 text-[13.5px]">
                 {[
                   { icon: GitHubIcon, when: "Defect in public Aestra", to: "GitHub issue, then PR", href: `${REPO}/issues/new?template=bug_report.md` },
-                  { icon: LifeBuoy, when: "Native Suite or other non-public part", to: SUPPORT, href: `mailto:${SUPPORT}` },
+                  { icon: LifeBuoy, when: "An Aestra plugin or other non-public part", to: SUPPORT, href: `mailto:${SUPPORT}` },
                   { icon: ShieldAlert, when: "Security vulnerability", to: SECURITY, href: `mailto:${SECURITY}` },
                   { icon: FileJson, when: "Damaged project file", to: "recover-project first", href: `${SKILLS}/recover-project/SKILL.md` },
                 ].map(({ icon: Icon, when, to, href }) => (

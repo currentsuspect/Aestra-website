@@ -60,13 +60,14 @@ export const Terms = memo(({ setPage }: PageProps) => (
         </section>
 
         <section>
-          <h2 className="text-[15px] font-medium text-fg mb-3">Supporter &amp; Founder offers</h2>
+          <h2 className="text-[15px] font-medium text-fg mb-3">Supporter &amp; Founding Supporters</h2>
           <ul className="space-y-2 list-disc list-inside text-muted">
-            <li><span className="text-fg-muted">Supporter ($5/mo or $50/yr):</span> Subscription can be cancelled anytime. Recurring Supporter benefits continue until the end of the paid billing period.</li>
+            <li><span className="text-fg-muted">Supporter ($5/mo or $50/yr; KES 300/mo by M-Pesa in Kenya):</span> Subscription can be cancelled anytime. Recurring Supporter benefits continue until the end of the paid billing period.</li>
             <li><span className="text-fg-muted">Collaboration, when available:</span> Collaboration begins as asynchronous, versioned project sharing through Takes. No collaboration service exists today, and no storage allowance is offered or implied until one does. The intended shape: Supporters create and own shared workspaces, invited Core users join as editors or viewers without subscribing, and storage and deletion controls belong to the workspace owner. Any included allowance and the price of additional storage are published before the service launches.</li>
             <li><span className="text-fg-muted">After Supporter ends:</span> Only the cloud workspace becomes read-only: no uploads, new invitations, or cloud-history changes. Existing members can inspect history and download or export for at least 30 days, with warnings and an ownership-transfer option before later deletion.</li>
             <li><span className="text-fg-muted">Your local projects remain yours:</span> Lapsing never prevents anyone from opening or editing a downloaded project locally, exporting audio or stems, duplicating it as a local-only project, or using any free-Core functionality.</li>
-            <li><span className="text-fg-muted">Founder ($129 one-time):</span> A fully digital, limited offer including a numbered Founder card, the defined Founder Collection, 24 months of Supporter from public beta, and a permanent 25% Supporter discount thereafter. It does not include lifetime cloud storage or every future Supporter benefit.</li>
+            <li><span className="text-fg-muted">Founding Supporters:</span> The first 500 Supporters receive a numbered digital Founding Supporter badge and their first year at the annual price. The badge is recognition only; it does not include lifetime cloud storage or any benefit beyond an active Supporter plan.</li>
+            <li><span className="text-fg-muted">What is never paid:</span> Aestra itself, every plugin Aestra makes, and features that run on your own computer, including Muse running locally. Muse running on Aestra's servers will be priced separately, and its price published before it launches.</li>
             <li><span className="text-fg-muted">Refunds:</span> Refund eligibility is shown at checkout and remains subject to applicable consumer protection law.</li>
           </ul>
         </section>

@@ -57,7 +57,7 @@ const COLUMNS: Column[] = [
     label: "Later",
     blurb: "After the beta. Not planned in detail yet.",
     items: [
-      { title: "Native Suite, first drop",     desc: "Optional extra plugins, starting with the Rumble 808 synth. You don't need them to make music." },
+      { title: "More Aestra plugins",          desc: "Free, like the rest, starting with the Rumble 808 synth. Also planned as VST3 and CLAP plugins for other DAWs." },
       { title: "Muse as a creative partner",   desc: "Help with composing, mixing and mastering, once Show Me is out." },
       { title: "macOS",                        desc: "Planned for 2027." },
       { title: "Theme and accessibility",      desc: "A high-contrast theme, full keyboard control and better screen reader support." },

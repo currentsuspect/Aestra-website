@@ -107,7 +107,7 @@ export const PAGE_TITLES = asSEO({
 export const PAGE_DESCRIPTIONS = asSEO({
   home: "Less distance between an idea and its sound. Aestra is a free app for making music, built to run well on old laptops and machines never meant for music production. Eleven effects come in the box. It's in alpha, on Windows and Linux.",
   features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
-  pricing: "Aestra pricing: free core DAW, Supporter at $5/month or $50/year funding the Native Suite and planned asynchronous Takes collaboration, and a fully digital $129 Founder offer.",
+  pricing: "Aestra pricing: the whole DAW and every Aestra plugin free; Supporter at $5/month, $50/year or KES 300/month by M-Pesa pays for hosted features like shared projects; the first 500 are Founding Supporters.",
   changelog: "Every Aestra release laid out like a session: what's new, fixed and faster in each version, with an animated preview of every change since v0.7.0.",
   docs: "Aestra's documentation lives in its repository. This page maps it: how to build Aestra, how it works, how to report a bug, and how to contribute.",
   download: "Get Aestra for Windows or Linux. Alpha builds by email on request, or build it from source.",
@@ -115,7 +115,7 @@ export const PAGE_DESCRIPTIONS = asSEO({
   login: "Aestra accounts aren't built yet. There is nothing to sign in to.",
   account: "Aestra accounts aren't built yet. There are no licenses or downloads to manage.",
   privacy: "Aestra privacy policy: how we handle your data, no cookies, transparent practices.",
-  terms: "Aestra terms of service: ASSAL v1.1 license, your music is yours, Supporter and Founder offer details.",
+  terms: "Aestra terms of service: ASSAL v1.1 license, your music is yours, Supporter and Founding Supporter details.",
   about: "About Aestra Studios: building a DAW that keeps up with producers instead of getting in their way.",
   roadmap: "Aestra's public roadmap. What works today, what's being built, what comes next, and what's still just an idea.",
   recovery: "Report a bug, investigate it with a coding agent, contribute a fix upstream, or recover a damaged project. Aestra's debugging protocol, published and versioned.",
@@ -125,7 +125,7 @@ export const PAGE_DESCRIPTIONS = asSEO({
 export const PAGE_KEYWORDS = asSEO({
   home: "DAW, digital audio workstation, free DAW, music production software, native DAW, producer workflow, VST3, CLAP, beat making, mixing, recording, Aestra",
   features: "DAW features, native audio engine, pattern workflow, signal routing, audition mode, version control, music production tools",
-  pricing: "DAW pricing, free DAW, music software subscription, digital founder card, supporter plan",
+  pricing: "DAW pricing, free DAW, free plugins, music software subscription, founding supporter, supporter plan, M-Pesa",
   changelog: "DAW changelog, release notes, Aestra updates, music software updates, version history",
   docs: "Aestra documentation, build Aestra from source, architecture, bug reports, contributing",
   download: "download Aestra, free DAW download, Windows DAW, Linux DAW, build from source, native audio workstation",
