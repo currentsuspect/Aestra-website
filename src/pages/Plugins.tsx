@@ -280,11 +280,11 @@ export const Plugins = ({ setPage }: PageProps) => {
         <FadeIn>
           <div className="mt-20 pt-10 border-t-2 border-fg grid md:grid-cols-2 gap-10 md:gap-16">
             <div>
-              <h2 className="display-2 text-[1.9rem] mb-3">More plugins, separately</h2>
+              <h2 className="display-2 text-[1.9rem] mb-3">Every one of them, free</h2>
               <p className="text-muted text-[15px] leading-relaxed max-w-md">
-                The Native Suite is a separate set of extra plugins, released one at a
-                time. You don't need them to make music. Supporter includes them, and
-                each one can also be bought outright.
+                Every plugin Aestra makes is free, including the ones still to come. None
+                is held back for a paid plan. They're also planned as VST3 and CLAP
+                plugins for other DAWs.
               </p>
               <div className="mt-5 text-[14px]">
                 <a

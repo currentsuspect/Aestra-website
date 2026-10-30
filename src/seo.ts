@@ -150,7 +150,7 @@ export const buildPageStructuredData = (
       "@id": `${url}#product`,
       name: "Aestra",
       description:
-        "A free digital audio workstation for producers, with optional Supporter and Founder offers.",
+        "A free digital audio workstation for producers, with every Aestra plugin free and an optional Supporter plan for hosted features.",
       brand: { "@id": ORG_ID },
       offers: [
         {
@@ -159,7 +159,7 @@ export const buildPageStructuredData = (
           name: "Core",
           price: "0",
           priceCurrency: "USD",
-          description: "The whole DAW, free. Extra plugins are optional.",
+          description: "The whole DAW and every Aestra plugin, free.",
           url,
           availability: "https://schema.org/InStock",
         },
@@ -169,19 +169,9 @@ export const buildPageStructuredData = (
           name: "Supporter",
           price: "5",
           priceCurrency: "USD",
-          description: "Monthly or annual subscription with the Native Suite catalogue and local Muse when ready.",
+          description: "Monthly or annual subscription that pays for hosted features: shared projects, work kept online and sync. KES 300/month by M-Pesa in Kenya.",
           url,
           availability: "https://schema.org/PreOrder",
-        },
-        {
-          "@type": "Offer",
-          "@id": `${url}#founder`,
-          name: "Founder",
-          price: "129",
-          priceCurrency: "USD",
-          description: "One-time digital Founder card with a fixed Founder Collection, 24 months of Supporter, and an ongoing discount. Limited to 500.",
-          url,
-          availability: "https://schema.org/LimitedAvailability",
         },
       ],
     });
