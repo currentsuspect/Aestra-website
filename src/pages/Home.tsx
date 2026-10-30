@@ -507,8 +507,8 @@ const FounderCountdown = () => {
       <div className="pt-6">
         <p className="m-0 text-muted text-base sm:text-[17px] leading-relaxed max-w-xl">
           The first 500 Supporters get a numbered Founding Supporter badge and their first
-          year at the annual price. If you joined the Founder list, you're on this one, and you
-          hear first. This list only emails you when Supporter opens. It doesn't hold a number for you.
+          year at the annual price. This list only emails you when Supporter opens. It doesn't
+          hold a number for you.
         </p>
         {!submitted ? (
           <form onSubmit={handleSubmit} className="mt-8 flex flex-col sm:flex-row gap-2.5 max-w-md" aria-label="Founding Supporter waitlist signup" noValidate>

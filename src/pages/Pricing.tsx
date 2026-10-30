@@ -104,7 +104,6 @@ const FOUNDING_POINTS = [
   "A numbered Founding Supporter badge, yours permanently",
   "Your first year at the annual price",
   "Your name in the app credits, if you want it",
-  "The Founder waitlist hears first",
 ];
 
 const Mark = ({ on }: { on: boolean }) =>
