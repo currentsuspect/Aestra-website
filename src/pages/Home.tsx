@@ -264,6 +264,10 @@ const Status = memo(({ setPage }: PageProps) => (
     title="What works today"
     aside={
       <div className="mt-6 max-w-sm">
+        <p className="text-[15px] text-fg leading-relaxed mb-5">
+          The beta on 25 December is the essential DAW: what any DAW should do, done with care. The connected
+          Aestra, where every part understands the others, is what comes after.
+        </p>
         <p className="readout mb-2">Latest · {LATEST.version} · {LATEST.date}</p>
         <p className="text-[15px] text-muted leading-relaxed">{LATEST.summary}</p>
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[14px]">
@@ -291,18 +295,17 @@ const Status = memo(({ setPage }: PageProps) => (
 
 /* ── 4 · Principles — quoted from philosophy.md, not invented ── */
 const PRINCIPLES = [
-  { title: "Sound first.", body: "Steady timing, and an export that sounds like what you heard in the session. Every time." },
-  { title: "Flow over features.", body: "A quick, rough idea beats a perfect one you got interrupted on. So: good defaults, few pop-ups, easy undo." },
-  { title: "Work doesn't disappear.", body: "Your projects stay safe. Old projects open in new versions, and recovery is built in." },
+  { title: "Your work is yours.", body: "We don't claim it, sell it or mine it, and we never use it to train AI. Your projects stay on your computer unless you share them." },
+  { title: "Protected, never trapped.", body: "Saving, recovery and version history on your computer are free, always. You can always take your music elsewhere." },
+  { title: "It runs on what you have.", body: "If Aestra is slow or unstable on a modest computer, that's our failure, not yours. Simple by default, deep when you want it." },
 ];
 
 const Principles = memo(() => (
   <Section n="4" title="Principles">
     <blockquote className="m-0 pt-6">
       <p className="text-fg text-[clamp(1.35rem,1rem+1.4vw,2.25rem)] leading-[1.22] text-balance max-w-[46rem]">
-        The producer on a 4&nbsp;GB laptop. The artist working late in a city
-        where gear costs a month's salary.{" "}
-        <span className="text-muted">Aestra doesn't assume a studio. It assumes a person with something to say.</span>
+        Free DAWs aren't rare anymore, and that's good for everyone who makes music.{" "}
+        <span className="text-muted">Aestra exists to care for and protect the people who make music, and the music they make.</span>
       </p>
       <footer className="mt-5 readout">
         From{" "}
