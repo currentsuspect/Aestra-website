@@ -1,9 +1,9 @@
 ---
 version: Unreleased
-date: Sep 2026 – present
+date: Nov 2026 – present
 status: active
 order: 0
 ---
-The next cycle is V8 UI groundwork so far: typed layout foundations going in beneath the panels, with one visible fix riding along.
+v0.8.3 is the essentials release: the everyday tools a DAW is expected to have, and a new piano roll that knows the chords you play.
 
-- **fix**: The EQ response reads as a real curve now, and the analyzer stops shouting.
+- **docs**: In progress. The new piano roll with a chord ruler, chord detection with the chord on the transport bar, presets, punch-in, comping, crossfades, markers, MIDI import and export, and freeze.
