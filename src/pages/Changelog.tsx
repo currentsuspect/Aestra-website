@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 import { Button, FadeIn } from "../components/ui";
 import { RELEASES } from "../changelogData";
-import type { Release } from "../changelogData";
+import type { Release, Shot } from "../changelogData";
 import {
   ChangelogArrangement, CHANGELOG_SELECT_KEY, type ArrangementSelection, type LaneKey,
 } from "../components/ChangelogArrangement";
@@ -37,6 +37,27 @@ const initialSelection = (releases: Release[]): { sel: ArrangementSelection; han
   const byHash = releases.find((r) => releaseAnchor(r.version) === hash);
   return { sel: { version: (byHash ?? LATEST).version, lane: null }, handoff: false };
 };
+
+/** Real screenshots from a release: what shipped, as it looks. Crop each to 960x720 (4:3) around its subject. */
+const ReleaseShots = ({ shots, className = "" }: { shots: Shot[]; className?: string }) =>
+  shots.length === 0 ? null : (
+    <div className={`grid sm:grid-cols-2 gap-4 ${className}`}>
+      {shots.map((s) => (
+        <figure key={s.src} className="m-0">
+          <img
+            src={s.src}
+            alt={s.caption}
+            width={960}
+            height={720}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto rounded-lg border border-border bg-black"
+          />
+          <figcaption className="mt-2 text-[13px] leading-relaxed text-muted">{s.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  );
 
 export const Changelog = memo(({ setPage }: PageProps) => {
   const oldestFirst = useMemo<Release[]>(() => [...RELEASES].reverse(), []);
@@ -76,6 +97,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
             <ChangelogArrangement releases={oldestFirst} selection={sel} onSelect={open} />
           </div>
           <ClipEditor release={release} lane={sel.lane} take={take} arrangement={arrangement} onLane={onLane} />
+          <ReleaseShots shots={release.shots} className="mt-8" />
         </FadeIn>
 
         {/* Archive: every release, as text */}
@@ -98,6 +120,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
                   </summary>
                   <div className="pb-6 max-w-3xl">
                     <p className="m-0 mb-4 text-muted text-[15px] leading-relaxed">{r.summary}</p>
+                    <ReleaseShots shots={r.shots} className="mb-5" />
                     <ul className="m-0 p-0 list-none">
                       {r.entries.map((e, i) => (
                         <li key={i} className="grid grid-cols-[84px_1fr] gap-3 py-1.5 text-[14px] leading-relaxed text-fg-muted">

@@ -36,5 +36,5 @@ const eqReadsReal: Scene = {
 };
 
 export const NEXT: Record<string, Scene> = {
-  "Unreleased:the-eq-response-reads-as-a": eqReadsReal,
+  "v0.8.0-alpha:the-eq-response-reads-as-a": eqReadsReal,
 };

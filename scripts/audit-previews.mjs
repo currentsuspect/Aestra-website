@@ -14,7 +14,7 @@ import { pathToFileURL } from "node:url";
 
 /* Findings reviewed by eye and accepted: [scene key prefix, text pattern, why]. */
 const ACCEPT = [
-  ["Unreleased:the-eq-response", /^-?\d+k?$/, "axis ticks sit on the analyzer grid"],
+  ["v0.8.0-alpha:the-eq-response", /^-?\d+k?$/, "axis ticks sit on the analyzer grid"],
   ["v0.7.0-alpha:the-timeline-is-easier", /^(Drums|Bass|Keys|Vocal)$/, "clip names scroll out under the timeline crop"],
   ["v0.7.1-alpha:your-timeline-overview", /^(Drums|Bass|Keys|Vocal|\d+)$/, "clip names and bar numbers scroll out under the crop"],
   ["v0.7.0-alpha:select-menus", /^96 kHz$/, "row mid-unfold"],

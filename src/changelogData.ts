@@ -5,12 +5,19 @@ export type Change = {
   text: string;
 };
 
+/** A real screenshot from the release, shown beside its changes. */
+export type Shot = {
+  src: string;
+  caption: string;
+};
+
 export type Release = {
   version: string;
   date: string;
   status: "active" | "landed" | "released";
   summary: string;
   entries: Change[];
+  shots: Shot[];
 };
 
 const releaseFiles = import.meta.glob("./content/changelog/*.md", {
@@ -64,19 +71,27 @@ const parseRelease = (path: string, source: string): ParsedRelease => {
   }
 
   const summary = lines.slice(0, firstEntry).join(" ").trim();
-  const entries = lines.slice(firstEntry).filter(Boolean).map((line) => {
+  const entries: Change[] = [];
+  const shots: Shot[] = [];
+  for (const line of lines.slice(firstEntry).filter(Boolean)) {
+    // `- **shot**: /changelog/<version>/<file>.png | Caption` is a screenshot, not a change.
+    const shot = line.match(/^- \*\*shot\*\*:\s+(\S+)\s+\|\s+(.+)$/);
+    if (shot) {
+      shots.push({ src: shot[1], caption: shot[2] });
+      continue;
+    }
     const match = line.match(/^- \*\*([a-z]+)\*\*:\s+(.+)$/);
     if (!match || !changeTypes.has(match[1] as ChangeType)) {
       throw new Error(`${path}: invalid changelog entry "${line}"`);
     }
-    return { type: match[1] as ChangeType, text: match[2] };
-  });
+    entries.push({ type: match[1] as ChangeType, text: match[2] });
+  }
 
   if (!summary || entries.length === 0) {
     throw new Error(`${path}: summary and entries must not be empty`);
   }
 
-  return { version, date, status, summary, entries, order };
+  return { version, date, status, summary, entries, shots, order };
 };
 
 export const RELEASES: Release[] = Object.entries(releaseFiles)
