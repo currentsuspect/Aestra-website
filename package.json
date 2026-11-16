@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/agent-skills.mjs && node scripts/check-api-imports.mjs && node scripts/check-previews.mjs && node scripts/check-shots.mjs && tsc --noEmit && vite build && node scripts/prerender.mjs",
+    "build": "node scripts/agent-skills.mjs && node scripts/check-api-imports.mjs && node scripts/check-previews.mjs && node scripts/check-shots.mjs && node scripts/themes.mjs --check && tsc --noEmit && vite build && node scripts/prerender.mjs",
     "check:shots": "node scripts/check-shots.mjs",
     "check:previews": "node scripts/check-previews.mjs",
     "audit:previews": "node scripts/audit-previews.mjs",
@@ -15,7 +15,8 @@
     "changelog:draft": "node scripts/changelog-draft.mjs",
     "indexnow": "node scripts/indexnow.mjs",
     "skills:check": "node scripts/agent-skills.mjs",
-    "skills:write": "node scripts/agent-skills.mjs --write"
+    "skills:write": "node scripts/agent-skills.mjs --write",
+    "themes": "node scripts/themes.mjs"
   },
   "dependencies": {
     "@vercel/functions": "^3.7.6",

@@ -18,7 +18,7 @@ export type Step = { id: number; label: string; grid: Grid; bpm: number; at: num
 export type Branch = { id: string; name: string; color: string };
 export type Version = { id: number; name: string; branch: string; parent: number | null; grid: Grid; bpm: number; at: number };
 
-export const BRANCH_COLORS = ["#7c3aed", "#62dcf0", "#f3a93b", "#3fd6ad", "#ff7a66"];
+export const BRANCH_COLORS = ["var(--daw-primary)", "#62dcf0", "var(--daw-warn)", "var(--daw-meter)", "#ff7a66"];
 const STORAGE_KEY = "aestra-features-session-v1";
 
 type Persisted = {

@@ -28,13 +28,13 @@ export const NotFound = memo(({ setPage }: { setPage: (p: string) => void }) => 
     <div className="min-h-[80vh] flex items-center justify-center px-5 sm:px-6 py-24">
       <div className="max-w-2xl w-full text-center">
         <div className="relative mx-auto mb-10 w-32 h-32 sm:w-40 sm:h-40" aria-hidden="true">
-          <div className="absolute inset-0 rounded-2xl border border-border/80 bg-bg flex items-center justify-center">
+          <div className="absolute inset-0 bg-surface flex items-center justify-center">
             <FileQuestion className="w-12 h-12 sm:w-14 sm:h-14 text-muted" strokeWidth={1.25} />
           </div>
-          <div className="absolute -top-2 -right-2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center font-mono text-rose-300 text-sm font-semibold">
+          <div className="absolute -top-2 -right-2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[color-mix(in_srgb,var(--color-error)_14%,transparent)] flex items-center justify-center font-mono text-error text-sm font-semibold">
             404
           </div>
-          <div className="absolute -bottom-1 -left-1 w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
+          <div className="absolute -bottom-1 -left-1 w-3 h-3 rounded-full bg-warn animate-pulse" />
         </div>
 
         <p className="text-[13px] font-mono text-muted uppercase tracking-wider mb-4">
@@ -73,7 +73,7 @@ export const NotFound = memo(({ setPage }: { setPage: (p: string) => void }) => 
                 <button
                   key={l.page}
                   onClick={() => setPage(l.page)}
-                  className="inline-flex items-center gap-2 px-3.5 h-9 rounded-lg border border-border bg-bg text-fg text-[13px] hover:bg-surface-2 hover:border-border-2 transition-colors"
+                  className="btn btn-soft gap-2 px-4 h-9 text-[13px]"
                 >
                   <Icon className="w-3.5 h-3.5 text-muted" aria-hidden="true" />
                   {l.label}

@@ -57,7 +57,7 @@ export const ClipEditor = memo(({
   return (
     <section
       ref={root}
-      className="cle border border-t-0 border-fg scroll-mt-24"
+      className="cle scroll-mt-24"
       aria-live="polite"
       aria-label={`${release.version} release notes`}
     >

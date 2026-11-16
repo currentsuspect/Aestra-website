@@ -69,7 +69,7 @@ export const EarlyAccessModal = ({
       aria-modal="true"
       aria-label={copy.aria}
     >
-      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+      <div className="absolute inset-0 bg-[var(--color-overlay)]" onClick={onClose} />
       <div className="relative w-full max-w-md bg-bg rounded-2xl border border-border/80 p-6 sm:p-8 shadow-2xl">
         <button
           onClick={onClose}
@@ -81,8 +81,8 @@ export const EarlyAccessModal = ({
 
         {done ? (
           <div className="text-center py-4">
-            <div className="w-10 h-10 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4">
-              <Check className="w-5 h-5 text-emerald-400" />
+            <div className="w-10 h-10 rounded-full bg-[color-mix(in_srgb,var(--color-success)_16%,transparent)] flex items-center justify-center mx-auto mb-4">
+              <Check className="w-5 h-5 text-success" />
             </div>
             <h3 className="text-lg font-semibold text-fg mb-1">{copy.successTitle}</h3>
             <p className="text-sm text-muted">{copy.successDesc}</p>
@@ -173,7 +173,7 @@ export const EarlyAccessModal = ({
                   placeholder="FL Studio, Ableton, Reaper…"
                 />
               </div>
-              {error && <p className="text-rose-400 text-sm">{error}</p>}
+              {error && <p className="text-error text-sm">{error}</p>}
               <button
                 type="submit"
                 disabled={submitting}

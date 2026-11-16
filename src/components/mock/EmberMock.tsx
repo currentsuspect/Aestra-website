@@ -1,6 +1,6 @@
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
-  D, TRACKS, CLIPS, FILES, BARS, BPM, tone, waveform, RMS_SCALE, levelAt, barBeatSixteenth, clockTime,
+  D, TRACKS, CLIPS, FILES, BARS, BPM, PALETTE, TEXT_ON_TRACK, tone, waveform, RMS_SCALE, levelAt, barBeatSixteenth, clockTime,
 } from "./emberSession";
 
 /* ── EmberMock ───────────────────────────────────────────────────────
@@ -28,6 +28,8 @@ const HEAD_W = 176;
 const OVERVIEW_H = 22;
 const RULER_H = 26;
 const ROW_H = 27;
+/* headerBandHeight(): about a quarter of the clip, 11 to 14 px (TimelineClipGeometry.h). */
+const BAND_H = Math.min(14, Math.max(11, Math.round((ROW_H - 2) * 0.26)));
 const RIGHT_PAD = 10;
 const LANES_W = W - LIB_W - HEAD_W - RIGHT_PAD;
 const BODY_H = OVERVIEW_H + RULER_H + TRACKS.length * ROW_H;
@@ -76,7 +78,7 @@ const Cap = ({ children }: { children: React.ReactNode }) => (
 const Lamp = ({ on }: { on: boolean }) => (
   <span
     className="w-[6px] h-[6px] rounded-full shrink-0"
-    style={{ background: on ? D.warn : D.t4, boxShadow: on ? `0 0 0 3px ${D.warn}38` : "none" }}
+    style={{ background: on ? D.warn : D.t4 }}
   />
 );
 
@@ -295,13 +297,13 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
         <div className="flex items-center justify-between px-3 text-[11.5px]" style={{ height: TITLE_H, background: D.panel, borderBottom: `1px solid ${D.border}` }}>
           <div className="flex gap-4 flex-1" style={{ color: D.t2 }}><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
           <Part part="views" active={activePart} n={n("views")}>
-            <div className="flex p-[2px] rounded-[7px]" style={{ background: D.bed, border: `1px solid ${D.border}` }}>
+            <div className="flex p-[2px] rounded-full" style={{ background: D.well, boxShadow: "inset 0 1px 2px var(--color-shadow)" }}>
               {["Arsenal", "Timeline", "Audition"].map((v) => (
                 <span
                   key={v}
-                  className="px-[18px] h-[22px] flex items-center rounded-[5px]"
+                  className="px-[22px] h-[22px] flex items-center rounded-full"
                   style={v === "Timeline"
-                    ? { background: "rgba(124,58,237,0.32)", color: D.t1, boxShadow: "inset 0 0 0 1px rgba(124,58,237,0.7)" }
+                    ? { background: D.raised, color: D.t1, fontWeight: 600 }
                     : { color: D.t3 }}
                 >
                   {v}
@@ -324,9 +326,9 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
         <div className="flex" style={{ height: TRANSPORT_H, background: D.panel, borderBottom: `1px solid ${D.border}` }}>
           <Part part="transport" active={activePart} n={n("transport")} className="flex items-center gap-[6px] pl-[10px] pr-[14px]" style={{ borderRight: `1px solid ${D.divider}` }}>
             {[
-              { key: "play", on: playing, onClick: togglePlay, icon: playing ? ICON.pause : ICON.play, label: playing ? "Pause" : "Play", color: playing ? "#fff" : D.t2, bg: playing ? D.primary : D.control },
+              { key: "play", on: playing, onClick: togglePlay, icon: playing ? ICON.pause : ICON.play, label: playing ? "Pause" : "Play", color: playing ? D.onPrimary : D.t2, bg: playing ? D.primary : D.control },
               { key: "stop", on: false, onClick: stop, icon: ICON.stop, label: "Stop", color: D.t2, bg: D.control },
-              { key: "rec", on: armed, onClick: () => setArmed((a) => !a), icon: ICON.record, label: "Record", color: armed ? D.chrome : D.error, bg: armed ? D.error : D.control },
+              { key: "rec", on: armed, onClick: () => setArmed((a) => !a), icon: ICON.record, label: "Record", color: armed ? D.onStatus : D.error, bg: armed ? D.error : D.control },
             ].map((b) => (
               <button
                 key={b.key}
@@ -334,7 +336,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
                 aria-label={b.label}
                 aria-pressed={b.key === "stop" ? undefined : b.on}
                 className="w-[34px] h-[30px] rounded-[5px] grid place-items-center transition-colors"
-                style={{ background: b.bg, color: b.color, boxShadow: b.on ? "none" : `inset 0 0 0 1px ${D.border}` }}
+                style={{ background: b.bg, color: b.color, boxShadow: b.on ? "inset 0 1px 3px var(--color-shadow)" : "none" }}
               >
                 <G d={b.icon} size={15} />
               </button>
@@ -369,8 +371,8 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
                     onClick={() => setChips((c) => ({ ...c, [k]: !c[k] }))}
                     aria-pressed={on}
                     aria-label={label || "Metronome"}
-                    className="h-[22px] px-[8px] rounded-[4px] flex items-center gap-[6px] text-[11px] font-medium"
-                    style={{ background: on ? D.control : "transparent", color: on ? D.t1 : D.t2, boxShadow: `inset 0 0 0 1px ${on ? D.borderStrong : D.border}` }}
+                    className="h-[22px] px-[9px] rounded-full flex items-center gap-[6px] text-[11px] font-medium"
+                    style={{ background: on ? D.raised : D.control, color: on ? D.t1 : D.t2 }}
                   >
                     <Lamp on={on} />
                     {label || <G d={ICON.metronome} size={13} evenodd />}
@@ -399,14 +401,14 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
           <Part part="output" active={activePart} n={n("output")} className="px-[14px] pt-[8px]" style={{ borderLeft: `1px solid ${D.divider}` }}>
             <Cap>OUTPUT</Cap>
             <div className="flex gap-[6px] mt-[3px]">
-              <svg width="150" height="28" viewBox="0 0 150 28" aria-hidden="true" style={{ background: D.bed, borderRadius: 3 }}>
+              <svg width="150" height="28" viewBox="0 0 150 28" aria-hidden="true" style={{ background: D.well, borderRadius: 3 }}>
                 <line x1="0" x2="150" y1="14" y2="14" stroke={D.meter} strokeOpacity="0.22" />
                 <path ref={scopeOuterRef} d="" fill={D.meter} fillOpacity="0.5" />
                 <path ref={scopeInnerRef} d="" fill={D.meter} fillOpacity="0.95" />
               </svg>
-              <div className="w-[60px] h-[28px] flex gap-[2px] rounded-[3px] p-[2px]" style={{ background: D.bed }}>
+              <div className="w-[60px] h-[28px] flex gap-[2px] rounded-[3px] p-[2px]" style={{ background: D.well }}>
                 {[0, 1].map((ch) => (
-                  <div key={ch} className="relative flex-1 h-full overflow-hidden rounded-[1px]" style={{ background: "#090807" }}>
+                  <div key={ch} className="relative flex-1 h-full overflow-hidden rounded-[1px]" style={{ background: D.meterBg }}>
                     <div
                       ref={(el) => { meterRefs.current[ch] = el; }}
                       className="absolute inset-0 origin-bottom"
@@ -423,13 +425,18 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
         <div className="flex" style={{ height: BODY_H }}>
           {/* Library */}
           <Part part="library" active={activePart} n={n("library")} className="shrink-0 flex flex-col" style={{ width: LIB_W, background: D.chrome, borderRight: `1px solid ${D.border}` }}>
-            <div className="m-[8px] mb-[6px] h-[26px] rounded-[5px] flex items-center gap-[7px] px-[9px] text-[11px]" style={{ background: D.bed, color: D.t3, boxShadow: `inset 0 0 0 1px ${D.border}` }}>
-              <G d={ICON.search} size={12} />Search library...
+            <div className="flex gap-[3px] mx-[8px] mt-[8px] text-[11px] font-medium">
+              {["Sounds", "Patterns", "Plugins"].map((tab, i) => (
+                <span key={tab} className="flex-1 h-[22px] grid place-items-center rounded-full" style={i === 0 ? { background: D.primary, color: D.onPrimary } : { color: D.t2 }}>{tab}</span>
+              ))}
+            </div>
+            <div className="m-[8px] mb-[6px] h-[24px] rounded-full flex items-center gap-[7px] px-[10px] text-[11px]" style={{ background: D.well, color: D.t3, boxShadow: "inset 0 1px 2px var(--color-shadow)" }}>
+              <G d={ICON.search} size={12} />Search everything
             </div>
             <div className="flex flex-1 min-h-0">
               <div className="w-[34px] shrink-0 flex flex-col items-center gap-[3px] pt-[2px]" style={{ color: D.t2 }}>
                 <span style={{ color: D.t1 }}><G d={ICON.spark} size={13} /></span>
-                {["#7c3aed", "#f97316", "#22c55e", "#3b82f6"].map((c) => (
+                {[PALETTE[1], PALETTE[2], PALETTE[5], PALETTE[4]].map((c) => (
                   <span key={c} className="w-[7px] h-[7px] rounded-full my-[4px]" style={{ background: c, opacity: 0.85 }} />
                 ))}
                 <span className="w-4 h-px my-[3px]" style={{ background: D.divider }} />
@@ -465,7 +472,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
             <div className="flex shrink-0" style={{ height: OVERVIEW_H, background: D.panel, borderBottom: `1px solid ${D.divider}` }}>
               <div className="shrink-0" style={{ width: HEAD_W, borderRight: `1px solid ${D.border}` }} />
               <div className="relative" style={{ width: LANES_W }}>
-                <div className="absolute inset-x-0 top-[3px] bottom-[3px] rounded-[3px] overflow-hidden" style={{ background: D.bed, boxShadow: `inset 0 0 0 1px ${D.borderStrong}` }}>
+                <div className="absolute inset-x-0 top-[3px] bottom-[3px] rounded-[3px] overflow-hidden" style={{ background: D.bed, boxShadow: `inset 0 0 0 1px ${D.border}` }}>
                   {CLIPS.map((c) => (
                     <span
                       key={c.id}
@@ -513,7 +520,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
               {/* grid */}
               <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: HEAD_W, width: LANES_W }}>
                 {Array.from({ length: BARS + 1 }, (_, b) => (
-                  <span key={b} className="absolute top-0 bottom-0 w-px" style={{ left: barX(b), background: b % 4 === 0 ? "rgba(238,233,225,0.09)" : "rgba(238,233,225,0.045)" }} />
+                  <span key={b} className="absolute top-0 bottom-0 w-px" style={{ left: barX(b), background: b % 4 === 0 ? D.gridMajor : D.gridMinor }} />
                 ))}
               </div>
 
@@ -536,7 +543,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
                               aria-label={`${k === "M" ? "Mute" : k === "S" ? "Solo" : "Arm"} ${t.name}`}
                               aria-pressed={active}
                               className="w-[19px] h-[18px] rounded-[3px] text-[9px] font-semibold grid place-items-center"
-                              style={active ? { background: color, color: D.chrome } : { color: D.t2, boxShadow: `inset 0 0 0 1px ${D.border}` }}
+                              style={active ? { background: color, color: D.onStatus } : { color: D.t2, background: D.control }}
                             >
                               {k}
                             </button>
@@ -554,19 +561,23 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
                             key={c.id}
                             data-part={isPart ? "clip" : undefined}
                             data-hot={isPart && activePart === "clip" ? "" : undefined}
-                            className="absolute overflow-hidden rounded-[2px]"
+                            className="absolute overflow-hidden"
                             style={{
                               left: barX(c.start), width: barX(c.end) - barX(c.start) - 1,
                               top: 1, height: ROW_H - 2,
-                              background: toneT.body, boxShadow: `inset 0 1px 0 ${toneT.edge}`,
+                              background: toneT.body,
+                              boxShadow: `inset 1px 0 0 ${D.bed}`,
                               opacity: on ? 1 : 0.35,
                             }}
                           >
-                            <span className="absolute left-[4px] top-[3px] w-[7px] h-[5px]" style={{ background: `repeating-linear-gradient(${toneT.label} 0 1px, transparent 1px 2px)` }} />
-                            <span className="absolute left-[15px] right-[3px] top-[1px] text-[8.5px] font-semibold leading-[10px] truncate" style={{ color: toneT.label }}>{t.name}</span>
-                            <svg className="absolute left-0 right-0 bottom-[1px]" style={{ height: ROW_H - 13, width: "100%" }} viewBox={`0 0 ${wv.cols} 100`} preserveAspectRatio="none" aria-hidden="true">
-                              <path id={`wv${ci}`} d={wv.env} fill={toneT.ink} fillOpacity="0.5" />
-                              <use href={`#wv${ci}`} fill={toneT.ink} fillOpacity="0.95"
+                            {/* Header band: the track's colour at full strength, name in dark ink (FD-50). */}
+                            <span className="absolute inset-x-0 top-0 flex items-center gap-[3px] pl-[3px]" style={{ height: BAND_H, background: toneT.band, color: TEXT_ON_TRACK }}>
+                              <span className="shrink-0 w-[6px] h-[5px]" style={{ background: `repeating-linear-gradient(${TEXT_ON_TRACK} 0 1px, transparent 1px 2px)`, opacity: 0.6 }} />
+                              <span className="min-w-0 truncate text-[8.5px] font-semibold leading-none">{t.name}</span>
+                            </span>
+                            <svg className="absolute left-0 right-0 bottom-[1px]" style={{ height: ROW_H - BAND_H - 3, width: "100%" }} viewBox={`0 0 ${wv.cols} 100`} preserveAspectRatio="none" aria-hidden="true">
+                              <path id={`wv${ci}`} d={wv.env} fill={toneT.ink} fillOpacity="0.55" />
+                              <use href={`#wv${ci}`} fill={toneT.ink} fillOpacity="1"
                                 transform={`matrix(1 0 0 ${RMS_SCALE} 0 ${50 * (1 - RMS_SCALE)})`} />
                             </svg>
                             {isPart && showBadges && <Badge n={PART_NUMBER.clip} part="clip" inside />}
@@ -584,7 +595,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
 
               {/* playhead */}
               <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: HEAD_W, width: LANES_W }}>
-                <div ref={playheadRef} className="absolute top-0 bottom-0 w-px" style={{ left: 0, background: "rgba(238,233,225,0.9)" }}>
+                <div ref={playheadRef} className="absolute top-0 bottom-0 w-px" style={{ left: 0, background: D.t1 }}>
                   <span className="absolute -top-[7px] -left-[5px] w-0 h-0" style={{ borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: `7px solid ${D.violet}` }} />
                 </div>
               </div>

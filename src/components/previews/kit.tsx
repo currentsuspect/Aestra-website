@@ -138,16 +138,16 @@ export const PluginWindow = ({ x, y, w, h, name, tag, accent, children }: {
   x: number; y: number; w: number; h: number; name: string; tag?: string; accent: string; children?: React.ReactNode;
 }) => (
   <g>
-    <rect x={x} y={y} width={w} height={h} rx={8} fill="#0e0f10" stroke="#2a2d30" />
-    <Label x={x + 12} y={y + 19} size={11} color="#c9ccd0">{name}</Label>
+    <rect x={x} y={y} width={w} height={h} rx={8} fill="var(--daw-panel)" stroke="var(--daw-border)" />
+    <Label x={x + 12} y={y + 19} size={11} color="var(--daw-t1)">{name}</Label>
     {tag && (
       <g>
         <rect x={x + 18 + name.length * 5.6} y={y + 7} width={tag.length * 5.8 + 14} height={17} rx={8.5} fill="none" stroke={accent} strokeOpacity={0.6} />
         <Label x={x + 25 + name.length * 5.6} y={y + 19} size={10} color={accent}>{tag}</Label>
       </g>
     )}
-    <path d={`M${x + w - 20} ${y + 10}l8 8M${x + w - 12} ${y + 10}l-8 8`} stroke="#8a8f94" strokeWidth={1.3} />
-    <line x1={x} x2={x + w} y1={y + 30.5} y2={y + 30.5} stroke="#1f2225" />
+    <path d={`M${x + w - 20} ${y + 10}l8 8M${x + w - 12} ${y + 10}l-8 8`} stroke="var(--daw-t3)" strokeWidth={1.3} />
+    <line x1={x} x2={x + w} y1={y + 30.5} y2={y + 30.5} stroke="var(--daw-divider)" />
     {children}
   </g>
 );
@@ -157,7 +157,7 @@ export const Button = ({ x, y, w, h = 20, label, on = false, color = D.primary, 
 }) => (
   <g transform={pressed ? `translate(${x + w / 2} ${y + h / 2}) scale(${1 - pressed * 0.06}) translate(${-x - w / 2} ${-y - h / 2})` : undefined}>
     <rect x={x + 0.5} y={y + 0.5} width={w - 1} height={h - 1} rx={3} fill={on ? color : D.control} stroke={on ? color : D.borderStrong} />
-    <Label x={x + w / 2} y={y + h / 2 + size * 0.36} size={size} anchor="middle" weight={600} color={ink ?? (on ? "#0b0714" : D.t2)}>{label}</Label>
+    <Label x={x + w / 2} y={y + h / 2 + size * 0.36} size={size} anchor="middle" weight={600} color={ink ?? (on ? "var(--daw-on-primary)" : D.t2)}>{label}</Label>
   </g>
 );
 
@@ -168,7 +168,7 @@ export const Keycap = ({ x, y, label, on = false }: { x: number; y: number; labe
     <g transform={`translate(0 ${on ? 1.5 : 0})`}>
       <rect x={x} y={y} width={w} height={22} rx={4} fill={on ? D.t1 : D.raised} stroke={on ? D.t1 : D.borderStrong} />
       {!on && <rect x={x} y={y + 19} width={w} height={3} rx={2} fill={D.border} />}
-      <Label x={x + w / 2} y={y + 15} size={11} anchor="middle" weight={600} mono color={on ? "#100e0d" : D.t1}>{label}</Label>
+      <Label x={x + w / 2} y={y + 15} size={11} anchor="middle" weight={600} mono color={on ? "var(--daw-chrome)" : D.t1}>{label}</Label>
     </g>
   );
 };
@@ -179,9 +179,9 @@ export const Cursor = ({ x, y, down = 0, hand = false }: { x: number; y: number;
     {down > 0 && <circle r={6 + down * 10} fill="none" stroke={D.t1} strokeOpacity={0.55 * (1 - down)} strokeWidth={1.5} />}
     {hand ? (
       <path d="M-1 -2v-7a2 2 0 0 1 4 0v6h1v-3a2 2 0 0 1 4 0v3h1v-2a2 2 0 0 1 4 0v8c0 5-3 8-7 8h-2c-3 0-5-2-7-5l-3-5a2 2 0 0 1 3-2l2 2z"
-        fill="#fff" stroke="#111" strokeWidth={1} />
+        fill="#fff" stroke="var(--daw-bed)" strokeWidth={1} />
     ) : (
-      <path d="M0 0v16l4.2-4 2.8 6.4 2.6-1.1-2.8-6.3 5.8-.2z" fill="#fff" stroke="#111" strokeWidth={1} strokeLinejoin="round" />
+      <path d="M0 0v16l4.2-4 2.8 6.4 2.6-1.1-2.8-6.3 5.8-.2z" fill="#fff" stroke="var(--daw-bed)" strokeWidth={1} strokeLinejoin="round" />
     )}
   </g>
 );
@@ -214,7 +214,7 @@ export const Menu = ({ x, y, w = 150, items, hover = -1, open = 1, cursor, rowH 
             {i === hover && <rect x={x + 3} y={y + 4 + i * rowH} width={w - 6} height={rowH} rx={3} fill={D.primary} />}
             <Label x={x + 10} y={base(i)} size={r.head ? 9.5 : 11} mono={r.head}
               color={i === hover ? "#fff" : r.head ? D.t3 : r.danger ? D.error : r.dim ? D.t3 : D.t1}>{r.label}</Label>
-            {r.hint && <Label x={x + w - 10} y={base(i)} size={10} anchor="end" mono color={i === hover ? "#e6e0ff" : D.t3}>{r.hint}</Label>}
+            {r.hint && <Label x={x + w - 10} y={base(i)} size={10} anchor="end" mono color={i === hover ? "var(--daw-t1)" : D.t3}>{r.hint}</Label>}
           </g>
         ))}
       </Crop>
@@ -263,7 +263,7 @@ export const Bed = ({ x, y, w, h, bars, beats = true, quiet = false }: { x: numb
       const major = i % 4 === 0;
       if (!major && !beats) return null;
       const xx = x + (i / (bars * 4)) * w;
-      return <line key={i} x1={xx} x2={xx} y1={y} y2={y + h} stroke={major ? (quiet ? "#1c1a17" : "#2a2622") : quiet ? "#0f0e0d" : "#161412"} />;
+      return <line key={i} x1={xx} x2={xx} y1={y} y2={y + h} stroke={major ? (quiet ? "var(--daw-control)" : "var(--daw-border)") : quiet ? "var(--daw-chrome)" : "var(--daw-panel)"} />;
     })}
   </g>
 );
@@ -283,8 +283,8 @@ export const Clip = ({ x, y, w, h, slot, label, shape = "vox", seed = 1, sel = f
   cols?: number;
 }) => {
   const c = tone(slot);
-  const body = rec ? "#5c1a1d" : c.body;
-  const ink = rec ? "#ff8a7a" : c.ink;
+  const body = rec ? "color-mix(in srgb, var(--daw-error) 25%, var(--daw-bed))" : c.body;
+  const ink = rec ? "var(--daw-error)" : c.ink;
   const n = cols ?? Math.max(8, Math.round(w / 1.5));
   const all = peaks(Math.round(n / Math.max(0.05, to - from)), seed, shape);
   const p = all.slice(Math.floor(from * all.length), Math.floor(from * all.length) + n);
@@ -307,7 +307,7 @@ export const Clip = ({ x, y, w, h, slot, label, shape = "vox", seed = 1, sel = f
         <path d={wavePath(p, x + 2, y + (label && h >= 22 ? 14 : 3), w - 4, h - (label && h >= 22 ? 17 : 6))} fill={ink} opacity={0.85 * waveOpacity} />
       )}
       {sel && <rect x={x + 0.75} y={y + 0.75} width={w - 1.5} height={h - 1.5} fill="none" stroke={D.t1} strokeWidth={1.5} />}
-      {dim > 0 && <rect x={x} y={y} width={w} height={h} fill="#000" opacity={dim * 0.45} />}
+      {dim > 0 && <rect x={x} y={y} width={w} height={h} fill="var(--daw-bed)" opacity={dim * 0.45} />}
     </g>
   );
 };
@@ -331,7 +331,7 @@ export const TrackHead = ({ x, y, w, h, n, name, slot, mute = false, solo = fals
       return (
         <g key={l}>
           <rect x={bx} y={y + h / 2 - 9} width={18} height={18} rx={3} fill={on ? c : D.control} stroke={on ? c : D.borderStrong} />
-          <Label x={bx + 9} y={y + h / 2 + 3.5} size={9.5} weight={700} anchor="middle" color={on ? "#100e0d" : D.t3}>{l}</Label>
+          <Label x={bx + 9} y={y + h / 2 + 3.5} size={9.5} weight={700} anchor="middle" color={on ? "var(--daw-chrome)" : D.t3}>{l}</Label>
         </g>
       );
     })}
@@ -358,7 +358,7 @@ export const Roll = ({ x, y, w, h, rows, beats, notes, rowNames, quiet = false, 
         const isBlack = black.includes(pitch % 12);
         return (
           <g key={r}>
-            <rect x={x + kw} y={y + r * rh} width={w - kw} height={rh} fill={isBlack ? (quiet ? "#050505" : "#0b0a09") : "#000"} />
+            <rect x={x + kw} y={y + r * rh} width={w - kw} height={rh} fill={isBlack ? (quiet ? "var(--daw-bed)" : "var(--daw-chrome)") : "var(--daw-bed)"} />
             <rect x={x} y={y + r * rh + 0.5} width={kw - 2} height={rh - 1} fill={isBlack ? D.control : D.raised} />
             {rowNames?.[pitch] && <Label x={x + kw - 5} y={y + r * rh + rh / 2 + 3.5} size={8.5} anchor="end" color={D.t2}>{rowNames[pitch]}</Label>}
           </g>
@@ -368,7 +368,7 @@ export const Roll = ({ x, y, w, h, rows, beats, notes, rowNames, quiet = false, 
         const bar = i % 16 === 0;
         const beat = i % 4 === 0;
         return <line key={i} x1={bx(i / 4)} x2={bx(i / 4)} y1={y} y2={y + h}
-          stroke={bar ? (quiet ? "#24211e" : "#34302b") : beat ? (quiet ? "#151311" : "#221f1c") : quiet ? "#0a0909" : "#141210"} />;
+          stroke={bar ? (quiet ? "var(--daw-raised)" : "var(--daw-border-strong)") : beat ? (quiet ? "var(--daw-panel)" : "var(--daw-control)") : quiet ? "var(--daw-chrome)" : "var(--daw-panel)"} />;
       })}
       <Crop x={x + kw} y={y} w={w - kw} h={h}>
       {notes.map((n, i) => {
@@ -377,8 +377,8 @@ export const Roll = ({ x, y, w, h, rows, beats, notes, rowNames, quiet = false, 
         const ny = y + (rows - 1 - n.p) * rh + 1;
         return (
           <g key={i} opacity={n.o ?? 1}>
-            <rect x={nx} y={ny} width={nw} height={rh - 2} rx={1.5} fill={n.sel ? "#b597ff" : color} stroke={n.sel ? "#fff" : "none"} strokeWidth={1.2} />
-            {n.label && nw > 18 && <Label x={nx + 4} y={ny + rh - 5.5} size={8.5} weight={600} color={n.sel ? "#1b0f33" : "#ede6ff"}>{n.label}</Label>}
+            <rect x={nx} y={ny} width={nw} height={rh - 2} rx={1.5} fill={n.sel ? "var(--daw-accent)" : color} stroke={n.sel ? "var(--daw-t1)" : "none"} strokeWidth={1.2} />
+            {n.label && nw > 18 && <Label x={nx + 4} y={ny + rh - 5.5} size={8.5} weight={600} color={n.sel ? "var(--daw-chrome)" : "var(--daw-t1)"}>{n.label}</Label>}
           </g>
         );
       })}
@@ -415,7 +415,7 @@ export const Unit = ({ x, y, w, name, n, color, steps, on, playing = -1, sel = [
         const group = Math.floor(i / 4) % 2 === 0;
         return (
           <rect key={i} x={lx + i * sw + 1} y={y + 6} width={sw - 2} height={22} rx={2}
-            fill={isOn ? (isHit ? "#fff" : color) : group ? "#1d1a17" : "#171513"}
+            fill={isOn ? (isHit ? "#fff" : color) : group ? "var(--daw-control)" : "var(--daw-panel)"}
             stroke={isSel ? D.t1 : i === playing ? D.t2 : "none"} strokeWidth={isSel ? 1.5 : 1} />
         );
       })}
@@ -435,7 +435,7 @@ const A0 = Math.PI * 0.75;
 const A1 = Math.PI * 2.25;
 
 /** Plugin-style knob. `v` is 0..1, or -1..1 when bipolar (arc grows from the top detent). */
-export const Knob = ({ cx, cy, r, v, bipolar = false, color, track = "#2a2d30", label, value, sub, labelColor = "#c9ccd0" }: {
+export const Knob = ({ cx, cy, r, v, bipolar = false, color, track = "var(--daw-border)", label, value, sub, labelColor = "var(--daw-t1)" }: {
   cx: number; cy: number; r: number; v: number; bipolar?: boolean; color: string; track?: string;
   label?: string; value?: string; sub?: string; labelColor?: string;
 }) => {
@@ -450,13 +450,13 @@ export const Knob = ({ cx, cy, r, v, bipolar = false, color, track = "#2a2d30", 
         <path d={bipolar ? arc(cx, cy, r, Math.min(mid, a), Math.max(mid, a)) : arc(cx, cy, r, A0, a)}
           stroke={color} strokeWidth={r * 0.16} fill="none" />
       )}
-      {bipolar && <line x1={cx} x2={cx} y1={cy - r - r * 0.12} y2={cy - r + r * 0.12} stroke="#e8eaec" strokeWidth={2} />}
-      <circle cx={cx} cy={cy} r={r * 0.34} fill="#111416" stroke="#23282b" />
-      <line x1={cx} y1={cy} x2={ex} y2={ey} stroke="#e8eaec" strokeWidth={2} strokeLinecap="round" />
-      <circle cx={px + (ex - px)} cy={py + (ey - py)} r={2.6} fill="#e8eaec" />
+      {bipolar && <line x1={cx} x2={cx} y1={cy - r - r * 0.12} y2={cy - r + r * 0.12} stroke="var(--daw-t1)" strokeWidth={2} />}
+      <circle cx={cx} cy={cy} r={r * 0.34} fill="var(--daw-control)" stroke="var(--daw-border-strong)" />
+      <line x1={cx} y1={cy} x2={ex} y2={ey} stroke="var(--daw-t1)" strokeWidth={2} strokeLinecap="round" />
+      <circle cx={px + (ex - px)} cy={py + (ey - py)} r={2.6} fill="var(--daw-t1)" />
       {label && <Label x={cx} y={cy + r + 17} size={11} anchor="middle" color={labelColor}>{label}</Label>}
       {value && <Label x={cx} y={cy + r + 31} size={11} anchor="middle" color={color}>{value}</Label>}
-      {sub && <Label x={cx} y={cy + r + 44} size={9.5} anchor="middle" color="#7d8288">{sub}</Label>}
+      {sub && <Label x={cx} y={cy + r + 44} size={9.5} anchor="middle" color="var(--daw-t3)">{sub}</Label>}
     </g>
   );
 };
@@ -466,7 +466,7 @@ export const Meter = ({ x, y, h, level, w = 5, peak }: { x: number; y: number; h
   const lv = clamp(level);
   return (
     <g>
-      <rect x={x} y={y} width={w} height={h} fill="#0a0908" stroke={D.border} strokeWidth={0.5} />
+      <rect x={x} y={y} width={w} height={h} fill="var(--daw-chrome)" stroke={D.border} strokeWidth={0.5} />
       <rect x={x} y={y + h * (1 - lv)} width={w} height={h * lv} fill={lv > 0.9 ? D.warn : D.meter} />
       {peak !== undefined && <rect x={x} y={y + h * (1 - clamp(peak))} width={w} height={1.5} fill={D.t1} />}
     </g>
@@ -478,7 +478,7 @@ export const Fader = ({ x, y, h, v }: { x: number; y: number; h: number; v: numb
   const cy = y + h * (1 - v);
   return (
     <g>
-      <rect x={x - 1.5} y={y} width={3} height={h} rx={1.5} fill="#0a0908" stroke={D.border} strokeWidth={0.5} />
+      <rect x={x - 1.5} y={y} width={3} height={h} rx={1.5} fill="var(--daw-chrome)" stroke={D.border} strokeWidth={0.5} />
       <rect x={x - 11} y={cy - 6} width={22} height={12} rx={2} fill={D.raised} stroke={D.borderStrong} />
       <line x1={x - 8} x2={x + 8} y1={cy} y2={cy} stroke={D.t1} />
     </g>
@@ -495,7 +495,7 @@ export const Strip = ({ x, y, h, name, slot, v = 0.72, level = 0, inserts = [], 
     <Label x={x + 35} y={y + 18} size={10.5} anchor="middle" color={D.t1}>{name}</Label>
     {Array.from({ length: 3 }, (_, i) => (
       <g key={i}>
-        <rect x={x + 6} y={y + 26 + i * 17} width={58} height={14} rx={2} fill={inserts[i] ? D.raised : "#100e0c"} stroke={D.border} />
+        <rect x={x + 6} y={y + 26 + i * 17} width={58} height={14} rx={2} fill={inserts[i] ? D.raised : "var(--daw-chrome)"} stroke={D.border} />
         {inserts[i] && <Label x={x + 11} y={y + 36.5 + i * 17} size={9} color={D.t1}>{inserts[i]}</Label>}
       </g>
     ))}
@@ -513,7 +513,7 @@ export const Check = ({ x, y, color = D.success, p = 1 }: { x: number; y: number
 /** A centred caption on its own plate, so it never sits loose over clips or notes. */
 export const Caption = ({ x, y, w = 200, opacity = 1, children }: { x: number; y: number; w?: number; opacity?: number; children: React.ReactNode }) => (
   <g opacity={opacity}>
-    <rect x={x - w / 2} y={y - 16} width={w} height={26} rx={3} fill="#0b0a09" stroke={D.border} />
+    <rect x={x - w / 2} y={y - 16} width={w} height={26} rx={3} fill="var(--daw-chrome)" stroke={D.border} />
     <Label x={x} y={y + 1} size={11} anchor="middle" mono color={D.t2}>{children}</Label>
   </g>
 );

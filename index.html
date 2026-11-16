@@ -6,7 +6,7 @@
 
   <!-- ===== Primary SEO ===== -->
   <title>Aestra — A free, native DAW</title>
-  <meta name="description" content="Aestra is a free app for making music, built to run well on old laptops and machines never meant for music production. The whole DAW is free, eleven effects come in the box, and it's in alpha on Linux.">
+  <meta name="description" content="Aestra is a free app for making music, built to run well on old laptops and machines never meant for music production. The whole DAW is free, eleven effects come in the box, and it's in alpha on Windows and Linux.">
   <meta name="author" content="Dylan Makori, Aestra Studios">
   <meta name="creator" content="Aestra Studios">
   <meta name="publisher" content="Aestra Studios">
@@ -35,7 +35,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Aestra">
   <meta property="og:title" content="Aestra — A free, native DAW">
-  <meta property="og:description" content="Less distance between an idea and its sound. A native DAW with eleven effects in the box. Free, and in alpha on Linux.">
+  <meta property="og:description" content="Less distance between an idea and its sound. A native DAW with eleven effects in the box. Free, and in alpha on Windows and Linux.">
   <meta property="og:url" content="https://www.aestra.studio/">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://www.aestra.studio/og-image.png">
@@ -50,7 +50,7 @@
   <meta name="twitter:site" content="@aestrastudios">
   <meta name="twitter:creator" content="@aestrastudios">
   <meta name="twitter:title" content="Aestra — A free, native DAW">
-  <meta name="twitter:description" content="Less distance between an idea and its sound. A native DAW with eleven effects in the box. Free, and in alpha on Linux.">
+  <meta name="twitter:description" content="Less distance between an idea and its sound. A native DAW with eleven effects in the box. Free, and in alpha on Windows and Linux.">
   <meta name="twitter:image" content="https://www.aestra.studio/og-image.png">
   <meta name="twitter:image:alt" content="Aestra — a free app for making music">
   <meta name="twitter:image:width" content="1200">
@@ -126,21 +126,11 @@
   }
   </script>
 
-  <!-- No-flash theme bootstrap (runs before React mounts).
-       Honors saved choice first, then OS preference as a fallback. -->
+  <!-- No-flash theme bootstrap (runs before first paint). A stored choice is
+       "<family>-<dark|light|hc|system>" (src/hooks/useTheme.ts); without one,
+       :root already carries the default theme (src/theme/themes.css). -->
   <script>
-    (function() {
-      try {
-        var t = localStorage.getItem('aestra-theme');
-        var light = t === 'light';
-        if (!t) {
-          light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-        }
-        if (light) {
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      } catch (e) {}
-    })();
+    (function(){try{var t=localStorage.getItem('aestra-theme'),m=/^([a-z-]+)-(dark|light|hc|system)$/.exec(t||'');if(!m)return;var d=m[2]=='system'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):m[2];document.documentElement.setAttribute('data-theme',m[1]+'-'+d)}catch(e){}})();
   </script>
 
 </head>

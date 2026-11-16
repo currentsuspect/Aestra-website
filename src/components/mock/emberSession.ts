@@ -3,38 +3,55 @@
    captures (112 BPM). Every colour rule is ported from ~/Dev/Aestra and
    must track it:
      - track identity hues      → TRACK_PALETTE (AestraUI/Widgets/TrackColorPalette.h, Ember)
-     - clip body / ink / label  → capClipLuminance(0.14), liftClipInk(0.86 / 0.94)
+     - clip band / body / ink   → headerBandColor (identity), capClipLuminance(0.03),
+                                  waveformInkTone (identity lifted 0.42), label lift 0.94 (FD-50)
      - lane stripe + overview   → restrainLaneIdentityColor (0.84, 0.62)
-     - chrome surfaces / text   → createAestraDark() in AestraUI/Core/NUIThemeSystem.cpp
+     - chrome surfaces / text   → the current theme's tokens (CSS variables)
    The waveforms are generated, shaped per instrument; they are not audio. */
+
+import { TRACK_PALETTE } from "../../theme/themes";
 
 export type RGB = [number, number, number];
 
-/* Ember, from NUIThemeSystem.cpp. The mock is the DAW, so it stays in the
-   DAW's own dark world in both site themes. */
+/* The app's theme tokens, as CSS variables generated from the Aestra Kit
+   (src/theme/themes.css). The mock wears whatever theme the page wears, the
+   way the app would. Values are var() strings, so use them only where CSS
+   reads them (style, fill, stroke), never in colour maths. */
 export const D = {
-  bed: "#000000",          // timelineBed: pure black by the owner's direction
-  chrome: "#0c0b0a",       // trackChrome = backgroundPrimary
-  panel: "#141210",        // backgroundSecondary
-  control: "#1c1a17",      // surfaceTertiary
-  raised: "#25221f",       // surfaceRaised
-  border: "#2e2a26",
-  borderStrong: "#3d3833",
-  divider: "#27231f",
-  t1: "#eee9e1",
-  t2: "#aca397",
-  t3: "#857d72",
-  t4: "#57514a",
-  primary: "#7c3aed",
-  violet: "#a88dfb",       // secondary: violet readable as text
-  meter: "#3fd6ad",
-  warn: "#f3a93b",
-  error: "#ff6b4f",
-  success: "#5cc98a",
+  bed: "var(--daw-bed)",                 // timelineBed
+  chrome: "var(--daw-chrome)",           // backgroundPrimary
+  panel: "var(--daw-panel)",             // backgroundSecondary
+  control: "var(--daw-control)",         // surfaceTertiary
+  raised: "var(--daw-raised)",           // surfaceRaised
+  well: "var(--daw-well)",               // editorWell
+  border: "var(--daw-border)",
+  borderStrong: "var(--daw-border-strong)",
+  divider: "var(--daw-divider)",
+  t1: "var(--daw-t1)",                   // textPrimary
+  t2: "var(--daw-t2)",                   // textSecondary
+  t3: "var(--daw-t3)",                   // textMuted
+  t4: "var(--daw-t4)",                   // textDisabled
+  primary: "var(--daw-primary)",
+  onPrimary: "var(--daw-on-primary)",
+  violet: "var(--daw-accent)",           // secondary: the accent readable as text
+  selected: "var(--daw-selected)",
+  meter: "var(--daw-meter)",             // meterSafe
+  meterBg: "var(--daw-meter-bg)",
+  warn: "var(--daw-warn)",
+  error: "var(--daw-error)",
+  success: "var(--daw-success)",
+  onStatus: "var(--daw-on-status)",
+  gridMajor: "var(--daw-grid-major)",
+  gridMinor: "var(--daw-grid-minor)",
 } as const;
 
-/* TRACK_PALETTE, Ember: OKLCH L 0.73 C 0.18 at hues 172/300/55/30/232/128/355/272 */
-export const PALETTE = ["#06c49d", "#b88efc", "#fb8304", "#ff7a66", "#10b6f3", "#86bc23", "#fb70ad", "#8aa1fc"];
+/* Track identity colours (the kit's track palette, the app's TrackColorPalette.h).
+   They do not change with the theme. */
+export const PALETTE: string[] = TRACK_PALETTE;
+
+/* Clip names and the menu glyph are drawn dark on the full-colour header band in every
+   theme (TimelineClipPaint.cpp, kTextOnTrack). */
+export const TEXT_ON_TRACK = "#12100e";
 
 const hex = (h: string): RGB => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255) as RGB;
 const toCss = (c: RGB, a = 1) =>
@@ -43,7 +60,7 @@ const lin = (v: number) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.
 const lum = (c: RGB) => 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]);
 
 /** capClipLuminance: one scalar on all channels until WCAG luminance ≤ ceiling. */
-const capClip = (c: RGB, ceiling = 0.14): RGB => {
+const capClip = (c: RGB, ceiling = 0.03): RGB => {
   if (lum(c) <= ceiling) return c;
   let lo = 0;
   let hi = 1;
@@ -64,9 +81,14 @@ export const tone = (slot: number) => {
   const identity = hex(PALETTE[slot % PALETTE.length]);
   const body = capClip(identity);
   return {
+    /** The header band: the identity colour at full strength, carrying the name in TEXT_ON_TRACK. */
+    band: toCss(identity),
+    /** The body: a deep tint of the hue, so the band finds the clip and the body recedes. */
     body: toCss(body),
     edge: toCss(lift(body, 0.3)),
-    ink: toCss(lift(body, 0.86)),
+    /** Waveform and note ink: a light tint of the track's own hue. */
+    ink: toCss(lift(identity, 0.42)),
+    /** Text drawn straight on the body. */
     label: toCss(lift(body, 0.94)),
     lane: toCss(restrain(identity, 0.84, 0.62)),
   };

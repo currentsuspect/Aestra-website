@@ -27,8 +27,8 @@ export const useToast = () => {
 };
 
 const variantStyles: Record<ToastVariant, { ring: string; icon: string; Icon: React.ComponentType<{ className?: string }> }> = {
-  success: { ring: "ring-emerald-500/20", icon: "text-emerald-400", Icon: Check },
-  error:   { ring: "ring-rose-500/20",    icon: "text-rose-400",    Icon: AlertCircle },
+  success: { ring: "ring-[color-mix(in_srgb,var(--color-success)_25%,transparent)]", icon: "text-success", Icon: Check },
+  error:   { ring: "ring-[color-mix(in_srgb,var(--color-error)_30%,transparent)]",    icon: "text-error",    Icon: AlertCircle },
   info:    { ring: "ring-accent/20",  icon: "text-accent",  Icon: Info },
 };
 
@@ -89,7 +89,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               key={t.id}
               role={t.variant === "error" ? "alert" : "status"}
               className={cn(
-                "pointer-events-auto toast-enter rounded-lg border border-border/80 bg-bg/95 backdrop-blur shadow-lg ring-1",
+                "pointer-events-auto toast-enter rounded-[10px] bg-surface shadow-[0_8px_16px_var(--color-shadow)] ring-1",
                 ring,
                 "p-3.5 pr-9 flex items-start gap-3 relative"
               )}

@@ -10,7 +10,7 @@ import {
 
 const TX = 20;
 const TW = 560;
-const ACCENT = "#a88dfb";
+const ACCENT = "var(--daw-accent)";
 
 /* An automation lane: bars 1..bars across (x, w), value 0..1 down from the top of (y, h). */
 type Pt = { b: number; v: number };
@@ -80,7 +80,7 @@ const automationClips: Scene = {
           <g key={i as number}>
             <rect x={g(s as number)} y={56} width={g(e as number) - g(s as number) - (i ? -0 : split ? 3 : 0)} height={114} fill={ACCENT} opacity={0.13} />
             <rect x={g(s as number)} y={56} width={g(e as number) - g(s as number) - (i ? 0 : split ? 3 : 0)} height={9} fill={ACCENT} opacity={0.5} />
-            <path d={`M${g(s as number) + 5} 59.5h14M${g(s as number) + 5} 62h14`} stroke="#0b0714" strokeWidth={1} />
+            <path d={`M${g(s as number) + 5} 59.5h14M${g(s as number) + 5} 62h14`} stroke="var(--daw-on-primary)" strokeWidth={1} />
           </g>
         ))}
         <path d={polyline(shifted, bars, x, w, y + 4, h + 4)} stroke={ACCENT} strokeWidth={2} fill="none" />
@@ -313,8 +313,8 @@ const fades: Scene = {
       <Panel title="Timeline">
         <Bed x={40} y={44} w={520} h={140} bars={4} />
         <Clip x={x0} y={y} w={x1 - x0} h={h} slot={4} label="Pad" shape="pad" seed={14} cols={200} />
-        <path d={`M${x0} ${y + h}L${fiX} ${y}L${x0} ${y}Z`} fill="#000" opacity={0.55} />
-        <path d={`M${x1} ${y + h}L${foX} ${y}L${x1} ${y}Z`} fill="#000" opacity={0.55} />
+        <path d={`M${x0} ${y + h}L${fiX} ${y}L${x0} ${y}Z`} fill="var(--daw-bed)" opacity={0.55} />
+        <path d={`M${x1} ${y + h}L${foX} ${y}L${x1} ${y}Z`} fill="var(--daw-bed)" opacity={0.55} />
         <line x1={x0} y1={y + h} x2={fiX} y2={y} stroke={D.t1} strokeWidth={1.4} />
         <line x1={x1} y1={y + h} x2={foX} y2={y} stroke={D.t1} strokeWidth={1.4} />
         <rect x={fiX - 3.5} y={y - 3.5} width={7} height={7} fill={D.t1} />
@@ -345,7 +345,7 @@ const leftTrim: Scene = {
         <Era now={now} />
         <Roll x={20} y={38} w={560} h={150} rows={10} beats={beats}
           notes={notes.map((n) => ({ ...n, sel: sounding(n), o: sounding(n) ? 1 : 0.7 }))} />
-        <rect x={bx(0)} y={38} width={bx(trim) - bx(0)} height={150} fill="#000" opacity={0.5} />
+        <rect x={bx(0)} y={38} width={bx(trim) - bx(0)} height={150} fill="var(--daw-bed)" opacity={0.5} />
         <Label x={bx(0) + 6} y={56} size={9.5} mono color={D.t3}>trimmed</Label>
         <Playhead x={bx(play)} y={38} h={150} />
         <Label x={30} y={208} size={10.5} color={now ? D.meter : D.warn}>

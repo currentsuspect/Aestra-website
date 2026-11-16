@@ -10,7 +10,7 @@ export const SITE = {
   name: "Aestra",
   url: ORIGIN,
   description:
-    "Aestra is a free app for making music, built for old and modest machines: the whole DAW is free, eleven effects come in the box, and it's in alpha on Linux.",
+    "Aestra is a free app for making music, built for old and modest machines: the whole DAW is free, eleven effects come in the box, and it's in alpha on Windows and Linux.",
   twitter: "@aestrastudios",
   twitterUrl: "https://x.com/aestrastudios",
   github: "https://github.com/currentsuspect/Aestra",
@@ -53,7 +53,7 @@ export const softwareApplication = () => ({
     "Loop-first workflow with patterns and an Arsenal step sequencer",
     "Visual signal routing",
     "Eleven built-in effects: EQ, Compressor, Verb, Delay, Limit, OTT, Transient, Sat, Filter, Drift and LFO",
-    "VST3 and CLAP plugin hosting (partial, Linux only during alpha)",
+    "VST3 and CLAP plugin hosting in a separate process, on Linux and Windows (alpha)",
   ],
   offers: {
     "@type": "Offer",

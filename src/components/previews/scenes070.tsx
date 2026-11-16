@@ -22,7 +22,7 @@ const oneShotStops: Scene = {
       <Panel title="Piano Roll · One-shot">
         <Era now={now} />
         <Roll x={20} y={40} w={560} h={90} rows={8} beats={4} notes={notes} rowNames={{ 6: "C3" }} />
-        <rect x={20} y={136} width={560} height={84} fill="#050505" />
+        <rect x={20} y={136} width={560} height={84} fill="var(--daw-bed)" />
         <Label x={26} y={150} size={9} mono color={D.t3}>WHAT YOU HEAR</Label>
         {notes.map((n, i) => {
           const start = n.s;
@@ -129,13 +129,13 @@ const pingPong: Scene = {
     return (
       <Panel title="Sampler">
         <g opacity={reopen ? 0.2 : 1}>
-          <rect x={30} y={50} width={540} height={120} fill="#050505" stroke={D.border} />
+          <rect x={30} y={50} width={540} height={120} fill="var(--daw-bed)" stroke={D.border} />
           <path d={wavePath(peaks(180, 14, "pad"), 30, 56, 540, 108)} fill={tone(1).ink} opacity={0.55} />
-          <rect x={30 + a * 540} y={50} width={len * 540} height={120} fill="rgba(124,58,237,.14)" stroke={D.violet} />
+          <rect x={30 + a * 540} y={50} width={len * 540} height={120} fill="color-mix(in srgb, var(--daw-primary) 14%, transparent)" stroke={D.violet} />
           <Playhead x={x} y={50} h={120} />
           <path d={forward ? `M${x + 6} 60l8 5l-8 5z` : `M${x - 6} 60l-8 5l8 5z`} fill={D.t1} />
           <Label x={30} y={196} size={10.5} color={D.t2}>Loop mode</Label>
-          <Button x={104} y={182} w={100} h={22} label="‹ Ping-pong ›" on color={D.primary} ink="#fff" />
+          <Button x={104} y={182} w={100} h={22} label="‹ Ping-pong ›" on color={D.primary} ink={D.onPrimary} />
           <Label x={220} y={196} size={10.5} color={D.t3}>{forward ? "forward" : "backward"}</Label>
         </g>
         {reopen && <Caption x={W / 2} y={120}>CLOSE · REOPEN</Caption>}
@@ -184,7 +184,7 @@ const harmonyStays: Scene = {
           </Roll>
           <rect x={450} y={40} width={132} height={180} fill={D.panel} stroke={D.border} />
           <Label x={460} y={60} size={9.5} mono color={D.t3}>HARMONY</Label>
-          <Button x={460} y={70} w={112} h={22} label={chosen ? "C minor" : "Off"} on={chosen} ink={chosen ? "#fff" : undefined} />
+          <Button x={460} y={70} w={112} h={22} label={chosen ? "C minor" : "Off"} on={chosen} ink={chosen ? D.onPrimary : undefined} />
           {t > 3.4 && <g><Check x={462} y={112} p={k(t, 3.4, 3.8)} /><Label x={480} y={117} size={10.5} color={D.meter}>Still C minor</Label></g>}
         </g>
         {reopen && <Caption x={W / 2} y={130}>CLOSE · REOPEN</Caption>}
@@ -301,7 +301,7 @@ const easierClips: Scene = {
     return (
       <Panel title="Timeline">
         <Era now={now} />
-        <rect x={20} y={36} width={560} height={16} fill="#0a0908" stroke={D.border} />
+        <rect x={20} y={36} width={560} height={16} fill="var(--daw-chrome)" stroke={D.border} />
         {rows.map(([a, b, slot], i) => (
           <rect key={i} x={20 + ((a - 1) / 8) * 560} y={38 + i * 3.2} width={((b - a) / 8) * 560} height={2.4} fill={now ? tone(slot).lane : D.t3} />
         ))}
@@ -330,14 +330,14 @@ const readableTimeline: Scene = {
     return (
       <Panel title="Timeline">
         <Era now={now} />
-        <rect x={20} y={36} width={560} height={16} fill="#0a0908" stroke={D.border} />
-        {now && <rect x={20 + ((now ? scroll : 0) / 14) * 560} y={36} width={(8 / 14) * 560} height={16} fill="rgba(168,141,251,.12)" stroke={D.violet} />}
+        <rect x={20} y={36} width={560} height={16} fill="var(--daw-chrome)" stroke={D.border} />
+        {now && <rect x={20 + ((now ? scroll : 0) / 14) * 560} y={36} width={(8 / 14) * 560} height={16} fill="color-mix(in srgb, var(--daw-accent) 12%, transparent)" stroke={D.violet} />}
         <Crop x={20} y={58} w={560} h={164}>
-          <rect x={20} y={58} width={560} height={164} fill="#000" />
+          <rect x={20} y={58} width={560} height={164} fill="var(--daw-bed)" />
           {Array.from({ length: 64 }, (_, i) => {
             const x = g(1 + i / 4);
             const major = i % 4 === 0;
-            return <line key={i} x1={x} x2={x} y1={58} y2={222} stroke={now ? (major ? "#2a2622" : "#121110") : major ? "#57514a" : "#3d3833"} />;
+            return <line key={i} x1={x} x2={x} y1={58} y2={222} stroke={now ? (major ? "var(--daw-border)" : "var(--daw-chrome)") : major ? "var(--daw-t4)" : "var(--daw-border-strong)"} />;
           })}
           {[[1, 6, 3], [3, 10, 4], [2, 5, 1], [6, 12, 6]].map(([a, b, slot], i) => (
             <Clip key={i} x={g(a)} y={64 + i * 39} w={g(b) - g(a)} h={34} slot={slot} label={["Drums", "Bass", "Keys", "Vocal"][i]} seed={i} shape="vox" waveOpacity={now ? 1 : 0.5} dim={now ? 0 : 0.5} />
@@ -364,7 +364,7 @@ const museInspect: Scene = {
           const at = 1.6 + i * 0.9;
           return (
             <g key={a} opacity={k(t, at - 0.3, at)}>
-              <rect x={20} y={86 + i * 40} width={560} height={34} rx={3} fill="#0f0d0c" stroke={D.border} />
+              <rect x={20} y={86 + i * 40} width={560} height={34} rx={3} fill="var(--daw-chrome)" stroke={D.border} />
               {t > at ? <Check x={34} y={104 + i * 40} p={k(t, at, at + 0.3)} /> : <circle cx={40} cy={103 + i * 40} r={5} fill="none" stroke={D.t3} strokeDasharray="3 3" />}
               <Label x={58} y={107 + i * 40} size={11.5} color={D.t1}>{a}</Label>
               <Label x={170} y={107 + i * 40} size={11} color={D.t3}>{t > at ? b : "reading…"}</Label>
@@ -408,13 +408,13 @@ const clipHeadroom: Scene = {
     const c = path2(t, [[0, 300, 190], [1.2, 200, 155], [1.6, 200, 155], [2.3, 200, menuRowY(MENU_Y, 3)], [3.2, 200, menuRowY(MENU_Y, 3)], [3.8, 330, 200]]);
     return (
       <Panel title="Audio Clip · Vocal">
-        <rect x={20} y={40} width={560} height={90} fill="#050505" />
+        <rect x={20} y={40} width={560} height={90} fill="var(--daw-bed)" />
         <path d={wavePath(peaks(200, 3, "vox"), 20, 48, 560, 74)} fill={tone(6).ink} opacity={0.7} />
         <line x1={20} x2={580} y1={48} y2={48} stroke={D.warn} strokeOpacity={0.4} strokeDasharray="3 3" />
         <line x1={20} x2={580} y1={122} y2={122} stroke={D.warn} strokeOpacity={0.4} strokeDasharray="3 3" />
         <Label x={576} y={60} size={9} anchor="end" mono color={D.t3}>HEADROOM KEPT BY DEFAULT</Label>
         <Label x={20} y={158} size={10.5} color={D.t2}>Source output</Label>
-        <Button x={120} y={144} w={160} h={22} label={routed ? "Insert 4 · Vocal Bus" : "Master"} on={routed} ink={routed ? "#fff" : undefined} />
+        <Button x={120} y={144} w={160} h={22} label={routed ? "Insert 4 · Vocal Bus" : "Master"} on={routed} ink={routed ? D.onPrimary : undefined} />
         <Menu x={120} y={MENU_Y} w={160} open={open} cursor={c} items={["Master", "Insert 1 · Drums", "Insert 2 · Bass", "Insert 4 · Vocal Bus"]} />
         <Cursor x={c.x} y={c.y} down={within(t, 1.3, 1.6) ? k(t, 1.3, 1.6) : within(t, 2.5, 2.8) ? k(t, 2.5, 2.8) : 0} />
       </Panel>
@@ -441,7 +441,7 @@ const searchRoute: Scene = {
           </g>
         ))}
         <g transform="translate(290 40)">
-          <rect x={0} y={0} width={290} height={180} fill="#000" />
+          <rect x={0} y={0} width={290} height={180} fill="var(--daw-bed)" />
           {[0, 1, 2].map((i) => <Clip key={i} x={10 + i * 70} y={20 + i * 40} w={140} h={32} slot={6} label={`Vocal ${i + 1}`} seed={i} />)}
           <Label x={10} y={170} size={10} color={D.t3}>Clips arranged freely; one shared source.</Label>
         </g>
@@ -463,7 +463,7 @@ const noFollow: Scene = {
     const mode = t < 4.6 ? 0 : t < 5.4 ? 1 : 2;
     return (
       <g>
-        <Panel x={8} y={8} w={584} h={150} title="Piano Roll" right={<Button x={450} y={11} w={60} h={16} size={9} label="Follow" on={follow} ink={follow ? "#fff" : undefined} />}>
+        <Panel x={8} y={8} w={584} h={150} title="Piano Roll" right={<Button x={450} y={11} w={60} h={16} size={9} label="Follow" on={follow} ink={follow ? D.onPrimary : undefined} />}>
           <Roll x={20} y={40} w={560} h={110} rows={8} beats={4} notes={notes.map((n) => ({ ...n, s: n.s - page }))} />
           {bx(ph) <= 580 && <Playhead x={bx(ph)} y={40} h={110} />}
         </Panel>

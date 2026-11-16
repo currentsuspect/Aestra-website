@@ -44,7 +44,7 @@ export const RoutingDemo = () => {
       const p = lines.current[row];
       if (p) { p.style.strokeOpacity = String(0.25 + lv * 0.75); p.style.strokeWidth = String(1.5 + lv * 2); }
       const pin = pins.current[row];
-      if (pin) { pin.style.background = lv > 0.04 ? "#3fd6ad" : "#0c0b0a"; pin.style.borderColor = lv > 0.04 ? "#3fd6ad" : "#857d72"; }
+      if (pin) { pin.style.background = lv > 0.04 ? "var(--daw-meter)" : "var(--daw-chrome)"; pin.style.borderColor = lv > 0.04 ? "var(--daw-meter)" : "var(--daw-t3)"; }
     }
     const b = lines.current.bus;
     if (b) { b.style.strokeOpacity = String(0.25 + drums * 0.75); b.style.strokeWidth = String(1.5 + drums * 2); }
@@ -69,11 +69,11 @@ export const RoutingDemo = () => {
               const d = toBus ? curve(SRC_X + SRC_W, y, BUS.x, BUS.y + NODE_H / 2) : curve(SRC_X + SRC_W, y, RAIL_X, tapY(row));
               return <path key={row} ref={(el) => { lines.current[row] = el; }} d={d} fill="none" stroke={rowColor(row)} strokeWidth="1.5" strokeOpacity="0.3" strokeLinecap="round" />;
             })}
-            <path ref={(el) => { lines.current.bus = el; }} d={curve(BUS.x + BUS.w, BUS.y + NODE_H / 2, RAIL_X, tapY("bus"))} fill="none" stroke="#aca397" strokeWidth="1.5" strokeOpacity="0.3" strokeLinecap="round" />
-            <text x={SRC_X} y={10} fill="#57514a" fontSize="9" letterSpacing="1.4" fontFamily="var(--font-mono, monospace)">SOURCES</text>
-            <text x={BUS.x} y={10} fill="#57514a" fontSize="9" letterSpacing="1.4" fontFamily="var(--font-mono, monospace)">BUSES</text>
-            <circle cx={RAIL_X} cy={tapY("bus")} r="4.5" fill="#0c0b0a" stroke="#857d72" strokeWidth="1.5" />
-            <circle cx={RAIL_X} cy={tapY("bass")} r="4.5" fill="#0c0b0a" stroke="#857d72" strokeWidth="1.5" />
+            <path ref={(el) => { lines.current.bus = el; }} d={curve(BUS.x + BUS.w, BUS.y + NODE_H / 2, RAIL_X, tapY("bus"))} fill="none" stroke="var(--daw-t2)" strokeWidth="1.5" strokeOpacity="0.3" strokeLinecap="round" />
+            <text x={SRC_X} y={10} fill="var(--daw-t4)" fontSize="9" letterSpacing="1.4" fontFamily="var(--font-mono, monospace)">SOURCES</text>
+            <text x={BUS.x} y={10} fill="var(--daw-t4)" fontSize="9" letterSpacing="1.4" fontFamily="var(--font-mono, monospace)">BUSES</text>
+            <circle cx={RAIL_X} cy={tapY("bus")} r="4.5" fill="var(--daw-chrome)" stroke="var(--daw-t3)" strokeWidth="1.5" />
+            <circle cx={RAIL_X} cy={tapY("bass")} r="4.5" fill="var(--daw-chrome)" stroke="var(--daw-t3)" strokeWidth="1.5" />
           </svg>
 
           {ROWS.map((row, i) => {
@@ -88,12 +88,12 @@ export const RoutingDemo = () => {
                 style={{
                   all: "unset", boxSizing: "border-box", position: "absolute", left: SRC_X, top: srcY(i), width: SRC_W, height: NODE_H, cursor: "pointer",
                   display: "flex", alignItems: "center", gap: 8, padding: "0 12px", fontSize: 12, fontWeight: 500,
-                  background: "#1c1a17", border: "1px solid " + (sel === row ? "#7c3aed" : "#2e2a26"), boxShadow: sel === row ? "0 0 0 1px #7c3aed" : "none", borderRadius: 2, opacity: m ? 0.4 : 1,
+                  background: "var(--daw-control)", border: "1px solid " + (sel === row ? "var(--daw-primary)" : "var(--daw-border)"), boxShadow: sel === row ? "0 0 0 1px var(--daw-primary)" : "none", borderRadius: 2, opacity: m ? 0.4 : 1,
                 }}
               >
                 <span style={{ width: 10, height: 10, background: rowColor(row) }} />
                 {ROW_META[row].name}
-                <i ref={(el) => { pins.current[row] = el; }} style={{ position: "absolute", right: -5, top: 12, width: 9, height: 9, borderRadius: "50%", border: "1.5px solid #857d72", background: "#0c0b0a", boxSizing: "border-box" }} />
+                <i ref={(el) => { pins.current[row] = el; }} style={{ position: "absolute", right: -5, top: 12, width: 9, height: 9, borderRadius: "50%", border: "1.5px solid var(--daw-t3)", background: "var(--daw-chrome)", boxSizing: "border-box" }} />
               </button>
             );
           })}
@@ -107,26 +107,26 @@ export const RoutingDemo = () => {
               style={{
                 all: "unset", boxSizing: "border-box", position: "absolute", left: BUS.x, top: BUS.y, width: BUS.w, height: NODE_H, cursor: "pointer",
                 display: "flex", alignItems: "center", gap: 8, padding: "0 12px", fontSize: 12, fontWeight: 500,
-                background: "#1c1a17", border: "1px solid " + (sel === "bus" ? "#7c3aed" : "#2e2a26"), boxShadow: sel === "bus" ? "0 0 0 1px #7c3aed" : "none", borderRadius: 2, opacity: rowNames.length ? 1 : 0.45,
+                background: "var(--daw-control)", border: "1px solid " + (sel === "bus" ? "var(--daw-primary)" : "var(--daw-border)"), boxShadow: sel === "bus" ? "0 0 0 1px var(--daw-primary)" : "none", borderRadius: 2, opacity: rowNames.length ? 1 : 0.45,
               }}
             >
               <span style={{ width: 10, height: 10, background: ROW_META.snare.color }} />
               Drum Bus
-              <span style={{ marginLeft: "auto", fontSize: 9, letterSpacing: "0.12em", color: "#857d72" }}>BUS</span>
+              <span style={{ marginLeft: "auto", fontSize: 9, letterSpacing: "0.12em", color: "var(--daw-t3)" }}>BUS</span>
             </button>
           )}
           {(
-            <label style={{ position: "absolute", left: BUS.x, top: BUS.y + NODE_H + 8, width: BUS.w, fontSize: 10, color: "#857d72", display: "block" }}>
+            <label style={{ position: "absolute", left: BUS.x, top: BUS.y + NODE_H + 8, width: BUS.w, fontSize: 10, color: "var(--daw-t3)", display: "block" }}>
               Bus level
-              <input type="range" min={0} max={1} step={0.01} value={busLevel} onChange={(e) => change((s) => ({ ...s, busLevel: +e.target.value }))} style={{ width: "100%", accentColor: "#7c3aed", display: "block" }} />
+              <input type="range" min={0} max={1} step={0.01} value={busLevel} onChange={(e) => change((s) => ({ ...s, busLevel: +e.target.value }))} style={{ width: "100%", accentColor: "var(--daw-primary)", display: "block" }} />
             </label>
           )}
 
-          <div style={{ position: "absolute", left: RAIL_X - 22, top: 22, width: 44, height: 256, boxSizing: "border-box", background: "#141210", border: "1px solid #2e2a26", borderRadius: 2 }}>
-            <span style={{ position: "absolute", left: 0, right: 0, top: 10, textAlign: "center", fontSize: 9, letterSpacing: "0.2em", color: "#aca397", writingMode: "vertical-rl", transform: "rotate(180deg)", height: 64, margin: "0 auto" }}>MASTER</span>
+          <div style={{ position: "absolute", left: RAIL_X - 22, top: 22, width: 44, height: 256, boxSizing: "border-box", background: "var(--daw-panel)", border: "1px solid var(--daw-border)", borderRadius: 2 }}>
+            <span style={{ position: "absolute", left: 0, right: 0, top: 10, textAlign: "center", fontSize: 9, letterSpacing: "0.2em", color: "var(--daw-t2)", writingMode: "vertical-rl", transform: "rotate(180deg)", height: 64, margin: "0 auto" }}>MASTER</span>
             {[0, 1].map((k) => (
-              <div key={k} style={{ position: "absolute", bottom: 12, left: 14 + k * 10, width: 6, height: 110, background: "#25221f" }}>
-                <i ref={(el) => { meters.current[k] = el; }} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "0%", background: "#3fd6ad" }} />
+              <div key={k} style={{ position: "absolute", bottom: 12, left: 14 + k * 10, width: 6, height: 110, background: "var(--daw-raised)" }}>
+                <i ref={(el) => { meters.current[k] = el; }} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "0%", background: "var(--daw-meter)" }} />
               </div>
             ))}
           </div>
@@ -152,7 +152,7 @@ export const RoutingDemo = () => {
             <div className="flex flex-wrap gap-2">
               <button type="button" className="dbtn on">Master</button>
               {rowNames.map((n) => (
-                <button key={n} type="button" className="dbtn" style={{ opacity: 0.55, background: "repeating-linear-gradient(135deg,#1c1a17 0 6px,#141210 6px 12px)" }} onClick={() => setMsg(`${rowNames.join(", ")} feed Drum Bus, so routing it into ${n} would loop. They refuse the drop and say why.`)}>
+                <button key={n} type="button" className="dbtn" style={{ opacity: 0.55, background: "repeating-linear-gradient(135deg,var(--daw-control) 0 6px,var(--daw-panel) 6px 12px)" }} onClick={() => setMsg(`${rowNames.join(", ")} feed Drum Bus, so routing it into ${n} would loop. They refuse the drop and say why.`)}>
                   {n}
                 </button>
               ))}
@@ -160,7 +160,7 @@ export const RoutingDemo = () => {
           </div>
         )}
         {!sel && <p className="dnote m-0 pt-2">Click a sound to choose where it goes, then play. Try sending the hats straight to Master.</p>}
-        {msg && <p className="m-0 mt-3 text-[12px]" role="status" style={{ color: "#ff6b4f" }}>{msg}</p>}
+        {msg && <p className="m-0 mt-3 text-[12px]" role="status" style={{ color: "var(--daw-error)" }}>{msg}</p>}
       </div>
     </Panel>
   );

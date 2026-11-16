@@ -12,6 +12,13 @@ export const ROW_META: Record<Row, { name: string; color: string }> = {
 };
 export const rowColor = (r: Row) => ROW_META[r].color;
 
+/* A canvas can't read CSS variables, so theme colours are looked up on the element
+   (once per frame) before they are handed to fillStyle. */
+export const themed = (el: Element, value: string) => {
+  const m = /^var\((--[\w-]+)\)$/.exec(value);
+  return m ? getComputedStyle(el).getPropertyValue(m[1]).trim() || "#888" : value;
+};
+
 export const Panel = ({
   title, tag, children, right,
 }: { title: string; tag: string; children: React.ReactNode; right?: React.ReactNode }) => (
@@ -20,7 +27,7 @@ export const Panel = ({
       <span className="dcap">{title}</span>
       <span className="flex items-center gap-3">
         {right}
-        <span className="dcap" style={{ color: "#a88dfb" }}>{tag}</span>
+        <span className="dcap" style={{ color: "var(--daw-accent)" }}>{tag}</span>
       </span>
     </div>
     {children}
@@ -33,7 +40,7 @@ export const PlayDot = ({ playing, onClick, label = "Play" }: { playing: boolean
     onClick={onClick}
     aria-label={playing ? "Stop" : label}
     aria-pressed={playing}
-    style={{ all: "unset", cursor: "pointer", width: 34, height: 34, borderRadius: "50%", background: "#eee9e1", color: "#0c0b0a", display: "grid", placeItems: "center", boxSizing: "border-box" }}
+    style={{ all: "unset", cursor: "pointer", width: 34, height: 34, borderRadius: "50%", background: "var(--daw-t1)", color: "var(--daw-chrome)", display: "grid", placeItems: "center", boxSizing: "border-box" }}
   >
     <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
       {playing ? <><rect x="3" y="2.5" width="3.4" height="11" /><rect x="9.6" y="2.5" width="3.4" height="11" /></> : <path d="M4 2.5 L13 8 L4 13.5 Z" />}

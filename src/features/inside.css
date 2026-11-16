@@ -26,13 +26,13 @@
   will-change: transform;
 }
 /* Opacity and transform for these are set from script as you scroll (see Turntable.tsx). */
-.tt-cover { position: absolute; inset: 0; pointer-events: none; background: #0c0b0a; opacity: 0; z-index: 3; }
+.tt-cover { position: absolute; inset: 0; pointer-events: none; background: var(--daw-chrome); opacity: 0; z-index: 3; }
 .tt-sticky[data-covered="1"] .tt-zoom { visibility: hidden; }
 .tt-sticky[data-deep="1"] .tt-chrome { visibility: hidden; }
 .tt-sticky[data-deep="1"] .rec-spin { animation-play-state: paused; }
 /* Coming back out, the parts reappear as soon as there is anything to see. */
 
-.rec-grooves { background: repeating-radial-gradient(circle at center, #0c0b0a 0 2px, #1b181e 2px 3px); }
+.rec-grooves { background: repeating-radial-gradient(circle at center, var(--daw-chrome) 0 2px, var(--daw-control) 2px 3px); }
 .rec-spin { animation: tt-spin 1.8s linear infinite; animation-play-state: paused; }
 .rec-spin[data-on="true"] { animation-play-state: running; }
 @keyframes tt-spin { to { transform: rotate(360deg); } }
@@ -42,7 +42,7 @@
 .arm { transition: transform 1.3s cubic-bezier(.4, .1, .2, 1); }
 
 .inside {
-  position: relative; isolation: isolate; clip-path: inset(0); color: #eee9e1; background-color: #0c0b0a;
+  position: relative; isolation: isolate; clip-path: inset(0); color: var(--daw-t1); background-color: var(--daw-chrome);
   font-family: Archivo, ui-sans-serif, system-ui, sans-serif;
 }
 /* One fixed layer for the grooves, painted once, instead of a gradient across the whole page. */
@@ -50,26 +50,29 @@
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background: repeating-radial-gradient(circle at 112% 40%, rgba(255,255,255,0.03) 0 1px, transparent 1px 6px);
 }
-.inside .readout { color: #857d72; }
+.inside .readout { color: var(--daw-t3); }
 
 /* Demo panels use the DAW's own surfaces (Ember). */
-.dpanel { background: #141210; border: 1px solid #2e2a26; color: #eee9e1; }
-.dpanel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 10px 14px; border-bottom: 1px solid #2e2a26; background: #0c0b0a; }
+.dpanel { background: var(--daw-panel); color: var(--daw-t1); }
+.dpanel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 10px 14px; border-bottom: 1px solid var(--daw-border); background: var(--daw-chrome); }
 .dbtn {
   all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  min-height: 32px; padding: 0 12px; font-size: 12px; font-weight: 600; color: #eee9e1; cursor: pointer;
-  background: #1c1a17; border: 1px solid #2e2a26; border-radius: 2px; white-space: nowrap;
+  min-height: 32px; padding: 0 12px; font-size: 12px; font-weight: 600; color: var(--daw-t1); cursor: pointer;
+  background: var(--daw-control); border-radius: 9999px; white-space: nowrap;
+  transition: background-color var(--dur-fast, 120ms) ease, color var(--dur-fast, 120ms) ease;
 }
-.dbtn:hover { border-color: #57514a; }
-.dbtn:focus-visible { outline: 2px solid #a88dfb; outline-offset: 2px; }
-.dbtn[aria-pressed="true"], .dbtn.on { background: #25221f; border-color: #eee9e1; }
-.dbtn.pri { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+/* Pills with tonal fills, as in the app: hover is a colour change, a latched key sinks. */
+.dbtn:hover { background: var(--daw-raised); }
+.dbtn:focus-visible { outline: 2px solid var(--daw-accent); outline-offset: 2px; }
+.dbtn[aria-pressed="true"], .dbtn.on { background: var(--daw-well); box-shadow: inset 0 1px 3px var(--color-shadow); }
+.dbtn.pri { background: var(--color-accent-fill); color: var(--color-on-accent); }
+.dbtn.pri:hover { background: var(--color-accent-hover); }
 .dbtn:disabled { opacity: 0.4; cursor: not-allowed; }
-.dcap { font: 500 10px/1 var(--font-mono, ui-monospace, monospace); letter-spacing: 0.14em; text-transform: uppercase; color: #857d72; }
-.dnote { font-size: 12px; line-height: 1.5; color: #857d72; }
+.dcap { font: 500 10px/1 var(--font-mono, ui-monospace, monospace); letter-spacing: 0.14em; text-transform: uppercase; color: var(--daw-t3); }
+.dnote { font-size: 12px; line-height: 1.5; color: var(--daw-t3); }
 
 .pad { all: unset; box-sizing: border-box; cursor: pointer; border-radius: 2px; transition: transform .06s; }
-.pad:focus-visible { outline: 2px solid #a88dfb; outline-offset: 1px; }
+.pad:focus-visible { outline: 2px solid var(--daw-accent); outline-offset: 1px; }
 .pad:active { transform: scale(0.92); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -80,11 +83,11 @@
 }
 
 .dsel {
-  all: unset; box-sizing: border-box; max-width: 100%; cursor: pointer; font-size: 11px; line-height: 1.2; color: #aca397;
-  padding: 2px 16px 2px 0; border-bottom: 1px dotted #57514a;
+  all: unset; box-sizing: border-box; max-width: 100%; cursor: pointer; font-size: 11px; line-height: 1.2; color: var(--daw-t2);
+  padding: 2px 16px 2px 0; border-bottom: 1px dotted var(--daw-t4);
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%23857d72' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right 2px center;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.dsel:hover { color: #eee9e1; border-bottom-color: #a88dfb; }
-.dsel:focus-visible { outline: 2px solid #a88dfb; outline-offset: 2px; }
-.dsel option { background: #1c1a17; color: #eee9e1; }
+.dsel:hover { color: var(--daw-t1); border-bottom-color: var(--daw-accent); }
+.dsel:focus-visible { outline: 2px solid var(--daw-accent); outline-offset: 2px; }
+.dsel option { background: var(--daw-control); color: var(--daw-t1); }

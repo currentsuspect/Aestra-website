@@ -20,7 +20,7 @@ export const HistoryDemo = () => {
   const ly = (b: string) => TOP + lane(b) * LANE;
   const W = Math.max(520, X0 + (versions.length + 1) * DX + 60);
   const H = TOP + branches.length * LANE + 14;
-  const colorOf = (b: string) => branches.find((x) => x.id === b)?.color ?? "#7c3aed";
+  const colorOf = (b: string) => branches.find((x) => x.id === b)?.color ?? "var(--daw-primary)";
 
   const nodeById = (id: number | null) => nodes.find((n) => n.v.id === id);
 
@@ -30,18 +30,18 @@ export const HistoryDemo = () => {
   return (
     <Panel title="History · Night Drive" tag="Design preview">
       <div className="grid lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-        <div style={{ borderRight: "1px solid #2e2a26" }}>
+        <div style={{ borderRight: "1px solid var(--daw-border)" }}>
           <div className="overflow-x-auto p-3">
             <svg width={W} height={H} role="img" aria-label="Versions on branches">
               {branches.map((b: Branch) => (
                 <g key={b.id}>
-                  <text x="0" y={ly(b.id) + 4} fill="#aca397" fontSize="12">{b.name}</text>
+                  <text x="0" y={ly(b.id) + 4} fill="var(--daw-t2)" fontSize="12">{b.name}</text>
                   <circle cx="82" cy={ly(b.id)} r="3" fill={b.color} />
                 </g>
               ))}
-              <line x1={X0} x2={W - 24} y1={ly("main")} y2={ly("main")} stroke="#7c3aed" strokeWidth="2.5" strokeLinecap="round" opacity="0.9" />
-              <circle cx={X0} cy={ly("main")} r="7" fill="#141210" stroke="#7c3aed" strokeWidth="3" />
-              <text x={X0} y={ly("main") - 14} textAnchor="middle" fill="#eee9e1" fontSize="11" fontWeight="600">Start</text>
+              <line x1={X0} x2={W - 24} y1={ly("main")} y2={ly("main")} stroke="var(--daw-primary)" strokeWidth="2.5" strokeLinecap="round" opacity="0.9" />
+              <circle cx={X0} cy={ly("main")} r="7" fill="var(--daw-panel)" stroke="var(--daw-primary)" strokeWidth="3" />
+              <text x={X0} y={ly("main") - 14} textAnchor="middle" fill="var(--daw-t1)" fontSize="11" fontWeight="600">Start</text>
               {nodes.map(({ v, x }) => {
                 const p = nodeById(v.parent);
                 const px = p ? p.x : X0;
@@ -54,9 +54,9 @@ export const HistoryDemo = () => {
                     {v.branch !== "main" && <line x1={x} x2={W - 24} y1={y} y2={y} stroke={c} strokeWidth="2.5" opacity="0.5" />}
                     <g tabIndex={0} role="button" aria-label={`Go back to ${v.name}`} style={{ cursor: "pointer", outline: "none" }} onClick={() => restoreVersion(v.id)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); restoreVersion(v.id); } }}>
                       <circle cx={x} cy={y} r="14" fill="transparent" />
-                      <circle cx={x} cy={y} r="7" fill="#141210" stroke={c} strokeWidth="3" />
-                      <text x={x} y={y - 14} textAnchor="middle" fill="#eee9e1" fontSize="11" fontWeight="600">{v.name.length > 11 ? v.name.slice(0, 10) + "…" : v.name}</text>
-                      <text x={x} y={y + 24} textAnchor="middle" fill="#857d72" fontSize="9" fontFamily="var(--font-mono, monospace)">{hhmm(v.at)}</text>
+                      <circle cx={x} cy={y} r="7" fill="var(--daw-panel)" stroke={c} strokeWidth="3" />
+                      <text x={x} y={y - 14} textAnchor="middle" fill="var(--daw-t1)" fontSize="11" fontWeight="600">{v.name.length > 11 ? v.name.slice(0, 10) + "…" : v.name}</text>
+                      <text x={x} y={y + 24} textAnchor="middle" fill="var(--daw-t3)" fontSize="9" fontFamily="var(--font-mono, monospace)">{hhmm(v.at)}</text>
                     </g>
                   </g>
                 );
@@ -66,11 +66,11 @@ export const HistoryDemo = () => {
           <div className="px-4 pb-4 flex flex-wrap items-center gap-2">
             <label className="sr-only" htmlFor="ver-name">Version name</label>
             <input id="ver-name" value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") save(); }} placeholder="Name this version" maxLength={24}
-              style={{ height: 32, minWidth: 0, flex: "1 1 130px", padding: "0 10px", fontSize: 12, background: "#0c0b0a", border: "1px solid #2e2a26", color: "#eee9e1", borderRadius: 2 }} />
+              style={{ height: 32, minWidth: 0, flex: "1 1 130px", padding: "0 10px", fontSize: 12, background: "var(--daw-chrome)", border: "1px solid var(--daw-border)", color: "var(--daw-t1)", borderRadius: 2 }} />
             <button type="button" className="dbtn pri" onClick={save}>Save version</button>
             <label className="sr-only" htmlFor="br-name">Branch name</label>
             <input id="br-name" value={branchName} onChange={(e) => setBranchName(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") branch(); }} placeholder="Try something on a branch" maxLength={24}
-              style={{ height: 32, minWidth: 0, flex: "1 1 150px", padding: "0 10px", fontSize: 12, background: "#0c0b0a", border: "1px solid #2e2a26", color: "#eee9e1", borderRadius: 2 }} />
+              style={{ height: 32, minWidth: 0, flex: "1 1 150px", padding: "0 10px", fontSize: 12, background: "var(--daw-chrome)", border: "1px solid var(--daw-border)", color: "var(--daw-t1)", borderRadius: 2 }} />
             <button type="button" className="dbtn" onClick={branch}>New branch</button>
           </div>
           {branches.length > 1 && (
@@ -85,20 +85,20 @@ export const HistoryDemo = () => {
           )}
         </div>
 
-        <div className="p-3 sm:p-4" style={{ background: "#0c0b0a" }}>
+        <div className="p-3 sm:p-4" style={{ background: "var(--daw-chrome)" }}>
           <p className="dcap m-0 mb-2">Steps · click to go back</p>
-          <ol className="m-0 p-0 list-none overflow-y-auto" style={{ maxHeight: 268, border: "1px solid #2e2a26" }}>
+          <ol className="m-0 p-0 list-none overflow-y-auto" style={{ maxHeight: 268, border: "1px solid var(--daw-border)" }}>
             {[...steps].map((s, i) => ({ s, i })).reverse().map(({ s, i }) => (
               <li key={s.id}>
                 <button
                   type="button"
                   onClick={() => goToStep(i)}
                   aria-current={i === cursor}
-                  style={{ all: "unset", boxSizing: "border-box", width: "100%", display: "flex", alignItems: "center", gap: 10, height: 34, padding: "0 12px", cursor: "pointer", borderBottom: "1px solid #201d1a", background: i === cursor ? "#1f1a2b" : "transparent", color: i > cursor ? "#57514a" : "#eee9e1", fontSize: 13 }}
+                  style={{ all: "unset", boxSizing: "border-box", width: "100%", display: "flex", alignItems: "center", gap: 10, height: 34, padding: "0 12px", cursor: "pointer", borderBottom: "1px solid var(--daw-control)", background: i === cursor ? "var(--daw-selected)" : "transparent", color: i > cursor ? "var(--daw-t4)" : "var(--daw-t1)", fontSize: 13 }}
                 >
-                  <span style={{ width: 8, height: 8, borderRadius: "50%", flexShrink: 0, background: i === cursor ? "#9a6bff" : "#2e2a26" }} />
+                  <span style={{ width: 8, height: 8, borderRadius: "50%", flexShrink: 0, background: i === cursor ? "var(--daw-accent)" : "var(--daw-border)" }} />
                   <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</span>
-                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 10, color: "#857d72" }}>{i === cursor ? "here" : hhmm(s.at)}</span>
+                  <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 10, color: "var(--daw-t3)" }}>{i === cursor ? "here" : hhmm(s.at)}</span>
                 </button>
               </li>
             ))}
