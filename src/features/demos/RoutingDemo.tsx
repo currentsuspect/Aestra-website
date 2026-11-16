@@ -70,8 +70,8 @@ export const RoutingDemo = () => {
               return <path key={row} ref={(el) => { lines.current[row] = el; }} d={d} fill="none" stroke={rowColor(row)} strokeWidth="1.5" strokeOpacity="0.3" strokeLinecap="round" />;
             })}
             <path ref={(el) => { lines.current.bus = el; }} d={curve(BUS.x + BUS.w, BUS.y + NODE_H / 2, RAIL_X, tapY("bus"))} fill="none" stroke="var(--daw-t2)" strokeWidth="1.5" strokeOpacity="0.3" strokeLinecap="round" />
-            <text x={SRC_X} y={10} fill="var(--daw-t4)" fontSize="9" letterSpacing="1.4" fontFamily="var(--font-mono, monospace)">SOURCES</text>
-            <text x={BUS.x} y={10} fill="var(--daw-t4)" fontSize="9" letterSpacing="1.4" fontFamily="var(--font-mono, monospace)">BUSES</text>
+            <text x={SRC_X} y={10} fill="var(--daw-t4-text)" fontSize="9" letterSpacing="1.4" fontFamily="var(--font-mono, monospace)">SOURCES</text>
+            <text x={BUS.x} y={10} fill="var(--daw-t4-text)" fontSize="9" letterSpacing="1.4" fontFamily="var(--font-mono, monospace)">BUSES</text>
             <circle cx={RAIL_X} cy={tapY("bus")} r="4.5" fill="var(--daw-chrome)" stroke="var(--daw-t3)" strokeWidth="1.5" />
             <circle cx={RAIL_X} cy={tapY("bass")} r="4.5" fill="var(--daw-chrome)" stroke="var(--daw-t3)" strokeWidth="1.5" />
           </svg>
@@ -84,7 +84,6 @@ export const RoutingDemo = () => {
                 type="button"
                 onClick={() => { setSel(sel === row ? null : row); setMsg(""); }}
                 aria-pressed={sel === row}
-                aria-label={`${ROW_META[row].name}. Choose where it goes.`}
                 style={{
                   all: "unset", boxSizing: "border-box", position: "absolute", left: SRC_X, top: srcY(i), width: SRC_W, height: NODE_H, cursor: "pointer",
                   display: "flex", alignItems: "center", gap: 8, padding: "0 12px", fontSize: 12, fontWeight: 500,
@@ -92,7 +91,7 @@ export const RoutingDemo = () => {
                 }}
               >
                 <span style={{ width: 10, height: 10, background: rowColor(row) }} />
-                {ROW_META[row].name}
+                {ROW_META[row].name}<span className="sr-only">. Choose where it goes.</span>
                 <i ref={(el) => { pins.current[row] = el; }} style={{ position: "absolute", right: -5, top: 12, width: 9, height: 9, borderRadius: "50%", border: "1.5px solid var(--daw-t3)", background: "var(--daw-chrome)", boxSizing: "border-box" }} />
               </button>
             );
@@ -103,7 +102,6 @@ export const RoutingDemo = () => {
               type="button"
               onClick={() => { setSel(sel === "bus" ? null : "bus"); setMsg(""); }}
               aria-pressed={sel === "bus"}
-              aria-label="Drum Bus. Choose where it goes."
               style={{
                 all: "unset", boxSizing: "border-box", position: "absolute", left: BUS.x, top: BUS.y, width: BUS.w, height: NODE_H, cursor: "pointer",
                 display: "flex", alignItems: "center", gap: 8, padding: "0 12px", fontSize: 12, fontWeight: 500,
@@ -113,6 +111,7 @@ export const RoutingDemo = () => {
               <span style={{ width: 10, height: 10, background: ROW_META.snare.color }} />
               Drum Bus
               <span style={{ marginLeft: "auto", fontSize: 9, letterSpacing: "0.12em", color: "var(--daw-t3)" }}>BUS</span>
+              <span className="sr-only">. Choose where it goes.</span>
             </button>
           )}
           {(
@@ -160,7 +159,7 @@ export const RoutingDemo = () => {
           </div>
         )}
         {!sel && <p className="dnote m-0 pt-2">Click a sound to choose where it goes, then play. Try sending the hats straight to Master.</p>}
-        {msg && <p className="m-0 mt-3 text-[12px]" role="status" style={{ color: "var(--daw-error)" }}>{msg}</p>}
+        {msg && <p className="m-0 mt-3 text-[12px]" role="status" style={{ color: "var(--daw-error-text)" }}>{msg}</p>}
       </div>
     </Panel>
   );

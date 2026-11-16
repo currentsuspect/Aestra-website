@@ -72,7 +72,7 @@ export const Finale = () => {
           </div>
         </div>
 
-        <p className="dcap mt-14 mb-0 text-center" style={{ color: "var(--daw-t4)" }}>Keep scrolling. The needle lifts itself.</p>
+        <p className="dcap mt-14 mb-0 text-center" style={{ color: "var(--daw-t4-text)" }}>Keep scrolling. The needle lifts itself.</p>
       </div>
     </section>
   );

@@ -122,7 +122,7 @@ export const AuditionDemo = () => {
         <span className="text-[12px]" style={{ color: "var(--daw-t2)", minWidth: 150 }} aria-live="off">
           <b style={{ color: "var(--daw-t1)" }}>{levels ? fmt(ab === "mix" ? levels.mix : levels.ref + refTrimDb) : playing ? "measuring…" : "—"}</b> level
           {levels && Math.abs(levels.mix - (levels.ref + refTrimDb)) > 0.5 && (
-            <span style={{ color: "var(--daw-warn)" }}> · B is {fmt(Math.abs(levels.ref + refTrimDb - levels.mix)).replace(" dB", "")} dB {levels.ref + refTrimDb > levels.mix ? "louder" : "quieter"}</span>
+            <span style={{ color: "var(--daw-warn-text)" }}> · B is {fmt(Math.abs(levels.ref + refTrimDb - levels.mix)).replace(" dB", "")} dB {levels.ref + refTrimDb > levels.mix ? "louder" : "quieter"}</span>
           )}
         </span>
         <span className="flex-1" />
@@ -135,7 +135,7 @@ export const AuditionDemo = () => {
         {refName && <button type="button" className="dbtn" onClick={clearReference}>Remove</button>}
         <input ref={picker} type="file" accept="audio/*" hidden tabIndex={-1} onChange={(e) => { const f = e.target.files?.[0]; if (f) void loadReference(f); e.target.value = ""; }} />
       </div>
-      {notice && <p className="m-0 px-4 pt-3 text-[12px]" role="status" style={{ color: "var(--daw-error)" }}>{notice}</p>}
+      {notice && <p className="m-0 px-4 pt-3 text-[12px]" role="status" style={{ color: "var(--daw-error-text)" }}>{notice}</p>}
       <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <div className="p-2 sm:p-3" role="group" aria-label="Listen on">
           {PROFILE_ORDER.map((p) => {
@@ -152,10 +152,10 @@ export const AuditionDemo = () => {
                   <svg width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ICON[p]}</svg>
                 </span>
                 <span>
-                  <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: active ? "var(--daw-meter)" : "var(--daw-t1)" }}>{PROFILES[p].label}</span>
+                  <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: active ? "var(--daw-meter-text)" : "var(--daw-t1)" }}>{PROFILES[p].label}</span>
                   <span style={{ display: "block", fontSize: 11, color: "var(--daw-t3)", marginTop: 2, lineHeight: "15px" }}>{PROFILES[p].note}</span>
                 </span>
-                {PROFILES[p].gainDb !== 0 && <span style={{ fontSize: 11, color: "var(--daw-warn)", fontWeight: 600 }}>{PROFILES[p].gainDb.toFixed(1).replace("-", "−")} dB</span>}
+                {PROFILES[p].gainDb !== 0 && <span style={{ fontSize: 11, color: "var(--daw-warn-text)", fontWeight: 600 }}>{PROFILES[p].gainDb.toFixed(1).replace("-", "−")} dB</span>}
               </button>
             );
           })}
@@ -170,7 +170,7 @@ export const AuditionDemo = () => {
               {[100, 1000, 10000].map((f) => (
                 <g key={f}>
                   <line x1={fx(f)} x2={fx(f)} y1="0" y2={CH} stroke="var(--daw-raised)" />
-                  <text x={fx(f) + 4} y={CH - 5} fill="var(--daw-t4)" fontSize="9" fontFamily="var(--font-mono, monospace)">{f >= 1000 ? `${f / 1000}k` : f}</text>
+                  <text x={fx(f) + 4} y={CH - 5} fill="var(--daw-t4-text)" fontSize="9" fontFamily="var(--font-mono, monospace)">{f >= 1000 ? `${f / 1000}k` : f}</text>
                 </g>
               ))}
               {paths.studio && <path d={paths.studio} fill="none" stroke="var(--daw-t4)" strokeWidth="1" strokeDasharray="3 3" />}
@@ -180,7 +180,7 @@ export const AuditionDemo = () => {
           <p className="dnote mt-3 mb-0">
             {playing ? "Green is what's coming out of your speakers. Switch the list, or flip A and B, and watch it change." : "Press play, then flip A and B, and switch the list to hear it on a phone, in earbuds or in a car."}
           </p>
-          <p className="dnote mt-2 mb-0" style={{ color: "var(--daw-t4)" }}>A and B both go through the same Listen on setting. A track you add stays in your browser. These filters illustrate the idea; they aren't a model of real devices.</p>
+          <p className="dnote mt-2 mb-0" style={{ color: "var(--daw-t4-text)" }}>A and B both go through the same Listen on setting. A track you add stays in your browser. These filters illustrate the idea; they aren't a model of real devices.</p>
         </div>
       </div>
     </Panel>

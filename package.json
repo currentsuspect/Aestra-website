@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/agent-skills.mjs && node scripts/check-api-imports.mjs && node scripts/check-previews.mjs && node scripts/check-shots.mjs && node scripts/themes.mjs --check && tsc --noEmit && vite build && node scripts/prerender.mjs",
+    "build": "node scripts/agent-skills.mjs && node scripts/check-api-imports.mjs && node scripts/check-previews.mjs && node scripts/check-shots.mjs && node scripts/themes.mjs --check && tsc --noEmit && vite build && node scripts/prerender.mjs && node scripts/check-csp.mjs",
+    "check:csp": "node scripts/check-csp.mjs",
     "check:shots": "node scripts/check-shots.mjs",
     "check:previews": "node scripts/check-previews.mjs",
     "audit:previews": "node scripts/audit-previews.mjs",

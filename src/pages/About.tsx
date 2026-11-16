@@ -101,15 +101,13 @@ export const About = ({ setPage }: PageProps) => (
 
         <ol className="list-none m-0 p-0">
           {CHAPTERS.map((c, i) => (
-            <FadeIn key={c.mark} delay={Math.min(i * 0.04, 0.16)}>
-              <li className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-4 pb-10 sm:pb-12 mb-10 sm:mb-12 border-b border-border/70 last:border-b-0 last:mb-0">
+            <FadeIn as="li" key={c.mark} delay={Math.min(i * 0.04, 0.16)} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-4 pb-10 sm:pb-12 mb-10 sm:mb-12 border-b border-border/70 last:border-b-0 last:mb-0">
                 <span className="font-mono text-[11px] text-faint tabular-nums pt-1.5">{c.mark}</span>
                 <div>
                   <h2 className="text-fg text-[19px] sm:text-[21px] font-semibold tracking-tight mb-3">{c.title}</h2>
                   <p className="text-fg-muted text-[16px] sm:text-[17px] leading-relaxed max-w-2xl">{c.body}</p>
                 </div>
-              </li>
-            </FadeIn>
+              </FadeIn>
           ))}
         </ol>
       </div>

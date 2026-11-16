@@ -454,7 +454,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
                   <button
                     key={f}
                     onClick={() => setFile(i)}
-                    className="relative w-full h-[23px] flex items-center gap-[7px] px-[6px] text-left text-[11px]"
+                    className="relative w-full h-[24px] flex items-center gap-[7px] px-[6px] text-left text-[11px]"
                     style={{ background: file === i ? D.raised : "transparent", color: file === i ? D.t1 : D.t2 }}
                   >
                     {file === i && <span className="absolute left-0 top-[3px] bottom-[3px] w-[2px] rounded-full" style={{ background: D.primary }} />}
@@ -533,7 +533,7 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
                       <span className="absolute left-0 top-[2px] bottom-[2px] w-[2px]" style={{ background: toneT.lane }} />
                       <span className="w-[22px] pl-[8px] text-[8.5px] tabular-nums" style={{ color: D.t4 }}>{i + 1}</span>
                       <span className="flex-1 min-w-0 truncate text-[12px]" style={{ color: on ? D.t1 : D.t3 }}>{t.name}</span>
-                      <span className="flex gap-[4px] pr-[7px]">
+                      <span className="flex pr-[5px]">
                         {([["M", mute, setMute, D.warn], ["S", solo, setSolo, D.violet], ["R", arm, setArm, D.error]] as const).map(([k, set, setter, color]) => {
                           const active = set.has(i);
                           return (
@@ -542,8 +542,8 @@ export const EmberMock = memo(({ activePart = null, showBadges = true, onPartHov
                               onClick={() => setter((s: Set<number>) => flip(s, i))}
                               aria-label={`${k === "M" ? "Mute" : k === "S" ? "Solo" : "Arm"} ${t.name}`}
                               aria-pressed={active}
-                              className="w-[19px] h-[18px] rounded-[3px] text-[9px] font-semibold grid place-items-center"
-                              style={active ? { background: color, color: D.onStatus } : { color: D.t2, background: D.control }}
+                              className="mock-key text-[9px] font-semibold"
+                              style={{ ["--key-bg" as string]: active ? color : D.control, color: active ? (k === "R" ? "var(--daw-on-error)" : D.onStatus) : D.t2 }}
                             >
                               {k}
                             </button>

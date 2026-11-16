@@ -43,6 +43,15 @@
   /* Motion — the kit's durations and curves. */
   --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* A small spring for things that slide to a place (the nav thumb): it overshoots by a few
+     percent and settles, like a part with weight. The bezier is the fallback. */
+  --ease-spring: cubic-bezier(0.34, 1.35, 0.64, 1);
+  --dur-spring: 380ms;
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.077 22%, 1.121 24.7%, 1.149 27.7%, 1.159 31.4%, 1.138 36%, 1.087 41.3%, 1.03 48.6%, 1.005 56%, 0.995 64%, 1.001 78%, 1);
+  }
 }
 
 :root {
@@ -50,6 +59,10 @@
   --dur-fast: 120ms;
   --dur-normal: 250ms;
 }
+
+/* Wrapping is part of the design: headings break evenly, paragraphs avoid a lone last word. */
+h1, h2, h3, h4 { text-wrap: balance; }
+p, li, figcaption, dd { text-wrap: pretty; }
 
 html {
   -webkit-font-smoothing: antialiased;
@@ -224,7 +237,7 @@ body {
   border-radius: 9999px;
   background: var(--color-surface-3);
   box-shadow: inset 0 1px 0 var(--color-hover);
-  transition: transform var(--dur-normal) var(--ease-out), width var(--dur-normal) var(--ease-out), opacity var(--dur-fast) ease;
+  transition: transform var(--dur-spring) var(--ease-spring), width var(--dur-spring) var(--ease-spring), opacity var(--dur-fast) ease;
 }
 .seg-item {
   position: relative;
@@ -279,6 +292,35 @@ body {
   white-space: nowrap;
 }
 .cell-v small { font-size: 12px; color: var(--color-muted); font-weight: 400; margin-left: 6px; }
+
+/* A lane key (M, S, R) in the recreated Timeline: drawn 19 x 18 like the app's, inside a 24 x 24
+   hit box (WCAG 2.5.8). The visible key is the ::before; the letter sits on top. */
+.ember-mock .mock-key {
+  position: relative;
+  isolation: isolate;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  background: none;
+  cursor: pointer;
+}
+.ember-mock .mock-key::before {
+  content: "";
+  position: absolute;
+  inset: 3px 2.5px;
+  z-index: -1;
+  border-radius: 3px;
+  background: var(--key-bg);
+}
+
+/* Links in running text can't lean on colour alone (WCAG 1.4.1). In Solace the orange accent and the
+   grey body text are the same lightness, so inline links carry a quiet underline. */
+:where(p) a:not([class*="btn"]):not(.quiet-link) {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
 
 /* ── Panel — the app's panel: a 32px header strip (caption left, readout
    right) over its body, one tonal step above the page. Sharp corners. ─ */
@@ -653,27 +695,27 @@ body {
    and lights its region with the theme's accent. The mock wears the
    same theme as the page, as the app would. */
 .ember-mock .mock-badge {
+  /* A 24px target (WCAG 2.5.8) drawn as the original look: a 16px dot with a 2px ring in the
+     chrome colour. The ring and dot are one radial gradient; hot state swaps --badge-fill. */
+  --badge-fill: var(--daw-t1);
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: -1px;
+  right: -1px;
   z-index: 5;
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   border-radius: 9999px;
   display: grid;
   place-items: center;
   font: 600 9px/1 var(--font-mono);
   color: var(--daw-chrome);
-  background: var(--daw-t1);
-  box-shadow: 0 0 0 2px var(--daw-chrome);
+  background: radial-gradient(circle closest-side, var(--badge-fill) 0 8px, var(--daw-chrome) 8.5px 10px, transparent 10.5px);
   cursor: help;
   /* The Tracks overlay is pointer-events: none so the lane keys beneath it stay clickable; the badge opts back in. */
   pointer-events: auto;
-  transition: background-color var(--dur-fast) ease;
 }
-/* A larger target than the 16px dot, so the numbers are easy to hit. */
-.ember-mock .mock-badge::after { content: ""; position: absolute; inset: -6px; border-radius: 9999px; }
-.ember-mock .mock-badge:focus-visible { outline: 2px solid var(--daw-accent); outline-offset: 3px; }
+.ember-mock [data-part="tracks"] > .mock-badge { right: auto; left: -1px; }
+.ember-mock .mock-badge:focus-visible { outline: 2px solid var(--daw-accent); outline-offset: 0; }
 .ember-mock [data-part][data-hot] {
   outline: 2px solid var(--daw-accent);
   outline-offset: 1px;
@@ -682,7 +724,7 @@ body {
 }
 .ember-mock [data-part][data-hot] > .mock-badge,
 .ember-mock [data-part][data-hot] .mock-badge-in {
-  background: var(--daw-accent);
+  --badge-fill: var(--daw-accent);
 }
 .ember-mock .mock-pos i { font-style: normal; color: var(--daw-t3); margin: 0 1px; }
 
@@ -776,7 +818,7 @@ body {
 @keyframes pvsIn { from { clip-path: inset(0 0 100% 0); opacity: .4; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
 .pvs-bar { display: flex; align-items: center; gap: 10px; padding: 6px 10px; background: var(--daw-panel); border-bottom: 1px solid var(--daw-border); font: 500 10px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--daw-t2); }
 .pvs-title { color: var(--daw-t1); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pvs-note { color: var(--daw-t4); }
+.pvs-note { color: var(--daw-t4-text); }
 .pvs-replay { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 9999px; background: var(--daw-control); color: var(--daw-t2); transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease; }
 .pvs-replay:hover { color: var(--daw-t1); background: var(--daw-raised); }
 .pvs-svg { display: block; width: 100%; height: auto; }

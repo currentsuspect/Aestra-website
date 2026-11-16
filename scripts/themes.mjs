@@ -69,22 +69,47 @@ const ensure = (c, grounds, toward, min, label, notes) => {
       return out;
     }
   }
-  throw new Error(`${label}: cannot reach ${min}:1`);
+  throw new Error(`${CURRENT}: ${label}: cannot reach ${min}:1 (best ${out} against ${grounds.map((g) => `${g} ${ratio(out, g).toFixed(2)}`).join(", ")})`);
 };
 
 /* ── the mapping ──────────────────────────────────────────────── */
+let CURRENT = "";
 const build = (id, v) => {
+  CURRENT = id;
   const notes = [];
   const bg = v.backgroundPrimary;
   const panel = v.backgroundSecondary;
   const card = v.surfaceTertiary;
   // Site text sits on the page, on panels and on cards.
-  const grounds = [bg, panel, card];
+  // Plus the sunk well (a founding-supporter plate, inputs) and the accent's soft fill (badges,
+  // highlighted table columns, selected rows), because text sits on those too.
+  const grounds = [bg, panel, card, v.editorWell, over(v.selected, bg), over(v.selected, panel)];
   const fg = v.textPrimary;
+  // The DAW's grey tiers as TEXT inside the mock and demos: they sit on the bed, panels, controls
+  // and raised surfaces, so step them until they read there. --daw-t4 stays the app's literal
+  // disabled grey for shapes (grid lines, ticks); text that must be read uses --daw-t4-text.
+  const dawGrounds = [bg, panel, card, v.surfaceRaised, v.editorWell];
+  const dawMuted = ensure(v.textMuted, dawGrounds, fg, AA + 0.2, "daw muted text (t3)", notes);
+  const dawHint = ensure(v.textDisabled, dawGrounds, fg, AA, "daw hint text (t4-text)", notes);
+  // Status colours as TEXT inside the demos (notices, trim readouts), and the ink that reads on a
+  // solid error fill (the kit's single on-status ink is too dark on the light themes' error red).
+  const dawWarnText = ensure(v.warning, dawGrounds, fg, AA, "daw warn text", notes);
+  const dawErrorText = ensure(v.error, dawGrounds, fg, AA, "daw error text", notes);
+  const dawMeterText = ensure(v.meterSafe, dawGrounds, fg, AA, "daw meter text", notes);
+  const onError = ratio(v.textOnStatus, v.error) >= ratio("#ffffff", v.error) ? v.textOnStatus : "#ffffff";
+  // If even the better ink is under AA on the kit's error red (Monolith light), deepen the fill a little
+  // for solid error bands (the changelog's REC clip) rather than changing the ink.
+  const errorSolid = ratio(onError, v.error) >= AA ? v.error : ensure(v.error, [onError], onError === "#ffffff" ? "#000000" : "#ffffff", AA, "daw error fill", notes);
   const text = (c, label) => ensure(c, grounds, fg, AA, label, notes);
+  // A status colour as text also sits on its own 14% wash (the 404 badge, status pills).
+  const statusText = (c, label) => ensure(c, [...grounds, ...grounds.map((g) => mix(g, c, 0.16))], fg, AA, label, notes);
   // The accent as text: the app's primary if it reads, else its secondary (the app's own
   // readable-accent token), stepped toward the text colour only if neither does.
-  const accentText = grounds.every((g) => ratio(v.primary, g) >= AA) ? v.primary : text(v.secondary, "accent text (secondary)");
+  // The accent also sits on its own soft fill (badges, selected rows): read there too.
+  const accentGrounds = grounds; // already includes the soft-fill composites
+  const accentText = accentGrounds.every((g) => ratio(v.primary, g) >= AA)
+    ? v.primary
+    : ensure(v.secondary, accentGrounds, fg, AA, "accent text (secondary)", notes);
   // Ink on the accent fill: the app's textOnPrimary must read on primary. A hovered accent
   // button takes primaryHover when the ink still reads on it, else primaryPressed (the app's
   // two neighbouring shades), so hover never costs contrast.
@@ -125,9 +150,9 @@ const build = (id, v) => {
     "--color-overlay": v.overlay,
     "--color-shadow": v.shadow,
     // status only
-    "--color-success": text(v.success, "success"),
-    "--color-warn": text(v.warning, "warn"),
-    "--color-error": text(v.error, "error"),
+    "--color-success": statusText(v.success, "success"),
+    "--color-warn": statusText(v.warning, "warn"),
+    "--color-error": statusText(v.error, "error"),
     // the DAW drawn on the page (hero mock, previews, demos)
     "--color-daw-bed": v.timelineBed,
     "--color-daw-panel": panel,
@@ -142,8 +167,9 @@ const build = (id, v) => {
     "--daw-divider": v.divider,
     "--daw-t1": fg,
     "--daw-t2": v.textSecondary,
-    "--daw-t3": v.textMuted,
+    "--daw-t3": dawMuted,
     "--daw-t4": v.textDisabled,
+    "--daw-t4-text": dawHint,
     "--daw-primary": v.primary,
     "--daw-primary-hover": v.primaryHover,
     "--daw-on-primary": v.textOnPrimary,
@@ -159,6 +185,11 @@ const build = (id, v) => {
     "--daw-error": v.error,
     "--daw-success": v.success,
     "--daw-on-status": v.textOnStatus,
+    "--daw-on-error": onError,
+    "--daw-error-solid": errorSolid,
+    "--daw-warn-text": dawWarnText,
+    "--daw-error-text": dawErrorText,
+    "--daw-meter-text": dawMeterText,
     "--daw-grid-major": v.gridMajor,
     "--daw-grid-minor": v.gridMinor,
     "--daw-cyan": v.accentCyan,

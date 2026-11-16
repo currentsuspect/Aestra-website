@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
 import { useToast } from "./Toast";
+import { FORM_ERRORS } from "../waitlistCopy";
 import { EMAIL_RE } from "../../shared/waitlist";
 
 export type EarlyAccessPurpose = "early-access" | "supporter-notify";
@@ -95,8 +96,8 @@ export const EarlyAccessModal = ({
               onSubmit={async (e) => {
                 e.preventDefault();
                 if (!EMAIL_RE.test(email)) {
-                  setError("Please enter a valid email address.");
-                  toast.error("Invalid email", "Please enter a valid email address.");
+                  setError(FORM_ERRORS.email.inline);
+                  toast.error(FORM_ERRORS.email.toastTitle, FORM_ERRORS.email.toastBody);
                   return;
                 }
                 setSubmitting(true);
@@ -111,12 +112,12 @@ export const EarlyAccessModal = ({
                     setDone(true);
                     toast.success(copy.successToast, copy.successToastDesc);
                   } else {
-                    setError("Something went wrong. Try again.");
-                    toast.error("Couldn't send request", "Something went wrong. Try again.");
+                    setError(FORM_ERRORS.server.inline);
+                    toast.error(FORM_ERRORS.server.toastTitle, FORM_ERRORS.server.toastBody);
                   }
                 } catch {
-                  setError("Network error. Try again.");
-                  toast.error("Network error", "Check your connection and try again.");
+                  setError(FORM_ERRORS.network.inline);
+                  toast.error(FORM_ERRORS.network.toastTitle, FORM_ERRORS.network.toastBody);
                 } finally {
                   setSubmitting(false);
                 }
@@ -153,9 +154,11 @@ export const EarlyAccessModal = ({
                   id="ea-email"
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => { setEmail(e.target.value); if (error) setError(""); }}
                   required
                   maxLength={254}
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={error ? "ea-error" : undefined}
                   autoComplete="email"
                   className="w-full h-10 px-3 rounded-lg bg-surface-2 border border-border text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent"
                   placeholder="you@studio.email"
@@ -173,7 +176,7 @@ export const EarlyAccessModal = ({
                   placeholder="FL Studio, Ableton, Reaper…"
                 />
               </div>
-              {error && <p className="text-error text-sm">{error}</p>}
+              {error && <p id="ea-error" role="alert" className="text-error text-sm">{error}</p>}
               <button
                 type="submit"
                 disabled={submitting}
