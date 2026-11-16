@@ -44,15 +44,18 @@ const ReleaseShots = ({ shots, className = "" }: { shots: Shot[]; className?: st
     <div className={`grid sm:grid-cols-2 gap-4 ${className}`}>
       {shots.map((s) => (
         <figure key={s.src} className="m-0">
-          <img
-            src={s.src}
-            alt={s.caption}
-            width={960}
-            height={720}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-auto rounded-lg border border-border bg-black"
-          />
+          <picture>
+            {s.src.endsWith(".png") && <source srcSet={s.src.replace(/\.png$/, ".webp")} type="image/webp" />}
+            <img
+              src={s.src}
+              alt={s.caption}
+              width={960}
+              height={720}
+              loading="lazy"
+              decoding="async"
+              className="w-full h-auto rounded-lg border border-border bg-black"
+            />
+          </picture>
           <figcaption className="mt-2 text-[13px] leading-relaxed text-muted">{s.caption}</figcaption>
         </figure>
       ))}
