@@ -260,13 +260,29 @@ body {
   text-transform: uppercase;
   color: var(--color-dim);
 }
+/* The card is outlined on all four sides. Each cell draws its own right and bottom
+   hairline (so the dividers follow the cells when they wrap on a narrow screen);
+   the top and left edges are drawn once, over the cells, by the container. The
+   fill lives on the cells, so a short last row leaves no stray block behind. */
 .cells {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
-  background: var(--color-surface);
 }
+.cells::before,
+.cells::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--color-border);
+  pointer-events: none;
+}
+.cells::before { right: 0; height: 1px; }
+.cells::after { bottom: 0; width: 1px; }
 .cell {
   padding: 10px 16px 12px;
+  background: var(--color-surface);
   box-shadow: inset -1px 0 0 var(--color-border), inset 0 -1px 0 var(--color-border);
 }
 .cell-v {
