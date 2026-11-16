@@ -77,7 +77,7 @@ export const EngineDemo = () => {
         <div className="relative" style={{ width: "100%", maxWidth: CW, aspectRatio: `${CW} / ${CH}` }}>
           <canvas ref={cv} className="absolute inset-0 w-full h-full" aria-hidden="true" />
           <span className="dcap absolute" style={{ left: 0, top: 0 }}>Screen · drawing the interface</span>
-          <span className="dcap absolute" style={{ left: 0, top: 76, color: "var(--daw-meter)" }}>Audio · making the sound</span>
+          <span className="dcap absolute" style={{ left: 0, top: 76, color: "var(--daw-meter-text)" }}>Audio · making the sound</span>
           {!playing && <div className="absolute inset-0 grid place-items-center text-center dnote" style={{ background: "color-mix(in srgb, var(--daw-panel) 85%, transparent)" }}>Press play to start measuring.</div>}
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">

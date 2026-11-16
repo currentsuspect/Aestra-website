@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { ArrowRight } from "lucide-react";
 import type { PageProps } from "../types";
 
-const LAST_UPDATED = "2026-10-04";
+const LAST_UPDATED = "2026-11-16";
 const formattedDate = new Date(LAST_UPDATED).toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
@@ -29,7 +29,7 @@ export const Privacy = memo(({ setPage }: PageProps) => (
           <h2 className="text-[15px] font-medium text-fg mb-3">What we collect</h2>
           <ul className="space-y-2 list-disc list-inside text-muted">
             <li><span className="text-fg-muted">Waitlist details</span> — your email address and, where the form asks for them, your name and current DAW.</li>
-            <li><span className="text-fg-muted">Usage analytics</span> — anonymous, aggregated data about how the website is used (page views, referrers). No personal identification.</li>
+            <li><span className="text-fg-muted">Hosting logs</span> — like any web host, ours (Vercel) sees the technical details of a request, such as your IP address, the page you asked for and your browser, in order to serve the site and keep it secure. We don't run analytics or tracking of our own on top of that.</li>
           </ul>
         </section>
 
@@ -37,6 +37,7 @@ export const Privacy = memo(({ setPage }: PageProps) => (
           <h2 className="text-[15px] font-medium text-fg mb-3">What we don't collect</h2>
           <ul className="space-y-2 list-disc list-inside text-muted">
             <li>No cookies for tracking or advertising.</li>
+            <li>No analytics, tracking pixels or third-party scripts, fonts or embeds on this website.</li>
             <li>No sale of personal data to third parties. Ever.</li>
             <li>No access to your music, projects, or files.</li>
           </ul>
@@ -65,7 +66,7 @@ export const Privacy = memo(({ setPage }: PageProps) => (
           <p className="text-muted">
             The demos on the Features page keep the loop you make in your browser's local storage, on your own
             device only, so it's there when you come back. If you drop an audio file into a demo, it's decoded in
-            your browser and is never uploaded. The site also remembers your light or dark theme the same way.
+            your browser and is never uploaded. The site also remembers your theme choice the same way.
             You can clear all of it by clearing this site's data in your browser.
           </p>
         </section>

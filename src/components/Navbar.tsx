@@ -152,15 +152,13 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
   ], []);
 
   return (
-    <nav
+    <header
       className={cn(
         "fixed left-0 right-0 z-50 transition-[background-color,box-shadow] duration-200",
         isScrolled || mobileOpen
           ? "bg-bg shadow-[inset_0_-1px_0_var(--color-border)]"
           : "bg-bg/0"
       )}
-      role="navigation"
-      aria-label="Main navigation"
     >
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 h-14 sm:h-16 grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-4">
         <a
@@ -173,9 +171,9 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
           <span className="text-[16px] font-extrabold text-fg lowercase tracking-[-0.01em] [font-stretch:125%]">aestra</span>
         </a>
 
-        <div className="hidden md:block">
+        <nav aria-label="Main navigation" className="hidden md:block">
           <SegNav links={navLinks} activePage={activePage} setPage={setPage} />
-        </div>
+        </nav>
 
         <div className="flex items-center justify-self-end gap-1.5">
           <a
@@ -255,6 +253,6 @@ export const Navbar = memo(({ activePage, setPage, onEarlyAccess }: NavbarProps)
           </div>
         </div>
       </div>
-    </nav>
+    </header>
   );
 });

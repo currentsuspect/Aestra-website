@@ -117,7 +117,7 @@ export const Card = memo(({ children, className }: CardProps) => (
 
 /* ── FadeIn ───────────────────────────────────────────────────── */
 const FADE_IN_STEPS = 6;
-export const FadeIn = memo(({ children, className, delay = 0 }: FadeInProps) => {
+export const FadeIn = memo(({ children, className, delay = 0, as: Tag = "div" }: FadeInProps) => {
   const { ref, inView } = useInView();
   // Cap the index so we never produce a nonexistent class (e.g. delay > 0.6).
   // For larger delays, use a continuous inline style instead.
@@ -125,8 +125,8 @@ export const FadeIn = memo(({ children, className, delay = 0 }: FadeInProps) => 
   const delayClass = step > 0 && step <= FADE_IN_STEPS ? `fade-in-delay-${step}` : "";
   const noMotion = prefersReducedMotion();
   return (
-    <div
-      ref={ref}
+    <Tag
+      ref={ref as React.Ref<HTMLLIElement & HTMLDivElement>}
       className={cn(
         "fade-in",
         inView && "visible",
@@ -137,7 +137,7 @@ export const FadeIn = memo(({ children, className, delay = 0 }: FadeInProps) => 
       style={step > FADE_IN_STEPS ? { transitionDelay: `${Math.min(delay, 1.2)}s` } : undefined}
     >
       {children}
-    </div>
+    </Tag>
   );
 });
 

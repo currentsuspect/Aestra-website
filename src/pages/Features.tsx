@@ -139,7 +139,7 @@ const Tracklist = ({ active }: { active: string }) => (
                 style={{ color: on ? "var(--daw-t1)" : "var(--daw-t3)", borderLeft: `2px solid ${on ? "var(--daw-accent)" : "var(--daw-border)"}`, paddingLeft: 10, transition: "color .2s" }}
                 aria-current={on ? "true" : undefined}
               >
-                <span className="font-mono text-[11px]" style={{ color: on ? "var(--daw-accent)" : "var(--daw-t4)" }}>{t.side}{t.n}</span>
+                <span className="font-mono text-[11px]" style={{ color: on ? "var(--daw-accent)" : "var(--daw-t4-text)" }}>{t.side}{t.n}</span>
                 {t.title}
               </a>
             </li>

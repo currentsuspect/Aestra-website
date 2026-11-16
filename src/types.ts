@@ -40,6 +40,8 @@ export interface FadeInProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  /** Render as another element, e.g. "li" inside a list. */
+  as?: "div" | "li";
 }
 
 export interface CardProps {

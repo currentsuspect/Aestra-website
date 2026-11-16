@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, memo, lazy, Suspense } from "react"
 import { Check, ArrowRight } from "lucide-react";
 import { Button, FadeIn } from "../components/ui";
 import { useToast } from "../components/Toast";
+import { FORM_ERRORS } from "../waitlistCopy";
 import { EMAIL_RE } from "../../shared/waitlist";
 import { RELEASES } from "../changelogData";
 import { CHANGELOG_SELECT_KEY } from "../components/ChangelogArrangement";
@@ -519,8 +520,8 @@ const FounderCountdown = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!EMAIL_RE.test(email)) {
-      setError("Please enter a valid email address.");
-      toast.error("Invalid email", "Please enter a valid email address.");
+      setError(FORM_ERRORS.email.inline);
+      toast.error(FORM_ERRORS.email.toastTitle, FORM_ERRORS.email.toastBody);
       return;
     }
     setSubmitting(true);
@@ -535,12 +536,12 @@ const FounderCountdown = () => {
         setSubmitted(true);
         toast.success("You're on the Founding Supporter list.", "We'll email you when Supporter opens.");
       } else {
-        setError("Something went wrong. Try again.");
-        toast.error("Couldn't join waitlist", "Something went wrong. Try again.");
+        setError(FORM_ERRORS.server.inline);
+        toast.error(FORM_ERRORS.server.toastTitle, FORM_ERRORS.server.toastBody);
       }
     } catch {
-      setError("Network error. Try again.");
-      toast.error("Network error", "Check your connection and try again.");
+      setError(FORM_ERRORS.network.inline);
+      toast.error(FORM_ERRORS.network.toastTitle, FORM_ERRORS.network.toastBody);
     } finally {
       setSubmitting(false);
     }

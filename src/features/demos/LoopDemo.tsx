@@ -117,7 +117,7 @@ export const LoopDemo = () => {
           ))}
         </div>
         <p className="dnote mt-4 mb-0">Click a pad, then press play. Swap any sound from its menu, or drag an audio file onto a row to use your own. It's decoded in your browser and never uploaded.</p>
-        {notice && <p className="m-0 mt-2 text-[12px]" role="status" style={{ color: "var(--daw-error)" }}>{notice}</p>}
+        {notice && <p className="m-0 mt-2 text-[12px]" role="status" style={{ color: "var(--daw-error-text)" }}>{notice}</p>}
       </div>
     </Panel>
   );

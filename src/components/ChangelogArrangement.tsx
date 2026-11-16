@@ -36,7 +36,7 @@ export const clipVars = (recording: boolean, slot: number) => {
   // The app's clip (FD-50): a full-colour header band with the name in dark ink, a deep body,
   // and content in a light tint of the hue. The recording clip takes the theme's error colour.
   return recording
-    ? { ["--c" as string]: "color-mix(in srgb, var(--daw-error) 22%, var(--daw-bed))", ["--band" as string]: "var(--daw-error)", ["--band-ink" as string]: "var(--daw-on-status)", ["--ink" as string]: "var(--daw-error)" }
+    ? { ["--c" as string]: "color-mix(in srgb, var(--daw-error) 22%, var(--daw-bed))", ["--band" as string]: "var(--daw-error-solid)", ["--band-ink" as string]: "var(--daw-on-error)", ["--ink" as string]: "var(--daw-error)" }
     : { ["--c" as string]: t.body, ["--band" as string]: t.band, ["--band-ink" as string]: TEXT_ON_TRACK, ["--ink" as string]: t.ink };
 };
 
@@ -88,10 +88,10 @@ export const ChangelogArrangement = memo(({
                 className="clx-loc"
                 onClick={() => onSelect({ version: r.version, lane: null })}
                 aria-pressed={selected && !selection?.lane}
-                aria-label={`${r.version}, ${r.date}: ${r.entries.length} entries`}
               >
                 <span>{recording ? "● Unreleased" : shortVersion(r.version)}</span>
                 <small>{recording ? "recording" : r.date}</small>
+                <span className="sr-only">, {r.entries.length} entries</span>
               </button>
               {LANES.map((l) => {
                 const entries = r.entries.filter((e) => laneOf(e.type) === l.key);

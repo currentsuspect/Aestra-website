@@ -2,39 +2,101 @@
    Default theme: solace-dark. Change DEFAULT_THEME in the script and run it again.
 
    Worst-case text contrast per theme (on page, panel and card grounds):
-     ember-dark           fg 14.32 · fg-muted 10.63 · muted 6.96 · dim 4.50 · accent 5.77 · success 8.39 · warn 8.70 · error 6.16 · on-accent 5.19
-     ember-light          fg 12.37 · fg-muted 9.96 · muted 7.41 · dim 4.66 · accent 6.03 · success 4.54 · warn 4.60 · error 4.57 · on-accent 7.10
-     ember-hc             fg 18.26 · fg-muted 15.60 · muted 12.56 · dim 8.91 · accent 6.71 · success 8.85 · warn 9.17 · error 6.49 · on-accent 7.72
-     obsidian-moss-dark   fg 14.24 · fg-muted 10.94 · muted 7.62 · dim 4.62 · accent 6.72 · success 8.28 · warn 8.58 · error 6.07 · on-accent 7.59
-     obsidian-moss-light  fg 12.98 · fg-muted 10.25 · muted 7.26 · dim 4.65 · accent 4.62 · success 4.53 · warn 4.59 · error 4.51 · on-accent 5.79
-     obsidian-moss-hc     fg 17.97 · fg-muted 16.14 · muted 14.01 · dim 10.55 · accent 12.13 · success 8.71 · warn 9.03 · error 6.39 · on-accent 14.18
-     solace-dark          fg 14.11 · fg-muted 10.61 · muted 7.19 · dim 4.52 · accent 7.27 · success 8.23 · warn 8.53 · error 5.27 · on-accent 8.10
-     solace-light         fg 13.44 · fg-muted 10.92 · muted 8.05 · dim 5.09 · accent 4.81 · success 4.53 · warn 4.60 · error 4.55 · on-accent 5.03
-     solace-hc            fg 18.47 · fg-muted 16.42 · muted 14.15 · dim 10.53 · accent 10.44 · success 8.95 · warn 9.28 · error 6.94 · on-accent 11.87
-     monolith-dark        fg 15.55 · fg-muted 11.63 · muted 7.76 · dim 4.59 · accent 15.55 · success 8.43 · warn 8.74 · error 6.19 · on-accent 17.68
-     monolith-light       fg 15.55 · fg-muted 12.63 · muted 8.95 · dim 5.34 · accent 15.55 · success 4.57 · warn 4.55 · error 4.64 · on-accent 18.88
-     monolith-hc          fg 18.26 · fg-muted 16.17 · muted 13.83 · dim 10.25 · accent 18.26 · success 8.85 · warn 9.17 · error 6.49 · on-accent 21.00
+     ember-dark           fg 10.60 · fg-muted 7.86 · muted 5.15 · dim 4.54 · accent 4.62 · success 6.21 · warn 6.43 · error 5.73 · on-accent 5.19
+     ember-light          fg 10.91 · fg-muted 8.79 · muted 6.53 · dim 4.50 · accent 5.32 · success 5.25 · warn 5.16 · error 5.54 · on-accent 7.10
+     ember-hc             fg 10.92 · fg-muted 9.33 · muted 7.52 · dim 5.33 · accent 5.92 · success 5.97 · warn 6.05 · error 5.55 · on-accent 7.72
+     obsidian-moss-dark   fg 11.46 · fg-muted 8.81 · muted 6.13 · dim 4.60 · accent 5.41 · success 6.66 · warn 6.91 · error 5.57 · on-accent 7.59
+     obsidian-moss-light  fg 12.10 · fg-muted 9.55 · muted 6.77 · dim 4.53 · accent 4.87 · success 5.30 · warn 5.10 · error 5.47 · on-accent 5.79
+     obsidian-moss-hc     fg 8.10 · fg-muted 7.28 · muted 6.32 · dim 4.76 · accent 5.47 · success 5.75 · warn 5.76 · error 5.23 · on-accent 14.18
+     solace-dark          fg 11.26 · fg-muted 8.46 · muted 5.74 · dim 4.61 · accent 5.80 · success 6.57 · warn 6.81 · error 5.59 · on-accent 8.10
+     solace-light         fg 12.58 · fg-muted 10.23 · muted 7.54 · dim 4.77 · accent 4.51 · success 5.31 · warn 5.20 · error 5.62 · on-accent 5.03
+     solace-hc            fg 8.99 · fg-muted 8.00 · muted 6.89 · dim 5.13 · accent 5.08 · success 5.78 · warn 5.95 · error 5.61 · on-accent 11.87
+     monolith-dark        fg 10.16 · fg-muted 7.60 · muted 5.07 · dim 4.56 · accent 10.16 · success 6.09 · warn 6.12 · error 5.60 · on-accent 17.68
+     monolith-light       fg 13.25 · fg-muted 10.75 · muted 7.62 · dim 4.55 · accent 13.25 · success 5.23 · warn 5.15 · error 5.52 · on-accent 18.88
+     monolith-hc          fg 6.48 · fg-muted 5.74 · muted 4.91 · dim 4.51 · accent 6.48 · success 5.47 · warn 5.59 · error 5.05 · on-accent 21.00
 
    Adjusted for AA:
+     ember-dark: daw muted text (t3): #857d72 -> #968e84 (16% toward text, for 4.7:1)
+     ember-dark: daw hint text (t4-text): #57514a -> #938e86 (40% toward text, for 4.5:1)
+     ember-dark: accent text (secondary): #a67dff -> #ac86fd (8% toward text, for 4.5:1)
      ember-dark: accent hover: primaryHover #9f5dff -> primaryPressed #7430d6 (ink 3.83:1 on primaryHover)
-     ember-dark: dim (textMuted): #857d72 -> #898176 (4% toward text, for 4.5:1)
-     ember-dark: faint (textMuted): #857d72 -> #898176 (4% toward text, for 4.5:1)
-     ember-light: success: #2f9a64 -> #2d7855 (30% toward text, for 4.5:1)
-     ember-light: warn: #c98a1e -> #896326 (40% toward text, for 4.5:1)
-     ember-light: error: #d64545 -> #ba4042 (16% toward text, for 4.5:1)
+     ember-dark: dim (textMuted): #857d72 -> #a0998f (26% toward text, for 4.5:1)
+     ember-dark: faint (textMuted): #857d72 -> #a0998f (26% toward text, for 4.5:1)
+     ember-dark: error: #ff6b4f -> #fa917b (30% toward text, for 4.5:1)
+     ember-light: daw muted text (t3): #686875 -> #60606d (12% toward text, for 4.7:1)
+     ember-light: daw hint text (t4-text): #9a9aa6 -> #63636f (48% toward text, for 4.5:1)
+     ember-light: daw warn text: #c98a1e -> #825f27 (44% toward text, for 4.5:1)
+     ember-light: daw error text: #d64545 -> #ac3e41 (24% toward text, for 4.5:1)
+     ember-light: daw meter text: #2b9a8c -> #2a6f6a (38% toward text, for 4.5:1)
+     ember-light: daw error fill: #d64545 -> #d24444 (2% toward text, for 4.5:1)
+     ember-light: dim (textMuted): #686875 -> #62626e (10% toward text, for 4.5:1)
+     ember-light: faint (textMuted): #686875 -> #62626e (10% toward text, for 4.5:1)
+     ember-light: success: #2f9a64 -> #2c634c (48% toward text, for 4.5:1)
+     ember-light: warn: #c98a1e -> #725529 (54% toward text, for 4.5:1)
+     ember-light: error: #d64545 -> #90393e (40% toward text, for 4.5:1)
+     ember-hc: daw hint text (t4-text): #7d7d7d -> #878787 (8% toward text, for 4.5:1)
+     ember-hc: success: #5cc98a -> #76d29d (16% toward text, for 4.5:1)
+     ember-hc: warn: #f3a93b -> #f5b556 (14% toward text, for 4.5:1)
+     ember-hc: error: #ff6b4f -> #ffa08e (36% toward text, for 4.5:1)
+     obsidian-moss-dark: daw muted text (t3): #7c887f -> #879289 (10% toward text, for 4.7:1)
+     obsidian-moss-dark: daw hint text (t4-text): #4f5952 -> #858e87 (36% toward text, for 4.5:1)
+     obsidian-moss-dark: dim (textMuted): #7c887f -> #8d988f (16% toward text, for 4.5:1)
+     obsidian-moss-dark: faint (textMuted): #7c887f -> #8d988f (16% toward text, for 4.5:1)
+     obsidian-moss-dark: error: #ff6b4f -> #fb826a (18% toward text, for 4.5:1)
+     obsidian-moss-light: daw muted text (t3): #5d685e -> #556056 (12% toward text, for 4.7:1)
+     obsidian-moss-light: daw hint text (t4-text): #939b92 -> #596159 (48% toward text, for 4.5:1)
+     obsidian-moss-light: daw warn text: #c98a1e -> #795a1d (46% toward text, for 4.5:1)
+     obsidian-moss-light: daw error text: #d64545 -> #a53c3a (26% toward text, for 4.5:1)
+     obsidian-moss-light: daw meter text: #23877a -> #216b60 (28% toward text, for 4.5:1)
+     obsidian-moss-light: daw error fill: #d64545 -> #d24444 (2% toward text, for 4.5:1)
      obsidian-moss-light: accent hover: primaryHover #46853a -> primaryPressed #2e5c26 (ink 4.49:1 on primaryHover)
-     obsidian-moss-light: success: #2f9a64 -> #29744d (32% toward text, for 4.5:1)
-     obsidian-moss-light: warn: #c98a1e -> #83601d (40% toward text, for 4.5:1)
-     obsidian-moss-light: error: #d64545 -> #b43f3e (18% toward text, for 4.5:1)
-     solace-dark: dim (textMuted): #8c8071 -> #8e8273 (2% toward text, for 4.5:1)
-     solace-dark: faint (textMuted): #8c8071 -> #8e8273 (2% toward text, for 4.5:1)
+     obsidian-moss-light: dim (textMuted): #5d685e -> #5a655b (4% toward text, for 4.5:1)
+     obsidian-moss-light: faint (textMuted): #5d685e -> #5a655b (4% toward text, for 4.5:1)
+     obsidian-moss-light: success: #2f9a64 -> #266343 (46% toward text, for 4.5:1)
+     obsidian-moss-light: warn: #c98a1e -> #72561d (50% toward text, for 4.5:1)
+     obsidian-moss-light: error: #d64545 -> #933836 (36% toward text, for 4.5:1)
+     obsidian-moss-hc: daw hint text (t4-text): #7f8a81 -> #828c84 (2% toward text, for 4.5:1)
+     obsidian-moss-hc: success: #5cc98a -> #b1e5c7 (52% toward text, for 4.5:1)
+     obsidian-moss-hc: warn: #f3a93b -> #f9d49d (50% toward text, for 4.5:1)
+     obsidian-moss-hc: error: #ff6b4f -> #ffc1b5 (58% toward text, for 4.5:1)
+     solace-dark: daw muted text (t3): #8c8071 -> #9c9182 (16% toward text, for 4.7:1)
+     solace-dark: daw hint text (t4-text): #5c5248 -> #988e84 (40% toward text, for 4.5:1)
+     solace-dark: dim (textMuted): #8c8071 -> #a09587 (20% toward text, for 4.5:1)
+     solace-dark: faint (textMuted): #8c8071 -> #a09587 (20% toward text, for 4.5:1)
+     solace-dark: error: #ff4d6a -> #fa8291 (34% toward text, for 4.5:1)
+     solace-light: daw muted text (t3): #6a5d50 -> #66594c (6% toward text, for 4.7:1)
+     solace-light: daw hint text (t4-text): #9c9084 -> #675d53 (44% toward text, for 4.5:1)
+     solace-light: daw warn text: #c98a1e -> #7d571a (46% toward text, for 4.5:1)
+     solace-light: daw error text: #cf2f58 -> #ad2b4b (20% toward text, for 4.5:1)
+     solace-light: daw meter text: #23877a -> #23695e (28% toward text, for 4.5:1)
      solace-light: accent hover: primaryHover #c6632a -> primaryPressed #954311 (ink 4.02:1 on primaryHover)
-     solace-light: success: #2f9a64 -> #2b744c (30% toward text, for 4.5:1)
-     solace-light: warn: #c98a1e -> #875e1a (40% toward text, for 4.5:1)
-     solace-light: error: #cf2f58 -> #be2d51 (10% toward text, for 4.5:1)
-     monolith-light: success: #2f9a64 -> #27764e (26% toward text, for 4.5:1)
-     monolith-light: warn: #c98a1e -> #8a611a (34% toward text, for 4.5:1)
-     monolith-light: error: #d64545 -> #b63d3d (16% toward text, for 4.5:1)
+     solace-light: success: #2f9a64 -> #2a6341 (44% toward text, for 4.5:1)
+     solace-light: warn: #c98a1e -> #76531a (50% toward text, for 4.5:1)
+     solace-light: error: #cf2f58 -> #9b2944 (30% toward text, for 4.5:1)
+     solace-hc: daw hint text (t4-text): #8c8175 -> #8e8478 (2% toward text, for 4.5:1)
+     solace-hc: success: #5cc98a -> #9adeb6 (38% toward text, for 4.5:1)
+     solace-hc: warn: #f3a93b -> #f8cb89 (40% toward text, for 4.5:1)
+     solace-hc: error: #ff6f8a -> #ffbac7 (52% toward text, for 4.5:1)
+     monolith-dark: daw muted text (t3): #838383 -> #8e8e8e (10% toward text, for 4.7:1)
+     monolith-dark: daw hint text (t4-text): #565656 -> #8b8b8b (34% toward text, for 4.5:1)
+     monolith-dark: dim (textMuted): #838383 -> #a4a4a4 (30% toward text, for 4.5:1)
+     monolith-dark: faint (textMuted): #838383 -> #a4a4a4 (30% toward text, for 4.5:1)
+     monolith-dark: success: #5cc98a -> #74d09b (16% toward text, for 4.5:1)
+     monolith-dark: warn: #f3a93b -> #f3b251 (12% toward text, for 4.5:1)
+     monolith-dark: error: #ff6b4f -> #fa9e8d (38% toward text, for 4.5:1)
+     monolith-light: daw hint text (t4-text): #9a9a9a -> #606060 (42% toward text, for 4.5:1)
+     monolith-light: daw warn text: #c98a1e -> #7f5a19 (40% toward text, for 4.5:1)
+     monolith-light: daw error text: #d64545 -> #ab3a3a (22% toward text, for 4.5:1)
+     monolith-light: daw error fill: #d64545 -> #d24444 (2% toward text, for 4.5:1)
+     monolith-light: success: #2f9a64 -> #226041 (42% toward text, for 4.5:1)
+     monolith-light: warn: #c98a1e -> #715018 (48% toward text, for 4.5:1)
+     monolith-light: error: #d64545 -> #8f3232 (36% toward text, for 4.5:1)
+     monolith-hc: daw hint text (t4-text): #858585 -> #878787 (2% toward text, for 4.5:1)
+     monolith-hc: dim (textMuted): #c2c2c2 -> #d7d7d7 (34% toward text, for 4.5:1)
+     monolith-hc: faint (textMuted): #c2c2c2 -> #d7d7d7 (34% toward text, for 4.5:1)
+     monolith-hc: success: #5cc98a -> #d8f2e3 (76% toward text, for 4.5:1)
+     monolith-hc: warn: #f3a93b -> #fcecd4 (78% toward text, for 4.5:1)
+     monolith-hc: error: #ff6b4f -> #ffdbd5 (76% toward text, for 4.5:1)
 */
 
 @theme {
@@ -50,8 +112,8 @@
   --color-fg: #f1e9de;
   --color-fg-muted: #d5cbbe;
   --color-muted: #b3a797;
-  --color-dim: #8e8273;
-  --color-faint: #8e8273;
+  --color-dim: #a09587;
+  --color-faint: #a09587;
   --color-accent: #ff8a4c;
   --color-accent-fill: #ff8a4c;
   --color-accent-hover: #ffa26e;
@@ -66,7 +128,7 @@
   --color-shadow: #0000006b;
   --color-success: #5cc98a;
   --color-warn: #f3a93b;
-  --color-error: #ff4d6a;
+  --color-error: #fa8291;
   --color-daw-bed: #000000;
   --color-daw-panel: #18130f;
 }
@@ -85,8 +147,8 @@
   --color-fg: #f1e9de;
   --color-fg-muted: #d5cbbe;
   --color-muted: #b3a797;
-  --color-dim: #8e8273;
-  --color-faint: #8e8273;
+  --color-dim: #a09587;
+  --color-faint: #a09587;
   --color-accent: #ff8a4c;
   --color-accent-fill: #ff8a4c;
   --color-accent-hover: #ffa26e;
@@ -101,7 +163,7 @@
   --color-shadow: #0000006b;
   --color-success: #5cc98a;
   --color-warn: #f3a93b;
-  --color-error: #ff4d6a;
+  --color-error: #fa8291;
   --color-daw-bed: #000000;
   --color-daw-panel: #18130f;
   --daw-bed: #000000;
@@ -115,8 +177,9 @@
   --daw-divider: #322922;
   --daw-t1: #f1e9de;
   --daw-t2: #b3a797;
-  --daw-t3: #8c8071;
+  --daw-t3: #9c9182;
   --daw-t4: #5c5248;
+  --daw-t4-text: #988e84;
   --daw-primary: #ff8a4c;
   --daw-primary-hover: #ffa26e;
   --daw-on-primary: #1a0e07;
@@ -132,6 +195,11 @@
   --daw-error: #ff4d6a;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff4d6a;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff4d6a;
+  --daw-meter-text: #62cfc0;
   --daw-grid-major: #ffffff1a;
   --daw-grid-minor: #ffffff0f;
   --daw-cyan: #62cfc0;
@@ -153,9 +221,9 @@
   --color-fg: #eee9e1;
   --color-fg-muted: #d0cac0;
   --color-muted: #aca397;
-  --color-dim: #898176;
-  --color-faint: #898176;
-  --color-accent: #a67dff;
+  --color-dim: #a0998f;
+  --color-faint: #a0998f;
+  --color-accent: #ac86fd;
   --color-accent-fill: #8a3ff0;
   --color-accent-hover: #7430d6;
   --color-accent-press: #7430d6;
@@ -169,7 +237,7 @@
   --color-shadow: #0000006b;
   --color-success: #5cc98a;
   --color-warn: #f3a93b;
-  --color-error: #ff6b4f;
+  --color-error: #fa917b;
   --color-daw-bed: #000000;
   --color-daw-panel: #131110;
   --daw-bed: #000000;
@@ -183,8 +251,9 @@
   --daw-divider: #2d2825;
   --daw-t1: #eee9e1;
   --daw-t2: #aca397;
-  --daw-t3: #857d72;
+  --daw-t3: #968e84;
   --daw-t4: #57514a;
+  --daw-t4-text: #938e86;
   --daw-primary: #8a3ff0;
   --daw-primary-hover: #9f5dff;
   --daw-on-primary: #ffffff;
@@ -200,6 +269,11 @@
   --daw-error: #ff6b4f;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff6b4f;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff6b4f;
+  --daw-meter-text: #3fd6ad;
   --daw-grid-major: #ffffff1a;
   --daw-grid-minor: #ffffff0f;
   --daw-cyan: #3fd6ad;
@@ -221,8 +295,8 @@
   --color-fg: #282833;
   --color-fg-muted: #373743;
   --color-muted: #4a4a57;
-  --color-dim: #686875;
-  --color-faint: #686875;
+  --color-dim: #62626e;
+  --color-faint: #62626e;
   --color-accent: #6d28d9;
   --color-accent-fill: #6d28d9;
   --color-accent-hover: #7c3aed;
@@ -235,9 +309,9 @@
   --color-pressed: #00000014;
   --color-overlay: #00000057;
   --color-shadow: #00000038;
-  --color-success: #2d7855;
-  --color-warn: #896326;
-  --color-error: #ba4042;
+  --color-success: #2c634c;
+  --color-warn: #725529;
+  --color-error: #90393e;
   --color-daw-bed: #eeeff0;
   --color-daw-panel: #ffffff;
   --daw-bed: #eeeff0;
@@ -251,8 +325,9 @@
   --daw-divider: #e9e9ed;
   --daw-t1: #282833;
   --daw-t2: #4a4a57;
-  --daw-t3: #686875;
+  --daw-t3: #60606d;
   --daw-t4: #9a9aa6;
+  --daw-t4-text: #63636f;
   --daw-primary: #6d28d9;
   --daw-primary-hover: #7c3aed;
   --daw-on-primary: #ffffff;
@@ -268,6 +343,11 @@
   --daw-error: #d64545;
   --daw-success: #2f9a64;
   --daw-on-status: #161616;
+  --daw-on-error: #ffffff;
+  --daw-error-solid: #d24444;
+  --daw-warn-text: #825f27;
+  --daw-error-text: #ac3e41;
+  --daw-meter-text: #2a6f6a;
   --daw-grid-major: #0000001f;
   --daw-grid-minor: #00000011;
   --daw-cyan: #2b9a8c;
@@ -291,7 +371,7 @@
   --color-muted: #d6d6d6;
   --color-dim: #b5b5b5;
   --color-faint: #b5b5b5;
-  --color-accent: #a78bfa;
+  --color-accent: #c4b5fd;
   --color-accent-fill: #a78bfa;
   --color-accent-hover: #c4b5fd;
   --color-accent-press: #8b5cf6;
@@ -303,9 +383,9 @@
   --color-pressed: #ffffff33;
   --color-overlay: #0000008c;
   --color-shadow: #0000006b;
-  --color-success: #5cc98a;
-  --color-warn: #f3a93b;
-  --color-error: #ff6b4f;
+  --color-success: #76d29d;
+  --color-warn: #f5b556;
+  --color-error: #ffa08e;
   --color-daw-bed: #000000;
   --color-daw-panel: #0b0b0b;
   --daw-bed: #000000;
@@ -321,6 +401,7 @@
   --daw-t2: #d6d6d6;
   --daw-t3: #b5b5b5;
   --daw-t4: #7d7d7d;
+  --daw-t4-text: #878787;
   --daw-primary: #a78bfa;
   --daw-primary-hover: #c4b5fd;
   --daw-on-primary: #000000;
@@ -336,6 +417,11 @@
   --daw-error: #ff6b4f;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff6b4f;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff6b4f;
+  --daw-meter-text: #3fd6ad;
   --daw-grid-major: #ffffff3d;
   --daw-grid-minor: #ffffff1f;
   --daw-cyan: #3fd6ad;
@@ -357,8 +443,8 @@
   --color-fg: #e6ece6;
   --color-fg-muted: #c9d1ca;
   --color-muted: #a5b0a7;
-  --color-dim: #7c887f;
-  --color-faint: #7c887f;
+  --color-dim: #8d988f;
+  --color-faint: #8d988f;
   --color-accent: #74b25c;
   --color-accent-fill: #74b25c;
   --color-accent-hover: #8cc774;
@@ -373,7 +459,7 @@
   --color-shadow: #0000006b;
   --color-success: #5cc98a;
   --color-warn: #f3a93b;
-  --color-error: #ff6b4f;
+  --color-error: #fb826a;
   --color-daw-bed: #000000;
   --color-daw-panel: #101412;
   --daw-bed: #000000;
@@ -387,8 +473,9 @@
   --daw-divider: #242c28;
   --daw-t1: #e6ece6;
   --daw-t2: #a5b0a7;
-  --daw-t3: #7c887f;
+  --daw-t3: #879289;
   --daw-t4: #4f5952;
+  --daw-t4-text: #858e87;
   --daw-primary: #74b25c;
   --daw-primary-hover: #8cc774;
   --daw-on-primary: #08100a;
@@ -404,6 +491,11 @@
   --daw-error: #ff6b4f;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff6b4f;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff6b4f;
+  --daw-meter-text: #5fd0b0;
   --daw-grid-major: #ffffff1a;
   --daw-grid-minor: #ffffff0f;
   --daw-cyan: #5fd0b0;
@@ -425,9 +517,9 @@
   --color-fg: #1b221c;
   --color-fg-muted: #2c342d;
   --color-muted: #414b42;
-  --color-dim: #5d685e;
-  --color-faint: #5d685e;
-  --color-accent: #3a7230;
+  --color-dim: #5a655b;
+  --color-faint: #5a655b;
+  --color-accent: #35692c;
   --color-accent-fill: #3a7230;
   --color-accent-hover: #2e5c26;
   --color-accent-press: #2e5c26;
@@ -439,9 +531,9 @@
   --color-pressed: #00000014;
   --color-overlay: #00000057;
   --color-shadow: #00000038;
-  --color-success: #29744d;
-  --color-warn: #83601d;
-  --color-error: #b43f3e;
+  --color-success: #266343;
+  --color-warn: #72561d;
+  --color-error: #933836;
   --color-daw-bed: #e8ebe3;
   --color-daw-panel: #f9faf6;
   --daw-bed: #e8ebe3;
@@ -455,8 +547,9 @@
   --daw-divider: #e2e4dc;
   --daw-t1: #1b221c;
   --daw-t2: #414b42;
-  --daw-t3: #5d685e;
+  --daw-t3: #556056;
   --daw-t4: #939b92;
+  --daw-t4-text: #596159;
   --daw-primary: #3a7230;
   --daw-primary-hover: #46853a;
   --daw-on-primary: #ffffff;
@@ -472,6 +565,11 @@
   --daw-error: #d64545;
   --daw-success: #2f9a64;
   --daw-on-status: #161616;
+  --daw-on-error: #ffffff;
+  --daw-error-solid: #d24444;
+  --daw-warn-text: #795a1d;
+  --daw-error-text: #a53c3a;
+  --daw-meter-text: #216b60;
   --daw-grid-major: #0000001f;
   --daw-grid-minor: #00000011;
   --daw-cyan: #23877a;
@@ -507,9 +605,9 @@
   --color-pressed: #ffffff33;
   --color-overlay: #0000008c;
   --color-shadow: #0000006b;
-  --color-success: #5cc98a;
-  --color-warn: #f3a93b;
-  --color-error: #ff6b4f;
+  --color-success: #b1e5c7;
+  --color-warn: #f9d49d;
+  --color-error: #ffc1b5;
   --color-daw-bed: #000000;
   --color-daw-panel: #090c0a;
   --daw-bed: #000000;
@@ -525,6 +623,7 @@
   --daw-t2: #dbe6dc;
   --daw-t3: #bccabd;
   --daw-t4: #7f8a81;
+  --daw-t4-text: #828c84;
   --daw-primary: #a4e58e;
   --daw-primary-hover: #c0f2ae;
   --daw-on-primary: #000000;
@@ -540,6 +639,11 @@
   --daw-error: #ff6b4f;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff6b4f;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff6b4f;
+  --daw-meter-text: #7fe6c8;
   --daw-grid-major: #ffffff3d;
   --daw-grid-minor: #ffffff1f;
   --daw-cyan: #7fe6c8;
@@ -561,8 +665,8 @@
   --color-fg: #f1e9de;
   --color-fg-muted: #d5cbbe;
   --color-muted: #b3a797;
-  --color-dim: #8e8273;
-  --color-faint: #8e8273;
+  --color-dim: #a09587;
+  --color-faint: #a09587;
   --color-accent: #ff8a4c;
   --color-accent-fill: #ff8a4c;
   --color-accent-hover: #ffa26e;
@@ -577,7 +681,7 @@
   --color-shadow: #0000006b;
   --color-success: #5cc98a;
   --color-warn: #f3a93b;
-  --color-error: #ff4d6a;
+  --color-error: #fa8291;
   --color-daw-bed: #000000;
   --color-daw-panel: #18130f;
   --daw-bed: #000000;
@@ -591,8 +695,9 @@
   --daw-divider: #322922;
   --daw-t1: #f1e9de;
   --daw-t2: #b3a797;
-  --daw-t3: #8c8071;
+  --daw-t3: #9c9182;
   --daw-t4: #5c5248;
+  --daw-t4-text: #988e84;
   --daw-primary: #ff8a4c;
   --daw-primary-hover: #ffa26e;
   --daw-on-primary: #1a0e07;
@@ -608,6 +713,11 @@
   --daw-error: #ff4d6a;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff4d6a;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff4d6a;
+  --daw-meter-text: #62cfc0;
   --daw-grid-major: #ffffff1a;
   --daw-grid-minor: #ffffff0f;
   --daw-cyan: #62cfc0;
@@ -643,9 +753,9 @@
   --color-pressed: #00000014;
   --color-overlay: #00000057;
   --color-shadow: #00000038;
-  --color-success: #2b744c;
-  --color-warn: #875e1a;
-  --color-error: #be2d51;
+  --color-success: #2a6341;
+  --color-warn: #76531a;
+  --color-error: #9b2944;
   --color-daw-bed: #eee9e1;
   --color-daw-panel: #fdfbf7;
   --daw-bed: #eee9e1;
@@ -659,8 +769,9 @@
   --daw-divider: #e9e3d9;
   --daw-t1: #231c15;
   --daw-t2: #4b4035;
-  --daw-t3: #6a5d50;
+  --daw-t3: #66594c;
   --daw-t4: #9c9084;
+  --daw-t4-text: #675d53;
   --daw-primary: #b3531c;
   --daw-primary-hover: #c6632a;
   --daw-on-primary: #ffffff;
@@ -676,6 +787,11 @@
   --daw-error: #cf2f58;
   --daw-success: #2f9a64;
   --daw-on-status: #161616;
+  --daw-on-error: #ffffff;
+  --daw-error-solid: #cf2f58;
+  --daw-warn-text: #7d571a;
+  --daw-error-text: #ad2b4b;
+  --daw-meter-text: #23695e;
   --daw-grid-major: #0000001f;
   --daw-grid-minor: #00000011;
   --daw-cyan: #23877a;
@@ -711,9 +827,9 @@
   --color-pressed: #ffffff33;
   --color-overlay: #0000008c;
   --color-shadow: #0000006b;
-  --color-success: #5cc98a;
-  --color-warn: #f3a93b;
-  --color-error: #ff6f8a;
+  --color-success: #9adeb6;
+  --color-warn: #f8cb89;
+  --color-error: #ffbac7;
   --color-daw-bed: #000000;
   --color-daw-panel: #0c0a08;
   --daw-bed: #000000;
@@ -729,6 +845,7 @@
   --daw-t2: #e9e0d5;
   --daw-t3: #cdc2b4;
   --daw-t4: #8c8175;
+  --daw-t4-text: #8e8478;
   --daw-primary: #ffb184;
   --daw-primary-hover: #ffcaa9;
   --daw-on-primary: #000000;
@@ -744,6 +861,11 @@
   --daw-error: #ff6f8a;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff6f8a;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff6f8a;
+  --daw-meter-text: #8be9db;
   --daw-grid-major: #ffffff3d;
   --daw-grid-minor: #ffffff1f;
   --daw-cyan: #8be9db;
@@ -765,8 +887,8 @@
   --color-fg: #f2f2f2;
   --color-fg-muted: #d3d3d3;
   --color-muted: #adadad;
-  --color-dim: #838383;
-  --color-faint: #838383;
+  --color-dim: #a4a4a4;
+  --color-faint: #a4a4a4;
   --color-accent: #f2f2f2;
   --color-accent-fill: #f2f2f2;
   --color-accent-hover: #ffffff;
@@ -779,9 +901,9 @@
   --color-pressed: #ffffff18;
   --color-overlay: #0000008c;
   --color-shadow: #0000006b;
-  --color-success: #5cc98a;
-  --color-warn: #f3a93b;
-  --color-error: #ff6b4f;
+  --color-success: #74d09b;
+  --color-warn: #f3b251;
+  --color-error: #fa9e8d;
   --color-daw-bed: #000000;
   --color-daw-panel: #121212;
   --daw-bed: #000000;
@@ -795,8 +917,9 @@
   --daw-divider: #272727;
   --daw-t1: #f2f2f2;
   --daw-t2: #adadad;
-  --daw-t3: #838383;
+  --daw-t3: #8e8e8e;
   --daw-t4: #565656;
+  --daw-t4-text: #8b8b8b;
   --daw-primary: #f2f2f2;
   --daw-primary-hover: #ffffff;
   --daw-on-primary: #0a0a0a;
@@ -812,6 +935,11 @@
   --daw-error: #ff6b4f;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff6b4f;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff6b4f;
+  --daw-meter-text: #e6e6e6;
   --daw-grid-major: #ffffff1a;
   --daw-grid-minor: #ffffff0f;
   --daw-cyan: #e6e6e6;
@@ -847,9 +975,9 @@
   --color-pressed: #00000014;
   --color-overlay: #00000057;
   --color-shadow: #00000038;
-  --color-success: #27764e;
-  --color-warn: #8a611a;
-  --color-error: #b63d3d;
+  --color-success: #226041;
+  --color-warn: #715018;
+  --color-error: #8f3232;
   --color-daw-bed: #ececec;
   --color-daw-panel: #ffffff;
   --daw-bed: #ececec;
@@ -865,6 +993,7 @@
   --daw-t2: #3d3d3d;
   --daw-t3: #5e5e5e;
   --daw-t4: #9a9a9a;
+  --daw-t4-text: #606060;
   --daw-primary: #111111;
   --daw-primary-hover: #2b2b2b;
   --daw-on-primary: #ffffff;
@@ -880,6 +1009,11 @@
   --daw-error: #d64545;
   --daw-success: #2f9a64;
   --daw-on-status: #161616;
+  --daw-on-error: #ffffff;
+  --daw-error-solid: #d24444;
+  --daw-warn-text: #7f5a19;
+  --daw-error-text: #ab3a3a;
+  --daw-meter-text: #2b2b2b;
   --daw-grid-major: #0000001f;
   --daw-grid-minor: #00000011;
   --daw-cyan: #2b2b2b;
@@ -901,8 +1035,8 @@
   --color-fg: #ffffff;
   --color-fg-muted: #f1f1f1;
   --color-muted: #e0e0e0;
-  --color-dim: #c2c2c2;
-  --color-faint: #c2c2c2;
+  --color-dim: #d7d7d7;
+  --color-faint: #d7d7d7;
   --color-accent: #ffffff;
   --color-accent-fill: #ffffff;
   --color-accent-hover: #ffffff;
@@ -915,9 +1049,9 @@
   --color-pressed: #ffffff33;
   --color-overlay: #0000008c;
   --color-shadow: #0000006b;
-  --color-success: #5cc98a;
-  --color-warn: #f3a93b;
-  --color-error: #ff6b4f;
+  --color-success: #d8f2e3;
+  --color-warn: #fcecd4;
+  --color-error: #ffdbd5;
   --color-daw-bed: #000000;
   --color-daw-panel: #0b0b0b;
   --daw-bed: #000000;
@@ -933,6 +1067,7 @@
   --daw-t2: #e0e0e0;
   --daw-t3: #c2c2c2;
   --daw-t4: #858585;
+  --daw-t4-text: #878787;
   --daw-primary: #ffffff;
   --daw-primary-hover: #ffffff;
   --daw-on-primary: #000000;
@@ -948,6 +1083,11 @@
   --daw-error: #ff6b4f;
   --daw-success: #5cc98a;
   --daw-on-status: #12100e;
+  --daw-on-error: #12100e;
+  --daw-error-solid: #ff6b4f;
+  --daw-warn-text: #f3a93b;
+  --daw-error-text: #ff6b4f;
+  --daw-meter-text: #ffffff;
   --daw-grid-major: #ffffff3d;
   --daw-grid-minor: #ffffff1f;
   --daw-cyan: #ffffff;

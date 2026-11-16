@@ -291,7 +291,6 @@ export const App = () => {
   return (
     <ToastProvider>
       <div className="site-shell min-h-screen text-fg font-sans selection:bg-accent-soft">
-        <a href="#main-content" className="skip-link">Skip to main content</a>
         <EarlyAccessModal open={earlyAccessOpen} onClose={() => setEarlyAccessOpen(false)} purpose={earlyAccessPurpose} />
         <main className="page-enter" id="main-content">
           {renderPage()}
