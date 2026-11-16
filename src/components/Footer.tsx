@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import { GitHubIcon } from "./Icons";
 import { Mark } from "./Mark";
-import { ThemeControls } from "./ThemePicker";
 import type { PageProps } from "../types";
 
 const stripLeading = (p: string) => p.replace(/^\//, "");
@@ -107,10 +106,6 @@ export const Footer = memo(({ setPage }: PageProps) => {
         </div>
 
         <div className="mt-12 pt-6 border-t border-border flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
-            <span className="cap">Theme</span>
-            <ThemeControls layout="inline" />
-          </div>
           <div className="text-xs text-muted">© 2026 Aestra Studios · Built by Dylan Makori</div>
         </div>
       </div>
