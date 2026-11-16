@@ -53,17 +53,20 @@
 .inside .readout { color: var(--daw-t3); }
 
 /* Demo panels use the DAW's own surfaces (Ember). */
-.dpanel { background: var(--daw-panel); border: 1px solid var(--daw-border); color: var(--daw-t1); }
+.dpanel { background: var(--daw-panel); color: var(--daw-t1); }
 .dpanel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; padding: 10px 14px; border-bottom: 1px solid var(--daw-border); background: var(--daw-chrome); }
 .dbtn {
   all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   min-height: 32px; padding: 0 12px; font-size: 12px; font-weight: 600; color: var(--daw-t1); cursor: pointer;
-  background: var(--daw-control); border: 1px solid var(--daw-border); border-radius: 2px; white-space: nowrap;
+  background: var(--daw-control); border-radius: 9999px; white-space: nowrap;
+  transition: background-color var(--dur-fast, 120ms) ease, color var(--dur-fast, 120ms) ease;
 }
-.dbtn:hover { border-color: var(--daw-t4); }
+/* Pills with tonal fills, as in the app: hover is a colour change, a latched key sinks. */
+.dbtn:hover { background: var(--daw-raised); }
 .dbtn:focus-visible { outline: 2px solid var(--daw-accent); outline-offset: 2px; }
-.dbtn[aria-pressed="true"], .dbtn.on { background: var(--daw-raised); border-color: var(--daw-t1); }
-.dbtn.pri { background: var(--daw-primary); border-color: var(--daw-primary); color: #fff; }
+.dbtn[aria-pressed="true"], .dbtn.on { background: var(--daw-well); box-shadow: inset 0 1px 3px var(--color-shadow); }
+.dbtn.pri { background: var(--color-accent-fill); color: var(--color-on-accent); }
+.dbtn.pri:hover { background: var(--color-accent-hover); }
 .dbtn:disabled { opacity: 0.4; cursor: not-allowed; }
 .dcap { font: 500 10px/1 var(--font-mono, ui-monospace, monospace); letter-spacing: 0.14em; text-transform: uppercase; color: var(--daw-t3); }
 .dnote { font-size: 12px; line-height: 1.5; color: var(--daw-t3); }

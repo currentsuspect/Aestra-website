@@ -93,7 +93,7 @@ export const Turntable = ({ children, mode = "in", controls }: { children?: Reac
 
         <div ref={zoom} className="tt-zoom">
           {/* plinth */}
-          <div className="absolute inset-0 tt-fade tt-chrome" style={{ background: "var(--daw-chrome)", border: "1px solid var(--daw-border-strong)", borderRadius: 14, boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }} aria-hidden="true">
+          <div className="absolute inset-0 tt-fade tt-chrome" style={{ background: "var(--daw-chrome)", borderRadius: 14, boxShadow: "0 16px 32px var(--color-shadow)" }} aria-hidden="true">
             <div className="absolute" style={{ right: "3.2%", bottom: "5%", width: "7%", aspectRatio: "1", borderRadius: "50%", background: "var(--daw-control)", border: "1px solid var(--daw-border-strong)" }}>
               <span className="absolute inset-[34%] rounded-full" style={{ background: playing ? "var(--daw-meter)" : "var(--daw-t4)", boxShadow: playing ? "0 0 12px var(--daw-meter)" : "none", transition: "all .3s" }} />
             </div>

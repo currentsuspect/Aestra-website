@@ -78,7 +78,7 @@ export const LoopDemo = () => {
                   aria-pressed={muted.includes(row)}
                   aria-label={`Mute ${ROW_META[row].name}`}
                   onClick={() => change((s) => ({ ...s, muted: s.muted.includes(row) ? s.muted.filter((m) => m !== row) : [...s.muted, row] }), `${muted.includes(row) ? "Unmuted" : "Muted"} ${ROW_META[row].name.toLowerCase()}`)}
-                  style={{ all: "unset", cursor: "pointer", width: 20, height: 20, display: "grid", placeItems: "center", fontSize: 10, fontWeight: 700, border: "1px solid " + (muted.includes(row) ? "var(--daw-warn)" : "var(--daw-border)"), background: muted.includes(row) ? "var(--daw-warn)" : "transparent", color: muted.includes(row) ? "var(--daw-chrome)" : "var(--daw-t3)", borderRadius: 2, flexShrink: 0 }}
+                  style={{ all: "unset", cursor: "pointer", width: 20, height: 20, display: "grid", placeItems: "center", fontSize: 10, fontWeight: 700, background: muted.includes(row) ? "var(--daw-warn)" : "var(--daw-control)", color: muted.includes(row) ? "var(--daw-on-status)" : "var(--daw-t3)", borderRadius: 2, flexShrink: 0 }}
                 >M</button>
               </div>
               <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${STEPS}, minmax(0, 1fr))` }} onDragOver={(e) => e.preventDefault()} onDrop={drop(row)}>

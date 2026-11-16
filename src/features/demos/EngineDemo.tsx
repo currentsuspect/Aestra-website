@@ -78,7 +78,7 @@ export const EngineDemo = () => {
           <canvas ref={cv} className="absolute inset-0 w-full h-full" aria-hidden="true" />
           <span className="dcap absolute" style={{ left: 0, top: 0 }}>Screen · drawing the interface</span>
           <span className="dcap absolute" style={{ left: 0, top: 76, color: "var(--daw-meter)" }}>Audio · making the sound</span>
-          {!playing && <div className="absolute inset-0 grid place-items-center text-center dnote" style={{ background: "rgba(20,18,16,0.82)" }}>Press play to start measuring.</div>}
+          {!playing && <div className="absolute inset-0 grid place-items-center text-center dnote" style={{ background: "color-mix(in srgb, var(--daw-panel) 85%, transparent)" }}>Press play to start measuring.</div>}
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <button type="button" className="dbtn" onClick={choke} disabled={!playing || busy}>{busy ? "Choking the screen…" : "Make the screen choke"}</button>

@@ -9,7 +9,7 @@ export const NowPlaying = () => {
   const step = useStep();
   return (
     <div className="sticky bottom-2 sm:bottom-4 z-30 px-3 sm:px-4 pb-3 sm:pb-4 pointer-events-none">
-      <div className="pointer-events-auto mx-auto flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2 sm:py-2.5 w-fit max-w-full" style={{ background: "var(--daw-panel)", border: "1px solid var(--daw-border-strong)", boxShadow: "0 12px 40px rgba(0,0,0,0.5)", color: "var(--daw-t1)" }} role="region" aria-label="Now playing">
+      <div className="pointer-events-auto mx-auto flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2 sm:py-2.5 w-fit max-w-full" style={{ background: "var(--daw-panel)", borderRadius: 9999, boxShadow: "0 8px 16px var(--color-shadow)", color: "var(--daw-t1)" }} role="region" aria-label="Now playing">
         <PlayDot playing={playing} onClick={() => { void toggle(); }} />
         <div>
           <div className="text-[12px] font-semibold">Night Drive</div>

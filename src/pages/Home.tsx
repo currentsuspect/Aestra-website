@@ -63,7 +63,7 @@ const Section = ({
         <h2 className="display-2 text-[clamp(2.2rem,1.2rem+3.2vw,4rem)]">{title}</h2>
         {aside}
       </FadeIn>
-      <FadeIn delay={0.05} className="lg:col-span-8 panel px-4 sm:px-6 py-1 sec-body">
+      <FadeIn delay={0.05} className="lg:col-span-8 min-w-0 panel px-4 sm:px-6 py-1 sec-body">
         {children}
       </FadeIn>
     </Wrap>

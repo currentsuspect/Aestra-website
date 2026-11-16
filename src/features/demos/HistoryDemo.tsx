@@ -94,7 +94,7 @@ export const HistoryDemo = () => {
                   type="button"
                   onClick={() => goToStep(i)}
                   aria-current={i === cursor}
-                  style={{ all: "unset", boxSizing: "border-box", width: "100%", display: "flex", alignItems: "center", gap: 10, height: 34, padding: "0 12px", cursor: "pointer", borderBottom: "1px solid var(--daw-control)", background: i === cursor ? "#1f1a2b" : "transparent", color: i > cursor ? "var(--daw-t4)" : "var(--daw-t1)", fontSize: 13 }}
+                  style={{ all: "unset", boxSizing: "border-box", width: "100%", display: "flex", alignItems: "center", gap: 10, height: 34, padding: "0 12px", cursor: "pointer", borderBottom: "1px solid var(--daw-control)", background: i === cursor ? "var(--daw-selected)" : "transparent", color: i > cursor ? "var(--daw-t4)" : "var(--daw-t1)", fontSize: 13 }}
                 >
                   <span style={{ width: 8, height: 8, borderRadius: "50%", flexShrink: 0, background: i === cursor ? "#9a6bff" : "var(--daw-border)" }} />
                   <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</span>
