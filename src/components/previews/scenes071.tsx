@@ -69,7 +69,7 @@ const transient: Scene = {
     const c = path2(t, [[0, 300, 230], [0.5, 128, 110], [1.6, 128, 70], [2.4, 128, 70], [3.1, 128, 140], [3.8, 128, 110], [4.1, 472, 110], [4.9, 472, 72], [5.3, 472, 72], [5.9, 472, 145]]);
     const detent = Math.abs(a) < 0.001 && t > 3.8 && t < 4.3;
     return (
-      <PluginWindow x={40} y={8} w={520} h={224} name="Aestra Transient" tag="Transient Shaper" accent="#5cc98a">
+      <PluginWindow x={40} y={8} w={520} h={224} name="Aestra Transient" tag="Transient Shaper" accent="var(--daw-success)">
         <Knob cx={128} cy={100} r={44} v={a} bipolar color={TRANSIENT} label="Attack" value={pct(a)} sub="± 100%" />
         <Knob cx={472} cy={100} r={44} v={s} bipolar color={TRANSIENT} label="Sustain" value={pct(s)} sub="± 100%" />
         {detent && <circle cx={128} cy={52} r={6} fill="none" stroke="#e8eaec" strokeOpacity={1 - k(t, 3.8, 4.3)} />}
@@ -125,11 +125,11 @@ const overview: Scene = {
     return (
       <Panel title="Timeline">
         <g opacity={show} transform={`translate(0 ${(1 - show) * -6})`}>
-          <rect x={TX} y={38} width={TW} height={16} fill="#0a0908" stroke={D.border} />
+          <rect x={TX} y={38} width={TW} height={16} fill="var(--daw-chrome)" stroke={D.border} />
           {lanes.map(([row, a, b, , slot]) => (
             <rect key={row} x={TX + ((a - 1) / 10) * TW} y={40 + (row - 1) * 3.2} width={((b - a) / 10) * TW} height={2.4} fill={tone(slot).lane} />
           ))}
-          <rect x={TX + (scroll / 10) * TW} y={38} width={(bars / 10) * TW} height={16} fill="rgba(168,141,251,.1)" stroke={D.violet} />
+          <rect x={TX + (scroll / 10) * TW} y={38} width={(bars / 10) * TW} height={16} fill="color-mix(in srgb, var(--daw-accent) 10%, transparent)" stroke={D.violet} />
         </g>
         <g transform={`translate(0 ${show * 20})`}>
           <Crop x={TX} y={38} w={TW} h={160}>
@@ -173,7 +173,7 @@ const boxSelect: Scene = {
             </g>
           );
         })}
-        {box && <rect x={a.x} y={a.y} width={drag.x - a.x} height={drag.y - a.y} fill="rgba(168,141,251,.12)" stroke={D.violet} strokeDasharray="4 3" />}
+        {box && <rect x={a.x} y={a.y} width={drag.x - a.x} height={drag.y - a.y} fill="color-mix(in srgb, var(--daw-accent) 12%, transparent)" stroke={D.violet} strokeDasharray="4 3" />}
         <Keycap x={430} y={206} label="Ctrl" on={within(t, 2.8, 3.3)} />
         <Keycap x={470} y={206} label="D" on={within(t, 2.8, 3.3)} />
         <Label x={520} y={221} size={10} color={D.t3} opacity={k(t, 2.8, 3.1)}>duplicate</Label>
@@ -202,14 +202,14 @@ const arsenalJump: Scene = {
       <Panel title="Arsenal">
         <Label x={24} y={52} size={12} color={D.t1} weight={600}>Drums</Label>
         <Label x={24} y={66} size={9.5} color={D.t3}>{playing ? "▶ playing" : "■ stopped"}</Label>
-        <rect x={158} y={48} width={400} height={20} fill="#0a0908" stroke={D.border} />
+        <rect x={158} y={48} width={400} height={20} fill="var(--daw-chrome)" stroke={D.border} />
         {[0, 1, 2, 3].map((i) => (
           <g key={i}>
             <line x1={158 + i * 100} x2={158 + i * 100} y1={48} y2={68} stroke={D.borderStrong} />
             <Label x={162 + i * 100} y={62} size={9.5} color={D.t3}>{i + 1}</Label>
           </g>
         ))}
-        <rect x={158} y={48} width={(pos / STEPS) * 400} height={20} fill="rgba(124,58,237,.25)" />
+        <rect x={158} y={48} width={(pos / STEPS) * 400} height={20} fill="color-mix(in srgb, var(--daw-primary) 25%, transparent)" />
         <Unit x={24} y={80} w={540} name="Kick" n={1} color={tone(3).lane} steps={STEPS} on={pattern("x...x...x...x...")} playing={Math.floor(pos)} />
         <Unit x={24} y={120} w={540} name="Snare" n={2} color={tone(3).lane} steps={STEPS} on={pattern("....x.......x...")} playing={Math.floor(pos)} />
         <Unit x={24} y={160} w={540} name="Hat" n={3} color={tone(3).lane} steps={STEPS} on={pattern("x.x.x.x.x.x.x.xx")} playing={Math.floor(pos)} />
@@ -265,7 +265,7 @@ const takeLanes: Scene = {
         <g transform="translate(24 32)">
           <Button x={0} y={0} w={24} h={20} label="▶" size={9} />
           <Button x={28} y={0} w={24} h={20} label="■" size={9} />
-          <Button x={56} y={0} w={24} h={20} label="●" size={10} on={within(t, 0.3, 0.6)} color={D.error} ink="#fff" />
+          <Button x={56} y={0} w={24} h={20} label="●" size={10} on={within(t, 0.3, 0.6)} color={D.error} ink={D.onStatus} />
         </g>
         <Toast x={120} y={30} w={290} text="Nothing is armed. Arm a track to record." kind="warn" show={warn} />
         <TrackHead x={20} y={62} w={168} h={42} n={3} name="Vocal" slot={6} arm={armed}
@@ -277,7 +277,7 @@ const takeLanes: Scene = {
           const isGone = i === 1;
           return (
             <g key={i} opacity={isGone ? gone : 1}>
-              <rect x={20} y={y} width={168} height={32} fill="#0a0908" />
+              <rect x={20} y={y} width={168} height={32} fill="var(--daw-chrome)" />
               <Label x={44} y={y + 20} size={10.5} color={D.t3}>Take {i + 1}</Label>
               <Clip x={g(1.5 + i * 0.25)} y={y + 2} w={g(4.8) - g(1.5 + i * 0.25)} h={28} slot={6} shape="vox" seed={10 + i} sel={isGone && t > 3.4 && t < 3.9} />
             </g>
@@ -323,7 +323,7 @@ const relink: Scene = {
               {fixed[i] ? <Check x={286} y={120 + i * 18} p={k(t, 2.6 + i * 0.4, 2.9 + i * 0.4)} /> : <Label x={286} y={126 + i * 18} size={10} color={D.t3}>not found</Label>}
             </g>
           ))}
-          <Button x={370} y={160} w={66} h={22} label="Relink…" on color={D.primary} ink="#fff" pressed={within(t, 2, 2.3) ? 1 : 0} />
+          <Button x={370} y={160} w={66} h={22} label="Relink…" on color={D.primary} ink={D.onPrimary} pressed={within(t, 2, 2.3) ? 1 : 0} />
         </g>
         <Cursor x={c.x} y={c.y} down={within(t, 2, 2.3) ? k(t, 2, 2.3) : 0} />
       </g>
@@ -355,7 +355,7 @@ const countIn: Scene = {
             return (
               <g key={i}>
                 <rect x={i * 28} y={0} width={24} height={24} rx={3} fill={lit ? D.warn : past ? "#3a2a12" : D.control} stroke={D.borderStrong} />
-                <Label x={i * 28 + 12} y={16} size={11} anchor="middle" weight={700} color={lit ? "#100e0d" : past ? D.warn : D.t3}>{i + 1}</Label>
+                <Label x={i * 28 + 12} y={16} size={11} anchor="middle" weight={700} color={lit ? "var(--daw-chrome)" : past ? D.warn : D.t3}>{i + 1}</Label>
               </g>
             );
           })}
@@ -500,7 +500,7 @@ const stopOnce: Scene = {
     return (
       <Panel title="Timeline">
         <g transform="translate(20 34)">
-          <Button x={0} y={0} w={30} h={26} label="▶" size={11} on={t < stopAt} color={D.meter} ink="#100e0d" />
+          <Button x={0} y={0} w={30} h={26} label="▶" size={11} on={t < stopAt} color={D.meter} ink="var(--daw-chrome)" />
           <Button x={34} y={0} w={30} h={26} label="■" size={11} pressed={within(t, stopAt, stopAt + 0.2) ? 1 : 0} />
           <Label x={80} y={9} size={9} mono color={D.t3}>POSITION</Label>
           <Label x={80} y={27} size={18} weight={600} mono color={D.t1}>{`${bar}.${beat}.1`}</Label>
@@ -538,7 +538,7 @@ const takesOnGrid: Scene = {
         <rect x={g(1)} y={68} width={420} height={42} fill={tone(7).body} />
         {hits(g(1), 70, 38, tone(7).ink)}
         <rect x={g(1) + late} y={128} width={420 - late} height={42} fill="#5c1a1d" />
-        {hits(g(1) + late, 130, 38, "#ff8a7a")}
+        {hits(g(1) + late, 130, 38, "var(--daw-error)")}
         <Label x={150} y={225} size={10.5} color={t > 2.2 ? D.meter : D.warn}>
           {t > 2.2 ? "Interface latency compensated: the take sits on the beat." : "The take lands late by your interface's latency."}
         </Label>
@@ -600,7 +600,7 @@ const loopRecord: Scene = {
         <Ruler x={150} y={38} w={420} bars={6} />
         <rect x={g(a)} y={38} width={g(b) - g(a)} height={8} fill={D.primary} opacity={0.8} />
         <Bed x={150} y={56} w={420} h={150} bars={6} />
-        <rect x={g(a)} y={56} width={g(b) - g(a)} height={150} fill="rgba(124,58,237,.06)" />
+        <rect x={g(a)} y={56} width={g(b) - g(a)} height={150} fill="color-mix(in srgb, var(--daw-primary) 60%, transparent)" />
         <TrackHead x={20} y={60} w={128} h={44} n={1} name="Drums" slot={3} />
         <TrackHead x={20} y={108} w={128} h={44} n={2} name="Keys" slot={1} />
         <TrackHead x={20} y={156} w={128} h={44} n={3} name="Vocal" slot={6} arm />
@@ -633,7 +633,7 @@ const marqueeSmooth: Scene = {
           const sel = tt > 0.2 && g(e2) > 120 && g(s) < e.x && y + 30 > 70 && y < e.y;
           return <Clip key={i} x={g(s)} y={y} w={g(e2) - g(s)} h={32} slot={slot} seed={i} shape="vox" sel={sel} />;
         })}
-        {tt > 0.2 && tt < 2.4 && <rect x={120} y={70} width={Math.max(0, e.x - 120)} height={Math.max(0, e.y - 70)} fill="rgba(168,141,251,.12)" stroke={D.violet} strokeDasharray="4 3" />}
+        {tt > 0.2 && tt < 2.4 && <rect x={120} y={70} width={Math.max(0, e.x - 120)} height={Math.max(0, e.y - 70)} fill="color-mix(in srgb, var(--daw-accent) 12%, transparent)" stroke={D.violet} strokeDasharray="4 3" />}
         <Cursor x={c.x} y={c.y} />
       </Panel>
     );
@@ -729,7 +729,7 @@ const monitorUndo: Scene = {
         <circle cx={W / 2 + 34} cy={13} r={3.5} fill={dirty ? D.warn : D.success} />
         <Label x={W / 2 + 42} y={17} size={10.5} color={D.t2}>{dirty ? "Unsaved" : "Saved"}</Label>
         <Strip x={60} y={36} h={196} name="Guitar" slot={2} level={on ? 0.55 + 0.1 * Math.sin(t * 10) : 0}>
-          <Button x={66} y={198} w={26} h={16} size={8.5} label="IN" on={on} color={D.meter} ink="#100e0d" />
+          <Button x={66} y={198} w={26} h={16} size={8.5} label="IN" on={on} color={D.meter} ink="var(--daw-chrome)" />
         </Strip>
         <g transform="translate(200 80)">
           <Keycap x={0} y={0} label="Ctrl" on={within(t, 3.1, 3.4)} />
@@ -779,7 +779,7 @@ const pauseResumes: Scene = {
     return (
       <Panel title="Arsenal">
         <g transform="translate(24 38)">
-          <Button x={0} y={0} w={34} h={24} label={paused ? "▶" : "❚❚"} size={10} on={!paused} color={D.meter} ink="#100e0d" pressed={within(t, pauseAt, pauseAt + 0.2) || within(t, resume, resume + 0.2) ? 1 : 0} />
+          <Button x={0} y={0} w={34} h={24} label={paused ? "▶" : "❚❚"} size={10} on={!paused} color={D.meter} ink="var(--daw-chrome)" pressed={within(t, pauseAt, pauseAt + 0.2) || within(t, resume, resume + 0.2) ? 1 : 0} />
           <Label x={46} y={16} size={12} mono color={D.t1}>{`step ${String(i + 1).padStart(2, "0")} / 16`}</Label>
           <Label x={170} y={16} size={10.5} color={D.t3}>{paused ? "Paused" : t > resume ? "Resumed from here, not from 1" : "Playing"}</Label>
         </g>
@@ -850,7 +850,7 @@ const recoveryNoDoubles: Scene = {
             <rect x={160} y={70} width={280} height={100} rx={5} fill={D.panel} stroke={D.borderStrong} />
             <Label x={176} y={96} size={12} weight={600} color={D.t1}>Recover unsaved work?</Label>
             <Label x={176} y={114} size={10.5} color={D.t3}>Aestra closed before you saved.</Label>
-            <Button x={346} y={136} w={80} h={22} label="Restore" on ink="#fff" pressed={within(tt, 0.8, 1.1) ? 1 : 0} />
+            <Button x={346} y={136} w={80} h={22} label="Restore" on ink={D.onPrimary} pressed={within(tt, 0.8, 1.1) ? 1 : 0} />
             <Button x={270} y={136} w={70} h={22} label="Later" />
           </g>
         )}

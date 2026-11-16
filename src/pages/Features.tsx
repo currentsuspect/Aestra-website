@@ -131,15 +131,15 @@ const Tracklist = ({ active }: { active: string }) => (
           const on = t.id === active;
           return (
             <li key={t.id}>
-              {first && <p className="dcap m-0 mt-5 mb-2" style={{ color: "#a88dfb" }}>Side {t.side} · {SIDES[t.side].name}</p>}
+              {first && <p className="dcap m-0 mt-5 mb-2" style={{ color: "var(--daw-accent)" }}>Side {t.side} · {SIDES[t.side].name}</p>}
               <a
                 href={`#${t.id}`}
                 onClick={(e) => { e.preventDefault(); document.getElementById(t.id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }}
                 className="flex items-baseline gap-3 py-1.5 text-[13px] no-underline"
-                style={{ color: on ? "#eee9e1" : "#857d72", borderLeft: `2px solid ${on ? "#a88dfb" : "#2e2a26"}`, paddingLeft: 10, transition: "color .2s" }}
+                style={{ color: on ? "var(--daw-t1)" : "var(--daw-t3)", borderLeft: `2px solid ${on ? "var(--daw-accent)" : "var(--daw-border)"}`, paddingLeft: 10, transition: "color .2s" }}
                 aria-current={on ? "true" : undefined}
               >
-                <span className="font-mono text-[11px]" style={{ color: on ? "#a88dfb" : "#57514a" }}>{t.side}{t.n}</span>
+                <span className="font-mono text-[11px]" style={{ color: on ? "var(--daw-accent)" : "var(--daw-t4)" }}>{t.side}{t.n}</span>
                 {t.title}
               </a>
             </li>
@@ -153,23 +153,23 @@ const Tracklist = ({ active }: { active: string }) => (
 const TrackSection = ({ t, first }: { t: Track; first: boolean }) => (
   <section id={t.id} className="scroll-mt-20 pt-16 sm:pt-24 pb-6" aria-labelledby={`${t.id}-h`}>
     {first && (
-      <div className="mb-14" style={{ borderTop: "2px solid #eee9e1", paddingTop: 20 }}>
-        <p className="dcap m-0" style={{ color: "#a88dfb" }}>Side {t.side}</p>
+      <div className="mb-14" style={{ borderTop: "2px solid var(--daw-t1)", paddingTop: 20 }}>
+        <p className="dcap m-0" style={{ color: "var(--daw-accent)" }}>Side {t.side}</p>
         <h2 className="m-0 mt-2 text-[clamp(2.4rem,1.4rem+3.4vw,4.4rem)] leading-[0.95]" style={{ fontFamily: "Archivo, sans-serif", fontWeight: 800, fontStretch: "62%", textTransform: "uppercase", letterSpacing: "-0.01em" }}>{SIDES[t.side].name}</h2>
-        <p className="m-0 mt-3 text-[15px]" style={{ color: "#aca397" }}>{SIDES[t.side].line}</p>
+        <p className="m-0 mt-3 text-[15px]" style={{ color: "var(--daw-t2)" }}>{SIDES[t.side].line}</p>
       </div>
     )}
     <div className="flex items-baseline gap-4">
-      <span className="font-mono text-[13px] font-semibold" style={{ color: "#a88dfb" }}>{t.side}{t.n}</span>
+      <span className="font-mono text-[13px] font-semibold" style={{ color: "var(--daw-accent)" }}>{t.side}{t.n}</span>
       <span className="dcap">{t.tag}</span>
     </div>
     <h3 id={`${t.id}-h`} className="m-0 mt-2 text-[clamp(1.7rem,1.1rem+1.8vw,2.6rem)] leading-[1.02]" style={{ fontFamily: "Archivo, sans-serif", fontWeight: 800, fontStretch: "62%", textTransform: "uppercase", letterSpacing: "-0.005em" }}>{t.title}</h3>
-    <p className="m-0 mt-4 max-w-[58ch] text-[17px] leading-relaxed" style={{ color: "#eee9e1" }}>{t.desc}</p>
+    <p className="m-0 mt-4 max-w-[58ch] text-[17px] leading-relaxed" style={{ color: "var(--daw-t1)" }}>{t.desc}</p>
     <dl className="m-0 mt-5 grid sm:grid-cols-3 gap-4 max-w-[900px]">
       {t.points.map(([strong, rest]) => (
         <div key={strong} className="grid gap-1 content-start">
-          <dt className="text-[13.5px] font-semibold" style={{ color: "#eee9e1" }}>{strong}</dt>
-          <dd className="m-0 text-[13.5px] leading-relaxed" style={{ color: "#857d72" }}>{rest}</dd>
+          <dt className="text-[13.5px] font-semibold" style={{ color: "var(--daw-t1)" }}>{strong}</dt>
+          <dd className="m-0 text-[13.5px] leading-relaxed" style={{ color: "var(--daw-t3)" }}>{rest}</dd>
         </div>
       ))}
     </dl>
@@ -240,9 +240,9 @@ const FadeInTable = () => <FadeIn><ComparisonTable /></FadeIn>;
 type Cell = "yes" | "no" | "limited" | "na";
 
 const cellDisplay: Record<Cell, { mark: string; color: string; label: string }> = {
-  yes:     { mark: "✓",  color: "text-emerald-400", label: "Yes" },
+  yes:     { mark: "✓",  color: "text-success", label: "Yes" },
   no:      { mark: "—",  color: "text-dim",         label: "No" },
-  limited: { mark: "~",  color: "text-amber-400",   label: "Limited" },
+  limited: { mark: "~",  color: "text-warn",   label: "Limited" },
   na:      { mark: "—",  color: "text-dim",         label: "—" },
 };
 
@@ -280,7 +280,7 @@ const ComparisonTable = () => {
           Here's how that looks today.
         </p>
 
-        <div className="border-t-2 border-fg overflow-hidden">
+        <div className="border-t border-border-2 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
@@ -293,7 +293,7 @@ const ComparisonTable = () => {
                       key={String(c.key)}
                       scope="col"
                       className={`px-3 sm:px-4 py-4 text-left w-[14.5%] ${
-                        c.highlight ? "bg-accent/[0.06]" : ""
+                        c.highlight ? "bg-[var(--color-accent-soft)]" : ""
                       }`}
                     >
                       <div className={`text-[13px] sm:text-sm font-semibold ${c.highlight ? "text-fg" : "text-fg-muted"}`}>
@@ -319,7 +319,7 @@ const ComparisonTable = () => {
                         <td
                           key={String(c.key)}
                           className={`px-3 sm:px-4 py-3.5 text-center ${
-                            c.highlight ? "bg-accent/[0.06]" : ""
+                            c.highlight ? "bg-[var(--color-accent-soft)]" : ""
                           }`}
                         >
                           <span
@@ -341,7 +341,7 @@ const ComparisonTable = () => {
 
         <p className="text-dim text-[12px] mt-4 leading-relaxed">
           Based on each product's own documentation as of October 2026. "Limited" means
-          partly there: Aestra's plugin hosting is unfinished, Logic has Live Loops but is
+          partly there: Aestra's plugin hosting arrived in v0.8.2 and is still alpha, Logic has Live Loops but is
           timeline-first, and FL's free trial can't reopen saved projects. Aestra is in alpha, so
           check the changelog for what works today.
         </p>

@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useRef } from "react";
 import type { Release, ChangeType } from "../changelogData";
-import { tone } from "./mock/emberSession";
+import { tone, TEXT_ON_TRACK } from "./mock/emberSession";
 
 /* ── ChangelogArrangement ────────────────────────────────────────────
    The changelog laid out like a session in the DAW: each release is a
@@ -33,7 +33,11 @@ const shortVersion = (v: string) => v.replace("-alpha", "");
 /** Clip colours, shared with the clip editor so a clip and its zoomed view match. */
 export const clipVars = (recording: boolean, slot: number) => {
   const t = tone(slot);
-  return { ["--c" as string]: recording ? "#7a1f24" : t.body, ["--ink" as string]: recording ? "#ffd9d2" : t.label };
+  // The app's clip (FD-50): a full-colour header band with the name in dark ink, a deep body,
+  // and content in a light tint of the hue. The recording clip takes the theme's error colour.
+  return recording
+    ? { ["--c" as string]: "color-mix(in srgb, var(--daw-error) 22%, var(--daw-bed))", ["--band" as string]: "var(--daw-error)", ["--band-ink" as string]: "var(--daw-on-status)", ["--ink" as string]: "var(--daw-error)" }
+    : { ["--c" as string]: t.body, ["--band" as string]: t.band, ["--band-ink" as string]: TEXT_ON_TRACK, ["--ink" as string]: t.ink };
 };
 
 export const ChangelogArrangement = memo(({

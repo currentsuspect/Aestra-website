@@ -192,7 +192,7 @@ const Panel = ({ className, children }: { className?: string; children: React.Re
 const SectionHead = ({
   n, label, title, badge, children,
 }: { n: string; label: string; title: string; badge?: React.ReactNode; children: React.ReactNode }) => (
-  <div className="border-t-2 border-fg pt-5 mb-10 grid lg:grid-cols-12 gap-x-6 gap-y-4 items-baseline">
+  <div className="border-t border-border-2 pt-5 mb-10 grid lg:grid-cols-12 gap-x-6 gap-y-4 items-baseline">
     <div className="lg:col-span-2 grid gap-2 justify-items-start">
       <p className="readout m-0 !text-accent">{n} · {label}</p>
       {badge}
@@ -538,7 +538,7 @@ const ReportBuilder = memo(() => {
               <p className="text-muted italic">"Aestra crashed when I opened my project."</p>
             </div>
             <div>
-              <p className="text-emerald-400 mb-1">Strong</p>
+              <p className="text-success mb-1">Strong</p>
               <p className="text-fg-muted">
                 "Opening this project crashes Aestra every time, once the loading dialog
                 reaches <span className="font-mono text-[12px]">Restoring mixer state</span>.
@@ -554,7 +554,7 @@ const ReportBuilder = memo(() => {
 
         <Panel className="p-5">
           <div className="flex items-start gap-3">
-            <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" aria-hidden="true" />
+            <ShieldAlert className="w-4 h-4 text-warn shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-[13px] leading-relaxed">
               <p className="text-fg-muted font-medium mb-1">Found a vulnerability?</p>
               <p className="text-muted">
@@ -816,7 +816,7 @@ My situation: `;
               <span
                 className={cn(
                   "readout inline-flex items-center gap-2",
-                  path.needsCode ? "text-amber-400" : "text-emerald-400"
+                  path.needsCode ? "text-warn" : "text-success"
                 )}
               >
                 <span className="led" aria-hidden="true" />
@@ -1005,9 +1005,9 @@ const SAMPLE_REPORT: IssueRow[] = [
 ];
 
 const sevStyle: Record<IssueRow["sev"], { mark: string; cls: string }> = {
-  ok: { mark: "✓", cls: "text-emerald-400" },
-  warn: { mark: "⚠", cls: "text-amber-400" },
-  err: { mark: "✕", cls: "text-rose-400" },
+  ok: { mark: "✓", cls: "text-success" },
+  warn: { mark: "⚠", cls: "text-warn" },
+  err: { mark: "✕", cls: "text-error" },
 };
 
 const RecoverPanel = memo(() => (
@@ -1015,7 +1015,7 @@ const RecoverPanel = memo(() => (
     <div>
       <div className="rounded-none border border-rose-500/25 bg-rose-500/5 p-5 mb-6">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" aria-hidden="true" />
+          <AlertTriangle className="w-4 h-4 text-error shrink-0 mt-0.5" aria-hidden="true" />
           <div>
             <p className="text-[13px] font-medium text-fg mb-1">
               Never experiment on the only copy of a damaged project.
@@ -1081,11 +1081,11 @@ const RecoverPanel = memo(() => (
           <span className="readout text-faint">{PROTOCOL}</span>
         </div>
         <div className="px-4 py-3 border-b border-border/80 flex flex-wrap items-center gap-x-5 gap-y-1.5">
-          <span className="readout text-emerald-400 inline-flex items-center gap-2">
+          <span className="readout text-success inline-flex items-center gap-2">
             <span className="led" aria-hidden="true" /> Loads
           </span>
-          <span className="readout text-amber-400">4 warnings</span>
-          <span className="readout text-rose-400">1 unrecoverable</span>
+          <span className="readout text-warn">4 warnings</span>
+          <span className="readout text-error">1 unrecoverable</span>
         </div>
         <ul className="divide-y divide-border/60">
           {SAMPLE_REPORT.map((row) => {
@@ -1105,7 +1105,7 @@ const RecoverPanel = memo(() => (
             );
           })}
           <li className="px-4 py-3 flex gap-3 bg-surface/40">
-            <span className="font-mono text-[13px] shrink-0 text-amber-400" aria-hidden="true">⚠</span>
+            <span className="font-mono text-[13px] shrink-0 text-warn" aria-hidden="true">⚠</span>
             <div className="min-w-0">
               <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-dim mb-1">
                 modified by recovery
@@ -1257,7 +1257,7 @@ export const Recovery = memo((_: PageProps) => (
         <FadeIn delay={0.05}>
           <div className="mt-10 rounded-none bg-surface/50 border border-border/80 p-5 sm:p-6">
             <div className="flex items-start gap-3">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" aria-hidden="true" />
+              <CheckCircle2 className="w-4 h-4 text-success shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <p className="text-[13.5px] text-fg-muted leading-relaxed mb-3 max-w-prose">
                   Aestra is source-available, so you get the code and the procedure for working on

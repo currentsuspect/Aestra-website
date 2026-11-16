@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 import { GitHubIcon } from "./Icons";
+import { Mark } from "./Mark";
+import { ThemeControls } from "./ThemePicker";
 import type { PageProps } from "../types";
 
 const stripLeading = (p: string) => p.replace(/^\//, "");
@@ -30,12 +32,12 @@ const InternalLink = ({
 
 export const Footer = memo(({ setPage }: PageProps) => {
   return (
-    <footer className="border-t border-border/80 bg-bg">
+    <footer className="bg-surface">
       <div className="max-w-[1320px] mx-auto px-5 sm:px-6 py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <img src="/favicon.svg" alt="Aestra logo" width="28" height="28" className="w-7 h-7" />
+              <Mark className="w-7 h-7 text-accent-fill" />
               <span className="text-[16px] font-extrabold text-fg lowercase tracking-[-0.01em] [font-stretch:125%]">aestra</span>
             </div>
             <p className="text-sm text-muted max-w-sm leading-relaxed mb-6">
@@ -46,7 +48,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
                 href="https://x.com/aestrastudios"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 inline-flex items-center justify-center rounded-md text-muted hover:text-fg hover:bg-surface-2 transition-colors"
+                className="btn btn-quiet w-9 h-9"
                 aria-label="X (opens in new tab)"
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-hidden="true">
@@ -57,7 +59,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
                 href="https://github.com/currentsuspect/Aestra"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 inline-flex items-center justify-center rounded-md text-muted hover:text-fg hover:bg-surface-2 transition-colors"
+                className="btn btn-quiet w-9 h-9"
                 aria-label="GitHub (opens in new tab)"
               >
                 <GitHubIcon className="w-4 h-4" aria-hidden="true" />
@@ -66,7 +68,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
                 href="https://discord.gg/48DUWgvPZ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 inline-flex items-center justify-center rounded-md text-muted hover:text-fg hover:bg-surface-2 transition-colors"
+                className="btn btn-quiet w-9 h-9"
                 aria-label="Discord (opens in new tab)"
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-hidden="true">
@@ -77,7 +79,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
           </div>
 
           <div>
-            <h4 className="text-[13px] font-medium text-fg mb-3.5">Product</h4>
+            <h2 className="cap mb-3.5">Product</h2>
             <nav aria-label="Product links">
               <ul className="space-y-2 text-sm text-muted">
                 <li><InternalLink to="/features" setPage={setPage} className="hover:text-fg transition-colors">Features</InternalLink></li>
@@ -90,7 +92,7 @@ export const Footer = memo(({ setPage }: PageProps) => {
           </div>
 
           <div>
-            <h4 className="text-[13px] font-medium text-fg mb-3.5">Resources</h4>
+            <h2 className="cap mb-3.5">Resources</h2>
             <nav aria-label="Resources links">
               <ul className="space-y-2 text-sm text-muted">
                 <li><InternalLink to="/docs" setPage={setPage} className="hover:text-fg transition-colors">Documentation</InternalLink></li>
@@ -104,7 +106,11 @@ export const Footer = memo(({ setPage }: PageProps) => {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-border/80 flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4">
+        <div className="mt-12 pt-6 border-t border-border flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
+            <span className="cap">Theme</span>
+            <ThemeControls layout="inline" />
+          </div>
           <div className="text-xs text-muted">© 2026 Aestra Studios · Built by Dylan Makori</div>
         </div>
       </div>

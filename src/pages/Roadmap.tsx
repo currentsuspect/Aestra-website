@@ -16,7 +16,7 @@ const COLUMNS: Column[] = [
   {
     status: "shipped",
     label: "Shipped",
-    blurb: "In the current alpha, v0.8.1 (19 October 2026).",
+    blurb: "In the current alpha, v0.8.2 (31 October 2026).",
     items: [
       { title: "Native audio engine",          desc: "Written in C++. Steady timing and low delay, built to run on old laptops." },
       { title: "The Arsenal",                  desc: "A step sequencer you play: kits, swing, per-step chance and ratchets, sound sets, pattern scenes." },
@@ -25,19 +25,23 @@ const COLUMNS: Column[] = [
       { title: "Audition",                     desc: "Compare your mix with a reference track, level-matched: tone, dynamics, stereo and sections." },
       { title: "Versions",                     desc: "Your project's history as versions you can name, branch and go back to." },
       { title: "Eleven built-in effects",      desc: "EQ, compressor, reverb, delay, saturation, OTT and more. Free." },
-      { title: "Automation and export",        desc: "Automation clips, bounce in place, and 16, 24 or 32-bit export." },
+      { title: "VST3 and CLAP plugins",        desc: "Your own plugins load in a separate safe process on Linux and Windows, with their windows, parameters and automation." },
+      { title: "Timeline and piano roll",      desc: "Clips in track colours, automation in a lane under its track, and an FL-style duplicate in the piano roll." },
+      { title: "Automation and export",        desc: "Automation clips, bounce in place, and export to WAV, FLAC or MP3." },
+      { title: "In-app updates",               desc: "Aestra checks for a signed update, downloads it, and installs it when you restart." },
+      { title: "Lighter on old laptops",       desc: "The interface redraws only when something changed, and does about a third less work when it does." },
+      { title: "Muse",                         desc: "An AI agent can drive Aestra with text commands: arrange, mix and master. You saw it in Made in Aestra 03." },
     ],
   },
   {
     status: "active",
     label: "Now",
-    blurb: "Built and being finished for the next alpha, v0.8.2.",
+    blurb: "In the development build, for the next alpha, v0.8.3: the essentials.",
     items: [
-      { title: "VST3 and CLAP plugins",        desc: "Your own plugins load in a separate safe process on Linux and Windows, with their windows, parameters and automation." },
-      { title: "New timeline and piano roll",  desc: "Clips in track colours, clips that repeat their pattern, automation in a lane under its track, and an FL-style duplicate in the piano roll." },
-      { title: "In-app updates",               desc: "Aestra tells you when a new version is out and installs it for you." },
-      { title: "Lighter on old laptops",       desc: "An idle Aestra no longer redraws itself, and the audio code does less work per sample." },
-      { title: "Muse",                         desc: "An AI agent can drive Aestra with text commands: arrange, mix and master. You saw it in Made in Aestra 03." },
+      { title: "A piano roll that knows chords", desc: "A chord ruler, and the chord you're playing shown on the transport bar." },
+      { title: "Presets",                      desc: "Save a sound's settings and bring them back later." },
+      { title: "Recording and arranging",      desc: "Punch-in, comping, crossfades, markers, MIDI import and export, and freeze." },
+      { title: "Four themes",                  desc: "Ember, Obsidian Moss, Solace and Monolith, each in dark, light and high contrast. This site wears them too." },
     ],
   },
   {
@@ -60,7 +64,7 @@ const COLUMNS: Column[] = [
       { title: "More Aestra plugins",          desc: "Free, like the rest, starting with the Rumble 808 synth. Also planned as VST3 and CLAP plugins for other DAWs." },
       { title: "Muse as a creative partner",   desc: "Help with composing, mixing and mastering, once Show Me is out." },
       { title: "macOS",                        desc: "Planned for 2027." },
-      { title: "Theme and accessibility",      desc: "A high-contrast theme, full keyboard control and better screen reader support." },
+      { title: "Accessibility",                desc: "Full keyboard control and better screen reader support." },
       { title: "MIDI learn",                   desc: "Link a knob on your controller to any control in Aestra." },
       { title: "Mobile companion",             desc: "A phone app to control playback and take notes." },
     ],
@@ -72,8 +76,8 @@ const COLUMNS: Column[] = [
    emerald → amber → accent → dim, so the column reads as a progression
    rather than four unrelated hues. */
 const statusStyles: Record<Status, { dot: string }> = {
-  shipped: { dot: "text-emerald-400" },
-  active:  { dot: "text-amber-400"   },
+  shipped: { dot: "text-success" },
+  active:  { dot: "text-warn"   },
   next:    { dot: "text-accent"      },
   later:   { dot: "text-dim"         },
 };
@@ -101,7 +105,7 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
       </FadeIn>
 
       <FadeIn delay={0.03}>
-        <div className="mb-10 rounded-2xl border border-accent/40 bg-bg panel-sheen p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+        <div className="mb-10 bg-[var(--color-accent-soft)] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
           <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-accent">
             <span className="led text-accent" aria-hidden="true" />
             Public beta
@@ -115,7 +119,7 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {COLUMNS.map((col, i) => (
           <FadeIn key={col.status} delay={i * 0.05}>
-            <div className={`rounded-2xl border border-border/80 bg-bg panel-sheen overflow-hidden h-full flex flex-col`}>
+            <div className={`bg-surface overflow-hidden h-full flex flex-col`}>
               <div className="p-5 border-b border-border/80">
                 <div className="flex items-center justify-between mb-2">
                   <span className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-fg-muted">
@@ -144,7 +148,7 @@ export const Roadmap = memo(({ setPage }: PageProps) => (
       </div>
 
       <FadeIn delay={0.1}>
-        <div className="mt-16 rounded-2xl border border-border/80 bg-bg panel-sheen p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <div className="mt-16 bg-surface p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <GitBranch className="w-4 h-4 text-accent" aria-hidden="true" />

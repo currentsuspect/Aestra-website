@@ -89,7 +89,7 @@ export const Downloads = ({ setPage }: PageProps) => {
           )}
         </div>
 
-        <ul className="rounded-2xl border border-border/80 bg-bg overflow-hidden panel-sheen">
+        <ul className="bg-surface overflow-hidden">
           {builds.map((build, i) => {
             const Icon = build.icon;
             return (

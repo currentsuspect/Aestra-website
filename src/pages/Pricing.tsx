@@ -25,7 +25,7 @@ const tiers = [
       "Loop-based sequencer and piano roll",
       "Routing drawn as a map",
       "Audition: hear your mix on phone, earbuds and car",
-      "Takes: named versions of your project",
+      "Versions: named versions of your project",
       "Every Aestra plugin: reverb, EQ, compressor, delay and more",
       "Saving, recovery and versions on your computer",
     ],
@@ -56,7 +56,7 @@ const compareGroups: { label: string; rows: [string, boolean, boolean][] }[] = [
   {
     label: "Engine",
     rows: [
-      ["Use your own VST3 and CLAP plugins (Linux only, unfinished)", true, true],
+      ["Use your own VST3 and CLAP plugins (Linux and Windows, in alpha)", true, true],
       ["Routing map",               true, true],
       ["Audition (hear your mix on phone, earbuds, car)",    true, true],
       ["Export to audio files",       true, true],
@@ -67,7 +67,7 @@ const compareGroups: { label: string; rows: [string, boolean, boolean][] }[] = [
     rows: [
       ["Loop-based sequencer (Arsenal)",          true, true],
       ["Piano Roll editor",                true, true],
-      ["Named versions (Takes)",          true, true],
+      ["Named versions (Versions)",       true, true],
       ["Record multiple tracks",            true, true],
       ["Mixer with sends and buses",         true, true],
     ],
@@ -119,13 +119,13 @@ const SIDE = { Core: "A", Supporter: "B" } as const;
 const Record = () => (
   <div
     aria-hidden="true"
-    className="hidden lg:block absolute z-0 top-[4%] -right-[50%] w-[92%] aspect-square rounded-full border border-fg"
-    style={{ background: "repeating-radial-gradient(circle at center, #0c0b0a 0 2px, #1a171d 2px 3px)" }}
+    className="hidden lg:block absolute z-0 top-[4%] -right-[50%] w-[92%] aspect-square rounded-full"
+    style={{ background: "repeating-radial-gradient(circle at center, var(--daw-bed) 0 2px, var(--daw-control) 2px 3px)" }}
   >
-    <div className="absolute left-[34%] top-[34%] w-[32%] h-[32%] rounded-full bg-accent font-mono text-[10px] font-semibold leading-[1.6] uppercase tracking-[0.1em] text-[#0c0b0a]">
+    <div className="absolute left-[34%] top-[34%] w-[32%] h-[32%] rounded-full bg-accent-fill font-mono text-[10px] font-semibold leading-[1.6] uppercase tracking-[0.1em] text-on-accent">
       <span className="hidden xl:block absolute left-1/2 top-1/2 -translate-y-1/2 pl-2.5 whitespace-nowrap">Side A<br />Side B</span>
     </div>
-    <span className="absolute left-1/2 top-1/2 w-[6px] h-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0c0b0a] ring-1 ring-[#eee9e1]/50" />
+    <span className="absolute left-1/2 top-1/2 w-[6px] h-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--daw-bed)] ring-1 ring-[var(--daw-t3)]" />
   </div>
 );
 
@@ -156,7 +156,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
         const side = SIDE[t.name as keyof typeof SIDE];
         return (
           <section key={t.name} className="pt-20 sm:pt-24" aria-labelledby={`side-${side}`}>
-            <div className="border-t-2 border-fg grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 border-b border-border items-baseline">
+            <div className="border-t border-border-2 grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 border-b border-border items-baseline">
               <span className="readout lg:col-span-2 !text-accent">Side {side}</span>
               <h2 id={`side-${side}`} className="display-2 lg:col-span-4 text-[clamp(1.8rem,1.2rem+1.8vw,2.6rem)] m-0">{t.name}</h2>
               <p className="lg:col-span-6 m-0 text-muted text-[15px] leading-relaxed">{t.tagline}</p>
@@ -209,7 +209,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
 
       {/* First pressing */}
       <section className="mt-24 sm:mt-32" id="founding" aria-labelledby="pressing">
-        <div className="border-t-2 border-fg grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 border-b border-border items-baseline">
+        <div className="border-t border-border-2 grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 border-b border-border items-baseline">
           <span className="readout lg:col-span-2 !text-accent">First pressing</span>
           <h2 id="pressing" className="display-2 lg:col-span-4 text-[clamp(1.8rem,1.2rem+1.8vw,2.6rem)] m-0">Founding Supporters.</h2>
           <p className="lg:col-span-6 m-0 text-muted text-[15px] leading-relaxed">
@@ -219,17 +219,17 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
         <FadeIn className="grid lg:grid-cols-12 gap-x-6 gap-y-8 py-8">
           <div className="lg:col-span-5">
             {/* The badge itself: a numbered sleeve sticker. */}
-            <div className="border-2 border-fg bg-black text-[#eee9e1] p-6 sm:p-7 max-w-[26rem]" role="img" aria-label="A Founding Supporter badge, numbered out of 500">
-              <div className="flex items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.12em] text-[#857d72]">
+            <div className="bg-well text-fg p-6 sm:p-7 max-w-[26rem] shadow-[inset_0_1px_3px_var(--color-shadow)]" role="img" aria-label="A Founding Supporter badge, numbered out of 500">
+              <div className="flex items-start justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.12em] text-dim">
                 <span>aestra · founding supporter</span>
                 <span>digital</span>
               </div>
               <div className="mt-10 whitespace-nowrap font-mono text-[clamp(1.5rem,1rem+1.6vw,2.25rem)] font-semibold tracking-tight leading-none">
-                No. <span className="text-accent">001</span><span className="text-[#857d72]"> / 500</span>
+                No. <span className="text-accent">001</span><span className="text-dim"> / 500</span>
               </div>
               <div className="mt-10 flex items-end justify-between gap-4">
-                <strong className="display text-[3.2rem] leading-none" style={{ color: "#eee9e1" }}>$50</strong>
-                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#857d72] pb-1">first year</span>
+                <strong className="display text-[3.2rem] leading-none" >$50</strong>
+                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-dim pb-1">first year</span>
               </div>
             </div>
             <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
@@ -258,7 +258,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
 
       {/* Credits */}
       <section className="mt-24 sm:mt-32">
-        <div className="border-t-2 border-fg grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 items-baseline">
+        <div className="border-t border-border-2 grid lg:grid-cols-12 gap-3 lg:gap-6 py-5 items-baseline">
           <span className="readout lg:col-span-2 !text-accent">Credits</span>
           <h2 className="display-2 lg:col-span-4 text-[clamp(1.8rem,1.2rem+1.8vw,2.6rem)] m-0">Who gets what</h2>
           <p className="lg:col-span-6 m-0 text-muted text-[15px] leading-relaxed">Both sides, row by row.</p>

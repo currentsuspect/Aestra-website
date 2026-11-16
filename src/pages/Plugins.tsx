@@ -226,7 +226,7 @@ export const Plugins = ({ setPage }: PageProps) => {
         <div className="mt-14 sm:mt-16 grid lg:grid-cols-12 gap-10 lg:gap-6 items-start">
           {/* The sleeve: the open plugin's editor on black (desktop). */}
           <div className="hidden lg:block lg:col-span-6 lg:sticky lg:top-24">
-            <div className="aspect-square bg-black border border-fg grid place-items-center p-[7%]">
+            <div className="aspect-square bg-[var(--daw-bed)] grid place-items-center p-[7%]">
               {current.shot ? <PluginShot plugin={current} key={current.id} /> : <span className="readout">Screenshot coming</span>}
             </div>
             <div className="readout flex justify-between gap-4 py-3 border-b border-border">
@@ -236,7 +236,7 @@ export const Plugins = ({ setPage }: PageProps) => {
           </div>
 
           {/* The tracklist. */}
-          <ol className="lg:col-span-5 lg:col-start-8 m-0 p-0 border-t-2 border-fg list-none">
+          <ol className="lg:col-span-5 lg:col-start-8 m-0 p-0 border-t border-border-2 list-none">
             {PLUGINS.map((p, i) => {
               const open = p.id === openId;
               return (
@@ -259,7 +259,7 @@ export const Plugins = ({ setPage }: PageProps) => {
                     <span className="readout">{p.since}</span>
                   </button>
                   <div id={`${p.id}-notes`} hidden={!open} className="pb-6 pl-[44px]">
-                    <div className="lg:hidden mb-5 bg-black p-4">{p.shot && <PluginShot plugin={p} />}</div>
+                    <div className="lg:hidden mb-5 bg-[var(--daw-bed)] p-4">{p.shot && <PluginShot plugin={p} />}</div>
                     <p className="m-0 mb-4 text-muted text-[15px] leading-relaxed">{p.desc}</p>
                     <dl className="m-0 grid grid-cols-2 sm:grid-cols-3 gap-3">
                       {p.facts.map(([k, v]) => (
@@ -278,7 +278,7 @@ export const Plugins = ({ setPage }: PageProps) => {
 
         {/* Closing notes */}
         <FadeIn>
-          <div className="mt-20 pt-10 border-t-2 border-fg grid md:grid-cols-2 gap-10 md:gap-16">
+          <div className="mt-20 pt-10 border-t border-border-2 grid md:grid-cols-2 gap-10 md:gap-16">
             <div>
               <h2 className="display-2 text-[1.9rem] mb-3">Every one of them, free</h2>
               <p className="text-muted text-[15px] leading-relaxed max-w-md">

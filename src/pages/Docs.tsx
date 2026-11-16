@@ -93,7 +93,7 @@ export const Docs = memo(({ setPage }: PageProps) => (
             <h2 className="display-2 text-[clamp(2rem,1.2rem+2.6vw,3.2rem)]">{g.title}</h2>
             <p className="mt-5 text-muted text-[15px] leading-relaxed max-w-sm">{g.lede}</p>
           </FadeIn>
-          <FadeIn delay={0.05} className="lg:col-span-8 border-t-2 border-fg">
+          <FadeIn delay={0.05} className="lg:col-span-8 border-t border-border-2">
             <ul className="m-0 p-0">
               {g.entries.map((e) => {
                 const internal = Boolean(e.page);

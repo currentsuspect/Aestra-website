@@ -43,11 +43,11 @@ export const LoadingFallback = () => (
       </defs>
       <g className="ald-mark">
         <path className="ald-outline" d={MAIN} pathLength={1} fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-        <path className="ald-fill" d={MAIN} fill="#7B53E8" stroke="#7B53E8" strokeWidth="1" strokeLinejoin="round" />
-        <path className="ald-shard" d={SHARD} fill="#7B53E8" stroke="#7B53E8" strokeWidth="1" strokeLinejoin="round" />
+        <path className="ald-fill" d={MAIN} fill="var(--color-accent-fill)" stroke="var(--color-accent-fill)" strokeWidth="1" strokeLinejoin="round" />
+        <path className="ald-shard" d={SHARD} fill="var(--color-accent-fill)" stroke="var(--color-accent-fill)" strokeWidth="1" strokeLinejoin="round" />
         <g>
-          <path className="ald-cut" d={CUT} pathLength={1} fill="none" stroke="#FFFFFF" strokeWidth="6" strokeLinecap="round" filter="url(#ald-glow)" />
-          <path className="ald-cut" d={CUT} pathLength={1} fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+          <path className="ald-cut" d={CUT} pathLength={1} fill="none" stroke="var(--color-fg)" strokeWidth="6" strokeLinecap="round" filter="url(#ald-glow)" />
+          <path className="ald-cut" d={CUT} pathLength={1} fill="none" stroke="var(--color-fg)" strokeWidth="2" strokeLinecap="round" />
         </g>
       </g>
     </svg>
@@ -65,30 +65,26 @@ export const Button = memo(({
   type = "button",
   ...props
 }: ButtonProps) => {
-  const base = "inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap";
-
+  // Pills with tonal fills, as in the app (Design Spec): no outline, no glow,
+  // no lift. Hover and press only change the fill.
   const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
-    primary:
-      "bg-fg text-on-accent hover:bg-fg-muted",
-    secondary:
-      "bg-surface-2 text-fg border border-border hover:bg-surface-3 hover:border-border-2",
-    ghost:
-      "text-muted hover:text-fg",
-    outline:
-      "bg-transparent text-fg border border-border hover:bg-surface-2 hover:border-border-2",
+    primary: "btn-accent",
+    secondary: "btn-soft",
+    ghost: "btn-quiet",
+    outline: "btn-soft",
   };
 
   const sizes: Record<NonNullable<ButtonProps["size"]>, string> = {
-    sm: "h-9 px-3.5 text-sm gap-1.5",
-    md: "h-10 px-4 text-sm gap-2",
-    lg: "h-11 px-5 text-[15px] gap-2",
+    sm: "h-9 px-4 text-sm",
+    md: "h-10 px-5 text-sm",
+    lg: "h-12 px-6 text-[15px]",
     icon: "h-9 w-9 p-0",
   };
 
   return (
     <button
       type={type}
-      className={cn(base, variants[variant], sizes[size], className)}
+      className={cn("btn", variants[variant], sizes[size], className)}
       {...props}
     >
       {Icon && iconPosition === "left" && <Icon className="w-4 h-4" aria-hidden="true" />}
@@ -102,11 +98,11 @@ export const Button = memo(({
 export const Badge = memo(({ children, variant = "default", className }: BadgeProps) => {
   const styles =
     variant === "outline"
-      ? "border border-border text-fg-muted bg-surface-2/60"
-      : "bg-accent/10 border border-accent/20 text-accent";
+      ? "text-fg-muted bg-surface-2"
+      : "bg-[var(--color-accent-soft)] text-accent";
 
   return (
-    <span className={cn("inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-medium", styles, className)}>
+    <span className={cn("inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium", styles, className)}>
       {children}
     </span>
   );
@@ -114,7 +110,7 @@ export const Badge = memo(({ children, variant = "default", className }: BadgePr
 
 /* ── Card ─────────────────────────────────────────────────────── */
 export const Card = memo(({ children, className }: CardProps) => (
-  <div className={cn("rounded-xl bg-bg border border-border/80 panel-sheen", className)}>
+  <div className={cn("bg-surface", className)}>
     {children}
   </div>
 ));
@@ -153,7 +149,7 @@ export const FadeIn = memo(({ children, className, delay = 0 }: FadeInProps) => 
    for signal. Index numbers do the differentiating work instead. ── */
 export const FeatureCard = memo(({ label, title, description, visual, index, delay }: FeatureCardProps) => (
   <FadeIn delay={delay}>
-    <div className="rounded-xl bg-bg border border-border/80 panel-sheen p-5 sm:p-6 hover:border-border-2 transition-colors h-full flex flex-col">
+    <div className="bg-surface p-5 sm:p-6 h-full flex flex-col">
       <div className="flex items-baseline justify-between gap-3 mb-5">
         <span className="font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted">{label}</span>
         {index !== undefined && (

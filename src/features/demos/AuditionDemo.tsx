@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "../session";
 import { PROFILES, PROFILE_ORDER, profileCurve, type Profile } from "../engine";
 import { useFrame, useVisible } from "../hooks";
-import { Panel } from "./shared";
+import { Panel, themed } from "./shared";
 
 /* Audition: hear the loop the way it lands elsewhere. The list follows the
    "Listen on" design for v0.8.1; the filters behind it are illustrative. */
@@ -79,7 +79,8 @@ export const AuditionDemo = () => {
     const nyq = engine.sampleRate / 2;
     const count = Math.min(bins.length, engine.spectrumBins || 256);
     const bars = 72;
-    g.fillStyle = "rgba(63,214,173,0.55)";
+    g.fillStyle = themed(c, "var(--daw-meter)");
+    g.globalAlpha = 0.55;
     for (let b = 0; b < bars; b++) {
       const f0 = FMIN * Math.pow(FMAX / FMIN, b / bars);
       const f1 = FMIN * Math.pow(FMAX / FMIN, (b + 1) / bars);
@@ -90,6 +91,7 @@ export const AuditionDemo = () => {
       const h = (v / 255) * (CH - 24);
       g.fillRect(fx(f0) + 0.5, CH - h, Math.max(1, fx(f1) - fx(f0) - 1.5), h);
     }
+    g.globalAlpha = 1;
   };
   useFrame(draw, visible && playing, 30);
   useEffect(() => { if (!playing) { cv.current?.getContext("2d")?.clearRect(0, 0, CW * 2, CH * 2); setLevels(null); hist.current = []; } }, [playing]);
@@ -106,34 +108,34 @@ export const AuditionDemo = () => {
 
   return (
     <Panel title="Audition · listen on" tag="Design preview">
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 px-3 sm:px-4 py-3" style={{ background: "#0c0b0a", borderBottom: "1px solid #2e2a26" }}>
-        <div className="flex overflow-hidden" style={{ border: "1px solid #2e2a26", borderRadius: 2 }} role="group" aria-label="Compare your mix with a reference">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3 px-3 sm:px-4 py-3" style={{ background: "var(--daw-chrome)", borderBottom: "1px solid var(--daw-border)" }}>
+        <div className="flex overflow-hidden" style={{ border: "1px solid var(--daw-border)", borderRadius: 2 }} role="group" aria-label="Compare your mix with a reference">
           <button type="button" aria-pressed={ab === "mix"} onClick={() => setAB("mix")}
-            style={{ all: "unset", cursor: "pointer", padding: "7px 14px", fontSize: 11, fontWeight: 700, background: ab === "mix" ? "#7c3aed" : "transparent", color: ab === "mix" ? "#fff" : "#857d72" }}>
+            style={{ all: "unset", cursor: "pointer", padding: "7px 14px", fontSize: 11, fontWeight: 700, background: ab === "mix" ? "var(--daw-primary)" : "transparent", color: ab === "mix" ? "var(--daw-on-primary)" : "var(--daw-t3)" }}>
             A · Mix
           </button>
           <button type="button" aria-pressed={ab === "ref"} onClick={() => setAB("ref")}
-            style={{ all: "unset", cursor: "pointer", padding: "7px 14px", fontSize: 11, fontWeight: 700, background: ab === "ref" ? "#f3a93b" : "transparent", color: ab === "ref" ? "#0c0b0a" : "#857d72" }}>
+            style={{ all: "unset", cursor: "pointer", padding: "7px 14px", fontSize: 11, fontWeight: 700, background: ab === "ref" ? "var(--daw-warn)" : "transparent", color: ab === "ref" ? "var(--daw-chrome)" : "var(--daw-t3)" }}>
             B · Ref
           </button>
         </div>
-        <span className="text-[12px]" style={{ color: "#aca397", minWidth: 150 }} aria-live="off">
-          <b style={{ color: "#eee9e1" }}>{levels ? fmt(ab === "mix" ? levels.mix : levels.ref + refTrimDb) : playing ? "measuring…" : "—"}</b> level
+        <span className="text-[12px]" style={{ color: "var(--daw-t2)", minWidth: 150 }} aria-live="off">
+          <b style={{ color: "var(--daw-t1)" }}>{levels ? fmt(ab === "mix" ? levels.mix : levels.ref + refTrimDb) : playing ? "measuring…" : "—"}</b> level
           {levels && Math.abs(levels.mix - (levels.ref + refTrimDb)) > 0.5 && (
-            <span style={{ color: "#f3a93b" }}> · B is {fmt(Math.abs(levels.ref + refTrimDb - levels.mix)).replace(" dB", "")} dB {levels.ref + refTrimDb > levels.mix ? "louder" : "quieter"}</span>
+            <span style={{ color: "var(--daw-warn)" }}> · B is {fmt(Math.abs(levels.ref + refTrimDb - levels.mix)).replace(" dB", "")} dB {levels.ref + refTrimDb > levels.mix ? "louder" : "quieter"}</span>
           )}
         </span>
         <span className="flex-1" />
         <button type="button" className="dbtn" onClick={match} disabled={!levels}>Match levels</button>
         {refTrimDb !== 0 && <button type="button" className="dbtn" onClick={() => change((s) => ({ ...s, refTrimDb: 0 }))}>Reset {fmt(refTrimDb)}</button>}
-        <span className="text-[12px]" style={{ color: "#857d72" }}>
-          Reference: <b style={{ color: "#aca397", fontWeight: 600 }}>{refName ?? "built-in loop"}</b>
+        <span className="text-[12px]" style={{ color: "var(--daw-t3)" }}>
+          Reference: <b style={{ color: "var(--daw-t2)", fontWeight: 600 }}>{refName ?? "built-in loop"}</b>
         </span>
         <button type="button" className="dbtn" onClick={() => picker.current?.click()}>{refName ? "Swap track…" : "Use your own track…"}</button>
         {refName && <button type="button" className="dbtn" onClick={clearReference}>Remove</button>}
         <input ref={picker} type="file" accept="audio/*" hidden tabIndex={-1} onChange={(e) => { const f = e.target.files?.[0]; if (f) void loadReference(f); e.target.value = ""; }} />
       </div>
-      {notice && <p className="m-0 px-4 pt-3 text-[12px]" role="status" style={{ color: "#ff6b4f" }}>{notice}</p>}
+      {notice && <p className="m-0 px-4 pt-3 text-[12px]" role="status" style={{ color: "var(--daw-error)" }}>{notice}</p>}
       <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <div className="p-2 sm:p-3" role="group" aria-label="Listen on">
           {PROFILE_ORDER.map((p) => {
@@ -144,41 +146,41 @@ export const AuditionDemo = () => {
                 type="button"
                 aria-pressed={active}
                 onClick={() => pick(p)}
-                style={{ all: "unset", boxSizing: "border-box", width: "100%", display: "grid", gridTemplateColumns: "34px 1fr auto", gap: 12, alignItems: "center", padding: "10px 12px", borderRadius: 2, cursor: "pointer", background: active ? "#25221f" : "transparent" }}
+                style={{ all: "unset", boxSizing: "border-box", width: "100%", display: "grid", gridTemplateColumns: "34px 1fr auto", gap: 12, alignItems: "center", padding: "10px 12px", borderRadius: 2, cursor: "pointer", background: active ? "var(--daw-raised)" : "transparent" }}
               >
-                <span style={{ width: 34, height: 34, borderRadius: "50%", background: active ? "#3fd6ad" : "#25221f", color: active ? "#0c0b0a" : "#aca397", display: "grid", placeItems: "center" }}>
+                <span style={{ width: 34, height: 34, borderRadius: "50%", background: active ? "var(--daw-meter)" : "var(--daw-raised)", color: active ? "var(--daw-chrome)" : "var(--daw-t2)", display: "grid", placeItems: "center" }}>
                   <svg width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ICON[p]}</svg>
                 </span>
                 <span>
-                  <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: active ? "#3fd6ad" : "#eee9e1" }}>{PROFILES[p].label}</span>
-                  <span style={{ display: "block", fontSize: 11, color: "#857d72", marginTop: 2, lineHeight: "15px" }}>{PROFILES[p].note}</span>
+                  <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: active ? "var(--daw-meter)" : "var(--daw-t1)" }}>{PROFILES[p].label}</span>
+                  <span style={{ display: "block", fontSize: 11, color: "var(--daw-t3)", marginTop: 2, lineHeight: "15px" }}>{PROFILES[p].note}</span>
                 </span>
-                {PROFILES[p].gainDb !== 0 && <span style={{ fontSize: 11, color: "#f3a93b", fontWeight: 600 }}>{PROFILES[p].gainDb.toFixed(1).replace("-", "−")} dB</span>}
+                {PROFILES[p].gainDb !== 0 && <span style={{ fontSize: 11, color: "var(--daw-warn)", fontWeight: 600 }}>{PROFILES[p].gainDb.toFixed(1).replace("-", "−")} dB</span>}
               </button>
             );
           })}
         </div>
 
-        <div ref={box} className="p-3 sm:p-4" style={{ borderLeft: "1px solid #2e2a26" }}>
+        <div ref={box} className="p-3 sm:p-4" style={{ borderLeft: "1px solid var(--daw-border)" }}>
           <p className="dcap m-0 mb-2">What it does to the sound</p>
           <div className="relative" style={{ width: "100%", maxWidth: CW, aspectRatio: `${CW} / ${CH}` }}>
             <canvas ref={cv} className="absolute inset-0 w-full h-full" aria-hidden="true" />
             <svg viewBox={`0 0 ${CW} ${CH}`} className="absolute inset-0 w-full h-full" role="img" aria-label={`Frequency response of the ${PROFILES[profile].label} profile`}>
-              {[-6, 0, 6].map((d) => <line key={d} x1="0" x2={CW} y1={dy(d)} y2={dy(d)} stroke={d === 0 ? "#3d3833" : "#25221f"} strokeWidth="1" />)}
+              {[-6, 0, 6].map((d) => <line key={d} x1="0" x2={CW} y1={dy(d)} y2={dy(d)} stroke={d === 0 ? "var(--daw-border-strong)" : "var(--daw-raised)"} strokeWidth="1" />)}
               {[100, 1000, 10000].map((f) => (
                 <g key={f}>
-                  <line x1={fx(f)} x2={fx(f)} y1="0" y2={CH} stroke="#25221f" />
-                  <text x={fx(f) + 4} y={CH - 5} fill="#57514a" fontSize="9" fontFamily="var(--font-mono, monospace)">{f >= 1000 ? `${f / 1000}k` : f}</text>
+                  <line x1={fx(f)} x2={fx(f)} y1="0" y2={CH} stroke="var(--daw-raised)" />
+                  <text x={fx(f) + 4} y={CH - 5} fill="var(--daw-t4)" fontSize="9" fontFamily="var(--font-mono, monospace)">{f >= 1000 ? `${f / 1000}k` : f}</text>
                 </g>
               ))}
-              {paths.studio && <path d={paths.studio} fill="none" stroke="#57514a" strokeWidth="1" strokeDasharray="3 3" />}
-              {paths[profile] && <path d={paths[profile]} fill="none" stroke="#a88dfb" strokeWidth="2.2" strokeLinejoin="round" />}
+              {paths.studio && <path d={paths.studio} fill="none" stroke="var(--daw-t4)" strokeWidth="1" strokeDasharray="3 3" />}
+              {paths[profile] && <path d={paths[profile]} fill="none" stroke="var(--daw-accent)" strokeWidth="2.2" strokeLinejoin="round" />}
             </svg>
           </div>
           <p className="dnote mt-3 mb-0">
             {playing ? "Green is what's coming out of your speakers. Switch the list, or flip A and B, and watch it change." : "Press play, then flip A and B, and switch the list to hear it on a phone, in earbuds or in a car."}
           </p>
-          <p className="dnote mt-2 mb-0" style={{ color: "#57514a" }}>A and B both go through the same Listen on setting. A track you add stays in your browser. These filters illustrate the idea; they aren't a model of real devices.</p>
+          <p className="dnote mt-2 mb-0" style={{ color: "var(--daw-t4)" }}>A and B both go through the same Listen on setting. A track you add stays in your browser. These filters illustrate the idea; they aren't a model of real devices.</p>
         </div>
       </div>
     </Panel>

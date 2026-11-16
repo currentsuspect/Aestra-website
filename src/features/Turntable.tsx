@@ -93,40 +93,40 @@ export const Turntable = ({ children, mode = "in", controls }: { children?: Reac
 
         <div ref={zoom} className="tt-zoom">
           {/* plinth */}
-          <div className="absolute inset-0 tt-fade tt-chrome" style={{ background: "#0c0b0a", border: "1px solid #3d3833", borderRadius: 14, boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }} aria-hidden="true">
-            <div className="absolute" style={{ right: "3.2%", bottom: "5%", width: "7%", aspectRatio: "1", borderRadius: "50%", background: "#1c1a17", border: "1px solid #3d3833" }}>
-              <span className="absolute inset-[34%] rounded-full" style={{ background: playing ? "#3fd6ad" : "#57514a", boxShadow: playing ? "0 0 12px #3fd6ad" : "none", transition: "all .3s" }} />
+          <div className="absolute inset-0 tt-fade tt-chrome" style={{ background: "var(--daw-chrome)", border: "1px solid var(--daw-border-strong)", borderRadius: 14, boxShadow: "0 30px 80px rgba(0,0,0,0.45)" }} aria-hidden="true">
+            <div className="absolute" style={{ right: "3.2%", bottom: "5%", width: "7%", aspectRatio: "1", borderRadius: "50%", background: "var(--daw-control)", border: "1px solid var(--daw-border-strong)" }}>
+              <span className="absolute inset-[34%] rounded-full" style={{ background: playing ? "var(--daw-meter)" : "var(--daw-t4)", boxShadow: playing ? "0 0 12px var(--daw-meter)" : "none", transition: "all .3s" }} />
             </div>
-            <span className="absolute font-mono" style={{ right: "3.2%", bottom: "13.5%", fontSize: "clamp(7px,0.9vw,11px)", letterSpacing: "0.14em", color: "#857d72" }}>33⅓</span>
+            <span className="absolute font-mono" style={{ right: "3.2%", bottom: "13.5%", fontSize: "clamp(7px,0.9vw,11px)", letterSpacing: "0.14em", color: "var(--daw-t3)" }}>33⅓</span>
           </div>
 
           {/* platter + record */}
           <div className="absolute" style={{ left: "10%", top: "7.14%", width: "60%", aspectRatio: "1" }} aria-hidden="true">
-            <div className="absolute inset-0 rounded-full tt-fade tt-chrome" style={{ background: "#141210", border: "1px solid #3d3833" }} />
-            <div className="absolute rec-spin rec-grooves rounded-full" data-on={playing} style={{ inset: "3.2%", border: "1px solid #25221f" }}>
-              <div className="absolute rounded-full" style={{ inset: "33.5%", background: "#7c3aed", boxShadow: "inset 0 0 0 3px rgba(0,0,0,0.25)" }}>
-                <div className="absolute inset-0 grid place-items-center text-center" style={{ color: "#0c0b0a", fontFamily: "Archivo, sans-serif" }}>
+            <div className="absolute inset-0 rounded-full tt-fade tt-chrome" style={{ background: "var(--daw-panel)", border: "1px solid var(--daw-border-strong)" }} />
+            <div className="absolute rec-spin rec-grooves rounded-full" data-on={playing} style={{ inset: "3.2%", border: "1px solid var(--daw-raised)" }}>
+              <div className="absolute rounded-full" style={{ inset: "33.5%", background: "var(--daw-primary)", boxShadow: "inset 0 0 0 3px rgba(0,0,0,0.25)" }}>
+                <div className="absolute inset-0 grid place-items-center text-center" style={{ color: "var(--daw-chrome)", fontFamily: "Archivo, sans-serif" }}>
                   <div>
                     <div style={{ fontWeight: 800, fontStretch: "125%", fontSize: "clamp(8px,1.5vw,19px)", letterSpacing: "-0.01em", textTransform: "lowercase" }}>aestra</div>
                     <div className="font-mono whitespace-nowrap" style={{ fontSize: "clamp(5px,0.7vw,9px)", letterSpacing: "0.14em", marginTop: 3 }}>{mode === "in" ? "SIDE A" : "SIDE C"}</div>
                   </div>
                 </div>
               </div>
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: "1.6%", aspectRatio: "1", background: "#0c0b0a", boxShadow: "0 0 0 1px rgba(238,233,225,0.35)" }} />
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ width: "1.6%", aspectRatio: "1", background: "var(--daw-chrome)", boxShadow: "0 0 0 1px color-mix(in srgb, var(--daw-t1) 35%, transparent)" }} />
             </div>
             <div className="absolute rec-sheen rounded-full pointer-events-none" style={{ inset: "3.2%" }} />
           </div>
 
           {/* tonearm */}
           <svg className="absolute inset-0 w-full h-full tt-fade tt-chrome" viewBox="0 0 1000 700" aria-hidden="true">
-            <circle cx="880" cy="120" r="46" fill="#1c1a17" stroke="#3d3833" />
+            <circle cx="880" cy="120" r="46" fill="var(--daw-control)" stroke="var(--daw-border-strong)" />
             <g className="arm" style={{ transformOrigin: "880px 120px", transform: `rotate(${playing ? PLAY : REST}deg)` }}>
               <line x1="880" y1="120" x2="882" y2="120" stroke="none" />
-              <line x1="905" y1="108" x2="880" y2="120" stroke="#857d72" strokeWidth="16" strokeLinecap="round" />
-              <line x1="880" y1="120" x2="457" y2="322" stroke="#aca397" strokeWidth="9" strokeLinecap="round" />
-              <rect x="428" y="314" width="48" height="22" rx="3" transform="rotate(25 452 325)" fill="#25221f" stroke="#aca397" />
-              <circle cx="440" cy="336" r="3.5" fill="#eee9e1" />
-              <circle cx="880" cy="120" r="14" fill="#25221f" stroke="#aca397" />
+              <line x1="905" y1="108" x2="880" y2="120" stroke="var(--daw-t3)" strokeWidth="16" strokeLinecap="round" />
+              <line x1="880" y1="120" x2="457" y2="322" stroke="var(--daw-t2)" strokeWidth="9" strokeLinecap="round" />
+              <rect x="428" y="314" width="48" height="22" rx="3" transform="rotate(25 452 325)" fill="var(--daw-raised)" stroke="var(--daw-t2)" />
+              <circle cx="440" cy="336" r="3.5" fill="var(--daw-t1)" />
+              <circle cx="880" cy="120" r="14" fill="var(--daw-raised)" stroke="var(--daw-t2)" />
             </g>
           </svg>
 

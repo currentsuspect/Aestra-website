@@ -85,8 +85,9 @@ export const Terms = memo(({ setPage }: PageProps) => (
         <section>
           <h2 className="text-[15px] font-medium text-fg mb-3">Third-party plugins</h2>
           <p className="text-muted">
-            Aestra's VST3 and CLAP hosting is unfinished: it runs on Linux only, parts of the CLAP host
-            interface are not implemented, and Windows does not load third-party plugins at all today.
+            Aestra's VST3 and CLAP hosting is in alpha: since v0.8.2 it runs plugins in a separate
+            process on Linux and Windows, and plugin windows on Windows have not yet been tested on a
+            real machine.
             We are not responsible for third-party plugin behavior,
             stability, or licensing. Plugin crashes are sandboxed where possible, but we cannot
             guarantee isolation for all plugin formats. You install third-party plugins at your own risk;

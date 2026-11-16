@@ -1,83 +1,97 @@
-import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
+import { DEFAULT_THEME, FAMILIES, SWATCH, type FamilyId, type ResolvedMode } from "../theme/themes";
 
-export type Theme = "dark" | "light";
+/* The site wears the app's themes: a family (Ember, Obsidian Moss, Solace,
+   Monolith) in a mode (dark, light, high contrast, or the system's choice).
+   The choice is stored as "<family>-<mode>" under STORAGE_KEY; the inline
+   script in index.html reads the same key before first paint and sets
+   <html data-theme="<family>-<resolved mode>">. Without a stored choice
+   there is no attribute and :root carries the default theme. */
 
-const STORAGE_KEY = "aestra-theme";
+export type Mode = ResolvedMode | "system";
+export type ThemeChoice = { family: FamilyId; mode: Mode };
 
-const isTheme = (v: unknown): v is Theme => v === "light" || v === "dark";
+export const STORAGE_KEY = "aestra-theme";
+const MODES: Mode[] = ["dark", "light", "hc", "system"];
+const FAMILY_IDS = FAMILIES.map((f) => f.id) as FamilyId[];
 
-const getInitialTheme = (): Theme => {
-  if (typeof document !== "undefined") {
-    const attr = document.documentElement.getAttribute("data-theme");
-    if (isTheme(attr)) return attr;
-  }
-  if (typeof window !== "undefined") {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (isTheme(stored)) return stored;
-    } catch {
-      // ignore
-    }
-    if (typeof window.matchMedia === "function") {
-      try {
-        if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
-      } catch {
-        // ignore
-      }
-    }
-  }
-  return "dark";
+const split = (id: string): ThemeChoice | null => {
+  const m = /^([a-z-]+)-(dark|light|hc|system)$/.exec(id);
+  if (!m || !FAMILY_IDS.includes(m[1] as FamilyId)) return null;
+  return { family: m[1] as FamilyId, mode: m[2] as Mode };
 };
 
-// Module-level store — single source of truth across all useTheme() consumers.
-let currentTheme: Theme = getInitialTheme();
+export const DEFAULT_CHOICE: ThemeChoice = split(DEFAULT_THEME)!;
+
+const systemLight = () => {
+  try {
+    return typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: light)").matches;
+  } catch {
+    return false;
+  }
+};
+
+export const resolve = (c: ThemeChoice): string =>
+  `${c.family}-${c.mode === "system" ? (systemLight() ? "light" : "dark") : c.mode}`;
+
+const read = (): ThemeChoice => {
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    const c = stored ? split(stored) : null;
+    if (c && MODES.includes(c.mode)) return c;
+  } catch {
+    // storage blocked: fall through to the default
+  }
+  return DEFAULT_CHOICE;
+};
+
+let current: ThemeChoice = typeof window === "undefined" ? DEFAULT_CHOICE : read();
 const listeners = new Set<() => void>();
 
-const applyTheme = (t: Theme) => {
-  if (typeof document !== "undefined") {
-    if (t === "light") {
-      document.documentElement.setAttribute("data-theme", "light");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-    }
-  }
-  if (typeof window !== "undefined") {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, t);
-    } catch {
-      // ignore
-    }
-  }
+const apply = (c: ThemeChoice) => {
+  if (typeof document === "undefined") return;
+  const id = resolve(c);
+  document.documentElement.setAttribute("data-theme", id);
+  const meta = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
+  meta.forEach((m) => m.setAttribute("content", SWATCH[id]?.bg ?? ""));
 };
 
-const setThemeGlobal = (t: Theme) => {
-  if (currentTheme === t) return;
-  currentTheme = t;
-  applyTheme(t);
+export const setTheme = (next: Partial<ThemeChoice>) => {
+  const c = { ...current, ...next };
+  if (c.family === current.family && c.mode === current.mode) return;
+  current = c;
+  apply(c);
+  try {
+    window.localStorage.setItem(STORAGE_KEY, `${c.family}-${c.mode}`);
+  } catch {
+    // not remembered, still applied
+  }
   listeners.forEach((l) => l());
 };
 
-const toggleThemeGlobal = () => setThemeGlobal(currentTheme === "dark" ? "light" : "dark");
+/* Follow the system while the choice is "system". */
+if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+  try {
+    window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
+      if (current.mode === "system") {
+        current = { ...current };
+        apply(current);
+        listeners.forEach((l) => l());
+      }
+    });
+  } catch {
+    // older browsers: the choice still applies on the next load
+  }
+}
 
 const subscribe = (cb: () => void) => {
   listeners.add(cb);
   return () => listeners.delete(cb);
 };
-
-const getSnapshot = (): Theme => currentTheme;
-const getServerSnapshot = (): Theme => "dark";
+const getSnapshot = () => current;
+const getServerSnapshot = () => DEFAULT_CHOICE;
 
 export const useTheme = () => {
-  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  const toggleTheme = useCallback(toggleThemeGlobal, []);
-  return { theme, setTheme: setThemeGlobal, toggleTheme };
-};
-
-// Kept for compatibility with App.tsx side-effect-only call.
-export const useThemeEffect = () => {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    setReady(true);
-  }, []);
-  return ready;
+  const choice = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return { choice, resolved: resolve(choice), setTheme };
 };

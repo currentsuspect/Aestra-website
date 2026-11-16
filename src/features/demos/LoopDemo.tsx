@@ -32,14 +32,14 @@ export const LoopDemo = () => {
       tag="Illustration"
       right={
         <span className="flex items-center gap-3">
-          <label className="flex items-center gap-2 text-[12px]" style={{ color: "#aca397" }}>
+          <label className="flex items-center gap-2 text-[12px]" style={{ color: "var(--daw-t2)" }}>
             <input
               type="range" min={70} max={140} value={bpm} aria-label="Tempo in beats per minute"
               onChange={(e) => change((s) => ({ ...s, bpm: +e.target.value }))}
               onPointerUp={() => change((s) => s, `Set tempo ${bpm}`)}
-              style={{ width: 90, accentColor: "#7c3aed" }}
+              style={{ width: 90, accentColor: "var(--daw-primary)" }}
             />
-            <span style={{ color: "#eee9e1", fontVariantNumeric: "tabular-nums", minWidth: 62 }}><b>{bpm}</b> BPM</span>
+            <span style={{ color: "var(--daw-t1)", fontVariantNumeric: "tabular-nums", minWidth: 62 }}><b>{bpm}</b> BPM</span>
           </label>
           <PlayDot playing={playing} onClick={() => { void toggle(); }} />
         </span>
@@ -78,7 +78,7 @@ export const LoopDemo = () => {
                   aria-pressed={muted.includes(row)}
                   aria-label={`Mute ${ROW_META[row].name}`}
                   onClick={() => change((s) => ({ ...s, muted: s.muted.includes(row) ? s.muted.filter((m) => m !== row) : [...s.muted, row] }), `${muted.includes(row) ? "Unmuted" : "Muted"} ${ROW_META[row].name.toLowerCase()}`)}
-                  style={{ all: "unset", cursor: "pointer", width: 20, height: 20, display: "grid", placeItems: "center", fontSize: 10, fontWeight: 700, border: "1px solid " + (muted.includes(row) ? "#f3a93b" : "#2e2a26"), background: muted.includes(row) ? "#f3a93b" : "transparent", color: muted.includes(row) ? "#0c0b0a" : "#857d72", borderRadius: 2, flexShrink: 0 }}
+                  style={{ all: "unset", cursor: "pointer", width: 20, height: 20, display: "grid", placeItems: "center", fontSize: 10, fontWeight: 700, border: "1px solid " + (muted.includes(row) ? "var(--daw-warn)" : "var(--daw-border)"), background: muted.includes(row) ? "var(--daw-warn)" : "transparent", color: muted.includes(row) ? "var(--daw-chrome)" : "var(--daw-t3)", borderRadius: 2, flexShrink: 0 }}
                 >M</button>
               </div>
               <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${STEPS}, minmax(0, 1fr))` }} onDragOver={(e) => e.preventDefault()} onDrop={drop(row)}>
@@ -96,9 +96,9 @@ export const LoopDemo = () => {
                       style={{
                         height: 46,
                         marginLeft: i > 0 && i % 4 === 0 ? 5 : 0,
-                        background: lit ? rowColor(row) : here ? "#2e2a26" : "#1c1a17",
+                        background: lit ? rowColor(row) : here ? "var(--daw-border)" : "var(--daw-control)",
                         opacity: lit ? (here ? 1 : 0.9) : 1,
-                        boxShadow: here ? "inset 0 0 0 1.5px #eee9e1" : "none",
+                        boxShadow: here ? "inset 0 0 0 1.5px var(--daw-t1)" : "none",
                       }}
                     />
                   );
@@ -112,12 +112,12 @@ export const LoopDemo = () => {
           {KITS.map((k) => (
             <button key={k.name} type="button" className="dbtn" style={{ flexDirection: "column", alignItems: "flex-start", gap: 2, padding: "7px 12px", minHeight: 0 }} onClick={() => reset(k.grid(), k.bpm, `Loaded ${k.name}`)}>
               <span>{k.name}</span>
-              <span style={{ fontSize: 10, fontWeight: 400, color: "#857d72" }}>{k.sub}</span>
+              <span style={{ fontSize: 10, fontWeight: 400, color: "var(--daw-t3)" }}>{k.sub}</span>
             </button>
           ))}
         </div>
         <p className="dnote mt-4 mb-0">Click a pad, then press play. Swap any sound from its menu, or drag an audio file onto a row to use your own. It's decoded in your browser and never uploaded.</p>
-        {notice && <p className="m-0 mt-2 text-[12px]" role="status" style={{ color: "#ff6b4f" }}>{notice}</p>}
+        {notice && <p className="m-0 mt-2 text-[12px]" role="status" style={{ color: "var(--daw-error)" }}>{notice}</p>}
       </div>
     </Panel>
   );

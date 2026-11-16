@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useSession } from "../session";
 import { useFrame, useVisible } from "../hooks";
-import { Panel, PlayDot } from "./shared";
+import { Panel, PlayDot, themed } from "./shared";
 
 /* The audio thread, shown for real. In a browser, sound is made on a thread
    of its own, which is what Aestra's engine does natively. Freeze the screen
@@ -43,6 +43,7 @@ export const EngineDemo = () => {
     if (c.width !== CW * dpr) { c.width = CW * dpr; c.height = CH * dpr; }
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
     g.clearRect(0, 0, CW, CH);
+    const rule = themed(c, "var(--daw-raised)");
     const lane = (data: number[], y0: number, h: number, ok: string, bad: string) => {
       const bw = CW / N;
       data.forEach((v, i) => {
@@ -50,11 +51,11 @@ export const EngineDemo = () => {
         g.fillStyle = v > 50 ? bad : ok;
         g.fillRect(i * bw + 0.5, y0 + h - bh, Math.max(1, bw - 1.5), bh);
       });
-      g.fillStyle = "#25221f";
+      g.fillStyle = rule;
       g.fillRect(0, y0 + h, CW, 1);
     };
-    lane(ui.current, 8, 56, "#57514a", "#ff6b4f");
-    lane(au.current, 84, 56, "#3fd6ad", "#3fd6ad");
+    lane(ui.current, 8, 56, themed(c, "var(--daw-t4)"), themed(c, "var(--daw-error)"));
+    lane(au.current, 84, 56, themed(c, "var(--daw-meter)"), themed(c, "var(--daw-meter)"));
   }, visible && playing);
 
   const choke = () => {
@@ -76,12 +77,12 @@ export const EngineDemo = () => {
         <div className="relative" style={{ width: "100%", maxWidth: CW, aspectRatio: `${CW} / ${CH}` }}>
           <canvas ref={cv} className="absolute inset-0 w-full h-full" aria-hidden="true" />
           <span className="dcap absolute" style={{ left: 0, top: 0 }}>Screen · drawing the interface</span>
-          <span className="dcap absolute" style={{ left: 0, top: 76, color: "#3fd6ad" }}>Audio · making the sound</span>
+          <span className="dcap absolute" style={{ left: 0, top: 76, color: "var(--daw-meter)" }}>Audio · making the sound</span>
           {!playing && <div className="absolute inset-0 grid place-items-center text-center dnote" style={{ background: "rgba(20,18,16,0.82)" }}>Press play to start measuring.</div>}
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <button type="button" className="dbtn" onClick={choke} disabled={!playing || busy}>{busy ? "Choking the screen…" : "Make the screen choke"}</button>
-          <p className="m-0 text-[13px]" style={{ color: stall ? "#eee9e1" : "#857d72", minHeight: 20 }} role="status">
+          <p className="m-0 text-[13px]" style={{ color: stall ? "var(--daw-t1)" : "var(--daw-t3)", minHeight: 20 }} role="status">
             {stall
               ? `The screen froze for ${stall.ui} ms. The audio clock kept moving: ${stall.audio} ms of sound went out on time.`
               : "It holds the screen still for a moment while the loop plays."}

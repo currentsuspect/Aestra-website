@@ -51,7 +51,7 @@ const ReleaseShots = ({ shots, className = "" }: { shots: Shot[]; className?: st
             height={720}
             loading="lazy"
             decoding="async"
-            className="w-full h-auto rounded-lg border border-border bg-black"
+            className="w-full h-auto bg-[var(--daw-bed)]"
           />
           <figcaption className="mt-2 text-[13px] leading-relaxed text-muted">{s.caption}</figcaption>
         </figure>
@@ -107,7 +107,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
               <p className="readout mb-4">Archive</p>
               <h2 id="archive-h" className="display-2 text-[clamp(2rem,1.2rem+2.4vw,3.2rem)] m-0">Every release, in full</h2>
             </div>
-            <div className="lg:col-span-8 border-t-2 border-fg">
+            <div className="lg:col-span-8 border-t border-border-2">
               {RELEASES.map((r) => (
                 <details key={r.version} id={releaseAnchor(r.version)} className="group faq-row border-b border-border scroll-mt-24">
                   <summary className="flex items-baseline justify-between gap-6 cursor-pointer list-none py-4">
@@ -142,7 +142,7 @@ export const Changelog = memo(({ setPage }: PageProps) => {
             href="https://github.com/currentsuspect/Aestra/blob/main/CHANGELOG.md"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-4 h-10 text-sm text-fg-muted hover:text-fg hover:border-border-2 transition-colors"
+            className="btn btn-soft gap-1.5 px-4 h-10 text-sm"
           >
             Open canonical CHANGELOG.md <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </a>

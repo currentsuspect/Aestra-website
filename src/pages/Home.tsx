@@ -10,6 +10,9 @@ import { previewKey } from "../components/previews";
 import type { MockPart } from "../components/mock/EmberMock";
 import type { PageProps } from "../types";
 import { useStructuredData } from "../seo";
+import { ThemeControls } from "../components/ThemePicker";
+import { useTheme } from "../hooks/useTheme";
+import { FAMILIES, MODE_NAMES } from "../theme/themes";
 
 /* ─────────────────────────────────────────────────────────────────
    Home — the first encounter with Aestra, set as a manual.
@@ -53,14 +56,14 @@ const Wrap = ({ children, className = "" }: { children: React.ReactNode; classNa
 const Section = ({
   n, title, id, aside, children,
 }: { n: string; title: React.ReactNode; id?: string; aside?: React.ReactNode; children: React.ReactNode }) => (
-  <section id={id} className="px-5 sm:px-6 pt-20 sm:pt-28 scroll-mt-20">
+  <section id={id} className="px-4 sm:px-6 pt-20 sm:pt-28 scroll-mt-20">
     <Wrap className="grid lg:grid-cols-12 gap-8 lg:gap-6">
       <FadeIn className="lg:col-span-4">
         <p className="readout mb-4">{n.padStart(2, "0")}</p>
         <h2 className="display-2 text-[clamp(2.2rem,1.2rem+3.2vw,4rem)]">{title}</h2>
         {aside}
       </FadeIn>
-      <FadeIn delay={0.05} className="lg:col-span-8 border-t-2 border-fg">
+      <FadeIn delay={0.05} className="lg:col-span-8 panel px-4 sm:px-6 py-1 sec-body">
         {children}
       </FadeIn>
     </Wrap>
@@ -79,7 +82,21 @@ const PARTS: { part: MockPart; title: string; body: string }[] = [
   { part: "clip", title: "Clip", body: "A flat block of colour, a name, and the waveform of what you recorded." },
 ];
 
+/* One fact per cell. Each is checkable: the version from the changelog, the beta date
+   from FD-56, the size from Aestra's tools/update/size_budget.txt (measured at
+   0.8.3-preview.24: Windows 6.3 MB, Linux 5.5 MB, packed). */
+const FACTS: { cap: string; value: string; small?: string }[] = [
+  { cap: "Status", value: "Alpha", small: LATEST.version.replace("-alpha", "") },
+  { cap: "Public beta", value: "25 Dec 2026" },
+  { cap: "Runs on", value: "Windows · Linux" },
+  { cap: "Download", value: "About 6 MB" },
+  { cap: "Price", value: "Free", small: "the whole DAW" },
+];
+
 const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
+  const { resolved } = useTheme();
+  const [family, mode] = [resolved.replace(/-(dark|light|hc)$/, ""), resolved.match(/-(dark|light|hc)$/)?.[1] ?? "dark"];
+  const themeName = `${FAMILIES.find((f) => f.id === family)?.name ?? ""} ${MODE_NAMES[mode as keyof typeof MODE_NAMES]}`;
   const [part, setPart] = useState<MockPart | null>(null);
   const [tip, setTip] = useState<{ part: MockPart; x: number; y: number; w: number } | null>(null);
   const figure = useRef<HTMLDivElement>(null);
@@ -95,7 +112,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
   };
   const tipPart = tip ? PARTS.find((p) => p.part === tip.part) : null;
   return (
-    <section className="px-5 sm:px-6 pt-24 sm:pt-28 lg:pt-32">
+    <section className="px-4 sm:px-6 pt-24 sm:pt-28 lg:pt-32">
       <Wrap>
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-6 items-end pb-10 sm:pb-12">
           <FadeIn className="lg:col-span-8">
@@ -110,36 +127,53 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
             <Button size="lg" onClick={() => onEarlyAccess?.()} className="justify-between">
               Request early access <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Button>
-            <PageLink to="changelog" setPage={setPage} className="text-[14px] justify-self-start">
-              What changed in {LATEST.version}
-            </PageLink>
-            <PageLink to="download" setPage={setPage} className="text-[14px] justify-self-start">
-              Or build it from source
-            </PageLink>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              <PageLink to="changelog" setPage={setPage} className="text-[14px]">
+                What changed in {LATEST.version}
+              </PageLink>
+              <PageLink to="download" setPage={setPage} className="text-[14px]">
+                Or build it from source
+              </PageLink>
+            </div>
           </FadeIn>
         </div>
 
+        {/* The transport bar's grammar: a caption over a value, one fact per cell. */}
+        <FadeIn delay={0.15}>
+          <dl className="cells m-0">
+            {FACTS.map((f) => (
+              <div key={f.cap} className="cell">
+                <dt className="cap">{f.cap}</dt>
+                <dd className="cell-v m-0">{f.value}{f.small && <small>{f.small}</small>}</dd>
+              </div>
+            ))}
+          </dl>
+        </FadeIn>
+
         <figure className="m-0">
-          <div ref={figure} className="relative border border-fg" onMouseLeave={() => onPartHover(null, null)} onClick={() => onPartHover(null, null)}>
-            <Suspense fallback={<div className="aspect-[1280/543] bg-[#000]" aria-hidden="true" />}>
+          <div ref={figure} className="relative" onMouseLeave={() => onPartHover(null, null)} onClick={() => onPartHover(null, null)}>
+            <Suspense fallback={<div className="aspect-[1280/543] bg-[var(--daw-bed)]" aria-hidden="true" />}>
               <EmberMock activePart={part} onPartHover={onPartHover} />
             </Suspense>
             {tip && tipPart && (
               <div
                 role="tooltip"
-                className="absolute z-20 pointer-events-none w-[250px] max-w-[calc(100%-16px)] px-3.5 py-3 bg-[#eee9e1] text-[#121110] text-[13.5px] leading-snug shadow-[0_8px_24px_rgba(0,0,0,0.45)]"
+                className="tp-card absolute z-20 pointer-events-none w-[250px] max-w-[calc(100%-16px)] px-3.5 py-3 text-fg text-[13.5px] leading-snug"
                 style={{ left: Math.min(Math.max(tip.x - 125, 8), tip.w - 258), top: tip.y }}
               >
-                <span className="block font-mono text-[10.5px] font-semibold uppercase tracking-[0.08em] mb-1 text-[#6a4de4]">
+                <span className="cap mb-1 text-accent">
                   {String(PARTS.indexOf(tipPart) + 1).padStart(2, "0")} · {tipPart.title}
                 </span>
                 {tipPart.body}
               </div>
             )}
           </div>
-          <figcaption className="readout flex flex-wrap justify-between gap-x-6 gap-y-1 py-3 border-b border-border">
-            <span>Fig. 1 — Timeline view · 15 tracks · 112 BPM</span>
-            <span>Recreated from the development build · hover the numbers · press play, mute, solo</span>
+          <figcaption className="panel px-4 py-3.5 flex flex-col xl:flex-row xl:items-center justify-between gap-x-8 gap-y-3">
+            <span className="text-[13.5px] text-muted leading-snug">
+              <span className="text-fg">Fig. 1 — the Timeline, wearing {themeName}.</span>{" "}
+              Hover the numbers; press play, mute, solo. Aestra's four themes, in dark, light and high contrast, re-skin all of it:
+            </span>
+            <ThemeControls layout="inline" />
           </figcaption>
         </figure>
       </Wrap>
@@ -247,7 +281,7 @@ const STATUS: { area: string; state: State; note: React.ReactNode }[] = [
   { area: "Linux", state: "ready", note: "Built and tested here. Use this one." },
   { area: "Windows", state: "partial", note: "The app builds and runs. Alpha builds are newer here and have been on fewer machines." },
   { area: "macOS", state: "absent", note: "Not supported. Deferred to 2027." },
-  { area: "VST3 · CLAP", state: "partial", note: "Loads on Linux, but unfinished. Some CLAP features aren't built yet." },
+  { area: "VST3 · CLAP", state: "partial", note: "Since v0.8.2, your plugins run in a separate safe process with their own windows, on Linux and Windows. Plugin windows on Windows haven't been tried on a real machine yet." },
   { area: "Built-in effects", state: "ready", note: "Eleven effects, including reverb, EQ, compressor and delay. Free." },
   { area: "Installers", state: "partial", note: "No public download yet. Alpha builds for Windows and Linux go out by email on request." },
   { area: "Collaboration", state: "absent", note: "Doesn't exist yet. No server, no accounts." },
@@ -283,7 +317,7 @@ const Status = memo(({ setPage }: PageProps) => (
           <dt className="text-muted text-[15px]">{s.area}</dt>
           <dd className="m-0 col-span-2 sm:col-span-1 row-start-2 sm:row-start-auto text-fg text-[15px] leading-relaxed">{s.note}</dd>
           <dd className="m-0 row-start-1 col-start-2 sm:col-start-auto sm:row-start-auto">
-            <span className={`font-mono text-[10.5px] tracking-[0.06em] uppercase px-1.5 py-0.5 border border-current whitespace-nowrap ${STATE_TAG[s.state].cls}`}>
+            <span className={`chip ${STATE_TAG[s.state].cls}`}>
               {STATE_TAG[s.state].label}
             </span>
           </dd>
@@ -399,7 +433,7 @@ const FAQ = memo(({ setPage }: PageProps) => {
     },
     {
       q: "Can I use my own VST3 and CLAP plugins?",
-      a: "Not in the current alpha (v0.8.1): there, plugins only partly load, and only on Linux. The next alpha brings VST3 and CLAP on Linux and Windows, loaded in a separate safe process with their own windows, parameters and automation. Until then, the built-in effects are the safe choice.",
+      a: "Yes, since v0.8.2. VST3 and CLAP plugins load in a separate safe process on Linux and Windows, with their own windows, parameters and automation. It's still alpha: plugin windows on Windows have only been tested in CI, not yet on a real machine. The built-in effects remain the safe choice.",
     },
     {
       q: "Can I use Aestra commercially?",
@@ -532,13 +566,13 @@ const FounderCountdown = () => {
               inputMode="email"
               aria-invalid={Boolean(error)}
               aria-describedby={error ? errorId : undefined}
-              className="w-full sm:flex-1 h-11 shrink-0 px-3.5 rounded-md bg-bg border border-border-2 text-fg text-sm placeholder-dim focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-colors"
+              className="well w-full sm:flex-1 h-11 shrink-0 px-4 text-sm"
             />
             <button
               type="submit"
               disabled={submitting}
               aria-busy={submitting}
-              className="h-11 px-5 rounded-md border border-fg text-fg font-medium text-sm hover:bg-fg hover:text-bg transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              className="btn btn-soft h-11 px-5 text-sm"
             >
               {submitting ? "Joining..." : "Notify me"}
             </button>
@@ -557,8 +591,8 @@ const FounderCountdown = () => {
 
 /* ── Close ────────────────────────────────────────────────────────── */
 const ClosingCTA = memo(({ setPage, onEarlyAccess }: PageProps) => (
-  <section className="px-5 sm:px-6 pt-28 sm:pt-36 pb-10">
-    <Wrap className="border-t-2 border-fg pt-10">
+  <section className="px-4 sm:px-6 pt-28 sm:pt-36 pb-16">
+    <Wrap className="pt-10">
       <FadeIn>
         <h2 className="display text-[clamp(3rem,1.5rem+6vw,8rem)] max-w-[14ch]">Come break it before everyone else does.</h2>
         <p className="mt-8 text-muted text-base sm:text-lg max-w-lg leading-relaxed">

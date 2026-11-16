@@ -27,8 +27,8 @@ export const useToast = () => {
 };
 
 const variantStyles: Record<ToastVariant, { ring: string; icon: string; Icon: React.ComponentType<{ className?: string }> }> = {
-  success: { ring: "ring-emerald-500/20", icon: "text-emerald-400", Icon: Check },
-  error:   { ring: "ring-rose-500/20",    icon: "text-rose-400",    Icon: AlertCircle },
+  success: { ring: "ring-emerald-500/20", icon: "text-success", Icon: Check },
+  error:   { ring: "ring-rose-500/20",    icon: "text-error",    Icon: AlertCircle },
   info:    { ring: "ring-accent/20",  icon: "text-accent",  Icon: Info },
 };
 
