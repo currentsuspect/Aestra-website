@@ -853,7 +853,7 @@ My situation: `;
       </div>
 
       {/* Why this is safe — the halt condition, in plain language first. */}
-      <div className="rounded-none border border-accent/30 bg-accent-soft p-5 sm:p-6 mb-10">
+      <div className="bg-accent-soft p-5 sm:p-6 mb-10">
         <div className="flex items-start gap-3">
           <Lock className="w-4 h-4 text-accent shrink-0 mt-0.5" aria-hidden="true" />
           <div className="min-w-0">
@@ -1013,7 +1013,7 @@ const sevStyle: Record<IssueRow["sev"], { mark: string; cls: string }> = {
 const RecoverPanel = memo(() => (
   <div className="grid lg:grid-cols-2 gap-8 items-start">
     <div>
-      <div className="rounded-none border border-rose-500/25 bg-rose-500/5 p-5 mb-6">
+      <div className="bg-[color-mix(in_srgb,var(--color-error)_8%,transparent)] p-5 mb-6">
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-4 h-4 text-error shrink-0 mt-0.5" aria-hidden="true" />
           <div>

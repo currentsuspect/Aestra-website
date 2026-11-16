@@ -133,7 +133,7 @@ export const useOpenTake = (
         mark?.animate(
           [
             { transform: "scaleY(1)", background: "var(--ink)", boxShadow: "0 0 0 0 transparent" },
-            { transform: "scaleY(1.35)", background: "#ffffff", boxShadow: "0 0 8px 1px rgba(255,255,255,.55)", offset: 0.12 },
+            { transform: "scaleY(1.35)", background: "var(--daw-t1)", offset: 0.12 },
             { transform: "scaleY(1)", background: "var(--ink)", boxShadow: "0 0 0 0 transparent" },
           ],
           { duration: 520, delay: at },

@@ -81,7 +81,7 @@ export const EarlyAccessModal = ({
 
         {done ? (
           <div className="text-center py-4">
-            <div className="w-10 h-10 rounded-full bg-emerald-500/15 flex items-center justify-center mx-auto mb-4">
+            <div className="w-10 h-10 rounded-full bg-[color-mix(in_srgb,var(--color-success)_16%,transparent)] flex items-center justify-center mx-auto mb-4">
               <Check className="w-5 h-5 text-success" />
             </div>
             <h3 className="text-lg font-semibold text-fg mb-1">{copy.successTitle}</h3>

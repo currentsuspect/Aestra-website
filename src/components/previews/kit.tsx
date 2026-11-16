@@ -138,16 +138,16 @@ export const PluginWindow = ({ x, y, w, h, name, tag, accent, children }: {
   x: number; y: number; w: number; h: number; name: string; tag?: string; accent: string; children?: React.ReactNode;
 }) => (
   <g>
-    <rect x={x} y={y} width={w} height={h} rx={8} fill="#0e0f10" stroke="#2a2d30" />
-    <Label x={x + 12} y={y + 19} size={11} color="#c9ccd0">{name}</Label>
+    <rect x={x} y={y} width={w} height={h} rx={8} fill="var(--daw-panel)" stroke="var(--daw-border)" />
+    <Label x={x + 12} y={y + 19} size={11} color="var(--daw-t1)">{name}</Label>
     {tag && (
       <g>
         <rect x={x + 18 + name.length * 5.6} y={y + 7} width={tag.length * 5.8 + 14} height={17} rx={8.5} fill="none" stroke={accent} strokeOpacity={0.6} />
         <Label x={x + 25 + name.length * 5.6} y={y + 19} size={10} color={accent}>{tag}</Label>
       </g>
     )}
-    <path d={`M${x + w - 20} ${y + 10}l8 8M${x + w - 12} ${y + 10}l-8 8`} stroke="#8a8f94" strokeWidth={1.3} />
-    <line x1={x} x2={x + w} y1={y + 30.5} y2={y + 30.5} stroke="#1f2225" />
+    <path d={`M${x + w - 20} ${y + 10}l8 8M${x + w - 12} ${y + 10}l-8 8`} stroke="var(--daw-t3)" strokeWidth={1.3} />
+    <line x1={x} x2={x + w} y1={y + 30.5} y2={y + 30.5} stroke="var(--daw-divider)" />
     {children}
   </g>
 );
@@ -283,7 +283,7 @@ export const Clip = ({ x, y, w, h, slot, label, shape = "vox", seed = 1, sel = f
   cols?: number;
 }) => {
   const c = tone(slot);
-  const body = rec ? "#5c1a1d" : c.body;
+  const body = rec ? "color-mix(in srgb, var(--daw-error) 25%, var(--daw-bed))" : c.body;
   const ink = rec ? "var(--daw-error)" : c.ink;
   const n = cols ?? Math.max(8, Math.round(w / 1.5));
   const all = peaks(Math.round(n / Math.max(0.05, to - from)), seed, shape);
@@ -377,8 +377,8 @@ export const Roll = ({ x, y, w, h, rows, beats, notes, rowNames, quiet = false, 
         const ny = y + (rows - 1 - n.p) * rh + 1;
         return (
           <g key={i} opacity={n.o ?? 1}>
-            <rect x={nx} y={ny} width={nw} height={rh - 2} rx={1.5} fill={n.sel ? "#b597ff" : color} stroke={n.sel ? "#fff" : "none"} strokeWidth={1.2} />
-            {n.label && nw > 18 && <Label x={nx + 4} y={ny + rh - 5.5} size={8.5} weight={600} color={n.sel ? "#1b0f33" : "var(--daw-t1)"}>{n.label}</Label>}
+            <rect x={nx} y={ny} width={nw} height={rh - 2} rx={1.5} fill={n.sel ? "var(--daw-accent)" : color} stroke={n.sel ? "var(--daw-t1)" : "none"} strokeWidth={1.2} />
+            {n.label && nw > 18 && <Label x={nx + 4} y={ny + rh - 5.5} size={8.5} weight={600} color={n.sel ? "var(--daw-chrome)" : "var(--daw-t1)"}>{n.label}</Label>}
           </g>
         );
       })}
@@ -435,7 +435,7 @@ const A0 = Math.PI * 0.75;
 const A1 = Math.PI * 2.25;
 
 /** Plugin-style knob. `v` is 0..1, or -1..1 when bipolar (arc grows from the top detent). */
-export const Knob = ({ cx, cy, r, v, bipolar = false, color, track = "#2a2d30", label, value, sub, labelColor = "#c9ccd0" }: {
+export const Knob = ({ cx, cy, r, v, bipolar = false, color, track = "var(--daw-border)", label, value, sub, labelColor = "var(--daw-t1)" }: {
   cx: number; cy: number; r: number; v: number; bipolar?: boolean; color: string; track?: string;
   label?: string; value?: string; sub?: string; labelColor?: string;
 }) => {
@@ -450,13 +450,13 @@ export const Knob = ({ cx, cy, r, v, bipolar = false, color, track = "#2a2d30", 
         <path d={bipolar ? arc(cx, cy, r, Math.min(mid, a), Math.max(mid, a)) : arc(cx, cy, r, A0, a)}
           stroke={color} strokeWidth={r * 0.16} fill="none" />
       )}
-      {bipolar && <line x1={cx} x2={cx} y1={cy - r - r * 0.12} y2={cy - r + r * 0.12} stroke="#e8eaec" strokeWidth={2} />}
-      <circle cx={cx} cy={cy} r={r * 0.34} fill="#111416" stroke="#23282b" />
-      <line x1={cx} y1={cy} x2={ex} y2={ey} stroke="#e8eaec" strokeWidth={2} strokeLinecap="round" />
-      <circle cx={px + (ex - px)} cy={py + (ey - py)} r={2.6} fill="#e8eaec" />
+      {bipolar && <line x1={cx} x2={cx} y1={cy - r - r * 0.12} y2={cy - r + r * 0.12} stroke="var(--daw-t1)" strokeWidth={2} />}
+      <circle cx={cx} cy={cy} r={r * 0.34} fill="var(--daw-control)" stroke="var(--daw-border-strong)" />
+      <line x1={cx} y1={cy} x2={ex} y2={ey} stroke="var(--daw-t1)" strokeWidth={2} strokeLinecap="round" />
+      <circle cx={px + (ex - px)} cy={py + (ey - py)} r={2.6} fill="var(--daw-t1)" />
       {label && <Label x={cx} y={cy + r + 17} size={11} anchor="middle" color={labelColor}>{label}</Label>}
       {value && <Label x={cx} y={cy + r + 31} size={11} anchor="middle" color={color}>{value}</Label>}
-      {sub && <Label x={cx} y={cy + r + 44} size={9.5} anchor="middle" color="#7d8288">{sub}</Label>}
+      {sub && <Label x={cx} y={cy + r + 44} size={9.5} anchor="middle" color="var(--daw-t3)">{sub}</Label>}
     </g>
   );
 };

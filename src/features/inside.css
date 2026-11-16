@@ -32,7 +32,7 @@
 .tt-sticky[data-deep="1"] .rec-spin { animation-play-state: paused; }
 /* Coming back out, the parts reappear as soon as there is anything to see. */
 
-.rec-grooves { background: repeating-radial-gradient(circle at center, var(--daw-chrome) 0 2px, #1b181e 2px 3px); }
+.rec-grooves { background: repeating-radial-gradient(circle at center, var(--daw-chrome) 0 2px, var(--daw-control) 2px 3px); }
 .rec-spin { animation: tt-spin 1.8s linear infinite; animation-play-state: paused; }
 .rec-spin[data-on="true"] { animation-play-state: running; }
 @keyframes tt-spin { to { transform: rotate(360deg); } }

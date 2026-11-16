@@ -171,7 +171,7 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
           <figcaption className="panel px-4 py-3.5 flex flex-col xl:flex-row xl:items-center justify-between gap-x-8 gap-y-3">
             <span className="text-[13.5px] text-muted leading-snug">
               <span className="text-fg">Fig. 1 — the Timeline, wearing {themeName}.</span>{" "}
-              Hover the numbers; press play, mute, solo. Aestra's four themes, in dark, light and high contrast, re-skin all of it:
+              Hover the numbers; press play, mute, solo. The four themes from Aestra's development build, each dark, light or high contrast, re-skin all of it:
             </span>
             <ThemeControls layout="inline" />
           </figcaption>

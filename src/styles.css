@@ -376,11 +376,6 @@ body {
   opacity: 0.5;
 }
 
-/* ── Panel sheen — 1px inner top highlight, machined-panel feel ── */
-.panel-sheen {
-  box-shadow: inset 0 1px 0 0 color-mix(in srgb, var(--color-fg) 4%, transparent);
-}
-
 /* ── Section rhythm ───────────────────────────────────────────────
    Three weights, deliberately. Every section carrying identical
    padding is the single loudest "generated page" tell — it flattens

@@ -31,10 +31,10 @@ export const NotFound = memo(({ setPage }: { setPage: (p: string) => void }) => 
           <div className="absolute inset-0 bg-surface flex items-center justify-center">
             <FileQuestion className="w-12 h-12 sm:w-14 sm:h-14 text-muted" strokeWidth={1.25} />
           </div>
-          <div className="absolute -top-2 -right-2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center font-mono text-error text-sm font-semibold">
+          <div className="absolute -top-2 -right-2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[color-mix(in_srgb,var(--color-error)_14%,transparent)] flex items-center justify-center font-mono text-error text-sm font-semibold">
             404
           </div>
-          <div className="absolute -bottom-1 -left-1 w-3 h-3 rounded-full bg-amber-400 animate-pulse" />
+          <div className="absolute -bottom-1 -left-1 w-3 h-3 rounded-full bg-warn animate-pulse" />
         </div>
 
         <p className="text-[13px] font-mono text-muted uppercase tracking-wider mb-4">
