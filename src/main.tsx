@@ -3,6 +3,7 @@ import "./styles.css";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+import { installPrefetch } from "./prefetch";
 
 // WebMCP: expose site tools to AI agents via the browser
 // https://webmachinelearning.github.io/webmcp/
@@ -45,4 +46,5 @@ if (typeof modelContext?.provideContext === "function") {
 const container = document.getElementById("root");
 if (container) {
   createRoot(container).render(<App />);
+  installPrefetch();
 }

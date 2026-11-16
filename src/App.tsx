@@ -5,7 +5,7 @@ import { ToastProvider } from "./components/Toast";
 import { Footer } from "./components/Footer";
 import { LoadingFallback } from "./components/ui";
 import { Hero, Details, Principles, Status, Cost, FAQ as HomeFAQ, FounderCountdown, ClosingCTA } from "./pages/Home";
-import { Features } from "./pages/Features";
+import { routeLoaders } from "./routes";
 import { resolvePage, prefersReducedMotion } from "./lib";
 import type { PageProps } from "./types";
 import type { EarlyAccessPurpose } from "./components/EarlyAccessModal";
@@ -22,17 +22,18 @@ import {
 import { buildPageStructuredData, updateMetaTag } from "./seo";
 import { useTheme } from "./hooks/useTheme";
 
-const Downloads = lazy(() => import("./pages/Downloads").then(m => ({ default: m.Downloads })));
-const Pricing = lazy(() => import("./pages/Pricing").then(m => ({ default: m.Pricing })));
-const Changelog = lazy(() => import("./pages/Changelog").then(m => ({ default: m.Changelog })));
-const Docs = lazy(() => import("./pages/Docs").then(m => ({ default: m.Docs })));
+const Features = lazy(() => routeLoaders.features().then(m => ({ default: m.Features })));
+const Downloads = lazy(() => routeLoaders.download().then(m => ({ default: m.Downloads })));
+const Pricing = lazy(() => routeLoaders.pricing().then(m => ({ default: m.Pricing })));
+const Changelog = lazy(() => routeLoaders.changelog().then(m => ({ default: m.Changelog })));
+const Docs = lazy(() => routeLoaders.docs().then(m => ({ default: m.Docs })));
 const Dashboard = lazy(() => import("./pages/Dashboard").then(m => ({ default: m.Dashboard })));
-const Privacy = lazy(() => import("./pages/Privacy").then(m => ({ default: m.Privacy })));
-const Terms = lazy(() => import("./pages/Terms").then(m => ({ default: m.Terms })));
-const About = lazy(() => import("./pages/About").then(m => ({ default: m.About })));
-const Roadmap = lazy(() => import("./pages/Roadmap").then(m => ({ default: m.Roadmap })));
-const PluginsPage = lazy(() => import("./pages/Plugins").then(m => ({ default: m.Plugins })));
-const Recovery = lazy(() => import("./pages/Recovery").then(m => ({ default: m.Recovery })));
+const Privacy = lazy(() => routeLoaders.privacy().then(m => ({ default: m.Privacy })));
+const Terms = lazy(() => routeLoaders.terms().then(m => ({ default: m.Terms })));
+const About = lazy(() => routeLoaders.about().then(m => ({ default: m.About })));
+const Roadmap = lazy(() => routeLoaders.roadmap().then(m => ({ default: m.Roadmap })));
+const PluginsPage = lazy(() => routeLoaders.plugins().then(m => ({ default: m.Plugins })));
+const Recovery = lazy(() => routeLoaders.recovery().then(m => ({ default: m.Recovery })));
 const NotFound = lazy(() => import("./pages/NotFound").then(m => ({ default: m.NotFound })));
 
 const PageLoader = () => <LoadingFallback />;
@@ -233,9 +234,9 @@ export const App = () => {
         );
       case "features":
         return (
-          <>
+          <LazyPage>
             <Features setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} />
-          </>
+          </LazyPage>
         );
       case "pricing":
         return withShell(<LazyPage><Pricing setPage={handleSetPage} onEarlyAccess={handleEarlyAccess} /></LazyPage>, "pricing");
