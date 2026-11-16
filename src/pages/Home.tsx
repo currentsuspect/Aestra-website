@@ -10,7 +10,7 @@ import { previewKey } from "../components/previews";
 import type { MockPart } from "../components/mock/EmberMock";
 import type { PageProps } from "../types";
 import { useStructuredData } from "../seo";
-import { ThemeControls } from "../components/ThemePicker";
+import { prefersReducedMotion } from "../lib";
 import { useTheme } from "../hooks/useTheme";
 import { FAMILIES, MODE_NAMES } from "../theme/themes";
 
@@ -72,14 +72,14 @@ const Section = ({
 
 /* ── 1 · Hero + Fig. 1 ────────────────────────────────────────── */
 const PARTS: { part: MockPart; title: string; body: string }[] = [
-  { part: "views", title: "Views", body: "Arsenal for loops, Timeline for the song, Audition for checking the mix. One window." },
+  { part: "views", title: "Views", body: "Arsenal is a rack of sounds you play, Timeline is the song, Audition is where you listen to your mix next to a reference. One window." },
   { part: "transport", title: "Transport", body: "Play, stop, record. Play lights up while it plays, record goes red when armed." },
   { part: "position", title: "Position", body: "Bars and beats first, clock time next to it. Press stop once and you're back at the start." },
-  { part: "record", title: "Record", body: "Count-in, metronome, loop record and wait-for-input. Each has a lamp so you can see it's on." },
-  { part: "output", title: "Output", body: "A live scope and level meter, right in the transport bar." },
-  { part: "library", title: "Library", body: "Your sounds, one drag from the timeline. Long pack names are trimmed so you can read the file." },
-  { part: "tracks", title: "Tracks", body: "Mute, solo and arm are lettered keys on every track, each lit in its own colour." },
-  { part: "clip", title: "Clip", body: "A flat block of colour, a name, and the waveform of what you recorded." },
+  { part: "record", title: "Record", body: "Count-in, wait-for-input, loop record and the metronome. Each has a lamp so you can see it's on." },
+  { part: "output", title: "Output", body: "A live scope and level meter. The DSP load sits beside them: amber when your computer is busy, red before the audio would drop out." },
+  { part: "library", title: "Library", body: "Sounds, Patterns and Plugins in one browser. Drag a sound onto the timeline. Long pack names are trimmed so you can read the file." },
+  { part: "tracks", title: "Tracks", body: "M, S and R on every track: mute, solo and record-arm. Tracks you haven't touched fold into one row." },
+  { part: "clip", title: "Clip", body: "A coloured header with the name, a deep body, and the waveform of what you recorded. Clips take their track's colour." },
 ];
 
 /* One fact per cell. Each is checkable: the version from the changelog, the beta date
@@ -171,9 +171,8 @@ const Hero = ({ setPage, onEarlyAccess }: PageProps) => {
           <figcaption className="panel px-4 py-3.5 flex flex-col xl:flex-row xl:items-center justify-between gap-x-8 gap-y-3">
             <span className="text-[13.5px] text-muted leading-snug">
               <span className="text-fg">Fig. 1 — the Timeline, wearing {themeName}.</span>{" "}
-              Hover the numbers; press play, mute, solo. The four themes from Aestra's development build, each dark, light or high contrast, re-skin all of it:
+              Hover the numbers; press play, mute, solo. The theme button up top re-skins all of it, with the four themes from Aestra's development build.
             </span>
-            <ThemeControls layout="inline" />
           </figcaption>
         </figure>
       </Wrap>
@@ -218,6 +217,18 @@ const Details = memo(({ setPage }: PageProps) => {
     return () => io.disconnect();
   }, []);
 
+  // Opening a row folds the one above it, which slides the page up and can leave
+  // the new preview off-screen. After a click (never on first paint) bring the row back.
+  const clicked = useRef(false);
+  useEffect(() => {
+    if (!clicked.current || open < 0) return;
+    const row = list.current?.children[open] as HTMLElement | undefined;
+    if (!row) return;
+    const r = row.getBoundingClientRect();
+    if (r.top >= 72 && r.bottom <= window.innerHeight) return;
+    row.scrollIntoView({ block: "start", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  }, [open]);
+
   const toChangelog = (version: string, type: string) => {
     try { sessionStorage.setItem(CHANGELOG_SELECT_KEY, JSON.stringify({ version, lane: type === "new" || type === "fix" ? type : null })); } catch { /* opens on the latest */ }
     setPage("changelog");
@@ -241,10 +252,10 @@ const Details = memo(({ setPage }: PageProps) => {
         {SMALL_ROWS.map((d, i) => {
           const isOpen = open === i;
           return (
-            <li key={d.key} className="list-none border-b border-border">
+            <li key={d.key} className="list-none border-b border-border scroll-mt-20">
               <button
                 type="button"
-                onClick={() => setOpen(isOpen ? -1 : i)}
+                onClick={() => { clicked.current = true; setOpen(isOpen ? -1 : i); }}
                 aria-expanded={isOpen}
                 aria-controls={`small-${i}`}
                 className="w-full text-left grid grid-cols-[40px_1fr_auto] gap-3 py-4 group"
