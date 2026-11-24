@@ -109,7 +109,7 @@ export const PAGE_TITLES = asSEO({
 export const PAGE_DESCRIPTIONS = asSEO({
   home: "Less distance between an idea and its sound. Aestra is a free app for making music, built to run well on old laptops and machines never meant for music production. Eleven effects come in the box. It's in alpha, on Windows and Linux.",
   features: "Create, understand and finish in Aestra: loop-first workflow, an inspectable native engine, routing you can see, translation previews and mix history.",
-  pricing: "Aestra pricing: the whole DAW and every Aestra plugin free; Supporter at $5/month, $50/year or KES 300/month by M-Pesa pays for hosted features like shared projects; the first 500 are Founding Supporters.",
+  pricing: "Aestra pricing: the whole DAW and every Aestra plugin free; Supporter at $5/month, $50/year or KES 300/month by M-Pesa pays for hosted features like shared projects; the first 500 people to back Aestra are Founding Supporters.",
   changelog: "Every Aestra release laid out like a session: what's new, fixed and faster in each version, with an animated preview of every change since v0.7.0.",
   docs: "Aestra's documentation lives in its repository. This page maps it: how to build Aestra, how it works, how to report a bug, and how to contribute.",
   download: "Get Aestra for Windows or Linux. Alpha builds by email on request, or build it from source.",

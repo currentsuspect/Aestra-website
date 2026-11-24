@@ -21,14 +21,14 @@ Aestra is not a clone of FL Studio, Ableton, Logic, or any other DAW. It is a ne
 - **Platforms:** Linux (built and tested most) and Windows (the app builds and runs; alpha builds there are newer). macOS is not supported and is deferred to 2027
 - **Availability:** Alpha. Source-available; alpha builds for Windows and Linux go out by email on request, and there is no public download yet
 - **License:** ASSAL v1.1 (Aestra Studios Source-Available License) — source available, not OSI open source
-- **Pricing:** Core free (the whole DAW and every Aestra plugin); Supporter $5/month or $50/year; the first 500 Supporters are Founding Supporters
+- **Pricing:** Core free (the whole DAW and every Aestra plugin); Supporter $5/month or $50/year; the first 500 people to back Aestra (a one-time chip-in or Supporter) are Founding Supporters
 - **Account required:** No — the core DAW runs without an account
 
 ## Primary Pages
 
 - [Homepage](https://www.aestra.studio/) — Overview, features, plugins, pricing tiers, and download links.
 - [Features](https://www.aestra.studio/features) — Deep feature tour: native performance, instant startup, pattern workflow, visual routing, audition mode, version control.
-- [Pricing](https://www.aestra.studio/pricing) — Core (free: the whole DAW and every Aestra plugin), Supporter ($5/month or $50/year), and Founding Supporters (the first 500 Supporters).
+- [Pricing](https://www.aestra.studio/pricing) — Core (free: the whole DAW and every Aestra plugin), Supporter ($5/month or $50/year), and Founding Supporters (the first 500 people to back Aestra).
 - [Download](https://www.aestra.studio/download) — Alpha builds for Windows and Linux by email on request (Early access), or build from source. No public download yet.
 - [Documentation](https://www.aestra.studio/docs) — Patch recipes, signal flow, persona tracks, troubleshooting, command palette.
 - [Changelog](https://www.aestra.studio/changelog) — Release history and development progress.
@@ -110,14 +110,14 @@ Aestra is positioned as a native DAW for producers who value:
 - **Versions** — a project's history as a branch timeline: name, branch, bounce and go back.
 - **Signal Flow Graph** — visual representation of routing.
 - **Command Palette** — keyboard-driven action launcher (Ctrl/Cmd + K).
-- **Founding Supporter badge** — a numbered digital badge for the first 500 Supporters.
+- **Founding Supporter badge** — a numbered digital badge for the first 500 people to back Aestra, by a one-time chip-in or as Supporters.
 - **ASSAL** — Aestra Studios Source-Available License v1.1.
 
 ## Pricing Tiers
 
 - **Core ($0)** — the whole DAW, with no export or time limits. You do not need to pay to make music.
 - **Supporter ($5/month, $50/year, or KES 300/month by M-Pesa)** — pays for what costs money each time it is used (hosting shared projects, keeping work online) and the work on Aestra, plus development updates and a feedback channel. Every Aestra plugin is free in Core, and so is Muse when it runs on your computer. No collaboration service exists yet — there is no backend, no accounts and no sync — and no storage allowance is offered or implied until one does. Invited Core users will be able to participate without subscribing. If Supporter lapses, only the cloud workspace becomes read-only. Downloaded projects remain editable and exportable in free Core.
-- **Founding Supporters** — the first 500 Supporters get a numbered digital badge, their first year at the annual price, and their name in the app credits if they want it. Supporter is not on sale yet.
+- **Founding Supporters** — the first 500 people to back Aestra, by a one-time chip-in or as Supporters, get a numbered digital badge and their name in the app credits if they want it. Supporters also get their first year at the annual price. Nothing is on sale yet.
 
 ## Technical Details
 

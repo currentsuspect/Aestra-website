@@ -389,7 +389,7 @@ const Cost = memo(({ setPage }: PageProps) => (
       {[
         ["Core", "$0", "The whole DAW."],
         ["Supporter", "$5/mo", "Hosting shared projects, your work kept online, and the work behind Aestra. KES 300 by M-Pesa."],
-        ["Founding", "500", "The first 500 Supporters get a numbered badge and their first year at the annual price."],
+        ["Founding", "500", "The first 500 people to back Aestra, with a one-time chip-in or as Supporters, get a numbered badge."],
       ].map(([tier, price, desc], i) => (
         <div key={tier} className={`py-5 sm:pr-5 grid gap-2 content-start border-b sm:border-b-0 border-border ${i > 0 ? "sm:pl-5 sm:border-l" : ""}`}>
           <span className="readout">{tier}</span>
@@ -555,9 +555,10 @@ const FounderCountdown = () => {
     <Section n="7" id="founder-section" title="Founding Supporters.">
       <div className="pt-6">
         <p className="m-0 text-muted text-base sm:text-[17px] leading-relaxed max-w-xl">
-          The first 500 Supporters get a numbered Founding Supporter badge and their first
-          year at the annual price. This list only emails you when Supporter opens. It doesn't
-          hold a number for you.
+          The first 500 people to back Aestra get a numbered Founding Supporter badge, whether
+          they chip in once or become Supporters. Supporters also get their first year at the
+          annual price. Nothing is on sale yet. This list only emails you when it opens. It
+          doesn't hold a number for you.
         </p>
         {!submitted ? (
           <form onSubmit={handleSubmit} className="mt-8 flex flex-col sm:flex-row gap-2.5 max-w-md" aria-label="Founding Supporter waitlist signup" noValidate>
