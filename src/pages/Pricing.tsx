@@ -102,7 +102,7 @@ const compareGroups: { label: string; rows: [string, boolean, boolean][] }[] = [
 
 const FOUNDING_POINTS = [
   "A numbered Founding Supporter badge, yours permanently",
-  "Your first year at the annual price",
+  "A one-time chip-in or a Supporter plan both count. Supporters also get their first year at the annual price",
   "Your name in the app credits, if you want it",
 ];
 
@@ -213,7 +213,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
           <span className="readout lg:col-span-2 !text-accent">First pressing</span>
           <h2 id="pressing" className="display-2 lg:col-span-4 text-[clamp(1.8rem,1.2rem+1.8vw,2.6rem)] m-0">Founding Supporters.</h2>
           <p className="lg:col-span-6 m-0 text-muted text-[15px] leading-relaxed">
-            The first 500 Supporters get a numbered badge and their first year at the annual price. Nothing is shipped.
+            The first 500 people to back Aestra get a numbered badge, with a one-time chip-in or as Supporters. Nothing is on sale yet.
           </p>
         </div>
         <FadeIn className="grid lg:grid-cols-12 gap-x-6 gap-y-8 py-8">
@@ -241,7 +241,7 @@ export const Pricing = ({ setPage, onEarlyAccess }: PageProps) => (
                 Join the waitlist <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Button>
               <p className="m-0 text-muted text-[13.5px] leading-relaxed max-w-xs">
-                Badges go out when Supporter opens. The waitlist only emails you when it does. It doesn't hold a number for you.
+                Badges go out when chip-ins and Supporter open. The waitlist only emails you when they do. It doesn't hold a number for you.
               </p>
             </div>
           </div>
